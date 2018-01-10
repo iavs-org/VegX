@@ -1,0 +1,10 @@
+Package: VegX
+Type: Package
+Title: Vegetation data in Veg-X
+Version: 0.1.0
+Author: Miquel De Caceres
+Maintainer: Miquel De Caceres <miquelcaceres@gmail.com>
+Description: Functions to import, merging and export vegetation data using the VegX standard.
+License: GPL (>= 2)
+Encoding: UTF-8
+LazyData: true
