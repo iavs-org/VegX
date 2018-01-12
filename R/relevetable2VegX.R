@@ -19,6 +19,7 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   names(plotVector) = plotIDs
   for(i in 1:nplot) plotVector[[i]] = list("plotName" = plotNames[i])
 
+
   #plot observations
   if(length(obsDates)==1) obsDates = rep(obsDates, nplot)
   plotObsIDs = 1:nplot
