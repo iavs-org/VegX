@@ -1,2 +1,2 @@
 exportPattern("^[[:alpha:]]+")
-exportClasses(VegX)
+exportClasses(VegX, VegXMethod)

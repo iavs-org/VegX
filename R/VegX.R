@@ -25,4 +25,5 @@ setClass("VegX",slots=c(plots="list",
                         strata = "list",
                         individualOrganisms = "list",
                         taxonNames = "list",
+                        methods = "list",
                         attributes = "list"))

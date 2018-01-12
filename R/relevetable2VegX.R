@@ -34,6 +34,18 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   names(taxonNamesVector) = taxonIDs
   for(i in 1:ntax) taxonNamesVector[[i]] = list("taxonName" = taxNames[i])
 
+  #methods
+  methodsVector = vector("list", 1)
+  names(methodsVector) = 1
+  methodsVector[[1]] = list(name = method@name,
+                            description = method@description,
+                            type = method@type)
+
+  #attributes
+  attributesVector = method@attributes
+  nattr = length(attributesVector)
+  for(i in 1:nattr) attributesVector[[i]]$methodID = as.integer(1)
+
   #aggregated organism observations
   absence.values = as.character(absence.values)
   aggObsID = 1 #counter
@@ -41,20 +53,16 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   for(i in 1:nplot) {
     for(j in 1:ntax) {
       if(!(as.character(x[i,j]) %in% absence.values)) {
+        attID = as.numeric(1)
+        # if()
         aggObsVector[[aggObsID]] = list("plotObservationID" = plotObsIDs[i],
                                         "taxonID" = taxonIDs[j],
-                                        "attributeID" = 1,
+                                        "attributeID" = attID,
                                         "value" = x[i,j])
         aggObsID = aggObsID + 1
       }
     }
   }
-  #attributes
-  attributesVector = vector("list", 1)
-  attributesVector[[1]] = list("code" = attribute,
-                               "ordinal" = !is.na(attributeScale),
-                               "scale" = attributeScale)
-  names(attributesVector) = 1
 
 
   #other lists
@@ -70,5 +78,6 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
                     strata = strataVector,
                     individualOrganisms = individualOrgVector,
                     taxonNames = taxonNamesVector,
+                    methods = methodsVector,
                     attributes = attributesVector))
 }

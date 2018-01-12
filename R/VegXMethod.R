@@ -2,7 +2,8 @@
 #'
 #' @slot description character.
 #' @slot name character.
-#' @slot type character.
+#' @slot attributeClass character.
+#' @slot attributeType character.
 #' @slot attributes list.
 #'
 #' @return
@@ -12,5 +13,6 @@
 setClass("VegXMethod",slots=c(
                          name = "character",
                          description="character",
-                         type = "character",
+                         attributeClass = "character",
+                         attributeType = "character",
                          attributes = "list"))
