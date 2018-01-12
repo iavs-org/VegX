@@ -4,15 +4,13 @@
 \alias{relevetable2VegX}
 \title{Create a Veg-X object from a releve table}
 \usage{
-relevetable2VegX(x, attribute = "cover", attributeScale = NA,
+relevetable2VegX(x, method = defaultPercentCoverMethod(),
   obsDates = Sys.Date(), absence.values = c(NA, 0))
 }
 \arguments{
 \item{x}{site-by-species releve table}
 
-\item{attribute}{aggregated plant abundance attribute}
-
-\item{attributeScale}{plant abundance scale (if \code{NA} then values are assumed to be quantitative)}
+\item{method}{measurement method for aggregated plant abundance}
 
 \item{obsDates}{a vector of \code{\link{Date}} objects with plot observation dates.}
 

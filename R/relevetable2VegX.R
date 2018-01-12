@@ -24,7 +24,7 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   plotObsIDs = as.character(1:nplot)
   plotObsVector = vector("list", nplot)
   names(plotObsVector) = plotObsIDs
-  for(i in 1:nplot) plotObsVector[[i]] = list("plotUniqueIdentifier" = plotIDs[i],
+  for(i in 1:nplot) plotObsVector[[i]] = list("plotID" = plotIDs[i],
                                               "obsStartDate" = obsDates[i])
   #taxa
   ntax = ncol(x)

@@ -26,5 +26,7 @@ combining vegetation data
 \item{\code{individualOrganisms}}{list.}
 
 \item{\code{taxonNames}}{list.}
+
+\item{\code{attributes}}{list.}
 }}
 
