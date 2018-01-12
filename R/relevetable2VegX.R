@@ -13,7 +13,7 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
                             obsDates = Sys.Date(), absence.values = c(NA, 0)) {
   #plots
   nplot = nrow(x)
-  plotIDs = 1:nplot
+  plotIDs = as.character(1:nplot)
   plotNames = rownames(x)
   plotVector = vector("list", nplot)
   names(plotVector) = plotIDs
@@ -21,14 +21,14 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
 
   #plot observations
   if(length(obsDates)==1) obsDates = rep(obsDates, nplot)
-  plotObsIDs = 1:nplot
+  plotObsIDs = as.character(1:nplot)
   plotObsVector = vector("list", nplot)
   names(plotObsVector) = plotObsIDs
   for(i in 1:nplot) plotObsVector[[i]] = list("plotUniqueIdentifier" = plotIDs[i],
                                               "obsStartDate" = obsDates[i])
   #taxa
   ntax = ncol(x)
-  taxonIDs = 1:ntax
+  taxonIDs = as.character(1:ntax)
   taxNames = colnames(x)
   taxonNamesVector = vector("list", ntax)
   names(taxonNamesVector) = taxonIDs
@@ -36,30 +36,47 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
 
   #methods
   methodsVector = vector("list", 1)
-  names(methodsVector) = 1
+  names(methodsVector) = "1"
   methodsVector[[1]] = list(name = method@name,
                             description = method@description,
-                            type = method@type)
+                            attributeClass = method@attributeClass,
+                            attributeType = method@attributeType)
 
   #attributes
   attributesVector = method@attributes
   nattr = length(attributesVector)
-  for(i in 1:nattr) attributesVector[[i]]$methodID = as.integer(1)
+  for(i in 1:nattr) attributesVector[[i]]$methodID = "1"
+  if(method@attributeType!= "quantitative") {
+    codes = character(nattr)
+    ids = names(attributesVector)
+    for(i in 1:nattr) codes[i] = as.character(attributesVector[[i]]$code)
+  }
 
   #aggregated organism observations
   absence.values = as.character(absence.values)
-  aggObsID = 1 #counter
+  aggObsCounter = 1 #counter
   aggObsVector = vector("list",0)
   for(i in 1:nplot) {
     for(j in 1:ntax) {
       if(!(as.character(x[i,j]) %in% absence.values)) {
-        attID = as.numeric(1)
-        # if()
-        aggObsVector[[aggObsID]] = list("plotObservationID" = plotObsIDs[i],
+        if(method@attributeType== "quantitative") {
+          attID = "1"
+          if(x[i,j]> method@attributes[[1]]$upperBound) {
+            stop(paste0("Value '", x[i,j],"' larger than upper bound of measurement definition. Please revise scale or data."))
+          }
+          else if(x[i,j] < method@attributes[[1]]$lowerBound) {
+            stop(paste0("Value '", x[i,j],"' smaller than lower bound of measurement definition. Please revise scale or data."))
+          }
+        } else {
+          ind = which(codes==as.character(x[i,j]))
+          if(length(ind)==1) attID = ids[ind]
+          else stop(paste0("Value '", x[i,j],"' not found in measurement definition. Please revise scale or data."))
+        }
+        aggObsVector[[aggObsCounter]] = list("plotObservationID" = plotObsIDs[i],
                                         "taxonID" = taxonIDs[j],
                                         "attributeID" = attID,
                                         "value" = x[i,j])
-        aggObsID = aggObsID + 1
+        aggObsCounter = aggObsCounter + 1
       }
     }
   }

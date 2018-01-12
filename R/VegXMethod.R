@@ -1,10 +1,10 @@
-#' Title
+#' Measurement method definition
 #'
-#' @slot description character.
-#' @slot name character.
-#' @slot attributeClass character.
-#' @slot attributeType character.
-#' @slot attributes list.
+#' @slot name Name of the measurement method.
+#' @slot description Description of the measurement method.
+#' @slot attributeClass Kind of attribute measured (e.g. cover).
+#' @slot attributeType Either "quantitative", "scale", "ordinal", "qualitative".
+#' @slot attributes List of attribute values
 #'
 #' @return
 #' @export
