@@ -6,7 +6,7 @@ defaultPercentCoverMethod<-function() {
           lowerBound = 0)
    )
    return(new("VegXMethod",
-              name = "PercentCover",
-              description = "Quantitative percent cover",
+              name = "Percent cover",
+              description = "Quantitative plant percent cover",
               attributes = attributes))
 }
