@@ -7,5 +7,6 @@ Maintainer: Miquel De Caceres <miquelcaceres@gmail.com>
 Description: Functions to import, merging and export vegetation data using the VegX standard.
 License: GPL (>= 2)
 Encoding: UTF-8
+Depends: XML
 LazyData: true
 RoxygenNote: 6.0.1
