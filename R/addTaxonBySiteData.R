@@ -1,14 +1,18 @@
 #' Add a Taxon by Site table
 #'
 #' Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.
+#' Data can be added to an existing project or a new project can be defined within the VegX object,
+#' depending on the input project title.
 #' Vegetation plots and taxon names can be the same as those already existing in the target VegX.
-#' Vegetation observations, however, will be considered new.
+#' Plot observations, however, are always considered new.
 #'
 #' @param target the original object of class \code{\linkS4class{VegX}} to be modified
 #' @param x site-by-species releve table
-#' @param method measurement method for aggregated plant abundance
+#' @param projectTitle a character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
+#' @param method measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param obsDates a vector of \code{\link{Date}} objects with plot observation dates.
-#' @param absence.values a vector of values to be interpreted as missing plant information
+#' @param absence.values a vector of values to be interpreted as missing plant information.
+#' @param verbose flag to indicate console output of the data integration process.
 #'
 #' @return an object of class \code{\linkS4class{VegX}}
 #' @export
@@ -60,32 +64,49 @@ addTaxonBySiteData <-function(target,
 
 
   # #taxon name usage concepts
-  # ntnuc = ncol(x)
-  # tnucIDs = as.character(1:ntnuc)
-  # tnucNames = colnames(x)
-  # tnucNamesVector = vector("list", ntnuc)
-  # names(tnucNamesVector) = tnucIDs
-  # for(i in 1:ntnuc) tnucNamesVector[[i]] = list("authorName" = tnucNames[i])
-  #
-  # #methods
-  # methodsVector = vector("list", 1)
-  # names(methodsVector) = "1"
-  # methodsVector[[1]] = list(name = method@name,
-  #                           description = method@description,
-  #                           attributeClass = method@attributeClass,
-  #                           attributeType = method@attributeType)
-  #
-  # #attributes
-  # attributesVector = method@attributes
-  # nattr = length(attributesVector)
-  # for(i in 1:nattr) attributesVector[[i]]$methodID = "1"
-  # if(method@attributeType!= "quantitative") {
-  #   codes = character(nattr)
-  #   ids = names(attributesVector)
-  #   for(i in 1:nattr) codes[i] = as.character(attributesVector[[i]]$code)
-  # }
-  #
-  # #aggregated organism observations
+  orintuc = length(target@taxonNameUsageConcepts)
+  tnucNames = colnames(x)
+  ntnuc = length(tnucNames)
+  tnucIDs = character(0)
+  for(i in 1:ntnuc) {
+    print(tnucNames[i])
+    ntnucid = .newTaxonNameUsageConceptIDByName(target, tnucNames[i]) # Get the new taxon name usage ID (internal code)
+    tnucIDs[i] = ntnucid$id
+    if(ntnucid$new) target@taxonNameUsageConcepts[[tnucIDs[i]]] = list("authorName" = tnucNames[i])
+  }
+  finntuc = length(target@taxonNameUsageConcepts)
+  if(verbose) {
+    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concepts added.\n"))
+  }
+
+  #methods/attributes (WARNING: method match should be made by attributes?)
+  nmtid = .newMethodIDByName(target,method@name)
+  methodID = nmtid$id
+  if(nmtid$new) {
+    target@methods[[methodID]] = list(name = method@name,
+                                      description = method@description,
+                                      attributeClass = method@attributeClass,
+                                      attributeType = method@attributeType)
+    if(verbose) cat(paste0(" Measurement method '", method@name,"' added.\n"))
+    # add attributes if necessary
+    cnt = length(target@attributes)+1
+    for(i in 1:length(method@attributes)) {
+      attid = as.character(cnt)
+      target@attributes[[attid]] = method@attributes[i]
+      target@attributes[[attid]]$methodID = methodID
+      cnt = cnt + 1
+    }
+    nattr = length(method@attributes)
+  }
+
+  if(method@attributeType!= "quantitative") {
+    nattr = length(method@attributes)
+    codes = character(nattr)
+    ids = names(method@attributes)
+    for(i in 1:nattr) codes[i] = as.character(method@attributes[[i]]$code)
+  }
+
+  # aggregated organism observations
   # absence.values = as.character(absence.values)
   # aggObsCounter = 1 #counter
   # aggObsVector = vector("list",0)
@@ -114,11 +135,5 @@ addTaxonBySiteData <-function(target,
   #   }
   # }
   #
-  #
-  # #other lists
-  # strataVector = vector("list", 0)
-  # individualOrgVector = vector("list", 0)
-  # stratumObsVector = vector("list", 0)
-  # indOrgObsVector = vector("list", 0)
   return(target)
 }
