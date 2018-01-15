@@ -19,13 +19,13 @@ coverScale<-function(name = "Braun-Blanquet", description = "Five-level Braun-Bl
                      values = 1:5) {
    nvals = length(values)
    attributes = vector("list", nvals)
-   for(i in 1:nvals) attributes[[i]] = list(type = "scale", code = values[i], order = i, lowerLimit = breaks[i],
+   for(i in 1:nvals) attributes[[i]] = list(type = "ordinal", code = values[i], order = i, lowerLimit = breaks[i],
                                             upperLimit = breaks[i+1], midPoint = midPoints[i])
    names(attributes) = 1:nvals
    return(new("VegXMethod",
               name = name,
               description = description,
               attributeClass = "cover",
-              attributeType = "scale",
+              attributeType = "ordinal",
               attributes = attributes))
 }
