@@ -16,7 +16,7 @@ S4 class for measurement method
 
 \item{\code{attributeClass}}{Kind of attribute measured (e.g. cover).}
 
-\item{\code{attributeType}}{Either "quantitative", "scale", "ordinal", "qualitative".}
+\item{\code{attributeType}}{Either "quantitative", "ordinal" or "qualitative".}
 
 \item{\code{attributes}}{List of attribute values}
 }}
