@@ -1,0 +1,124 @@
+#' Add a Taxon by Site table
+#'
+#' Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.
+#' Vegetation plots and taxon names can be the same as those already existing in the target VegX.
+#' Vegetation observations, however, will be considered new.
+#'
+#' @param target the original object of class \code{\linkS4class{VegX}} to be modified
+#' @param x site-by-species releve table
+#' @param method measurement method for aggregated plant abundance
+#' @param obsDates a vector of \code{\link{Date}} objects with plot observation dates.
+#' @param absence.values a vector of values to be interpreted as missing plant information
+#'
+#' @return an object of class \code{\linkS4class{VegX}}
+#' @export
+#'
+#' @examples
+addTaxonBySiteData <-function(target,
+                              x,
+                              projectTitle,
+                              method = defaultPercentCoverMethod(),
+                              obsDates = Sys.Date(), absence.values = c(NA, 0),
+                              verbose = TRUE) {
+
+  #get project ID and add new project if necessary
+  nprid = .newProjectIDByTitle(target,projectTitle)
+  projectID = nprid$id
+  if(nprid$new) {
+    target@projects[[projectID]] = list("title" = projectTitle)
+    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
+  } else {
+    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
+  }
+
+  #plots
+  orinplots = length(target@plots)
+  nplot = nrow(x)
+  plotIDs = character(0)
+  plotNames = rownames(x)
+  for(i in 1:nplot) {
+    npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+    plotIDs[i] = npid$id
+    if(npid$new) target@plots[[plotIDs[i]]] = list("plotName" = plotNames[i])
+  }
+  finnplots = length(target@plots)
+  if(verbose) {
+    cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
+  }
+
+  #plot observations
+  if(length(obsDates)==1) obsDates = rep(obsDates, nplot)
+  orinpobs = length(target@plotObservations)
+  plotObsIDs = as.character((orinpobs+1):(orinpobs+nplot))
+  for(i in 1:nplot) target@plotObservations[[plotObsIDs[i]]] = list("plotID" = plotIDs[i],
+                                                          "obsStartDate" = obsDates[i],
+                                                          "projectID" = projectID)
+  finnpobs = length(target@plotObservations)
+  if(verbose) {
+    cat(paste0(" ", finnpobs-orinpobs, " new plot observations added.\n"))
+  }
+
+
+  # #taxon name usage concepts
+  # ntnuc = ncol(x)
+  # tnucIDs = as.character(1:ntnuc)
+  # tnucNames = colnames(x)
+  # tnucNamesVector = vector("list", ntnuc)
+  # names(tnucNamesVector) = tnucIDs
+  # for(i in 1:ntnuc) tnucNamesVector[[i]] = list("authorName" = tnucNames[i])
+  #
+  # #methods
+  # methodsVector = vector("list", 1)
+  # names(methodsVector) = "1"
+  # methodsVector[[1]] = list(name = method@name,
+  #                           description = method@description,
+  #                           attributeClass = method@attributeClass,
+  #                           attributeType = method@attributeType)
+  #
+  # #attributes
+  # attributesVector = method@attributes
+  # nattr = length(attributesVector)
+  # for(i in 1:nattr) attributesVector[[i]]$methodID = "1"
+  # if(method@attributeType!= "quantitative") {
+  #   codes = character(nattr)
+  #   ids = names(attributesVector)
+  #   for(i in 1:nattr) codes[i] = as.character(attributesVector[[i]]$code)
+  # }
+  #
+  # #aggregated organism observations
+  # absence.values = as.character(absence.values)
+  # aggObsCounter = 1 #counter
+  # aggObsVector = vector("list",0)
+  # for(i in 1:nplot) {
+  #   for(j in 1:ntnuc) {
+  #     if(!(as.character(x[i,j]) %in% absence.values)) {
+  #       if(method@attributeType== "quantitative") {
+  #         attID = "1"
+  #         if(x[i,j]> method@attributes[[1]]$upperBound) {
+  #           stop(paste0("Value '", x[i,j],"' larger than upper bound of measurement definition. Please revise scale or data."))
+  #         }
+  #         else if(x[i,j] < method@attributes[[1]]$lowerBound) {
+  #           stop(paste0("Value '", x[i,j],"' smaller than lower bound of measurement definition. Please revise scale or data."))
+  #         }
+  #       } else {
+  #         ind = which(codes==as.character(x[i,j]))
+  #         if(length(ind)==1) attID = ids[ind]
+  #         else stop(paste0("Value '", x[i,j],"' not found in measurement definition. Please revise scale or data."))
+  #       }
+  #       aggObsVector[[aggObsCounter]] = list("plotObservationID" = plotObsIDs[i],
+  #                                       "taxonNameUsageConceptID" = tnucIDs[j],
+  #                                       "attributeID" = attID,
+  #                                       "value" = x[i,j])
+  #       aggObsCounter = aggObsCounter + 1
+  #     }
+  #   }
+  # }
+  #
+  #
+  # #other lists
+  # strataVector = vector("list", 0)
+  # individualOrgVector = vector("list", 0)
+  # stratumObsVector = vector("list", 0)
+  # indOrgObsVector = vector("list", 0)
+  return(target)
+}
