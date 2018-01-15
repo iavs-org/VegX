@@ -11,24 +11,28 @@ combining vegetation data
 \section{Slots}{
 
 \describe{
-\item{\code{plots}}{list.}
+\item{\code{projects}}{list of research projects underpinning data collection}
 
-\item{\code{plotObservations}}{list.}
+\item{\code{plots}}{list of vegetation plots where measurements were made.}
 
-\item{\code{taxonNames}}{list.}
+\item{\code{plotObservations}}{list of vegetation plot observations.}
 
-\item{\code{taxonNameUsageConcepts}}{list.}
+\item{\code{taxonNames}}{list of scientific taxon names referenced in the data.}
 
-\item{\code{individualObservations}}{list.}
+\item{\code{taxonNameUsageConcepts}}{list of usages of taxon names.}
 
-\item{\code{aggregatedObservations}}{list.}
+\item{\code{individualObservations}}{list of observations made on individual organisms (e.g. diameter or height values).}
 
-\item{\code{stratumObservations}}{list.}
+\item{\code{aggregatedObservations}}{list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).}
 
-\item{\code{strata}}{list.}
+\item{\code{stratumObservations}}{list of observations made on strata (e.g. herb or shrub cover).}
 
-\item{\code{individualOrganisms}}{list.}
+\item{\code{strata}}{list of stratum definitions.}
 
-\item{\code{attributes}}{list.}
+\item{\code{individualOrganisms}}{list of individual organisms.}
+
+\item{\code{methods}}{list of measurement methods (e.g. cover scales).}
+
+\item{\code{attributes}}{list of attribute value description.}
 }}
 
