@@ -2,7 +2,7 @@
 % Please edit documentation in R/writeVegXML.R
 \name{writeVegXML}
 \alias{writeVegXML}
-\title{Write VegX XML file}
+\title{Write VegX XML file (ver 1.5.3)}
 \usage{
 writeVegXML(x, file)
 }
@@ -12,5 +12,5 @@ writeVegXML(x, file)
 \item{file}{the file name to be written}
 }
 \description{
-Write VegX XML file
+Write VegX XML file (ver 1.5.3)
 }

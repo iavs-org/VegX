@@ -11,6 +11,16 @@ writeVegXML<-function(x, file) {
   # Top XML node
   top = newXMLNode("VegX")
 
+  #Project elements
+  if(length(x@projects)>0){
+    prjs = newXMLNode("projects", parent = top)
+    for(i in 1:length(x@projects)){
+      prj = newXMLNode("project",
+                       attrs = c("id"=names(x@projects)[i]),
+                       parent = prjs)
+      newXMLNode("title", x@projects[[i]]$title, parent=prj)
+    }
+  }
   #Plot elements
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
@@ -29,6 +39,7 @@ writeVegXML<-function(x, file) {
                       parent = plotObservations)
       newXMLNode("plotUniqueIdentifier", x@plotObservations[[i]]$plotID, parent=po)
       newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
+      newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
     }
   }
   #TaxonName elements

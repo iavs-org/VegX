@@ -3,6 +3,7 @@
 #' Implements the minimum subset of Veg-X elements for importing and
 #' combining vegetation data
 #'
+#' @slot projects list
 #' @slot plots list.
 #' @slot plotObservations list.
 #' @slot taxonNames list.
@@ -18,7 +19,8 @@
 #' @export
 #'
 #' @examples
-setClass("VegX",slots=c(plots="list",
+setClass("VegX",slots=c(projects = "list",
+                        plots="list",
                         plotObservations = "list",
                         taxonNames = "list",
                         taxonNameUsageConcepts = "list",

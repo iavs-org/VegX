@@ -1,5 +1,6 @@
 #' Create a Veg-X object from a releve table
 #'
+#' @param projectTitle a character string to identify the project title
 #' @param x site-by-species releve table
 #' @param method measurement method for aggregated plant abundance
 #' @param obsDates a vector of \code{\link{Date}} objects with plot observation dates.
@@ -9,8 +10,15 @@
 #' @export
 #'
 #' @examples
-relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
+relevetable2VegX <-function(projectTitle,
+                            x,
+                            method = defaultPercentCoverMethod(),
                             obsDates = Sys.Date(), absence.values = c(NA, 0)) {
+
+  #project
+  projVector = vector("list", 1)
+  names(projVector) = "1"
+  projVector[[1]] = list("title" = projectTitle)
   #plots
   nplot = nrow(x)
   plotIDs = as.character(1:nplot)
@@ -25,7 +33,8 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   plotObsVector = vector("list", nplot)
   names(plotObsVector) = plotObsIDs
   for(i in 1:nplot) plotObsVector[[i]] = list("plotID" = plotIDs[i],
-                                              "obsStartDate" = obsDates[i])
+                                              "obsStartDate" = obsDates[i],
+                                              "projectID" = "1")
   #taxon name usage concepts
   ntnuc = ncol(x)
   tnucIDs = as.character(1:ntnuc)
@@ -88,6 +97,7 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   stratumObsVector = vector("list", 0)
   indOrgObsVector = vector("list", 0)
   return(new("VegX",
+             projects = projVector,
              plots=plotVector,
              plotObservations = plotObsVector,
              taxonNameUsageConcepts = tnucNamesVector,
