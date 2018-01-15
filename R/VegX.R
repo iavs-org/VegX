@@ -5,12 +5,13 @@
 #'
 #' @slot plots list.
 #' @slot plotObservations list.
+#' @slot taxonNames list.
+#' @slot taxonNameUsageConcepts list.
 #' @slot individualObservations list.
 #' @slot aggregatedObservations list.
 #' @slot stratumObservations list.
 #' @slot strata list.
 #' @slot individualOrganisms list.
-#' @slot taxonNames list.
 #' @slot attributes list.
 #'
 #' @return
@@ -19,11 +20,12 @@
 #' @examples
 setClass("VegX",slots=c(plots="list",
                         plotObservations = "list",
+                        taxonNames = "list",
+                        taxonNameUsageConcepts = "list",
                         individualObservations = "list",
                         aggregatedObservations = "list",
                         stratumObservations = "list",
                         strata = "list",
                         individualOrganisms = "list",
-                        taxonNames = "list",
                         methods = "list",
                         attributes = "list"))

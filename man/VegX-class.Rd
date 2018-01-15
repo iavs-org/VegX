@@ -15,6 +15,10 @@ combining vegetation data
 
 \item{\code{plotObservations}}{list.}
 
+\item{\code{taxonNames}}{list.}
+
+\item{\code{taxonNameUsageConcepts}}{list.}
+
 \item{\code{individualObservations}}{list.}
 
 \item{\code{aggregatedObservations}}{list.}
@@ -24,8 +28,6 @@ combining vegetation data
 \item{\code{strata}}{list.}
 
 \item{\code{individualOrganisms}}{list.}
-
-\item{\code{taxonNames}}{list.}
 
 \item{\code{attributes}}{list.}
 }}

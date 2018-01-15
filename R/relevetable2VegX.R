@@ -26,13 +26,13 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   names(plotObsVector) = plotObsIDs
   for(i in 1:nplot) plotObsVector[[i]] = list("plotID" = plotIDs[i],
                                               "obsStartDate" = obsDates[i])
-  #taxa
-  ntax = ncol(x)
-  taxonIDs = as.character(1:ntax)
-  taxNames = colnames(x)
-  taxonNamesVector = vector("list", ntax)
-  names(taxonNamesVector) = taxonIDs
-  for(i in 1:ntax) taxonNamesVector[[i]] = list("taxonName" = taxNames[i])
+  #taxon name usage concepts
+  ntnuc = ncol(x)
+  tnucIDs = as.character(1:ntnuc)
+  tnucNames = colnames(x)
+  tnucNamesVector = vector("list", ntnuc)
+  names(tnucNamesVector) = tnucIDs
+  for(i in 1:ntnuc) tnucNamesVector[[i]] = list("authorName" = tnucNames[i])
 
   #methods
   methodsVector = vector("list", 1)
@@ -57,7 +57,7 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   aggObsCounter = 1 #counter
   aggObsVector = vector("list",0)
   for(i in 1:nplot) {
-    for(j in 1:ntax) {
+    for(j in 1:ntnuc) {
       if(!(as.character(x[i,j]) %in% absence.values)) {
         if(method@attributeType== "quantitative") {
           attID = "1"
@@ -73,7 +73,7 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
           else stop(paste0("Value '", x[i,j],"' not found in measurement definition. Please revise scale or data."))
         }
         aggObsVector[[aggObsCounter]] = list("plotObservationID" = plotObsIDs[i],
-                                        "taxonID" = taxonIDs[j],
+                                        "taxonNameUsageConceptID" = tnucIDs[j],
                                         "attributeID" = attID,
                                         "value" = x[i,j])
         aggObsCounter = aggObsCounter + 1
@@ -87,14 +87,15 @@ relevetable2VegX <-function(x, method = defaultPercentCoverMethod(),
   individualOrgVector = vector("list", 0)
   stratumObsVector = vector("list", 0)
   indOrgObsVector = vector("list", 0)
-  return(new("VegX",plots=plotVector,
-                    plotObservations = plotObsVector,
-                    individualObservations = indOrgObsVector,
-                    aggregatedObservations = aggObsVector,
-                    stratumObservations = stratumObsVector,
-                    strata = strataVector,
-                    individualOrganisms = individualOrgVector,
-                    taxonNames = taxonNamesVector,
-                    methods = methodsVector,
-                    attributes = attributesVector))
+  return(new("VegX",
+             plots=plotVector,
+             plotObservations = plotObsVector,
+             taxonNameUsageConcepts = tnucNamesVector,
+             individualObservations = indOrgObsVector,
+             aggregatedObservations = aggObsVector,
+             stratumObservations = stratumObsVector,
+             strata = strataVector,
+             individualOrganisms = individualOrgVector,
+             methods = methodsVector,
+             attributes = attributesVector))
 }
