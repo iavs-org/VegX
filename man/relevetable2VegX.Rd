@@ -4,10 +4,12 @@
 \alias{relevetable2VegX}
 \title{Create a Veg-X object from a releve table}
 \usage{
-relevetable2VegX(x, method = defaultPercentCoverMethod(),
+relevetable2VegX(projectTitle, x, method = defaultPercentCoverMethod(),
   obsDates = Sys.Date(), absence.values = c(NA, 0))
 }
 \arguments{
+\item{projectTitle}{a character string to identify the project title}
+
 \item{x}{site-by-species releve table}
 
 \item{method}{measurement method for aggregated plant abundance}
