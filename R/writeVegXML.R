@@ -70,7 +70,9 @@ writeVegXML<-function(x, file) {
   if(length(x@aggregatedObservations)>0) {
     aggregatedOrganismObservations = newXMLNode("aggregatedOrganismObservations", parent = top)
     for(i in 1:length(x@aggregatedObservations)){
-      aoo = newXMLNode("aggregatedOrganismObservation", parent = aggregatedOrganismObservations)
+      aoo = newXMLNode("aggregatedOrganismObservation",
+                       attrs = c(id = names(x@aggregatedObservations)[i]),
+                       parent = aggregatedOrganismObservations)
       newXMLNode("plotObservationID", x@aggregatedObservations[[i]]$plotObservationID, parent=aoo)
       newXMLNode("taxonNameUsageConceptID", x@aggregatedObservations[[i]]$taxonNameUsageConceptID, parent=aoo)
       aggval = newXMLNode("aggregateValue", parent=aoo)
@@ -94,12 +96,18 @@ writeVegXML<-function(x, file) {
                        attrs = c(id=names(x@attributes)[i]),
                        parent = attributes)
       atttype = newXMLNode(x@attributes[[i]]$type, parent=att)
+      newXMLNode("lowerBound", x@attributes[[i]]$lowerBound, parent=atttype)
       if(x@attributes[[i]]$type=="ordinal") {
         newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
         newXMLNode("order", x@attributes[[i]]$order, parent=atttype)
         newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
         newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
         newXMLNode("midPoint", x@attributes[[i]]$midPoint, parent=atttype)
+      }
+      else if(x@attributes[[i]]$type=="quantitative") {
+        newXMLNode("unit", x@attributes[[i]]$unit, parent=atttype)
+        newXMLNode("upperBound", x@attributes[[i]]$upperBound, parent=atttype)
+        newXMLNode("lowerBound", x@attributes[[i]]$lowerBound, parent=atttype)
       }
     }
   }

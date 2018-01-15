@@ -1,7 +1,7 @@
 defaultPercentCoverMethod<-function() {
    attributes = list(
      list(type="quantitative",
-          units = "%",
+          unit = "%",
           upperBound = 100,
           lowerBound = 0)
    )

@@ -69,7 +69,6 @@ addTaxonBySiteData <-function(target,
   ntnuc = length(tnucNames)
   tnucIDs = character(0)
   for(i in 1:ntnuc) {
-    print(tnucNames[i])
     ntnucid = .newTaxonNameUsageConceptIDByName(target, tnucNames[i]) # Get the new taxon name usage ID (internal code)
     tnucIDs[i] = ntnucid$id
     if(ntnucid$new) target@taxonNameUsageConcepts[[tnucIDs[i]]] = list("authorName" = tnucNames[i])
@@ -92,7 +91,7 @@ addTaxonBySiteData <-function(target,
     cnt = length(target@attributes)+1
     for(i in 1:length(method@attributes)) {
       attid = as.character(cnt)
-      target@attributes[[attid]] = method@attributes[i]
+      target@attributes[[attid]] = method@attributes[[i]]
       target@attributes[[attid]]$methodID = methodID
       cnt = cnt + 1
     }
@@ -107,33 +106,37 @@ addTaxonBySiteData <-function(target,
   }
 
   # aggregated organism observations
-  # absence.values = as.character(absence.values)
-  # aggObsCounter = 1 #counter
-  # aggObsVector = vector("list",0)
-  # for(i in 1:nplot) {
-  #   for(j in 1:ntnuc) {
-  #     if(!(as.character(x[i,j]) %in% absence.values)) {
-  #       if(method@attributeType== "quantitative") {
-  #         attID = "1"
-  #         if(x[i,j]> method@attributes[[1]]$upperBound) {
-  #           stop(paste0("Value '", x[i,j],"' larger than upper bound of measurement definition. Please revise scale or data."))
-  #         }
-  #         else if(x[i,j] < method@attributes[[1]]$lowerBound) {
-  #           stop(paste0("Value '", x[i,j],"' smaller than lower bound of measurement definition. Please revise scale or data."))
-  #         }
-  #       } else {
-  #         ind = which(codes==as.character(x[i,j]))
-  #         if(length(ind)==1) attID = ids[ind]
-  #         else stop(paste0("Value '", x[i,j],"' not found in measurement definition. Please revise scale or data."))
-  #       }
-  #       aggObsVector[[aggObsCounter]] = list("plotObservationID" = plotObsIDs[i],
-  #                                       "taxonNameUsageConceptID" = tnucIDs[j],
-  #                                       "attributeID" = attID,
-  #                                       "value" = x[i,j])
-  #       aggObsCounter = aggObsCounter + 1
-  #     }
-  #   }
-  # }
-  #
+  absence.values = as.character(absence.values)
+  orinaoo = length(target@aggregatedObservations)
+  aggObsCounter = orinaoo+1 #counter
+  for(i in 1:nplot) {
+    for(j in 1:ntnuc) {
+      if(!(as.character(x[i,j]) %in% absence.values)) {
+        if(method@attributeType== "quantitative") {
+          attID = "1"
+          if(x[i,j]> method@attributes[[1]]$upperBound) {
+            stop(paste0("Value '", x[i,j],"' larger than upper bound of measurement definition. Please revise scale or data."))
+          }
+          else if(x[i,j] < method@attributes[[1]]$lowerBound) {
+            stop(paste0("Value '", x[i,j],"' smaller than lower bound of measurement definition. Please revise scale or data."))
+          }
+        } else {
+          ind = which(codes==as.character(x[i,j]))
+          if(length(ind)==1) attID = ids[ind]
+          else stop(paste0("Value '", x[i,j],"' not found in measurement definition. Please revise scale or data."))
+        }
+        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsIDs[i],
+                                        "taxonNameUsageConceptID" = tnucIDs[j],
+                                        "attributeID" = attID,
+                                        "value" = x[i,j])
+        aggObsCounter = aggObsCounter + 1
+      }
+    }
+  }
+  finnaoo = length(target@aggregatedObservations)
+  if(verbose) {
+    cat(paste0(" ", finnaoo-orinaoo, " new aggregated organism observations added.\n"))
+  }
+
   return(target)
 }
