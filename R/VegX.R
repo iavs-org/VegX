@@ -32,22 +32,3 @@ setClass("VegX",slots=c(projects = "list",
                         individualOrganisms = "list",
                         methods = "list",
                         attributes = "list"))
-setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
-  cat(paste0("============================================================\n"))
-  cat(paste0("                  VegX object (ver 1.5.3)                  \n"))
-  cat(paste0("------------------------------------------------------------\n"))
-  cat(paste0(" ", length(object@plotObservations)," plot observations"))
-  cat(paste0(" made in ", length(object@plots)," plots, from ",length(object@projects)," projects.\n"))
-  cat(paste0("\n"))
-  cat(paste0("   Individual organisms: ", length(object@individualOrganisms),"\n"))
-  cat(paste0("   Vegetation strata: ", length(object@strata),"\n"))
-  cat(paste0("   Taxon names: ", length(object@taxonNames),"\n"))
-  cat(paste0("   Taxon name usage concepts: ", length(object@taxonNameUsageConcepts),"\n"))
-  cat(paste0("\n"))
-  cat(paste0("   Individual organism observations: ", length(object@individualObservations),"\n"))
-  cat(paste0("   Aggregated organism observations: ", length(object@aggregatedObservations),"\n"))
-  cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
-  cat(paste0("\n"))
-  cat(paste0("   Measurement methods: ", length(object@methods),"\n"))
-  cat(paste0("============================================================\n"))
-})

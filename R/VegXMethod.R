@@ -3,7 +3,7 @@
 #' @slot name Name of the measurement method.
 #' @slot description Description of the measurement method.
 #' @slot attributeClass Kind of attribute measured (e.g. cover).
-#' @slot attributeType Either "quantitative", "scale", "ordinal", "qualitative".
+#' @slot attributeType Either "quantitative", "ordinal" or "qualitative".
 #' @slot attributes List of attribute values
 #'
 #' @return
