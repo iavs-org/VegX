@@ -1,4 +1,4 @@
-#' Add a Taxon by Site table
+#' Add a taxon-by-site table
 #'
 #' Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.
 #' Data can be added to an existing project or a new project can be defined within the VegX object,
@@ -9,19 +9,19 @@
 #' @param target the original object of class \code{\linkS4class{VegX}} to be modified
 #' @param x site-by-species releve table
 #' @param projectTitle a character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param method measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param abundanceMethod measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param obsDates a vector of \code{\link{Date}} objects with plot observation dates.
 #' @param absence.values a vector of values to be interpreted as missing plant information.
 #' @param verbose flag to indicate console output of the data integration process.
 #'
-#' @return an object of class \code{\linkS4class{VegX}}
+#' @return The modified object of class \code{\linkS4class{VegX}}
 #' @export
 #'
 #' @examples
 addTaxonBySiteData <-function(target,
                               x,
                               projectTitle,
-                              method = defaultPercentCoverMethod(),
+                              abundanceMethod = defaultPercentCoverMethod(),
                               obsDates = Sys.Date(), absence.values = c(NA, 0),
                               verbose = TRUE) {
 
@@ -79,30 +79,30 @@ addTaxonBySiteData <-function(target,
   }
 
   #methods/attributes (WARNING: method match should be made by attributes?)
-  nmtid = .newMethodIDByName(target,method@name)
+  nmtid = .newMethodIDByName(target,abundanceMethod@name)
   methodID = nmtid$id
   if(nmtid$new) {
-    target@methods[[methodID]] = list(name = method@name,
-                                      description = method@description,
-                                      attributeClass = method@attributeClass,
-                                      attributeType = method@attributeType)
-    if(verbose) cat(paste0(" Measurement method '", method@name,"' added.\n"))
+    target@methods[[methodID]] = list(name = abundanceMethod@name,
+                                      description = abundanceMethod@description,
+                                      attributeClass = abundanceMethod@attributeClass,
+                                      attributeType = abundanceMethod@attributeType)
+    if(verbose) cat(paste0(" Measurement method '", abundanceMethod@name,"' added.\n"))
     # add attributes if necessary
     cnt = length(target@attributes)+1
-    for(i in 1:length(method@attributes)) {
+    for(i in 1:length(abundanceMethod@attributes)) {
       attid = as.character(cnt)
-      target@attributes[[attid]] = method@attributes[[i]]
+      target@attributes[[attid]] = abundanceMethod@attributes[[i]]
       target@attributes[[attid]]$methodID = methodID
       cnt = cnt + 1
     }
-    nattr = length(method@attributes)
+    nattr = length(abundanceMethod@attributes)
   }
 
-  if(method@attributeType!= "quantitative") {
-    nattr = length(method@attributes)
+  if(abundanceMethod@attributeType!= "quantitative") {
+    nattr = length(abundanceMethod@attributes)
     codes = character(nattr)
-    ids = names(method@attributes)
-    for(i in 1:nattr) codes[i] = as.character(method@attributes[[i]]$code)
+    ids = names(abundanceMethod@attributes)
+    for(i in 1:nattr) codes[i] = as.character(abundanceMethod@attributes[[i]]$code)
   }
 
   # aggregated organism observations
@@ -112,12 +112,12 @@ addTaxonBySiteData <-function(target,
   for(i in 1:nplot) {
     for(j in 1:ntnuc) {
       if(!(as.character(x[i,j]) %in% absence.values)) {
-        if(method@attributeType== "quantitative") {
+        if(abundanceMethod@attributeType== "quantitative") {
           attID = "1"
-          if(x[i,j]> method@attributes[[1]]$upperBound) {
+          if(x[i,j]> abundanceMethod@attributes[[1]]$upperBound) {
             stop(paste0("Value '", x[i,j],"' larger than upper bound of measurement definition. Please revise scale or data."))
           }
-          else if(x[i,j] < method@attributes[[1]]$lowerBound) {
+          else if(x[i,j] < abundanceMethod@attributes[[1]]$lowerBound) {
             stop(paste0("Value '", x[i,j],"' smaller than lower bound of measurement definition. Please revise scale or data."))
           }
         } else {

@@ -2,10 +2,10 @@
 % Please edit documentation in R/addTaxonBySiteData.R
 \name{addTaxonBySiteData}
 \alias{addTaxonBySiteData}
-\title{Add a Taxon by Site table}
+\title{Add a taxon-by-site table}
 \usage{
 addTaxonBySiteData(target, x, projectTitle,
-  method = defaultPercentCoverMethod(), obsDates = Sys.Date(),
+  abundanceMethod = defaultPercentCoverMethod(), obsDates = Sys.Date(),
   absence.values = c(NA, 0), verbose = TRUE)
 }
 \arguments{
@@ -15,7 +15,7 @@ addTaxonBySiteData(target, x, projectTitle,
 
 \item{projectTitle}{a character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{method}{measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{abundanceMethod}{measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
 \item{obsDates}{a vector of \code{\link{Date}} objects with plot observation dates.}
 
@@ -24,7 +24,7 @@ addTaxonBySiteData(target, x, projectTitle,
 \item{verbose}{flag to indicate console output of the data integration process.}
 }
 \value{
-an object of class \code{\linkS4class{VegX}}
+The modified object of class \code{\linkS4class{VegX}}
 }
 \description{
 Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.

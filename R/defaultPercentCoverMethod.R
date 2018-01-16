@@ -13,6 +13,21 @@ defaultPercentCoverMethod<-function() {
               attributeType = "quantitative",
               attributes = attributes))
 }
+defaultPlantCountMethod<-function() {
+  attributes = list(
+    list(type="quantitative",
+         unit = "individuals",
+         lowerBound = 0,
+         upperBound = Inf)
+  )
+  names(attributes) = 1
+  return(new("VegXMethod",
+             name = "Individual counts",
+             description = "Number of individuals in the (sub)plot",
+             attributeClass = "count",
+             attributeType = "quantitative",
+             attributes = attributes))
+}
 coverScale<-function(name = "Braun-Blanquet", description = "Five-level Braun-Blanquet cover scale",
                      breaks = c(0,5,25,50,75,100),
                      midPoints = c(2.5,17.5, 37.5, 62.5, 87.5),
@@ -28,4 +43,18 @@ coverScale<-function(name = "Braun-Blanquet", description = "Five-level Braun-Bl
               attributeClass = "cover",
               attributeType = "ordinal",
               attributes = attributes))
+}
+defaultStratumMethod<-function() {
+  attributes = list(
+    list(type="quantitative",
+         unit = "m",
+         lowerBound = 0)
+  )
+  names(attributes) = 1
+  return(new("VegXMethod",
+             name = "Strata by height",
+             description = "Vegetation strata defined by height",
+             attributeClass = "height",
+             attributeType = "quantitative",
+             attributes = attributes))
 }
