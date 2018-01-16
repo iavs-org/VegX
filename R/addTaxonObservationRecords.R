@@ -53,9 +53,9 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
 
   if(abundanceMethod@attributeType!= "quantitative") {
     nattr = length(abundanceMethod@attributes)
-    codes = character(nattr)
-    ids = names(abundanceMethod@attributes)
-    for(i in 1:nattr) codes[i] = as.character(abundanceMethod@attributes[[i]]$code)
+    abundanceCodes = character(nattr)
+    abundanceIDs = names(abundanceMethod@attributes)
+    for(i in 1:nattr) abundanceCodes[i] = as.character(abundanceMethod@attributes[[i]]$code)
   }
 
   # stratum definition
@@ -89,14 +89,19 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
         stratumIDs[i] = strid
         target@strata[[strid]] = stratumDefinition@strata[[i]]
         target@strata[[strid]]$methodID = strmethodID
+        stratumNames[i] = stratumDefinition@strata[[i]]$stratumName
         cnt = cnt + 1
       }
       finnstrata = length(target@strata)
       if(verbose) {
         cat(paste0(" ", finnstrata-orinstrata, " new stratum definitions added.\n"))
       }
+    } else { #Read stratum IDs and stratum names from selected method
+      stratumIDs = .getStratumIDsByMethodID(strmethodID)
+      stratumNames = .getStratumNamesByMethodID(strmethodID)
     }
   }
+  print(cbind(stratumIDs, stratumNames))
 
   return(target)
 }

@@ -11,6 +11,9 @@ writeVegXML(x, file)
 
 \item{file}{the file name to be written}
 }
+\value{
+A string of the file written
+}
 \description{
 Write VegX XML file (ver 1.5.3)
 }

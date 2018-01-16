@@ -30,3 +30,33 @@
   }
   return(list(id = as.character(length(target@taxonNameUsageConcepts)+1), new = TRUE))
 }
+
+# Returns strata names corresponding to the input method
+.getStratumNamesByMethodID<-function(target, methodID) {
+  strVec = character(0)
+  if(length(target@strata)>0) {
+    cnt = 1
+    for(i in 1:length(target@strata)) {
+      if(target@strata[[i]]$methodID==methodID) {
+        strVec[cnt] = target@strata[[i]]$stratumName
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(strVec)
+}
+
+# Returns strata IDs corresponding to the input method
+.getStratumIDsByMethodID<-function(target, methodID) {
+  strVec = character(0)
+  if(length(target@strata)>0) {
+    cnt = 1
+    for(i in 1:length(target@strata)) {
+      if(target@strata[[i]]$methodID==methodID) {
+        strVec[cnt] = names(target@strata)[i]
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(strVec)
+}
