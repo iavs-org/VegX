@@ -48,6 +48,8 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   #methods/attributes (WARNING: method match should be made by attributes?)
   nmtid = .newMethodIDByName(target,abundanceMethod@name)
   methodID = nmtid$id
+  abundanceCodes = character(0)
+  attIDs = character(0)
   if(nmtid$new) {
     target@methods[[methodID]] = list(name = abundanceMethod@name,
                                       description = abundanceMethod@description,
@@ -60,17 +62,15 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       attid = as.character(cnt)
       target@attributes[[attid]] = abundanceMethod@attributes[[i]]
       target@attributes[[attid]]$methodID = methodID
+      attIDs[i] = attid
+      if(abundanceMethod@attributes[[i]]$type != "quantitative") abundanceCodes[i] = abundanceMethod@attributes[[i]]$code
       cnt = cnt + 1
     }
+  } else {
+    abundanceCodes = .getAttributeCodesByMethodID(methodID)
+    attIDs = .getAttributeIDsByMethodID(methodID)
+    if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' already included.\n"))
   }
-
-  if(abundanceMethod@attributeType!= "quantitative") {
-    nattr = length(abundanceMethod@attributes)
-    abundanceCodes = character(nattr)
-    abundanceIDs = names(abundanceMethod@attributes)
-    for(i in 1:nattr) abundanceCodes[i] = as.character(abundanceMethod@attributes[[i]]$code)
-  }
-
   # stratum definition
   if(!is.null(stratumDefinition)) {
     # stratum definition method (WARNING: method match should be made by attributes?)
@@ -109,15 +109,20 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       }
     } else { #Read stratum IDs and stratum names from selected method
       stratumIDs = .getStratumIDsByMethodID(strmethodID)
+      if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
     }
   }
 
   orinplots = length(target@plots)
   orinplotobs = length(target@plotObservations)
   orinstrobs = length(target@stratumObservations)
+  orintuc = length(target@taxonNameUsageConcepts)
+  orinaggobs = length(target@aggregatedObservations)
   parsedPlots = character(0)
   parsedPlotObs = character(0)
+  parsedTNUCs = character(0)
   parsedStrObs = character(0)
+  aggObsCounter = orinaggobs+1 #counter
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
@@ -126,6 +131,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       if(npid$new) target@plots[[npid$id]] = list("plotName" = plotNames[i])
       parsedPlots = c(parsedPlots, plotNames[i])
     }
+    #plot observation
     pObsString = paste(npid$id, obsStartDates[i]) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
       npoid = .newPlotObsIDByDate(target, npid$id, obsStartDates[i]) # Get the new plot observation ID (internal code)
@@ -134,7 +140,14 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                                     "projectID" = projectID)
       parsedPlotObs = c(parsedPlotObs, pObsString)
     }
+    # taxon name
+    if(!(taxonAuthorNames[i] %in% parsedTNUCs)) {
+      ntnucid = .newTaxonNameUsageConceptIDByName(target, taxonAuthorNames[i]) # Get the new taxon name usage ID (internal code)
+      if(ntnucid$new) target@taxonNameUsageConcepts[[ntnucid$id]] = list("authorName" = taxonAuthorNames[i])
+      parsedTNUCs = c(parsedTNUCs, taxonAuthorNames[i])
+    }
 
+    # strata
     if(stratumFlag) {
       strID = .getStratumIDByName(target, stratumNames[i])
       if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
@@ -146,14 +159,42 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
         parsedStrObs = c(parsedStrObs, strObsString)
       }
     }
+    # agg org observations
+    if(abundanceMethod@attributeType== "quantitative") {
+      if(values[i]> abundanceMethod@attributes[[1]]$upperBound) {
+        stop(paste0("Value '", values[i],"' larger than upper bound of measurement definition. Please revise scale or data."))
+      }
+      else if(values[i] < abundanceMethod@attributes[[1]]$lowerBound) {
+        stop(paste0("Value '", values[i],"' smaller than lower bound of measurement definition. Please revise scale or data."))
+      }
+      target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = npoid$id,
+                                                                          "taxonNameUsageConceptID" = ntnucid$id,
+                                                                          "attributeID" = attID[1],
+                                                                          "value" = values[i])
+      aggObsCounter = aggObsCounter + 1
+    } else {
+      ind = which(abundanceCodes==as.character(values[i]))
+      if(length(ind)==1) {
+        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = npoid$id,
+                                                                            "taxonNameUsageConceptID" = ntnucid$id,
+                                                                            "attributeID" = attIDs[ind],
+                                                                            "value" = values[i])
+        aggObsCounter = aggObsCounter + 1
+      }
+      else stop(paste0("Value '", values[i],"' not found in measurement definition. Please revise scale or data."))
+    }
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
   finnstrobs = length(target@stratumObservations)
+  finntuc = length(target@taxonNameUsageConcepts)
+  finnaggobs = length(target@aggregatedObservations)
   if(verbose) {
     cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
     cat(paste0(" ", finnplotobs-orinplotobs, " new plot observations added.\n"))
+    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concepts added.\n"))
     if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observations added.\n"))
+    cat(paste0(" ", finnaggobs-orinaggobs, " new aggregated organism observations added.\n"))
   }
 
 

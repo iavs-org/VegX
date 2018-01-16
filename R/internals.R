@@ -50,6 +50,38 @@
 }
 
 # Returns strata names corresponding to the input method
+.getAttributeCodesByMethodID<-function(target, methodID) {
+  attVec = character(0)
+  if(length(target@attributes)>0) {
+    cnt = 1
+    for(i in 1:length(target@attributes)) {
+      if(target@attributes[[i]]$methodID==methodID) {
+        if(target@attributes[[i]]$type != "quantitative") {
+          attVec[cnt] = target@attributes[[i]]$code
+          cnt = cnt + 1
+        }
+      }
+    }
+  }
+  return(attVec)
+}
+# Returns strata names corresponding to the input method
+.getAttributeIDsByMethodID<-function(target, methodID) {
+  attVec = character(0)
+  if(length(target@attributes)>0) {
+    cnt = 1
+    for(i in 1:length(target@attributes)) {
+      if(target@attributes[[i]]$methodID==methodID) {
+        attVec[cnt] = names(target@attributes[[i]])
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(attVec)
+}
+
+
+# Returns strata names corresponding to the input method
 .getStratumNamesByMethodID<-function(target, methodID) {
   strVec = character(0)
   if(length(target@strata)>0) {
