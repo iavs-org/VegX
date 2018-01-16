@@ -6,7 +6,7 @@
 #' @param stratumNames A numeric vector of stratum codes (of length equal to the number of strata).
 #' @param heightUnit A string to identify height units.
 #'
-#' @return
+#' @return an object of class \code{\linkS4class{VegXStrata}}
 #' @export
 #'
 #' @examples

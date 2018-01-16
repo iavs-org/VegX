@@ -16,6 +16,9 @@ defineStrataByHeight(name = "Strata by height",
 
 \item{heightUnit}{A string to identify height units.}
 }
+\value{
+an object of class \code{\linkS4class{VegXStrata}}
+}
 \description{
 User-defined strata based on height
 }

@@ -24,10 +24,10 @@
   return(list(id = as.character(length(target@plotObservations)+1), new = TRUE))
 }
 # Returns the ID for a new stratum observation in the data set or the ID of an existing stratum observation
-.newStratumObsIDByIDs<-function(target, plotObsID, stratumID) {
+.newStratumObsIDByIDs<-function(target, plotObservationID, stratumID) {
   if(length(target@stratumObservations)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@stratumObservations)) {
-    if((target@stratumObservations[[i]]$plotObsID==plotObsID) && (target@stratumObservations[[i]]$stratumID==stratumID)) return(list(id = names(target@stratumObservations)[i], new = FALSE))
+    if((target@stratumObservations[[i]]$plotObservationID==plotObservationID) && (target@stratumObservations[[i]]$stratumID==stratumID)) return(list(id = names(target@stratumObservations)[i], new = FALSE))
   }
   return(list(id = as.character(length(target@stratumObservations)+1), new = TRUE))
 }

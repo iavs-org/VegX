@@ -30,16 +30,18 @@ writeVegXML<-function(x, file) {
       newXMLNode("plotName", x@plots[[i]]$plotName, parent=p)
     }
   }
-  #PlotObservation elements
-  if(length(x@plotObservations)>0){
-    plotObservations = newXMLNode("plotObservations", parent = top)
-    for(i in 1:length(x@plotObservations)){
-      po = newXMLNode("plotObservation",
-                      attrs = c("id" = names(x@plotObservations)[i]),
-                      parent = plotObservations)
-      newXMLNode("plotUniqueIdentifier", x@plotObservations[[i]]$plotID, parent=po)
-      newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
-      newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
+  #stratum elements
+  if(length(x@strata)>0) {
+    strata = newXMLNode("strata", parent = top)
+    for(i in 1:length(x@strata)){
+      str = newXMLNode("stratum",
+                       attrs = c(id = names(x@strata)[i]),
+                       parent = strata)
+      newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
+      newXMLNode("stratumSequence", x@strata[[i]]$stratumSequence, parent=str)
+      newXMLNode("lowerBound", x@strata[[i]]$lowerBound, parent=str)
+      newXMLNode("upperBound", x@strata[[i]]$upperBound, parent=str)
+      newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
     }
   }
   #TaxonName elements
@@ -60,6 +62,18 @@ writeVegXML<-function(x, file) {
       newXMLNode("authorName", x@taxonNameUsageConcepts[[i]]$authorName,
                  # attrs = c(type = "usage name"),
                  parent=tnuc)
+    }
+  }
+  #PlotObservation elements
+  if(length(x@plotObservations)>0){
+    plotObservations = newXMLNode("plotObservations", parent = top)
+    for(i in 1:length(x@plotObservations)){
+      po = newXMLNode("plotObservation",
+                      attrs = c("id" = names(x@plotObservations)[i]),
+                      parent = plotObservations)
+      newXMLNode("plotUniqueIdentifier", x@plotObservations[[i]]$plotID, parent=po)
+      newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
+      newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
     }
   }
   #individualOrganismObservation elements
@@ -83,19 +97,12 @@ writeVegXML<-function(x, file) {
   #StratumObservation elements
   if(length(x@stratumObservations)>0) {
     stratumObservations = newXMLNode("stratumObservations", parent = top)
-  }
-  #stratum elements
-  if(length(x@strata)>0) {
-    strata = newXMLNode("strata", parent = top)
-    for(i in 1:length(x@strata)){
-      str = newXMLNode("stratum",
-                       attrs = c(id = names(x@strata)[i]),
-                       parent = strata)
-      newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
-      newXMLNode("stratumSequence", x@strata[[i]]$stratumSequence, parent=str)
-      newXMLNode("lowerBound", x@strata[[i]]$lowerBound, parent=str)
-      newXMLNode("upperBound", x@strata[[i]]$upperBound, parent=str)
-      newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
+    for(i in 1:length(x@stratumObservations)){
+      stro = newXMLNode("stratumObservation",
+                        attrs = c(id = names(x@stratumObservations)[i]),
+                        parent = stratumObservations)
+      newXMLNode("plotObservationID", x@stratumObservations[[i]]$plotObservationID, parent=stro)
+      newXMLNode("stratumID", x@stratumObservations[[i]]$stratumID, parent=stro)
     }
   }
   #Attribute elements

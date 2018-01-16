@@ -30,7 +30,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
   values = as.character(x[[mapping[["value"]]]])
 
-  stratumFlag = ("stratumName" %in% mapping)
+  stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNames = as.character(x[[mapping[["stratumName"]]]])
   }
@@ -95,14 +95,12 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       orinstrata = length(target@strata)
       nstr = length(stratumDefinition@strata)
       stratumIDs = character(0)
-      stratumNames = character(0)
       cnt = length(target@strata)+1
       for(i in 1:nstr) {
         strid = as.character(cnt)
         stratumIDs[i] = strid
         target@strata[[strid]] = stratumDefinition@strata[[i]]
         target@strata[[strid]]$methodID = strmethodID
-        stratumNames[i] = stratumDefinition@strata[[i]]$stratumName
         cnt = cnt + 1
       }
       finnstrata = length(target@strata)
@@ -111,7 +109,6 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       }
     } else { #Read stratum IDs and stratum names from selected method
       stratumIDs = .getStratumIDsByMethodID(strmethodID)
-      stratumNames = .getStratumNamesByMethodID(strmethodID)
     }
   }
 
@@ -139,9 +136,15 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     }
 
     if(stratumFlag) {
-
-      strObsString = paste(npid$id, strID) # plotObsID+stratumID
-
+      strID = .getStratumIDByName(target, stratumNames[i])
+      if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
+      strObsString = paste(npoid$id, strID) # plotObsID+stratumID
+      if(!(strObsString %in% parsedStrObs)) {
+        nstroid = .newStratumObsIDByIDs(target, npoid$id, strID) # Get the new stratum observation ID (internal code)
+        if(nstroid$new) target@stratumObservations[[nstroid$id]] = list("plotObservationID" = npoid$id,
+                                                                        "stratumID" = strID)
+        parsedStrObs = c(parsedStrObs, strObsString)
+      }
     }
   }
   finnplots = length(target@plots)
