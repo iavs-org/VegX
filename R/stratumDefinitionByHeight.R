@@ -20,7 +20,7 @@ stratumDefinitionByHeight<-function(heightBreaks = c(0,1,3,5), stratumNames = c(
   defMethod = new("VegXMethod",
              name = "Strata by height",
              description = "Vegetation strata defined by height",
-             attributeClass = "height",
+             attributeClass = "height strata",
              attributeType = "quantitative",
              attributes = attributes)
 

@@ -4,13 +4,10 @@
 \alias{newVegX}
 \title{New VegX document}
 \usage{
-newVegX(projectTitle)
-}
-\arguments{
-\item{projectTitle}{a character string to identify the project title}
+newVegX()
 }
 \value{
-an object of class \code{\linkS4class{VegX}}
+an empty object of class \code{\linkS4class{VegX}}
 }
 \description{
 Creates a new (empty) VegX document

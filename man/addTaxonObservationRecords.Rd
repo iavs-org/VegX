@@ -4,22 +4,25 @@
 \alias{addTaxonObservationRecords}
 \title{Add a taxon observation records}
 \usage{
-addTaxonObservationRecords(target, x, projectTitle, obsMapping,
-  abundanceMethod = defaultPercentCoverMethod(), strMapping = NULL,
-  stratumDefinition = defaultStratumDefinition())
+addTaxonObservationRecords(target, x, projectTitle, mapping,
+  abundanceMethod = defaultPercentCoverMethod(),
+  stratumDefinition = stratumDefinitionByHeight(), verbose = TRUE)
 }
 \arguments{
 \item{target}{the original object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{a data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.}
 
-\item{projectTitle}{a character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
+\item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{obsMapping}{a character vector with element names 'plotName', 'obsStartDate', 'stratumName', 'taxonAuthorName' and 'value'.}
+\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+Additional optional mappings are: 'obsEndDate' and 'stratumName'.}
 
-\item{abundanceMethod}{measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{abundanceMethod}{Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
-\item{stratumMethod}{}
+\item{stratumDefinition}{an object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
+
+\item{verbose}{flag to indicate console output of the data integration process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}

@@ -3,7 +3,7 @@
 #' @param x an object of class \code{\linkS4class{VegX}}
 #' @param file the file name to be written
 #'
-#' @return
+#' @return A string of the file written
 #' @export
 #'
 #' @examples
@@ -87,6 +87,16 @@ writeVegXML<-function(x, file) {
   #stratum elements
   if(length(x@strata)>0) {
     strata = newXMLNode("strata", parent = top)
+    for(i in 1:length(x@strata)){
+      str = newXMLNode("stratum",
+                       attrs = c(id = names(x@strata)[i]),
+                       parent = strata)
+      newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
+      newXMLNode("stratumSequence", x@strata[[i]]$stratumSequence, parent=str)
+      newXMLNode("lowerBound", x@strata[[i]]$lowerBound, parent=str)
+      newXMLNode("upperBound", x@strata[[i]]$upperBound, parent=str)
+      newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
+    }
   }
   #Attribute elements
   if(length(x@attributes)>0) {

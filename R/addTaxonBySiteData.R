@@ -86,7 +86,7 @@ addTaxonBySiteData <-function(target,
                                       description = abundanceMethod@description,
                                       attributeClass = abundanceMethod@attributeClass,
                                       attributeType = abundanceMethod@attributeType)
-    if(verbose) cat(paste0(" Measurement method '", abundanceMethod@name,"' added.\n"))
+    if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
     # add attributes if necessary
     cnt = length(target@attributes)+1
     for(i in 1:length(abundanceMethod@attributes)) {

@@ -2,19 +2,15 @@
 #'
 #' Creates a new (empty) VegX document
 #'
-#' @param projectTitle a character string to identify the project title
 #'
-#' @return an object of class \code{\linkS4class{VegX}}
+#' @return an empty object of class \code{\linkS4class{VegX}}
 #' @export
 #'
 #' @examples
-newVegX<-function(projectTitle) {
+newVegX<-function() {
   #project
-  projVector = vector("list", 1)
-  names(projVector) = "1"
-  projVector[[1]] = list("title" = projectTitle)
   return(new("VegX",
-             projects = projVector,
+             projects = list(),
              plots=list(),
              plotObservations = list(),
              taxonNameUsageConcepts = list(),
