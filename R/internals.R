@@ -14,7 +14,17 @@
   }
   return(list(id = as.character(length(target@plots)+1), new = TRUE))
 }
-# Returns the plotID for a new plot in the data set or the ID of an existing plot with the same name
+# Returns the ID for a new plot observation in the data set or the ID of an existing plot observation with the same name
+.newPlotObsIDByDate<-function(target, plotID, obsStartDate) {
+  obsStartDate = as.Date(obsStartDate)
+  if(length(target@plotObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@plotObservations)) {
+    if((target@plotObservations[[i]]$plotID==plotID) && (target@plotObservations[[i]]$obsStartDate==obsStartDate)) return(list(id = names(target@plotObservations)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@plotObservations)+1), new = TRUE))
+}
+
+# Returns the ID for a new method in the data set or the ID of an existing method with the same name
 .newMethodIDByName<-function(target, methodName) {
   if(length(target@methods)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@methods)) {

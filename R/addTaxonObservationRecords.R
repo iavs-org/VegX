@@ -23,9 +23,10 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                      verbose = TRUE) {
 
   x = as.data.frame(x)
+  nrecords = nrow(x)
 
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  startObsDates = as.Date(x[[mapping[["obsStartDate"]]]])
+  obsStartDates = as.Date(x[[mapping[["obsStartDate"]]]])
   taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
   values = as.character(x[[mapping[["value"]]]])
 
@@ -109,19 +110,35 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     }
   }
 
-  #plots
   orinplots = length(target@plots)
-  uniquePlotNames = unique(plotNames)
-  plotIDs = character(0)
-  nplot = length(uniquePlotNames)
-  for(i in 1:nplot) {
-    npid = .newPlotIDByName(target, uniquePlotNames[i]) # Get the new plot ID (internal code)
-    plotIDs[i] = npid$id
-    if(npid$new) target@plots[[plotIDs[i]]] = list("plotName" = uniquePlotNames[i])
+  orinplotobs = length(target@plotObservations)
+  orinstrobs = length(target@stratumObservations)
+  parsedPlots = character(0)
+  parsedPlotObs = character(0)
+  #Record parsing loop
+  for(i in 1:nrecords) {
+    #plot
+    if(!(plotNames[i] %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+      if(npid$new) target@plots[[npid$id]] = list("plotName" = plotNames[i])
+      parsedPlots = c(parsedPlots, plotNames[i])
+    }
+    pObsString = paste(npid$id, obsStartDates[i]) # plotID+Date
+    if(!(pObsString %in% parsedPlotObs)) {
+      npoid = .newPlotObsIDByDate(target, npid$id, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      if(npoid$new) target@plotObservations[[npoid$id]] = list("plotID" = npid$id,
+                                                    "obsStartDate" = obsStartDates[i],
+                                                    "projectID" = projectID)
+      parsedPlotObs = c(parsedPlotObs, pObsString)
+    }
   }
   finnplots = length(target@plots)
+  finnplotobs = length(target@plotObservations)
+  finnstrobs = length(target@stratumObservations)
   if(verbose) {
     cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
+    cat(paste0(" ", finnplotobs-orinplotobs, " new plot observations added.\n"))
+    cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observations added.\n"))
   }
 
 
