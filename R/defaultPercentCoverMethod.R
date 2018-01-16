@@ -28,6 +28,21 @@ defaultPlantCountMethod<-function() {
              attributeType = "quantitative",
              attributes = attributes))
 }
+defaultPlantFrequencyMethod<-function() {
+  attributes = list(
+    list(type="quantitative",
+         unit = "%",
+         lowerBound = 0,
+         upperBound = 100)
+  )
+  names(attributes) = 1
+  return(new("VegXMethod",
+             name = "Frequency of occurrence",
+             description = "Frequency of occurrence in subunits of the sampled area",
+             attributeClass = "frequency",
+             attributeType = "quantitative",
+             attributes = attributes))
+}
 coverScale<-function(name = "Braun-Blanquet", description = "Five-level Braun-Blanquet cover scale",
                      breaks = c(0,5,25,50,75,100),
                      midPoints = c(2.5,17.5, 37.5, 62.5, 87.5),
