@@ -9,20 +9,20 @@ addTaxonObservationRecords(target, x, projectTitle, mapping,
   stratumDefinition = stratumDefinitionByHeight(), verbose = TRUE)
 }
 \arguments{
-\item{target}{the original object of class \code{\linkS4class{VegX}} to be modified}
+\item{target}{The original object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{a data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.}
+\item{x}{A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.}
 
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'obsEndDate' and 'stratumName'.}
+Additional optional mappings are: 'subPlot', 'obsEndDate' and 'stratumName'.}
 
 \item{abundanceMethod}{Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
-\item{stratumDefinition}{an object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
+\item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
-\item{verbose}{flag to indicate console output of the data integration process.}
+\item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}

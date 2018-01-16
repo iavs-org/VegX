@@ -3,14 +3,14 @@
 #' Adds aggregated taxon observation records to a VegX object from a data table
 #' using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
 #'
-#' @param target the original object of class \code{\linkS4class{VegX}} to be modified
-#' @param x a data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.
+#' @param target The original object of class \code{\linkS4class{VegX}} to be modified
+#' @param x A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'obsEndDate' and 'stratumName'.
+#'                Additional optional mappings are: 'subPlot', 'obsEndDate' and 'stratumName'.
 #' @param abundanceMethod Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
-#' @param stratumDefinition an object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
-#' @param verbose flag to indicate console output of the data integration process.
+#' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
+#' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}
 #' @export
@@ -21,6 +21,13 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                      abundanceMethod = defaultPercentCoverMethod(),
                                      stratumDefinition = stratumDefinitionByHeight(),
                                      verbose = TRUE) {
+
+  x = as.data.frame(x)
+
+  plotNames = as.character(x[[mapping[["plotName"]]]])
+  startObsDates = as.Date(x[[mapping[["obsStartDate"]]]])
+  taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
+  values = as.character(x[[mapping[["value"]]]])
 
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
@@ -101,7 +108,22 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       stratumNames = .getStratumNamesByMethodID(strmethodID)
     }
   }
-  print(cbind(stratumIDs, stratumNames))
+
+  #plots
+  orinplots = length(target@plots)
+  uniquePlotNames = unique(plotNames)
+  plotIDs = character(0)
+  nplot = length(uniquePlotNames)
+  for(i in 1:nplot) {
+    npid = .newPlotIDByName(target, uniquePlotNames[i]) # Get the new plot ID (internal code)
+    plotIDs[i] = npid$id
+    if(npid$new) target@plots[[plotIDs[i]]] = list("plotName" = uniquePlotNames[i])
+  }
+  finnplots = length(target@plots)
+  if(verbose) {
+    cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
+  }
+
 
   return(target)
 }
