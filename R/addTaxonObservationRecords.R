@@ -30,6 +30,11 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
   values = as.character(x[[mapping[["value"]]]])
 
+  stratumFlag = ("stratumName" %in% mapping)
+  if(stratumFlag) {
+    stratumNames = as.character(x[[mapping[["stratumName"]]]])
+  }
+
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
   projectID = nprid$id
@@ -115,6 +120,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   orinstrobs = length(target@stratumObservations)
   parsedPlots = character(0)
   parsedPlotObs = character(0)
+  parsedStrObs = character(0)
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
@@ -131,6 +137,12 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                                     "projectID" = projectID)
       parsedPlotObs = c(parsedPlotObs, pObsString)
     }
+
+    if(stratumFlag) {
+
+      strObsString = paste(npid$id, strID) # plotObsID+stratumID
+
+    }
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
@@ -138,7 +150,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   if(verbose) {
     cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
     cat(paste0(" ", finnplotobs-orinplotobs, " new plot observations added.\n"))
-    cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observations added.\n"))
+    if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observations added.\n"))
   }
 
 

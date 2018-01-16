@@ -10,7 +10,10 @@
 #' @export
 #'
 #' @examples
-stratumDefinitionByHeight<-function(heightBreaks = c(0,1,3,5), stratumNames = c("s1", "s2", "s3"), heightUnit = "m") {
+defineStrataByHeight<-function(name = "Strata by height",
+                                    description = "Vegetation strata defined by height in m",
+                                    heightBreaks = c(0,1,3,5),
+                                    stratumNames = c("s1", "s2", "s3"), heightUnit = "m") {
   attributes = list(
     list(type="quantitative",
          unit = heightUnit,
@@ -18,8 +21,8 @@ stratumDefinitionByHeight<-function(heightBreaks = c(0,1,3,5), stratumNames = c(
   )
   names(attributes) = 1
   defMethod = new("VegXMethod",
-             name = "Strata by height",
-             description = "Vegetation strata defined by height",
+             name = name,
+             description = description,
              attributeClass = "height strata",
              attributeType = "quantitative",
              attributes = attributes)

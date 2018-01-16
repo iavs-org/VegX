@@ -14,7 +14,7 @@
   }
   return(list(id = as.character(length(target@plots)+1), new = TRUE))
 }
-# Returns the ID for a new plot observation in the data set or the ID of an existing plot observation with the same name
+# Returns the ID for a new plot observation in the data set or the ID of an existing plot observation
 .newPlotObsIDByDate<-function(target, plotID, obsStartDate) {
   obsStartDate = as.Date(obsStartDate)
   if(length(target@plotObservations)==0) return(list(id="1", new = TRUE))
@@ -22,6 +22,14 @@
     if((target@plotObservations[[i]]$plotID==plotID) && (target@plotObservations[[i]]$obsStartDate==obsStartDate)) return(list(id = names(target@plotObservations)[i], new = FALSE))
   }
   return(list(id = as.character(length(target@plotObservations)+1), new = TRUE))
+}
+# Returns the ID for a new stratum observation in the data set or the ID of an existing stratum observation
+.newStratumObsIDByIDs<-function(target, plotObsID, stratumID) {
+  if(length(target@stratumObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@stratumObservations)) {
+    if((target@stratumObservations[[i]]$plotObsID==plotObsID) && (target@stratumObservations[[i]]$stratumID==stratumID)) return(list(id = names(target@stratumObservations)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@stratumObservations)+1), new = TRUE))
 }
 
 # Returns the ID for a new method in the data set or the ID of an existing method with the same name
@@ -69,4 +77,13 @@
     }
   }
   return(strVec)
+}
+
+.getStratumIDByName<-function(target, stratumName) {
+  if(length(target@strata)>0) {
+    for(i in 1:length(target@strata)) {
+      if(target@strata[[i]]$stratumName==stratumName) return(names(target@strata)[i])
+    }
+  }
+  return(NULL)
 }
