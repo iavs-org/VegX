@@ -17,7 +17,7 @@
 #' @examples
 addTaxonObservationRecords<-function(target, x, projectTitle,
                                      obsMapping, abundanceMethod = defaultPercentCoverMethod(),
-                                     strMapping = NULL, stratumMethod = defaultStratumMethod()) {
+                                     strMapping = NULL, stratumDefinition = defaultStratumDefinition()) {
 
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)

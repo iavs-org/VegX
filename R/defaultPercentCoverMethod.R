@@ -44,17 +44,3 @@ coverScale<-function(name = "Braun-Blanquet", description = "Five-level Braun-Bl
               attributeType = "ordinal",
               attributes = attributes))
 }
-defaultStratumMethod<-function() {
-  attributes = list(
-    list(type="quantitative",
-         unit = "m",
-         lowerBound = 0)
-  )
-  names(attributes) = 1
-  return(new("VegXMethod",
-             name = "Strata by height",
-             description = "Vegetation strata defined by height",
-             attributeClass = "height",
-             attributeType = "quantitative",
-             attributes = attributes))
-}

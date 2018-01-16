@@ -6,7 +6,7 @@
 \usage{
 addTaxonObservationRecords(target, x, projectTitle, obsMapping,
   abundanceMethod = defaultPercentCoverMethod(), strMapping = NULL,
-  stratumMethod = defaultStratumMethod())
+  stratumDefinition = defaultStratumDefinition())
 }
 \arguments{
 \item{target}{the original object of class \code{\linkS4class{VegX}} to be modified}
