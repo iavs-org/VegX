@@ -5,8 +5,9 @@
 \alias{VegX-class}
 \title{S4 class for Veg-X documents}
 \description{
-Implements the minimum subset of Veg-X elements for importing and
-combining vegetation data
+Implements the minimum subset of Veg-X elements needed for importing and combining vegetation data in this package.
+Only main elements of Veg-X are included here as lists (subelements are not specified in the class definition).
+Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented.
 }
 \section{Slots}{
 
@@ -17,9 +18,7 @@ combining vegetation data
 
 \item{\code{plotObservations}}{list of vegetation plot observations.}
 
-\item{\code{taxonNames}}{list of scientific taxon names referenced in the data.}
-
-\item{\code{taxonNameUsageConcepts}}{list of usages of taxon names.}
+\item{\code{taxonNameUsageConcepts}}{list of usages of taxon names as made by the observer.}
 
 \item{\code{individualObservations}}{list of observations made on individual organisms (e.g. diameter or height values).}
 

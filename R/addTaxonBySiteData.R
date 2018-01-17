@@ -53,10 +53,16 @@ addTaxonBySiteData <-function(target,
   #plot observations
   if(length(obsDates)==1) obsDates = rep(obsDates, nplot)
   orinpobs = length(target@plotObservations)
-  plotObsIDs = as.character((orinpobs+1):(orinpobs+nplot))
-  for(i in 1:nplot) target@plotObservations[[plotObsIDs[i]]] = list("plotID" = plotIDs[i],
-                                                          "obsStartDate" = obsDates[i],
-                                                          "projectID" = projectID)
+  for(i in 1:nplot) {
+    pObsString = paste(plotID[i], obsDates[i]) # plotID+Date
+    npoid = .newPlotObsIDByDate(target, plotID, obsDates[i]) # Get the new plot observation ID (internal code)
+    plotObsID = npoid$id
+    if(npoid$new) {
+      target@plotObservations[[plotObsID]] = list("plotID" = plotID[i],
+                                                  "projectID" = projectID,
+                                                  "obsStartDate" = obsDates[i])
+    }
+  }
   finnpobs = length(target@plotObservations)
   if(verbose) {
     cat(paste0(" ", finnpobs-orinpobs, " new plot observations added.\n"))

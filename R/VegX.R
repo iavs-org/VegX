@@ -1,13 +1,13 @@
 #' S4 class for Veg-X documents
 #'
-#' Implements the minimum subset of Veg-X elements for importing and
-#' combining vegetation data
+#' Implements the minimum subset of Veg-X elements needed for importing and combining vegetation data in this package.
+#' Only main elements of Veg-X are included here as lists (subelements are not specified in the class definition).
+#' Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented.
 #'
 #' @slot projects list of research projects underpinning data collection
 #' @slot plots list of vegetation plots where measurements were made.
 #' @slot plotObservations list of vegetation plot observations.
-#' @slot taxonNames list of scientific taxon names referenced in the data.
-#' @slot taxonNameUsageConcepts list of usages of taxon names.
+#' @slot taxonNameUsageConcepts list of usages of taxon names as made by the observer.
 #' @slot individualObservations list of observations made on individual organisms (e.g. diameter or height values).
 #' @slot aggregatedObservations list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).
 #' @slot individualOrganisms list of individual organisms.
@@ -23,7 +23,6 @@
 setClass("VegX",slots=c(projects = "list",
                         plots="list",
                         plotObservations = "list",
-                        taxonNames = "list",
                         taxonNameUsageConcepts = "list",
                         individualObservations = "list",
                         aggregatedObservations = "list",

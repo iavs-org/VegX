@@ -50,14 +50,6 @@ writeVegXML<-function(x, file) {
       newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
     }
   }
-  #TaxonName elements
-  if(length(x@taxonNames)>0) {
-    taxonNames = newXMLNode("taxonNames", parent = top)
-    for(i in 1:length(x@taxonNames)){
-      tn = newXMLNode("ScientificName", parent = taxonNames)
-      newXMLNode("Simple", x@taxonNames[[i]]$taxonName, parent=tn)
-    }
-  }
   #Individual Organism elements
   if(length(x@individualOrganisms)>0) {
     individualOrganisms = newXMLNode("individualOrganisms", parent = top)
