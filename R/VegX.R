@@ -10,14 +10,14 @@
 #' @slot taxonNameUsageConcepts list of usages of taxon names.
 #' @slot individualObservations list of observations made on individual organisms (e.g. diameter or height values).
 #' @slot aggregatedObservations list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).
-#' @slot stratumObservations list of observations made on strata (e.g. herb or shrub cover).
+#' @slot individualOrganisms list of individual organisms.
+#' @slot abioticObservations list of abiotic observations made plots.
 #' @slot strata list of stratum definitions.
 #' @slot individualOrganisms list of individual organisms.
 #' @slot methods list of measurement methods (e.g. cover scales).
 #' @slot attributes list of attribute value description.
 #'
-#' @return
-#' @export
+#' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @examples
 setClass("VegX",slots=c(projects = "list",
@@ -28,6 +28,7 @@ setClass("VegX",slots=c(projects = "list",
                         individualObservations = "list",
                         aggregatedObservations = "list",
                         stratumObservations = "list",
+                        abioticObservations = "list",
                         strata = "list",
                         individualOrganisms = "list",
                         methods = "list",

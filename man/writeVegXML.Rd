@@ -17,3 +17,6 @@ A string of the file written
 \description{
 Write VegX XML file (ver 1.5.3)
 }
+\references{
+Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+}

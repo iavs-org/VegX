@@ -32,6 +32,9 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds aggregated taxon observation records to a VegX object from a data table
 using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
 }
+\references{
+Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+}
 \seealso{
 \code{\link{addTreeObservationRecords}}.
 }

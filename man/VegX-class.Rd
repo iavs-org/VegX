@@ -25,7 +25,9 @@ combining vegetation data
 
 \item{\code{aggregatedObservations}}{list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).}
 
-\item{\code{stratumObservations}}{list of observations made on strata (e.g. herb or shrub cover).}
+\item{\code{individualOrganisms}}{list of individual organisms.}
+
+\item{\code{abioticObservations}}{list of abiotic observations made plots.}
 
 \item{\code{strata}}{list of stratum definitions.}
 
@@ -36,3 +38,6 @@ combining vegetation data
 \item{\code{attributes}}{list of attribute value description.}
 }}
 
+\references{
+Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+}
