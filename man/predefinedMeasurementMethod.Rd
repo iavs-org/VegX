@@ -7,12 +7,13 @@
 predefinedMeasurementMethod(name)
 }
 \arguments{
-\item{name}{A string with the desired measurement method. Current options are:
-\code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"}}
+\item{name}{A string with the desired measurement method. Current accepted options are:
+\code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
+\code{"Plant height"}, \code{"DBH"}.}
 }
 \value{
 an object of class \code{\linkS4class{VegXMethod}}
 }
 \description{
-Predefined measurement methods
+Creates a measurement method for Veg-X documents from a set of predefined options
 }

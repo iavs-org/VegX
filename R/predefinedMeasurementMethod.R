@@ -1,7 +1,10 @@
 #' Predefined measurement methods
 #'
-#' @param name A string with the desired measurement method. Current options are:
-#' \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"}
+#' Creates a measurement method for Veg-X documents from a set of predefined options
+#'
+#' @param name A string with the desired measurement method. Current accepted options are:
+#' \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
+#' \code{"Plant height"}, \code{"DBH"}.
 #'
 #'
 #' @return an object of class \code{\linkS4class{VegXMethod}}
@@ -21,7 +24,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Percent cover",
                description = "Quantitative plant percent cover",
-               attributeClass = "cover",
+               attributeClass = "plant cover",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -36,7 +39,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Individual counts",
                description = "Number of individuals in the (sub)plot",
-               attributeClass = "count",
+               attributeClass = "plant count",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -51,7 +54,37 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Frequency of occurrence",
                description = "Frequency of occurrence in subunits of the sampled area",
-               attributeClass = "frequency",
+               attributeClass = "plant frequency",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
+  else if (name=="Plant height") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "m",
+           lowerBound = 0,
+           upperBound = Inf)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "Plant height",
+               description = "Plant height in meters",
+               attributeClass = "plant height",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
+  else if (name=="DBH") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "cm",
+           lowerBound = 0,
+           upperBound = Inf)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "DBH",
+               description = "Diameter at breast height, in cm",
+               attributeClass = "plant diameter",
                attributeType = "quantitative",
                attributes = attributes))
   }

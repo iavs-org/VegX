@@ -4,27 +4,26 @@
 \alias{addTaxonBySiteData}
 \title{Add a taxon-by-site table}
 \usage{
-addTaxonBySiteData(target, x, projectTitle,
-  abundanceMethod = defaultPercentCoverMethod(), obsDates = Sys.Date(),
-  absence.values = c(NA, 0), verbose = TRUE)
+addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
+  obsDates = Sys.Date(), absence.values = c(NA, 0), verbose = TRUE)
 }
 \arguments{
-\item{target}{the original object of class \code{\linkS4class{VegX}} to be modified}
+\item{target}{The original object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{site-by-species releve table}
+\item{x}{A site-by-species releve table}
 
-\item{projectTitle}{a character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
+\item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{abundanceMethod}{measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{abundanceMethod}{A measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
-\item{obsDates}{a vector of \code{\link{Date}} objects with plot observation dates.}
+\item{obsDates}{A vector of \code{\link{Date}} objects with plot observation dates.}
 
-\item{absence.values}{a vector of values to be interpreted as missing plant information.}
+\item{absence.values}{A vector of values to be interpreted as missing plant information.}
 
-\item{verbose}{flag to indicate console output of the data integration process.}
+\item{verbose}{A flag to indicate console output of the data integration process.}
 }
 \value{
-The modified object of class \code{\linkS4class{VegX}}
+A modified object of class \code{\linkS4class{VegX}}
 }
 \description{
 Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.

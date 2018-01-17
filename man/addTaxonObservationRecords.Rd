@@ -4,9 +4,8 @@
 \alias{addTaxonObservationRecords}
 \title{Add a taxon observation records}
 \usage{
-addTaxonObservationRecords(target, x, projectTitle, mapping,
-  abundanceMethod = defaultPercentCoverMethod(),
-  stratumDefinition = stratumDefinitionByHeight(), verbose = TRUE)
+addTaxonObservationRecords(target, x, projectTitle, mapping, abundanceMethod,
+  stratumDefinition, verbose = TRUE)
 }
 \arguments{
 \item{target}{The original object of class \code{\linkS4class{VegX}} to be modified}

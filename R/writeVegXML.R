@@ -73,7 +73,8 @@ writeVegXML<-function(x, file) {
                       parent = plotObservations)
       newXMLNode("plotUniqueIdentifier", x@plotObservations[[i]]$plotID, parent=po)
       newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
-      newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
+      if("obsEndDate" %in% names(x@plotObservations[[i]])) newXMLNode("obsEndDate", as.character(x@plotObservations[[i]]$obsEndDate), parent=po)
+      if("projectID" %in% names(x@plotObservations[[i]])) newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
     }
   }
   #individualOrganismObservation elements

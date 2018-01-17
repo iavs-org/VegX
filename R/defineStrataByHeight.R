@@ -23,7 +23,7 @@ defineStrataByHeight<-function(name = "Strata by height",
   defMethod = new("VegXMethod",
              name = name,
              description = description,
-             attributeClass = "height strata",
+             attributeClass = "stratum height",
              attributeType = "quantitative",
              attributes = attributes)
 

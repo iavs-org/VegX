@@ -18,21 +18,34 @@
 #' @examples
 addTaxonObservationRecords<-function(target, x, projectTitle,
                                      mapping,
-                                     abundanceMethod = defaultPercentCoverMethod(),
-                                     stratumDefinition = stratumDefinitionByHeight(),
+                                     abundanceMethod,
+                                     stratumDefinition,
                                      verbose = TRUE) {
 
   x = as.data.frame(x)
   nrecords = nrow(x)
 
+  #Check columns exist
+  for(i in 1:length(mapping)) {
+    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+  }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(x[[mapping[["obsStartDate"]]]])
   taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
   values = as.character(x[[mapping[["value"]]]])
 
+  #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNames = as.character(x[[mapping[["stratumName"]]]])
+  }
+  obsEndFlag = ("obsEndDate" %in% names(mapping))
+  if(obsEndFlag) {
+    obsEndDates = as.Date(x[[mapping[["obsEndDate"]]]])
+  }
+  subPlotFlag = ("subPlot" %in% names(mapping))
+  if(subPlotFlag) {
+    subPlotNames = as.character(x[[mapping[["subPlot"]]]])
   }
 
   #get project ID and add new project if necessary
@@ -135,9 +148,12 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     pObsString = paste(npid$id, obsStartDates[i]) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
       npoid = .newPlotObsIDByDate(target, npid$id, obsStartDates[i]) # Get the new plot observation ID (internal code)
-      if(npoid$new) target@plotObservations[[npoid$id]] = list("plotID" = npid$id,
-                                                    "obsStartDate" = obsStartDates[i],
-                                                    "projectID" = projectID)
+      if(npoid$new) {
+        target@plotObservations[[npoid$id]] = list("plotID" = npid$id,
+                                                   "projectID" = projectID,
+                                                   "obsStartDate" = obsStartDates[i])
+        if(obsEndFlag) target@plotObservations[[npoid$id]]$obsEndDate = obsEndDates[i]
+      }
       parsedPlotObs = c(parsedPlotObs, pObsString)
     }
     # taxon name

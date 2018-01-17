@@ -1,4 +1,4 @@
-#' S4 class for strata definition in Veg-X
+#' S4 class for Veg-X strata definition
 #'
 #' @slot method VegXMethod.
 #' @slot strata list.

@@ -1,4 +1,4 @@
-#' S4 class for Veg-X measurement method
+#' S4 class for Veg-X measurement methods
 #'
 #' @slot name Name of the measurement method.
 #' @slot description Description of the measurement method.

@@ -6,22 +6,22 @@
 #' Vegetation plots and taxon names can be the same as those already existing in the target VegX.
 #' Plot observations, however, are always considered new.
 #'
-#' @param target the original object of class \code{\linkS4class{VegX}} to be modified
-#' @param x site-by-species releve table
-#' @param projectTitle a character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param abundanceMethod measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
-#' @param obsDates a vector of \code{\link{Date}} objects with plot observation dates.
-#' @param absence.values a vector of values to be interpreted as missing plant information.
-#' @param verbose flag to indicate console output of the data integration process.
+#' @param target The original object of class \code{\linkS4class{VegX}} to be modified
+#' @param x A site-by-species releve table
+#' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
+#' @param abundanceMethod A measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param obsDates A vector of \code{\link{Date}} objects with plot observation dates.
+#' @param absence.values A vector of values to be interpreted as missing plant information.
+#' @param verbose A flag to indicate console output of the data integration process.
 #'
-#' @return The modified object of class \code{\linkS4class{VegX}}
+#' @return A modified object of class \code{\linkS4class{VegX}}
 #' @export
 #'
 #' @examples
 addTaxonBySiteData <-function(target,
                               x,
                               projectTitle,
-                              abundanceMethod = defaultPercentCoverMethod(),
+                              abundanceMethod,
                               obsDates = Sys.Date(), absence.values = c(NA, 0),
                               verbose = TRUE) {
 
