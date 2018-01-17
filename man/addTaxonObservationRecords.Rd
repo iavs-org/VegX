@@ -5,7 +5,8 @@
 \title{Add taxon observation records}
 \usage{
 addTaxonObservationRecords(target, x, projectTitle, mapping, abundanceMethod,
-  stratumDefinition = NULL, missing.values = c(NA, 0), verbose = TRUE)
+  stratumDefinition = NULL, missing.values = c("NA", "0", ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -21,7 +22,7 @@ Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
-\item{missing.values}{A vector of abundance values that should be considered as missing observations.}
+\item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }

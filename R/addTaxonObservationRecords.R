@@ -10,7 +10,7 @@
 #'                Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
 #' @param abundanceMethod Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
-#' @param missing.values A vector of abundance values that should be considered as missing observations.
+#' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -25,7 +25,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                      mapping,
                                      abundanceMethod,
                                      stratumDefinition = NULL,
-                                     missing.values = c(NA, 0),
+                                     missing.values = c("NA", "0", ""),
                                      verbose = TRUE) {
 
   x = as.data.frame(x)
@@ -37,7 +37,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(x[[mapping[["obsStartDate"]]]])
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
   taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
   values = as.character(x[[mapping[["value"]]]])
 
@@ -51,7 +51,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   }
   obsEndFlag = ("obsEndDate" %in% names(mapping))
   if(obsEndFlag) {
-    obsEndDates = as.Date(x[[mapping[["obsEndDate"]]]])
+    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
   }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
@@ -164,7 +164,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     }
     #subplot (if defined)
     if(subPlotFlag){
-      if(!is.na(subPlotNames[i])) {
+      if(!(subPlotNames[i] %in% missing.values)) {
         subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
         if(!(subPlotCompleteName %in% parsedPlots)) {
           parentPlotID = plotID
