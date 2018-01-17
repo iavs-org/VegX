@@ -52,6 +52,16 @@ writeVegXML<-function(x, file) {
       newXMLNode("Simple", x@taxonNames[[i]]$taxonName, parent=tn)
     }
   }
+  #Individual Organism elements
+  if(length(x@individualOrganisms)>0) {
+    individualOrganisms = newXMLNode("individualOrganisms", parent = top)
+    for(i in 1:length(x@individualOrganisms)){
+      io = newXMLNode("individualOrganism",
+                      attrs = c(id = names(x@individualOrganisms)[i]),
+                      parent = individualOrganisms)
+      newXMLNode("taxonNameUsageConceptID", x@individualOrganisms[[i]]$taxonNameUsageConceptID, parent=io)
+    }
+  }
   #TaxonNameUsageConcept elements
   if(length(x@taxonNameUsageConcepts)>0) {
     taxonNameUsageConcepts = newXMLNode("taxonNameUsageConcepts", parent = top)
@@ -80,6 +90,19 @@ writeVegXML<-function(x, file) {
   #individualOrganismObservation elements
   if(length(x@individualObservations)>0) {
     individualOrganismObservations = newXMLNode("individualOrganismObservations", parent = top)
+    for(i in 1:length(x@individualObservations)){
+      ioo = newXMLNode("individualOrganismObservation",
+                       attrs = c(id = names(x@individualObservations)[i]),
+                       parent = individualOrganismObservations)
+      newXMLNode("plotObservationID", x@individualObservations[[i]]$plotObservationID, parent=ioo)
+      newXMLNode("individualOrganismID", x@individualObservations[[i]]$individualOrganismID, parent=ioo)
+      if("stratumObservationID" %in% names(x@individualObservations[[i]])) newXMLNode("stratumObservationID", x@aggregatedObservations[[i]]$stratumObservationID, parent=ioo)
+      if("diameterValue" %in% names(x@individualObservations[[i]])) {
+        diamval = newXMLNode("diameter", parent=ioo)
+        newXMLNode("value", x@individualObservations[[i]]$diameterValue, parent=diamval)
+        if("diameterID" %in% names(x@individualObservations[[i]])) newXMLNode("diameterID", x@individualObservations[[i]]$diameterID, parent=diamval)
+      }
+    }
   }
   #AggregatedOrganismObservation elements
   if(length(x@aggregatedObservations)>0) {

@@ -5,7 +5,8 @@
 \title{Add tree observation records}
 \usage{
 addTreeObservationRecords(target, x, projectTitle, mapping, diameterMethod,
-  heightMethod = NULL, stratumDefinition = NULL, verbose = TRUE)
+  heightMethod = NULL, stratumDefinition = NULL, missing.values = c(NA,
+  0), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -18,6 +19,8 @@ addTreeObservationRecords(target, x, projectTitle, mapping, diameterMethod,
 Additional optional mappings are: 'subPlot', 'obsEndDate', 'individual', 'height' and 'stratumName'.}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
+
+\item{missing.values}{A vector of diameter/height values that should be considered as missing measurements.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }

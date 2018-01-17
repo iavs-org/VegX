@@ -12,6 +12,7 @@
 #' @param diameterMethod
 #' @param heightMethod
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
+#' @param missing.values A vector of diameter/height values that should be considered as missing measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -23,6 +24,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
                                     diameterMethod,
                                     heightMethod = NULL,
                                     stratumDefinition = NULL,
+                                    missing.values = c(NA, 0),
                                     verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
@@ -176,7 +178,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   orinplotobs = length(target@plotObservations)
   orinstrobs = length(target@stratumObservations)
   orintuc = length(target@taxonNameUsageConcepts)
-  orininds = length(target@individuals)
+  orininds = length(target@individualOrganisms)
   orinindobs = length(target@individualObservations)
   parsedPlots = character(0)
   parsedPlotIDs = character(0)
@@ -245,7 +247,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
       }
     }
 
-    # individual
+    # individual organisms
     if(individualFlag) { # Allow for repeated observations on the same individuals
       if(!(individuals[i] %in% parsedInds)) {
         nindid = .newIndividualByIdentificationLabel(target, individuals[i]) # Get the new individual ID (internal code)
@@ -261,12 +263,42 @@ addTreeObservationRecords<-function(target, x, projectTitle,
       indID = as.character(length(target@individualOrganisms)+1)
       target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID)
     }
+
+    # agg org observations
+    if(!(diameters[i] %in% as.character(missing.values))) {
+      if(diameterMethod@attributeType== "quantitative") {
+        value = as.numeric(diameters[i])
+        if(value> diameterMethod@attributes[[1]]$upperBound) {
+          stop(paste0("Diameter '", value,"' larger than upper bound of diameter measurement definition. Please revise scale or data."))
+        }
+        else if(value < diameterMethod@attributes[[1]]$lowerBound) {
+          stop(paste0("Diameter '", value,"' smaller than lower bound of diameter measurement definition. Please revise scale or data."))
+        }
+        target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
+                                                                            "individualOrganismID" = indID,
+                                                                            "diameterID" = diamAttIDs[1],
+                                                                            "diameterValue" = value)
+        if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
+        indObsCounter = indObsCounter + 1
+      } else {
+        ind = which(diameterCodes==as.character(diameters[i]))
+        if(length(ind)==1) {
+          target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
+                                                                              "individualOrganismID" = indID,
+                                                                              "attributeID" = diamAttIDs[ind],
+                                                                              "diameterValue" = diameters[i])
+          if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
+          indObsCounter = indObsCounter + 1
+        }
+        else stop(paste0("Diameter '", diameters[i],"' not found in diameter measurement definition. Please revise diameter classes or data."))
+      }
+    }
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
   finnstrobs = length(target@stratumObservations)
   finntuc = length(target@taxonNameUsageConcepts)
-  finninds = length(target@individuals)
+  finninds = length(target@individualOrganisms)
   finnindobs = length(target@individualObservations)
   if(verbose) {
     cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
