@@ -3,9 +3,9 @@
 \docType{class}
 \name{VegXStrata-class}
 \alias{VegXStrata-class}
-\title{Title}
+\title{S4 class for strata definition in Veg-X}
 \description{
-Title
+S4 class for strata definition in Veg-X
 }
 \section{Slots}{
 

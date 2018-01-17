@@ -1,4 +1,4 @@
-#' Veg-X S4 class
+#' S4 class for Veg-X documents
 #'
 #' Implements the minimum subset of Veg-X elements for importing and
 #' combining vegetation data

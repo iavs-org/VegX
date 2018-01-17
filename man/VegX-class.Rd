@@ -3,7 +3,7 @@
 \docType{class}
 \name{VegX-class}
 \alias{VegX-class}
-\title{Veg-X S4 class}
+\title{S4 class for Veg-X documents}
 \description{
 Implements the minimum subset of Veg-X elements for importing and
 combining vegetation data

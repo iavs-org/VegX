@@ -3,9 +3,9 @@
 \docType{class}
 \name{VegXMethod-class}
 \alias{VegXMethod-class}
-\title{S4 class for measurement method}
+\title{S4 class for Veg-X measurement method}
 \description{
-S4 class for measurement method
+S4 class for Veg-X measurement method
 }
 \section{Slots}{
 
