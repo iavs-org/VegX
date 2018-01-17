@@ -15,13 +15,13 @@ addTaxonObservationRecords(target, x, projectTitle, mapping, abundanceMethod,
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlot', 'obsEndDate' and 'stratumName'.}
+Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.}
 
 \item{abundanceMethod}{Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
-\item{missing.values}{A vector of diameter/height values that should be considered as missing measurements.}
+\item{missing.values}{A vector of abundance values that should be considered as missing observations.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }

@@ -28,6 +28,11 @@ writeVegXML<-function(x, file) {
       p = newXMLNode("plot", parent = plots)
       newXMLNode("plotUniqueIdentifier", names(x@plots)[i], parent=p)
       newXMLNode("plotName", x@plots[[i]]$plotName, parent=p)
+      if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
+        rp = newXMLNode("relatedPlot", parent=p)
+        newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
+        newXMLNode("plotRelationship", "parent", parent=rp)
+      }
     }
   }
   #stratum elements

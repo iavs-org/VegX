@@ -7,10 +7,10 @@
 #' @param x A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlot', 'obsEndDate' and 'stratumName'.
+#'                Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
 #' @param abundanceMethod Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
-#' @param missing.values A vector of diameter/height values that should be considered as missing measurements.
+#' @param missing.values A vector of abundance values that should be considered as missing observations.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -49,9 +49,9 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   if(obsEndFlag) {
     obsEndDates = as.Date(x[[mapping[["obsEndDate"]]]])
   }
-  subPlotFlag = ("subPlot" %in% names(mapping))
+  subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
-    subPlotNames = as.character(x[[mapping[["subPlot"]]]])
+    subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
 
   #get project ID and add new project if necessary
@@ -157,6 +157,23 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       parsedPlotIDs = c(parsedPlotIDs, plotID)
     } else { #this access should be faster
       plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+    }
+    #subplot (if defined)
+    if(subPlotFlag){
+      if(!is.na(subPlotNames[i])) {
+        subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
+        if(!(subPlotCompleteName %in% parsedPlots)) {
+          parentPlotID = plotID
+          npid = .newPlotIDByName(target, subPlotCompleteName) # Get the new subplot ID (internal code)
+          plotID = npid$id
+          if(npid$new) target@plots[[plotID]] = list("plotName" = subPlotCompleteName,
+                                                     "parentPlotID" = parentPlotID)
+          parsedPlots = c(parsedPlots, subPlotCompleteName)
+          parsedPlotIDs = c(parsedPlotIDs, plotID)
+        } else { #this access should be faster
+          plotID = parsedPlotIDs[which(parsedPlots==subPlotCompleteName)]
+        }
+      }
     }
     #plot observation
     pObsString = paste(plotID, obsStartDates[i]) # plotID+Date

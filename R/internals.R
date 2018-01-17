@@ -119,3 +119,14 @@
   }
   return(NULL)
 }
+.getNumberOfSubPlots<-function(target) {
+  cnt = 0
+   if(length(target@plots)>0) {
+     for(i in 1:length(target@plots)) {
+       if("parentPlotID" %in% names(target@plots[[i]])) {
+         cnt = cnt + 1
+       }
+     }
+   }
+   return(cnt)
+}

@@ -1,12 +1,21 @@
 setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
-  cat(paste0("============================================================\n"))
-  cat(paste0("                  VegX object (ver 1.5.3)                  \n"))
-  cat(paste0("------------------------------------------------------------\n"))
-  cat(paste0(" ", length(object@plotObservations)," plot observations"))
-  cat(paste0(" made in ", length(object@plots)," plots, from ",length(object@projects)," projects.\n"))
-  cat(paste0("------------------------------------------------------------\n"))
+  cat(paste0("================================================================\n"))
+  cat(paste0("                     VegX object (ver 1.5.3)                    \n"))
+  cat(paste0("----------------------------------------------------------------\n"))
+  cat(paste0("\n"))
+  cat(paste0("   Projects: ", length(object@projects),"\n"))
+  if(length(object@projects)>0) {
+    for(i in 1:length(object@projects)){
+      cat(paste0("      ",i,". ", object@projects[[i]]$title,"\n"))
+    }
+  }
+  cat(paste0("\n"))
+  nplots = length(object@plots)
+  nsubplots = .getNumberOfSubPlots(object)
+  cat(paste0("   Plots: ", nplots,"    [Parent: ", nplots - nsubplots," Subplots: ", nsubplots,"]\n"))
   cat(paste0("\n"))
   cat(paste0("   Individual organisms: ", length(object@individualOrganisms),"\n"))
+  cat(paste0("\n"))
   # cat(paste0("   Taxon names: ", length(object@taxonNames),"\n"))
   cat(paste0("   Taxon name usage concepts: ", length(object@taxonNameUsageConcepts),"\n"))
   cat(paste0("\n"))
@@ -24,8 +33,10 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
     }
   }
   cat(paste0("\n"))
-  cat(paste0("   Individual organism observations: ", length(object@individualObservations),"\n"))
-  cat(paste0("   Aggregated organism observations: ", length(object@aggregatedObservations),"\n"))
-  cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
-  cat(paste0("============================================================\n"))
+  cat(paste0("   Plot observations: ", length(object@plotObservations),"\n"))
+  cat(paste0("\n"))
+  cat(paste0("      Individual organism observations: ", length(object@individualObservations),"\n"))
+  cat(paste0("      Aggregated organism observations: ", length(object@aggregatedObservations),"\n"))
+  cat(paste0("      Stratum observations: ", length(object@stratumObservations),"\n"))
+  cat(paste0("================================================================\n"))
 })

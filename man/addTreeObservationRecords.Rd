@@ -16,11 +16,11 @@ addTreeObservationRecords(target, x, projectTitle, mapping, diameterMethod,
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlot', 'obsEndDate', 'individual', 'height' and 'stratumName'.}
+Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
-\item{missing.values}{A vector of diameter/height values that should be considered as missing measurements.}
+\item{missing.values}{A vector of diameter/height values that should be considered as missing observations/measurements.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
