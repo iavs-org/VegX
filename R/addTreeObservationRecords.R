@@ -28,6 +28,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
                                     verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
+  nmissing = 0
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -292,6 +293,8 @@ addTreeObservationRecords<-function(target, x, projectTitle,
         }
         else stop(paste0("Diameter '", diameters[i],"' not found in diameter measurement definition. Please revise diameter classes or data."))
       }
+    } else {
+      nmissing = nmissing + 1
     }
   }
   finnplots = length(target@plots)
@@ -301,12 +304,13 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   finninds = length(target@individualOrganisms)
   finnindobs = length(target@individualObservations)
   if(verbose) {
-    cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
-    cat(paste0(" ", finnplotobs-orinplotobs, " new plot observations added.\n"))
-    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concepts added.\n"))
-    if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observations added.\n"))
-    cat(paste0(" ", finninds-orininds, " new individual organisms added.\n"))
-    cat(paste0(" ", finnindobs-orinindobs, " new individual organism observations added.\n"))
+    cat(paste0(" ", finnplots-orinplots, " new plot(s) added.\n"))
+    cat(paste0(" ", finnplotobs-orinplotobs, " new plot observation(s) added.\n"))
+    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concept(s) added.\n"))
+    if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observation(s) added.\n"))
+    cat(paste0(" ", finninds-orininds, " new individual organism(s) added.\n"))
+    cat(paste0(" ", finnindobs-orinindobs, " new individual organism observation(s) added.\n"))
+    if(nmissing>0) cat(paste0(" ", nmissing, " individual organism observation(s) with missing diameter value(s) not added.\n"))
   }
 
   return(target)
