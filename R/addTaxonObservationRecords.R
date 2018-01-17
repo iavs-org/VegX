@@ -1,9 +1,9 @@
-#' Add a taxon observation records
+#' Add taxon observation records
 #'
 #' Adds aggregated taxon observation records to a VegX object from a data table
 #' using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
 #'
-#' @param target The original object of class \code{\linkS4class{VegX}} to be modified
+#' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
@@ -12,14 +12,14 @@
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
-#' @return The modified object of class \code{\linkS4class{VegX}}
+#' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
 #' @examples
 addTaxonObservationRecords<-function(target, x, projectTitle,
                                      mapping,
                                      abundanceMethod,
-                                     stratumDefinition,
+                                     stratumDefinition = NULL,
                                      verbose = TRUE) {
 
   x = as.data.frame(x)

@@ -2,13 +2,13 @@
 % Please edit documentation in R/addTaxonObservationRecords.R
 \name{addTaxonObservationRecords}
 \alias{addTaxonObservationRecords}
-\title{Add a taxon observation records}
+\title{Add taxon observation records}
 \usage{
 addTaxonObservationRecords(target, x, projectTitle, mapping, abundanceMethod,
-  stratumDefinition, verbose = TRUE)
+  stratumDefinition = NULL, verbose = TRUE)
 }
 \arguments{
-\item{target}{The original object of class \code{\linkS4class{VegX}} to be modified}
+\item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.}
 
@@ -24,7 +24,7 @@ Additional optional mappings are: 'subPlot', 'obsEndDate' and 'stratumName'.}
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
 \value{
-The modified object of class \code{\linkS4class{VegX}}
+The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
 Adds aggregated taxon observation records to a VegX object from a data table
