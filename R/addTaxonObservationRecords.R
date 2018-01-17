@@ -38,7 +38,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNames = as.character(x[[mapping[["stratumName"]]]])
-    if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations. Revise mapping or provide a stratum definition.")
+    if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.\n  Revise mapping or provide a stratum definition.")
   } else {
     if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
   }
@@ -88,7 +88,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' already included.\n"))
   }
   # stratum definition
-  if(!is.null(stratumDefinition)) {
+  if(stratumFlag) {
     # stratum definition method (WARNING: method match should be made by attributes?)
     stratumDefMethod = stratumDefinition@method
     snmtid = .newMethodIDByName(target,stratumDefMethod@name)
@@ -190,6 +190,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                                                           "taxonNameUsageConceptID" = ntnucid$id,
                                                                           "attributeID" = attID[1],
                                                                           "value" = values[i])
+      if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = nstroid$id
       aggObsCounter = aggObsCounter + 1
     } else {
       ind = which(abundanceCodes==as.character(values[i]))
@@ -198,6 +199,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                                                             "taxonNameUsageConceptID" = ntnucid$id,
                                                                             "attributeID" = attIDs[ind],
                                                                             "value" = values[i])
+        if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = nstroid$id
         aggObsCounter = aggObsCounter + 1
       }
       else stop(paste0("Value '", values[i],"' not found in measurement definition. Please revise scale or data."))

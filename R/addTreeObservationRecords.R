@@ -40,7 +40,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNames = as.character(x[[mapping[["stratumName"]]]])
-    if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations. Revise mapping or provide a stratum definition.")
+    if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.\n  Revise mapping or provide a stratum definition.")
   } else {
     if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
   }
@@ -130,7 +130,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   }
 
   # stratum definition
-  if(!is.null(stratumDefinition)) {
+  if(stratumFlag) {
     # stratum definition method (WARNING: method match should be made by attributes?)
     stratumDefMethod = stratumDefinition@method
     snmtid = .newMethodIDByName(target,stratumDefMethod@name)
