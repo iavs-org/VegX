@@ -32,3 +32,6 @@ Adds tree observation records to a VegX object from a data table,
 using a mapping to identify columns: plot, observation date, taxon name and diameter.
 Additional mappings can be used to specify a stratum where the tree is located.
 }
+\seealso{
+\code{\link{addTaxonObservationRecords}}.
+}

@@ -18,6 +18,8 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @seealso \code{\link{addTaxonObservationRecords}}.
+#'
 #' @examples
 addTreeObservationRecords<-function(target, x, projectTitle,
                                     mapping,

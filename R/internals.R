@@ -130,3 +130,16 @@
    }
    return(cnt)
 }
+
+.getNumberOfPlotObservationsInSubPlots<-function(target) {
+  cnt = 0
+  if(length(target@plotObservations)>0) {
+    for(i in 1:length(target@plotObservations)) {
+      plot = target@plots[[target@plotObservations[[i]]$plotID]]
+      if("parentPlotID" %in% names(plot)) {
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(cnt)
+}
