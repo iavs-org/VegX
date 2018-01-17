@@ -170,5 +170,112 @@ addTreeObservationRecords<-function(target, x, projectTitle,
       if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
     }
   }
+
+
+  orinplots = length(target@plots)
+  orinplotobs = length(target@plotObservations)
+  orinstrobs = length(target@stratumObservations)
+  orintuc = length(target@taxonNameUsageConcepts)
+  orininds = length(target@individuals)
+  orinindobs = length(target@individualObservations)
+  parsedPlots = character(0)
+  parsedPlotIDs = character(0)
+  parsedPlotObs = character(0)
+  parsedPlotObsIDs = character(0)
+  parsedTNUCs = character(0)
+  parsedTNUCIDs = character(0)
+  parsedStrObs = character(0)
+  parsedStrObsIDs = character(0)
+  parsedInds = character(0)
+  parsedIndIDs = character(0)
+  indObsCounter = orinindobs+1 #counter
+  #Record parsing loop
+  for(i in 1:nrecords) {
+    #plot
+    if(!(plotNames[i] %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+      plotID = npid$id
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
+      parsedPlots = c(parsedPlots, plotNames[i])
+      parsedPlotIDs = c(parsedPlotIDs, plotID)
+    } else { #this access should be faster
+      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+    }
+    #plot observation
+    pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
+    if(!(pObsString %in% parsedPlotObs)) {
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      plotObsID = npoid$id
+      if(npoid$new) {
+        target@plotObservations[[plotObsID]] = list("plotID" = plotID,
+                                                    "projectID" = projectID,
+                                                    "obsStartDate" = obsStartDates[i])
+        if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
+      }
+      parsedPlotObs = c(parsedPlotObs, pObsString)
+      parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
+    } else {
+      plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
+    }
+    # taxon name
+    if(!(taxonAuthorNames[i] %in% parsedTNUCs)) {
+      ntnucid = .newTaxonNameUsageConceptIDByName(target, taxonAuthorNames[i]) # Get the new taxon name usage ID (internal code)
+      tnucID = ntnucid$id
+      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorName" = taxonAuthorNames[i])
+      parsedTNUCs = c(parsedTNUCs, taxonAuthorNames[i])
+      parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
+    } else {
+      tnucID = parsedTNUCIDs[which(parsedTNUCs==taxonAuthorNames[i])]
+    }
+
+    # strata
+    if(stratumFlag) {
+      strID = .getStratumIDByName(target, stratumNames[i])
+      if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
+      strObsString = paste(plotObsID, strID) # plotObsID+stratumID
+      if(!(strObsString %in% parsedStrObs)) {
+        nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)
+        strObsID = nstroid$id
+        if(nstroid$new) target@stratumObservations[[strObsID]] = list("plotObservationID" = plotObsID,
+                                                                      "stratumID" = strID)
+        parsedStrObs = c(parsedStrObs, strObsString)
+        parsedStrObsIDs = c(parsedStrObsIDs, strObsID)
+      } else {
+        strObsID = parsedStrObsIDs[which(parsedStrObs==stratumNames[i])]
+      }
+    }
+
+    # individual
+    if(individualFlag) { # Allow for repeated observations on the same individuals
+      if(!(individuals[i] %in% parsedInds)) {
+        nindid = .newIndividualByIdentificationLabel(target, individuals[i]) # Get the new individual ID (internal code)
+        indID = nindid$id
+        if(nindid$new) target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID,
+                                                                  "identificationLabel" = individuals[i])
+        parsedInds = c(parsedInds, individuals[i])
+        parsedIndIDs = c(parsedIndIDs, indID)
+      } else {
+        indID = parsedIndIDs[which(parsedInds==individuals[i])]
+      }
+    } else { # Add a new individual for each individual observation record
+      indID = as.character(length(target@individualOrganisms)+1)
+      target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID)
+    }
+  }
+  finnplots = length(target@plots)
+  finnplotobs = length(target@plotObservations)
+  finnstrobs = length(target@stratumObservations)
+  finntuc = length(target@taxonNameUsageConcepts)
+  finninds = length(target@individuals)
+  finnindobs = length(target@individualObservations)
+  if(verbose) {
+    cat(paste0(" ", finnplots-orinplots, " new plots added.\n"))
+    cat(paste0(" ", finnplotobs-orinplotobs, " new plot observations added.\n"))
+    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concepts added.\n"))
+    if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observations added.\n"))
+    cat(paste0(" ", finninds-orininds, " new individual organisms added.\n"))
+    cat(paste0(" ", finnindobs-orinindobs, " new individual organism observations added.\n"))
+  }
+
   return(target)
 }

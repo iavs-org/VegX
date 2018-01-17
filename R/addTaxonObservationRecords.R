@@ -135,49 +135,70 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   orintuc = length(target@taxonNameUsageConcepts)
   orinaggobs = length(target@aggregatedObservations)
   parsedPlots = character(0)
+  parsedPlotIDs = character(0)
   parsedPlotObs = character(0)
+  parsedPlotObsIDs = character(0)
   parsedTNUCs = character(0)
+  parsedTNUCIDs = character(0)
   parsedStrObs = character(0)
+  parsedStrObsIDs = character(0)
   aggObsCounter = orinaggobs+1 #counter
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
     if(!(plotNames[i] %in% parsedPlots)) {
       npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
-      if(npid$new) target@plots[[npid$id]] = list("plotName" = plotNames[i])
+      plotID = npid$id
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
       parsedPlots = c(parsedPlots, plotNames[i])
+      parsedPlotIDs = c(parsedPlotIDs, plotID)
+    } else { #this access should be faster
+      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
     }
     #plot observation
-    pObsString = paste(npid$id, obsStartDates[i]) # plotID+Date
+    pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
-      npoid = .newPlotObsIDByDate(target, npid$id, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      plotObsID = npoid$id
       if(npoid$new) {
-        target@plotObservations[[npoid$id]] = list("plotID" = npid$id,
+        target@plotObservations[[plotObsID]] = list("plotID" = plotID,
                                                    "projectID" = projectID,
                                                    "obsStartDate" = obsStartDates[i])
-        if(obsEndFlag) target@plotObservations[[npoid$id]]$obsEndDate = obsEndDates[i]
+        if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
+      parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
+    } else {
+      plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
     if(!(taxonAuthorNames[i] %in% parsedTNUCs)) {
       ntnucid = .newTaxonNameUsageConceptIDByName(target, taxonAuthorNames[i]) # Get the new taxon name usage ID (internal code)
-      if(ntnucid$new) target@taxonNameUsageConcepts[[ntnucid$id]] = list("authorName" = taxonAuthorNames[i])
+      tnucID = ntnucid$id
+      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorName" = taxonAuthorNames[i])
       parsedTNUCs = c(parsedTNUCs, taxonAuthorNames[i])
+      parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
+    } else {
+      tnucID = parsedTNUCIDs[which(parsedTNUCs==taxonAuthorNames[i])]
     }
 
     # strata
     if(stratumFlag) {
       strID = .getStratumIDByName(target, stratumNames[i])
       if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
-      strObsString = paste(npoid$id, strID) # plotObsID+stratumID
+      strObsString = paste(plotObsID, strID) # plotObsID+stratumID
       if(!(strObsString %in% parsedStrObs)) {
-        nstroid = .newStratumObsIDByIDs(target, npoid$id, strID) # Get the new stratum observation ID (internal code)
-        if(nstroid$new) target@stratumObservations[[nstroid$id]] = list("plotObservationID" = npoid$id,
-                                                                        "stratumID" = strID)
+        nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)
+        strObsID = nstroid$id
+        if(nstroid$new) target@stratumObservations[[strObsID]] = list("plotObservationID" = plotObsID,
+                                                                      "stratumID" = strID)
         parsedStrObs = c(parsedStrObs, strObsString)
+        parsedStrObsIDs = c(parsedStrObsIDs, strObsID)
+      } else {
+        strObsID = parsedStrObsIDs[which(parsedStrObs==stratumNames[i])]
       }
     }
+
     # agg org observations
     if(abundanceMethod@attributeType== "quantitative") {
       if(values[i]> abundanceMethod@attributes[[1]]$upperBound) {
@@ -186,20 +207,20 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       else if(values[i] < abundanceMethod@attributes[[1]]$lowerBound) {
         stop(paste0("Value '", values[i],"' smaller than lower bound of measurement definition. Please revise scale or data."))
       }
-      target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = npoid$id,
-                                                                          "taxonNameUsageConceptID" = ntnucid$id,
+      target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
+                                                                          "taxonNameUsageConceptID" = tnucID,
                                                                           "attributeID" = attID[1],
                                                                           "value" = values[i])
-      if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = nstroid$id
+      if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
       aggObsCounter = aggObsCounter + 1
     } else {
       ind = which(abundanceCodes==as.character(values[i]))
       if(length(ind)==1) {
-        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = npoid$id,
-                                                                            "taxonNameUsageConceptID" = ntnucid$id,
+        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
+                                                                            "taxonNameUsageConceptID" = tnucID,
                                                                             "attributeID" = attIDs[ind],
                                                                             "value" = values[i])
-        if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = nstroid$id
+        if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
         aggObsCounter = aggObsCounter + 1
       }
       else stop(paste0("Value '", values[i],"' not found in measurement definition. Please revise scale or data."))
