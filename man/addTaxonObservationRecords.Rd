@@ -5,7 +5,7 @@
 \title{Add taxon observation records}
 \usage{
 addTaxonObservationRecords(target, x, projectTitle, mapping, abundanceMethod,
-  stratumDefinition = NULL, missing.values = c("NA", "0", ""),
+  stratumDefinition = NULL, missing.values = c(NA, "0", ""),
   verbose = TRUE)
 }
 \arguments{

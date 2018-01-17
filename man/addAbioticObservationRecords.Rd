@@ -5,8 +5,7 @@
 \title{Add abiotic observation records}
 \usage{
 addAbioticObservationRecords(target, x, projectTitle, mapping,
-  measurementMethods = list(), missing.values = c("NA", ""),
-  verbose = TRUE)
+  measurementMethods = list(), missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}

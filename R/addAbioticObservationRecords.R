@@ -26,7 +26,7 @@
 addAbioticObservationRecords<-function(target, x, projectTitle,
                                        mapping,
                                        measurementMethods = list(),
-                                       missing.values = c("NA",""),
+                                       missing.values = c(NA,""),
                                        verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)

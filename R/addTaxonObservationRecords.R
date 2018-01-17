@@ -25,7 +25,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
                                      mapping,
                                      abundanceMethod,
                                      stratumDefinition = NULL,
-                                     missing.values = c("NA", "0", ""),
+                                     missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
 
   x = as.data.frame(x)
@@ -260,11 +260,11 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   finntuc = length(target@taxonNameUsageConcepts)
   finnaggobs = length(target@aggregatedObservations)
   if(verbose) {
-    cat(paste0(" ", finnplots-orinplots, " new plot(s) added.\n"))
-    cat(paste0(" ", finnplotobs-orinplotobs, " new plot observation(s) added.\n"))
-    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concept(s) added.\n"))
-    if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observation(s) added.\n"))
-    cat(paste0(" ", finnaggobs-orinaggobs, " new aggregated organism observation(s) added.\n"))
+    cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new added.\n"))
+    cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new added.\n"))
+    cat(paste0(" " , length(parsedTNUCs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
+    if(stratumFlag) cat(paste0(" " , length(parsedStrObs)," stratum observation(s) parsed, ", finnstrobs-orinstrobs, " new added.\n"))
+    cat(paste0(" ", nrecords," record(s) parsed, ", finnaggobs-orinaggobs, " new aggregated organism observation(s) added.\n"))
     if(nmissing>0) cat(paste0(" ", nmissing, " aggregated organism observation(s) with missing abundance value(s) not added.\n"))
   }
 

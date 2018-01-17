@@ -5,7 +5,7 @@
 \title{Add tree observation records}
 \usage{
 addTreeObservationRecords(target, x, projectTitle, mapping, diameterMethod,
-  heightMethod = NULL, stratumDefinition = NULL, missing.values = c("NA",
+  heightMethod = NULL, stratumDefinition = NULL, missing.values = c(NA,
   "0", ""), verbose = TRUE)
 }
 \arguments{

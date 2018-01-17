@@ -28,7 +28,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
                                     diameterMethod,
                                     heightMethod = NULL,
                                     stratumDefinition = NULL,
-                                    missing.values = c("NA", "0", ""),
+                                    missing.values = c(NA, "0", ""),
                                     verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
@@ -325,12 +325,12 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   finninds = length(target@individualOrganisms)
   finnindobs = length(target@individualObservations)
   if(verbose) {
-    cat(paste0(" ", finnplots-orinplots, " new plot(s) added.\n"))
-    cat(paste0(" ", finnplotobs-orinplotobs, " new plot observation(s) added.\n"))
-    cat(paste0(" ", finntuc-orintuc, " new taxon name usage concept(s) added.\n"))
-    if(stratumFlag) cat(paste0(" ", finnstrobs-orinstrobs, " new stratum observation(s) added.\n"))
-    cat(paste0(" ", finninds-orininds, " new individual organism(s) added.\n"))
-    cat(paste0(" ", finnindobs-orinindobs, " new individual organism observation(s) added.\n"))
+    cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new added.\n"))
+    cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new added.\n"))
+    cat(paste0(" " , length(parsedTNUCs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
+    if(stratumFlag) cat(paste0(" " , length(parsedStrObs)," stratum observation(s) parsed, ", finnstrobs-orinstrobs, " new added.\n"))
+    cat(paste0(" " , length(parsedInds)," individual organism(s) parsed, ", finninds-orininds, " new added.\n"))
+    cat(paste0(" ", nrecords," record(s) parsed, ", finnindobs-orinindobs, " new individual organism observation(s) added.\n"))
     if(nmissing>0) cat(paste0(" ", nmissing, " individual organism observation(s) with missing diameter value(s) not added.\n"))
   }
 
