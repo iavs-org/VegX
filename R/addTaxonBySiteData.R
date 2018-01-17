@@ -97,7 +97,7 @@ addTaxonBySiteData <-function(target,
     # add attributes if necessary
     cnt = length(target@attributes)+1
     for(i in 1:length(abundanceMethod@attributes)) {
-      attid = as.character(cnt)
+      attid = as.character(length(target@attributes)+1)
       target@attributes[[attid]] = abundanceMethod@attributes[[i]]
       target@attributes[[attid]]$methodID = methodID
       cnt = cnt + 1

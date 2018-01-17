@@ -8,10 +8,11 @@
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Abiotic variables that can be mapped are: 'phosphorus', 'pottasium', 'magnesium', 'nitrogen' and 'ph'.
+#' Abiotic variables that can be mapped are: 'phosphorus', 'pottasium', 'magnesium', 'nitrogen' and 'pH'.
 #' Additional optional mappings are: 'subPlotName' and 'obsEndDate'.
-#' @param measurementMethods A list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
-#' for each of the abiotic variables stated in \code{mapping}.
+#' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
+#' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -32,6 +33,19 @@ addAbioticObservationRecords<-function(target, x, projectTitle,
   nrecords = nrow(x)
   nmissing = 0
 
+
+  #check mappings
+  abioticVariables = c('phosphorus', 'pottasium', 'magnesium', 'nitrogen','pH')
+  mappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", abioticVariables)
+  abioticValues = list()
+  for(i in 1:length(mapping)) {
+    if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
+    if(names(mapping)[i] %in% abioticVariables) {
+      if(!(names(mapping)[i] %in% names(measurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(mapping)[i], "'."))
+      abioticValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
+    }
+  }
+
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
@@ -49,6 +63,13 @@ addAbioticObservationRecords<-function(target, x, projectTitle,
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
 
+  #check methods for abiotic variables
+  for(i in 1:length(measurementMethods)) {
+    if(!(names(measurementMethods)[i] %in% abioticVariables)) stop(paste0("Method for '", names(measurementMethods)[i], "' cannot be applied."))
+    if(!(names(measurementMethods)[i] %in% names(mapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(measurementMethods)[i], "'."))
+  }
+
+
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
   projectID = nprid$id
@@ -59,6 +80,42 @@ addAbioticObservationRecords<-function(target, x, projectTitle,
     if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
+
+  #add methods
+  methodIDs = character(0)
+  methodCodes = list()
+  methodAttIDs = list()
+  for(m in names(measurementMethods)) {
+    method = measurementMethods[[m]]
+    nmtid = .newMethodIDByName(target,method@name)
+    methodID = nmtid$id
+    methodIDs[[m]] = methodID
+    methodCodes[[m]] = character(0)
+    methodAttIDs[[m]] = character(0)
+    if(nmtid$new) {
+      target@methods[[methodID]] = list(name = method@name,
+                                        description = method@description,
+                                        attributeClass = method@attributeClass,
+                                        attributeType = method@attributeType)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add attributes if necessary
+      cnt = length(target@attributes)+1
+      methodAttIDs[[m]] = character(length(method@attributes))
+      methodCodes[[m]] = character(length(method@attributes))
+      for(i in 1:length(method@attributes)) {
+        attid = as.character(length(target@attributes)+1)
+        target@attributes[[attid]] = method@attributes[[i]]
+        target@attributes[[attid]]$methodID = methodID
+        methodAttIDs[[m]][i] = attid
+        if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
+        cnt = cnt + 1
+      }
+    } else {
+      methodCodes[[m]] = .getAttributeCodesByMethodID(methodID)
+      methodAttIDs[[m]] = .getAttributeIDsByMethodID(methodID)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
+    }
+  }
 
 
   orinplots = length(target@plots)
@@ -114,6 +171,39 @@ addAbioticObservationRecords<-function(target, x, projectTitle,
     } else {
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
+    #abiotic observations
+    abioObsID = as.character(length(target@abioticObservations)+1)
+    abioObs = list("plotObservationID" = plotObsID)
+    for(m in names(measurementMethods)) {
+      value = abioticValues[[m]][i]
+      method = measurementMethods[[m]]
+      attIDs = methodAttIDs[[m]]
+      codes = methodCodes[[m]]
+      if(!(value %in% as.character(missing.values))) {
+        if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
+          if(value > method@attributes[[1]]$upperBound) {
+            stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+          }
+          else if(value < method@attributes[[1]]$lowerBound) {
+            stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
+          }
+          abioObs[[m]] = list("attributeID" = attIDs[[1]],
+                              "value" = value)
+        } else {
+          ind = which(codes==as.character(value))
+          if(length(ind)==1) {
+            abioObs[[m]] = list("attributeID" = attIDs[[ind]],
+                                "value" = value)
+          }
+          else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
+        }
+      } else {
+        nmissing = nmissing + 1
+      }
+
+    }
+    target@abioticObservations[[abioObsID]] = abioObs
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
@@ -122,7 +212,7 @@ addAbioticObservationRecords<-function(target, x, projectTitle,
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new plot(s) added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new plot observation(s) added.\n"))
     cat(paste0(" ", nrecords," record(s) parsed, ", finnabioobs-orinabioobs, " new abiotic observation(s) added.\n"))
-    if(nmissing>0) cat(paste0(" ", nmissing, " measurement(s) with missing value(s) not added.\n"))
+    if(nmissing>0) cat(paste0(" ", nmissing, " abiotic measurement(s) with missing value(s) not added.\n"))
   }
 
   return(target)

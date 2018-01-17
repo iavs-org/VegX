@@ -94,7 +94,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
     # add attributes if necessary
     cnt = length(target@attributes)+1
     for(i in 1:length(diameterMethod@attributes)) {
-      attid = as.character(cnt)
+      attid = as.character(length(target@attributes)+1)
       target@attributes[[attid]] = diameterMethod@attributes[[i]]
       target@attributes[[attid]]$methodID = methodID
       diamAttIDs[i] = attid
@@ -121,7 +121,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
       # add attributes if necessary
       cnt = length(target@attributes)+1
       for(i in 1:length(heightMethod@attributes)) {
-        attid = as.character(cnt)
+        attid = as.character(length(target@attributes)+1)
         target@attributes[[attid]] = heightMethod@attributes[[i]]
         target@attributes[[attid]]$methodID = methodID
         heightAttIDs[i] = attid
@@ -151,7 +151,7 @@ addTreeObservationRecords<-function(target, x, projectTitle,
       # add attributes if necessary
       cnt = length(target@attributes)+1
       for(i in 1:length(stratumDefMethod@attributes)) {
-        attid = as.character(cnt)
+        attid = as.character(length(target@attributes)+1)
         target@attributes[[attid]] = stratumDefMethod@attributes[[i]]
         target@attributes[[attid]]$methodID = strmethodID
         cnt = cnt + 1

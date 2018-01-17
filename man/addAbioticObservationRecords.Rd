@@ -15,11 +15,12 @@ addAbioticObservationRecords(target, x, projectTitle, mapping,
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Abiotic variables that can be mapped are: 'phosphorus', 'pottasium', 'magnesium', 'nitrogen' and 'ph'.
+Abiotic variables that can be mapped are: 'phosphorus', 'pottasium', 'magnesium', 'nitrogen' and 'pH'.
 Additional optional mappings are: 'subPlotName' and 'obsEndDate'.}
 
-\item{measurementMethods}{A list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
-for each of the abiotic variables stated in \code{mapping}.}
+\item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
+(e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 

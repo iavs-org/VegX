@@ -29,7 +29,8 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("   Methods: ", length(object@methods),"\n"))
   if(length(object@methods)>0) {
     for(i in 1:length(object@methods)){
-      cat(paste0("      ",i,". ", object@methods[[i]]$name," [",object@methods[[i]]$attributeClass,"/",object@methods[[i]]$attributeType,"]\n"))
+      attIDs = .getAttributeIDsByMethodID(object, names(object@methods)[i])
+      cat(paste0("      ",i,". ", object@methods[[i]]$name," [",object@methods[[i]]$attributeClass," / ",length(attIDs), " ", object@methods[[i]]$attributeType," atts.]\n"))
     }
   }
   cat(paste0("\n"))
@@ -42,6 +43,8 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("   Aggregated organism observations: ", length(object@aggregatedObservations),"\n"))
   cat(paste0("\n"))
   cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
+  cat(paste0("\n"))
+  cat(paste0("   Abiotic observations: ", length(object@abioticObservations),"\n"))
   cat(paste0("\n"))
   cat(paste0("================================================================\n"))
 })

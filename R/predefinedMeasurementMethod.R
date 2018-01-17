@@ -4,7 +4,7 @@
 #'
 #' @param name A string with the desired measurement method. Current accepted options are:
 #' \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-#' \code{"Plant height"}, \code{"DBH"}.
+#' \code{"Plant height"}, \code{"DBH"}, \code{"pH"}.
 #'
 #'
 #' @return an object of class \code{\linkS4class{VegXMethod}}
@@ -85,6 +85,21 @@ predefinedMeasurementMethod<-function(name) {
                name = "DBH",
                description = "Diameter at breast height, in cm",
                attributeClass = "plant diameter",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
+  else if (name=="pH") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "pH",
+           lowerBound = 0,
+           upperBound = 14)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "pH",
+               description = "pH scale",
+               attributeClass = "pH",
                attributeType = "quantitative",
                attributes = attributes))
   }

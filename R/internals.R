@@ -49,6 +49,7 @@
   return(list(id = as.character(length(target@taxonNameUsageConcepts)+1), new = TRUE))
 }
 
+
 # Returns strata names corresponding to the input method
 .getAttributeCodesByMethodID<-function(target, methodID) {
   attVec = character(0)
@@ -72,7 +73,7 @@
     cnt = 1
     for(i in 1:length(target@attributes)) {
       if(target@attributes[[i]]$methodID==methodID) {
-        attVec[cnt] = names(target@attributes[[i]])
+        attVec[cnt] = names(target@attributes)[i]
         cnt = cnt + 1
       }
     }
@@ -110,6 +111,8 @@
   }
   return(strVec)
 }
+
+
 
 .getStratumIDByName<-function(target, stratumName) {
   if(length(target@strata)>0) {
