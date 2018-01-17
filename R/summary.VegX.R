@@ -10,10 +10,15 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("   Taxon names: ", length(object@taxonNames),"\n"))
   cat(paste0("   Taxon name usage concepts: ", length(object@taxonNameUsageConcepts),"\n"))
   cat(paste0("\n"))
+  cat(paste0("   Methods: ", length(object@methods),"\n"))
+  if(length(object@methods)>0) {
+    for(i in 1:length(object@methods)){
+      cat(paste0("    + ", object@methods[[i]]$name," [",object@methods[[i]]$attributeClass,"/",object@methods[[i]]$attributeType,"]\n"))
+    }
+  }
+  cat(paste0("\n"))
   cat(paste0("   Individual organism observations: ", length(object@individualObservations),"\n"))
   cat(paste0("   Aggregated organism observations: ", length(object@aggregatedObservations),"\n"))
   cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
-  cat(paste0("\n"))
-  cat(paste0("   Measurement methods: ", length(object@methods),"\n"))
   cat(paste0("============================================================\n"))
 })

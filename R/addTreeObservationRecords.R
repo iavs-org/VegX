@@ -40,6 +40,9 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNames = as.character(x[[mapping[["stratumName"]]]])
+    if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations. Revise mapping or provide a stratum definition.")
+  } else {
+    if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
   }
   obsEndFlag = ("obsEndDate" %in% names(mapping))
   if(obsEndFlag) {
@@ -52,6 +55,9 @@ addTreeObservationRecords<-function(target, x, projectTitle,
   heightFlag = ("height" %in% names(mapping))
   if(stratumFlag) {
     heights = as.character(x[[mapping[["height"]]]])
+    if(is.null(heightMethod)) stop("Height method must be supplied to map individual heights. Revise mapping or provide a method.")
+  } else {
+    if(!is.null(heightMethod)) stop("You need to include a mapping for 'height' in order to map individual heights.")
   }
   individualFlag = ("individual" %in% names(mapping))
   if(stratumFlag) {
@@ -93,4 +99,76 @@ addTreeObservationRecords<-function(target, x, projectTitle,
     diamAttIDs = .getAttributeIDsByMethodID(methodID)
     if(verbose) cat(paste0(" Diameter measurement method '", diameterMethod@name,"' already included.\n"))
   }
+
+  if(heightFlag) {
+    nmtid = .newMethodIDByName(target,heightMethod@name)
+    methodID = nmtid$id
+    heightCodes = character(0)
+    heightAttIDs = character(0)
+    if(nmtid$new) {
+      target@methods[[methodID]] = list(name = heightMethod@name,
+                                        description = heightMethod@description,
+                                        attributeClass = heightMethod@attributeClass,
+                                        attributeType = heightMethod@attributeType)
+      if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' added.\n"))
+      # add attributes if necessary
+      cnt = length(target@attributes)+1
+      for(i in 1:length(heightMethod@attributes)) {
+        attid = as.character(cnt)
+        target@attributes[[attid]] = heightMethod@attributes[[i]]
+        target@attributes[[attid]]$methodID = methodID
+        heightAttIDs[i] = attid
+        if(heightMethod@attributes[[i]]$type != "quantitative") heightCodes[i] = heightMethod@attributes[[i]]$code
+        cnt = cnt + 1
+      }
+    } else {
+      heightCodes = .getAttributeCodesByMethodID(methodID)
+      heightAttIDs = .getAttributeIDsByMethodID(methodID)
+      if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' already included.\n"))
+    }
+
+  }
+
+  # stratum definition
+  if(!is.null(stratumDefinition)) {
+    # stratum definition method (WARNING: method match should be made by attributes?)
+    stratumDefMethod = stratumDefinition@method
+    snmtid = .newMethodIDByName(target,stratumDefMethod@name)
+    strmethodID = snmtid$id
+    if(snmtid$new) {
+      target@methods[[strmethodID]] = list(name = stratumDefMethod@name,
+                                           description = stratumDefMethod@description,
+                                           attributeClass = stratumDefMethod@attributeClass,
+                                           attributeType = stratumDefMethod@attributeType)
+      if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
+      # add attributes if necessary
+      cnt = length(target@attributes)+1
+      for(i in 1:length(stratumDefMethod@attributes)) {
+        attid = as.character(cnt)
+        target@attributes[[attid]] = stratumDefMethod@attributes[[i]]
+        target@attributes[[attid]]$methodID = strmethodID
+        cnt = cnt + 1
+      }
+      # add strata (beware of new strata)
+      orinstrata = length(target@strata)
+      nstr = length(stratumDefinition@strata)
+      stratumIDs = character(0)
+      cnt = length(target@strata)+1
+      for(i in 1:nstr) {
+        strid = as.character(cnt)
+        stratumIDs[i] = strid
+        target@strata[[strid]] = stratumDefinition@strata[[i]]
+        target@strata[[strid]]$methodID = strmethodID
+        cnt = cnt + 1
+      }
+      finnstrata = length(target@strata)
+      if(verbose) {
+        cat(paste0(" ", finnstrata-orinstrata, " new stratum definitions added.\n"))
+      }
+    } else { #Read stratum IDs and stratum names from selected method
+      stratumIDs = .getStratumIDsByMethodID(strmethodID)
+      if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
+    }
+  }
+  return(target)
 }

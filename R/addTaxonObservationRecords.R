@@ -38,6 +38,9 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNames = as.character(x[[mapping[["stratumName"]]]])
+    if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations. Revise mapping or provide a stratum definition.")
+  } else {
+    if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
   }
   obsEndFlag = ("obsEndDate" %in% names(mapping))
   if(obsEndFlag) {
