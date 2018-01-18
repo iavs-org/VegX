@@ -8,5 +8,6 @@ Description: Functions to import, integrate, harmonize and export vegetation dat
 License: GPL (>= 2)
 Encoding: UTF-8
 Depends: XML
+Imports: sp
 LazyData: true
 RoxygenNote: 6.0.1

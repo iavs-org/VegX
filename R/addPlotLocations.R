@@ -1,18 +1,17 @@
-#' Adds (static) site information
+#' Adds plot location information
 #'
-#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
-#' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
+#' Adds/replaces static plot location information (spatial coordinates, place names, ...) to plot elements of a VegX object from a data table where rows are plots,
+#' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
+#' @param points An object of class \code{\link{SpatialPoints}} with coordinates in a reference system.
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Site variables that can be mapped are: 'elevation','slope', 'aspect', 'landform', 'parentMaterial', 'geologyClass'.
-#' Additional optional mappings are: 'subPlotName'.
-#' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
-#' for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
-#' (e.g. \code{list(aspect = aspectMeth)} to specify the use of method '\code{aspectMeth}' for aspect measurements).
-#' @param missing.values A character vector of values that should be considered as missing observations/measurements.
+#' Site variables that can be mapped are: 'authorLocation','locationNarrative', 'placeName', 'placeType'.
+#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations
+#' @param reset.locations Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.
+#' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -20,21 +19,21 @@
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
-#' @seealso \code{\link{addTaxonObservationRecords}}, \code{\link{addTreeObservationRecords}}.
+#' @seealso \code{\link{addSiteCharacteristics}}.
 #'
 #' @examples
-addSiteCharacteristics<-function(target, x, projectTitle,
-                                 mapping,
-                                 measurementMethods = list(),
-                                 missing.values = c(NA,""),
-                                 verbose = TRUE) {
+addPlotLocations<-function(target, points, x, projectTitle,
+                           mapping,
+                           reset.locations = FALSE,
+                           missing.values = c(NA,""),
+                           verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
 
 
   #check mappings
-  siteVariables = c("elevation","slope", "aspect", "landform", "parentMaterial", "geologyClass")
+  siteVariables = c("authorLocation","slope", "aspect", "landform", "parentMaterial", "geologyClass")
   mappingsAvailable = c("plotName", "subPlotName", siteVariables)
   siteValues = list()
   for(i in 1:length(mapping)) {
@@ -79,42 +78,6 @@ addSiteCharacteristics<-function(target, x, projectTitle,
   }
 
 
-  #add methods
-  methodIDs = character(0)
-  methodCodes = list()
-  methodAttIDs = list()
-  for(m in names(measurementMethods)) {
-    method = measurementMethods[[m]]
-    nmtid = .newMethodIDByName(target,method@name)
-    methodID = nmtid$id
-    methodIDs[[m]] = methodID
-    methodCodes[[m]] = character(0)
-    methodAttIDs[[m]] = character(0)
-    if(nmtid$new) {
-      target@methods[[methodID]] = list(name = method@name,
-                                        description = method@description,
-                                        attributeClass = method@attributeClass,
-                                        attributeType = method@attributeType)
-      if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
-      # add attributes if necessary
-      cnt = length(target@attributes)+1
-      methodAttIDs[[m]] = character(length(method@attributes))
-      methodCodes[[m]] = character(length(method@attributes))
-      for(i in 1:length(method@attributes)) {
-        attid = as.character(length(target@attributes)+1)
-        target@attributes[[attid]] = method@attributes[[i]]
-        target@attributes[[attid]]$methodID = methodID
-        methodAttIDs[[m]][i] = attid
-        if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
-        cnt = cnt + 1
-      }
-    } else {
-      methodCodes[[m]] = .getAttributeCodesByMethodID(methodID)
-      methodAttIDs[[m]] = .getAttributeIDsByMethodID(methodID)
-      if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
-    }
-  }
-
 
   orinplots = length(target@plots)
   parsedPlots = character(0)
@@ -148,44 +111,39 @@ addSiteCharacteristics<-function(target, x, projectTitle,
         }
       }
     }
-    #site characteristics
-    for(m in names(measurementMethods)) {
+    #Add 'plotLocation' element if necessary
+    if(!("plotLocation" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]["plotLocation"] = list()
+
+    # Reset 'locations' element if necessary
+    if(reset.locations && ("locations" %in% names(target@plots[[plotID]]$plotLocation))) target@plots[[plotID]]$plotLocation$locations = list()
+
+    # Add new location if necessary
+    if(("placeName" %in% names(mapping)) || ("placeType" %in% names(mapping))) {
+      #Add 'locations' element if necessary
+      if(!("locations" %in% names(target@plots[[plotID]]$plotLocation))) target@plots[[plotID]]$plotLocation$locations = list()
+      newloc = paste0(location, length(target@plots[[plotID]]$plotLocation$locations)+1)
+      target@plots[[plotID]]$plotLocation$locations[[newloc]] = list()
+    }
+
+    #Add plot location data
+    for(m in names(mapping)) {
       value = siteValues[[m]][i]
-      method = measurementMethods[[m]]
-      attIDs = methodAttIDs[[m]]
-      codes = methodCodes[[m]]
       if(!(value %in% as.character(missing.values))) {
-        if(method@attributeType== "quantitative") {
-          # print(paste0(plotID," ", m, " ", value))
-          value = as.numeric(value)
-          if(value > method@attributes[[1]]$upperBound) {
-            stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
-          }
-          else if(value < method@attributes[[1]]$lowerBound) {
-            stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
-          }
-          target@plots[[plotID]][[m]] = list("attributeID" = attIDs[[1]],
-                              "value" = value)
-          # print(target@plots[[plotID]][[m]])
+        if((m=="placeName") || (m=="placeType")){ #Add placeName/placeType to location
+          target@plots[[plotID]]$plotLocation$locations[[newloc]][[m]] = value
         } else {
-          ind = which(codes==as.character(value))
-          if(length(ind)==1) {
-            target@plots[[plotID]][[m]] = list("attributeID" = attIDs[[ind]],
-                                "value" = value)
-          }
-          else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
+          target@plots[[plotID]]$plotLocation[[m]] = value
         }
       } else {
         nmissing = nmissing + 1
       }
-
     }
   }
   finnplots = length(target@plots)
   if(verbose) {
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new plot(s) added.\n"))
     cat(paste0(" ", nrecords," record(s) parsed.\n"))
-    if(nmissing>0) cat(paste0(" ", nmissing, " measurement(s) with missing value(s) not added.\n"))
+    if(nmissing>0) cat(paste0(" ", nmissing, " record(s) with missing value(s) not added.\n"))
   }
 
   return(target)
