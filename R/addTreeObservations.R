@@ -1,14 +1,16 @@
-#' Add taxon observation records
+#' Add tree observation records
 #'
-#' Adds aggregated taxon observation records to a VegX object from a data table
-#' using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
+#' Adds tree observation records to a VegX object from a data table,
+#' using a mapping to identify columns: plot, observation date, taxon name and diameter.
+#' Additional mappings can be used to specify a stratum where the tree is located.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param x A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.
-#' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
-#' @param abundanceMethod Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param x A data frame where each row corresponds to one tree observation. Columns can be varied.
+#' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
+#' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.
+#' @param diameterMethod
+#' @param heightMethod
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -18,16 +20,16 @@
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
-#' @seealso \code{\link{addTreeObservationRecords}}.
+#' @seealso \code{\link{addTaxonObservations}}.
 #'
 #' @examples
-addTaxonObservationRecords<-function(target, x, projectTitle,
-                                     mapping,
-                                     abundanceMethod,
-                                     stratumDefinition = NULL,
-                                     missing.values = c(NA, "0", ""),
-                                     verbose = TRUE) {
-
+addTreeObservations<-function(target, x, projectTitle,
+                                    mapping,
+                                    diameterMethod,
+                                    heightMethod = NULL,
+                                    stratumDefinition = NULL,
+                                    missing.values = c(NA, "0", ""),
+                                    verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -39,7 +41,7 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
   taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
-  values = as.character(x[[mapping[["value"]]]])
+  diameters = as.character(x[[mapping[["diameter"]]]])
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
@@ -57,7 +59,17 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
-
+  heightFlag = ("height" %in% names(mapping))
+  if(stratumFlag) {
+    heights = as.character(x[[mapping[["height"]]]])
+    if(is.null(heightMethod)) stop("Height method must be supplied to map individual heights. Revise mapping or provide a method.")
+  } else {
+    if(!is.null(heightMethod)) stop("You need to include a mapping for 'height' in order to map individual heights.")
+  }
+  individualFlag = ("individual" %in% names(mapping))
+  if(stratumFlag) {
+    individuals = as.character(x[[mapping[["individual"]]]])
+  }
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
   projectID = nprid$id
@@ -69,31 +81,61 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   }
 
   #methods/attributes (WARNING: method match should be made by attributes?)
-  nmtid = .newMethodIDByName(target,abundanceMethod@name)
+  nmtid = .newMethodIDByName(target,diameterMethod@name)
   methodID = nmtid$id
-  abundanceCodes = character(0)
-  attIDs = character(0)
+  diameterCodes = character(0)
+  diamAttIDs = character(0)
   if(nmtid$new) {
-    target@methods[[methodID]] = list(name = abundanceMethod@name,
-                                      description = abundanceMethod@description,
-                                      attributeClass = abundanceMethod@attributeClass,
-                                      attributeType = abundanceMethod@attributeType)
-    if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
+    target@methods[[methodID]] = list(name = diameterMethod@name,
+                                      description = diameterMethod@description,
+                                      attributeClass = diameterMethod@attributeClass,
+                                      attributeType = diameterMethod@attributeType)
+    if(verbose) cat(paste0(" Diameter measurement method '", diameterMethod@name,"' added.\n"))
     # add attributes if necessary
     cnt = length(target@attributes)+1
-    for(i in 1:length(abundanceMethod@attributes)) {
+    for(i in 1:length(diameterMethod@attributes)) {
       attid = as.character(length(target@attributes)+1)
-      target@attributes[[attid]] = abundanceMethod@attributes[[i]]
+      target@attributes[[attid]] = diameterMethod@attributes[[i]]
       target@attributes[[attid]]$methodID = methodID
-      attIDs[i] = attid
-      if(abundanceMethod@attributes[[i]]$type != "quantitative") abundanceCodes[i] = abundanceMethod@attributes[[i]]$code
+      diamAttIDs[i] = attid
+      if(diameterMethod@attributes[[i]]$type != "quantitative") diameterCodes[i] = diameterMethod@attributes[[i]]$code
       cnt = cnt + 1
     }
   } else {
-    abundanceCodes = .getAttributeCodesByMethodID(methodID)
-    attIDs = .getAttributeIDsByMethodID(methodID)
-    if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' already included.\n"))
+    diameterCodes = .getAttributeCodesByMethodID(methodID)
+    diamAttIDs = .getAttributeIDsByMethodID(methodID)
+    if(verbose) cat(paste0(" Diameter measurement method '", diameterMethod@name,"' already included.\n"))
   }
+
+  if(heightFlag) {
+    nmtid = .newMethodIDByName(target,heightMethod@name)
+    methodID = nmtid$id
+    heightCodes = character(0)
+    heightAttIDs = character(0)
+    if(nmtid$new) {
+      target@methods[[methodID]] = list(name = heightMethod@name,
+                                        description = heightMethod@description,
+                                        attributeClass = heightMethod@attributeClass,
+                                        attributeType = heightMethod@attributeType)
+      if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' added.\n"))
+      # add attributes if necessary
+      cnt = length(target@attributes)+1
+      for(i in 1:length(heightMethod@attributes)) {
+        attid = as.character(length(target@attributes)+1)
+        target@attributes[[attid]] = heightMethod@attributes[[i]]
+        target@attributes[[attid]]$methodID = methodID
+        heightAttIDs[i] = attid
+        if(heightMethod@attributes[[i]]$type != "quantitative") heightCodes[i] = heightMethod@attributes[[i]]$code
+        cnt = cnt + 1
+      }
+    } else {
+      heightCodes = .getAttributeCodesByMethodID(methodID)
+      heightAttIDs = .getAttributeIDsByMethodID(methodID)
+      if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' already included.\n"))
+    }
+
+  }
+
   # stratum definition
   if(stratumFlag) {
     # stratum definition method (WARNING: method match should be made by attributes?)
@@ -136,11 +178,13 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
     }
   }
 
+
   orinplots = length(target@plots)
   orinplotobs = length(target@plotObservations)
   orinstrobs = length(target@stratumObservations)
   orintuc = length(target@taxonNameUsageConcepts)
-  orinaggobs = length(target@aggregatedObservations)
+  orininds = length(target@individualOrganisms)
+  orinindobs = length(target@individualObservations)
   parsedPlots = character(0)
   parsedPlotIDs = character(0)
   parsedPlotObs = character(0)
@@ -149,7 +193,9 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   parsedTNUCIDs = character(0)
   parsedStrObs = character(0)
   parsedStrObsIDs = character(0)
-  aggObsCounter = orinaggobs+1 #counter
+  parsedInds = character(0)
+  parsedIndIDs = character(0)
+  indObsCounter = orinindobs+1 #counter
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
@@ -186,8 +232,8 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       plotObsID = npoid$id
       if(npoid$new) {
         target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                   "projectID" = projectID,
-                                                   "obsStartDate" = obsStartDates[i])
+                                                    "projectID" = projectID,
+                                                    "obsStartDate" = obsStartDates[i])
         if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
@@ -223,32 +269,50 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
       }
     }
 
-    # agg org observations
-    if(!(values[i] %in% as.character(missing.values))) {
-      if(abundanceMethod@attributeType== "quantitative") {
-        if(values[i]> abundanceMethod@attributes[[1]]$upperBound) {
-          stop(paste0("Value '", values[i],"' larger than upper bound of measurement definition. Please revise scale or data."))
-        }
-        else if(values[i] < abundanceMethod@attributes[[1]]$lowerBound) {
-          stop(paste0("Value '", values[i],"' smaller than lower bound of measurement definition. Please revise scale or data."))
-        }
-        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
-                                                                            "taxonNameUsageConceptID" = tnucID,
-                                                                            "attributeID" = attID[1],
-                                                                            "value" = values[i])
-        if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
-        aggObsCounter = aggObsCounter + 1
+    # individual organisms
+    if(individualFlag) { # Allow for repeated observations on the same individuals
+      if(!(individuals[i] %in% parsedInds)) {
+        nindid = .newIndividualByIdentificationLabel(target, individuals[i]) # Get the new individual ID (internal code)
+        indID = nindid$id
+        if(nindid$new) target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID,
+                                                                  "identificationLabel" = individuals[i])
+        parsedInds = c(parsedInds, individuals[i])
+        parsedIndIDs = c(parsedIndIDs, indID)
       } else {
-        ind = which(abundanceCodes==as.character(values[i]))
-        if(length(ind)==1) {
-          target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
-                                                                              "taxonNameUsageConceptID" = tnucID,
-                                                                              "attributeID" = attIDs[ind],
-                                                                              "value" = values[i])
-          if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
-          aggObsCounter = aggObsCounter + 1
+        indID = parsedIndIDs[which(parsedInds==individuals[i])]
+      }
+    } else { # Add a new individual for each individual observation record
+      indID = as.character(length(target@individualOrganisms)+1)
+      target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID)
+    }
+
+    # agg org observations
+    if(!(diameters[i] %in% as.character(missing.values))) {
+      if(diameterMethod@attributeType== "quantitative") {
+        value = as.numeric(diameters[i])
+        if(value> diameterMethod@attributes[[1]]$upperBound) {
+          stop(paste0("Diameter '", value,"' larger than upper bound of diameter measurement definition. Please revise scale or data."))
         }
-        else stop(paste0("Value '", values[i],"' not found in measurement definition. Please revise scale or data."))
+        else if(value < diameterMethod@attributes[[1]]$lowerBound) {
+          stop(paste0("Diameter '", value,"' smaller than lower bound of diameter measurement definition. Please revise scale or data."))
+        }
+        target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
+                                                                            "individualOrganismID" = indID,
+                                                                            "diameterID" = diamAttIDs[1],
+                                                                            "diameterValue" = value)
+        if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
+        indObsCounter = indObsCounter + 1
+      } else {
+        ind = which(diameterCodes==as.character(diameters[i]))
+        if(length(ind)==1) {
+          target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
+                                                                              "individualOrganismID" = indID,
+                                                                              "attributeID" = diamAttIDs[ind],
+                                                                              "diameterValue" = diameters[i])
+          if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
+          indObsCounter = indObsCounter + 1
+        }
+        else stop(paste0("Diameter '", diameters[i],"' not found in diameter measurement definition. Please revise diameter classes or data."))
       }
     } else {
       nmissing = nmissing + 1
@@ -258,16 +322,17 @@ addTaxonObservationRecords<-function(target, x, projectTitle,
   finnplotobs = length(target@plotObservations)
   finnstrobs = length(target@stratumObservations)
   finntuc = length(target@taxonNameUsageConcepts)
-  finnaggobs = length(target@aggregatedObservations)
+  finninds = length(target@individualOrganisms)
+  finnindobs = length(target@individualObservations)
   if(verbose) {
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new added.\n"))
     cat(paste0(" " , length(parsedTNUCs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
     if(stratumFlag) cat(paste0(" " , length(parsedStrObs)," stratum observation(s) parsed, ", finnstrobs-orinstrobs, " new added.\n"))
-    cat(paste0(" ", nrecords," record(s) parsed, ", finnaggobs-orinaggobs, " new aggregated organism observation(s) added.\n"))
-    if(nmissing>0) cat(paste0(" ", nmissing, " aggregated organism observation(s) with missing abundance value(s) not added.\n"))
+    cat(paste0(" " , length(parsedInds)," individual organism(s) parsed, ", finninds-orininds, " new added.\n"))
+    cat(paste0(" ", nrecords," record(s) parsed, ", finnindobs-orinindobs, " new individual organism observation(s) added.\n"))
+    if(nmissing>0) cat(paste0(" ", nmissing, " individual organism observation(s) with missing diameter value(s) not added.\n"))
   }
-
 
   return(target)
 }

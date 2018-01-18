@@ -21,10 +21,10 @@
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
-#' @seealso \code{\link{addTaxonObservationRecords}}, \code{\link{addTreeObservationRecords}}.
+#' @seealso \code{\link{addTaxonObservations}}, \code{\link{addTreeObservations}}.
 #'
 #' @examples
-addAbioticObservationRecords<-function(target, x, projectTitle,
+addAbioticObservations<-function(target, x, projectTitle,
                                        mapping,
                                        measurementMethods = list(),
                                        missing.values = c(NA,""),
