@@ -4,12 +4,12 @@
 #' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param points An object of class \code{\link{SpatialPoints}} with coordinates in a reference system.
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Site variables that can be mapped are: 'authorLocation','locationNarrative', 'placeName', 'placeType'.
+#' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
 #' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations
+#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
 #' @param reset.locations Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -22,8 +22,9 @@
 #' @seealso \code{\link{addSiteCharacteristics}}.
 #'
 #' @examples
-addPlotLocations<-function(target, points, x, projectTitle,
+addPlotLocations<-function(target, x, projectTitle,
                            mapping,
+                           proj4string = "+proj=longlat +ellps=WGS84",
                            reset.locations = FALSE,
                            missing.values = c(NA,""),
                            verbose = TRUE) {
@@ -33,16 +34,18 @@ addPlotLocations<-function(target, points, x, projectTitle,
 
 
   #check mappings
-  siteVariables = c("authorLocation","slope", "aspect", "landform", "parentMaterial", "geologyClass")
-  mappingsAvailable = c("plotName", "subPlotName", siteVariables)
+  locVariables = c("x", "y", "authorLocation","locationNarrative", "placeName", "placeType")
+  mappingsAvailable = c("plotName", "subPlotName", locVariables)
   siteValues = list()
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
-    if(names(mapping)[i] %in% siteVariables) {
+    if(names(mapping)[i] %in% locVariables) {
       if(!(names(mapping)[i] %in% names(measurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(mapping)[i], "'."))
       siteValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
     }
   }
+  if(("y" %in% names(mapping)) && !("x" %in% names(mapping))) stop("Please supply mapping for 'x' to complete coordinates.")
+  if(("x" %in% names(mapping)) && !("y" %in% names(mapping))) stop("Please supply mapping for 'y' to complete coordinates.")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -58,12 +61,6 @@ addPlotLocations<-function(target, points, x, projectTitle,
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
-  }
-
-  #check methods for abiotic variables
-  for(i in 1:length(measurementMethods)) {
-    if(!(names(measurementMethods)[i] %in% siteVariables)) stop(paste0("Method for '", names(measurementMethods)[i], "' cannot be applied."))
-    if(!(names(measurementMethods)[i] %in% names(mapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(measurementMethods)[i], "'."))
   }
 
 
@@ -138,6 +135,9 @@ addPlotLocations<-function(target, points, x, projectTitle,
         nmissing = nmissing + 1
       }
     }
+
+    #Add projection string if coordinates where supplied
+    if("x" %in% names(mapping)) target@plots[[plotID]]$plotLocation$proj4string = proj4string
   }
   finnplots = length(target@plots)
   if(verbose) {
