@@ -4,21 +4,22 @@
 \alias{addPlotLocations}
 \title{Adds/replaces plot location information}
 \usage{
-addPlotLocations(target, points, x, projectTitle, mapping,
-  reset.locations = FALSE, missing.values = c(NA, ""), verbose = TRUE)
+addPlotLocations(target, x, projectTitle, mapping,
+  proj4string = "+proj=longlat +ellps=WGS84", reset.locations = FALSE,
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
-
-\item{points}{An object of class \code{\link{SpatialPoints}} with coordinates in a reference system.}
 
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
 
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Site variables that can be mapped are: 'authorLocation','locationNarrative', 'placeName', 'placeType'.
+Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
 Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations}
+
+\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.}
 
 \item{reset.locations}{Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.}
 
