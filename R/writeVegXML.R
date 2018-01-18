@@ -26,13 +26,24 @@ writeVegXML<-function(x, file) {
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
     for(i in 1:length(x@plots)){
-      p = newXMLNode("plot", parent = plots)
-      newXMLNode("plotUniqueIdentifier", names(x@plots)[i], parent=p)
+      p = newXMLNode("plot",
+                     attrs = c("id"=names(x@plots)[i]),
+                     parent = plots)
       newXMLNode("plotName", x@plots[[i]]$plotName, parent=p)
       if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
         rp = newXMLNode("relatedPlot", parent=p)
         newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
-        newXMLNode("plotRelationship", "parent", parent=rp)
+        newXMLNode("plotRelationship", "subplot", parent=rp)
+      }
+      if("slope" %in% names(x@plots[[i]])) { #Add slope information
+        sl = newXMLNode("slope", parent=p)
+        newXMLNode("value", x@plots[[i]]$slope$value, parent=sl)
+        newXMLNode("attributeID", x@plots[[i]]$slope$attributeID, parent=sl)
+      }
+      if("aspect" %in% names(x@plots[[i]])) { #Add aspect information
+        as = newXMLNode("aspect", parent=p)
+        newXMLNode("value", x@plots[[i]]$aspect$value, parent=as)
+        newXMLNode("attributeID", x@plots[[i]]$aspect$attributeID, parent=as)
       }
     }
   }
@@ -79,7 +90,7 @@ writeVegXML<-function(x, file) {
       po = newXMLNode("plotObservation",
                       attrs = c("id" = names(x@plotObservations)[i]),
                       parent = plotObservations)
-      newXMLNode("plotUniqueIdentifier", x@plotObservations[[i]]$plotID, parent=po)
+      newXMLNode("plotID", x@plotObservations[[i]]$plotID, parent=po)
       newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
       if("obsEndDate" %in% names(x@plotObservations[[i]])) newXMLNode("obsEndDate", as.character(x@plotObservations[[i]]$obsEndDate), parent=po)
       if("projectID" %in% names(x@plotObservations[[i]])) newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)

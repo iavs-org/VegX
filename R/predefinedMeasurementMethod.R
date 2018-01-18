@@ -4,7 +4,7 @@
 #'
 #' @param name A string with the desired measurement method. Current accepted options are:
 #' \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-#' \code{"Plant height"}, \code{"DBH"}, \code{"pH"}.
+#' \code{"Plant height"}, \code{"DBH"}, \code{"pH"}, \code{"Slope degrees"}, \code{"Aspect degrees"}.
 #'
 #'
 #' @return an object of class \code{\linkS4class{VegXMethod}}
@@ -100,6 +100,36 @@ predefinedMeasurementMethod<-function(name) {
                name = "pH",
                description = "pH scale",
                attributeClass = "pH",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
+  else if (name=="Slope degrees") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "degrees",
+           lowerBound = 0,
+           upperBound = 360)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "Slope degrees",
+               description = "Slope measured using degrees",
+               attributeClass = "slope",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
+  else if (name=="Aspect degrees") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "degrees",
+           lowerBound = 0,
+           upperBound = 360)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "Aspect degrees",
+               description = "Aspect measured using degrees",
+               attributeClass = "aspect",
                attributeType = "quantitative",
                attributes = attributes))
   }
