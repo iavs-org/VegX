@@ -10,6 +10,10 @@ defineStrataByHeight(name = "Strata by height",
   heightUnit = "m")
 }
 \arguments{
+\item{name}{A string to identify the stratum definition.}
+
+\item{description}{A string describing how strata are defined.}
+
 \item{heightBreaks}{A numeric vector with height limits between strata (of length equal to the number of strata plus one).}
 
 \item{stratumNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
@@ -20,5 +24,5 @@ defineStrataByHeight(name = "Strata by height",
 an object of class \code{\linkS4class{VegXStrata}}
 }
 \description{
-User-defined strata based on height
+Heightbased strata definitions
 }

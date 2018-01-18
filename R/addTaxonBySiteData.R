@@ -4,7 +4,8 @@
 #' Data can be added to an existing project or a new project can be defined within the VegX object,
 #' depending on the input project title.
 #' Vegetation plots and taxon names can be the same as those already existing in the target VegX.
-#' Plot observations, however, are always considered new.
+#' Subplots cannot be defined with this function, but observations can be referred to them if they exist.
+#' New/old plot observations are distinguished by observation date.
 #'
 #' @param target The original object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A site-by-species releve table
