@@ -9,7 +9,8 @@ predefinedMeasurementMethod(name)
 \arguments{
 \item{name}{A string with the desired measurement method. Current accepted options are:
 \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-\code{"Plant height"}, \code{"DBH"}, \code{"pH"}, \code{"Slope degrees"}, \code{"Aspect degrees"}.}
+\code{"Plant height"}, \code{"DBH"}, \code{"pH"}, \code{"Slope degrees"}, \code{"Aspect degrees"},
+\code{"Elevation meters"}.}
 }
 \value{
 an object of class \code{\linkS4class{VegXMethod}}

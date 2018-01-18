@@ -4,7 +4,8 @@
 #'
 #' @param name A string with the desired measurement method. Current accepted options are:
 #' \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-#' \code{"Plant height"}, \code{"DBH"}, \code{"pH"}, \code{"Slope degrees"}, \code{"Aspect degrees"}.
+#' \code{"Plant height"}, \code{"DBH"}, \code{"pH"}, \code{"Slope degrees"}, \code{"Aspect degrees"},
+#' \code{"Elevation meters"}.
 #'
 #'
 #' @return an object of class \code{\linkS4class{VegXMethod}}
@@ -130,6 +131,21 @@ predefinedMeasurementMethod<-function(name) {
                name = "Aspect degrees",
                description = "Aspect measured using degrees",
                attributeClass = "aspect",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
+  else if (name=="Elevation meters") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "m",
+           lowerBound = 0,
+           upperBound = Inf)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "Elevation meters",
+               description = "Elevation measured using meters above sea level",
+               attributeClass = "elevation",
                attributeType = "quantitative",
                attributes = attributes))
   }

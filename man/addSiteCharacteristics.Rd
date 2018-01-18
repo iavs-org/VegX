@@ -30,9 +30,8 @@ for each of the abiotic variables stated in \code{mapping}. List names should be
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds static site characteristics (topography, geology, ...) to a VegX object from a data table where rows are plot observations,
-using a mapping to identify plot observation: plot, subplot (optional).
-Additional mappings are used to map specific variables.
+Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
+using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

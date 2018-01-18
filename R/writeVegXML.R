@@ -35,6 +35,11 @@ writeVegXML<-function(x, file) {
         newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
         newXMLNode("plotRelationship", "subplot", parent=rp)
       }
+      if("elevation" %in% names(x@plots[[i]])) { #Add elevation information
+        el = newXMLNode("elevation", parent=p)
+        newXMLNode("value", x@plots[[i]]$elevation$value, parent=el)
+        newXMLNode("attributeID", x@plots[[i]]$elevation$attributeID, parent=el)
+      }
       if("slope" %in% names(x@plots[[i]])) { #Add slope information
         sl = newXMLNode("slope", parent=p)
         newXMLNode("value", x@plots[[i]]$slope$value, parent=sl)
