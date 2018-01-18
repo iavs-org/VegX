@@ -2,10 +2,10 @@
 % Please edit documentation in R/addPlotLocations.R
 \name{addPlotLocations}
 \alias{addPlotLocations}
-\title{Adds plot location information}
+\title{Adds/replaces plot location information}
 \usage{
 addPlotLocations(target, points, x, projectTitle, mapping,
-  reset.location = FALSE, missing.values = c(NA, ""), verbose = TRUE)
+  reset.locations = FALSE, missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -18,7 +18,9 @@ addPlotLocations(target, points, x, projectTitle, mapping,
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Site variables that can be mapped are: 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-Additional optional mappings are: 'subPlotName'.}
+Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations}
+
+\item{reset.locations}{Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.}
 
 \item{missing.values}{A character vector of values that should be considered as missing data.}
 

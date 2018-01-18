@@ -2,7 +2,7 @@
 % Please edit documentation in R/addSiteCharacteristics.R
 \name{addSiteCharacteristics}
 \alias{addSiteCharacteristics}
-\title{Adds (static) site information}
+\title{Adds/replaces site information}
 \usage{
 addSiteCharacteristics(target, x, projectTitle, mapping,
   measurementMethods = list(), missing.values = c(NA, ""), verbose = TRUE)
@@ -37,5 +37,5 @@ using a mapping to identify plot and subplot (optional). Additional mapping elem
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-\code{\link{addTaxonObservationRecords}}, \code{\link{addTreeObservationRecords}}.
+\code{\link{addTaxonObservations}}, \code{\link{addTreeObservations}}.
 }

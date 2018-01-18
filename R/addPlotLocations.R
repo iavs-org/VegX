@@ -1,4 +1,4 @@
-#' Adds plot location information
+#' Adds/replaces plot location information
 #'
 #' Adds/replaces static plot location information (spatial coordinates, place names, ...) to plot elements of a VegX object from a data table where rows are plots,
 #' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.

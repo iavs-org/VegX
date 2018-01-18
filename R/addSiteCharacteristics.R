@@ -1,4 +1,4 @@
-#' Adds (static) site information
+#' Adds/replaces site information
 #'
 #' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
 #' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
@@ -20,7 +20,7 @@
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
-#' @seealso \code{\link{addTaxonObservationRecords}}, \code{\link{addTreeObservationRecords}}.
+#' @seealso \code{\link{addTaxonObservations}}, \code{\link{addTreeObservations}}.
 #'
 #' @examples
 addSiteCharacteristics<-function(target, x, projectTitle,
