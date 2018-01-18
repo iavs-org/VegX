@@ -19,7 +19,8 @@ addPlotLocations(target, x, projectTitle, mapping,
 Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
 Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations}
 
-\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.}
+\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
+Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".}
 
 \item{reset.locations}{Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.}
 

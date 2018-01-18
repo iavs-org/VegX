@@ -9,7 +9,8 @@
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
 #' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations
-#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
+#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
+#' Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".
 #' @param reset.locations Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -34,14 +35,14 @@ addPlotLocations<-function(target, x, projectTitle,
 
 
   #check mappings
-  locVariables = c("x", "y", "authorLocation","locationNarrative", "placeName", "placeType")
+  nonCoordVariables = c("authorLocation","locationNarrative", "placeName", "placeType")
+  locVariables = c("x", "y", nonCoordVariables)
   mappingsAvailable = c("plotName", "subPlotName", locVariables)
-  siteValues = list()
+  locValues = list()
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
     if(names(mapping)[i] %in% locVariables) {
-      if(!(names(mapping)[i] %in% names(measurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(mapping)[i], "'."))
-      siteValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
+      locValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
     }
   }
   if(("y" %in% names(mapping)) && !("x" %in% names(mapping))) stop("Please supply mapping for 'x' to complete coordinates.")
@@ -109,7 +110,7 @@ addPlotLocations<-function(target, x, projectTitle,
       }
     }
     #Add 'plotLocation' element if necessary
-    if(!("plotLocation" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]["plotLocation"] = list()
+    if(!("plotLocation" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$plotLocation = list()
 
     # Reset 'locations' element if necessary
     if(reset.locations && ("locations" %in% names(target@plots[[plotID]]$plotLocation))) target@plots[[plotID]]$plotLocation$locations = list()
@@ -122,9 +123,9 @@ addPlotLocations<-function(target, x, projectTitle,
       target@plots[[plotID]]$plotLocation$locations[[newloc]] = list()
     }
 
-    #Add plot location data
-    for(m in names(mapping)) {
-      value = siteValues[[m]][i]
+    #Add plot location data (non coordinate variables)
+    for(m in names(mapping)[names(mapping) %in% nonCoordVariables]) {
+      value = locValues[[m]][i]
       if(!(value %in% as.character(missing.values))) {
         if((m=="placeName") || (m=="placeType")){ #Add placeName/placeType to location
           target@plots[[plotID]]$plotLocation$locations[[newloc]][[m]] = value
@@ -136,8 +137,20 @@ addPlotLocations<-function(target, x, projectTitle,
       }
     }
 
-    #Add projection string if coordinates where supplied
-    if("x" %in% names(mapping)) target@plots[[plotID]]$plotLocation$proj4string = proj4string
+    # Add coordinate variables (transform to latlong)
+    if("x" %in% names(mapping)) {
+      x = as.numeric(locValues[["x"]][i])
+      y = as.numeric(locValues[["y"]][i])
+      if((!is.na(x))&& (!is.na(y))) {
+        sp = SpatialPoints(coords = matrix(c(x,y), nrow=1, ncol=2), proj4string = CRS(proj4string))
+        splatlon = spTransform(sp, CRS("+proj=longlat +datum=WGS84"))
+        target@plots[[plotID]]$plotLocation$DecimalLongitude = as.numeric(splatlon@coords[1,1])
+        target@plots[[plotID]]$plotLocation$DecimalLatitude = as.numeric(splatlon@coords[1,2])
+        target@plots[[plotID]]$plotLocation$GeodeticDatum = "WGS84"
+      } else {
+        nmissing = nmissing + 1
+      }
+    }
   }
   finnplots = length(target@plots)
   if(verbose) {

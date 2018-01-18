@@ -50,6 +50,14 @@ writeVegXML<-function(x, file) {
         newXMLNode("value", x@plots[[i]]$aspect$value, parent=as)
         newXMLNode("attributeID", x@plots[[i]]$aspect$attributeID, parent=as)
       }
+      #Add location information
+      if("plotLocation" %in% names(x@plots[[i]])) {
+        pl = newXMLNode("plotLocation", parent=p)
+        gs = newXMLNode("geospatial", parent=pl)
+        if("DecimalLongitude" %in% names(x@plots[[i]]$plotLocation)) newXMLNode("DecimalLongitude", x@plots[[i]]$plotLocation$DecimalLongitude, parent=gs)
+        if("DecimalLatitude" %in% names(x@plots[[i]]$plotLocation)) newXMLNode("DecimalLatitude", x@plots[[i]]$plotLocation$DecimalLatitude, parent=gs)
+        if("GeodeticDatum" %in% names(x@plots[[i]]$plotLocation)) newXMLNode("GeodeticDatum", x@plots[[i]]$plotLocation$GeodeticDatum, parent=gs)
+      }
     }
   }
   #stratum elements
