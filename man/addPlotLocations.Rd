@@ -5,7 +5,7 @@
 \title{Adds/replaces plot location information}
 \usage{
 addPlotLocations(target, x, projectTitle, mapping,
-  proj4string = "+proj=longlat +ellps=WGS84", reset.locations = FALSE,
+  proj4string = "+proj=longlat +ellps=WGS84", reset.places = FALSE,
   missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
@@ -17,12 +17,12 @@ addPlotLocations(target, x, projectTitle, mapping,
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations}
+Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places}
 
 \item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
 Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".}
 
-\item{reset.locations}{Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.}
+\item{reset.places}{Whether the 'places' vector should be reset before adding new place names.}
 
 \item{missing.values}{A character vector of values that should be considered as missing data.}
 

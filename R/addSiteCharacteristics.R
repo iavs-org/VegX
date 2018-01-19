@@ -7,7 +7,7 @@
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Site variables that can be mapped are: 'elevation','slope', 'aspect', 'landform', 'parentMaterial', 'geologyClass'.
+#' Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
 #' Additional optional mappings are: 'subPlotName'.
 #' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
 #' for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
@@ -30,17 +30,16 @@
 #'
 #' # Define mapping
 #' sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
-#'                    elevation = "Altitude", slope = "PlotSlope", aspect = "PlotAspect")
+#'                    slope = "PlotSlope", aspect = "PlotAspect")
 #'
 #' # Define site methods
-#' elevm = predefinedMeasurementMethod("Elevation meters")
 #' slopeDeg = predefinedMeasurementMethod("Slope degrees")
 #' aspectDeg = predefinedMeasurementMethod("Aspect degrees")
 #'
 #' # Mapping process
 #' w = addSiteCharacteristics(target, site, "Mokihinui",
 #'                            mapping = sitemapping,
-#'                            measurementMethods = list(elevation = elevm, slope = slopeDeg, aspect = aspectDeg))
+#'                            measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 #'
 #' summary(w)
 #'
@@ -55,7 +54,7 @@ addSiteCharacteristics<-function(target, x, projectTitle,
 
 
   #check mappings
-  siteVariables = c("elevation","slope", "aspect", "landform", "parentMaterial", "geologyClass")
+  siteVariables = c("slope", "aspect", "landform", "parentMaterial")
   mappingsAvailable = c("plotName", "subPlotName", siteVariables)
   siteValues = list()
   for(i in 1:length(mapping)) {
@@ -176,25 +175,26 @@ addSiteCharacteristics<-function(target, x, projectTitle,
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       if(!(value %in% as.character(missing.values))) {
-        if(method@attributeType== "quantitative") {
-          # print(paste0(plotID," ", m, " ", value))
-          value = as.numeric(value)
-          if(value > method@attributes[[1]]$upperBound) {
-            stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+        if(m %in% c("slope", "aspect", "landform")) {
+          if(!("topography" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$topography = list()
+          if(method@attributeType== "quantitative") {
+            value = as.numeric(value)
+            if(value > method@attributes[[1]]$upperBound) {
+              stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+            }
+            else if(value < method@attributes[[1]]$lowerBound) {
+              stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
+            }
+            target@plots[[plotID]]$topography[[m]] = list("attributeID" = attIDs[[1]],
+                                               "value" = value)
+          } else {
+            ind = which(codes==as.character(value))
+            if(length(ind)==1) {
+              target@plots[[plotID]]$topography[[m]] = list("attributeID" = attIDs[[ind]],
+                                                 "value" = value)
+            }
+            else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
           }
-          else if(value < method@attributes[[1]]$lowerBound) {
-            stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
-          }
-          target@plots[[plotID]][[m]] = list("attributeID" = attIDs[[1]],
-                              "value" = value)
-          # print(target@plots[[plotID]][[m]])
-        } else {
-          ind = which(codes==as.character(value))
-          if(length(ind)==1) {
-            target@plots[[plotID]][[m]] = list("attributeID" = attIDs[[ind]],
-                                "value" = value)
-          }
-          else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
         }
       } else {
         nmissing = nmissing + 1

@@ -15,7 +15,7 @@ addSiteCharacteristics(target, x, projectTitle, mapping,
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Site variables that can be mapped are: 'elevation','slope', 'aspect', 'landform', 'parentMaterial', 'geologyClass'.
+Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
 Additional optional mappings are: 'subPlotName'.}
 
 \item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
@@ -41,17 +41,16 @@ target = newVegX()
 
 # Define mapping
 sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
-                   elevation = "Altitude", slope = "PlotSlope", aspect = "PlotAspect")
+                   slope = "PlotSlope", aspect = "PlotAspect")
 
 # Define site methods
-elevm = predefinedMeasurementMethod("Elevation meters")
 slopeDeg = predefinedMeasurementMethod("Slope degrees")
 aspectDeg = predefinedMeasurementMethod("Aspect degrees")
 
 # Mapping process
 w = addSiteCharacteristics(target, site, "Mokihinui",
                            mapping = sitemapping,
-                           measurementMethods = list(elevation = elevm, slope = slopeDeg, aspect = aspectDeg))
+                           measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 
 summary(w)
 

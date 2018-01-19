@@ -35,28 +35,26 @@ writeVegXML<-function(x, file) {
         newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
         newXMLNode("plotRelationship", "subplot", parent=rp)
       }
-      if("elevation" %in% names(x@plots[[i]])) { #Add elevation information
-        el = newXMLNode("elevation", parent=p)
-        newXMLNode("value", x@plots[[i]]$elevation$value, parent=el)
-        newXMLNode("attributeID", x@plots[[i]]$elevation$attributeID, parent=el)
-      }
-      if("slope" %in% names(x@plots[[i]])) { #Add slope information
-        sl = newXMLNode("slope", parent=p)
-        newXMLNode("value", x@plots[[i]]$slope$value, parent=sl)
-        newXMLNode("attributeID", x@plots[[i]]$slope$attributeID, parent=sl)
-      }
-      if("aspect" %in% names(x@plots[[i]])) { #Add aspect information
-        as = newXMLNode("aspect", parent=p)
-        newXMLNode("value", x@plots[[i]]$aspect$value, parent=as)
-        newXMLNode("attributeID", x@plots[[i]]$aspect$attributeID, parent=as)
-      }
       #Add location information
-      if("plotLocation" %in% names(x@plots[[i]])) {
-        pl = newXMLNode("plotLocation", parent=p)
+      if("location" %in% names(x@plots[[i]])) {
+        pl = newXMLNode("location", parent=p)
         gs = newXMLNode("geospatial", parent=pl)
-        if("DecimalLongitude" %in% names(x@plots[[i]]$plotLocation)) newXMLNode("DecimalLongitude", x@plots[[i]]$plotLocation$DecimalLongitude, parent=gs)
-        if("DecimalLatitude" %in% names(x@plots[[i]]$plotLocation)) newXMLNode("DecimalLatitude", x@plots[[i]]$plotLocation$DecimalLatitude, parent=gs)
-        if("GeodeticDatum" %in% names(x@plots[[i]]$plotLocation)) newXMLNode("GeodeticDatum", x@plots[[i]]$plotLocation$GeodeticDatum, parent=gs)
+        if("DecimalLongitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLongitude", x@plots[[i]]$location$DecimalLongitude, parent=gs)
+        if("DecimalLatitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLatitude", x@plots[[i]]$location$DecimalLatitude, parent=gs)
+        if("GeodeticDatum" %in% names(x@plots[[i]]$location)) newXMLNode("GeodeticDatum", x@plots[[i]]$location$GeodeticDatum, parent=gs)
+      }
+      if("topography" %in% names(x@plots[[i]])) {
+        topo = newXMLNode("topography", parent=p)
+        if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information
+          sl = newXMLNode("slope", parent=topo)
+          newXMLNode("value", x@plots[[i]]$topography$slope$value, parent=sl)
+          newXMLNode("attributeID", x@plots[[i]]$topography$slope$attributeID, parent=sl)
+        }
+        if("aspect" %in% names(x@plots[[i]]$topography)) { #Add aspect information
+          as = newXMLNode("aspect", parent=topo)
+          newXMLNode("value", x@plots[[i]]$topography$aspect$value, parent=as)
+          newXMLNode("attributeID", x@plots[[i]]$topography$aspect$attributeID, parent=as)
+        }
       }
     }
   }

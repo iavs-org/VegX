@@ -8,10 +8,10 @@
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of locations
+#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places
 #' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
 #' Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".
-#' @param reset.locations Whether the 'locations' vector (a vector of place names) should be reset before adding new place names.
+#' @param reset.places Whether the 'places' vector should be reset before adding new place names.
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -42,7 +42,7 @@
 addPlotLocations<-function(target, x, projectTitle,
                            mapping,
                            proj4string = "+proj=longlat +ellps=WGS84",
-                           reset.locations = FALSE,
+                           reset.places = FALSE,
                            missing.values = c(NA,""),
                            verbose = TRUE) {
   x = as.data.frame(x)
@@ -125,18 +125,18 @@ addPlotLocations<-function(target, x, projectTitle,
         }
       }
     }
-    #Add 'plotLocation' element if necessary
-    if(!("plotLocation" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$plotLocation = list()
+    #Add 'location' element if necessary
+    if(!("location" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$location = list()
 
-    # Reset 'locations' element if necessary
-    if(reset.locations && ("locations" %in% names(target@plots[[plotID]]$plotLocation))) target@plots[[plotID]]$plotLocation$locations = list()
+    # Reset 'places' element if necessary
+    if(reset.places && ("places" %in% names(target@plots[[plotID]]$location))) target@plots[[plotID]]$location$places = list()
 
     # Add new location if necessary
     if(("placeName" %in% names(mapping)) || ("placeType" %in% names(mapping))) {
-      #Add 'locations' element if necessary
-      if(!("locations" %in% names(target@plots[[plotID]]$plotLocation))) target@plots[[plotID]]$plotLocation$locations = list()
-      newloc = paste0(location, length(target@plots[[plotID]]$plotLocation$locations)+1)
-      target@plots[[plotID]]$plotLocation$locations[[newloc]] = list()
+      #Add 'places' element if necessary
+      if(!("places" %in% names(target@plots[[plotID]]$location))) target@plots[[plotID]]$location$places = list()
+      newloc = paste0(location, length(target@plots[[plotID]]$location$places)+1)
+      target@plots[[plotID]]$location$places[[newloc]] = list()
     }
 
     #Add plot location data (non coordinate variables)
@@ -144,9 +144,9 @@ addPlotLocations<-function(target, x, projectTitle,
       value = locValues[[m]][i]
       if(!(value %in% as.character(missing.values))) {
         if((m=="placeName") || (m=="placeType")){ #Add placeName/placeType to location
-          target@plots[[plotID]]$plotLocation$locations[[newloc]][[m]] = value
+          target@plots[[plotID]]$location$places[[newloc]][[m]] = value
         } else {
-          target@plots[[plotID]]$plotLocation[[m]] = value
+          target@plots[[plotID]]$location[[m]] = value
         }
       } else {
         nmissing = nmissing + 1
@@ -160,9 +160,9 @@ addPlotLocations<-function(target, x, projectTitle,
       if((!is.na(x))&& (!is.na(y))) {
         sp = SpatialPoints(coords = matrix(c(x,y), nrow=1, ncol=2), proj4string = CRS(proj4string))
         splatlon = spTransform(sp, CRS("+proj=longlat +datum=WGS84"))
-        target@plots[[plotID]]$plotLocation$DecimalLongitude = as.numeric(splatlon@coords[1,1])
-        target@plots[[plotID]]$plotLocation$DecimalLatitude = as.numeric(splatlon@coords[1,2])
-        target@plots[[plotID]]$plotLocation$GeodeticDatum = "WGS84"
+        target@plots[[plotID]]$location$DecimalLongitude = as.numeric(splatlon@coords[1,1])
+        target@plots[[plotID]]$location$DecimalLatitude = as.numeric(splatlon@coords[1,2])
+        target@plots[[plotID]]$location$GeodeticDatum = "WGS84"
       } else {
         nmissing = nmissing + 1
       }
