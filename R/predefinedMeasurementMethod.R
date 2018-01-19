@@ -12,6 +12,9 @@
 #' @export
 #'
 #' @examples
+#' # Create a method for plant percent cover
+#' predefinedMeasurementMethod("Percent cover")
+#'
 predefinedMeasurementMethod<-function(name) {
 
   if(name=="Percent cover") {

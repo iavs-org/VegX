@@ -12,6 +12,11 @@
 #' @export
 #'
 #' @examples
+#' # Define abundance scale
+#' scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",
+#'                         breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100), midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
+#'                         values = c("P","1","2","3", "4", "5", "6"))
+#'
 defineCoverScale<-function(name = "Braun-Blanquet", description = "Five-level Braun-Blanquet cover scale",
                      breaks = c(0,5,25,50,75,100),
                      midPoints = c(2.5,17.5, 37.5, 62.5, 87.5),

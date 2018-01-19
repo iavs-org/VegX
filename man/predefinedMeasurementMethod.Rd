@@ -18,3 +18,8 @@ an object of class \code{\linkS4class{VegXMethod}}
 \description{
 Creates a measurement method for Veg-X documents from a set of predefined options
 }
+\examples{
+# Create a method for plant percent cover
+predefinedMeasurementMethod("Percent cover")
+
+}

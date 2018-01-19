@@ -12,6 +12,11 @@
 #' @export
 #'
 #' @examples
+#' strataDef = defineStrataByHeight(name = "Recce strata",
+#'                                 description = "Standard Recce stratum definition",
+#'                                 heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
+#'                                 stratumNames = paste0("Tier ",1:7))
+#'
 defineStrataByHeight<-function(name = "Strata by height",
                                description = "Vegetation strata defined by height in m",
                                heightBreaks = c(0,1,3,5),
