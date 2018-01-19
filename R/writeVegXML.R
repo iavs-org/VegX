@@ -150,6 +150,24 @@ writeVegXML<-function(x, file) {
       newXMLNode("stratumID", x@stratumObservations[[i]]$stratumID, parent=stro)
     }
   }
+  #StratumObservation elements
+  if(length(x@abioticObservations)>0) {
+    abioticObservations = newXMLNode("abioticObservations", parent = top)
+    for(i in 1:length(x@abioticObservations)){
+      abio = newXMLNode("abioticObservation",
+                        attrs = c(id = names(x@abioticObservations)[i]),
+                        parent = abioticObservations)
+      if("soil" %in% names(x@abioticObservations[[i]])) {
+        soil = newXMLNode("soil", parent=abio)
+        if("pH" %in% names(x@abioticObservations[[i]]$soil)) { #Add pH information
+          pH = newXMLNode("pH", parent=soil)
+          newXMLNode("value", x@abioticObservations[[i]]$soil$pH$value, parent=pH)
+          newXMLNode("attributeID", x@abioticObservations[[i]]$soil$pH$attributeID, parent=pH)
+        }
+      }
+    }
+  }
+
   #Attribute elements
   if(length(x@attributes)>0) {
     attributes = newXMLNode("attributes", parent = top)

@@ -54,7 +54,8 @@ addAbioticObservations<-function(target, x, projectTitle,
 
 
   #check mappings
-  abioticVariables = c('phosphorus', 'pottasium', 'magnesium', 'nitrogen','pH')
+  soilVariables = c('phosphorus', 'potassium', 'magnesium', 'nitrogen','pH')
+  abioticVariables = c(soilVariables)
   mappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", abioticVariables)
   abioticValues = list()
   for(i in 1:length(mapping)) {
@@ -199,23 +200,26 @@ addAbioticObservations<-function(target, x, projectTitle,
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       if(!(value %in% as.character(missing.values))) {
-        if(method@attributeType== "quantitative") {
-          value = as.numeric(value)
-          if(value > method@attributes[[1]]$upperBound) {
-            stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
-          }
-          else if(value < method@attributes[[1]]$lowerBound) {
-            stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
-          }
-          abioObs[[m]] = list("attributeID" = attIDs[[1]],
-                              "value" = value)
-        } else {
-          ind = which(codes==as.character(value))
-          if(length(ind)==1) {
-            abioObs[[m]] = list("attributeID" = attIDs[[ind]],
+        if(m %in% soilVariables) {
+          if(!("soil" %in% names(abioObs))) abioObs$soil = list()
+          if(method@attributeType== "quantitative") {
+            value = as.numeric(value)
+            if(value > method@attributes[[1]]$upperBound) {
+              stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+            }
+            else if(value < method@attributes[[1]]$lowerBound) {
+              stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
+            }
+            abioObs$soil[[m]] = list("attributeID" = attIDs[[1]],
                                 "value" = value)
+          } else {
+            ind = which(codes==as.character(value))
+            if(length(ind)==1) {
+              abioObs$soil[[m]] = list("attributeID" = attIDs[[ind]],
+                                  "value" = value)
+            }
+            else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
           }
-          else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
         }
       } else {
         nmissing = nmissing + 1
