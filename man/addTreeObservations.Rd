@@ -18,6 +18,10 @@ addTreeObservations(target, x, projectTitle, mapping, diameterMethod,
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.}
 
+\item{diameterMethod}{An object of class \code{\linkS4class{VegXMethod}} indicating the definition of diameter measurements.}
+
+\item{heightMethod}{An object of class \code{\linkS4class{VegXMethod}} indicating the definition of height measurements.}
+
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
@@ -31,6 +35,28 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds tree observation records to a VegX object from a data table,
 using a mapping to identify columns: plot, observation date, taxon name and diameter.
 Additional mappings can be used to specify a stratum where the tree is located.
+}
+\examples{
+data(mokihinui)
+
+# Create new Veg-X document
+target = newVegX()
+
+# Define mapping
+treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate", obsEndDate = "obsEndDate", taxonAuthorName = "PreferredSpeciesName",
+                   diameter = "Diameter")
+
+# Define diameter measurement method
+diamMeth = predefinedMeasurementMethod("DBH")
+
+
+# Mapping process
+y = addTreeObservations(target, dia, "Mokihinui",
+                        mapping = treemapping,
+                        diameterMethod = diamMeth)
+
+summary(y)
+
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

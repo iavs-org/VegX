@@ -12,3 +12,9 @@ an empty object of class \code{\linkS4class{VegX}}
 \description{
 Creates a new (empty) VegX document
 }
+\examples{
+
+# Create new Veg-X document
+newVegX()
+
+}

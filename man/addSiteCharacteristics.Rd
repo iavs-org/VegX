@@ -33,6 +33,29 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
 using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
 }
+\examples{
+data(mokihinui)
+
+# Create new Veg-X document
+target = newVegX()
+
+# Define mapping
+sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
+                   elevation = "Altitude", slope = "PlotSlope", aspect = "PlotAspect")
+
+# Define site methods
+elevm = predefinedMeasurementMethod("Elevation meters")
+slopeDeg = predefinedMeasurementMethod("Slope degrees")
+aspectDeg = predefinedMeasurementMethod("Aspect degrees")
+
+# Mapping process
+w = addSiteCharacteristics(target, site, "Mokihinui",
+                           mapping = sitemapping,
+                           measurementMethods = list(elevation = elevm, slope = slopeDeg, aspect = aspectDeg))
+
+summary(w)
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

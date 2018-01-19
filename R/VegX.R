@@ -19,7 +19,11 @@
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
+#' @seealso \code{\link{newVegX}}
+#'
 #' @examples
+#' showClass("VegX")
+#'
 setClass("VegX",slots=c(projects = "list",
                         plots="list",
                         plotObservations = "list",

@@ -37,6 +37,13 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 \item{\code{attributes}}{list of attribute value description.}
 }}
 
+\examples{
+showClass("VegX")
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+}
+\seealso{
+\code{\link{newVegX}}
 }

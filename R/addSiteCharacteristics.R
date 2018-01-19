@@ -23,6 +23,27 @@
 #' @seealso \code{\link{addTaxonObservations}}, \code{\link{addTreeObservations}}.
 #'
 #' @examples
+#' data(mokihinui)
+#'
+#' # Create new Veg-X document
+#' target = newVegX()
+#'
+#' # Define mapping
+#' sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
+#'                    elevation = "Altitude", slope = "PlotSlope", aspect = "PlotAspect")
+#'
+#' # Define site methods
+#' elevm = predefinedMeasurementMethod("Elevation meters")
+#' slopeDeg = predefinedMeasurementMethod("Slope degrees")
+#' aspectDeg = predefinedMeasurementMethod("Aspect degrees")
+#'
+#' # Mapping process
+#' w = addSiteCharacteristics(target, site, "Mokihinui",
+#'                            mapping = sitemapping,
+#'                            measurementMethods = list(elevation = elevm, slope = slopeDeg, aspect = aspectDeg))
+#'
+#' summary(w)
+#'
 addSiteCharacteristics<-function(target, x, projectTitle,
                                  mapping,
                                  measurementMethods = list(),

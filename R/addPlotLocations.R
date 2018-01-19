@@ -23,6 +23,22 @@
 #' @seealso \code{\link{addSiteCharacteristics}}.
 #'
 #' @examples
+#' data(mokihinui)
+#'
+#' # Create new Veg-X document
+#' target = newVegX()
+#'
+#' # Define location mapping
+#' locmapping = list(plotName = "Plot", subPlotName = "Subplot",
+#'                   x = "Longitude", y = "Latitude")
+#'
+#' # Mapping process
+#' v = addPlotLocations(target, loc, "Mokihinui",
+#'                      mapping = locmapping)
+#'
+#' # Summary of the new Veg-X document
+#' summary(v)
+#'
 addPlotLocations<-function(target, x, projectTitle,
                            mapping,
                            proj4string = "+proj=longlat +ellps=WGS84",

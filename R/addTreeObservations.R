@@ -9,8 +9,8 @@
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.
-#' @param diameterMethod
-#' @param heightMethod
+#' @param diameterMethod An object of class \code{\linkS4class{VegXMethod}} indicating the definition of diameter measurements.
+#' @param heightMethod An object of class \code{\linkS4class{VegXMethod}} indicating the definition of height measurements.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -23,6 +23,26 @@
 #' @seealso \code{\link{addTaxonObservations}}.
 #'
 #' @examples
+#' data(mokihinui)
+#'
+#' # Create new Veg-X document
+#' target = newVegX()
+#'
+#' # Define mapping
+#' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate", obsEndDate = "obsEndDate", taxonAuthorName = "PreferredSpeciesName",
+#'                    diameter = "Diameter")
+#'
+#' # Define diameter measurement method
+#' diamMeth = predefinedMeasurementMethod("DBH")
+#'
+#'
+#' # Mapping process
+#' y = addTreeObservations(target, dia, "Mokihinui",
+#'                         mapping = treemapping,
+#'                         diameterMethod = diamMeth)
+#'
+#' summary(y)
+#'
 addTreeObservations<-function(target, x, projectTitle,
                                     mapping,
                                     diameterMethod,

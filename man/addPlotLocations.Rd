@@ -35,6 +35,24 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds/replaces static plot location information (spatial coordinates, place names, ...) to plot elements of a VegX object from a data table where rows are plots,
 using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 }
+\examples{
+data(mokihinui)
+
+# Create new Veg-X document
+target = newVegX()
+
+# Define location mapping
+locmapping = list(plotName = "Plot", subPlotName = "Subplot",
+                  x = "Longitude", y = "Latitude")
+
+# Mapping process
+v = addPlotLocations(target, loc, "Mokihinui",
+                     mapping = locmapping)
+
+# Summary of the new Veg-X document
+summary(v)
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

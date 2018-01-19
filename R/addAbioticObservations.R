@@ -24,6 +24,25 @@
 #' @seealso \code{\link{addTaxonObservations}}, \code{\link{addTreeObservations}}.
 #'
 #' @examples
+#' data(mokihinui)
+#'
+#' # Create new Veg-X document
+#' target = newVegX()
+#'
+#' # Define mapping
+#' abiomapping = list(plotName = "Plot", subPlotName = "Subplot",
+#'                    obsStartDate = "obsDate", obsEndDate = "obsEndDate",
+#'                    pH = "pH")
+#' # Define pH method
+#' pHMeth = predefinedMeasurementMethod("pH")
+#'
+#' # Mapping process
+#' z = addAbioticObservations(target, site, "Mokihinui",
+#'                            mapping = abiomapping,
+#'                            measurementMethods = list(pH = pHMeth))
+#'
+#' summary(z)
+#'
 addAbioticObservations<-function(target, x, projectTitle,
                                        mapping,
                                        measurementMethods = list(),

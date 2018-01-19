@@ -34,6 +34,27 @@ Adds abiotic observation records to a VegX object from a data table where rows a
 using a mapping to identify plot observation: plot, subplot (optional) and observation date.
 Additional mappings are used to map specific abiotic variables.
 }
+\examples{
+data(mokihinui)
+
+# Create new Veg-X document
+target = newVegX()
+
+# Define mapping
+abiomapping = list(plotName = "Plot", subPlotName = "Subplot",
+                   obsStartDate = "obsDate", obsEndDate = "obsEndDate",
+                   pH = "pH")
+# Define pH method
+pHMeth = predefinedMeasurementMethod("pH")
+
+# Mapping process
+z = addAbioticObservations(target, site, "Mokihinui",
+                           mapping = abiomapping,
+                           measurementMethods = list(pH = pHMeth))
+
+summary(z)
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

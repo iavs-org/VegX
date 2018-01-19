@@ -33,6 +33,36 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds aggregated taxon observation records to a VegX object from a data table
 using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
 }
+\examples{
+data(mokihinui)
+
+# Create new Veg-X document
+target = newVegX()
+
+# Define mapping
+mapping = list(plotName = "Plot", obsStartDate = "obsDate", obsEndDate = "obsEndDate", taxonAuthorName = "PreferredSpeciesName",
+              stratumName = "Tier", value = "Category")
+
+# Define abundance scale
+scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",
+                        breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100), midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
+                        values = c("P","1","2","3", "4", "5", "6"))
+
+# Define strata
+strataDef = defineStrataByHeight(name = "Recce strata",
+                                description = "Standard Recce stratum definition",
+                                heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
+                                stratumNames = paste0("Tier ",1:7))
+
+# Mapping process
+x = addTaxonObservations(target, tcv, "Mokihinui",
+                        mapping = mapping,
+                        abundanceMethod = scale,
+                        stratumDefinition = strataDef)
+
+summary(x)
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

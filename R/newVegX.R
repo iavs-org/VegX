@@ -7,6 +7,10 @@
 #' @export
 #'
 #' @examples
+#'
+#' # Create new Veg-X document
+#' newVegX()
+#'
 newVegX<-function() {
   #project
   return(new("VegX",
