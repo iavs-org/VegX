@@ -6,8 +6,8 @@
 #' @export
 #'
 #' @examples
-#' showClass("VegXSurfaceCover")
+#' showClass("VegXSurfaceCoverDefinition")
 #'
-setClass("VegXSurfaceCover",slots=c(
+setClass("VegXSurfaceCoverDefinition",slots=c(
   method = "VegXMethod",
-  strata = "list"))
+  surfaceCovers = "list"))
