@@ -2,7 +2,7 @@
 % Please edit documentation in R/writeVegXML.R
 \name{writeVegXML}
 \alias{writeVegXML}
-\title{Write VegX XML file (ver 1.5.3)}
+\title{Write VegX XML file}
 \usage{
 writeVegXML(x, file)
 }
@@ -15,7 +15,15 @@ writeVegXML(x, file)
 A string of the file written
 }
 \description{
-Write VegX XML file (ver 1.5.3)
+Assembles and writes an XML file on the disk 
+following the Veg-X XML schema standard (ver 1.6.0)
+}
+\examples{
+\dontrun{
+  target = newVegX()
+  writeVegXML(target, "foo.xml")
+}
+
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
