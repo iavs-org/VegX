@@ -8,12 +8,16 @@
 #' @slot plots list of vegetation plots where measurements were made.
 #' @slot plotObservations list of vegetation plot observations.
 #' @slot taxonNameUsageConcepts list of usages of taxon names as made by the observer.
-#' @slot individualObservations list of observations made on individual organisms (e.g. diameter or height values).
+#' @slot strata list of stratum definitions.
+#' @slot stratumObservations list of observations made on strata (e.g. overall tree cover).
 #' @slot aggregatedObservations list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).
 #' @slot individualOrganisms list of individual organisms.
+#' @slot individualObservations list of observations made on individual organisms (e.g. diameter or height values).
 #' @slot abioticObservations list of abiotic observations made plots.
-#' @slot strata list of stratum definitions.
-#' @slot individualOrganisms list of individual organisms.
+#' @slot vegetationObservations list of observations applying to the whole stand (e.g. stand maturity) 
+#' @slot surfaceCovers list of surface cover definitions.
+#' @slot surfaceCoverObservations list of surface cover observations.
+#' @slot ancillaryObservations list of ancillary observations (e.g. land use, management regime, legal protection, ...)
 #' @slot methods list of measurement methods (e.g. cover scales).
 #' @slot attributes list of attribute value description.
 #'

@@ -20,17 +20,25 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 
 \item{\code{taxonNameUsageConcepts}}{list of usages of taxon names as made by the observer.}
 
-\item{\code{individualObservations}}{list of observations made on individual organisms (e.g. diameter or height values).}
+\item{\code{strata}}{list of stratum definitions.}
+
+\item{\code{stratumObservations}}{list of observations made on strata (e.g. overall tree cover).}
 
 \item{\code{aggregatedObservations}}{list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).}
 
 \item{\code{individualOrganisms}}{list of individual organisms.}
 
+\item{\code{individualObservations}}{list of observations made on individual organisms (e.g. diameter or height values).}
+
 \item{\code{abioticObservations}}{list of abiotic observations made plots.}
 
-\item{\code{strata}}{list of stratum definitions.}
+\item{\code{vegetationObservations}}{list of observations applying to the whole stand (e.g. stand maturity)}
 
-\item{\code{individualOrganisms}}{list of individual organisms.}
+\item{\code{surfaceCovers}}{list of surface cover definitions.}
+
+\item{\code{surfaceCoverObservations}}{list of surface cover observations.}
+
+\item{\code{ancillaryObservations}}{list of ancillary observations (e.g. land use, management regime, legal protection, ...)}
 
 \item{\code{methods}}{list of measurement methods (e.g. cover scales).}
 
