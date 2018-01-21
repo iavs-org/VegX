@@ -15,7 +15,7 @@ writeVegXML(x, file)
 A string of the file written
 }
 \description{
-Assembles and writes an XML file on the disk 
+Assembles and writes an XML file on the disk
 following the Veg-X XML schema standard (ver 1.6.0)
 }
 \examples{

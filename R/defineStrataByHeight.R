@@ -15,7 +15,7 @@
 #' @examples
 #' strataDef = defineStrataByHeight(name = "Recce strata",
 #'                                 description = "Standard Recce stratum definition",
-#'                                 citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.,
+#'                                 citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                                 heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
 #'                                 stratumNames = paste0("Tier ",1:7))
 #'

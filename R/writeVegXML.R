@@ -1,6 +1,6 @@
-#' Write VegX XML file 
-#' 
-#' Assembles and writes an XML file on the disk 
+#' Write VegX XML file
+#'
+#' Assembles and writes an XML file on the disk
 #' following the Veg-X XML schema standard (ver 1.6.0)
 #'
 #' @param x an object of class \code{\linkS4class{VegX}}
@@ -15,7 +15,7 @@
 #'   target = newVegX()
 #'   writeVegXML(target, "foo.xml")
 #' }
-#' 
+#'
 writeVegXML<-function(x, file) {
   # Top XML node
   top = newXMLNode("VegX")
@@ -218,6 +218,7 @@ writeVegXML<-function(x, file) {
                        parent = methods)
       newXMLNode("name", x@methods[[i]]$name, parent=met)
       newXMLNode("description", x@methods[[i]]$description, parent=met)
+      if(x@methods[[i]]$citation != "") newXMLNode("citation", x@methods[[i]]$citation, parent=met)
       newXMLNode("attributeClass", x@methods[[i]]$attributeClass, parent=met)
       newXMLNode("attributeType", x@methods[[i]]$attributeType, parent=met)
     }
