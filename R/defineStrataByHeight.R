@@ -4,6 +4,7 @@
 #'
 #' @param name A string to identify the stratum definition.
 #' @param description A string describing how strata are defined.
+#' @param citation A string with the bibliographic reference for the method.
 #' @param heightBreaks A numeric vector with height limits between strata (of length equal to the number of strata plus one).
 #' @param stratumNames A numeric vector of stratum codes (of length equal to the number of strata).
 #' @param heightUnit A string to identify height units.
@@ -14,11 +15,13 @@
 #' @examples
 #' strataDef = defineStrataByHeight(name = "Recce strata",
 #'                                 description = "Standard Recce stratum definition",
+#'                                 citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.,
 #'                                 heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
 #'                                 stratumNames = paste0("Tier ",1:7))
 #'
 defineStrataByHeight<-function(name = "Strata by height",
                                description = "Vegetation strata defined by height in m",
+                               citation = "",
                                heightBreaks = c(0,1,3,5),
                                stratumNames = c("s1", "s2", "s3"), heightUnit = "m") {
   attributes = list(
@@ -30,6 +33,7 @@ defineStrataByHeight<-function(name = "Strata by height",
   defMethod = new("VegXMethod",
              name = name,
              description = description,
+             citation = citation,
              attributeClass = "stratum height",
              attributeType = "quantitative",
              attributes = attributes)
@@ -50,15 +54,18 @@ defineStrataByHeight<-function(name = "Strata by height",
 #'
 #' @param name A string to identify the stratum definition.
 #' @param description A string describing how strata are defined.
+#' @param citation A string with the bibliographic reference for the method.
 #' @param stratumNames A numeric vector of stratum codes (of length equal to the number of strata).
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
 defineStratumCategories<-function(name = "Strata by categories",
                                   description = "Vegetation categorical strata",
+                                  citation = "",
                                   stratumNames = c("s1", "s2", "s3")) {
   defMethod = new("VegXMethod",
                   name = name,
                   description = description,
+                  citation = citation,
                   attributeClass = "stratum category",
                   attributeType = "qualitative",
                   attributes = list())
@@ -77,19 +84,22 @@ defineStratumCategories<-function(name = "Strata by categories",
 #'
 #' @param name A string to identify the surface cover definition.
 #' @param description A string describing how surface covers are defined.
+#' @param citation A string with the bibliographic reference for the method.
 #' @param surfaceNames A numeric vector of surface codes (of length equal to the number of strata).
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
 defineSurfaceCategories<-function(name = "Surface covers",
                                   description = "Four simple surface categories",
+                                  citation = "",
                                   surfaceNames = c("bare soil", "water", "rock", "vegetation")) {
   defMethod = new("VegXMethod",
                   name = name,
                   description = description,
+                  citation = citation,
                   attributeClass = "surface category",
                   attributeType = "qualitative",
                   attributes = list())
-  
+
   surfaceCovers = list()
   for(i in 1:length(surfaceNames)) {
     surfaceCovers[[as.character(i)]] = list(surfaceNames = surfaceNames[i])

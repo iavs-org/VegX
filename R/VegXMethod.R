@@ -2,6 +2,7 @@
 #'
 #' @slot name Name of the measurement method.
 #' @slot description Description of the measurement method.
+#' @slot citation A string with the bibliographic reference for the method.
 #' @slot attributeClass Kind of attribute measured (e.g. cover).
 #' @slot attributeType Either "quantitative", "ordinal" or "qualitative".
 #' @slot attributes List of attribute values
@@ -16,6 +17,7 @@
 setClass("VegXMethod",slots=c(
                          name = "character",
                          description="character",
+                         citation = "character",
                          attributeClass = "character",
                          attributeType = "character",
                          attributes = "list"))

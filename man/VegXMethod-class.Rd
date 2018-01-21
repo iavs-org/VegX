@@ -14,6 +14,8 @@ S4 class for Veg-X measurement methods
 
 \item{\code{description}}{Description of the measurement method.}
 
+\item{\code{citation}}{A string with the bibliographic reference for the method.}
+
 \item{\code{attributeClass}}{Kind of attribute measured (e.g. cover).}
 
 \item{\code{attributeType}}{Either "quantitative", "ordinal" or "qualitative".}

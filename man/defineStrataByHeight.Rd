@@ -5,7 +5,7 @@
 \title{Stratum definition by height}
 \usage{
 defineStrataByHeight(name = "Strata by height",
-  description = "Vegetation strata defined by height in m",
+  description = "Vegetation strata defined by height in m", citation = "",
   heightBreaks = c(0, 1, 3, 5), stratumNames = c("s1", "s2", "s3"),
   heightUnit = "m")
 }
@@ -13,6 +13,8 @@ defineStrataByHeight(name = "Strata by height",
 \item{name}{A string to identify the stratum definition.}
 
 \item{description}{A string describing how strata are defined.}
+
+\item{citation}{A string with the bibliographic reference for the method.}
 
 \item{heightBreaks}{A numeric vector with height limits between strata (of length equal to the number of strata plus one).}
 
@@ -25,11 +27,4 @@ an object of class \code{\linkS4class{VegXStrata}}
 }
 \description{
 Height-based strata definition
-}
-\examples{
-strataDef = defineStrataByHeight(name = "Recce strata",
-                                description = "Standard Recce stratum definition",
-                                heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
-                                stratumNames = paste0("Tier ",1:7))
-
 }
