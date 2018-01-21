@@ -11,7 +11,11 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-## Overview of Veg-X
+## About Veg-X
+
+The exchange standard for plot-based vegetation data (Veg-X) is a standard intended to be used for sharing and merging vegetation-plot data of different kinds. It was created by the *Ecoinformatics Working Group* of the **International Association for Vegetation Science** (http://iavs.org).
+
+## Overview of Veg-X standard
 
 Our goal was to produce a standard specifically for vegetation-plot data that is relatively simple to read and use. To achieve this we avoided highly nested structures and included major vegetation data components (e.g. plot attributes, plot observations, organisms) as top-level elements that are referenced by  each other through unique identifiers (e.g. a unique numerical ID) that allow the integrity of the original linkage to be captured. Although the main logical structure of vegetation data (i.e. the logical relationships between major data components) is fixed, we allowed for alternative, user-defined ways of grouping observations. As such, the standard can accommodate projects that are linked across time as well as longitudinal measures of plots or individuals to the extent that these are referenced in the original dataset through appropriate unique identifiers in those original sources.
 
@@ -26,3 +30,25 @@ The standard also maintains a distinction between taxonomic identity (the taxon 
 Although the standard supports fully-specified taxonomic concepts, it does not require them. This is important as the full concept is unspecified and furthermore unrecoverable for most legacy data. On the other hand, because the schema can accommodate determination information (who did the identification, when, and with what reference), in theory it could be possible to recover concepts for many legacy datasets – in particular, tropical forest plots where such information is commonly preserved in the form of herbarium voucher specimens.
 
 Veg-X is written as an XML schema, which is a definition of user-defined tags to structure textual information in order to create self-describing datasets. XML (Extensible Markup Language) is an open standard, and XML files are both machine and human-readable (they are stored in plain-text ASCII format). These characteristics help to ensure that data in this format will be accessible in the future. We made use of existing XML schema definitions, which we incorporated as modules of our schema. Specifically, we used parts of the Ecological Metadata Language to define entities like projects or protocols. Similarly, we used TDWG standards such as the Darwin Core geospatial extension (http://wiki.tdwg.org/twiki/bin/view/DarwinCore/GeospatialExtension) to deal with georeferences, and the Taxon Concept Schema (http://www.tdwg.org/standards/117/) for taxon names and concepts. Updated versions of the Veg-X XML schema, as well as a prototype import/export utility, can be found at the TDWG Vegetation Web group page (http://wiki.tdwg.org/twiki/bin/view/Vegetation/WebHome).
+
+## Logical structure and main elements of Veg-X (1.6.0)
+
+Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements.
+
+![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element.](LogicalStructure_1.6.0.png) 
+
+
+The following table provides the description of the main elements of the standard:
+
+Main element                   | Description                                     |
+------------------------------ | ----------------------------------------------- |
+Plot                           | A plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code. |
+PlotObservation                | Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped. |
+individualOrganismObservation  | An observation applying to one occurrence of an organism (or part of an organism).  |
+aggregatedOrganismObservation  | An observation applying to all occurrences of an organism based on an aggregation factor. |
+stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum.
+
+
+## Differences between the Veg-X schema and the data model in VegX R package
+
+The VegX R package uses a simplified version of the VegX schema.
