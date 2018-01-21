@@ -18,6 +18,8 @@
 #' @return A modified object of class \code{\linkS4class{VegX}}
 #' @export
 #'
+#' @family add functions
+#'
 #' @examples
 addTaxonBySiteData <-function(target,
                               x,

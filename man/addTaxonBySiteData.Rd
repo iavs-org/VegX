@@ -33,3 +33,10 @@ Vegetation plots and taxon names can be the same as those already existing in th
 Subplots cannot be defined with this function, but observations can be referred to them if they exist.
 New/old plot observations are distinguished by observation date.
 }
+\seealso{
+Other add functions: \code{\link{addAbioticObservations}},
+  \code{\link{addPlotLocations}},
+  \code{\link{addSiteCharacteristics}},
+  \code{\link{addTaxonObservations}},
+  \code{\link{addTreeObservations}}
+}

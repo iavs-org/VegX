@@ -67,5 +67,9 @@ summary(x)
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-\code{\link{addTreeObservations}}.
+Other add functions: \code{\link{addAbioticObservations}},
+  \code{\link{addPlotLocations}},
+  \code{\link{addSiteCharacteristics}},
+  \code{\link{addTaxonBySiteData}},
+  \code{\link{addTreeObservations}}
 }
