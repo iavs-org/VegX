@@ -43,8 +43,8 @@ data(mokihinui)
 target = newVegX()
 
 # Define mapping
-treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate", obsEndDate = "obsEndDate", taxonAuthorName = "PreferredSpeciesName",
-                   diameter = "Diameter")
+treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
+                   taxonAuthorName = "PreferredSpeciesName", diameter = "Diameter")
 
 # Define diameter measurement method
 diamMeth = predefinedMeasurementMethod("DBH")

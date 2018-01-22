@@ -218,7 +218,7 @@ writeVegXML<-function(x, file) {
                        parent = methods)
       newXMLNode("name", x@methods[[i]]$name, parent=met)
       newXMLNode("description", x@methods[[i]]$description, parent=met)
-      if(x@methods[[i]]$citation != "") newXMLNode("citation", x@methods[[i]]$citation, parent=met)
+      if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
       newXMLNode("attributeClass", x@methods[[i]]$attributeClass, parent=met)
       newXMLNode("attributeType", x@methods[[i]]$attributeType, parent=met)
     }

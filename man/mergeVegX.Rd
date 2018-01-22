@@ -15,5 +15,18 @@ mergeVegX(x, y, verbose = TRUE)
 An object of class \code{\linkS4class{VegX}} with the pooled data
 }
 \description{
-Merges two Veg-X documents, assuming that they may refer to the same projects, the same plots and the same plot observations.
+Merges two Veg-X documents while considering that some entities may be shared.
+}
+\details{
+Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
+\itemize{
+  \item \code{projects} are merged when their element \code{title} has the same value
+  \item \code{plots} are merged when their element \code{plotName} has the same value
+  \item \code{plotObservations} are merged when both \code{plotID} and \code{obsStartDate} have the same value
+  \item \code{taxonNameUsageConcepts} are merged when element \code{authorName} has the same value
+  \item \code{methods} are merged when element \code{name} has the same value
+}
+Merging to these entities may cause interruption of the process if the two entities to be merged
+have different value for the same element. Other entities (\code{stratumObservation}, \code{individualOrganismObservation}) are always considered as distinct
+entities between the two data sets to be merged and hence are simply copied to the result.
 }

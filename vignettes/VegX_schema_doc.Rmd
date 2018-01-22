@@ -93,6 +93,8 @@ partyWithRole | The party that undertook the plot placement | No |
 
 ### *plotObservation*
 
+Plot observations are identified internally by their elements 'plotID' and 'obsStartDate'
+
 Sub-element              | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
 plotID                   | A reference to a specific plot by the plot ID       | Yes |
@@ -106,6 +108,25 @@ taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | 
 previousObservationID | Link to previous plot observations.	| No |
 observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| No |
 
+### *taxonNameUsageConcept*
+
+Taxon name usage concepts are identified internally by their element 'authorName'
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+authorName               | A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot.       | Yes |
+
+### *method*
+
+Methods are identified internally by their element 'name'
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+name               | Name associated with the method. For example, "percent cover". | Yes |
+description | A full description of the type of method e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh. | Yes |
+protocolID | A reference to a protocol using its identifier | No |
+citationID | A reference to a specific citation of literature. | No |
+citationString | A string indicating the citation reference | Yes |
 
 ## Differences between the Veg-X schema and the data model in VegX R package
 

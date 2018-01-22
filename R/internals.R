@@ -23,6 +23,14 @@
   }
   return(list(id = as.character(length(target@plotObservations)+1), new = TRUE))
 }
+# Returns the ID for a new stratum in the data set or the ID of an existing stratum
+.newStratumIDByName<-function(target, methodID, stratumName) {
+  if(length(target@strata)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@strata)) {
+    if((target@strata[[i]]$methodID==methodID) && (target@strata[[i]]$stratumName==stratumName)) return(list(id = names(target@strata)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@strata)+1), new = TRUE))
+}
 # Returns the ID for a new stratum observation in the data set or the ID of an existing stratum observation
 .newStratumObsIDByIDs<-function(target, plotObservationID, stratumID) {
   if(length(target@stratumObservations)==0) return(list(id="1", new = TRUE))
@@ -181,6 +189,63 @@
       res[[n]] = plotObservation1[[n]]
     } else if(n %in% n2) {
       res[[n]] = plotObservation2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two taxon name usage concepts
+.mergeTaxonNameUsageConcepts<-function(tnuc1, tnuc2) {
+  n1 = names(tnuc1)
+  n2 = names(tnuc2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(tnuc1[[n]]!=tnuc2[[n]]) stop(paste0("Taxon name usage concepts have different data for '", n, "'. Cannot merge."))
+      res[[n]] = tnuc1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = tnuc1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = tnuc2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two methods
+.mergeMethods<-function(met1, met2) {
+  n1 = names(met1)
+  n2 = names(met2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(met1[[n]]!=met2[[n]]) stop(paste0("Methods have different data for '", n, "'. Cannot merge."))
+      res[[n]] = met1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = met1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = met2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two strata
+.mergeStrata<-function(str1, str2) {
+  n1 = names(str1)
+  n2 = names(str2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(str1[[n]]!=str2[[n]]) stop(paste0("Strata have different data for '", n, "'. Cannot merge."))
+      res[[n]] = str1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = str1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = str2[[n]]
     }
   }
   return(res)
