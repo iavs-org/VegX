@@ -16,10 +16,14 @@
 #'   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorName} has the same value
 #'   \item \code{methods} are merged when their element \code{name} has the same value
 #'   \item \code{strata} are merged when their element \code{name} has the same value
+#'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
+#'   \item \code{individualOrganisms} are merged when their element \code{identificationLabel} has the same value
 #' }
 #' Merging to these entities may cause interruption of the process if the two entities to be merged
 #' have different value for the same element. Other entities (\code{attributes} of a method) are always considered as distinct
 #' entities between the two data sets to be merged and hence are simply copied to the result.
+#'
+#' @seealso \code{\linkS4class{VegX}}
 #'
 #' @examples
 #'
@@ -202,10 +206,27 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of stratum observations: ", length(x@stratumObservations),". Data pooled for ", nmergedstrobs, " stratum observation(s).\n"))
   }
 
+  # individualOrganisms
+  indIDmap = list()
+  nmergedind = 0
+  if(length(y@individualOrganisms)>0) {
+    for(j in 1:length(y@individualOrganisms)) {
+      nindid = .newIndividualOrganismIDByLabel(x, y@individualOrganisms[[j]]$stratumName)
+      if(nindid$new) {
+        x@individualOrganisms[[nindid$id]] = y@individualOrganisms[[j]]
+      } else { #pool information
+        x@individualOrganisms[[nindid$id]] = .mergeIndividualOrganisms(x@individualOrganisms[[nindid$id]], y@individualOrganisms[[j]])
+        nmergedind = nmergedind + 1
+      }
+      indIDmap[names(y@individualOrganisms)[j]] = nindid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of individual organisms: ", length(x@individualOrganisms),". Data pooled for ", nmergedind, " individual organism(s).\n"))
+  }
 
 
   #                         aggregatedObservations = "list",
-  #                         individualOrganisms = "list",
   #                         individualObservations = "list",
 
 

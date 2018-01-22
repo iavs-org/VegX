@@ -157,4 +157,14 @@ precision | The smallest place value to which the measurement is expressed (eg, 
 lowerBound | Potential lower limit of the measurement | Yes |
 upperBound | Potential upper limit of the measurement | Yes |
 
+### *stratumObservation*
 
+Stratum observations are identified by *stratumID* and *plotObservationID*.
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+stratumID                | A reference to a specific stratum. | Yes |
+plotObservationID        | A reference to a specific plotObservation. | Yes |
+height                   | Average height to the top of the stratum.  | No |
+base                     | Average height of the bottom of the stratum. | No |
+stratumValue             | The value (e.g. cover, count) given to the observation in that strata | No |
