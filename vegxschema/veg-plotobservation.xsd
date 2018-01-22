@@ -1,0 +1,368 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:plot="http://www.bfn.de/plot-1.0.1" xmlns:proj="eml://ecoinformatics.org/project-2.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://www.bfn.de/misc-1.0.1" xmlns="http://www.bfn.de/plotobservation-1.0.1" targetNamespace="http://www.bfn.de/plotobservation-1.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
+    <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
+    <xsd:import schemaLocation="eml-project.xsd" namespace="eml://ecoinformatics.org/project-2.0.1" />
+    <xsd:import schemaLocation="eml-documentation.xsd" namespace="eml://ecoinformatics.org/documentation-2.0.1" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://www.bfn.de/misc-1.0.1" />
+    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://www.bfn.de/plot-1.0.1" />
+    <xsd:complexType name="PlotObservationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped.</xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID. The individual plot is defined within the element veg:plots which is a container for all plots within the dataset.			</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="obsStartDate" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation source="NVS" xml:lang="en">The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="obsEndDate" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="NVS" xml:lang="en">The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="plotObservationUniqueIdentifier" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Plot observation identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="projectID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific 'project'.  The individual project is defined within the element veg:projects which is a container for all projects within the dataset. Note a plot can only be linked to a project via the plot observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The party that undertook the plot observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="license" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>License linked to this plot observation.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="licenceName">
+                            <xsd:annotation>
+                                <xsd:documentation>License name like Public Domain, BY, BY-NC, BY-NC-SA, all rights reserved</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="partyID" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Reference to a party holding the license.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the element of concern.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="taxonomicQuality" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Subjective assessment of the taxonomic quality on the plot.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="qualityAssessment">
+                            <xsd:annotation>
+                                <xsd:documentation>Subjective assessment of the taxonomic quality on the plot (e.g., Highest, High, High but incomplete, Moderate, Moderate and incomplete, Low, Very incomplete, absent). 		</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="assessmentType">
+                            <xsd:annotation>
+                                <xsd:documentation>Type that is being assessed, e.g. bryophytes or lichens.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="qualityAssessmentMethodID" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>A reference to a specific method used to assess taxonomic quality. Defined within the element veg:method which is a container for all methods within the dataset.	</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="previousPlotObservationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Link to previous plot observations.
+					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="observationNarrative" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 				</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="referencePublication" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Reference to an original publication and additionally a table or section within a publication.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="referenceCitationID">
+                            <xsd:annotation>
+                                <xsd:documentation>A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="referenceTable" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Reference to a specific table in the cited publication.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="referencePlot" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Plot number in original publication.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="referenceText" type="xsd:anyType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Reference to a section within a publication. Type unspecified. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="observationConditions" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Conditions at the time of observation.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="temperature" type="misc:MeasurementType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Temperature during observation.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="weather" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Descriptive assessment of weather conditions during the observation.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A set of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional">
+            <xsd:annotation>
+                <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="VegetationObservationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The abiotic measurements made on a single plot during a single date-time period. </xsd:documentation>
+            <xsd:documentation xml:lang="de" />
+            <xsd:appinfo />
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotObservationID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation.  The individual plotObservation is defined within the element veg:plotObservation which is a container for all the plotObservations within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="successionalType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Description of the assumed successional status of the plot. This description is of necessity highly subjective. 					</xsd:documentation>
+                    <xsd:documentation xml:lang="de">
+						Stadium der zeitlichen Vegetationsentwicklung
+					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="standAge" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observation groupings within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Simple user-defined information types, relevant to the abioticObservation stored as a name-value pair. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Complex user-defined information types that pertain to the abioticObservation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="SurfaceCoverType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
+            <xsd:appinfo />
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="surfaceName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Name associated with this stratum </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="surfaceIndex" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Short code used to identify the stratum </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="SurfaceCoverObservationType">
+        <xsd:sequence>
+            <xsd:element name="surfaceCoverID" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="plotObservatioID" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="surfaceCover" type="misc:MeasurementType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Percent of surface covered for different surface categories, e.g. green foliage, litter, water, exposed bedrock, bare soil, gravel etc.			</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="SiteObservationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The abiotic measurements made on a single plot during a single date-time period. </xsd:documentation>
+            <xsd:appinfo />
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotObservationID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation.  The individual plotObservation is defined within the element veg:plotObservation which is a container for all the plotObservations within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relatedObservation" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An abiotic observation may be related to a another.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="soil" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Specific soil attributes.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A specific soil type.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="humusType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A specific humus type. 		</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="soilMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Measurements of soil attributes including soil water</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="climate" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="climateType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A specific climate type.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="name" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Name.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="schema" type="xsd:string" minOccurs="0" />
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="climateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Phosphorus in soil.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="water" minOccurs="0">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="hydrologicRegimeType" type="misc:ClassType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank, Bfn" xml:lang="en">What is the hydrologic regime, which is a reflection of frequency and duration of flooding? 					</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="waterMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Phosphorus in soil.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="legalProtection" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Legal protection status of the plot during the plot observation. Recommended that this is from a closed list of legal protection status types. This will vary depending on region.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="landuse" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Landuse, for example pasture</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="habitat" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A specific habitat type existing during this plot observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observation groupings within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Simple user-defined information types, relevant to the abioticObservation stored as a name-value pair. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Complex user-defined information types that pertain to the abioticObservation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+</xsd:schema>

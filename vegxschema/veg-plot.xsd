@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://www.bfn.de/misc-1.0.1" xmlns="http://www.bfn.de/plot-1.0.1" targetNamespace="http://www.bfn.de/plot-1.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
+    <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
+    <xsd:import schemaLocation="eml-documentation.xsd" namespace="eml://ecoinformatics.org/documentation-2.0.1" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://www.bfn.de/misc-1.0.1" />
+    <xsd:import schemaLocation="tdwg_dw_geospatial.xsd" namespace="http://rs.tdwg.org/dwc/geospatial/" />
+    <xsd:complexType name="PlotType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">A plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code.</xsd:documentation>
+            <xsd:appinfo>
+				<doc:moduleDocs>
+					<doc:moduleName>PlotType</doc:moduleName>
+					<doc:moduleDescription>
+						<section xmlns="">
+							<title>Plot - A Plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code</title>
+							<para>A Plot is a sampling location represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links. </para>
+						</section>
+					</doc:moduleDescription>
+					<doc:recommendedUsage />
+					<doc:standAlone>no</doc:standAlone>
+				</doc:moduleDocs>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Name or label for a plot.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="plotUniqueIdentifier" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Plot identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relatedPlot" type="misc:relatedPlotType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="location" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="geospatial" type="misc:GeospatialType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Geographic location of the plot. Based on Darwin Core Geospatial extension. Includes an additional extension for depth and elevation following TDWG taxonOccurrence ontology. How to store multiple coordinates eg 4 corners of plot. How to label the point of origin? or vectors from point of origin. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="locationNarrative" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">Text description that provides information useful for plot relocation.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="authorLocation" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Descriptive note about the original location described by author (e.g. Town-Range-Section).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="places" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>A collection of named places or geographic regions. Includes elements to indicate what type of place and which place/geo-region schema it was from.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="placeName">
+                                        <xsd:annotation>
+                                            <xsd:documentation>A place name, e.g. Germany.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="placeType">
+                                        <xsd:annotation>
+                                            <xsd:documentation>What type of place name it is e.g. administrative region, country name, city name etc. </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="placeSchema" minOccurs="0">
+                                        <xsd:annotation>
+                                            <xsd:documentation>A place/geo-region schema from which the type and name were derived e.g. ISO country names.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="geometry" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="area" type="misc:MeasurementType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Total area of the plot. Usually recorded in square meters.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:choice>
+                            <xsd:element name="circle">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="radius" type="misc:MeasurementType" minOccurs="0">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Define the radius of circular plots. Usually recorded in meters.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element name="diameter" type="misc:MeasurementType" minOccurs="0">
+                                            <xsd:annotation>
+                                                <xsd:documentation>Define the radius of circular plots. Usually recorded in meters.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="rectangle">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="plotOrigin" minOccurs="0">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="plotOriginLabel" type="xsd:string">
+                                                        <xsd:annotation>
+                                                            <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
+                                                        </xsd:annotation>
+                                                    </xsd:element>
+                                                    <xsd:element name="plotOriginPosition" type="xsd:string">
+                                                        <xsd:annotation>
+                                                            <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners of 4-sided plots e.g., bottom-left, top-right etc.</xsd:documentation>
+                                                        </xsd:annotation>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="dimensions" minOccurs="0" maxOccurs="1">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="length" type="misc:MeasurementType">
+                                                        <xsd:annotation>
+                                                            <xsd:documentation source="NVS" xml:lang="en">Length of regular rectangle.</xsd:documentation>
+                                                        </xsd:annotation>
+                                                    </xsd:element>
+                                                    <xsd:element name="width" type="misc:MeasurementType">
+                                                        <xsd:annotation>
+                                                            <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                                        </xsd:annotation>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                                            <xsd:annotation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="line">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="plotOrigin" minOccurs="0">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="plotOriginLabel" type="xsd:string">
+                                                        <xsd:annotation>
+                                                            <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
+                                                        </xsd:annotation>
+                                                    </xsd:element>
+                                                    <xsd:element name="plotOriginPosition" type="xsd:string">
+                                                        <xsd:annotation>
+                                                            <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners of 4-sided plots e.g., bottom-left, top-right etc.</xsd:documentation>
+                                                        </xsd:annotation>
+                                                    </xsd:element>
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                        <xsd:element name="length" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                                            <xsd:annotation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Length of regular rectangle.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element name="bandWidth" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                                            <xsd:annotation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                                            <xsd:annotation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                            <xsd:element name="polygon">
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="shape">
+                                            <xsd:complexType>
+                                                <xsd:sequence>
+                                                    <xsd:element name="shapeDescription" type="xsd:string" />
+                                                </xsd:sequence>
+                                            </xsd:complexType>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:choice>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="topography" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="aspect" type="misc:MeasurementType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Representative azimuth of slope gradient (0-360 degrees) or as a cardinal direction (e.g. N, S, NE).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="slope" type="misc:MeasurementType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Representative inclination of slope in degrees.</xsd:documentation>
+                                <xsd:documentation xml:lang="de">Neigung in Grad</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="landform" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">A recognizable physical feature on the surface of the earth, often including consideration of the natural cause of its formation. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="parentMaterial" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="rockType">
+                            <xsd:annotation>
+                                <xsd:documentation>Rock type. May be a code or a name.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="geologicalSchema" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>A standard geological series of lithic types, e.g. the FGDC Soil Geographic Data Standards.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="placementMethod" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Brief description of strategy for determining plot placement within the stand.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation />
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+</xsd:schema>
