@@ -328,18 +328,10 @@
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="ClassType">
-        <xsd:choice>
-            <xsd:element name="classString" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>A free string to specify a class, without reference to other possible values.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="qualitativeAttributeID" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>Links to a qualitative attribute (category), which is related to other a attributes of the same schema via the reference to a method (methodID)</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:choice>
+        <xsd:sequence>
+            <xsd:element name="value" type="xsd:string" />
+            <xsd:element name="qualitativeAttributeID" type="xsd:string" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="MeasurementType">
         <xsd:annotation>
@@ -548,6 +540,11 @@ Upper limit of the cover index in percent (only relevant when the value represen
                         <xsd:element name="code" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>The category</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="definition" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>The definition of the code used.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>

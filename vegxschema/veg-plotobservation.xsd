@@ -188,6 +188,11 @@
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="standAge" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="standValue" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The value (e.g. number of individuals, basal area) given to the observation in the stand</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observation groupings within the dataset.</xsd:documentation>
