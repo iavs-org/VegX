@@ -1,0 +1,2311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSpy v2008 (http://www.altova.com) by Adrienne Phillips (Landcare Research) -->
+<xsd:schema xmlns="http://www.tdwg.org/schemas/tcs/1.01" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" targetNamespace="http://www.tdwg.org/schemas/tcs/1.01" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:import namespace="eml://ecoinformatics.org/resource-2.0.1" schemaLocation="eml-resource.xsd"/>
+	<xsd:complexType name="DataSet">
+		<xsd:choice>
+			<xsd:sequence>
+				<xsd:element name="MetaData" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Information associated with the creation of the dataset in human-readable form.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Simple" type="xsd:string">
+								<xsd:annotation>
+									<xsd:documentation>A summary of the metadata for this document.</xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="MetaDataDetailed" type="PlaceholderType" minOccurs="0">
+								<xsd:annotation>
+									<xsd:documentation>A place holder for an external schema giving details of the metadata for this document. A meta data schema is provided with the TCS release for this purpose should no other schema be preferred. </xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="Specimens" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Container for vouchers (representation of specimen) records.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Specimen" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Specimen and location</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence minOccurs="0">
+										<xsd:element name="Simple" type="xsd:string"/>
+										<xsd:element name="Institution" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation>Information about the location of the specimen. The PlaceholderType represents a placeholder for optionally extending the schema with a schema element defined in another standard. </xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:sequence minOccurs="0">
+													<xsd:element name="InstitutionName" type="xsd:string"/>
+													<xsd:element name="Code" type="xsd:string" minOccurs="0"/>
+													<xsd:element name="Address" type="xsd:string" minOccurs="0"/>
+													<xsd:element name="Phone" type="xsd:string" minOccurs="0"/>
+													<xsd:element name="URL" type="xsd:string" minOccurs="0"/>
+													<xsd:element name="Email" type="xsd:string" minOccurs="0"/>
+												</xsd:sequence>
+												<xsd:attribute name="identifier" type="xsd:token" use="required"/>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="Collection" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation>The PlaceholderType represents a placeholder for optionally extending the schema with a schema element defined in another standard.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:complexContent>
+													<xsd:extension base="PlaceholderType">
+														<xsd:attribute name="identifier" type="xsd:token" use="required">
+															<xsd:annotation>
+																<xsd:documentation> Identifier for the specimen used within the collection. </xsd:documentation>
+															</xsd:annotation>
+														</xsd:attribute>
+													</xsd:extension>
+												</xsd:complexContent>
+											</xsd:complexType>
+										</xsd:element>
+										<xsd:element name="SpecimenItem">
+											<xsd:annotation>
+												<xsd:documentation>Physical object the voucher is referring to. The PlaceholderType represents a placeholder for optionally extending the schema with a schema element defined in another standard.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:complexContent>
+													<xsd:extension base="PlaceholderType">
+														<xsd:attribute name="identifier" type="xsd:token" use="required"/>
+													</xsd:extension>
+												</xsd:complexContent>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+									<xsd:attribute name="id" type="xsd:token" use="required">
+										<xsd:annotation>
+											<xsd:documentation>Unique identifier (key) of the element. It can be local to the data set or a GUID in which case it can be resolved to a location on the internet where the record is stored.
+</xsd:documentation>
+										</xsd:annotation>
+									</xsd:attribute>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="Publications" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Container for publication records.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="Publication" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Details of the data source.</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence minOccurs="0">
+										<xsd:element name="Simple" type="xsd:string">
+											<xsd:annotation>
+												<xsd:documentation>Full bibliographic reference as a single formatted string.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="PublicationDetailed" type="PlaceholderType" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation>Mechanism to allow for the extension of the schema for specific applications.</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+									<xsd:attribute name="id" type="xsd:token" use="required">
+										<xsd:annotation>
+											<xsd:documentation>Unique identifier (key) of the element. It can be local to the data set or a GUID in which case it can be resolved to a location on the internet where the record is stored.</xsd:documentation>
+										</xsd:annotation>
+									</xsd:attribute>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="TaxonNames" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation> A container element for TaxonName. </xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="TaxonName" type="ScientificName" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation> An object that represents a single scientific biological name that either is, or appears to be, governed by one of the biological codes of nomenclature. These are not taxa. Taxa, whether accepted or not, are represented by TaxonConcept objects. Vernacular names are also dealt with under taxon concepts. </xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="TaxonConcepts" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Container for TaxonConcept records.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="TaxonConcept" type="TaxonConceptType" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation> Representation of a TaxonConcept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. </xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="TaxonRelationshipAssertions" minOccurs="0">
+					<xsd:annotation>
+						<xsd:documentation>Container for taxonomic assertion records.</xsd:documentation>
+					</xsd:annotation>
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="TaxonRelationshipAssertion" minOccurs="0" maxOccurs="unbounded">
+								<xsd:annotation>
+									<xsd:documentation>Relationships between two concepts which are not part of the original definition of either of these concepts; possibly by a third party. </xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:complexContent>
+										<xsd:extension base="RelationshipType">
+											<xsd:sequence minOccurs="0">
+												<xsd:element name="AccordingTo" type="AccordingToType">
+													<xsd:annotation>
+														<xsd:documentation>Information about the authorship of the asserted relationship.</xsd:documentation>
+													</xsd:annotation>
+												</xsd:element>
+												<xsd:element name="FromTaxonConcept">
+													<xsd:annotation>
+														<xsd:documentation>Starting point of the directed relationship. A reference to a TaxonConcept.</xsd:documentation>
+													</xsd:annotation>
+													<xsd:complexType>
+														<xsd:complexContent>
+															<xsd:extension base="ReferenceType"/>
+														</xsd:complexContent>
+													</xsd:complexType>
+												</xsd:element>
+												<xsd:element name="ToTaxonConcept">
+													<xsd:annotation>
+														<xsd:documentation>End point of the directed relationship. A reference to a TaxonConcept.</xsd:documentation>
+													</xsd:annotation>
+													<xsd:complexType>
+														<xsd:complexContent>
+															<xsd:extension base="ReferenceType"/>
+														</xsd:complexContent>
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+											<xsd:attribute name="id" type="xsd:token" use="required">
+												<xsd:annotation>
+													<xsd:documentation>Unique identifier (key) of the element. It can be local to the data set or a GUID in which case it can be resolved to a location on the internet where the record is stored. </xsd:documentation>
+												</xsd:annotation>
+											</xsd:attribute>
+										</xsd:extension>
+									</xsd:complexContent>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+			<xsd:group ref="res:ReferencesGroup"/>
+		</xsd:choice>
+	</xsd:complexType>
+	<xsd:complexType name="ReferenceType" mixed="true">
+		<xsd:annotation>
+			<xsd:documentation> Elements of this type are used to refer to other resources. They can be used in the following ways. 1) With text content and no attributes - a simple text representation of the resource. 2) With no text content but a ref attribute pointing to the location or the resource. 3) A combination of the two above. The text content is a summary or the resource referenced to in the ref attribute.
+</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="ref" type="xsd:token" use="optional">
+			<xsd:annotation>
+				<xsd:documentation> The location of the resource. If the linkType attribute is not supplied agents should first presume this refers to the id of an element within the current document and then try to interpret it as a link to a resource available elsewhere on the network. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="linkType" use="optional" default="local">
+			<xsd:annotation>
+				<xsd:documentation> Defines the meaning of the contents of the ref attribute.
+</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="local">
+						<xsd:annotation>
+							<xsd:documentation> This is the id of another element within this document. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="external">
+						<xsd:annotation>
+							<xsd:documentation> A link to a resource in another document. It is presumed that the target will be returned as a valid TCS instance.
+</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="other">
+						<xsd:annotation>
+							<xsd:documentation> A link to another resource external to the current document that is not in TCS format. e.g. a jpeg, html page or pdf.
+</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="AccordingToType">
+		<xsd:annotation>
+			<xsd:documentation>Describes the origin of the concept or assertion.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Simple" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>Unstructured string as used in the data source describing the origin of the concept (e.g. AuthorTeam and year).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AccordingToDetailed" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Details provided by the data source about the concept or relationship authors.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="AuthorTeam" type="NameCitation" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>This field should contain the authors of the concept. Note that the Simple sub element of this element is a signature field and should have the following content. For TCS signatures two situations are envisaged, one where concepts appear in printed publications and the other where concepts are published on-line. When representing a printed concept the field should contain the unabbreviated surnames of the authors in the order they appear in the publication separated by spaces. Initials and any punctuation marks should be omitted. If there are more than three authors only the first two author names should be included and they should be followed by the words “et al”. The full authorship of the concept will always be available via the PublishedIn element. Transliteration of names should be avoided unless they can't be represented in UTF-8 encoding. If the concept is being published on line, and does not exist in a paper form, then the DNS name of the institution publishing the concept should be used. A policy should be formulated for how many sub-domains should be cited and this should be stuck to. It is recommended that the www sub-domain should not be used (e.g. ipni.org not www.ipni.org). These DNS names are not expected to resolve to anything now or in future and so artificial sub-domains could be created to represent publishing authorities within larger organisation if required. If the concept is version sensitive then the DNS name should be followed by a space and then the versioning information.
+</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="PublishedIn" type="ReferenceType" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation>Reference ID or GUID of the original publication in which the concept or relationship was introduced.
+</xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+						<xsd:element name="MicroReference" type="xsd:string" minOccurs="0">
+							<xsd:annotation>
+								<xsd:documentation> This is an additional qualification to the reference given by 'PublishedIn'. It for holding things such as "page 34" or "tab. 67" etc. </xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="RelationshipType">
+		<xsd:annotation>
+			<xsd:documentation>Type attribute describe the type of relationship</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="type" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Any of an enumerated list of possible taxonomic relationships that may be expressed between two TaxonConcepts.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="is congruent to">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: The extent of Concept 1 is (essentially) identical to Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is not congruent to">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: The extent of Concept 1 is not identical to Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="includes">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concept 2 is a subset of Concept 1
+</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="does not include">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concept 2 is not a subset of Concept 1 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="excludes">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concept 1 does not overlap or include Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is included in">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concept 1 is a subset of Concept 2
+</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is not included in">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concept 1 is not a subset of Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="overlaps">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concepts 1 and 2 share members/children in common </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="does not overlap">
+						<xsd:annotation>
+							<xsd:documentation> Set Relationship: Concepts 1 and 2 have no members/children in common </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is child taxon of">
+						<xsd:annotation>
+							<xsd:documentation> Hierarchical Relationship: Concept 1 is a member of lower taxonomic rank of Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is parent taxon of">
+						<xsd:annotation>
+							<xsd:documentation> Hierarchical Relationship: Taxon Concept 1 includes Concept 2 as a lower-ranked member. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is anamorph of">
+						<xsd:annotation>
+							<xsd:documentation> Concept 1 is the asexual or mitotic reproductive stage in a pleomorphic life cycle in which Concept 2 is the teleomorph or meiotic reproductive stage . </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is teleomorph of">
+						<xsd:annotation>
+							<xsd:documentation> Concept 1 is the teleomorph or meiotic reproductive stage in a pleomorphic life cycle in which Concept 2 is the asexual or mitotic reproductive stage. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is second parent of">
+						<xsd:annotation>
+							<xsd:documentation> Hybrid Relationship: Concept 1 is genetic parent (2) of Concept 2 . </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is female parent of">
+						<xsd:annotation>
+							<xsd:documentation> Hybrid Relationship: Concept 1 is genetic mother of Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is first parent of">
+						<xsd:annotation>
+							<xsd:documentation> Hybrid Relationship: Concept 1 is genetic parent (1) of Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is male parent of">
+						<xsd:annotation>
+							<xsd:documentation> Hybrid Relationship: Concept 1 is genetic father of Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is hybrid parent of">
+						<xsd:annotation>
+							<xsd:documentation> Hybrid Relationship: Concept 1 is genetic parent of Concept 2 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is hybrid child of">
+						<xsd:annotation>
+							<xsd:documentation> Hybrid Relationship: Concept 2 is a genetic parent of Concept 1 </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is ambiregnal of">
+						<xsd:annotation>
+							<xsd:documentation> Concepts have only a single scientific name. This name is governed by a single nomenclatural code. If an organism falls into two codes (not a desirable or frequent situation) then two TaxonConcepts should be created and linked with this relationship. e.g. a concept for the organism as an animal and a concept of it as a plant. It is unlikely this will be widely used as a taxonomist would typically have a single view of which kingdom a organism is in. Also note that ambiregnal is used to imply different nomenclatural codes but there is not a precise relationship between codes and kingdoms.</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="is vernacular for">
+						<xsd:annotation>
+							<xsd:documentation> The current concept is used as a vernacular concept, at least in part, for the target concept. This kind of relationship should not be used to express any form of set relationship (e.g. overlaps, is congruent with, includes). Consider using vernacular type relationships along with set type relationships to avoid any ambiguity. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="has vernacular">
+						<xsd:annotation>
+							<xsd:documentation> The target concept is used as a vernacular concept, at least in part, for the current concept. This kind of relationship should not be used to express any form of set relationship (e.g. overlaps, is congruent with, includes). Consider using vernacular type relationships along with set type relationships to avoid any ambiguity. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+					<xsd:enumeration value="has synonym">
+						<xsd:annotation>
+							<xsd:documentation> The target concept is considered a synonym of the current concept. This is an ambiguous relationship. It can mean: 1) a nomenclatural relationship where all that is implied is that the type of the target concept is included in the current circumscription. This is more precisely expressed as a SpecimenCircumscription (for heterotypic synonyms) or as TaxonName basionym relationships (for homotypic synonyms) 2) a concept relationship where some part of (or all of) the target concept is included in the current circumscription. This is more precisely expressed using the set relationships such as 'is congruent to'. This is intended for handling legacy data.
+</xsd:documentation>
+						</xsd:annotation>
+					</xsd:enumeration>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="PlaceholderType">
+		<xsd:annotation>
+			<xsd:documentation>Placeholder for other schema standards</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:any namespace="##any" processContents="lax" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+		<xsd:anyAttribute namespace="##any" processContents="lax"/>
+	</xsd:complexType>
+	<xsd:complexType name="ScientificName">
+		<xsd:sequence>
+			<xsd:element name="Simple" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation> A full (non-atomized) name, including nomenclatural citation (authors/year in the form mandated by the relevant code). The name should be normalized (removing optional infrageneric or infraspecific hierarchy, author given only for the lowest nomenclatural rank) human readable and unique representation of the nomenclatoral name object. Where available, this should be generated from the canonical name and authorship plus Name extensions. In combination with the ID this constitutes the lowest abstraction a of name. Any other information is optional.
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Rank" type="TaxonomicRank" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> The taxonomic rank of this name. Either as a string or as a code for a recognise rank or both. The code attribute is a TCS signature field. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CanonicalName" type="CanonicalName" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Canonical name enforcing strict inclusion of only nomenclatural information - _not_ taxonomic information with the exception of the necessary placements within Genus or Species. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="CanonicalAuthorship" type="CanonicalAuthorship" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Authorship of the name, optionally atomized</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PublishedIn" type="ReferenceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> A link to where this name was first published.
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Year" type="xsd:gYear" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> The year of publication of the name as it would appear in the publication. This is the publication year for THIS name combination not for the basionym should this be a comb nov. This is a TCS signature field.
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MicroReference" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> Specifies any minor reference parts connected to the name publication e.g. page number </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Typification" minOccurs="0">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="Simple" type="xsd:string"/>
+						<xsd:choice>
+							<xsd:element name="TypeVouchers">
+								<xsd:annotation>
+									<xsd:documentation> A container for type specimens and other vouchers.
+</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="TypeVoucher" maxOccurs="unbounded">
+											<xsd:annotation>
+												<xsd:documentation>Names at species and below are typified by specimens.</xsd:documentation>
+											</xsd:annotation>
+											<xsd:complexType>
+												<xsd:sequence>
+													<xsd:element name="VoucherReference" type="ReferenceType" minOccurs="0">
+														<xsd:annotation>
+															<xsd:documentation> A reference to a type specimen for this name. </xsd:documentation>
+														</xsd:annotation>
+													</xsd:element>
+													<xsd:element name="LectotypePublication" type="ReferenceType" minOccurs="0">
+														<xsd:annotation>
+															<xsd:documentation> A reference to the publication where the lectotype was nominated. </xsd:documentation>
+														</xsd:annotation>
+													</xsd:element>
+													<xsd:element name="LectotypeMicroReference" type="xsd:string" minOccurs="0">
+														<xsd:annotation>
+															<xsd:documentation> Specifies any minor reference parts connected to the lectotypification publication e.g. page number
+</xsd:documentation>
+														</xsd:annotation>
+													</xsd:element>
+												</xsd:sequence>
+												<xsd:attribute name="typeOfType" type="NomenclaturalTypeStatusOfUnitsEnum">
+													<xsd:annotation>
+														<xsd:documentation> The kind of type this specimen is e.g. paratype, isotype, holotype etc.
+</xsd:documentation>
+													</xsd:annotation>
+												</xsd:attribute>
+											</xsd:complexType>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+							<xsd:element name="TypeName">
+								<xsd:annotation>
+									<xsd:documentation>Names above species level are typified by the NAME of a lower taxon.</xsd:documentation>
+								</xsd:annotation>
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="NameReference" type="ReferenceType" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation> A reference to the name object that typifies this name. e.g. species for genus or genus for family etc. </xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="LectotypePublication" type="ReferenceType" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation> A reference to the publication where the lectotypes were nominated.
+</xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+										<xsd:element name="LectotypeMicroReference" type="xsd:string" minOccurs="0">
+											<xsd:annotation>
+												<xsd:documentation> Specifies any minor reference parts connected to the lectotypification publication e.g. page number </xsd:documentation>
+											</xsd:annotation>
+										</xsd:element>
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:choice>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SpellingCorrectionOf" type="NomenclaturalNoteType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>The current name is a spelling correction of the name that is pointed to.
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Basionym" type="NomenclaturalNoteType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> The current name is a recombination (comb nov) of the name pointed to and the name pointed to is not, itself, a recombination.
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="BasedOn" type="NomenclaturalNoteType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The current name is the validation of a that was not fully published before. Covers the use of ex in botanical author strings. ICBN Art. 46.4: e.g. if this name object represents G. tomentosum Nutt. ex Seem. then the pointer should point to G. tomentosum Nutt. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ConservedAgainst" type="NomenclaturalNoteType" minOccurs="0" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation> The current name is conserved against the name pointed to. ICBN: Conservation is covered under Article 14 and Appendix II and Appendix III (this name is nomina conservanda). ICZN: Conservation is covered under Article 23.9 (this name is nomen protectum and the target name is nomen oblitum) </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="LaterHomonymOf" type="NomenclaturalNoteType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> Current name has same spelling as target name but was published later and has priority over it (unless conserved or sanctioned). See ICBN: Article 53, ICZN: Chapter 12, Article 52. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Sanctioned" type="NomenclaturalNoteType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> With reference to fungi. ICBN: Articles 13.1d and 15. ICZN: No equivalent term for animals</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ReplacementNameFor" type="NomenclaturalNoteType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> Current name is replacement for target name. Also called 'Nomen Novum' or 'avowed substitute' ICBN: Article 7.3 ICZN: Article 60.3.
+</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PublicationStatus" type="NomenclaturalNoteType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> Note concerning the publication status of the name. e.g. whether it is validly published. THIS SHOULD NOT BE USED TO IMPLY WHETHER THE NAME IS CONSIDERED TO REPRESENT AN ACCEPTED TAXON. An accepted taxon can only be represented as a TaxonConcept. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ProviderLink" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ProviderSpecificData" type="PlaceholderType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Mechanism to allow for the extension of the schema for specific applications.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:NMTOKEN" use="required"/>
+		<xsd:attribute name="isAnamorphic" type="xsd:boolean" use="optional" default="false">
+			<xsd:annotation>
+				<xsd:documentation> Some fungal names under ICBN are termed anamorphic. This is because they have asexual types and aren't available for use for teleomorphic or holomorphic taxa. Use this flag to indicate that the name is anamorphic.
+</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="nomenclaturalCode" type="NomenclaturalCodesEnum" use="required">
+			<xsd:annotation>
+				<xsd:documentation> The nomenclatural code that governs the construction and use of this name. This is a TCS signature field. </xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:complexType name="CanonicalName">
+		<xsd:sequence>
+			<xsd:element name="Simple" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation> A label containing the canonical name without authors. For the purposes of a TCS signature this field should contain nothing but the text strings representing the name itself with no indication of rank or any other qualifiers. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="Uninomial" type="xsd:string">
+					<xsd:annotation>
+						<xsd:documentation>Family, genus, infrafamilial or suprafamilial name</xsd:documentation>
+					</xsd:annotation>
+				</xsd:element>
+				<xsd:sequence>
+					<xsd:element name="Genus" type="ReferenceType">
+						<xsd:annotation>
+							<xsd:documentation> The name of the genus. If this name is below the rank of genus then this may also be reference to a TaxonName that contains the name of the genus. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:choice>
+						<xsd:element name="InfragenericEpithet" type="xsd:string"/>
+						<xsd:sequence>
+							<xsd:element name="SpecificEpithet" type="xsd:string">
+								<xsd:annotation>
+									<xsd:documentation> The specific epithet for the name. If this is subspecific taxon then this may be a link to another TaxonName that contains the species. </xsd:documentation>
+								</xsd:annotation>
+							</xsd:element>
+							<xsd:element name="InfraspecificEpithet" type="xsd:string" minOccurs="0"/>
+						</xsd:sequence>
+					</xsd:choice>
+				</xsd:sequence>
+			</xsd:choice>
+			<xsd:element name="CultivarNameGroup" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> The name of the Cultivar, Cultivar Group, grex, convar or graft chimera. Under the ICNCP. Just include here the string of the name. i.e. omit the single quotes around cultivar names, the word Group that denotes cultivar group and the + sign used in chimeras. These symbols can be added in later on the basis of the rank of the name. The user of Group for example is language dependant. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="CanonicalAuthorship">
+		<xsd:sequence>
+			<xsd:element name="Simple" type="xsd:string">
+				<xsd:annotation>
+					<xsd:documentation>The full code-appropriate author team string for this name at this rank. If author is not known, enter the literal "-" (element is not optional!). Examples: 'L.'; '(L.) Smith &amp; Jones ex Brown, Green &amp; Black'. Where atomized citation data exist, this text should be derived from them.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:choice minOccurs="0">
+				<xsd:element name="Authorship" type="NameCitation"/>
+				<xsd:sequence>
+					<xsd:element name="BasionymAuthorship" type="NameCitation">
+						<xsd:annotation>
+							<xsd:documentation> This represents the authors of the basionym. It is usually displayed in brackets. </xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+					<xsd:element name="CombinationAuthorship" type="NameCitation" minOccurs="0">
+						<xsd:annotation>
+							<xsd:documentation> This represents the authors of the new combination of this name. The authors who come after the brackets in the traditional way of citing botanical names. These authors are not usually cited in zoology though the ICZN recommends that they should be included (Art.51G). </xsd:documentation>
+						</xsd:annotation>
+					</xsd:element>
+				</xsd:sequence>
+			</xsd:choice>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="AgentNames">
+		<xsd:annotation>
+			<xsd:documentation>A collection (seq) of name strings, used for publication authors or editors and for collectors, i. e. whenever the identity of an Agent is doubtful and can not associated with an Agent without doubt</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="AgentName" maxOccurs="unbounded">
+				<xsd:annotation>
+					<xsd:documentation>Authors or Editors expressed only as string, e.g. in publications where the identity of creators can often not be discovered. Optionally, the ref attribute may refer to an agent if the relation between string and Agent can be assessed.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="ReferenceType">
+							<xsd:attribute name="role" use="optional">
+								<xsd:simpleType>
+									<xsd:restriction base="xsd:Name">
+										<xsd:enumeration value="ex"/>
+										<xsd:enumeration value="sanctioning"/>
+									</xsd:restriction>
+								</xsd:simpleType>
+							</xsd:attribute>
+						</xsd:extension>
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="NameCitation">
+		<xsd:annotation>
+			<xsd:documentation>A list of authors with a year if required.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="Simple" type="xsd:string"/>
+			<xsd:element name="Year" type="xsd:gYear" minOccurs="0"/>
+			<xsd:element name="Authors" type="AgentNames" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Taxonomic authors. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TaxonomicRank" mixed="true">
+		<xsd:annotation>
+			<xsd:documentation>Taxonomic ranks can be represented as either a plain text string in the body of the element or an attribute from a controlled vocabulary. It is highly recommended that the attribute is used where ever possible.
+</xsd:documentation>
+		</xsd:annotation>
+		<xsd:attribute name="code" type="TaxonomicRankEnum" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>Controlled vocabulary to express taxonomic rank of scientific names in biology.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:complexType>
+	<xsd:simpleType name="TaxonomicRankEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+				<p>Enumerated codes to express the rank of a taxon (scientific organism name) in a taxonomic hierarchy. The list is intended to be interoperable between name providers for bacteria, viruses, fungi, plants, and animals. It is not assumed that in each taxonomic group all ranks have to be used. Individual applications may select appropriate subsets (which may be based on information given inside the enumerated values, see Specifications/BioCode-, Botany-, Zoology-, and BacteriaStatus). The enumeration attempts to strike a balance between listing all possible rank terms, and remaining comprehensible. For example, the "infra-" ranks specifically mentioned in BioCode have been included (although very rarely used), but the additional intermediate zoological ranks (micro, nano, pico, etc.) are not included. Whether the selection of infraspecific ranks (some informal ranks, esp. from bacteriology, may be missing!) probably needs some discussion. However, it is believed that this list may help to start developing data sets that can easily be integrated across the barriers of Language and taxonomic traditions.</p>
+				<p>Not included in the list are the botanical "notho-" ranks, which are used to designate hybrids (nothospecies, nothogenus). It is assumed they can be generated from separate information that the taxon is a hybrid. ICBN Â§4.4 states: "The subordinate ranks of nothotaxa are the same as the subordinate ranks of non-hybrid taxa, except that nothogenus is the highest rank permitted".</p>
+				<p>The following publications have been consulted to determine the number of type terms that should be included and to prepare the semantic definitions:</p>
+				<ul>
+					<li>The Berlin Taxonomic Information Model, MoReTax view (Berendsohn &amp; al., http://www.bgbm.org/scripts/ASP/BGBMModel/Catalogues.asp?Cat=MT</li>
+					<li>DiversityTaxonomy model version 0.7 (G. Hagedorn &amp; T. Grafenhan 2002, http://160.45.63.11/Workbench/Taxonomy/Model/InformationModels.html)</li>
+					<li>ABCD version 1.44, types HigherTaxonRankType and RankAbbreviationType, by W. Berendsohn, reviewed by D. Hobern</li>
+					<li>TaxCat2 - Database of Botanical Taxonomic Categories by Jorg Ochsmann, IPK Gatersleben; http://mansfeld.ipk-gatersleben.de/TaxCat2/default.htm</li>
+				</ul>
+				<p>A separate enumeration and several ranks have been added to the original list to better accommodate names from ICNCP. (RDH).
+</p>
+				<p>Many thanks for review and help go to Dr. Walter Gams.</p>
+				<p>Note: the list of all ranks is implemented as a union of all following rank subsets. Note that although BioCode has been used to define the partition into subsets, the ranks are not limited to BioCode but should be an interoperable superset of ranks used in Virology, Bacteriology, Botany and Zoology.</p>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union memberTypes="TaxonomicRankBelowSubspeciesEnum TaxonomicRankSpeciesGroupEnum TaxonomicRankGenusSubdivisionEnum TaxonomicRankGenusGroupEnum TaxonomicRankFamilySubdivisionEnum TaxonomicRankFamilyGroupEnum TaxonomicRankAboveSuperfamilyEnum TaxonomicRankCultivatedPlants"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankBelowSubspeciesEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode "infra-subspecfic", i.e. below the species group</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="cand">
+				<xsd:annotation>
+					<xsd:documentation>[cand.] -- candidate -- Candidatus' rank is proposed in bacteriology for putative taxa, which could not yet be studied sufficiently to warrant the creation of a name with a known rank. (Murray, R.G.E. &amp; Schleifer, K.H.: Taxonomic notes: a proposal for recording the properties of putative taxa of procaryotes. Int. J. Syst. Bacteriol., 1994, 44, 174-176).</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>cand.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>Proposed</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="taxinfrasp">
+				<xsd:annotation>
+					<xsd:documentation>[tax. infrasp.] -- infraspecific tax. of undefined rank -- Undefined ranks (using either no rank identifier in botany, or using greek letters or symbols like stars, crosses) occur in very old publications. Most frequently these are to be interpreted as varieties, but occasionally they are forms or subspecies (see Stearn, W.T. 1957: Species plantarum (Facsimile); Introduction. 1. London, p. 90-95, 160-161, 163). The interpretation of these cases requires taxonomic knowledge that may not be available at the time when data are parsed. Such lack of knowledge can be expressed using this rank identifier.</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>tax. infrasp.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="fsp">
+				<xsd:annotation>
+					<xsd:documentation>[f. sp.] -- special form -- The ICBN does not formally cover formae specialis (art. 4, note 3). However, because of the economic importance of pathogenic f. sp., and since it is common practice to handle them as if the code would apply (i. e. priority usually observed, name quoted with author), they are included here.</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>f. sp.</PreferredAbbreviation>
+							<AdditionalAbbreviations>forma sp.; fsp.; fm. sp.; f. spec.; fm. spec.; forma spec.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks below subsp. are not covered by ICNP/ICNB, see Rules 5d and 14a. ##Check whether this rank is used indeed.</BacteriaStatus>
+							<BotanyStatus>none</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subsubfm">
+				<xsd:annotation>
+					<xsd:documentation>[subsubfm.] -- subsubform</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subsubfm.</PreferredAbbreviation>
+							<AdditionalAbbreviations>subsubf.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional(?)</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subfm">
+				<xsd:annotation>
+					<xsd:documentation>[subfm.] -- subform</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subfm.</PreferredAbbreviation>
+							<AdditionalAbbreviations>subf.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="fm">
+				<xsd:annotation>
+					<xsd:documentation>[fm.] -- form -- Form, race, variety are not subject to regulation in zoology; see ICZN Article 1.3.4 </xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>fm.</PreferredAbbreviation>
+							<AdditionalAbbreviations>f.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>secondary</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subsubvar">
+				<xsd:annotation>
+					<xsd:documentation>[subsubvar.] -- sub-sub-variety</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subsubvar.</PreferredAbbreviation>
+							<AdditionalAbbreviations>subsubv.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subvar">
+				<xsd:annotation>
+					<xsd:documentation>[subvar.] -- sub-variety</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subvar.</PreferredAbbreviation>
+							<AdditionalAbbreviations>subv.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="var">
+				<xsd:annotation>
+					<xsd:documentation>[var.] -- variety -- Form, race, variety are not subject to regulation in zoology; see ICZN Article 1.3.4 Examples: Pinus nigra var. caramanica (= "P. nigra subsp. nigra var. caramanica"; Taxus baccata var. variegata</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>var.</PreferredAbbreviation>
+							<AdditionalAbbreviations>v.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks below subsp. are not covered by ICNP/ICNB, see Rules 5d and 14a. ##Check whether this rank is used indeed.</BacteriaStatus>
+							<BotanyStatus>secondary</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="pv">
+				<xsd:annotation>
+					<xsd:documentation>[pathovar.] -- patho-variety</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>pathovar.</PreferredAbbreviation>
+							<AdditionalAbbreviations>pv.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks below subsp. are not covered by ICNP/ICNB, see Rules 5d and 14a. ##Check whether this rank is used indeed.</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="bv">
+				<xsd:annotation>
+					<xsd:documentation>[biovar.] -- bio-variety</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>biovar.</PreferredAbbreviation>
+							<AdditionalAbbreviations>bv.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks below subsp. are not covered by ICNP/ICNB, see Rules 5d and 14a. ##Check whether this rank is used indeed.</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="infrasp">
+				<xsd:annotation>
+					<xsd:documentation>[infrasp.] -- infraspecies</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infrasp.</PreferredAbbreviation>
+							<AdditionalAbbreviations>infrasp.; infraspec.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankSpeciesGroupEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode "species group", i.e. only species and subspecies</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="subsp_aggr">
+				<xsd:annotation>
+					<xsd:documentation>[aggr.] -- subspecific aggregate (= group, complex) -- A loosely defined group of subspecies. Zoology: "Aggregate - a group of subspecies within a species. An aggregate may be denoted by a group name interpolated in parentheses."</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>aggr.</PreferredAbbreviation>
+							<AdditionalAbbreviations/>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ssp">
+				<xsd:annotation>
+					<xsd:documentation>[ssp.] -- subspecies -- Examples: Pinus nigra subsp. nigra Homo sapiens sapiens</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>ssp.</PreferredAbbreviation>
+							<AdditionalAbbreviations>subsp.; subspec.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="sp">
+				<xsd:annotation>
+					<xsd:documentation>[sp.] -- species -- Examples: Taxus baccata, Homo sapiens</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>sp.</PreferredAbbreviation>
+							<AdditionalAbbreviations>spec.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>primary</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>principal</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankGenusSubdivisionEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode ""subdivision of a genus" ", i.e. all ranks between genus and species group (i.e. not including subgenus and species)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="aggr">
+				<xsd:annotation>
+					<xsd:documentation>[aggr.] -- species aggregate (= species group, species complex) -- A loosely defined group of species. Zoology: "Aggregate - a group of species, other than a subgenus, within a genus. An aggregate may be denoted by a group name interpolated in parentheses." -- The Berlin/MoreTax model notes: "[these] aren't taxonomic ranks but cirumscriptions because on the one hand they are necessary for the concatenation of the fullname and on the other hand they are necessary for distinguishing the aggregate or species group from the microspecies." Compare subspecific aggregate for a group of subspecies within a species!</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>aggr.</PreferredAbbreviation>
+							<AdditionalAbbreviations/>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="taxinfragen">
+				<xsd:annotation>
+					<xsd:documentation>[tax. infragen.] -- infrageneric tax. of undefined rank -- A name that appear between a genus name and a species epitheton and is not clearly marked as series or section, or other may be assigned to this rank until the true rank can be assigned by a taxonomic expert.</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>tax. infragen.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subser">
+				<xsd:annotation>
+					<xsd:documentation>[subser.] -- subseries</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subser.</PreferredAbbreviation>
+							<AdditionalAbbreviations>*</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ser">
+				<xsd:annotation>
+					<xsd:documentation>[ser.] -- series</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>ser.</PreferredAbbreviation>
+							<AdditionalAbbreviations>*</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>secondary</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subsect">
+				<xsd:annotation>
+					<xsd:documentation>[subsect.] -- subsection</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subsect.</PreferredAbbreviation>
+							<AdditionalAbbreviations>*</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="sect">
+				<xsd:annotation>
+					<xsd:documentation>[sect.] -- section</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>sect.</PreferredAbbreviation>
+							<AdditionalAbbreviations>*</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>secondary</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankGenusGroupEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode "genus group", i.e. infragenus to genus</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="infragen">
+				<xsd:annotation>
+					<xsd:documentation>[infragen.] -- infragenus</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infragen.</PreferredAbbreviation>
+							<AdditionalAbbreviations>*</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subgen">
+				<xsd:annotation>
+					<xsd:documentation>[subgen.] -- subgenus</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subgen.</PreferredAbbreviation>
+							<AdditionalAbbreviations>*</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="gen">
+				<xsd:annotation>
+					<xsd:documentation>[gen.] -- genus -- Examples: Magnolia Homo</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>gen.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>primary</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>principal</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankFamilySubdivisionEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode "subdivision of a family", i.e. ranks between genus group and family group</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="infratrib">
+				<xsd:annotation>
+					<xsd:documentation>[infratrib.] -- infratribe</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infratrib.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subtrib">
+				<xsd:annotation>
+					<xsd:documentation>[subtrib.] -- subtribe</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subtrib.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-inae</SuffixBacteriae>
+							<SuffixPlantae>-inae</SuffixPlantae>
+							<SuffixAlgae>-inae</SuffixAlgae>
+							<SuffixFungi>-inae</SuffixFungi>
+							<SuffixAnimalia>-ina</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>covered (but probably not in current use)</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="trib">
+				<xsd:annotation>
+					<xsd:documentation>[trib.] -- tribe</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>trib.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-eae</SuffixBacteriae>
+							<SuffixPlantae>-eae</SuffixPlantae>
+							<SuffixAlgae>-eae</SuffixAlgae>
+							<SuffixFungi>-eae</SuffixFungi>
+							<SuffixAnimalia>-ini</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>covered (but probably not in current use)</BacteriaStatus>
+							<BotanyStatus>secondary</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="supertrib">
+				<xsd:annotation>
+					<xsd:documentation>[supertrib.] -- supertribe</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>supertrib.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankFamilyGroupEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode "family group", i.e. infrafamily to superfamily</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="infrafam">
+				<xsd:annotation>
+					<xsd:documentation>[infrafam.] -- infrafamily</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infrafam.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subfam">
+				<xsd:annotation>
+					<xsd:documentation>[subfam.] -- subfamily -- Examples: Magnolioideae</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subfam.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-oideae</SuffixBacteriae>
+							<SuffixPlantae>-oideae</SuffixPlantae>
+							<SuffixAlgae>-oideae</SuffixAlgae>
+							<SuffixFungi>-oideae</SuffixFungi>
+							<SuffixAnimalia>-inae</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="fam">
+				<xsd:annotation>
+					<xsd:documentation>[fam.] -- family -- Examples: Magnoliaceae Hominidae</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>fam.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-aceae</SuffixBacteriae>
+							<SuffixPlantae>-aceae</SuffixPlantae>
+							<SuffixAlgae>-aceae</SuffixAlgae>
+							<SuffixFungi>-aceae</SuffixFungi>
+							<SuffixAnimalia>-idae</SuffixAnimalia>
+							<BioCodeStatus>principal</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>principal</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="superfam">
+				<xsd:annotation>
+					<xsd:documentation>[superfam.] -- superfamily -- Examples: Magnoliacea</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>superfam.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-acea</SuffixPlantae>
+							<SuffixAlgae>-acea</SuffixAlgae>
+							<SuffixFungi>-acea</SuffixFungi>
+							<SuffixAnimalia>-oidea; -acea</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankAboveSuperfamilyEnum">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks; equivalent to BioCode "suprafamilial". This rank group includes all ranks higher than superfamily (class, phylum/division, kingdom, domain)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="infraord">
+				<xsd:annotation>
+					<xsd:documentation>[infraord.] -- infraorder</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infraord.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subord">
+				<xsd:annotation>
+					<xsd:documentation>[subord.] -- suborder -- Examples: Magnolineae Catarrhini</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subord.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-ineae</SuffixBacteriae>
+							<SuffixPlantae>-ineae</SuffixPlantae>
+							<SuffixAlgae>-ineae</SuffixAlgae>
+							<SuffixFungi>-ineae</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ord">
+				<xsd:annotation>
+					<xsd:documentation>[ord.] -- order -- Examples: Magnoliales Primates</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>ord.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-ales</SuffixBacteriae>
+							<SuffixPlantae>-ales</SuffixPlantae>
+							<SuffixAlgae>-ales</SuffixAlgae>
+							<SuffixFungi>-ales</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>principal</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>principal</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="superord">
+				<xsd:annotation>
+					<xsd:documentation>[superord.] -- superorder -- Examples: Magnolianae</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>superord.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-anae</SuffixPlantae>
+							<SuffixAlgae>-anae</SuffixAlgae>
+							<SuffixFungi>-anae</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="infracl">
+				<xsd:annotation>
+					<xsd:documentation>[infracl.] -- infraclass</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infracl.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subcl">
+				<xsd:annotation>
+					<xsd:documentation>[subcl.] -- subclass -- Examples: Magnoliidae Eutheria</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subcl.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-idae [proposed; Stackebrandt, E., Rainey, F.A. &amp; Ward-Rainey, N.L.: Proposal for a new hierarchic classification system, Actinobacteria classis nov. Int. J. Syst. Bacteriol., 1997, 47, 479-491.]</SuffixBacteriae>
+							<SuffixPlantae>-idae</SuffixPlantae>
+							<SuffixAlgae>-phycidae</SuffixAlgae>
+							<SuffixFungi>-mycetidae</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="cl">
+				<xsd:annotation>
+					<xsd:documentation>[cl.] -- class -- Examples: Magnoliopsida Mammalia</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>cl.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-ia [proposed; Stackebrandt, E., Rainey, F.A. &amp; Ward-Rainey, N.L.: Proposal for a new hierarchic classification system, Actinobacteria classis nov. Int. J. Syst. Bacteriol., 1997, 47, 479-491.]</SuffixBacteriae>
+							<SuffixPlantae>-opsida</SuffixPlantae>
+							<SuffixAlgae>-phyceae</SuffixAlgae>
+							<SuffixFungi>-mycetes</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>principal</BioCodeStatus>
+							<BacteriaStatus>covered</BacteriaStatus>
+							<BotanyStatus>principal</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="supercl">
+				<xsd:annotation>
+					<xsd:documentation>[supercl.] -- superclass</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>supercl.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="infraphyl_div">
+				<xsd:annotation>
+					<xsd:documentation>[infraphyl./div.] -- infraphylum (= infradivision)</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infraphyl./div.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subphyl_div">
+				<xsd:annotation>
+					<xsd:documentation>[subphyl./div.] -- subphylum (= subdivision) -- Examples: Magnoliophytina Vertebrata</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subphyl./div.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-phytina</SuffixPlantae>
+							<SuffixAlgae>-phytina</SuffixAlgae>
+							<SuffixFungi>-mycotina</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="phyl_div">
+				<xsd:annotation>
+					<xsd:documentation>[phyl./div.] -- phylum (= division) -- Examples: Magnoliophyta Chordata</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>phyl./div.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-phyta</SuffixPlantae>
+							<SuffixAlgae>-phyta</SuffixAlgae>
+							<SuffixFungi>-mycota</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>principal</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks above class are not covered by ICNP/ICNB</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="superphyl_div">
+				<xsd:annotation>
+					<xsd:documentation>[superphyl./div.] -- superphylum (= superdivision)</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>superphyl./div.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="infrareg">
+				<xsd:annotation>
+					<xsd:documentation>[infrareg.] -- infrakingdom</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>infrareg.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="subreg">
+				<xsd:annotation>
+					<xsd:documentation>[subreg.] -- subkingdom</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>subreg.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="reg">
+				<xsd:annotation>
+					<xsd:documentation>[reg.] -- kingdom -- Examples: Plantae Animalia</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>reg.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>principal</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks above class are not covered by ICNP/ICNB</BacteriaStatus>
+							<BotanyStatus>principal</BotanyStatus>
+							<ZoologyStatus>principal</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="superreg">
+				<xsd:annotation>
+					<xsd:documentation>[superreg.] -- super kingdom -- Examples: Eucaryota</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>superreg.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>additional</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>additional</BotanyStatus>
+							<ZoologyStatus>additional</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="dom">
+				<xsd:annotation>
+					<xsd:documentation>[dom.] -- domain (= empire) -- Examples: Archaea (= Archaeobacteria), Bacteria (= Eubacteria), Eukarya (= Eukaryota)</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>dom.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>secondary</BioCodeStatus>
+							<BacteriaStatus>used, but all ranks above class are not covered by ICNP/ICNB</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="taxsupragen">
+				<xsd:annotation>
+					<xsd:documentation>[tax. supragen.] -- suprageneric tax. of undefined rank -- This value indicates that the rank of a name is unknown. Compare "incertae sedis" which is commonly used as a replacement for a taxon to group all taxa whose position in the classification or phylogenetic tree is uncertain.</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>tax. supragen.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="TaxonomicRankCultivatedPlants">
+		<xsd:annotation>
+			<xsd:documentation>Subset of ranks used spefically for cultivated plants</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="cv">
+				<xsd:annotation>
+					<xsd:documentation>[cult.] -- cultivar -- The epithet is usually output in single quotes and may contain multiple words, see ICBN Â§28. Examples: Taxus baccata 'Variegata', Juniperus Ã—pfitzeriana 'Wilhelm Pfitzer'; Magnolia 'Elizabeth' (= a hybrid, no species epithet). </xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>cult.</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>Reference to 'Internat. code of nomenclature for cultivated plants'</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="convar">
+				<xsd:annotation>
+					<xsd:documentation>[convar.] -- convar -- Used in cultivated plants (ICNCP), but deprecated, see 'Some notes on problems of taxonomy and nomenclature of cultivated plants' by J. Ochsmann, http://www.genres.de/IGRREIHE/IGRREIHE/DDD/22-08.pdf</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>convar.</PreferredAbbreviation>
+							<AdditionalAbbreviations>cv.</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="grex">
+				<xsd:annotation>
+					<xsd:documentation> [grex] -- a rank equivalent to cultivar group used principly for artificial hybrid swams in Orchidaceae. </xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>grex</PreferredAbbreviation>
+							<AdditionalAbbreviations>grex</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>Reference to ICNCP</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="cvgroup">
+				<xsd:annotation>
+					<xsd:documentation>[cultivar. group] -- cultivar-group</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>cultivar. group</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="graftchimaera">
+				<xsd:annotation>
+					<xsd:documentation>[graft-chimaera] -- graft-chimaera</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>graft-chimaera</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="denomclass">
+				<xsd:annotation>
+					<xsd:documentation>Denomination classes are constructs under ICNCP for defining the scope within which a cultivar or Group epithet must be unique.</xsd:documentation>
+					<xsd:appinfo>
+						<Specification>
+							<PreferredAbbreviation>denomination-class</PreferredAbbreviation>
+							<AdditionalAbbreviations>-</AdditionalAbbreviations>
+							<SuffixBacteriae>-</SuffixBacteriae>
+							<SuffixPlantae>-</SuffixPlantae>
+							<SuffixAlgae>-</SuffixAlgae>
+							<SuffixFungi>-</SuffixFungi>
+							<SuffixAnimalia>-</SuffixAnimalia>
+							<BioCodeStatus>-</BioCodeStatus>
+							<BacteriaStatus>-</BacteriaStatus>
+							<BotanyStatus>-</BotanyStatus>
+							<ZoologyStatus>-</ZoologyStatus>
+						</Specification>
+					</xsd:appinfo>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NomenclaturalTypeStatusOfUnitsEnum">
+		<xsd:annotation>
+			<xsd:documentation>
+				<p>This list is a first version of a constrained vocabulary to express typifying relations between taxonomic names and units (specimens or objects preserved in collections). Beyond those type categories explicitly governed by nomenclatural codes (Zoology, Botany, Bacterioloy, Virology), the list also includes some additional type status terms. These categories may be helpful when interpreting the original circumscription (topotypes, ex-types), but do not have the same binding status as terms governed by the nomenclatural codes. The enumeration attempts to strike a balance between listing all possible terms, and remaining comprehensible. In general, including too many terms was considered less problematic than omitting terms. Applications may easily select a subset for presentation in their user interface.</p>
+				<p>This list is intended as a first version and it is hoped that in the review process through TDWG it will achieve sufficient maturity to be truly useful. It is expected that over time revisions will have to be made. Please use the WIKI (http://efgblade.cs.umb.edu/twiki/bin/view/UBIF/NomenclaturalTypeStatusOfUnitsDiscussion) to discuss the current list and the lists of synonymous, doubtful, or excluded type terms provided therein.</p>
+				<p>Some background information: A type provides the objective standard of reference to determine the application of a taxon name. The type status of a unit (specimen) is only meaningful in combination with the name that is being typified (a unit may have been designated type for multiple names in different publications). The type status of an object may be designated in the original description of a scientific name (original designation), or - under rules layed out in the respective nomenclatural codes - at a later time (subsequent designation). -- For taxa above species rank the type is always a lower rank taxon (e. g., species for genus, genus for family). The type terms for this situation are not included in the enumeration. Ultimately, typication of all taxa goes back to physical type units, but this should not be recorded as such in data sets. The indirect type reference in higher taxa means that typification changes to the lower taxon automatically affect the higher taxon.</p>
+				<p>The exact definitions of type status differ between nomenclatural codes (ICBN, ICZN, ICNP/ICNB, etc.). The term definitions are intended to be informative and generally applicable across the different codes. The should not be interpreted as authoritative; in nomenclatural work the exact definitions in the respective codes have to be consulted. A duplication of status codes (bot-holo, zoo-holo, bact-holo, etc.) is not considered desirable or necessary. Since the application of the type status terms is constrained by the relationship of the typified name with a specific code, the exact definition can always be unambiguously retrieved.</p>
+				<p>The following publications have been consulted to determine the number of type terms that should be included and to prepare the semantic definitions:</p>
+				<ul>
+					<li>Nomenclatural Glossary for Zoology (January 18 2000; ftp://ftp.york.biosis.org/sysgloss.txt; verified 17. June 2004)</li>
+					<li>ICBN St. Louis Code (http://www.bgbm.fu-berlin.de/iapt/nomenclature/code/SaintLouis/0013Ch2Sec2a009.htm; verified 17. June 2004)</li>
+					<li>Draft BioCode 4th version (Greuter et al., 1997; http://www.rom.on.ca/biodiversity/biocode/biocode1997.html)</li>
+					<li>Glossary of 'type' terminology (Ronald H. Petersen; http://fp.bio.utk.edu/mycology/Nomenclature/nom-type.htm)</li>
+					<li>Dictionary of Ichthyology (Brian W. Coad and Don E. McAllister, 2004; http://www.briancoad.com/Dictionary/introduction.htm)</li>
+					<li>A useful resource that was not available when writing this proposal might be: Hawksworth, D.L., W.G. Chaloner, O. Krauss, J. McNeill, M.A. Mayo, D.H. Nicolson, P.H.A. Sneath, R.P. Trehane and P.K. Tubbs. 1994. A draft Glossary of terms used in Bionomenclature. (IUBS Monogr. 9) International Union of Biological Sciences, Paris. 74 pp.</li>
+				</ul>
+				<p>Many thanks for review and help to Dr. Miguel A. Alonso-Zarazaga and Dr. Walter Gams. Gregor Hagedorn, 13.7.2004</p>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="allo">
+				<xsd:annotation>
+					<xsd:documentation>Allotype -- A paratype specimen designated from the type series by the original author that is the opposite sex of the holotype. The term is not regulated by the ICZN. [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="allolecto">
+				<xsd:annotation>
+					<xsd:documentation>Allolectotype -- A paralectotype specimen that is the opposite sex of the lectotype. The term is not regulated by the ICZN. [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="alloneo">
+				<xsd:annotation>
+					<xsd:documentation>Alloneotype -- A paraneotype specimen that is the opposite sex of the neotype. The term is not regulated by the ICZN. [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="co">
+				<xsd:annotation>
+					<xsd:documentation>Cotype -- A deprecated term no longer recognized in the ICZN; formerly used for either syntype or paratype [see ICZN Recommendation 73E]. [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="epi">
+				<xsd:annotation>
+					<xsd:documentation>Epitype -- An epitype is a specimen or illustration selected to serve as an interpretative type when any kind of holotype, lectotype, etc. is demonstrably ambiguous and cannot be critically identified for purposes of the precise application of the name of a taxon (see Art. ICBN 9.7, 9.18). An epitype supplements, rather than replaces existing types. [Bot./Bio.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="ex">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Type -- A strain or cultivation derived from some kind of type material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="exepi">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Epitype -- A strain or cultivation derived from epitype material. Ex-types are not regulated by the botanical or zoological code. [Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="exholo">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Holotype -- A strain or cultivation derived from holotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="exiso">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Isotype -- A strain or cultivation derived from isotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="exlecto">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Lectotype -- A strain or cultivation derived from lectotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="exneo">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Neotype -- A strain or cultivation derived from neotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="expara">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Paratype -- A strain or cultivation derived from paratype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="exsyn">
+				<xsd:annotation>
+					<xsd:documentation>Ex-Syntype -- A strain or cultivation derived from neotype material. Ex-types are not regulated by the botanical or zoological code. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="hapanto">
+				<xsd:annotation>
+					<xsd:documentation>Hapantotype -- One or more preparations of directly related individuals representing distinct stages in the life cycle, which together form the type in an extant species of protistan [ICZN Article 72.5.4]. A hapantotype, while a series of individuals, is a holotype that must not be restricted by lectotype selection. If a hapantotype is found to contain individuals of more than one species, however, components may be excluded until it contains individuals of only one species [ICZN Article 73.3.2]. [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="holo">
+				<xsd:annotation>
+					<xsd:documentation>Holotype -- The one specimen or other element used or designated by the original author at the time of publication of the original description as the nomenclatural type of a species or infraspecific taxon. A holotype may be 'explicit' if it is clearly stated in the originating publication or 'implicit' if it is the single specimen proved to have been in the hands of the originating author when the description was published. [Zoo./Bot./Bio.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="icono">
+				<xsd:annotation>
+					<xsd:documentation>Iconotype -- A drawing or photograph (also called 'phototype') of a type specimen. Note: the term "iconotype" is not used in the ICBN, but implicit in, e. g., ICBN Art. 7 and 38. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="iso">
+				<xsd:annotation>
+					<xsd:documentation>Isotype -- An isotype is any duplicate of the holotype (i. e. part of a single gathering made by a collector at one time, from which the holotype was derived); it is always a specimen (ICBN Art. 7). [Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="isolecto">
+				<xsd:annotation>
+					<xsd:documentation>Isolectotype -- A duplicate of a neotype, compare lectotype. [Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="isoneo">
+				<xsd:annotation>
+					<xsd:documentation>Isoneotype -- A duplicate of a neotype, compare neotype. [Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="isosyn">
+				<xsd:annotation>
+					<xsd:documentation>Isosyntype -- A duplicate of a syntype, compare isotype = duplicate of holotype. [Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="lecto">
+				<xsd:annotation>
+					<xsd:documentation>Lectotype -- A specimen or other element designated subsequent to the publication of the original description from the original material (syntypes or paratypes) to serve as nomenclatural type. Lectotype designation can occur only where no holotype was designated at the time of publication or if it is missing (ICBN Art. 7, ICZN Art. 74). [Zoo./Bot.] -- Note: the BioCode defines lectotype as selection from holotype material in cases where the holotype material contains more than one taxon [Bio.].</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="neo">
+				<xsd:annotation>
+					<xsd:documentation>Neotype -- A specimen designated as nomenclatural type subsequent to the publication of the original description in cases where the original holotype, lectotype, all paratypes and syntypes are lost or destroyed, or suppressed by the (botanical or zoological) commission on nomenclature. In zoology also called "Standard specimen" or "Representative specimen". [Zoo./Bot./Bio.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="para">
+				<xsd:annotation>
+					<xsd:documentation>Paratype -- All of the specimens in the type series of a species or infraspecific taxon other than the holotype (and, in botany, isotypes). Paratypes must have been at the disposition of the author at the time when the original description was created and must have been designated and indicated in the publication. Judgment must be exercised on paratype status, for only rarely are specimens explicitly cited as paratypes, but usually as "specimens examined," "other material seen", etc. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="paralecto">
+				<xsd:annotation>
+					<xsd:documentation>Paralectotype -- All of the specimens in the syntype series of a species or infraspecific taxon other than the lectotype itself. Also called "lectoparatype". [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="paraneo">
+				<xsd:annotation>
+					<xsd:documentation>Paraneotype -- All of the specimens in the syntype series of a species or infraspecific taxon other than the neotype itself. Also called "neoparatype". [Zoo.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plasto">
+				<xsd:annotation>
+					<xsd:documentation>Plastotype -- A copy or cast of type material, esp. relevant for fossil types. Not regulated by the botanical or zoological code (?). [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plastoholo">
+				<xsd:annotation>
+					<xsd:documentation>Plastoholotype -- A copy or cast of holotype material (compare Plastotype).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plastoiso">
+				<xsd:annotation>
+					<xsd:documentation>Plastoisotype -- A copy or cast of isotype material (compare Plastotype).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plastolecto">
+				<xsd:annotation>
+					<xsd:documentation>Plastolectotype -- A copy or cast of lectotype material (compare Plastotype).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plastoneo">
+				<xsd:annotation>
+					<xsd:documentation>Plastoneotype -- A copy or cast of neotype material (compare Plastotype).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plastopara">
+				<xsd:annotation>
+					<xsd:documentation>Plastoparatype -- A copy or cast of paratype material (compare Plastotype).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="plastosyn">
+				<xsd:annotation>
+					<xsd:documentation>Plastosyntype -- A copy or cast of syntype material (compare Plastotype).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="sec">
+				<xsd:annotation>
+					<xsd:documentation>Secondary type -- A referred, described, measured or figured specimen in the original publication (including a neo/lectotypification publication) that is not a primary type.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="supp">
+				<xsd:annotation>
+					<xsd:documentation>Supplementary type -- A referred, described, measured or figured specimen in a revision of a previously described taxon.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="syn">
+				<xsd:annotation>
+					<xsd:documentation>Syntypes -- The series of specimens used to describe a species or infraspecific taxon when neither a single holotype by the original author, nor a lectotype in a subsequent publication has been designated. The syntypes collectively constitute the name-bearing type. [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="topo">
+				<xsd:annotation>
+					<xsd:documentation>Topotype -- One or more specimens collected at the same location as the type series (type locality), regardless of whether they are part of the type series. Topotypes are not regulated by the botanical or zoological code. Also called "locotype". [Zoo./Bot.]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="type">
+				<xsd:annotation>
+					<xsd:documentation>Type -- a) A specimen designated or indicated any kind of type of a species or infraspecific taxon. If possible more specific type terms (holotype, syntype, etc.) should be applied. b) the type name of a name of higher rank for taxa above the species rank. [General]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="not">
+				<xsd:annotation>
+					<xsd:documentation>not a type -- For specimens erroneously labelled as types an explicit negative statement may be desirable. [General]</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:simpleType name="NomenclaturalCodesEnum">
+		<xsd:annotation>
+			<xsd:documentation>Enumeration of the nomenclatural code under which a name is considered valid. (Source: comparison of enumerations in ABCD 1.49 and initial LinneanCore.)</xsd:documentation>
+		</xsd:annotation>
+		<xsd:restriction base="xsd:Name">
+			<xsd:enumeration value="Viral"/>
+			<xsd:enumeration value="Bacteriological"/>
+			<xsd:enumeration value="Botanical">
+				<xsd:annotation>
+					<xsd:documentation>International Code of Botanical Nomenclature, ICBN</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Zoological">
+				<xsd:annotation>
+					<xsd:documentation>International Code of Zoological Nomenclature, ICZN</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="CultivatedPlant">
+				<xsd:annotation>
+					<xsd:documentation>International Code of cultivated plants, ICNCP</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+			<xsd:enumeration value="Indeterminate">
+				<xsd:annotation>
+					<xsd:documentation>Examples: ambiregnally named taxa can not be fixed to a code; to express the (pre-starting point) names on which the sanctioning mechanism of fungal names is based.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:enumeration>
+		</xsd:restriction>
+	</xsd:simpleType>
+	<xsd:complexType name="NomenclaturalNoteType">
+		<xsd:annotation>
+			<xsd:documentation> A base object that defines a common structure for a number of elements within TaxonName. </xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="RuleConsidered" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>The article/note/recommendation in the code in question that is commented on below</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="Note" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> Comment concerning this name. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="RelatedName" type="ReferenceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> If status is conservation, the rejected name and vice versa, if illegitimate because homonym the earlier homonym, etc. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="PublishedIn" type="ReferenceType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> The publication/reference source used to determine the nomenclatural status. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="MicroReference" type="xsd:string" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> Specifies any minor reference parts connected to the According to publication e.g. page number </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="TaxonConceptType" mixed="false">
+		<xsd:annotation>
+			<xsd:documentation> Representation of a TaxonConcept. Various types of concept can be represented, including a reference to the GUID of an existing Concept.</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence minOccurs="0">
+			<xsd:element name="Name">
+				<xsd:annotation>
+					<xsd:documentation>A non-unique handle to the concept. This can represent the name as published.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:complexContent>
+						<xsd:extension base="ReferenceType">
+							<xsd:attribute name="scientific" type="xsd:boolean" use="required"/>
+							<xsd:attribute name="language" type="xsd:language" use="optional"/>
+						</xsd:extension>
+					</xsd:complexContent>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="Rank" type="TaxonomicRank" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation> The taxonomic rank of this concept. Either as a string or as a code for a recognise rank or both. </xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="AccordingTo" type="AccordingToType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Information about the authorship of this concept which uses the Name in their sense (i.e. secundum, sensu).</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="TaxonRelationships" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Stores explicit, taxonomic and nomenclatural relationships that are part of the original concept definition.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="TaxonRelationship" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>Type of the relationship </xsd:documentation>
+							</xsd:annotation>
+							<xsd:complexType>
+								<xsd:complexContent>
+									<xsd:extension base="RelationshipType">
+										<xsd:sequence>
+											<xsd:element name="ToTaxonConcept" type="ReferenceType">
+												<xsd:annotation>
+													<xsd:documentation>Reference to another TaxonConcept.
+</xsd:documentation>
+												</xsd:annotation>
+											</xsd:element>
+										</xsd:sequence>
+									</xsd:extension>
+								</xsd:complexContent>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="SpecimenCircumscription" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>A set of specimens that are used to define the concept.</xsd:documentation>
+				</xsd:annotation>
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element name="CircumscribedBy" type="ReferenceType" maxOccurs="unbounded">
+							<xsd:annotation>
+								<xsd:documentation>Link to record of a specimen. </xsd:documentation>
+							</xsd:annotation>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="CharacterCircumscription" type="PlaceholderType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>A set of taxonomic descriptions used to define this concept. May potentially hold descriptions according to the TDWG SDD schema, or any other, format.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+			<xsd:element name="ProviderLink" type="xsd:string" minOccurs="0"/>
+			<xsd:element name="ProviderSpecificData" type="PlaceholderType" minOccurs="0">
+				<xsd:annotation>
+					<xsd:documentation>Mechanism to allow for the extension of the schema for specific applications.</xsd:documentation>
+				</xsd:annotation>
+			</xsd:element>
+		</xsd:sequence>
+		<xsd:attribute name="id" type="xsd:token" use="required">
+			<xsd:annotation>
+				<xsd:documentation>Unique identifier (key) of the element. It can be local to the data set or a GUID in which case it can be resolved to a location on the internet where the record is stored.
+</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="type" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>The optional enumerated type of the Concept may reflect which data elements are provided.</xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="original"/>
+					<xsd:enumeration value="revision"/>
+					<xsd:enumeration value="incomplete"/>
+					<xsd:enumeration value="aggregate"/>
+					<xsd:enumeration value="nominal"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+		<xsd:attribute name="primary" type="xsd:boolean" use="optional">
+			<xsd:annotation>
+				<xsd:documentation>If primary='true' the concept is the first level response to a query. If 'false' the concept may be a secondary concept linked directly or indirectly to the definition of a primary concept.</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="form" use="optional">
+			<xsd:annotation>
+				<xsd:documentation> Flag as to sexual form or parentage. List of options may extend in future but are mutually exclusive. </xsd:documentation>
+			</xsd:annotation>
+			<xsd:simpleType>
+				<xsd:restriction base="xsd:string">
+					<xsd:enumeration value="anamorph"/>
+					<xsd:enumeration value="teleomorph"/>
+					<xsd:enumeration value="hybrid"/>
+				</xsd:restriction>
+			</xsd:simpleType>
+		</xsd:attribute>
+	</xsd:complexType>
+</xsd:schema>

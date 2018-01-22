@@ -1,0 +1,505 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:tcs="http://www.tdwg.org/schemas/tcs/1.01" xmlns:obs="http://www.bfn.de/plotobservation-1.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:lit="eml://ecoinformatics.org/literature-2.0.1" xmlns:misc="http://www.bfn.de/misc-1.0.1" xmlns="http://www.bfn.de/organismobservation-1.0.1" targetNamespace="http://www.bfn.de/organismobservation-1.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://www.bfn.de/plotobservation-1.0.1" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://www.bfn.de/misc-1.0.1" />
+    <xsd:import schemaLocation="tcsv101.xsd" namespace="http://www.tdwg.org/schemas/tcs/1.01" />
+    <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
+    <xsd:import schemaLocation="eml-literature.xsd" namespace="eml://ecoinformatics.org/literature-2.0.1" />
+    <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
+    <xsd:import schemaLocation="eml-documentation.xsd" namespace="eml://ecoinformatics.org/documentation-2.0.1" />
+    <xsd:complexType name="CommunityDeterminationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">An identification applying one or more community concepts to a PlotObservation. </xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+				</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotObservationID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific plotObservation. The individual plotObservation is defined within the element veg:plotObservations which is a container for all plotObservations within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="startDate" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation source="NVS" xml:lang="en">
+The start date of this specific community determination. Recorded in ISO 8601 date format: yyyy-mm-dd.
+					</xsd:documentation>
+                    <xsd:documentation xml:lang="de">
+						Optionales Datumsfeld bei Erfassung über längeren Zeitraum
+					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="endDate" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="NVS" xml:lang="en">
+The end date of this specific community determination. Recorded in ISO 8601 date format: yyyy-mm-dd.
+					</xsd:documentation>
+                    <xsd:documentation xml:lang="de">
+						Enddatum der Erfassung.
+					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="code" />
+            <xsd:element name="authorName">
+                <xsd:annotation>
+                    <xsd:documentation>A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot. May be related to a published name (taxon name) and or taxonomic name (taxon concept) in taxonDetermination.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="groupType" minOccurs="0" />
+            <xsd:element name="originalDetermination" minOccurs="0" />
+            <xsd:element name="currentDetermination" minOccurs="0" />
+            <xsd:element name="communityConcepts" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A container for applying one or more communityConcepts to a plotObservation</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="communityConcept">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A name and some kind of definition of a community type, preferably a community Name as used in a Reference. </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="name">
+                                        <xsd:annotation>
+                                            <xsd:documentation xml:lang="en">A textual label for a community type. A community type is an abstract grouping of organisms that tend to co-occur on the landscape due to shared ecological requirements or preferences. May be designated by syntaxon or physiognomic types.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="citationID" type="lit:CitationType" minOccurs="0" />
+                                    <xsd:element name="rank" minOccurs="0" />
+                                    <xsd:element name="commonName" minOccurs="0" />
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="fit" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">Indicates the degree of fit with the community concept being assigned. Values derive from Gopal, S., and Woodcock, C. (1994), Theory and methods for accuracy assessment of thematic maps using fuzzy sets. Photogrammetric Engineering and Remote Sensing 60(2):181-188. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="confidence" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">Indicates the degree of confidence of the interpreter(s) in the interpretation made. This can reflect the level of familiarity with the classification or the sufficiency of information about the plot (e.g., High, Moderate, Low). </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="accordingTo" type="tcs:AccordingToType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the authorship of the asserted community concept.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TaxonDeterminationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts to an IndividualOrganismObservation or AggregateTaxonObservation by a Party. May be used to add additional taxon determinations or annotations by users of the dataset beyond the original author.</xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific taxonNameUsageConcept through the NameUsageConcept id attribute. The individual NameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all name usage concepts within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="date" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The determination date for the organism or taxon observation. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The party that made the determination that applies to this dataset. This is not the same as the authorship of the asserted relationship. See accordingTo.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="groupType" minOccurs="0" />
+            <xsd:element name="originalDetermination" minOccurs="0" />
+            <xsd:element name="currentDetermination" minOccurs="0" />
+            <xsd:element name="taxonRelationshipAssertions">
+                <xsd:annotation>
+                    <xsd:documentation>Container for taxonomic or nomenclatural assertion records.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="taxonRelationshipAssertion" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A specific taxonomic or nomenclatural assertion record.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="assertion">
+                                        <xsd:annotation>
+                                            <xsd:documentation xml:lang="en">A taxonomic or nomenclatural assertion to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. </xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:choice>
+                                                <xsd:element name="taxonNameID">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>A reference to a specific Taxon Name. The name is defined within the element veg:taxonName which is a container for all Taxon Names within a dataset.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="taxonConceptID">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>A reference to a specific Taxon Concept. The concept is defined within the element veg:taxonConcept which is a container for all Taxon Concepts within a dataset.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:choice>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="fit" minOccurs="0">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Indicates the degree of fit with the concept being assigned.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="confidence" minOccurs="0">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Indicates the degree of confidence of the interpreter(s) in the interpretation made. This can reflect the level of familiarity with the classification or the sufficiency of information about the plot (e.g., High, Moderate, Low). </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="accordingTo" type="tcs:AccordingToType" minOccurs="0">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Information about the authorship of the asserted relationship. </xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType name="TaxonNameUsageType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according, to an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) by using the authorName assertedNameID attribute or alternatively relate the name to a published name (taxon name) and or taxonomic name (taxon concept) in taxonDetermination.</xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="authorName">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot. The dataset author may reference a specific assertion to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept) by using the assertedNameID attribute. The author may alternatively related the name to a published name (taxon name) and or taxonomic name (taxon concept) in taxonDetermination.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:simpleContent>
+                        <xsd:extension base="xsd:string">
+                            <xsd:attribute name="assertedNameID">
+                                <xsd:annotation>
+                                    <xsd:documentation>A reference to a specific taxonomic or nomenclatural assertion id attribute. The individual taxonName or taxonConcept names are defined within the elements veg:taxonNames or veg:taxonConcepts which are containers for all such names within the dataset.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:attribute>
+                            <xsd:attribute name="type">
+                                <xsd:annotation>
+                                    <xsd:documentation>The type of assertion the dataset author is pointing to with the assertedNameID attribute (i.e. taxon name or taxon concept). </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:attribute>
+                        </xsd:extension>
+                    </xsd:simpleContent>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="voucher" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Herbarium accession number for any archived voucher specimens</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The party that recorded a specific taxon occurrence event.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="authorCode" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="NVS" xml:lang="en">Verbatum short code used by the author to signify the species at time of observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="accordingTo" type="tcs:AccordingToType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>A third party that had previously defined this usage concept. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="AggregateOrganismObservationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">An observation applying to all occurrences of an organism based on an aggregation factor. </xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotObservationID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation. The individual plotObservation is defined within the element veg:plotObservations which is a container for all plotObservations within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. The individual datasetNameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all datasetNameUsageConcepts within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="aggregateValue" type="misc:MeasurementType">
+                <xsd:annotation>
+                    <xsd:documentation>A simple measurement for a aggregate value. Values can be further defined uppervalue, accuracy etc.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="stratumObservationID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific stratumObservation.  The individual stratumObservation is defined within the element veg:stratumObservations which is a container for all stratumObservations within the dataset</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="height" type="misc:MeasurementType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Optional height at which the aggregated observation was made, e.g. in meters.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGroupings which is a container for all observationGroupings within the dataset</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="StratumType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="stratumName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Name associated with this stratum </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="stratumIndex" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Short code used to identify the stratum </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="stratumSequence" type="xsd:integer" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An indication of a position in an ordered sequence of strata. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="upperBound" type="xsd:decimal" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="lowerBound" type="xsd:decimal" minOccurs="0" maxOccurs="1" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="StratumObservationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">A container for observations applying to a stratum.</xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="stratumID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific stratum. The individual stratum is defined within the element veg:strata which is a container for all strata within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="plotObservationID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific plotObservation. The individual plotObservation is defined within the element veg:plotObservations which is a container for all plotObservations within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="height" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Average height to the top of the stratum. Usually recorded in meters. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="base" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Average height of the bottom of the stratum. Usually recorded in meters.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="stratumValue" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The value (e.g. cover, count) given to the observation in that strata</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="IndividualOrganismObservationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">An observation applying to one occurrence of an organism (or part of an organism). </xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+		</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotObservationID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation.  The individual plotObservation is defined within the element veg:plotObservation which is a container for all plotObservations within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="individualOrganismID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific individualOrganism.  The particular individualOrganism is defined with the element veg:individualOrganisms which is a container for all individualOrganisms within the dataset</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Complex type for specifying additional comments or explanations pertaining to the element</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="volumeCanopy" type="misc:MeasurementType" minOccurs="0" />
+            <xsd:element name="height" type="misc:MeasurementType" minOccurs="0" />
+            <xsd:element name="diameterBaseDistance" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A container for diameter measurements at a given distance along the stem from the ground.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="diameter" type="misc:MeasurementType">
+                            <xsd:annotation>
+                                <xsd:documentation>Diameter of the stem at the point of measurement (baseDistance)</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="baseDistance" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">The distance along the stem from the ground (usually in meters) at which diameter was measured</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="stratumObservationID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific stratum observation that this individual was measured in on the plot. The individual stratum observations are defined with the element veg:stratumObservation which is a container for all the stratum observations in the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relatedIndividual" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relativePlotPosition" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Relative position of organism described in geometric space within the plot the organism is located in. Relative to teh plot point of origin. </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="relativeX" type="xsd:decimal">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related item position in m. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="relativeY" type="xsd:decimal">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">The Z-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot elevation (in meters). </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observationGroupings within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Simple user-defined information types stored as a name-value pair. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Complex user-defined information types. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="multipleMeasurement" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Name of the quantity (e.g. volume) being measured via multiple measurements (e.g. length, width, height).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="measurement" type="misc:MeasurementType" minOccurs="2" maxOccurs="unbounded" />
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="individualOrganismHealth" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems.</xsd:documentation>
+                    <xsd:appinfo source="Vegbank">Maps to VegBank stemhealth defined as Health of the stem referenced in this stemLocation record. Usually used to describe dead stems.</xsd:appinfo>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="IndividualOrganismType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. The individual datasetNameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all datasetNameUsageConcepts within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="birthDate" minOccurs="0" />
+            <xsd:element name="identificationLabel" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A label that is associated with an individual (e.g. a numerical tree tag)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the IndividualOrganismType.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
+</xsd:schema>
