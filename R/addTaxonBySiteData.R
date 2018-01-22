@@ -7,7 +7,7 @@
 #' Subplots cannot be defined with this function, but observations can be referred to them if they exist.
 #' New/old plot observations are distinguished by observation date.
 #'
-#' @param target The original object of class \code{\linkS4class{VegX}} to be modified
+#' @param target The object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A site-by-species releve table
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param abundanceMethod A measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).

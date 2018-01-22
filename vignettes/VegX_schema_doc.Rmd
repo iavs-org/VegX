@@ -69,6 +69,43 @@ protocol                       | A specific grouping of methods related by commo
 literatureCitation             | Provides overview information about the literature citation, including title, abstract, keywords, and contacts. |
 
 
+## Internal structure of the main schema elements
+
+### *project*
+
+Sub-element               | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+title                 | TO BE DONE  | Yes |
+personnel                 | TO BE DONE  | No |
+
+### *plot*
+
+Sub-element               | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+plotName                 | Name or label for a plot, unique within the data set  | Yes |
+plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | No |
+relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | Yes (subplots) |
+location | Geographic location of the plot. | Yes |
+geometry | TO BE DONE | No |
+topography | TO BE DONE | Yes |
+placementMethod | Brief description of strategy for determining plot placement within the stand. | No |
+partyWithRole | The party that undertook the plot placement | No |
+
+### *plotObservation*
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+plotID                   | A reference to a specific plot by the plot ID       | Yes |
+obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | Yes |
+obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | Yes |
+plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | No |
+projectID | A reference to a specific 'project'.  | Yes |
+partyWithRole | The party that undertook the plot observation. | No |
+license | License linked to this plot observation. | No |
+taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | No |
+previousObservationID | Link to previous plot observations.	| No |
+observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| No |
+
 
 ## Differences between the Veg-X schema and the data model in VegX R package
 

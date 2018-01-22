@@ -146,3 +146,42 @@
   }
   return(cnt)
 }
+
+#Pools the information of two plots
+.mergePlots<-function(plot1, plot2) {
+   n1 = names(plot1)
+   n2 = names(plot2)
+   npool = unique(c(n1,n2))
+   res = list()
+   for(n in npool) {
+     if((n %in% n1) && (n %in% n2)) {
+       if(plot1[[n]]!=plot2[[n]]) stop(paste0("Plots have different data for '", n, "'. Cannot merge."))
+       res[[n]] = plot1[[n]]
+     } else if(n %in% n1) {
+       res[[n]] = plot1[[n]]
+     } else if(n %in% n2) {
+       res[[n]] = plot2[[n]]
+     }
+   }
+   return(res)
+}
+
+
+#Pools the information of two plot observationss
+.mergePlotObservations<-function(plotObservation1, plotObservation2) {
+  n1 = names(plotObservation1)
+  n2 = names(plotObservation2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(plotObservation1[[n]]!=plotObservation2[[n]]) stop(paste0("Plot observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = plotObservation1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = plotObservation1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = plotObservation2[[n]]
+    }
+  }
+  return(res)
+}

@@ -8,7 +8,7 @@ addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
   obsDates = Sys.Date(), absence.values = c(NA, 0), verbose = TRUE)
 }
 \arguments{
-\item{target}{The original object of class \code{\linkS4class{VegX}} to be modified}
+\item{target}{The object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A site-by-species releve table}
 

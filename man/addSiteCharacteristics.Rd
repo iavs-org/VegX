@@ -2,7 +2,7 @@
 % Please edit documentation in R/addSiteCharacteristics.R
 \name{addSiteCharacteristics}
 \alias{addSiteCharacteristics}
-\title{Adds/replaces site information}
+\title{Test Adds/replaces site information}
 \usage{
 addSiteCharacteristics(target, x, projectTitle, mapping,
   measurementMethods = list(), missing.values = c(NA, ""), verbose = TRUE)
