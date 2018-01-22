@@ -21,7 +21,7 @@ Our goal was to produce a standard specifically for vegetation-plot data that is
 
 The standard accommodates different data collection protocols by allowing specific aspects of data collection methods to be captured, such as whether plots were located subjectively or randomly, plot dimensions, definitions of cover-abundance scales, references to published methods, etc. The standard also allows for the original units of measurement to be retained. All elements in the standard are clearly defined. This allows synonymous terms in source datasets to be mapped to a common set of concepts, thus overcoming the problems caused by inconsistent terminologies.
 
-The *plotObservation* is the central Veg-X element, resulting from sampling a physical plot at a specific point in time, and can be related to one or more research projects (Fig. X). The information about a sampled plot that is fixed over time (e.g. altitude, plot identifier or name, dimensions, aspect, slope, geology) and references to related plots (e.g. a parent plot) are stored in the separate element *plot*. By structuring the plot data in this way, repeat measures and nested plots can be accommodated in the standard. For the top-level element project we adopted the **Ecological Metadata Language** (EML; http://knb.ecoinformatics.org/software/eml/)  project module. EML provides structured, well-defined categories for documenting the key aspects of ecological datasets and is supported by a number of institutions (Jones et al. 2006).
+The *plotObservation* is the central Veg-X element, resulting from sampling a physical plot at a specific point in time, and can be related to one or more research projects (Fig. 1). The information about a sampled plot that is fixed over time (e.g. altitude, plot identifier or name, dimensions, aspect, slope, geology) and references to related plots (e.g. a parent plot) are stored in the separate element *plot*. By structuring the plot data in this way, repeat measures and nested plots can be accommodated in the standard. For the top-level element project we adopted the **Ecological Metadata Language** (EML; http://knb.ecoinformatics.org/software/eml/)  project module. EML provides structured, well-defined categories for documenting the key aspects of ecological datasets and is supported by a number of institutions (Jones et al. 2006).
 
 Specific observations, either biotic or abiotic, are components of the plot observation element. The standard allows for observations of vegetation at both the individual specimen (*individualOrganismObservation*) and aggregated organism (*aggregateOrganismObservation*) levels. The standard maintains a clear distinction between the entity of interest (e.g. an individual organism, plot, or stratum) and the observation act (e.g. a measuring event applied to it). Together with unique identifiers that maintain the integrity of references between individual records within each component (e.g. between a plot and all the measuring events applied to it), the separation of components allows the standard to store multiple observations of the same entity (e.g. a plot or a tree). Analogously, a single observation event (e.g. a plot observation) may apply to multiple entities, thereby providing explicit grouping of entity observations. Each entity of interest (e.g. a tree) may have multiple observed properties (e.g. height, dbh) whose values are determined through measurement using a specific procedure or a method belonging to a particular protocol. Unlike individual organism observations, aggregated organism observations do not relate to a specific physical entity but provide estimates of the importance of a (abstract) taxonomic entity within the plot, such as through a cover estimate. Strata can be the subject of stratum observations (e.g. % of tree cover, tree height) and can be linked to aggregated organisms observations (Fig. 1). 
 
@@ -71,6 +71,8 @@ literatureCitation             | Provides overview information about the literat
 
 ## Internal structure of the main schema elements
 
+The VegX R package uses a simplified version of the VegX schema.
+
 ### *project*
 
 Sub-element               | Description                                         |  R obj. |
@@ -110,7 +112,7 @@ observationNarrative | Additional unstructured observations useful for understan
 
 ### *taxonNameUsageConcept*
 
-Taxon name usage concepts are identified internally by their element 'authorName'
+Taxon name usage concepts are identified by their element 'authorName'
 
 Sub-element              | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
@@ -118,7 +120,7 @@ authorName               | A string representing a taxon name that the author of
 
 ### *method*
 
-Methods are identified internally by their element 'name'
+Methods are identified by their element 'name'
 
 Sub-element              | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
@@ -128,6 +130,31 @@ protocolID | A reference to a protocol using its identifier | No |
 citationID | A reference to a specific citation of literature. | No |
 citationString | A string indicating the citation reference | Yes |
 
-## Differences between the Veg-X schema and the data model in VegX R package
+### *attribute*
 
-The VegX R package uses a simplified version of the VegX schema.
+Each attribute relates to one method and are identified by it. Attributes can be of three scales: *qualitative*, *ordinal* or *quantitative*; and the elements of attributes depend of the scale.
+
+Sub-element (qualitative)      | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+methodID               | A reference to a specific method that describes the context for the qualitative code. | Yes |
+code | TO BE DONE | Yes | 
+definition | The definition of the code. | Yes |
+
+Sub-element (ordinal)      | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+methodID               | A reference to a method that describes the context for the ordinal code. | Yes |
+code | Ordinal class code (e.g. a value like "+" or "1" in Braun-Blanquet cover scale) | Yes | 
+definition | The definition of an ordinal number or symbol used to signify an ordered list. For example a cover class ordinal code such as 1 = >1-5 % | Yes |
+lowerLimit | TO BE DONE | Yes |
+upperLimit | TO BE DONE | Yes |
+order | Explicit order in the sequence of ordinal values to which this code belongs | Yes |
+
+Sub-element (quantitative)      | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+methodID               | A reference to a specific method that describes the context for the quantitative attribute. | Yes |
+unit | Unit of measurement (e.g. mm, cm, square meters, number of individuals). | Yes | 
+precision | The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01). | No |
+lowerBound | Potential lower limit of the measurement | Yes |
+upperBound | Potential upper limit of the measurement | Yes |
+
+

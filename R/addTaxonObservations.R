@@ -237,7 +237,7 @@ addTaxonObservations<-function(target, x, projectTitle,
       tnucID = parsedTNUCIDs[which(parsedTNUCs==taxonAuthorNames[i])]
     }
 
-    # strata
+    # stratum observations
     if(stratumFlag) {
       strID = .getStratumIDByName(target, stratumNames[i])
       if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))

@@ -1,6 +1,6 @@
-#' Merges two Veg-X documents
+#' Merge Veg-X documents
 #'
-#' Merges two Veg-X documents while considering that some entities may be shared.
+#' Merges two Veg-X documents while considering that some of their entities may be shared.
 #'
 #' @param x,y The objects of class \code{\linkS4class{VegX}} to be merged
 #' @param verbose A flag to indicate console output of the data integration process.
@@ -12,12 +12,13 @@
 #' \itemize{
 #'   \item \code{projects} are merged when their element \code{title} has the same value
 #'   \item \code{plots} are merged when their element \code{plotName} has the same value
-#'   \item \code{plotObservations} are merged when both \code{plotID} and \code{obsStartDate} have the same value
-#'   \item \code{taxonNameUsageConcepts} are merged when element \code{authorName} has the same value
-#'   \item \code{methods} are merged when element \code{name} has the same value
+#'   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
+#'   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorName} has the same value
+#'   \item \code{methods} are merged when their element \code{name} has the same value
+#'   \item \code{strata} are merged when their element \code{name} has the same value
 #' }
 #' Merging to these entities may cause interruption of the process if the two entities to be merged
-#' have different value for the same element. Other entities (\code{stratumObservation}, \code{individualOrganismObservation}) are always considered as distinct
+#' have different value for the same element. Other entities (\code{attributes} of a method) are always considered as distinct
 #' entities between the two data sets to be merged and hence are simply copied to the result.
 #'
 #' @examples
@@ -126,7 +127,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of taxon name usage concepts: ", length(x@taxonNameUsageConcepts),". Data pooled for ", nmergedtnucs, " taxon name usage concept(s).\n"))
   }
 
-  # methods
+  # methods/attributes
   methodIDmap = list()
   nmergedmeths = 0
   if(length(y@methods)>0) {
@@ -134,8 +135,16 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       nmetid = .newMethodIDByName(x, y@methods[[j]]$name)
       if(nmetid$new) {
         x@methods[[nmetid$id]] = y@methods[[j]]
+        # add attributes
+        attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
+        for(i in 1:length(attIDs)) {
+          newAttID = as.character(length(x@attributes)+1)
+          x@attributes[[newAttID]] = y@attributes[[attIDs[i]]]
+          x@attributes[[newAttID]]$methodID = nmetid$id
+        }
       } else { #pool information
         x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]])
+        #TO DO: We should check the attribute correspondence here
         nmergedmeths = nmergedmeths + 1
       }
       methodIDmap[names(y@methods)[j]] = nmetid$id
@@ -143,6 +152,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   }
   if(verbose) {
     cat(paste0(" Final number of methods: ", length(x@methods),". Data pooled for ", nmergedmeths, " method(s).\n"))
+    cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
   }
 
 
@@ -167,15 +177,42 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of strata: ", length(x@strata),". Data pooled for ", nmergedstr, " strata.\n"))
   }
 
-  #                         stratumObservations = "list",
+
+
+  # stratumObservations
+  strObsIDmap = list()
+  nmergedstrobs = 0
+  if(length(y@stratumObservations)>0) {
+    for(j in 1:length(y@stratumObservations)) {
+      stratumID = strIDmap[[y@stratumObservations[[j]]$stratumID]]
+      plotObsID = plotObsIDmap[[y@stratumObservations[[j]]$plotObservationID]]
+      y@stratumObservations[[j]]$stratumID = stratumID # set stratum ID to translated one in order to avoid matching problems (does not change id externally)
+      y@stratumObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
+      nstrobsid = .newStratumObsIDByIDs(x, plotObsID, stratumID)
+      if(nstrobsid$new) {
+        x@stratumObservations[[nstrobsid$id]] = y@stratumObservations[[j]]
+      } else { #pool information
+        x@stratumObservations[[nstrobsid$id]] = .mergeStratumObservations(x@stratumObservations[[nstrobsid$id]], y@stratumObservations[[j]])
+        nmergedstrobs = nmergedstrobs + 1
+      }
+      strObsIDmap[names(y@stratumObservations)[j]] = nstrobsid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of stratum observations: ", length(x@stratumObservations),". Data pooled for ", nmergedstrobs, " stratum observation(s).\n"))
+  }
+
+
+
   #                         aggregatedObservations = "list",
   #                         individualOrganisms = "list",
   #                         individualObservations = "list",
+
+
   #                         vegetationObservations = "list",
   #                         surfaceCovers = "list",
   #                         surfaceCoverObservations = "list",
   #                         abioticObservations = "list",
   #                         ancillaryObservations = "list",
-  #                         attributes = "list"))
   return(x)
 }

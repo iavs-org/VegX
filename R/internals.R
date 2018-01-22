@@ -250,3 +250,22 @@
   }
   return(res)
 }
+
+#Pools the information of two stratum observations
+.mergeStratumObservations<-function(strobs1, strobs2) {
+  n1 = names(strobs1)
+  n2 = names(strobs2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(strobs1[[n]]!=strobs2[[n]]) stop(paste0("Stratum observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = strobs1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = strobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = strobs2[[n]]
+    }
+  }
+  return(res)
+}
