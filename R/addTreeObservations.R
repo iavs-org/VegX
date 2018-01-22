@@ -294,8 +294,9 @@ addTreeObservations<-function(target, x, projectTitle,
       if(!(individuals[i] %in% parsedInds)) {
         nindid = .newIndividualByIdentificationLabel(target, individuals[i]) # Get the new individual ID (internal code)
         indID = nindid$id
-        if(nindid$new) target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID,
-                                                                  "identificationLabel" = individuals[i])
+        if(nindid$new) target@individualOrganisms[[indID]] = list("plotID"= plotID,
+                                                                  "identificationLabel" = individuals[i],
+                                                                  "taxonNameUsageConceptID" = tnucID)
         parsedInds = c(parsedInds, individuals[i])
         parsedIndIDs = c(parsedIndIDs, indID)
       } else {
@@ -303,7 +304,9 @@ addTreeObservations<-function(target, x, projectTitle,
       }
     } else { # Add a new individual for each individual observation record
       indID = as.character(length(target@individualOrganisms)+1)
-      target@individualOrganisms[[indID]] = list("taxonNameUsageConceptID" = tnucID)
+      target@individualOrganisms[[indID]] = list("plotID"= plotID,
+                                                 "identificationLabel" = paste0("ind",length(target@individualOrganisms)+1),
+                                                 "taxonNameUsageConceptID" = tnucID)
     }
 
     # agg org observations

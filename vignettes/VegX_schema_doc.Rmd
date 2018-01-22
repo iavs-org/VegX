@@ -52,13 +52,18 @@ aggregatedOrganismObservation  | An observation applying to all occurrences of a
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum.
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. |
 siteObservation             | A container for all the site observations made on a single Plot during a single date-time period. |
+surfaceCover | TO BE DONE |
+surfaceCoverObservation | TO BE DONE |
+vegetationObservation | TO BE DONE |
 taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. |
 taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. |
 taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. |
-observationGrouping            | A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. |
+communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. |
+communityDetermination | An identification applying one or more CommunityConcepts to a plotObservation by a party.|
 
 
-Additional resource elements are used to fill information about people, methods and bibliorgraphic references:
+
+Additional resource elements of the Veg-X schema are used to provide information about people, methods and bibliographic references:
 
 Resource element               | Description                                     |
 ------------------------------ | ----------------------------------------------- |

@@ -138,6 +138,8 @@ writeVegXML<-function(x, file) {
       io = newXMLNode("individualOrganism",
                       attrs = c(id = names(x@individualOrganisms)[i]),
                       parent = individualOrganisms)
+      newXMLNode("plotID", x@individualOrganisms[[i]]$plotID, parent=io)
+      newXMLNode("identificationLabel", x@individualOrganisms[[i]]$identificationLabel, parent=io)
       newXMLNode("taxonNameUsageConceptID", x@individualOrganisms[[i]]$taxonNameUsageConceptID, parent=io)
     }
   }

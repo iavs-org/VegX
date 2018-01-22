@@ -27,6 +27,7 @@ Some entities are attempted to be merged or are kept as separate entities depedi
   \item \code{methods} are merged when their element \code{name} has the same value
   \item \code{strata} are merged when their element \code{name} has the same value
   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
+  \item \code{individualOrganisms} are merged when their element \code{identificationLabel} has the same value
 }
 Merging to these entities may cause interruption of the process if the two entities to be merged
 have different value for the same element. Other entities (\code{attributes} of a method) are always considered as distinct
@@ -66,4 +67,7 @@ y = addTreeObservations(newVegX(), dia, "Mokihinui",
 z = mergeVegX(x,y)
 summary(z)
 
+}
+\seealso{
+\code{\linkS4class{VegX}}
 }
