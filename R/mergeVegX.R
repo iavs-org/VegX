@@ -17,10 +17,10 @@
 #'   \item \code{methods} are merged when their element \code{name} has the same value
 #'   \item \code{strata} are merged when their element \code{name} has the same value
 #'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
-#'   \item \code{individualOrganisms} are merged when their element \code{identificationLabel} has the same value
+#'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
 #' }
 #' Merging to these entities may cause interruption of the process if the two entities to be merged
-#' have different value for the same element. Other entities (\code{attributes} of a method) are always considered as distinct
+#' have different value for the same element. Other entities (e.g., \code{attributes} of a method) are always considered as distinct
 #' entities between the two data sets to be merged and hence are simply copied to the result.
 #'
 #' @seealso \code{\linkS4class{VegX}}
@@ -211,7 +211,11 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   nmergedind = 0
   if(length(y@individualOrganisms)>0) {
     for(j in 1:length(y@individualOrganisms)) {
-      nindid = .newIndividualOrganismIDByLabel(x, y@individualOrganisms[[j]]$stratumName)
+      plotID = plotIDmap[[y@individualOrganisms[[j]]$plotID]]
+      tnucID = tnucIDmap[[y@individualOrganisms[[j]]$taxonNameUsageConceptID]]
+      y@individualOrganisms[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
+      y@individualOrganisms[[j]]$taxonNameUsageConceptID = tnucID # set tnuc ID to translated one in order to avoid matching problems (does not change id externally)
+      nindid = .newIndividualOrganismIDByIdentificationLabel(x, plotID, y@individualOrganisms[[j]]$identificationLabel)
       if(nindid$new) {
         x@individualOrganisms[[nindid$id]] = y@individualOrganisms[[j]]
       } else { #pool information
@@ -233,7 +237,6 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   #                         vegetationObservations = "list",
   #                         surfaceCovers = "list",
   #                         surfaceCoverObservations = "list",
-  #                         abioticObservations = "list",
-  #                         ancillaryObservations = "list",
+  #                         siteObservations = "list",
   return(x)
 }

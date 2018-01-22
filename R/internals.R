@@ -39,7 +39,14 @@
   }
   return(list(id = as.character(length(target@stratumObservations)+1), new = TRUE))
 }
-
+# Returns the ID for a new individual organism in the data set or the ID of an existing organism
+.newIndividualOrganismIDByIdentificationLabel<-function(target, plotID, identificationLabel) {
+  if(length(target@individualOrganisms)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@individualOrganisms)) {
+    if((target@individualOrganisms[[i]]$plotID==plotID) && (target@individualOrganisms[[i]]$identificationLabel==identificationLabel)) return(list(id = names(target@individualOrganisms)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@individualOrganisms)+1), new = TRUE))
+}
 # Returns the ID for a new method in the data set or the ID of an existing method with the same name
 .newMethodIDByName<-function(target, methodName) {
   if(length(target@methods)==0) return(list(id="1", new = TRUE))
@@ -265,6 +272,25 @@
       res[[n]] = strobs1[[n]]
     } else if(n %in% n2) {
       res[[n]] = strobs2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two individual organisms
+.mergeIndividualOrganisms<-function(ind1, ind2) {
+  n1 = names(ind1)
+  n2 = names(ind2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(ind1[[n]]!=ind2[[n]]) stop(paste0("Individual organisms have different data for '", n, "'. Cannot merge."))
+      res[[n]] = ind1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = ind1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = ind2[[n]]
     }
   }
   return(res)

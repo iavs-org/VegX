@@ -80,12 +80,16 @@ The VegX R package uses a simplified version of the VegX schema.
 
 ### *project*
 
+Projects are identified by their *title*.
+
 Sub-element               | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
 title                 | TO BE DONE  | Yes |
 personnel                 | TO BE DONE  | No |
 
 ### *plot*
+
+Projects are identified by their *plotName*. 
 
 Sub-element               | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
@@ -100,7 +104,7 @@ partyWithRole | The party that undertook the plot placement | No |
 
 ### *plotObservation*
 
-Plot observations are identified internally by their elements 'plotID' and 'obsStartDate'
+Plot observations are identified internally by their elements *plotID* and *obsStartDate*.
 
 Sub-element              | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
@@ -117,7 +121,7 @@ observationNarrative | Additional unstructured observations useful for understan
 
 ### *taxonNameUsageConcept*
 
-Taxon name usage concepts are identified by their element 'authorName'
+Taxon name usage concepts are identified by their element *authorName*.
 
 Sub-element              | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
@@ -125,7 +129,7 @@ authorName               | A string representing a taxon name that the author of
 
 ### *method*
 
-Methods are identified by their element 'name'
+Methods are identified by their element *name*.
 
 Sub-element              | Description                                         |  R obj. |
 ------------------------ | --------------------------------------------------- | ------- |
@@ -173,3 +177,17 @@ plotObservationID        | A reference to a specific plotObservation. | Yes |
 height                   | Average height to the top of the stratum.  | No |
 base                     | Average height of the bottom of the stratum. | No |
 stratumValue             | The value (e.g. cover, count) given to the observation in that strata | No |
+
+
+### *individualOrganisms*
+
+Individual organisms are identified by *plotID* and *identificationLabel*.
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+plotID                   | A reference to a specific plot. | Yes |
+identificationLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | Yes |
+taxonNameUsageConceptID  | A reference to a specific datasetNameUsageConcept representing a taxon occurrence. | Yes |
+birthDate | TO BE DONE | No |
+relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | No |
+relativePosition | Relative position of organism described in geometric space within the plot the organism is located in. Relative to the plot point of origin. | No |

@@ -292,7 +292,7 @@ addTreeObservations<-function(target, x, projectTitle,
     # individual organisms
     if(individualFlag) { # Allow for repeated observations on the same individuals
       if(!(individuals[i] %in% parsedInds)) {
-        nindid = .newIndividualByIdentificationLabel(target, individuals[i]) # Get the new individual ID (internal code)
+        nindid = .newIndividualOrganismIDByIdentificationLabel(target, plotID, individuals[i]) # Get the new individual ID (internal code)
         indID = nindid$id
         if(nindid$new) target@individualOrganisms[[indID]] = list("plotID"= plotID,
                                                                   "identificationLabel" = individuals[i],
