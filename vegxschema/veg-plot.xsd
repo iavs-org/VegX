@@ -246,11 +246,6 @@
             </xsd:element>
             <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded" />
-            <xsd:element name="placementMethod" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Brief description of strategy for determining plot placement within the stand.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation />
