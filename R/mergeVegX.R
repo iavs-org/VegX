@@ -21,6 +21,39 @@
 #' entities between the two data sets to be merged and hence are simply copied to the result.
 #'
 #' @examples
+#'
+#' data(mokihinui)
+#'
+#' # Create document 'x' with aggregated taxon observations
+#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+#'               stratumName = "Tier", value = "Category")
+#' scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",
+#'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
+#'                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
+#'                          values = c("P","1","2","3", "4", "5", "6"))
+#' strataDef = defineStrataByHeight(name = "Recce strata",
+#'                                 description = "Standard Recce stratum definition",
+#'                                 citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                                 heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
+#'                                 stratumNames = paste0("Tier ",1:7))
+#' x = addTaxonObservations(newVegX(), tcv, "Mokihinui",
+#'                         mapping = taxmapping,
+#'                         abundanceMethod = scale,
+#'                         stratumDefinition = strataDef)
+#'
+#' # Create document 'y' with tree observations
+#' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
+#'                    taxonAuthorName = "PreferredSpeciesName", diameter = "Diameter")
+#' diamMeth = predefinedMeasurementMethod("DBH")
+#' y = addTreeObservations(newVegX(), dia, "Mokihinui",
+#'                         mapping = treemapping,
+#'                         diameterMethod = diamMeth)
+#'
+#' # Merge 'x' and 'y'
+#' z = mergeVegX(x,y)
+#' summary(z)
+#'
 mergeVegX<-function(x, y, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
