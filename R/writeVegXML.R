@@ -115,10 +115,10 @@ writeVegXML<-function(x, file) {
                        attrs = c(id = names(x@strata)[i]),
                        parent = strata)
       newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
-      newXMLNode("stratumSequence", x@strata[[i]]$stratumSequence, parent=str)
-      newXMLNode("lowerBound", x@strata[[i]]$lowerBound, parent=str)
-      newXMLNode("upperBound", x@strata[[i]]$upperBound, parent=str)
-      newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
+      if("methodID" %in% names(x@strata[[i]])) newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
+      if("stratumSequence" %in% names(x@strata[[i]])) newXMLNode("stratumSequence", x@strata[[i]]$stratumSequence, parent=str)
+      if("lowerBound" %in% names(x@strata[[i]])) newXMLNode("lowerBound", x@strata[[i]]$lowerBound, parent=str)
+      if("upperBound" %in% names(x@strata[[i]])) newXMLNode("upperBound", x@strata[[i]]$upperBound, parent=str)
     }
   }
   #StratumObservation elements

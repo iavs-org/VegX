@@ -12,13 +12,6 @@
 #' @return an object of class \code{\linkS4class{VegXStrata}}
 #' @export
 #'
-#' @examples
-#' strataDef = defineStrataByHeight(name = "Recce strata",
-#'                                 description = "Standard Recce stratum definition",
-#'                                 citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                                 heightBreaks = c(0, 0.3,2.0,5, 12, 25,50, 100),
-#'                                 stratumNames = paste0("Tier ",1:7))
-#'
 defineStrataByHeight<-function(name = "Strata by height",
                                description = "Vegetation strata defined by height in m",
                                citation = "",
@@ -27,7 +20,8 @@ defineStrataByHeight<-function(name = "Strata by height",
   attributes = list(
     list(type="quantitative",
          unit = heightUnit,
-         lowerBound = 0)
+         lowerBound = 0,
+         upperBound = Inf)
   )
   names(attributes) = 1
   defMethod = new("VegXMethod",
@@ -66,7 +60,7 @@ defineStratumCategories<-function(name = "Strata by categories",
                   name = name,
                   description = description,
                   citation = citation,
-                  attributeClass = "stratum category",
+                  subject = "stratum category",
                   attributeType = "qualitative",
                   attributes = list())
 
@@ -80,32 +74,68 @@ defineStratumCategories<-function(name = "Strata by categories",
              strata = strata))
 }
 
-#' Surface cover definition by simple category
+#' Mixed stratum definiton
 #'
-#' @param name A string to identify the surface cover definition.
-#' @param description A string describing how surface covers are defined.
+#' Define some strata by height and other by category
+#'
+#' @param name A string to identify the stratum definition.
+#' @param description A string describing how strata are defined.
 #' @param citation A string with the bibliographic reference for the method.
-#' @param surfaceNames A numeric vector of surface codes (of length equal to the number of strata).
+#' @param heightStrataBreaks A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).
+#' @param heightStrataNames A numeric vector of stratum codes (of length equal to the number of height strata).
+#' @param heightStrataUnit A string to identify height units.
+#' @param categoryStrataNames A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).
+#' @param order A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
-defineSurfaceCategories<-function(name = "Surface covers",
-                                  description = "Four simple surface categories",
-                                  citation = "",
-                                  surfaceNames = c("bare soil", "water", "rock", "vegetation")) {
+#' @export
+#'
+#' @examples
+#' strataDef = defineMixedStrata(name = "Recce strata",
+#'                               description = "Standard Recce stratum definition",
+#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                               heightStrataNames = paste0("Tier ",1:6),
+#'                               categoryStrataNames = "Tier 7")
+defineMixedStrata<-function(name = "Strata by height or category",
+                            description = "Vegetation strata defined by height in m and other strata defined by category",
+                            citation = "",
+                            heightStrataBreaks = c(0,1,3,5),
+                            heightStrataNames = c("s1", "s2", "s3"),
+                            heightStrataUnit = "m",
+                            categoryStrataNames = "s4",
+                            order = NULL) {
+  attributes = list(
+    list(type="quantitative",
+         unit = heightStrataUnit,
+         lowerBound = 0,
+         upperBound = Inf)
+  )
+  names(attributes) = 1
   defMethod = new("VegXMethod",
                   name = name,
                   description = description,
                   citation = citation,
-                  attributeClass = "surface category",
-                  attributeType = "qualitative",
-                  attributes = list())
+                  subject = "stratum mixed",
+                  attributeType = "quantitative",
+                  attributes = attributes)
 
-  surfaceCovers = list()
-  for(i in 1:length(surfaceNames)) {
-    surfaceCovers[[as.character(i)]] = list(surfaceNames = surfaceNames[i])
+  nhstr = length(heightStrataNames)
+  ncstr = length(categoryStrataNames)
+  nstr =nhstr + ncstr
+  strata = list()
+  if(is.null(order)) order = 1:nstr
+  for(i in 1:nhstr) {
+    strata[[as.character(i)]] = list(stratumName = heightStrataNames[i],
+                                     stratumSequence = order[i],
+                                     lowerBound = heightStrataBreaks[i],
+                                     upperBound = heightStrataBreaks[i+1])
   }
-  return(new("VegXSurfaceCoverDefinition",
+  for(i in 1:ncstr) {
+    strata[[as.character(nhstr+i)]] = list(stratumName = categoryStrataNames[i],
+                                           stratumSequence = order[nhstr+i])
+  }
+  return(new("VegXStrata",
              method = defMethod,
-             surfaceCovers = surfaceCovers))
+             strata = strata))
 }
-

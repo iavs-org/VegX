@@ -4,7 +4,7 @@
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-#' 'method', 'attribute'.
+#' 'stratum', 'method', 'attribute'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -46,7 +46,8 @@
 #'
 showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation", "method", "attribute"))
+  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation",
+                                 "stratum","method", "attribute"))
   res = NULL
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
@@ -143,6 +144,24 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         }
         res[i, "aggregateValue_value"] = x@aggregateObservations[[i]]$value
         res[i, "aggregateValue_method"] = x@methods[[x@attributes[[x@aggregateObservations[[i]]$attributeID]]$methodID]]$name
+      }
+    }
+  }
+  else if(element=="stratum") {
+    res = data.frame(stratumName = rep(NA, length(x@strata)),
+                     row.names = names(x@strata))
+    if(length(x@strata)>0){
+      for(i in 1:length(x@strata)){
+        res[i, "stratumName"] = x@strata[[i]]$stratumName
+        if("methodID" %in% names(x@strata[[i]])) {
+          if(includeIDs) {
+            res[i, "methodID"] = x@strata[[i]]$methodID
+          }
+          res[i, "methodName"] = x@methods[[x@strata[[i]]$methodID]]$name
+        }
+        if("stratumSequence" %in% names(x@strata[[i]])) res[i, "stratumSequence"] = x@strata[[i]]$stratumSequence
+        if("lowerBound" %in% names(x@strata[[i]])) res[i, "lowerBound"] = x@strata[[i]]$lowerBound
+        if("upperBound" %in% names(x@strata[[i]])) res[i, "upperBound"] = x@strata[[i]]$upperBound
       }
     }
   }
