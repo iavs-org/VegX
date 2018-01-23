@@ -1,3 +1,7 @@
+#' @describeIn VegX
+#'
+#' Generates a summary of the Veg-X object (i.e., the number of elements of each type).
+#'
 setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("================================================================\n"))
   cat(paste0("                     VegX object (ver 1.5.3)                    \n"))
