@@ -18,6 +18,7 @@
 #'   \item \code{strata} are merged when their element \code{name} has the same value
 #'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
 #'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
+#'   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value
 #' }
 #' Merging to these entities may cause interruption of the process if the two entities to be merged
 #' have different value for the same element. Other entities (e.g., \code{attributes} of a method) are always considered as distinct
@@ -206,6 +207,8 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of stratum observations: ", length(x@stratumObservations),". Data pooled for ", nmergedstrobs, " stratum observation(s).\n"))
   }
 
+  # aggregatedObservations
+
   # individualOrganisms
   indIDmap = list()
   nmergedind = 0
@@ -230,8 +233,29 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   }
 
 
-  #                         aggregatedObservations = "list",
-  #                         individualObservations = "list",
+  # individualObservations
+  indObsIDmap = list()
+  nmergedindobs = 0
+  if(length(y@individualObservations)>0) {
+    for(j in 1:length(y@individualObservations)) {
+      plotObsID = plotObsIDmap[[y@individualObservations[[j]]$plotObservationID]]
+      indID = indIDmap[[y@individualObservations[[j]]$individualOrganismID]]
+      y@individualObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
+      y@individualObservations[[j]]$individualOrganismID = indID # set individual organism ID to translated one in order to avoid matching problems (does not change id externally)
+      nindobsid = .newIndividualOrganismObservationIDByIndividualID(x, plotObsID, indID)
+      if(nindobsid$new) {
+        x@individualObservations[[nindobsid$id]] = y@individualObservations[[j]]
+      } else { #pool information
+        x@individualObservations[[nindobsid$id]] = .mergeIndividualOrganismObservations(x@individualObservations[[nindid$id]], y@individualObservations[[j]])
+        nmergedindobs = nmergedindobs + 1
+      }
+      indObsIDmap[names(y@individualObservations)[j]] = nindobsid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of individual organism observations: ", length(x@individualObservations),". Data pooled for ", nmergedindobs, " individual organism observation(s).\n"))
+  }
+
 
 
   #                         vegetationObservations = "list",

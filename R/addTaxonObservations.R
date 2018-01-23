@@ -255,6 +255,7 @@ addTaxonObservations<-function(target, x, projectTitle,
     }
 
     # agg org observations
+    # TO BE DONE: CHECK that the agg org observation is new
     if(!(values[i] %in% as.character(missing.values))) {
       if(abundanceMethod@attributeType== "quantitative") {
         if(values[i]> abundanceMethod@attributes[[1]]$upperBound) {

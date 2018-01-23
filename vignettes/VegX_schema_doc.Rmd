@@ -179,7 +179,7 @@ base                     | Average height of the bottom of the stratum. | No |
 stratumValue             | The value (e.g. cover, count) given to the observation in that strata | No |
 
 
-### *individualOrganisms*
+### *individualOrganism*
 
 Individual organisms are identified by *plotID* and *identificationLabel*.
 
@@ -191,3 +191,19 @@ taxonNameUsageConceptID  | A reference to a specific datasetNameUsageConcept rep
 birthDate | TO BE DONE | No |
 relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | No |
 relativePosition | Relative position of organism described in geometric space within the plot the organism is located in. Relative to the plot point of origin. | No |
+
+
+### *individualOrganismObservation*
+
+Individual organism observations are identified by *plotObservationID* and *individualOrganismID*.
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+plotObservationID        | A reference to a specific plotObservation. | Yes |
+individualOrganismID     | A reference to a specific individualOrganism. | Yes |
+stratumObservationID     | A reference to a specific stratum observation that this individual was measured in on the plot. | Yes |
+diameterBaseDistance     | A container for diameter measurements at a given distance along the stem from the ground. | Yes |
+height     | TO BE DONE | No |
+canopyVolume     | TO BE DONE | No |
+multipleMeasurement | A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  | No |
+individualOrganismHealth | Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems. | No |

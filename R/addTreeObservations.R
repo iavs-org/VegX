@@ -309,7 +309,8 @@ addTreeObservations<-function(target, x, projectTitle,
                                                  "taxonNameUsageConceptID" = tnucID)
     }
 
-    # agg org observations
+    # ind org observations
+    # TO BE DONE: CHECK that the ind org observation is new
     if(!(diameters[i] %in% as.character(missing.values))) {
       if(diameterMethod@attributeType== "quantitative") {
         value = as.numeric(diameters[i])
@@ -321,7 +322,7 @@ addTreeObservations<-function(target, x, projectTitle,
         }
         target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
                                                                             "individualOrganismID" = indID,
-                                                                            "diameterID" = diamAttIDs[1],
+                                                                            "diameterAttributeID" = diamAttIDs[1],
                                                                             "diameterValue" = value)
         if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
         indObsCounter = indObsCounter + 1
@@ -330,7 +331,7 @@ addTreeObservations<-function(target, x, projectTitle,
         if(length(ind)==1) {
           target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
                                                                               "individualOrganismID" = indID,
-                                                                              "attributeID" = diamAttIDs[ind],
+                                                                              "diameterAttributeID" = diamAttIDs[ind],
                                                                               "diameterValue" = diameters[i])
           if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
           indObsCounter = indObsCounter + 1

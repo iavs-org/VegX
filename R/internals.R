@@ -47,6 +47,14 @@
   }
   return(list(id = as.character(length(target@individualOrganisms)+1), new = TRUE))
 }
+# Returns the ID for a new individual organism observation in the data set or the ID of an existing organism observation
+.newIndividualOrganismObservationIDByIndividualID<-function(target, plotObservationID, individualOrganismID) {
+  if(length(target@individualObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@individualObservations)) {
+    if((target@individualObservations[[i]]$plotObservationID==plotObservationID) && (target@individualObservations[[i]]$individualOrganismID==individualOrganismID)) return(list(id = names(target@individualObservations)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@individualObservations)+1), new = TRUE))
+}
 # Returns the ID for a new method in the data set or the ID of an existing method with the same name
 .newMethodIDByName<-function(target, methodName) {
   if(length(target@methods)==0) return(list(id="1", new = TRUE))
@@ -291,6 +299,25 @@
       res[[n]] = ind1[[n]]
     } else if(n %in% n2) {
       res[[n]] = ind2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two individual organism observations
+.mergeIndividualOrganisms<-function(indobs1, indobs2) {
+  n1 = names(indobs1)
+  n2 = names(indobs2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(indobs1[[n]]!=indobs2[[n]]) stop(paste0("Individual organism observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = indobs1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = indobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = indobs2[[n]]
     }
   }
   return(res)

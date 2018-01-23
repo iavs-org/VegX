@@ -156,7 +156,7 @@ writeVegXML<-function(x, file) {
       if("diameterValue" %in% names(x@individualObservations[[i]])) {
         diamval = newXMLNode("diameter", parent=ioo)
         newXMLNode("value", x@individualObservations[[i]]$diameterValue, parent=diamval)
-        if("diameterID" %in% names(x@individualObservations[[i]])) newXMLNode("diameterID", x@individualObservations[[i]]$diameterID, parent=diamval)
+        if("diameterAttributeID" %in% names(x@individualObservations[[i]])) newXMLNode("diameterID", x@individualObservations[[i]]$diameterAttributeID, parent=diamval)
       }
     }
   }
