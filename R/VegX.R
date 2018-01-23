@@ -13,11 +13,10 @@
 #' @slot aggregateObservations list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).
 #' @slot individualOrganisms list of individual organisms.
 #' @slot individualObservations list of observations made on individual organisms (e.g. diameter or height values).
-#' @slot abioticObservations list of abiotic observations made plots.
+#' @slot siteObservations list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).
 #' @slot vegetationObservations list of observations applying to the whole stand (e.g. stand maturity)
 #' @slot surfaceCovers list of surface cover definitions.
 #' @slot surfaceCoverObservations list of surface cover observations.
-#' @slot ancillaryObservations list of ancillary observations (e.g. land use, management regime, legal protection, ...)
 #' @slot methods list of measurement methods (e.g. cover scales).
 #' @slot attributes list of attribute value description.
 #'
@@ -40,8 +39,7 @@ setClass("VegX",slots=c(projects = "list",
                         vegetationObservations = "list",
                         surfaceCovers = "list",
                         surfaceCoverObservations = "list",
-                        abioticObservations = "list",
-                        ancillaryObservations = "list",
+                        siteObservations = "list",
                         methods = "list",
                         attributes = "list"))
 

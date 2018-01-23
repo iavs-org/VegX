@@ -44,7 +44,7 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("\n"))
   cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
   cat(paste0("\n"))
-  cat(paste0("   Abiotic observations: ", length(object@abioticObservations),"\n"))
+  cat(paste0("   Site observations: ", length(object@siteObservations),"\n"))
   cat(paste0("\n"))
   cat(paste0("================================================================\n"))
 })

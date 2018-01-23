@@ -30,15 +30,13 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 
 \item{\code{individualObservations}}{list of observations made on individual organisms (e.g. diameter or height values).}
 
-\item{\code{abioticObservations}}{list of abiotic observations made plots.}
+\item{\code{siteObservations}}{list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).}
 
 \item{\code{vegetationObservations}}{list of observations applying to the whole stand (e.g. stand maturity)}
 
 \item{\code{surfaceCovers}}{list of surface cover definitions.}
 
 \item{\code{surfaceCoverObservations}}{list of surface cover observations.}
-
-\item{\code{ancillaryObservations}}{list of ancillary observations (e.g. land use, management regime, legal protection, ...)}
 
 \item{\code{methods}}{list of measurement methods (e.g. cover scales).}
 

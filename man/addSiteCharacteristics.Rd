@@ -2,7 +2,7 @@
 % Please edit documentation in R/addSiteCharacteristics.R
 \name{addSiteCharacteristics}
 \alias{addSiteCharacteristics}
-\title{Test Adds/replaces site information}
+\title{Adds/replaces site information}
 \usage{
 addSiteCharacteristics(target, x, projectTitle, mapping,
   measurementMethods = list(), missing.values = c(NA, ""), verbose = TRUE)
@@ -59,8 +59,8 @@ summary(w)
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other add functions: \code{\link{addAbioticObservations}},
-  \code{\link{addPlotLocations}},
+Other add functions: \code{\link{addPlotLocations}},
+  \code{\link{addSiteObservations}},
   \code{\link{addTaxonBySiteData}},
   \code{\link{addTaxonObservations}},
   \code{\link{addTreeObservations}}

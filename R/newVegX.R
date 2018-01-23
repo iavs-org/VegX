@@ -12,7 +12,6 @@
 #' newVegX()
 #'
 newVegX<-function() {
-  #project
   return(new("VegX",
              projects = list(),
              plots=list(),
@@ -24,5 +23,6 @@ newVegX<-function() {
              strata = list(),
              individualOrganisms = list(),
              methods = list(),
-             attributes = list()))
+             attributes = list(),
+             siteObservations = list()))
 }

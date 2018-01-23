@@ -161,19 +161,19 @@ writeVegXML<-function(x, file) {
       }
     }
   }
-  #AbioticObservation elements
-  if(length(x@abioticObservations)>0) {
-    abioticObservations = newXMLNode("abioticObservations", parent = top)
-    for(i in 1:length(x@abioticObservations)){
-      abio = newXMLNode("abioticObservation",
-                        attrs = c(id = names(x@abioticObservations)[i]),
-                        parent = abioticObservations)
-      if("soil" %in% names(x@abioticObservations[[i]])) {
+  #siteObservation elements
+  if(length(x@siteObservations)>0) {
+    siteObservations = newXMLNode("siteObservations", parent = top)
+    for(i in 1:length(x@siteObservations)){
+      abio = newXMLNode("siteObservation",
+                        attrs = c(id = names(x@siteObservations)[i]),
+                        parent = siteObservations)
+      if("soil" %in% names(x@siteObservations[[i]])) {
         soil = newXMLNode("soil", parent=abio)
-        if("pH" %in% names(x@abioticObservations[[i]]$soil)) { #Add pH information
+        if("pH" %in% names(x@siteObservations[[i]]$soil)) { #Add pH information
           pH = newXMLNode("pH", parent=soil)
-          newXMLNode("value", x@abioticObservations[[i]]$soil$pH$value, parent=pH)
-          newXMLNode("attributeID", x@abioticObservations[[i]]$soil$pH$attributeID, parent=pH)
+          newXMLNode("value", x@siteObservations[[i]]$soil$pH$value, parent=pH)
+          newXMLNode("attributeID", x@siteObservations[[i]]$soil$pH$attributeID, parent=pH)
         }
       }
     }
