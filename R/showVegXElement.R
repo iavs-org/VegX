@@ -4,7 +4,7 @@
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-#' 'stratum', 'method', 'attribute'.
+#' 'stratum', 'stratumObservation', 'method', 'attribute'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -47,7 +47,7 @@
 showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
 
   element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation",
-                                 "stratum","method", "attribute"))
+                                 "stratum", "stratumObservation","method", "attribute"))
   res = NULL
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
@@ -162,6 +162,36 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         if("stratumSequence" %in% names(x@strata[[i]])) res[i, "stratumSequence"] = x@strata[[i]]$stratumSequence
         if("lowerBound" %in% names(x@strata[[i]])) res[i, "lowerBound"] = x@strata[[i]]$lowerBound
         if("upperBound" %in% names(x@strata[[i]])) res[i, "upperBound"] = x@strata[[i]]$upperBound
+      }
+    }
+  }
+  else if(element=="stratumObservation") {
+    if(includeIDs) {
+      res = data.frame(plotObservationID = rep(NA, length(x@stratumObservations)),
+                       plotName = rep(NA, length(x@stratumObservations)),
+                       obsStartDate = rep(NA, length(x@stratumObservations)),
+                       stratumID = rep(NA, length(x@stratumObservations)),
+                       stratumName = rep(NA, length(x@stratumObservations)),
+                       row.names = names(x@stratumObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@stratumObservations)),
+                       obsStartDate = rep(NA, length(x@stratumObservations)),
+                       stratumName = rep(NA, length(x@stratumObservations)),
+                       row.names = names(x@stratumObservations))
+    }
+    if(length(x@stratumObservations)>0){
+      for(i in 1:length(x@stratumObservations)){
+        if(includeIDs) {
+          res[i, "plotObservationID"] = x@stratumObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@stratumObservations[[i]]$plotObservationID]]$plotID]]
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@stratumObservations[[i]]$plotObservationID]]$obsStartDate)
+        if(includeIDs) {
+          res[i, "stratumID"] = x@stratumObservations[[i]]$stratumID
+        }
+        res[i, "stratumName"] = x@strata[[x@stratumObservations[[i]]$stratumID]]$stratumName
+        if("value" %in% names(x@stratumObservations[[i]])) res[i, "stratumValue_value"] = x@stratumObservations[[i]]$value
+        if("attributeID" %in% names(x@stratumObservations[[i]])) res[i, "stratumValue_method"] = x@methods[[x@attributes[[x@stratumObservations[[i]]$attributeID]]$methodID]]$name
       }
     }
   }

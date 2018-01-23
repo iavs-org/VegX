@@ -10,7 +10,7 @@ showVegXElement(x, element = "plot", includeIDs = FALSE)
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
 \item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-'stratum', 'method', 'attribute'.}
+'stratum', 'stratumObservation', 'method', 'attribute'.}
 
 \item{includeIDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
 }
