@@ -3,8 +3,9 @@
 #' Coerces part of the information of a Veg-X object into a data frame
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
-#' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-#' 'stratum', 'stratumObservation', 'individualOrganism', 'individualOrganismObservation', 'method', 'attribute'.
+#' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
+#' 'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
+#' 'method', 'attribute'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -48,7 +49,7 @@
 #' showElementTable(x, "aggregateOrganismObservation")
 showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation",
+  element = match.arg(element, c("plot", "plotObservation", "taxonNameUsageConcept",
                                  "stratum", "stratumObservation", "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation",
                                  "method", "attribute"))
@@ -109,6 +110,15 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
           }
           res[i, "projectTitle"] = x@projects[[x@plotObservations[[i]]$projectID]]$title
         }
+      }
+    }
+  }
+  else if(element=="taxonNameUsageConcept") {
+    res = data.frame(authorName = rep(NA, length(x@taxonNameUsageConcepts)),
+                     row.names = names(x@taxonNameUsageConcepts))
+    if(length(x@taxonNameUsageConcepts)>0){
+      for(i in 1:length(x@taxonNameUsageConcepts)){
+        res[i, "authorName"] = x@taxonNameUsageConcepts[[i]]$authorName
       }
     }
   }
@@ -203,14 +213,14 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
     if(includeIDs) {
       res = data.frame(plotID = rep(NA, length(x@individualOrganisms)),
                        plotName = rep(NA, length(x@individualOrganisms)),
+                       identificationLabel = rep(NA, length(x@individualOrganisms)),
                        taxonNameUsageConceptID = rep(NA, length(x@individualOrganisms)),
                        authorName = rep(NA, length(x@individualOrganisms)),
-                       identificationLabel = rep(NA, length(x@individualOrganisms)),
                        row.names = names(x@individualOrganisms))
     } else {
       res = data.frame(plotName = rep(NA, length(x@individualOrganisms)),
-                       authorName = rep(NA, length(x@individualOrganisms)),
                        identificationLabel = rep(NA, length(x@individualOrganisms)),
+                       authorName = rep(NA, length(x@individualOrganisms)),
                        row.names = names(x@individualOrganisms))
     }
     if(length(x@individualOrganisms)>0){
@@ -234,11 +244,13 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
                        obsStartDate = rep(NA, length(x@individualObservations)),
                        individualOrganismID = rep(NA, length(x@individualObservations)),
                        identificationLabel = rep(NA, length(x@individualObservations)),
+                       authorName = rep(NA, length(x@individualObservations)),
                        row.names = names(x@individualObservations))
     } else {
       res = data.frame(plotName = rep(NA, length(x@individualObservations)),
                        obsStartDate = rep(NA, length(x@individualObservations)),
                        identificationLabel = rep(NA, length(x@individualObservations)),
+                       authorName = rep(NA, length(x@individualObservations)),
                        row.names = names(x@individualObservations))
     }
     if(length(x@individualObservations)>0){
@@ -252,6 +264,7 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
           res[i, "individualOrganismID"] = x@individualObservations[[i]]$individualOrganismID
         }
         res[i, "identificationLabel"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$identificationLabel
+        res[i, "authorName"] = x@taxonNameUsageConcepts[[x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$taxonNameUsageConceptID]]$authorName
         if("stratumObservationID" %in% names(x@individualObservations[[i]])){
           if(x@individualObservations[[i]]$stratumObservationID != "") {
             if(includeIDs) {

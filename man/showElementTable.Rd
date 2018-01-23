@@ -9,8 +9,9 @@ showElementTable(x, element = "plot", includeIDs = FALSE)
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
-\item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-'stratum', 'stratumObservation', 'individualOrganism', 'individualOrganismObservation', 'method', 'attribute'.}
+\item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
+'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
+'method', 'attribute'.}
 
 \item{includeIDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
 }
