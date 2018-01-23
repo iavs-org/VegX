@@ -41,3 +41,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7")
 }
+\seealso{
+Other define strata functions: \code{\link{defineCategoricalStrata}},
+  \code{\link{defineHeightStrata}}
+}

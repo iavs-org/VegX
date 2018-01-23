@@ -23,3 +23,7 @@ an object of class \code{\linkS4class{VegXStrata}}
 \description{
 Strata definition by simple category
 }
+\seealso{
+Other define strata functions: \code{\link{defineHeightStrata}},
+  \code{\link{defineMixedStrata}}
+}

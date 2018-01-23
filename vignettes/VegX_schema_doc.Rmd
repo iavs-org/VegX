@@ -165,6 +165,19 @@ precision | The smallest place value to which the measurement is expressed (eg, 
 lowerBound | Potential lower limit of the measurement | Yes |
 upperBound | Potential upper limit of the measurement | Yes |
 
+### *stratum*
+
+Strata are identified by *stratumName*.
+
+Sub-element (quantitative) | Description                                        |  R  |
+-------------------------- | -------------------------------------------------- | --- |
+stratumName               | Name associated with this stratum  | Yes |
+methodID               | A reference to a specific method used to define this stratum. | Yes |
+stratumIndex               | Short code used to identify the stratum. | No |
+stratumSequence               | An indication of a position in an ordered sequence of strata.  | Yes |
+lowerBound | TO BE DONE | Yes |
+upperBound | TO BE DONE | Yes |
+
 ### *stratumObservation*
 
 Stratum observations are identified by *stratumID* and *plotObservationID*.

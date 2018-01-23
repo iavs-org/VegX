@@ -28,3 +28,7 @@ an object of class \code{\linkS4class{VegXStrata}}
 \description{
 Height-based strata definition
 }
+\seealso{
+Other define strata functions: \code{\link{defineCategoricalStrata}},
+  \code{\link{defineMixedStrata}}
+}
