@@ -46,7 +46,7 @@ transformOrdinalScale<-function(target, method, newUnits, verbose = TRUE) {
   newMethodID = as.character(length(target@methods)+1)
   target@methods[[newMethodID]] = list(name = paste0(target@methods[[methodID]]$name, " [transformed]"),
                                        description = paste0(target@methods[[methodID]]$description, " [transformed]"),
-                                       attributeClass = target@methods[[methodID]]$attributeClass,
+                                       subject = target@methods[[methodID]]$subject,
                                        attributeType = "quantitative")
   if(verbose) cat(paste0(" New method '", target@methods[[newMethodID]]$name,"' added.\n"))
 

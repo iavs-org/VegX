@@ -28,7 +28,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Percent cover",
                description = "Quantitative plant percent cover",
-               attributeClass = "plant cover",
+               subject = "plant cover",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -43,7 +43,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Individual counts",
                description = "Number of individuals in the (sub)plot",
-               attributeClass = "plant count",
+               subject = "plant count",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -58,7 +58,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Frequency of occurrence",
                description = "Frequency of occurrence in subunits of the sampled area",
-               attributeClass = "plant frequency",
+               subject = "plant frequency",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -73,7 +73,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Plant height",
                description = "Plant height in meters",
-               attributeClass = "plant height",
+               subject = "plant height",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -88,7 +88,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "DBH",
                description = "Diameter at breast height, in cm",
-               attributeClass = "plant diameter",
+               subject = "plant diameter",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -103,7 +103,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "pH",
                description = "pH scale",
-               attributeClass = "pH",
+               subject = "pH",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -118,7 +118,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Slope degrees",
                description = "Slope measured using degrees",
-               attributeClass = "slope",
+               subject = "slope",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -133,7 +133,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Aspect degrees",
                description = "Aspect measured using degrees",
-               attributeClass = "aspect",
+               subject = "aspect",
                attributeType = "quantitative",
                attributes = attributes))
   }
@@ -148,7 +148,7 @@ predefinedMeasurementMethod<-function(name) {
     return(new("VegXMethod",
                name = "Elevation meters",
                description = "Elevation measured using meters above sea level",
-               attributeClass = "elevation",
+               subject = "elevation",
                attributeType = "quantitative",
                attributes = attributes))
   }

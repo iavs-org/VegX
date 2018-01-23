@@ -34,7 +34,7 @@ defineStrataByHeight<-function(name = "Strata by height",
              name = name,
              description = description,
              citation = citation,
-             attributeClass = "stratum height",
+             subject = "stratum height",
              attributeType = "quantitative",
              attributes = attributes)
 

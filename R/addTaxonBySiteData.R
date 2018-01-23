@@ -94,7 +94,7 @@ addTaxonBySiteData <-function(target,
   if(nmtid$new) {
     target@methods[[methodID]] = list(name = abundanceMethod@name,
                                       description = abundanceMethod@description,
-                                      attributeClass = abundanceMethod@attributeClass,
+                                      subject = abundanceMethod@subject,
                                       attributeType = abundanceMethod@attributeType)
     if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
     # add attributes if necessary

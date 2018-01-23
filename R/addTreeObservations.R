@@ -108,7 +108,7 @@ addTreeObservations<-function(target, x, projectTitle,
   if(nmtid$new) {
     target@methods[[methodID]] = list(name = diameterMethod@name,
                                       description = diameterMethod@description,
-                                      attributeClass = diameterMethod@attributeClass,
+                                      subject = diameterMethod@subject,
                                       attributeType = diameterMethod@attributeType)
     if(verbose) cat(paste0(" Diameter measurement method '", diameterMethod@name,"' added.\n"))
     # add attributes if necessary
@@ -135,7 +135,7 @@ addTreeObservations<-function(target, x, projectTitle,
     if(nmtid$new) {
       target@methods[[methodID]] = list(name = heightMethod@name,
                                         description = heightMethod@description,
-                                        attributeClass = heightMethod@attributeClass,
+                                        subject = heightMethod@subject,
                                         attributeType = heightMethod@attributeType)
       if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' added.\n"))
       # add attributes if necessary
@@ -165,7 +165,7 @@ addTreeObservations<-function(target, x, projectTitle,
     if(snmtid$new) {
       target@methods[[strmethodID]] = list(name = stratumDefMethod@name,
                                            description = stratumDefMethod@description,
-                                           attributeClass = stratumDefMethod@attributeClass,
+                                           subject = stratumDefMethod@subject,
                                            attributeType = stratumDefMethod@attributeType)
       if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
       # add attributes if necessary

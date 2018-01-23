@@ -115,7 +115,7 @@ addSiteObservations<-function(target, x, projectTitle,
     if(nmtid$new) {
       target@methods[[methodID]] = list(name = method@name,
                                         description = method@description,
-                                        attributeClass = method@attributeClass,
+                                        subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
       # add attributes if necessary

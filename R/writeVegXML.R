@@ -197,9 +197,13 @@ writeVegXML<-function(x, file) {
                        attrs = c(id=names(x@attributes)[i]),
                        parent = attributes)
       atttype = newXMLNode(x@attributes[[i]]$type, parent=att)
-      newXMLNode("lowerBound", x@attributes[[i]]$lowerBound, parent=atttype)
-      if(x@attributes[[i]]$type=="ordinal") {
+      if(x@attributes[[i]]$type=="qualitative") {
         newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
+        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$order, parent=atttype)
+      }
+      else if(x@attributes[[i]]$type=="ordinal") {
+        newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
+        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$order, parent=atttype)
         newXMLNode("order", x@attributes[[i]]$order, parent=atttype)
         newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
         newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
@@ -222,7 +226,7 @@ writeVegXML<-function(x, file) {
       newXMLNode("name", x@methods[[i]]$name, parent=met)
       newXMLNode("description", x@methods[[i]]$description, parent=met)
       if("citation" %in% names(x@methods[[i]])) if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
-      newXMLNode("attributeClass", x@methods[[i]]$attributeClass, parent=met)
+      newXMLNode("subject", x@methods[[i]]$subject, parent=met)
       newXMLNode("attributeType", x@methods[[i]]$attributeType, parent=met)
     }
   }

@@ -18,6 +18,6 @@ setClass("VegXMethod",slots=c(
                          name = "character",
                          description="character",
                          citation = "character",
-                         attributeClass = "character",
+                         subject = "character",
                          attributeType = "character",
                          attributes = "list"))

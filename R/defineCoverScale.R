@@ -33,7 +33,7 @@ defineCoverScale<-function(name = "Braun-Blanquet",
              name = name,
              description = description,
              citation = citation,
-             attributeClass = "cover",
+             subject = "plant cover",
              attributeType = "ordinal",
              attributes = attributes))
 }

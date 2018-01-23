@@ -157,7 +157,7 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
       for(i in 1:length(x@methods)){
         res[i, "name"] = x@methods[[i]]$name
         res[i, "description"] = x@methods[[i]]$description
-        res[i, "subject"] = x@methods[[i]]$attributeClass
+        res[i, "subject"] = x@methods[[i]]$subject
         res[i, "attributeType"] = x@methods[[i]]$attributeType
         res[i, "attributeNumber"] = length(.getAttributeIDsByMethodID(x, names(x@methods)[i]))
       }
@@ -176,7 +176,7 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
           cntQuant = cntQuant + 1
           if(includeIDs) resQuantitative[cntQuant, "methodID"] = x@attributes[[i]]$methodID
           resQuantitative[cntQuant, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
-          resQuantitative[cntQuant, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$attributeClass
+          resQuantitative[cntQuant, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
           resQuantitative[cntQuant, "unit"] = x@attributes[[i]]$unit
           if("lowerBound" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "lowerBound"] = x@attributes[[i]]$lowerBound
           if("upperBound" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "upperBound"] = x@attributes[[i]]$upperBound
@@ -186,7 +186,7 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
           cntOrd = cntOrd + 1
           if(includeIDs) resOrdinal[cntOrd, "methodID"] = x@attributes[[i]]$methodID
           resOrdinal[cntOrd, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
-          resOrdinal[cntOrd, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$attributeClass
+          resOrdinal[cntOrd, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
           resOrdinal[cntOrd, "code"] = x@attributes[[i]]$code
           if("definition" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "definition"] = x@attributes[[i]]$definition
           if("order" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "order"] = x@attributes[[i]]$order
@@ -199,7 +199,7 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
           cntQual = cntQual + 1
           if(includeIDs) resQualitative[cntQual, "methodID"] = x@attributes[[i]]$methodID
           resQualitative[cntQual, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
-          resQualitative[cntQual, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$attributeClass
+          resQualitative[cntQual, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
           resQualitative[cntQual, "code"] = x@attributes[[i]]$code
           if("definition" %in% names(x@attributes[[i]])) resQualitative[cntQual, "definition"] = x@attributes[[i]]$definition
           rownames(resQualitative)[cntQual] = names(x@attributes)[i]

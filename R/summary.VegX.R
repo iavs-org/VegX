@@ -30,7 +30,7 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   if(length(object@methods)>0) {
     for(i in 1:length(object@methods)){
       attIDs = .getAttributeIDsByMethodID(object, names(object@methods)[i])
-      cat(paste0("      ",i,". ", object@methods[[i]]$name," [",object@methods[[i]]$attributeClass," / ",length(attIDs), " ", object@methods[[i]]$attributeType," atts.]\n"))
+      cat(paste0("      ",i,". ", object@methods[[i]]$name," [",object@methods[[i]]$subject," / ",length(attIDs), " ", object@methods[[i]]$attributeType," atts.]\n"))
     }
   }
   cat(paste0("\n"))

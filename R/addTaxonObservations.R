@@ -107,7 +107,7 @@ addTaxonObservations<-function(target, x, projectTitle,
   if(nmtid$new) {
     target@methods[[methodID]] = list(name = abundanceMethod@name,
                                       description = abundanceMethod@description,
-                                      attributeClass = abundanceMethod@attributeClass,
+                                      subject = abundanceMethod@subject,
                                       attributeType = abundanceMethod@attributeType)
     if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
     # add attributes if necessary
@@ -134,7 +134,7 @@ addTaxonObservations<-function(target, x, projectTitle,
     if(snmtid$new) {
       target@methods[[strmethodID]] = list(name = stratumDefMethod@name,
                                            description = stratumDefMethod@description,
-                                           attributeClass = stratumDefMethod@attributeClass,
+                                           subject = stratumDefMethod@subject,
                                            attributeType = stratumDefMethod@attributeType)
       if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
       # add attributes if necessary
