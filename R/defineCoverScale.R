@@ -13,7 +13,7 @@
 #' @export
 #'
 #' @examples
-#' scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",
+#' scale = defineCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100), midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
 #'                          values = c("P","1","2","3", "4", "5", "6"))

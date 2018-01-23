@@ -4,12 +4,14 @@
 \alias{showVegXElement}
 \title{Coearces VegX elements into a data frame}
 \usage{
-showVegXElement(x, element = "plot")
+showVegXElement(x, element = "plot", includeIDs = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
-\item{element}{The name of the main elements to be coerced.}
+\item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation'.}
+
+\item{includeIDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
 }
 \value{
 a data frame
@@ -23,7 +25,7 @@ data(mokihinui)
 # Create document 'x' with aggregate taxon observations
 taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
               stratumName = "Tier", value = "Category")
-scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",
+scale = defineCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),

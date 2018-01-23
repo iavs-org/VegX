@@ -3,7 +3,8 @@
 #' Coerces part of the information of a Veg-X object into a data frame
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
-#' @param element The name of the main elements to be coerced.
+#' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation'.
+#' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
 #' @export
@@ -14,7 +15,7 @@
 #' # Create document 'x' with aggregate taxon observations
 #' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
 #'               stratumName = "Tier", value = "Category")
-#' scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",
+#' scale = defineCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
 #'                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
@@ -38,36 +39,108 @@
 #' # show plot observation information
 #' showVegXElement(x, "plotObservation")
 #'
-showVegXElement<-function(x, element = "plot") {
+showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation"))
+  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation"))
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
-    for(i in 1:length(x@plots)){
-      res[i,"plotName"] = x@plots[[i]]$plotName
-      if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
-        res[i,"relatedPlotID"] = x@plots[[i]]$parentPlotID
-        res[i,"relatedPlotName"] = x@plots[[x@plots[[i]]$parentPlotID]]$plotName
-        res[i,"plotRelationship"] = "subplot"
-      }
-      # Add location information
-      if("location" %in% names(x@plots[[i]])) {
-        res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
-        res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
-        res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
-      }
-      if("topography" %in% names(x@plots[[i]])) {
-        if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information
-          res[i,"slope_value"] = x@plots[[i]]$topography$slope$value
-          res[i,"slope_attributeID"] = x@plots[[i]]$topography$slope$attributeID
+    if(length(x@plots)>0) {
+      for(i in 1:length(x@plots)){
+        res[i,"plotName"] = x@plots[[i]]$plotName
+        if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
+          if(includeIDs) res[i,"relatedPlotID"] = x@plots[[i]]$parentPlotID
+          res[i,"relatedPlotName"] = x@plots[[x@plots[[i]]$parentPlotID]]$plotName
+          res[i,"plotRelationship"] = "subplot"
         }
-        if("aspect" %in% names(x@plots[[i]]$topography)) { #Add aspect information
-          res[i,"aspect_value"] = x@plots[[i]]$topography$aspect$value
-          res[i,"aspect_attributeID"] = x@plots[[i]]$topography$aspect$attributeID
+        # Add location information
+        if("location" %in% names(x@plots[[i]])) {
+          res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
+          res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
+          res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
+        }
+        if("topography" %in% names(x@plots[[i]])) {
+          if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information
+            res[i,"slope_value"] = x@plots[[i]]$topography$slope$value
+            res[i,"slope_attributeID"] = x@plots[[i]]$topography$slope$attributeID
+          }
+          if("aspect" %in% names(x@plots[[i]]$topography)) { #Add aspect information
+            res[i,"aspect_value"] = x@plots[[i]]$topography$aspect$value
+            res[i,"aspect_attributeID"] = x@plots[[i]]$topography$aspect$attributeID
+          }
         }
       }
     }
     return(res)
   }
-  return(NULL)
+  else if(element=="plotObservation") {
+    if(includeIDs) {
+      res = data.frame(plotID = rep(NA, length(x@plotObservations)),
+                       plotName = rep(NA, length(x@plotObservations)),
+                       obsStartDate = rep(NA, length(x@plotObservations)),
+                       row.names = names(x@plotObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@plotObservations)),
+                       obsStartDate = rep(NA, length(x@plotObservations)),
+                       row.names = names(x@plotObservations))
+    }
+    if(length(x@plotObservations)>0){
+      for(i in 1:length(x@plotObservations)){
+        if(includeIDs) {
+          res[i, "plotID"] = x@plotObservations[[i]]$plotID
+        }
+        res[i,"plotName"] = x@plots[[x@plotObservations[[i]]$plotID]]
+        res[i,"obsStartDate"] = as.character(x@plotObservations[[i]]$obsStartDate)
+        if("obsEndDate" %in% names(x@plotObservations[[i]])) {
+          res[i, "obsEndDate"] = as.character(x@plotObservations[[i]]$obsEndDate)
+        }
+        if("projectID" %in% names(x@plotObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "projectID"] = x@plotObservations[[i]]$projectID
+          }
+          res[i, "projectTitle"] = x@projects[[x@plotObservations[[i]]$projectID]]$title
+        }
+      }
+    }
+    return(res)
+  }
+  else if(element=="aggregateOrganismObservation") {
+    if(includeIDs) {
+      res = data.frame(plotObservationID = rep(NA, length(x@aggregateObservations)),
+                     plotName = rep(NA, length(x@aggregateObservations)),
+                     obsStartDate = rep(NA, length(x@aggregateObservations)),
+                     taxonNameUsageConceptID = rep(NA, length(x@aggregateObservations)),
+                     authorName = rep(NA, length(x@aggregateObservations)),
+                     row.names = names(x@aggregateObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@aggregateObservations)),
+                       obsStartDate = rep(NA, length(x@aggregateObservations)),
+                       authorName = rep(NA, length(x@aggregateObservations)),
+                       row.names = names(x@aggregateObservations))
+    }
+    if(length(x@aggregateObservations)>0){
+      for(i in 1:length(x@aggregateObservations)){
+        if(includeIDs) {
+          res[i, "plotObservationID"] = x@aggregateObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@aggregateObservations[[i]]$plotObservationID]]$plotID]]
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@aggregateObservations[[i]]$plotObservationID]]$obsStartDate)
+        if(includeIDs) {
+          res[i, "taxonNameUsageConceptID"] = x@aggregateObservations[[i]]$taxonNameUsageConceptID
+        }
+        res[i, "authorName"] = x@taxonNameUsageConcepts[[x@aggregateObservations[[i]]$taxonNameUsageConceptID]]$authorName
+        if("stratumObservationID" %in% names(x@aggregateObservations[[i]])){
+          if(x@aggregateObservations[[i]]$stratumObservationID != "") {
+            if(includeIDs) {
+              res[i, "stratumObservationID"] = x@aggregateObservations[[i]]$stratumObservationID
+              res[i, "stratumID"] = x@stratumObservations[[x@aggregateObservations[[i]]$stratumObservationID]]$stratumID
+            }
+            res[i, "stratumName"] = x@strata[[x@stratumObservations[[x@aggregateObservations[[i]]$stratumObservationID]]$stratumID]]$stratumName
+          }
+        }
+        res[i, "aggregateValue_value"] = x@aggregateObservations[[i]]$value
+        res[i, "aggregateValue_method"] = x@methods[[x@attributes[[x@aggregateObservations[[i]]$attributeID]]$methodID]]$name
+      }
+    }
+    return(res)
+  }
 }
