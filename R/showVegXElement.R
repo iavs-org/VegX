@@ -4,7 +4,7 @@
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-#' 'method'.
+#' 'method', 'attribute'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -40,9 +40,14 @@
 #' # show plot observation information
 #' showVegXElement(x, "plotObservation")
 #'
+#' # show methods and attributes
+#' showVegXElement(x, "method")
+#' showVegXElement(x, "attribute")
+#'
 showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation", "method"))
+  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation", "method", "attribute"))
+  res = NULL
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
     if(length(x@plots)>0) {
@@ -71,7 +76,6 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         }
       }
     }
-    return(res)
   }
   else if(element=="plotObservation") {
     if(includeIDs) {
@@ -102,7 +106,6 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         }
       }
     }
-    return(res)
   }
   else if(element=="aggregateOrganismObservation") {
     if(includeIDs) {
@@ -142,22 +145,68 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         res[i, "aggregateValue_method"] = x@methods[[x@attributes[[x@aggregateObservations[[i]]$attributeID]]$methodID]]$name
       }
     }
-    return(res)
   }
   else if(element=="method") {
     res = data.frame(name = rep(NA, length(x@methods)),
                      description = rep(NA, length(x@methods)),
-                     attributeClass = rep(NA, length(x@methods)),
+                     subject = rep(NA, length(x@methods)),
                      attributeType = rep(NA, length(x@methods)),
+                     attributeNumber = rep(NA, length(x@methods)),
                      row.names = names(x@methods))
     if(length(x@methods)>0){
       for(i in 1:length(x@methods)){
         res[i, "name"] = x@methods[[i]]$name
         res[i, "description"] = x@methods[[i]]$description
-        res[i, "attributeClass"] = x@methods[[i]]$attributeClass
+        res[i, "subject"] = x@methods[[i]]$attributeClass
         res[i, "attributeType"] = x@methods[[i]]$attributeType
+        res[i, "attributeNumber"] = length(.getAttributeIDsByMethodID(x, names(x@methods)[i]))
       }
     }
-    return(res)
   }
+  else if(element=="attribute") {
+    resQuantitative = data.frame()
+    resOrdinal = data.frame()
+    resQualitative = data.frame()
+    if(length(x@attributes)>0){
+      cntQuant = 0
+      cntOrd = 0
+      cntQual = 0
+      for(i in 1:length(x@attributes)){
+        if(x@attributes[[i]]$type=="quantitative") {
+          cntQuant = cntQuant + 1
+          if(includeIDs) resQuantitative[cntQuant, "methodID"] = x@attributes[[i]]$methodID
+          resQuantitative[cntQuant, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
+          resQuantitative[cntQuant, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$attributeClass
+          resQuantitative[cntQuant, "unit"] = x@attributes[[i]]$unit
+          if("lowerBound" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "lowerBound"] = x@attributes[[i]]$lowerBound
+          if("upperBound" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "upperBound"] = x@attributes[[i]]$upperBound
+          rownames(resQuantitative)[cntQuant] = names(x@attributes)[i]
+        }
+        else if(x@attributes[[i]]$type=="ordinal") {
+          cntOrd = cntOrd + 1
+          if(includeIDs) resOrdinal[cntOrd, "methodID"] = x@attributes[[i]]$methodID
+          resOrdinal[cntOrd, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
+          resOrdinal[cntOrd, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$attributeClass
+          resOrdinal[cntOrd, "code"] = x@attributes[[i]]$code
+          if("definition" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "definition"] = x@attributes[[i]]$definition
+          if("order" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "order"] = x@attributes[[i]]$order
+          if("lowerLimit" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "lowerLimit"] = x@attributes[[i]]$lowerLimit
+          if("upperLimit" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "upperLimit"] = x@attributes[[i]]$upperLimit
+          if("midPoint" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "midPoint"] = x@attributes[[i]]$midPoint
+          rownames(resOrdinal)[cntOrd] = names(x@attributes)[i]
+        }
+        else if(x@attributes[[i]]$type=="qualitative") {
+          cntQual = cntQual + 1
+          if(includeIDs) resQualitative[cntQual, "methodID"] = x@attributes[[i]]$methodID
+          resQualitative[cntQual, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
+          resQualitative[cntQual, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$attributeClass
+          resQualitative[cntQual, "code"] = x@attributes[[i]]$code
+          if("definition" %in% names(x@attributes[[i]])) resQualitative[cntQual, "definition"] = x@attributes[[i]]$definition
+          rownames(resQualitative)[cntQual] = names(x@attributes)[i]
+        }
+      }
+    }
+    res = list(quantitative = resQuantitative, ordinal = resOrdinal, qualitative = resQualitative)
+  }
+  return(res)
 }
