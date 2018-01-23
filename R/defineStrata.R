@@ -12,7 +12,7 @@
 #' @return an object of class \code{\linkS4class{VegXStrata}}
 #' @export
 #'
-defineStrataByHeight<-function(name = "Strata by height",
+defineHeightStrata<-function(name = "Strata by height",
                                description = "Vegetation strata defined by height in m",
                                citation = "",
                                heightBreaks = c(0,1,3,5),
@@ -52,7 +52,7 @@ defineStrataByHeight<-function(name = "Strata by height",
 #' @param stratumNames A numeric vector of stratum codes (of length equal to the number of strata).
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
-defineStratumCategories<-function(name = "Strata by categories",
+defineCategoricalStrata<-function(name = "Strata by categories",
                                   description = "Vegetation categorical strata",
                                   citation = "",
                                   stratumNames = c("s1", "s2", "s3")) {
