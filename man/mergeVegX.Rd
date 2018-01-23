@@ -27,6 +27,7 @@ Some entities are attempted to be merged or are kept as separate entities depedi
   \item \code{methods} are merged when their element \code{name} has the same value
   \item \code{strata} are merged when their element \code{name} has the same value
   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
+  \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value
 }
@@ -38,7 +39,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 
 data(mokihinui)
 
-# Create document 'x' with aggregated taxon observations
+# Create document 'x' with aggregate taxon observations
 taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
               stratumName = "Tier", value = "Category")
 scale = defineCoverScale(name = "Standard Recce (Allen)", description = "Recce recording method by Allen",

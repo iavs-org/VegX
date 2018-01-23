@@ -1,6 +1,6 @@
 #' Add a taxon-by-site table
 #'
-#' Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.
+#' Adds the aggregate organism observations of a taxon-by-site table to an existing VegX object.
 #' Data can be added to an existing project or a new project can be defined within the VegX object,
 #' depending on the input project title.
 #' Vegetation plots and taxon names can be the same as those already existing in the target VegX.
@@ -10,7 +10,7 @@
 #' @param target The object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A site-by-species releve table
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param abundanceMethod A measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param abundanceMethod A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param obsDates A vector of \code{\link{Date}} objects with plot observation dates.
 #' @param absence.values A vector of values to be interpreted as missing plant information.
 #' @param verbose A flag to indicate console output of the data integration process.
@@ -115,9 +115,9 @@ addTaxonBySiteData <-function(target,
     for(i in 1:nattr) codes[i] = as.character(abundanceMethod@attributes[[i]]$code)
   }
 
-  # aggregated organism observations
+  # aggregate organism observations
   absence.values = as.character(absence.values)
-  orinaoo = length(target@aggregatedObservations)
+  orinaoo = length(target@aggregateObservations)
   aggObsCounter = orinaoo+1 #counter
   for(i in 1:nplot) {
     for(j in 1:ntnuc) {
@@ -135,17 +135,18 @@ addTaxonBySiteData <-function(target,
           if(length(ind)==1) attID = ids[ind]
           else stop(paste0("Value '", x[i,j],"' not found in measurement definition. Please revise scale or data."))
         }
-        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsIDs[i],
+        target@aggregateObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsIDs[i],
                                         "taxonNameUsageConceptID" = tnucIDs[j],
+                                        "stratumObservationID" = "",
                                         "attributeID" = attID,
                                         "value" = x[i,j])
         aggObsCounter = aggObsCounter + 1
       }
     }
   }
-  finnaoo = length(target@aggregatedObservations)
+  finnaoo = length(target@aggregateObservations)
   if(verbose) {
-    cat(paste0(" ", finnaoo-orinaoo, " new aggregated organism observations added.\n"))
+    cat(paste0(" ", finnaoo-orinaoo, " new aggregate organism observations added.\n"))
   }
 
   return(target)

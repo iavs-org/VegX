@@ -1,14 +1,14 @@
 #' Add taxon observation records
 #'
-#' Adds aggregated taxon observation records to a VegX object from a data table
+#' Adds aggregate taxon observation records to a VegX object from a data table
 #' using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param x A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.
+#' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
-#' @param abundanceMethod Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param abundanceMethod Measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -171,7 +171,7 @@ addTaxonObservations<-function(target, x, projectTitle,
   orinplotobs = length(target@plotObservations)
   orinstrobs = length(target@stratumObservations)
   orintuc = length(target@taxonNameUsageConcepts)
-  orinaggobs = length(target@aggregatedObservations)
+  orinaggobs = length(target@aggregateObservations)
   parsedPlots = character(0)
   parsedPlotIDs = character(0)
   parsedPlotObs = character(0)
@@ -250,7 +250,7 @@ addTaxonObservations<-function(target, x, projectTitle,
         parsedStrObs = c(parsedStrObs, strObsString)
         parsedStrObsIDs = c(parsedStrObsIDs, strObsID)
       } else {
-        strObsID = parsedStrObsIDs[which(parsedStrObs==stratumNames[i])]
+        strObsID = parsedStrObsIDs[which(parsedStrObs==strObsString)]
       }
     }
 
@@ -264,20 +264,22 @@ addTaxonObservations<-function(target, x, projectTitle,
         else if(values[i] < abundanceMethod@attributes[[1]]$lowerBound) {
           stop(paste0("Value '", values[i],"' smaller than lower bound of measurement definition. Please revise scale or data."))
         }
-        target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
+        target@aggregateObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
                                                                             "taxonNameUsageConceptID" = tnucID,
                                                                             "attributeID" = attID[1],
+                                                                            "stratumObservationID" = "",
                                                                             "value" = values[i])
-        if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
+        if(stratumFlag) target@aggregateObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
         aggObsCounter = aggObsCounter + 1
       } else {
         ind = which(abundanceCodes==as.character(values[i]))
         if(length(ind)==1) {
-          target@aggregatedObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
+          target@aggregateObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
                                                                               "taxonNameUsageConceptID" = tnucID,
                                                                               "attributeID" = attIDs[ind],
+                                                                              "stratumObservationID" = "",
                                                                               "value" = values[i])
-          if(stratumFlag) target@aggregatedObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
+          if(stratumFlag) target@aggregateObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
           aggObsCounter = aggObsCounter + 1
         }
         else stop(paste0("Value '", values[i],"' not found in measurement definition. Please revise scale or data."))
@@ -290,14 +292,14 @@ addTaxonObservations<-function(target, x, projectTitle,
   finnplotobs = length(target@plotObservations)
   finnstrobs = length(target@stratumObservations)
   finntuc = length(target@taxonNameUsageConcepts)
-  finnaggobs = length(target@aggregatedObservations)
+  finnaggobs = length(target@aggregateObservations)
   if(verbose) {
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new added.\n"))
     cat(paste0(" " , length(parsedTNUCs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
     if(stratumFlag) cat(paste0(" " , length(parsedStrObs)," stratum observation(s) parsed, ", finnstrobs-orinstrobs, " new added.\n"))
-    cat(paste0(" ", nrecords," record(s) parsed, ", finnaggobs-orinaggobs, " new aggregated organism observation(s) added.\n"))
-    if(nmissing>0) cat(paste0(" ", nmissing, " aggregated organism observation(s) with missing abundance value(s) not added.\n"))
+    cat(paste0(" ", nrecords," record(s) parsed, ", finnaggobs-orinaggobs, " new aggregate organism observation(s) added.\n"))
+    if(nmissing>0) cat(paste0(" ", nmissing, " aggregate organism observation(s) with missing abundance value(s) not added.\n"))
   }
 
 

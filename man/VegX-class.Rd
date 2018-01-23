@@ -24,7 +24,7 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 
 \item{\code{stratumObservations}}{list of observations made on strata (e.g. overall tree cover).}
 
-\item{\code{aggregatedObservations}}{list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).}
+\item{\code{aggregateObservations}}{list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).}
 
 \item{\code{individualOrganisms}}{list of individual organisms.}
 

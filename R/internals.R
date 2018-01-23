@@ -39,6 +39,17 @@
   }
   return(list(id = as.character(length(target@stratumObservations)+1), new = TRUE))
 }
+# Returns the ID for a new aggregate organism observation in the data set or the ID of an existing aggregate organism observation
+.newAggregateOrganismObservationIDByTaxonID<-function(target, plotObservationID, stratumObservationID, tnucID) {
+  if(length(target@aggregateObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@aggregateObservations)) {
+    if((target@aggregateObservations[[i]]$plotObservationID==plotObservationID) &&
+       (target@aggregateObservations[[i]]$stratumObservationID==stratumObservationID) &&
+       (target@aggregateObservations[[i]]$taxonNameUsageConcept==tnucID))
+      return(list(id = names(target@aggregateObservations)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@aggregateObservations)+1), new = TRUE))
+}
 # Returns the ID for a new individual organism in the data set or the ID of an existing organism
 .newIndividualOrganismIDByIdentificationLabel<-function(target, plotID, identificationLabel) {
   if(length(target@individualOrganisms)==0) return(list(id="1", new = TRUE))
@@ -285,6 +296,24 @@
   return(res)
 }
 
+#Pools the information of two aggregate organism observations
+.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2) {
+  n1 = names(aggobs1)
+  n2 = names(aggobs2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(aggobs1[[n]]!=aggobs2[[n]]) stop(paste0("Aggregate organism observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = aggobs1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = aggobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = aggobs2[[n]]
+    }
+  }
+  return(res)
+}
 #Pools the information of two individual organisms
 .mergeIndividualOrganisms<-function(ind1, ind2) {
   n1 = names(ind1)

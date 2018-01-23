@@ -10,7 +10,7 @@
 #' @slot taxonNameUsageConcepts list of usages of taxon names as made by the observer.
 #' @slot strata list of stratum definitions.
 #' @slot stratumObservations list of observations made on strata (e.g. overall tree cover).
-#' @slot aggregatedObservations list of observations made on aggregated organisms (e.g. plant abundance by taxa or stratum).
+#' @slot aggregateObservations list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).
 #' @slot individualOrganisms list of individual organisms.
 #' @slot individualObservations list of observations made on individual organisms (e.g. diameter or height values).
 #' @slot abioticObservations list of abiotic observations made plots.
@@ -34,7 +34,7 @@ setClass("VegX",slots=c(projects = "list",
                         taxonNameUsageConcepts = "list",
                         strata = "list",
                         stratumObservations = "list",
-                        aggregatedObservations = "list",
+                        aggregateObservations = "list",
                         individualOrganisms = "list",
                         individualObservations = "list",
                         vegetationObservations = "list",

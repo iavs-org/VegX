@@ -91,19 +91,20 @@ writeVegXML<-function(x, file) {
                  parent=tnuc)
     }
   }
-  #AggregatedOrganismObservation elements
-  if(length(x@aggregatedObservations)>0) {
-    aggregatedOrganismObservations = newXMLNode("aggregatedOrganismObservations", parent = top)
-    for(i in 1:length(x@aggregatedObservations)){
-      aoo = newXMLNode("aggregatedOrganismObservation",
-                       attrs = c(id = names(x@aggregatedObservations)[i]),
+  #AggregateOrganismObservation elements
+  if(length(x@aggregateObservations)>0) {
+    aggregatedOrganismObservations = newXMLNode("aggregateOrganismObservations", parent = top)
+    for(i in 1:length(x@aggregateObservations)){
+      aoo = newXMLNode("aggregateOrganismObservation",
+                       attrs = c(id = names(x@aggregateObservations)[i]),
                        parent = aggregatedOrganismObservations)
-      newXMLNode("plotObservationID", x@aggregatedObservations[[i]]$plotObservationID, parent=aoo)
-      newXMLNode("taxonNameUsageConceptID", x@aggregatedObservations[[i]]$taxonNameUsageConceptID, parent=aoo)
-      if("stratumObservationID" %in% names(x@aggregatedObservations[[i]])) newXMLNode("stratumObservationID", x@aggregatedObservations[[i]]$stratumObservationID, parent=aoo)
+      newXMLNode("plotObservationID", x@aggregateObservations[[i]]$plotObservationID, parent=aoo)
+      newXMLNode("taxonNameUsageConceptID", x@aggregateObservations[[i]]$taxonNameUsageConceptID, parent=aoo)
+      if("stratumObservationID" %in% names(x@aggregateObservations[[i]]))
+        if(x@aggregateObservations[[i]]$stratumObservationID != "") newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=aoo)
       aggval = newXMLNode("aggregateValue", parent=aoo)
-      newXMLNode("value", x@aggregatedObservations[[i]]$value, parent=aggval)
-      newXMLNode("attributeID", x@aggregatedObservations[[i]]$attributeID, parent=aggval)
+      newXMLNode("value", x@aggregateObservations[[i]]$value, parent=aggval)
+      newXMLNode("attributeID", x@aggregateObservations[[i]]$attributeID, parent=aggval)
     }
   }
   #stratum elements
@@ -152,7 +153,7 @@ writeVegXML<-function(x, file) {
                        parent = individualOrganismObservations)
       newXMLNode("plotObservationID", x@individualObservations[[i]]$plotObservationID, parent=ioo)
       newXMLNode("individualOrganismID", x@individualObservations[[i]]$individualOrganismID, parent=ioo)
-      if("stratumObservationID" %in% names(x@individualObservations[[i]])) newXMLNode("stratumObservationID", x@aggregatedObservations[[i]]$stratumObservationID, parent=ioo)
+      if("stratumObservationID" %in% names(x@individualObservations[[i]])) newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=ioo)
       if("diameterValue" %in% names(x@individualObservations[[i]])) {
         diamval = newXMLNode("diameter", parent=ioo)
         newXMLNode("value", x@individualObservations[[i]]$diameterValue, parent=diamval)

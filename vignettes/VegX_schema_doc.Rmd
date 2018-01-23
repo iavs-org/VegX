@@ -178,6 +178,17 @@ height                   | Average height to the top of the stratum.  | No |
 base                     | Average height of the bottom of the stratum. | No |
 stratumValue             | The value (e.g. cover, count) given to the observation in that strata | No |
 
+### *aggregateOrganismObservation*
+
+Aggregate organism observations are identified by *plotObservationID* and *taxonNameUsageConceptID* (and by *stratumObservationID* when defined).
+
+Sub-element              | Description                                         |  R obj. |
+------------------------ | --------------------------------------------------- | ------- |
+plotID                   | A reference to a specific plot. | Yes |
+taxonNameUsageConceptID  | A reference to a specific taxonNameUsageConcept representing a taxon occurrence. | Yes |
+stratumObservationID     | A reference to a specific stratum observation. | Yes |
+aggregateValue           | A simple measurement for a aggregate value.  | Yes |
+height                   | Optional height at which the aggregated observation was made, e.g. in meters. | No |
 
 ### *individualOrganism*
 
@@ -187,7 +198,7 @@ Sub-element              | Description                                         |
 ------------------------ | --------------------------------------------------- | ------- |
 plotID                   | A reference to a specific plot. | Yes |
 identificationLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | Yes |
-taxonNameUsageConceptID  | A reference to a specific datasetNameUsageConcept representing a taxon occurrence. | Yes |
+taxonNameUsageConceptID  | A reference to a specific taxonNameUsageConcept representing a taxon occurrence. | Yes |
 birthDate | TO BE DONE | No |
 relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | No |
 relativePosition | Relative position of organism described in geometric space within the plot the organism is located in. Relative to the plot point of origin. | No |

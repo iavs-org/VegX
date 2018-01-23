@@ -11,14 +11,14 @@ addTaxonObservations(target, x, projectTitle, mapping, abundanceMethod,
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{A data frame where each row corresponds to one aggregated taxon observation. Columns can be varied.}
+\item{x}{A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.}
 
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.}
 
-\item{abundanceMethod}{Measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{abundanceMethod}{Measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
@@ -30,7 +30,7 @@ Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds aggregated taxon observation records to a VegX object from a data table
+Adds aggregate taxon observation records to a VegX object from a data table
 using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
 }
 \examples{

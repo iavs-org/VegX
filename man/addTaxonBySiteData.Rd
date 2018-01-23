@@ -14,7 +14,7 @@ addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
 
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{abundanceMethod}{A measurement method for aggregated plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{abundanceMethod}{A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
 
 \item{obsDates}{A vector of \code{\link{Date}} objects with plot observation dates.}
 
@@ -26,7 +26,7 @@ addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
 A modified object of class \code{\linkS4class{VegX}}
 }
 \description{
-Adds the aggregated organism observations of a taxon-by-site table to an existing VegX object.
+Adds the aggregate organism observations of a taxon-by-site table to an existing VegX object.
 Data can be added to an existing project or a new project can be defined within the VegX object,
 depending on the input project title.
 Vegetation plots and taxon names can be the same as those already existing in the target VegX.

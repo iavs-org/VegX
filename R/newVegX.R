@@ -19,7 +19,7 @@ newVegX<-function() {
              plotObservations = list(),
              taxonNameUsageConcepts = list(),
              individualObservations = list(),
-             aggregatedObservations = list(),
+             aggregateObservations = list(),
              stratumObservations = list(),
              strata = list(),
              individualOrganisms = list(),

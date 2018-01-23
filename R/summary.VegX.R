@@ -40,7 +40,7 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("\n"))
   cat(paste0("   Individual organism observations: ", length(object@individualObservations),"\n"))
   cat(paste0("\n"))
-  cat(paste0("   Aggregated organism observations: ", length(object@aggregatedObservations),"\n"))
+  cat(paste0("   Aggregated organism observations: ", length(object@aggregateObservations),"\n"))
   cat(paste0("\n"))
   cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
   cat(paste0("\n"))
