@@ -55,6 +55,7 @@ y = addTreeObservations(target, dia, "Mokihinui",
                         mapping = treemapping,
                         diameterMethod = diamMeth)
 
+# Inspect the result
 summary(y)
 
 }

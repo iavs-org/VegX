@@ -41,6 +41,7 @@
 #'                         mapping = treemapping,
 #'                         diameterMethod = diamMeth)
 #'
+#' # Inspect the result
 #' summary(y)
 #'
 addTreeObservations<-function(target, x, projectTitle,

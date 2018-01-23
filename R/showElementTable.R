@@ -4,7 +4,7 @@
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
-#' 'stratum', 'stratumObservation', 'method', 'attribute'.
+#' 'stratum', 'stratumObservation', 'individualOrganism', 'individualOrganismObservation', 'method', 'attribute'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -35,19 +35,23 @@
 #' summary(x)
 #'
 #' # show plot information
-#' showVegXElement(x, "plot")
+#' showElementTable(x, "plot")
 #'
 #' # show plot observation information
-#' showVegXElement(x, "plotObservation")
+#' showElementTable(x, "plotObservation")
 #'
 #' # show methods and attributes
-#' showVegXElement(x, "method")
-#' showVegXElement(x, "attribute")
+#' showElementTable(x, "method")
+#' showElementTable(x, "attribute")
 #'
-showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
+#' # show aggregate organism observations
+#' showElementTable(x, "aggregateOrganismObservation")
+showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation",
-                                 "stratum", "stratumObservation","method", "attribute"))
+  element = match.arg(element, c("plot", "plotObservation",
+                                 "stratum", "stratumObservation", "aggregateOrganismObservation",
+                                 "individualOrganism", "individualOrganismObservation",
+                                 "method", "attribute"))
   res = NULL
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
@@ -127,7 +131,7 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         if(includeIDs) {
           res[i, "plotObservationID"] = x@aggregateObservations[[i]]$plotObservationID
         }
-        res[i, "plotName"] = x@plots[[x@plotObservations[[x@aggregateObservations[[i]]$plotObservationID]]$plotID]]
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@aggregateObservations[[i]]$plotObservationID]]$plotID]]$plotName
         res[i, "obsStartDate"] = as.character(x@plotObservations[[x@aggregateObservations[[i]]$plotObservationID]]$obsStartDate)
         if(includeIDs) {
           res[i, "taxonNameUsageConceptID"] = x@aggregateObservations[[i]]$taxonNameUsageConceptID
@@ -192,6 +196,73 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         res[i, "stratumName"] = x@strata[[x@stratumObservations[[i]]$stratumID]]$stratumName
         if("value" %in% names(x@stratumObservations[[i]])) res[i, "stratumValue_value"] = x@stratumObservations[[i]]$value
         if("attributeID" %in% names(x@stratumObservations[[i]])) res[i, "stratumValue_method"] = x@methods[[x@attributes[[x@stratumObservations[[i]]$attributeID]]$methodID]]$name
+      }
+    }
+  }
+  else if(element=="individualOrganism") {
+    if(includeIDs) {
+      res = data.frame(plotID = rep(NA, length(x@individualOrganisms)),
+                       plotName = rep(NA, length(x@individualOrganisms)),
+                       taxonNameUsageConceptID = rep(NA, length(x@individualOrganisms)),
+                       authorName = rep(NA, length(x@individualOrganisms)),
+                       identificationLabel = rep(NA, length(x@individualOrganisms)),
+                       row.names = names(x@individualOrganisms))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@individualOrganisms)),
+                       authorName = rep(NA, length(x@individualOrganisms)),
+                       identificationLabel = rep(NA, length(x@individualOrganisms)),
+                       row.names = names(x@individualOrganisms))
+    }
+    if(length(x@individualOrganisms)>0){
+      for(i in 1:length(x@individualOrganisms)){
+        if(includeIDs) {
+          res[i, "plotID"] = x@individualOrganisms[[i]]$plotID
+        }
+        res[i, "plotName"] = x@plots[[x@individualOrganisms[[i]]$plotID]]$plotName
+        if(includeIDs) {
+          res[i, "taxonNameUsageConceptID"] = x@individualOrganisms[[i]]$taxonNameUsageConceptID
+        }
+        res[i, "authorName"] = x@taxonNameUsageConcepts[[x@individualOrganisms[[i]]$taxonNameUsageConceptID]]$authorName
+        res[i, "identificationLabel"] = x@individualOrganisms[[i]]$identificationLabel
+      }
+    }
+  }
+  else if(element=="individualOrganismObservation") {
+    if(includeIDs) {
+      res = data.frame(plotObservationID = rep(NA, length(x@individualObservations)),
+                       plotName = rep(NA, length(x@individualObservations)),
+                       obsStartDate = rep(NA, length(x@individualObservations)),
+                       individualOrganismID = rep(NA, length(x@individualObservations)),
+                       identificationLabel = rep(NA, length(x@individualObservations)),
+                       row.names = names(x@individualObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@individualObservations)),
+                       obsStartDate = rep(NA, length(x@individualObservations)),
+                       identificationLabel = rep(NA, length(x@individualObservations)),
+                       row.names = names(x@individualObservations))
+    }
+    if(length(x@individualObservations)>0){
+      for(i in 1:length(x@individualObservations)){
+        if(includeIDs) {
+          res[i, "plotObservationID"] = x@individualObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@individualObservations[[i]]$plotObservationID]]$plotID]]$plotName
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@individualObservations[[i]]$plotObservationID]]$obsStartDate)
+        if(includeIDs) {
+          res[i, "individualOrganismID"] = x@individualObservations[[i]]$individualOrganismID
+        }
+        res[i, "identificationLabel"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$identificationLabel
+        if("stratumObservationID" %in% names(x@individualObservations[[i]])){
+          if(x@individualObservations[[i]]$stratumObservationID != "") {
+            if(includeIDs) {
+              res[i, "stratumObservationID"] = x@individualObservations[[i]]$stratumObservationID
+              res[i, "stratumID"] = x@stratumObservations[[x@individualObservations[[i]]$stratumObservationID]]$stratumID
+            }
+            res[i, "stratumName"] = x@strata[[x@stratumObservations[[x@individualObservations[[i]]$stratumObservationID]]$stratumID]]$stratumName
+          }
+        }
+        res[i, "diameter_value"] = x@individualObservations[[i]]$diameterValue
+        res[i, "diameter_method"] = x@methods[[x@attributes[[x@individualObservations[[i]]$diameterAttributeID]]$methodID]]$name
       }
     }
   }
