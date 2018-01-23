@@ -3,7 +3,8 @@
 #' Coerces part of the information of a Veg-X object into a data frame
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
-#' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation'.
+#' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'aggregateOrganismObservation',
+#' 'method'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -41,7 +42,7 @@
 #'
 showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation"))
+  element = match.arg(element, c("plot", "plotObservation", "aggregateOrganismObservation", "method"))
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
     if(length(x@plots)>0) {
@@ -139,6 +140,22 @@ showVegXElement<-function(x, element = "plot", includeIDs = FALSE) {
         }
         res[i, "aggregateValue_value"] = x@aggregateObservations[[i]]$value
         res[i, "aggregateValue_method"] = x@methods[[x@attributes[[x@aggregateObservations[[i]]$attributeID]]$methodID]]$name
+      }
+    }
+    return(res)
+  }
+  else if(element=="method") {
+    res = data.frame(name = rep(NA, length(x@methods)),
+                     description = rep(NA, length(x@methods)),
+                     attributeClass = rep(NA, length(x@methods)),
+                     attributeType = rep(NA, length(x@methods)),
+                     row.names = names(x@methods))
+    if(length(x@methods)>0){
+      for(i in 1:length(x@methods)){
+        res[i, "name"] = x@methods[[i]]$name
+        res[i, "description"] = x@methods[[i]]$description
+        res[i, "attributeClass"] = x@methods[[i]]$attributeClass
+        res[i, "attributeType"] = x@methods[[i]]$attributeType
       }
     }
     return(res)
