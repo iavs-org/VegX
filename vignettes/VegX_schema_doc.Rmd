@@ -33,57 +33,56 @@ Veg-X is written as an XML schema, which is a definition of user-defined tags to
 
 ## Logical structure and main elements of Veg-X (1.6.0)
 
-Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X.
+Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. The VegX R package uses a simplified version of the VegX schema, and only a subset of the main elements are included.
 
 ![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element.](LogicalStructure_1.6.0.png) 
 
 
 The following table provides the description of the main elements of the standard:
 
-Main element                   | Description                                     |
------------------------------- | ----------------------------------------------- |
-project                        | Describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc.
-plot                           | A plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code. |
-plotObservation                | Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped. |
-taxonNameUsageConcept          | A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according to, an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination. |
-individualOrganismObservation  | An observation applying to one occurrence of an organism (or part of an organism). It is a container for measurements made on the organism (e.g. diameter, height, crown dimensions, biomass, growth form, number of stems). |
-individualOrganism             | An identified organism recorded during one or more individual organism observation events. Individuals may have an identification label (e.g. tree tag number).|
+Main element                   | Description                                     |  R  |
+------------------------------ | ----------------------------------------------- | --- |
+project                        | Describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. | Yes |
+plot                           | A plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code. | Yes |
+plotObservation                | Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped. | Yes |
+taxonNameUsageConcept          | A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according to, an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination. | Yes |
+individualOrganismObservation  | An observation applying to one occurrence of an organism (or part of an organism). It is a container for measurements made on the organism (e.g. diameter, height, crown dimensions, biomass, growth form, number of stems). | Yes |
+individualOrganism             | An identified organism recorded during one or more individual organism observation events. Individuals may have an identification label (e.g. tree tag number).| Yes |
 aggregatedOrganismObservation  | An observation applying to all occurrences of an organism based on an aggregation factor. |
-stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum.
-stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. |
-siteObservation             | A container for all the site observations made on a single Plot during a single date-time period. |
-surfaceCover | TO BE DONE |
-surfaceCoverObservation | TO BE DONE |
-vegetationObservation | TO BE DONE |
-taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. |
-taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. |
-taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. |
-communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. |
-communityDetermination | An identification applying one or more CommunityConcepts to a plotObservation by a party.|
+stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
+stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
+siteObservation             | A container for all the site observations made on a single Plot during a single date-time period. | Yes |
+surfaceCover | TO BE DONE | No |
+surfaceCoverObservation | TO BE DONE | No |
+vegetationObservation | TO BE DONE | No |
+taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. | No |
+taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. | No |
+taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
+communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. | No |
+communityDetermination | An identification applying one or more CommunityConcepts to a plotObservation by a party.| No |
 
 
 
 Additional resource elements of the Veg-X schema are used to provide information about people, methods and bibliographic references:
 
-Resource element               | Description                                     |
------------------------------- | ----------------------------------------------- |
-party                          | Describes a responsible party (person or organization), and is typically used to name the originator of a resource or metadata document. |
-attribute                      | A specific definition of a measured property. An attribute has to be one of three types: qualitative (unordered categorical variable, i.e. nominal), ordinal (ordered list of values) or quantitative (a numerical variable, either discrete or continuous. |
-method                         | A specific method definition followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). |
-protocol                       | A specific grouping of methods related by common action. A protocol may have many method or steps.|
-literatureCitation             | Provides overview information about the literature citation, including title, abstract, keywords, and contacts. |
+Resource element               | Description                                     |  R |
+------------------------------ | ----------------------------------------------- | --- |
+party                          | Describes a responsible party (person or organization), and is typically used to name the originator of a resource or metadata document. | No |
+attribute                      | A specific definition of a measured property. An attribute has to be one of three types: qualitative (unordered categorical variable, i.e. nominal), ordinal (ordered list of values) or quantitative (a numerical variable, either discrete or continuous. | Yes |
+method                         | A specific method definition followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). | Yes |
+protocol                       | A specific grouping of methods related by common action. A protocol may have many method or steps.| No |
+literatureCitation             | Provides overview information about the literature citation, including title, abstract, keywords, and contacts. | No |
 
 
 ## Internal structure of the main schema elements
 
-The VegX R package uses a simplified version of the VegX schema.
 
 ### *project*
 
 Projects are identified by their *title*.
 
-Sub-element               | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 title                 | TO BE DONE  | Yes |
 personnel                 | TO BE DONE  | No |
 
@@ -91,8 +90,8 @@ personnel                 | TO BE DONE  | No |
 
 Projects are identified by their *plotName*. 
 
-Sub-element               | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 plotName                 | Name or label for a plot, unique within the data set  | Yes |
 plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | No |
 relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | Yes (subplots) |
@@ -106,8 +105,8 @@ partyWithRole | The party that undertook the plot placement | No |
 
 Plot observations are identified internally by their elements *plotID* and *obsStartDate*.
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 plotID                   | A reference to a specific plot by the plot ID       | Yes |
 obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | Yes |
 obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | Yes |
@@ -123,16 +122,16 @@ observationNarrative | Additional unstructured observations useful for understan
 
 Taxon name usage concepts are identified by their element *authorName*.
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 authorName               | A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot.       | Yes |
 
 ### *method*
 
 Methods are identified by their element *name*.
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 name               | Name associated with the method. For example, "percent cover". | Yes |
 description | A full description of the type of method e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh. | Yes |
 protocolID | A reference to a protocol using its identifier | No |
@@ -143,14 +142,14 @@ citationString | A string indicating the citation reference | Yes |
 
 Each attribute relates to one method and are identified by it. Attributes can be of three scales: *qualitative*, *ordinal* or *quantitative*; and the elements of attributes depend of the scale.
 
-Sub-element (qualitative)      | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element (qualitative) | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 methodID               | A reference to a specific method that describes the context for the qualitative code. | Yes |
 code | TO BE DONE | Yes | 
 definition | The definition of the code. | Yes |
 
-Sub-element (ordinal)      | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element (ordinal)     | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 methodID               | A reference to a method that describes the context for the ordinal code. | Yes |
 code | Ordinal class code (e.g. a value like "+" or "1" in Braun-Blanquet cover scale) | Yes | 
 definition | The definition of an ordinal number or symbol used to signify an ordered list. For example a cover class ordinal code such as 1 = >1-5 % | Yes |
@@ -158,8 +157,8 @@ lowerLimit | TO BE DONE | Yes |
 upperLimit | TO BE DONE | Yes |
 order | Explicit order in the sequence of ordinal values to which this code belongs | Yes |
 
-Sub-element (quantitative)      | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element (quantitative) | Description                                        |  R  |
+-------------------------- | -------------------------------------------------- | --- |
 methodID               | A reference to a specific method that describes the context for the quantitative attribute. | Yes |
 unit | Unit of measurement (e.g. mm, cm, square meters, number of individuals). | Yes | 
 precision | The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01). | No |
@@ -170,8 +169,8 @@ upperBound | Potential upper limit of the measurement | Yes |
 
 Stratum observations are identified by *stratumID* and *plotObservationID*.
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 stratumID                | A reference to a specific stratum. | Yes |
 plotObservationID        | A reference to a specific plotObservation. | Yes |
 height                   | Average height to the top of the stratum.  | No |
@@ -182,8 +181,8 @@ stratumValue             | The value (e.g. cover, count) given to the observatio
 
 Aggregate organism observations are identified by *plotObservationID* and *taxonNameUsageConceptID* (and by *stratumObservationID* when defined).
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 plotID                   | A reference to a specific plot. | Yes |
 taxonNameUsageConceptID  | A reference to a specific taxonNameUsageConcept representing a taxon occurrence. | Yes |
 stratumObservationID     | A reference to a specific stratum observation. | Yes |
@@ -194,8 +193,8 @@ height                   | Optional height at which the aggregated observation w
 
 Individual organisms are identified by *plotID* and *identificationLabel*.
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 plotID                   | A reference to a specific plot. | Yes |
 identificationLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | Yes |
 taxonNameUsageConceptID  | A reference to a specific taxonNameUsageConcept representing a taxon occurrence. | Yes |
@@ -208,8 +207,8 @@ relativePosition | Relative position of organism described in geometric space wi
 
 Individual organism observations are identified by *plotObservationID* and *individualOrganismID*.
 
-Sub-element              | Description                                         |  R obj. |
------------------------- | --------------------------------------------------- | ------- |
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
 plotObservationID        | A reference to a specific plotObservation. | Yes |
 individualOrganismID     | A reference to a specific individualOrganism. | Yes |
 stratumObservationID     | A reference to a specific stratum observation that this individual was measured in on the plot. | Yes |
@@ -218,3 +217,14 @@ height     | TO BE DONE | No |
 canopyVolume     | TO BE DONE | No |
 multipleMeasurement | A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  | No |
 individualOrganismHealth | Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems. | No |
+
+### *siteObservation*
+
+Site observations are identified by *plotObservationID*.
+
+Sub-element               | Description                                        |  R  |
+------------------------- | -------------------------------------------------- | --- |
+plotObservationID        | A reference to a specific plotObservation. | Yes |
+legalProtection        | Legal protection status of the plot during the plot observation. | Yes |
+landuse        | Landuse, for example pasture | Yes |
+habitat        | A specific habitat type existing during this plot observation. | Yes |

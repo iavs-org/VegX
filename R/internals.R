@@ -66,6 +66,14 @@
   }
   return(list(id = as.character(length(target@individualObservations)+1), new = TRUE))
 }
+# Returns the ID for a new site observation in the data set or the ID of an existing site observation
+.newSiteObservationIDByID<-function(target, plotObservationID) {
+  if(length(target@siteObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@siteObservations)) {
+    if(target@siteObservations[[i]]$plotObservationID==plotObservationID) return(list(id = names(target@siteObservations)[i], new = FALSE))
+  }
+  return(list(id = as.character(length(target@siteObservations)+1), new = TRUE))
+}
 # Returns the ID for a new method in the data set or the ID of an existing method with the same name
 .newMethodIDByName<-function(target, methodName) {
   if(length(target@methods)==0) return(list(id="1", new = TRUE))
@@ -82,6 +90,7 @@
   }
   return(list(id = as.character(length(target@taxonNameUsageConcepts)+1), new = TRUE))
 }
+
 
 
 # Returns strata names corresponding to the input method
@@ -347,6 +356,25 @@
       res[[n]] = indobs1[[n]]
     } else if(n %in% n2) {
       res[[n]] = indobs2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two site observations
+.mergeSiteObservations<-function(siteobs1, siteobs2) {
+  n1 = names(siteobs1)
+  n2 = names(siteobs2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(siteobs1[[n]]!=siteobs2[[n]]) stop(paste0("Site observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = siteobs1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = siteobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = siteobs2[[n]]
     }
   }
   return(res)

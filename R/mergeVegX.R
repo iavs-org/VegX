@@ -20,6 +20,7 @@
 #'   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
 #'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
 #'   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value
+#'   \item \code{siteObservations} are merged when their element \code{plotObservationID} has the same value
 #' }
 #' Merging to these entities may cause interruption of the process if the two entities to be merged
 #' have different value for the same element. Other entities (e.g., \code{attributes} of a method) are always considered as distinct
@@ -290,10 +291,29 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   }
 
 
+  # siteObservations
+  siteObsIDmap = list()
+  nmergedsiteobs = 0
+  if(length(y@siteObservations)>0) {
+    for(j in 1:length(y@siteObservations)) {
+      plotObsID = plotObsIDmap[[y@siteObservations[[j]]$plotObservationID]]
+      y@siteObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
+      nsiteobsid = .newSiteObservationIDByID(x, plotObsID)
+      if(nsiteobsid$new) {
+        x@siteObservations[[nsiteobsid$id]] = y@siteObservations[[j]]
+      } else { #pool information
+        x@siteObservations[[nsiteobsid$id]] = .mergeSiteObservations(x@siteObservations[[nsiteobsid$id]], y@siteObservations[[j]])
+        nmergedsiteobs = nmergedsiteobs + 1
+      }
+      indObsIDmap[names(y@siteObservations)[j]] = nsiteobsid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of site observations: ", length(x@siteObservations),". Data pooled for ", nmergedsiteobs, " site observation(s).\n"))
+  }
 
   #                         vegetationObservations = "list",
   #                         surfaceCovers = "list",
   #                         surfaceCoverObservations = "list",
-  #                         siteObservations = "list",
   return(x)
 }

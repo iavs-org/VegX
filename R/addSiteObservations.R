@@ -192,6 +192,7 @@ addSiteObservations<-function(target, x, projectTitle,
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
     #site observations
+    # TO BE DONE: CHECK that the site observation is new
     abioObsID = as.character(length(target@siteObservations)+1)
     abioObs = list("plotObservationID" = plotObsID)
     for(m in names(measurementMethods)) {

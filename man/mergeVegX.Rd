@@ -30,6 +30,7 @@ Some entities are attempted to be merged or are kept as separate entities depedi
   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value
+  \item \code{siteObservations} are merged when their element \code{plotObservationID} has the same value
 }
 Merging to these entities may cause interruption of the process if the two entities to be merged
 have different value for the same element. Other entities (e.g., \code{attributes} of a method) are always considered as distinct
