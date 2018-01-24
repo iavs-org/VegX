@@ -83,30 +83,36 @@ literatureCitation             | Provides overview information about the literat
 
 
 
+## Details of Veg-X elements and instructions of use
 
-### *project*
+### Element *project*
 
-Projects are identified by their *title*.
+A *project* elemnent describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. The definition of Veg-X *project* elements was borrowed from the Ecological Metadata Language (v. 2.0.1). When using the **VegX package**, *project* elements have IDs used for internal consistency, but from the perspective of the users projects are uniquely identified by their *title*.
 
 Sub-element               | Description                                        |  R  |
 ------------------------- | -------------------------------------------------- | --- |
-title                 | TO BE DONE  | Yes |
-personnel                 | TO BE DONE  | No |
+title                 | Title of the project.  | Yes |
+personnel                 | Contact and role information for people involved in the research project. | No |
+abstract                  | Project abstract.  | No |
+funding                   | Funding information. | No |
+studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | No |
+designDescription         | Description of the design of the research project | No |
 
-### *plot*
 
-Projects are identified by their *plotName*. 
+### Element *plot*
+
+A plot is a sampling location, with or without explicit boundaries. The element *plot* records the properties of the vegetation plot that are independent of time and can be referenced by many observations by links to its ID. While the **Veg-X standard** allows storing globally unique identifiers for *plot* elements, when using the **VegX package** plot IDs are only used for internal consistency. From the perspective of the user plots are uniquely identified by their *plotName*. 
 
 Sub-element               | Description                                        |  R  |
 ------------------------- | -------------------------------------------------- | --- |
 plotName                 | Name or label for a plot, unique within the data set  | Yes |
 plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | No |
 relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | Yes (subplots) |
-location | Geographic location of the plot. | Yes |
-geometry | TO BE DONE | No |
-topography | TO BE DONE | Yes |
-placementMethod | Brief description of strategy for determining plot placement within the stand. | No |
-partyWithRole | The party that undertook the plot placement | No |
+location | Information regarding the placement of the plot on earth. | Yes |
+geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | No |
+topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | Yes |
+geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | No |
+partyWithRole | The party that undertook the plot placement, and/or parties with other roles. | No |
 
 ### *plotObservation*
 

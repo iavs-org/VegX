@@ -367,6 +367,69 @@ The end date of this specific community determination. Recorded in ISO 8601 date
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
+    <xsd:complexType name="IndividualOrganismType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
+            <xsd:documentation xml:lang="de"> </xsd:documentation>
+            <xsd:appinfo>
+			</xsd:appinfo>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotID" type="xsd:string" />
+            <xsd:element name="identificationLabel" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A label that is associated with an individual (e.g. a numerical tree tag)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. The individual datasetNameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all datasetNameUsageConcepts within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="birthDate" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Date of birth recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relatedIndividual" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relativePlotPosition" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Relative position of organism described in geometric space within the plot the organism is located in. Relative to teh plot point of origin. </xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="relativeX" type="xsd:decimal">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related item position in m. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="relativeY" type="xsd:decimal">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">The Z-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot elevation (in meters). </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the IndividualOrganismType.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="required" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    </xsd:complexType>
     <xsd:complexType name="IndividualOrganismObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An observation applying to one occurrence of an organism (or part of an organism). </xsd:documentation>
@@ -436,6 +499,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation>Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="growthForm" type="misc:ClassType" minOccurs="0" maxOccurs="1" />
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observationGroupings within the dataset.</xsd:documentation>
@@ -470,65 +534,6 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                         <xsd:element name="measurement" type="misc:MeasurementType" minOccurs="2" maxOccurs="unbounded" />
                     </xsd:sequence>
                 </xsd:complexType>
-            </xsd:element>
-        </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="required" />
-        <xsd:attribute name="system" type="res:SystemType" use="optional" />
-        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
-    </xsd:complexType>
-    <xsd:complexType name="IndividualOrganismType">
-        <xsd:annotation>
-            <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-			</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="plotID" type="xsd:string" />
-            <xsd:element name="identificationLabel" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A label that is associated with an individual (e.g. a numerical tree tag)</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. The individual datasetNameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all datasetNameUsageConcepts within the dataset.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="birthDate" type="xsd:date" minOccurs="0" />
-            <xsd:element name="relatedIndividual" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="relativePlotPosition" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Relative position of organism described in geometric space within the plot the organism is located in. Relative to teh plot point of origin. </xsd:documentation>
-                </xsd:annotation>
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="relativeX" type="xsd:decimal">
-                            <xsd:annotation>
-                                <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related item position in m. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth. </xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="relativeY" type="xsd:decimal">
-                            <xsd:annotation>
-                                <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth. </xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">The Z-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot elevation (in meters). </xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the IndividualOrganismType.</xsd:documentation>
-                </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="id" type="res:IDType" use="required" />

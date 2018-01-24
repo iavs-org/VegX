@@ -40,6 +40,9 @@
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="location" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information regarding the placement of the plot on earth</xsd:documentation>
+                </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="geospatial" type="misc:GeospatialType" minOccurs="0">
@@ -90,6 +93,9 @@
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="geometry" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location.</xsd:documentation>
+                </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="area" type="misc:MeasurementType" minOccurs="0">
@@ -228,6 +234,9 @@
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="topography" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...).</xsd:documentation>
+                </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="aspect" type="misc:MeasurementType" minOccurs="0">
@@ -249,15 +258,17 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="geology" minOccurs="0" maxOccurs="1">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="parentMaterial" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded" />
-                    </xsd:sequence>
-                </xsd:complexType>
+            <xsd:element name="geologicalParentMaterial" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The party that undertook the plot placement, and/or parties with other roles.</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
             <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
-            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation />

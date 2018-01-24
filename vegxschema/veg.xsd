@@ -84,14 +84,13 @@
                 </xsd:element>
                 <xsd:element name="plotObservations" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for a specific type of ObservationGrouping that groups observations taken on a single Plot and during a single date-time period.</xsd:documentation>
+                        <xsd:documentation>A container for a specific type of observation grouping that groups observations taken on a single plot and during a single date-time period.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="plotObservation" type="obs:PlotObservationType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific ObservationGrouping that groups observations taken on a single Plot and during a single date-time period.</xsd:documentation>
-                                    <xsd:appinfo>A Relevé or an Inventory are examples of PlotObservation. A PlotObservation may be conducted by one or more observers, and may be related to one or more Projects.</xsd:appinfo>
+                                    <xsd:documentation xml:lang="en">A specific observation grouping that groups observations taken on a single plot and during a single date-time period.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
