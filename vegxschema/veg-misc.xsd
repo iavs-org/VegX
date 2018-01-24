@@ -336,7 +336,6 @@
     <xsd:complexType name="ObservationGroupingType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A named grouping entity that can be used to define grouping events elsewhere in the dataset. These are a set of observation records that are grouped in the data management system owing to some common characteristic.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>ObservationGroupingType</doc:moduleName>

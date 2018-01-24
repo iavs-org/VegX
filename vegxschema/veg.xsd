@@ -295,8 +295,7 @@
                         <xsd:sequence>
                             <xsd:element name="observationGrouping" type="misc:ObservationGroupingType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">An specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic.</xsd:documentation>
-                                    <xsd:appinfo>For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the vegschema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a PlotObservation).</xsd:appinfo>
+                                    <xsd:documentation xml:lang="en">A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -344,20 +343,13 @@
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element name="userdefinedTypes" minOccurs="0">
+                <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+                <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
                     <xsd:annotation>
-                        <xsd:documentation>A container for user-defined types not accommodated by the schema.</xsd:documentation>
+                        <xsd:documentation />
                     </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="userdefined" type="misc:UserdefinedType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation>Generic element to allow for root-level user-defined information types not accommodated by the schema.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
                 </xsd:element>
+                <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             </xsd:sequence>
             <xsd:attribute name="id" type="res:IDType" use="optional">
                 <xsd:annotation>

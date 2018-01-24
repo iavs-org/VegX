@@ -36,17 +36,17 @@ In 2017, the IAVS *Ecoinformatics Working Group* decided to develop an R package
 + Integrate and harmonize vegetation-plot data from different sources with the aim of conducting new analyses.
 + Produce archivable XML documents with vegetation-plot data coming from new vegetation surveys, without needing the definition of *add hoc* data bases.  
 
-The VegX R package uses a simplified version of the Veg-X exchange standard, and only a subset of the main elements are included (see next section).
+The **VegX R package** currently uses a simplified version of the Veg-X exchange standard, and only a subset of the main elements and sub-elements are included (see next section). This was a practical decision to have a usable tool with a reasonable amount of complexity. Future versions of the package may allow dealing with more elements of the standard.
 
 
-## Logical structure and elements of Veg-X (1.6.0)
+## Overall structure and main elements of Veg-X (1.6.0)
 
 Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. 
 
 ![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element.](LogicalStructure_1.6.0.png) 
 
 
-The following table provides the description of the main elements of the standard:
+The following table provides the description of the main elements of the standard (column 'R' indicates whether the sub-elements are currently implemented in the **VegX R package**):
 
 Main element                   | Description                                     |  R  |
 ------------------------------ | ----------------------------------------------- | --- |
@@ -68,7 +68,7 @@ taxonConcept                   | Representation of a taxon concept. Each taxon c
 taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
 communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. | No |
 communityDetermination | An identification applying one or more CommunityConcepts to a plotObservation by a party.| No |
-
+observationGrouping | An specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. | No |
 
 
 Additional resource elements of the Veg-X schema are used to provide information about people, methods and bibliographic references:
@@ -85,53 +85,58 @@ literatureCitation             | Provides overview information about the literat
 
 ## Details of Veg-X elements and instructions of use
 
+In this section we detail the sub-elements of each main element in the **VegX standard**, along with some instructions on how the standard should be used in practice. In the tables describing sub elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional; '0..n' means they are optional and can occur many times; '1..n' means they should occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No') indicates whether the sub-elements are currently implemented in the **VegX R package**. In the following, we also indicate when the package restricts the usage of sub-elements.
+
 ### Element *project*
 
-A *project* elemnent describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. The definition of Veg-X *project* elements was borrowed from the Ecological Metadata Language (v. 2.0.1). When using the **VegX package**, *project* elements have IDs used for internal consistency, but from the perspective of the users projects are uniquely identified by their *title*.
+A *project* element describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. The definition of Veg-X *project* elements was borrowed from the Ecological Metadata Language (v. 2.0.1). When using the **VegX package**, *project* elements have IDs used for internal consistency, but from the perspective of the users projects are uniquely identified by their sub-element *title*, which occurs only once and is the only sub-element currently recorded.
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-title                 | Title of the project.  | Yes |
-personnel                 | Contact and role information for people involved in the research project. | No |
-abstract                  | Project abstract.  | No |
-funding                   | Funding information. | No |
-studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | No |
-designDescription         | Description of the design of the research project | No |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+title                 | Title of the project.  | 1..n | Yes |
+personnel                 | Contact and role information for people involved in the research project. | 1..n | No |
+abstract                  | Project abstract.  | 0..1 | No |
+funding                   | Funding information. | 0..1 | No |
+studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | 0..1 | No |
+designDescription         | Description of the design of the research project | 0..1 | No |
 
 
 ### Element *plot*
 
-A plot is a sampling location, with or without explicit boundaries. The element *plot* records the properties of the vegetation plot that are independent of time and can be referenced by many observations by links to its ID. While the **Veg-X standard** allows storing globally unique identifiers for *plot* elements, when using the **VegX package** plot IDs are only used for internal consistency. From the perspective of the user plots are uniquely identified by their *plotName*. 
+A plot is a sampling location, with or without explicit boundaries. The element *plot* records the properties of the vegetation plot that are independent of time and can be referenced by many observations by links to its ID. While the **Veg-X standard** allows storing globally unique identifiers for *plot* elements, when using the **VegX package** a different set of IDs are used for internal consistency. From the perspective of the user plots are uniquely identified by their sub-element *plotName*. Furthermore, even though the standard allows specifying different kinds of spatial relationships between plots, currently the R package only allows specifying parent-child relationships.
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-plotName                 | Name or label for a plot, unique within the data set  | Yes |
-plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | No |
-relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | Yes (subplots) |
-location | Information regarding the placement of the plot on earth. | Yes |
-geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | No |
-topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | Yes |
-geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | No |
-partyWithRole | The party that undertook the plot placement, and/or parties with other roles. | No |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotName                 | Name or label for a plot, unique within the data set  | 1 | Yes |
+plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
+relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | 0..n | Yes |
+location | Information regarding the placement of the plot on earth. | 0..1 | Yes |
+geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | No |
+topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
+geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
+partyWithRole | The party that undertook the plot placement, and/or parties with other roles. | 0..n | No |
 
-### *plotObservation*
+### Element *plotObservation*
 
-Plot observations are identified internally by their elements *plotID* and *obsStartDate*.
+An element *plotObservation* is used to group all observations made on a single plot and during a single date-time period. While the **Veg-X standard** allows storing globally unique identifiers for *plotObservation* elements, when using the **VegX package** a different set of IDs are used for internal consistency. From the perspective of the user, plot observations are uniquely identified  by their sub-elements *plotID* (i.e. the plot name) and *obsStartDate*. Furthermore, the VegX package only allows a single (but obligatory) reference to a *project* element.
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-plotID                   | A reference to a specific plot by the plot ID       | Yes |
-obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | Yes |
-obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | Yes |
-plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | No |
-projectID | A reference to a specific 'project'.  | Yes |
-partyWithRole | The party that undertook the plot observation. | No |
-license | License linked to this plot observation. | No |
-taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | No |
-previousObservationID | Link to previous plot observations.	| No |
-observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| No |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotID                   | A reference to a specific plot by the plot ID       | 1 | Yes |
+obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 1 | Yes |
+obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 0..1 | Yes |
+plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
+projectID | A reference to a specific 'project'.  | 0..n | Yes |
+partyWithRole | The party that undertook the plot observation. | 0..n | No |
+license | License linked to this plot observation. | 0..1 | No |
+taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | 0..n | No |
+previousObservationID | Link to previous plot observations.	| 0..n | No |
+observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| 0..1 | No |
+observationConditions | Conditions at the time of observation. | 0..1 | No |
+referencePublication | Reference to an original publication and additionally a table or section within a publication. | 0..n | No |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | Yes |
 
-### *taxonNameUsageConcept*
+### Element *taxonNameUsageConcept*
 
 Taxon name usage concepts are identified by their element *authorName*.
 
@@ -139,7 +144,7 @@ Sub-element               | Description                                        |
 ------------------------- | -------------------------------------------------- | --- |
 authorName               | A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot.       | Yes |
 
-### *method*
+### Element *method*
 
 Methods are identified by their element *name*.
 
@@ -151,7 +156,7 @@ protocolID | A reference to a protocol using its identifier | No |
 citationID | A reference to a specific citation of literature. | No |
 citationString | A string indicating the citation reference | Yes |
 
-### *attribute*
+### Element *attribute*
 
 Each attribute relates to one method and are identified by it. Attributes can be of three scales: *qualitative*, *ordinal* or *quantitative*; and the elements of attributes depend of the scale.
 
@@ -178,7 +183,7 @@ precision | The smallest place value to which the measurement is expressed (eg, 
 lowerBound | Potential lower limit of the measurement | Yes |
 upperBound | Potential upper limit of the measurement | Yes |
 
-### *stratum*
+### Element *stratum*
 
 Strata are identified by *stratumName*.
 
@@ -191,7 +196,7 @@ stratumSequence               | An indication of a position in an ordered sequen
 lowerBound | TO BE DONE | Yes |
 upperBound | TO BE DONE | Yes |
 
-### *stratumObservation*
+### Element *stratumObservation*
 
 Stratum observations are identified by *stratumID* and *plotObservationID*.
 
@@ -203,7 +208,7 @@ height                   | Average height to the top of the stratum.  | No |
 base                     | Average height of the bottom of the stratum. | No |
 stratumValue             | The value (e.g. cover, count) given to the observation in that strata | No |
 
-### *aggregateOrganismObservation*
+### Element *aggregateOrganismObservation*
 
 Aggregate organism observations are identified by *plotObservationID* and *taxonNameUsageConceptID* (and by *stratumObservationID* when defined).
 
@@ -215,7 +220,7 @@ stratumObservationID     | A reference to a specific stratum observation. | Yes 
 aggregateValue           | A simple measurement for a aggregate value.  | Yes |
 height                   | Optional height at which the aggregated observation was made, e.g. in meters. | No |
 
-### *individualOrganism*
+### Element *individualOrganism*
 
 Individual organisms are identified by *plotID* and *identificationLabel*.
 
@@ -229,7 +234,7 @@ relatedIndividual | An item may be related or connected in some way to other ite
 relativePosition | Relative position of organism described in geometric space within the plot the organism is located in. Relative to the plot point of origin. | No |
 
 
-### *individualOrganismObservation*
+### Element *individualOrganismObservation*
 
 Individual organism observations are identified by *plotObservationID* and *individualOrganismID*.
 
@@ -244,7 +249,7 @@ canopyVolume     | TO BE DONE | No |
 multipleMeasurement | A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  | No |
 individualOrganismHealth | Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems. | No |
 
-### *siteObservation*
+### Element *siteObservation*
 
 Site observations are identified by *plotObservationID*.
 
@@ -254,3 +259,8 @@ plotObservationID        | A reference to a specific plotObservation. | Yes |
 legalProtection        | Legal protection status of the plot during the plot observation. | Yes |
 landuse        | Landuse, for example pasture | Yes |
 habitat        | A specific habitat type existing during this plot observation. | Yes |
+
+
+### Element **observationGrouping**
+
+A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the schema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a plotObservation).

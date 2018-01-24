@@ -16,7 +16,7 @@
         <xsd:sequence>
             <xsd:element name="plotID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID. The individual plot is defined within the element veg:plots which is a container for all plots within the dataset.			</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID.			</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="obsStartDate" type="xsd:date">
@@ -63,11 +63,6 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the element of concern.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
             <xsd:element name="taxonomicQuality" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>Subjective assessment of the taxonomic quality on the plot.</xsd:documentation>
@@ -103,35 +98,6 @@
                     <xsd:documentation source="VegBank" xml:lang="en">Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 				</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="referencePublication" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Reference to an original publication and additionally a table or section within a publication.</xsd:documentation>
-                </xsd:annotation>
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="referenceCitationID">
-                            <xsd:annotation>
-                                <xsd:documentation>A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="referenceTable" type="xsd:string" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Reference to a specific table in the cited publication.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="referencePlot" type="xsd:string" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Plot number in original publication.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="referenceText" type="xsd:anyType" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation>Reference to a section within a publication. Type unspecified. </xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
-            </xsd:element>
             <xsd:element name="observationConditions" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>Conditions at the time of observation.</xsd:documentation>
@@ -151,9 +117,50 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="referencePublication" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Reference to an original publication and additionally a table or section within a publication.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:choice>
+                            <xsd:element name="citationID" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="citationString" type="xsd:string">
+                                <xsd:annotation>
+                                    <xsd:documentation>A citation string to be used when the full schema for literature citations is to be avoided</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:choice>
+                        <xsd:element name="referenceTable" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Reference to a specific table in the cited publication.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="referencePlot" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Plot number in original publication.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="referenceText" type="xsd:anyType" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Reference to a section within a publication. Type unspecified. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>A set of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. </xsd:documentation>
+                    <xsd:documentation>A reference to a specific observation grouping by ID.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the element of concern.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
@@ -161,7 +168,7 @@
         </xsd:sequence>
         <xsd:attribute name="id" type="res:IDType" use="required">
             <xsd:annotation>
-                <xsd:documentation>Unique identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
+                <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
