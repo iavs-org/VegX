@@ -4,12 +4,15 @@
 \alias{transformOrdinalScale}
 \title{Transform ordinal scale}
 \usage{
-transformOrdinalScale(target, method, newUnits, verbose = TRUE)
+transformOrdinalScale(target, method, newMethod, verbose = TRUE)
 }
 \arguments{
-\item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
+\item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
 
-\item{method}{An integer (index) or a name of an ordinal scale method}
+\item{method}{An integer (index) or a name of an ordinal scale method.}
+
+\item{newMethod}{An integer (index) or a name of a quantitative method existing in the initial object,
+or an object of class \code{\linkS4class{VegXMethod}}.}
 
 \item{verbose}{A boolean flag to indicate console output of the data transformation process.}
 }
@@ -17,6 +20,35 @@ transformOrdinalScale(target, method, newUnits, verbose = TRUE)
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Replaces all the values made using an ordinal scale to their corresponding midpoint quantitative values
-(e.g. cover scale values to percent cover).
+Replaces all the values in a VegX object made using an ordinal scale into the corresponding scale midpoint values.
+}
+\examples{
+data(mokihinui)
+
+# Create Veg-X document
+target = newVegX()
+mapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+              stratumName = "Tier", value = "Category")
+scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
+                         citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                         breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
+                         midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
+                         values = c("P","1","2","3", "4", "5", "6"))
+strataDef = defineMixedStrata(name = "Recce strata",
+                              description = "Standard Recce stratum definition",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                              heightStrataNames = paste0("Tier ",1:6),
+                              categoryStrataNames = "Tier 7")
+x = addTaxonObservations(target, tcv, "Mokihinui",
+                        mapping = mapping,
+                        abundanceMethod = scale,
+                        stratumDefinition = strataDef)
+
+summary(x)
+
+# Transform from "Recce cover scale" to "Percent cover"
+percentScale = predefinedMeasurementMethod("Percent cover")
+y = transformOrdinalScale(x, "Recce cover scale", percentScale)
+
 }
