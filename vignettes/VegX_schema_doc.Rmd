@@ -251,7 +251,8 @@ multipleMeasurement | A n-tuple of a related measurements (e.g. paired data such
 individualOrganismHealth | Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems. | No |
 
 ### Element *siteObservation*
-A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. Site observations are identified by *plotObservationID*.
+
+A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity (i.e. the site) to which all measurements refer. There is no specific variable to identify uniquely site observations, but they are uniquely identified by their related *plotObservationID* (i.e. the combination of plot name and observation start date). Abiotic (i.e. soil, climate or water mass) measurements are a special kind of measurements within the Veg-X schema, in the sense that they have IDs and can be related to each other, and they can have relative coordinates of the measurement within the plot, in the same way as individuals.
 
 Sub-element               | Description                                        |  R  |
 ------------------------- | -------------------------------------------------- | --- |

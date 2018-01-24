@@ -324,18 +324,24 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType abstract="false" name="AbioticMeasurementType">
-        <xsd:sequence>
-            <xsd:element name="abioticMeasurement" type="MeasurementType" />
-            <xsd:element name="relatedAbioticMeasurement" type="relatedItemType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">An abiotic measurement may be related to a another.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="required" />
-        <xsd:attribute name="system" type="res:SystemType" use="optional" />
-        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+    <xsd:complexType name="AbioticMeasurementType">
+        <xsd:annotation>
+            <xsd:documentation>Abiotic measurement that extends the usual measurement type in the fact that it has an identifier and can be related to other abiotic measurements</xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexContent>
+            <xsd:extension base="MeasurementType">
+                <xsd:sequence>
+                    <xsd:element name="relatedAbioticMeasurement" type="relatedItemType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">An abiotic measurement may be related to a another.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
+                <xsd:attribute name="id" type="res:IDType" use="required" />
+                <xsd:attribute name="system" type="res:SystemType" use="optional" />
+                <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+            </xsd:extension>
+        </xsd:complexContent>
     </xsd:complexType>
     <xsd:complexType name="ObservationGroupingType">
         <xsd:annotation>
