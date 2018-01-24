@@ -232,7 +232,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -321,7 +321,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -363,7 +363,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -472,7 +472,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                 </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -531,7 +531,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
