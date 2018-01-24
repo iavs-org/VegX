@@ -23,3 +23,7 @@ Creates a measurement method for Veg-X documents from a set of predefined option
 predefinedMeasurementMethod("Percent cover")
 
 }
+\seealso{
+Other define measurement functions: \code{\link{defineOrdinalScale}},
+  \code{\link{definePlantCoverScale}}
+}

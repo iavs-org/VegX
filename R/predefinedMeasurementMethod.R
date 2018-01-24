@@ -11,6 +11,8 @@
 #' @return an object of class \code{\linkS4class{VegXMethod}}
 #' @export
 #'
+#' @family define measurement functions
+#'
 #' @examples
 #' # Create a method for plant percent cover
 #' predefinedMeasurementMethod("Percent cover")

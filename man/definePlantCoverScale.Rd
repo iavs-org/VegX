@@ -35,3 +35,7 @@ scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce r
                               values = c("P","1","2","3", "4", "5", "6"))
 
 }
+\seealso{
+Other define measurement functions: \code{\link{defineOrdinalScale}},
+  \code{\link{predefinedMeasurementMethod}}
+}

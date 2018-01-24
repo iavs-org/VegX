@@ -10,9 +10,9 @@ S4 class for Veg-X strata definition
 \section{Slots}{
 
 \describe{
-\item{\code{method}}{VegXMethod.}
+\item{\code{method}}{An object of class \code{\linkS4class{VegXMethod}}.}
 
-\item{\code{strata}}{list.}
+\item{\code{strata}}{A list of vegetation strata.}
 }}
 
 \examples{

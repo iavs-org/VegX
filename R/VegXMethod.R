@@ -3,7 +3,7 @@
 #' @slot name Name of the measurement method.
 #' @slot description Description of the measurement method.
 #' @slot citation A string with the bibliographic reference for the method.
-#' @slot attributeClass Kind of attribute measured (e.g. cover).
+#' @slot subject Kind of attribute measured (e.g. 'plant cover').
 #' @slot attributeType Either "quantitative", "ordinal" or "qualitative".
 #' @slot attributes List of attribute values
 #'

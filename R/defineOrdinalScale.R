@@ -13,6 +13,8 @@
 #' @return an object of class \code{\linkS4class{VegXMethod}}
 #' @export
 #'
+#' @family define measurement functions
+#'
 defineOrdinalScale<-function(name, description, subject, values,
                              citation = "",
                              breaks = NULL,

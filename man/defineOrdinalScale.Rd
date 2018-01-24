@@ -28,3 +28,7 @@ an object of class \code{\linkS4class{VegXMethod}}
 \description{
 Defines an oridnal scale for a given subject (measurement)
 }
+\seealso{
+Other define measurement functions: \code{\link{definePlantCoverScale}},
+  \code{\link{predefinedMeasurementMethod}}
+}

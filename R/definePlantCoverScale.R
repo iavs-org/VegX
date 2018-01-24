@@ -12,6 +12,8 @@
 #' @return an object of class \code{\linkS4class{VegXMethod}}
 #' @export
 #'
+#' @family define measurement functions
+#'
 #' @examples
 #' scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
