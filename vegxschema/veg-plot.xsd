@@ -52,6 +52,11 @@
                                 <xsd:documentation source="VegBank" xml:lang="en">Text description that provides information useful for plot relocation.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
+                        <xsd:element name="placementMethod" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Method used to position plot, e.g., subjective, objective, random, objective grid-based, objective random, objective stratified random.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
                         <xsd:element name="authorLocation" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">Descriptive note about the original location described by author (e.g. Town-Range-Section).</xsd:documentation>
@@ -133,7 +138,7 @@
                                                 <xsd:sequence>
                                                     <xsd:element name="length" type="misc:MeasurementType">
                                                         <xsd:annotation>
-                                                            <xsd:documentation source="NVS" xml:lang="en">Length of regular rectangle.</xsd:documentation>
+                                                            <xsd:documentation source="NVS" xml:lang="en">Length (largest dimension) of regular rectangle.</xsd:documentation>
                                                         </xsd:annotation>
                                                     </xsd:element>
                                                     <xsd:element name="width" type="misc:MeasurementType">
@@ -146,7 +151,7 @@
                                         </xsd:element>
                                         <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                                             <xsd:annotation>
-                                                <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Orientation of the main axis of the plot (e.g. in degrees from North). For quadrat plots the axis closer to the N-S axis should be given.</xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -178,12 +183,12 @@
                                         </xsd:element>
                                         <xsd:element name="bandWidth" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                                             <xsd:annotation>
-                                                <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Distance from the plot axis that is included for measurements. </xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                         <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                                             <xsd:annotation>
-                                                <xsd:documentation source="NVS" xml:lang="en">Width of regular rectangle. </xsd:documentation>
+                                                <xsd:documentation source="NVS" xml:lang="en">Oritentation of the plot axis (e.g. in degrees from North) </xsd:documentation>
                                             </xsd:annotation>
                                         </xsd:element>
                                     </xsd:sequence>
@@ -196,6 +201,22 @@
                                             <xsd:complexType>
                                                 <xsd:sequence>
                                                     <xsd:element name="shapeDescription" type="xsd:string" />
+                                                    <xsd:element name="plotOrigin" minOccurs="0">
+                                                        <xsd:complexType>
+                                                            <xsd:sequence>
+                                                                <xsd:element name="plotOriginLabel" type="xsd:string">
+                                                                    <xsd:annotation>
+                                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
+                                                                    </xsd:annotation>
+                                                                </xsd:element>
+                                                                <xsd:element name="plotOriginPosition" type="xsd:string">
+                                                                    <xsd:annotation>
+                                                                        <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners of 4-sided plots e.g., bottom-left, top-right etc.</xsd:documentation>
+                                                                    </xsd:annotation>
+                                                                </xsd:element>
+                                                            </xsd:sequence>
+                                                        </xsd:complexType>
+                                                    </xsd:element>
                                                 </xsd:sequence>
                                             </xsd:complexType>
                                         </xsd:element>
@@ -228,19 +249,10 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="parentMaterial" minOccurs="0" maxOccurs="1">
+            <xsd:element name="geology" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="rockType">
-                            <xsd:annotation>
-                                <xsd:documentation>Rock type. May be a code or a name.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="geologicalSchema" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation>A standard geological series of lithic types, e.g. the FGDC Soil Geographic Data Standards.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
+                        <xsd:element name="parentMaterial" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
@@ -253,7 +265,7 @@
             </xsd:element>
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>

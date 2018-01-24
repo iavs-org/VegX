@@ -1,5 +1,5 @@
 ---
-title: "Veg-X schema documentation"
+title: "The Veg-X schema and the VegX R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
@@ -11,13 +11,9 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
-## About Veg-X
+## About the Veg-X standard
 
-The exchange standard for plot-based vegetation data (Veg-X) is a standard intended to be used for sharing and merging vegetation-plot data of different kinds. It was created by the *Ecoinformatics Working Group* of the **International Association for Vegetation Science** (http://iavs.org).
-
-## Overview of Veg-X standard
-
-Our goal was to produce a standard specifically for vegetation-plot data that is relatively simple to read and use. To achieve this we avoided highly nested structures and included major vegetation data components (e.g. plot attributes, plot observations, organisms) as top-level elements that are referenced by  each other through unique identifiers (e.g. a unique numerical ID) that allow the integrity of the original linkage to be captured. Although the main logical structure of vegetation data (i.e. the logical relationships between major data components) is fixed, we allowed for alternative, user-defined ways of grouping observations. As such, the standard can accommodate projects that are linked across time as well as longitudinal measures of plots or individuals to the extent that these are referenced in the original dataset through appropriate unique identifiers in those original sources.
+The exchange standard for plot-based vegetation data (Veg-X) is a standard intended to be used for sharing and merging vegetation-plot data of different kinds. It was created by the *Ecoinformatics Working Group* of the **International Association for Vegetation Science (IAVS)** (http://iavs.org) with the to produce a standard specifically for vegetation-plot data that is relatively simple to read and use. To achieve this, highly nested structures were avoided and major vegetation data components were included (e.g. plot attributes, plot observations, organisms) as top-level elements that are referenced by  each other through unique identifiers (e.g. a unique numerical ID) that allow the integrity of the original linkage to be captured. Although the main logical structure of vegetation data (i.e. the logical relationships between major data components) is fixed, alternative, user-defined ways of grouping observations are also allowed. As such, the standard can accommodate projects that are linked across time as well as longitudinal measures of plots or individuals to the extent that these are referenced in the original dataset through appropriate unique identifiers in those original sources.
 
 The standard accommodates different data collection protocols by allowing specific aspects of data collection methods to be captured, such as whether plots were located subjectively or randomly, plot dimensions, definitions of cover-abundance scales, references to published methods, etc. The standard also allows for the original units of measurement to be retained. All elements in the standard are clearly defined. This allows synonymous terms in source datasets to be mapped to a common set of concepts, thus overcoming the problems caused by inconsistent terminologies.
 
@@ -29,11 +25,23 @@ The standard also maintains a distinction between taxonomic identity (the taxon 
 
 Although the standard supports fully-specified taxonomic concepts, it does not require them. This is important as the full concept is unspecified and furthermore unrecoverable for most legacy data. On the other hand, because the schema can accommodate determination information (who did the identification, when, and with what reference), in theory it could be possible to recover concepts for many legacy datasets – in particular, tropical forest plots where such information is commonly preserved in the form of herbarium voucher specimens.
 
-Veg-X is written as an XML schema, which is a definition of user-defined tags to structure textual information in order to create self-describing datasets. XML (Extensible Markup Language) is an open standard, and XML files are both machine and human-readable (they are stored in plain-text ASCII format). These characteristics help to ensure that data in this format will be accessible in the future. We made use of existing XML schema definitions, which we incorporated as modules of our schema. Specifically, we used parts of the Ecological Metadata Language to define entities like projects or protocols. Similarly, we used TDWG standards such as the Darwin Core geospatial extension (http://wiki.tdwg.org/twiki/bin/view/DarwinCore/GeospatialExtension) to deal with georeferences, and the Taxon Concept Schema (http://www.tdwg.org/standards/117/) for taxon names and concepts. Updated versions of the Veg-X XML schema, as well as a prototype import/export utility, can be found at the TDWG Vegetation Web group page (http://wiki.tdwg.org/twiki/bin/view/Vegetation/WebHome).
+Veg-X is written as an XML schema, which is a definition of user-defined tags to structure textual information in order to create self-describing datasets. XML (Extensible Markup Language) is an open standard, and XML files are both machine and human-readable (they are stored in plain-text ASCII format). These characteristics help to ensure that data in this format will be accessible in the future. We made use of existing XML schema definitions, which we incorporated as modules of our schema. Specifically, we used parts of the Ecological Metadata Language to define entities like projects or protocols. Similarly, we used TDWG standards such as the Darwin Core geospatial extension (http://wiki.tdwg.org/twiki/bin/view/DarwinCore/GeospatialExtension) to deal with georeferences, and the Taxon Concept Schema (http://www.tdwg.org/standards/117/) for taxon names and concepts. 
 
-## Logical structure and main elements of Veg-X (1.6.0)
+## About the VegX R package
 
-Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. The VegX R package uses a simplified version of the VegX schema, and only a subset of the main elements are included.
+A barrier with a standard like Veg-X is its complexity, which is nevertheless necessary to accommodate the variety of source data schemes. The large data integration projects employ eco-informaticians to achieve this, but the tools developed are specific to these projects and cannot be readily picked up by others. To make the exchange schema of Veg-X usable by the wider community requires the development of informatics tools for mapping data from different input formats (e.g. relevé tables from different databases, forest inventory data or stem-mapped forest plots) into Veg-X, mechanisms to create unique identifiers to allow source datasets to be combined, and tools to export data from Veg-X to a range of formats that can serve as input to software packages for data analysis and visualisation.  
+
+In 2017, the IAVS *Ecoinformatics Working Group* decided to develop an R package to promote the usage of the Veg-X standard. The R package is specifically intended to be used to:
+
++ Integrate and harmonize vegetation-plot data from different sources with the aim of conducting new analyses.
++ Produce archivable XML documents with vegetation-plot data coming from new vegetation surveys, without needing the definition of *add hoc* data bases.  
+
+The VegX R package uses a simplified version of the Veg-X exchange standard, and only a subset of the main elements are included (see next section).
+
+
+## Logical structure and elements of Veg-X (1.6.0)
+
+Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. 
 
 ![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element.](LogicalStructure_1.6.0.png) 
 
@@ -74,7 +82,6 @@ protocol                       | A specific grouping of methods related by commo
 literatureCitation             | Provides overview information about the literature citation, including title, abstract, keywords, and contacts. | No |
 
 
-## Internal structure of the main schema elements
 
 
 ### *project*

@@ -20,79 +20,9 @@
             <xsd:enumeration value="" />
         </xsd:restriction>
     </xsd:simpleType>
-    <xsd:simpleType name="MEDIUMINT">
-        <xsd:restriction base="xsd:decimal">
-            <xsd:fractionDigits value="0" />
-            <xsd:minInclusive value="-8388608" />
-            <xsd:maxInclusive value="8388607" />
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="PERCENT">
-        <xsd:restriction base="xsd:decimal">
-            <xsd:fractionDigits value="1" />
-            <xsd:minInclusive value="0" />
-            <xsd:maxInclusive value="100" />
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="STRATUMINDEX">
-        <xsd:annotation>
-            <xsd:documentation xml:lang="en">
-               No layer
-            t1 Tree layer (high)
-            t2 Tree layer -middle-
-            t3 Tree layer -low-
-            s1 Shrub layer (high)
-            s2 Shrub layer -low-
-            hl Herb layer (hl)
-            jl Juvenile (jl)
-            sl Seedling (greater 1 year)
-            ml Moss layer (ml)
-          </xsd:documentation>
-        </xsd:annotation>
-        <xsd:restriction base="xsd:string">
-            <xsd:enumeration value="" />
-            <xsd:enumeration value="t1" />
-            <xsd:enumeration value="t2" />
-            <xsd:enumeration value="t3" />
-            <xsd:enumeration value="s1" />
-            <xsd:enumeration value="s2" />
-            <xsd:enumeration value="hl" />
-            <xsd:enumeration value="jl" />
-            <xsd:enumeration value="sl" />
-            <xsd:enumeration value="ml" />
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="SMALLINT">
-        <xsd:restriction base="xsd:decimal">
-            <xsd:fractionDigits value="0" />
-            <xsd:minInclusive value="-32768" />
-            <xsd:maxInclusive value="32767" />
-        </xsd:restriction>
-    </xsd:simpleType>
-    <xsd:simpleType name="TINYINT">
-        <xsd:restriction base="xsd:decimal">
-            <xsd:fractionDigits value="0" />
-            <xsd:minInclusive value="-128" />
-            <xsd:maxInclusive value="127" />
-        </xsd:restriction>
-    </xsd:simpleType>
     <xsd:complexType name="relatedPlotType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A plot or observation may be related spatially to another plot in order to express parent-child, sub-plot or contiguity. The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.v</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>relatedSpatialItemType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>relatedSpatialItem - An item may be related spatially to other items.</title>
-							<para>An item (e.g. tree or plot) may be related spatially to other items in order to express parent-child, contiguity, or other type of links. This may include relative coordinates between them.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
+            <xsd:documentation xml:lang="en">A plot or observation may be related spatially to another plot in order to express parent-child, sub-plot or contiguity. The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="relatedPlotID">
@@ -236,17 +166,16 @@
 			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="partyID">
+            <xsd:element name="partyID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific party. The individual party is defined with the element veg:partys which is a container for all the parties within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="role">
+            <xsd:element name="role" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">Based on the the eml-party module - The role code field provides information on how a person or organization is related to a resource. </xsd:documentation>
-                    <xsd:documentation xml:lang="de"> </xsd:documentation>
+                    <xsd:documentation xml:lang="de" />
                 </xsd:annotation>
-                <xsd:complexType />
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
@@ -285,7 +214,7 @@
                     <xsd:appinfo> "Database Management" notes are those added by the management team and may be queried and viewed by the public. "Database Use" notes are those entered by the users of the database and are publicly viewable. "Internal" notes are for management to use internally and will not be broadcast. </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="contributorID" minOccurs="0">
+            <xsd:element name="partyID" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to the specific individual who contributed the note.  The identity of the contributor is defined within the element veg:parties [EML] which is a container for all parties within the dataset.</xsd:documentation>
                 </xsd:annotation>
@@ -309,6 +238,11 @@
                     <xsd:documentation source="NVS" xml:lang="en">A full description of the type of method e.g., research/project or measured parameter or basal area of all stems &gt; 10 cm dbh or counts of all saplings &gt;1.35 m tall and less than 2 cm dbh.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="subject" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>The description of an attribute class for comparative purposes. If two methods measure the same attribute (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="protocolID" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a protocol.  The individual protocol is defined within the element veg:protocols which is a container for all protocols within the dataset.</xsd:documentation>
@@ -320,17 +254,32 @@
                         <xsd:documentation xml:lang="en">A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                <xsd:element name="citationString" type="xsd:string" />
+                <xsd:element name="citationString" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>A citation string to be used when the full schema for literature citations is to be avoided</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
             </xsd:choice>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="ClassType">
+        <xsd:annotation>
+            <xsd:documentation>An assessment of a qualitative value which can be embeded in a known set of categories.</xsd:documentation>
+        </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="value" type="xsd:string" />
-            <xsd:element name="qualitativeAttributeID" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="value" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A string representing a category.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="qualitativeAttributeID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Reference to a qualitative attribute (whose element 'code' should be the same as 'value'). Used to indicate that the value is one among a set of predefined classes.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="MeasurementType">
@@ -352,20 +301,14 @@
 			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="subject" type="xsd:string" minOccurs="0" maxOccurs="1" />
             <xsd:element name="value" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation source="Webster's dictionary" xml:lang="en">The amount or extent of a specified measurement of space, time, or quantity.  (Usually numeric, but may be a code as well).</xsd:documentation>
+                    <xsd:documentation source="Webster's dictionary" xml:lang="en">The amount or extent of a specified measurement of a quantity. Usually numeric, but may be a code if the attribute is ordinal or qualitative.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="upperValue" minOccurs="0">
+            <xsd:element name="attributeID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Proposed definition: To capture the upper bound of an aggregate value when expresses as catgeories. For example, an estimated value of 5-10% would be recorded the an upper bound of 10 and the lower bound of 5.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="lowerValue" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Proposed definition: To capture the lower bound of an aggregate value when expresses as catgeories. For example, an estimated value of 5-10% would be recorded the an upper bound of 10 and the lower bound of 5.</xsd:documentation>
+                    <xsd:documentation>Allows a measurement value to be qualified (type, units, method, etc.).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="accuracy" type="xsd:decimal" minOccurs="0">
@@ -373,9 +316,14 @@
                     <xsd:documentation source="http://www.geod.nrcan.gc.ca/edu/gloss_e.php" xml:lang="en">The closeness of the estimate or measurement to its true (but unknown) value</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="attributeID" type="xsd:string">
+            <xsd:element name="upperValue" type="xsd:decimal" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Allows a measurement value to be qualified. Type, Units, etc.</xsd:documentation>
+                    <xsd:documentation>An upper value for an uncertain measurement.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="lowerValue" type="xsd:decimal" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>A lower value for an uncertain measurement.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="complexUserDefined" type="complexUserDefinedType" minOccurs="0" maxOccurs="unbounded">
@@ -404,18 +352,18 @@
 			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="type">
-                <xsd:annotation>
-                    <xsd:documentation>The grouping entity type. For example, grouping of individual organism observations for the purposes of describing a physical relationship. Recommended that a closed-list is developed and used.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="name">
+            <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>The unique name of a specific grouping entity that is subsequently referenced by specific observations.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="type" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>The grouping entity type. For example, grouping of individual organism observations for the purposes of describing a physical relationship. Recommended that a closed-list is developed and used.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional">
+        <xsd:attribute name="id" type="res:IDType" use="required">
             <xsd:annotation>
                 <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., a grouping entity) or a GUID in which case it can be resolved to a location on the internet where the record is stored. Read fully description elsewhere.</xsd:documentation>
             </xsd:annotation>
@@ -464,12 +412,12 @@
 </xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="upperBound" type="xsd:decimal">
+                        <xsd:element name="upperLimit" type="xsd:decimal">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">potential upper limit of the measurement</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="lowerBound" type="xsd:decimal">
+                        <xsd:element name="lowerLimit" type="xsd:decimal">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">potential lower limit of the measurement</xsd:documentation>
                             </xsd:annotation>
@@ -493,7 +441,7 @@
                                 <xsd:documentation>A reference to a method that describes the context for the ordinal code, e.g., cover class code. The individual method is defined within the element veg:method which is a container for all methods within the dataset. </xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="definition" type="xsd:string">
+                        <xsd:element name="definition" type="xsd:string" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
                                 <xsd:documentation>The definition of an ordinal number or symbol used to signify an ordered list. For example a cover class ordinal code such as 1 = &gt;1-5 %</xsd:documentation>
                             </xsd:annotation>
@@ -539,19 +487,19 @@ Upper limit of the cover index in percent (only relevant when the value represen
                         </xsd:element>
                         <xsd:element name="code" type="xsd:string">
                             <xsd:annotation>
-                                <xsd:documentation>The category</xsd:documentation>
+                                <xsd:documentation>The label of the category used for measurement values.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="definition" type="xsd:string">
+                        <xsd:element name="definition" type="xsd:string" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>The definition of the code used.</xsd:documentation>
+                                <xsd:documentation>Longer description of the definition of the category.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
         </xsd:choice>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -579,18 +527,25 @@ Upper limit of the cover index in percent (only relevant when the value represen
                     <xsd:documentation>Name of the protocol.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="citationID" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation>A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literatures [EML] which is a container for all the literature within the dataset.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="partyWithRole" type="partyWithRoleType">
+            <xsd:element name="partyWithRole" type="partyWithRoleType" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation>The party involved in describing the protocol.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:choice minOccurs="0" maxOccurs="1">
+                <xsd:element name="citationID" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="citationString" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>A citation string to be used when the full schema for literature citations is to be avoided</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -802,77 +757,6 @@ Core:MaximumElevationInMeters</xsd:appinfo>
             <xsd:element name="shoreDistance" type="MeasurementType" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation source="VegBank" xml:lang="en">For aquatic or marine vegetation, what was the closest distance to shore. Usually recorded in meters.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
-    <xsd:complexType name="UserdefinedType">
-        <xsd:annotation>
-            <xsd:documentation xml:lang="en">A structure allowing user defined attributes and values. </xsd:documentation>
-            <xsd:documentation xml:lang="de">
-						 
-					</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>UserdefinedType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>Userdefined - A structure allowing user defined attributes and values.</title>
-							<para>An structure allowing user defined attributes and values</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element name="userDefinedName" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Unique name of the user-defined variable.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Eindeutiger Name der benutzerdefinierten Variable.
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="userDefinedMetadata" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Metadata about this user-defined variable.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Beliebig langer Beschreibungstext der Variablen.
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="userDefinedCategory" type="DEFCATEGORIE" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Category from closed List, also 'Undefiniert' possible.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Kategorie aus einer geschlossenen Liste, auch 'Undefiniert'
-						möglich.
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="userDefinedType" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Datatype in database, important for distinguish categorials or cardinals.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Datentyp in der Datenbank, wichtig für die Unterscheidung ob
-						kardinal oder kategorial.
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="userDefinedTableName" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Name of the XML-entity, on which the value points.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Name der XML-Entität, auf die sich der Wert bezieht. Hier sind nur
-						bestimmte Entitäten erlaubt.
-					</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>

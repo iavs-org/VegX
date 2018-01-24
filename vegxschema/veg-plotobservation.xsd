@@ -50,12 +50,12 @@
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="licenceName">
+                        <xsd:element name="licenceName" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>License name like Public Domain, BY, BY-NC, BY-NC-SA, all rights reserved</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="partyID" minOccurs="0">
+                        <xsd:element name="partyID" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation>Reference to a party holding the license.</xsd:documentation>
                             </xsd:annotation>
@@ -74,17 +74,17 @@
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="qualityAssessment">
+                        <xsd:element name="qualityAssessment" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>Subjective assessment of the taxonomic quality on the plot (e.g., Highest, High, High but incomplete, Moderate, Moderate and incomplete, Low, Very incomplete, absent). 		</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="assessmentType">
+                        <xsd:element name="assessmentType" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>Type that is being assessed, e.g. bryophytes or lichens.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="qualityAssessmentMethodID" minOccurs="0">
+                        <xsd:element name="qualityAssessmentMethodID" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation>A reference to a specific method used to assess taxonomic quality. Defined within the element veg:method which is a container for all methods within the dataset.	</xsd:documentation>
                             </xsd:annotation>
@@ -159,9 +159,9 @@
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional">
+        <xsd:attribute name="id" type="res:IDType" use="required">
             <xsd:annotation>
-                <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
+                <xsd:documentation>Unique identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
@@ -209,7 +209,7 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -219,37 +219,37 @@
             <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
             <xsd:element name="surfaceName" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation source="VegBank" xml:lang="en">Name associated with this stratum </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="surfaceIndex" type="xsd:string" minOccurs="0">
+            <xsd:element name="definition" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Short code used to identify the stratum </xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">A longer description of the surface definition</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this surface cover. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="SurfaceCoverObservationType">
         <xsd:sequence>
-            <xsd:element name="surfaceCoverID" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="plotObservatioID" type="xsd:string" minOccurs="1" maxOccurs="1" />
+            <xsd:element name="surfaceCoverID" type="xsd:string" minOccurs="1" maxOccurs="1" />
             <xsd:element name="surfaceCover" type="misc:MeasurementType" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation source="VegBank" xml:lang="en">Percent of surface covered for different surface categories, e.g. green foliage, litter, water, exposed bedrock, bare soil, gravel etc.			</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
@@ -366,7 +366,7 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="optional" />
+        <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
