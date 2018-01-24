@@ -41,7 +41,7 @@
             </xsd:element>
             <xsd:element name="siteObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific siteObservation. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific siteObservation by ID. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="previousPlotObservationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
@@ -275,29 +275,34 @@
                     <xsd:documentation xml:lang="en">A reference to a specific plotObservation. Note that the relationship is in fact be one-to-one. Only one site observation (with multiple measurements inside) is allowed for each plotObservation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="relatedSiteObservation" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">An site observation may be related to a another.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific soil type.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="humusType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific humus type. 		</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="soilMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="soilMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">Measurements of soil attributes including soil water</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="climateMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Measurements of climate attributes</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="waterMassMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Measurements of attributes of a water mass within the plot (not for soil water, which should be included in soilMeasurement)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A specific soil type, applying to the whole plot.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="humusType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A specific humus type, applying to the whole plot. 		</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="climateType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific climate type.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific climate type, applying to the whole plot.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
@@ -310,19 +315,9 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="climateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Phosphorus in soil.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
             <xsd:element name="hydrologicRegimeType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank, Bfn" xml:lang="en">What is the hydrologic regime, which is a reflection of frequency and duration of flooding? 					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="waterMassMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Measurements of attributes of a water mass within the plot (not for soil water, which should be included in soilMeasurement)</xsd:documentation>
+                    <xsd:documentation source="VegBank, Bfn" xml:lang="en">Reflection of frequency and duration of water level variations, applying to the whole plot 					</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="legalProtection" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
@@ -332,7 +327,7 @@
             </xsd:element>
             <xsd:element name="landuse" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Landuse, for example pasture</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Land use type, for example pasture</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="habitat" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">

@@ -251,8 +251,7 @@ multipleMeasurement | A n-tuple of a related measurements (e.g. paired data such
 individualOrganismHealth | Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems. | No |
 
 ### Element *siteObservation*
-
-Site observations are identified by *plotObservationID*.
+A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. Site observations are identified by *plotObservationID*.
 
 Sub-element               | Description                                        |  R  |
 ------------------------- | -------------------------------------------------- | --- |

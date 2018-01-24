@@ -146,6 +146,7 @@ addSiteObservations<-function(target, x, projectTitle,
   methodIDs = character(0)
   methodCodes = list()
   methodAttIDs = list()
+  measurementMethods = c(soilMeasurementMethods, climateMeasurementMethods, waterMassMeasurementMethods)
   for(m in names(measurementMethods)) {
     method = measurementMethods[[m]]
     nmtid = .newMethodIDByName(target,method@name)

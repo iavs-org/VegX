@@ -61,24 +61,15 @@
 			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="relatedItem">
+            <xsd:element name="relatedItemID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Defining the related item and the nature of the relationship.  </xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific related item. This would be the item identifer elsewhere in the schema in most cases.</xsd:documentation>
                 </xsd:annotation>
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="relatedItemID">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">A reference to a specific related item. This would be the item identifer elsewhere in the schema in most cases.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="itemRelationship" type="xsd:string">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">The type of relationship e.g. relationships such as fused stems, epiphytic, forked stems, epicormic stems, mapped individuals. </xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="itemRelationship" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The type of relationship e.g. relationships such as fused stems, epiphytic, forked stems, epicormic stems, mapped individuals. </xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
             <xsd:element name="relativeSpatialCoordinate" type="relativeSpatialCoordinateType" minOccurs="0">
                 <xsd:annotation>
@@ -332,6 +323,19 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
+    </xsd:complexType>
+    <xsd:complexType abstract="false" name="AbioticMeasurementType">
+        <xsd:sequence>
+            <xsd:element name="abioticMeasurement" type="MeasurementType" />
+            <xsd:element name="relatedAbioticMeasurement" type="relatedItemType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An abiotic measurement may be related to a another.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="res:IDType" use="required" />
+        <xsd:attribute name="system" type="res:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="ObservationGroupingType">
         <xsd:annotation>
