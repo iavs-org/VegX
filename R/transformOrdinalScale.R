@@ -123,7 +123,20 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
       }
     }
   }
-  if(verbose && naggtransf > 0) cat(paste0(" ", naggtransf, " aggregate organism transformation(s) were modified.\n"))
+  if(verbose && naggtransf > 0) cat(paste0(" ", naggtransf, " transformation(s) were applied on aggregate organism observations.\n"))
+
+  # Apply mapping on individual organism observations
+  nindtransf = 0
+  if(length(target@individualObservations)>0) {
+    for(i in 1:length(target@individualObservations)) {
+      if(target@individualObservations[[i]]$attributeID %in% names(mapping)) {
+        target@individualObservations[[i]]$diameterValue = mapping[[target@individualObservations[[i]]$attributeID]]
+        target@individualObservations[[i]]$diameterAttributeID = newAttID
+        nindtransf = nindtransf + 1
+      }
+    }
+  }
+  if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
 
   # Return the modified document
   return(target)

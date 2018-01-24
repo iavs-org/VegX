@@ -77,6 +77,7 @@ writeVegXML<-function(x, file) {
       newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
       if("obsEndDate" %in% names(x@plotObservations[[i]])) newXMLNode("obsEndDate", as.character(x@plotObservations[[i]]$obsEndDate), parent=po)
       if("projectID" %in% names(x@plotObservations[[i]])) newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
+      if("siteObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("siteObservationID", x@plotObservations[[i]]$siteObservationID, parent=po)
     }
   }
   #TaxonNameUsageConcept elements

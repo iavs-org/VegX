@@ -39,9 +39,20 @@
                     <xsd:documentation xml:lang="en">A reference to a specific 'project'.  The individual project is defined within the element veg:projects which is a container for all projects within the dataset. Note a plot can only be linked to a project via the plot observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="siteObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific siteObservation. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="previousPlotObservationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Link to previous plot observations.
+					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>The party that undertook the plot observation.</xsd:documentation>
+                    <xsd:documentation>The party that undertook the plot observation and/or other parties with different roles.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="license" minOccurs="0">
@@ -86,12 +97,6 @@
                         </xsd:element>
                     </xsd:sequence>
                 </xsd:complexType>
-            </xsd:element>
-            <xsd:element name="previousPlotObservationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Link to previous plot observations.
-					</xsd:documentation>
-                </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationNarrative" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
@@ -262,85 +267,63 @@
     </xsd:complexType>
     <xsd:complexType name="SiteObservationType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">The abiotic measurements made on a single plot during a single date-time period. </xsd:documentation>
-            <xsd:appinfo />
+            <xsd:documentation xml:lang="en">A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. It relates to plotObservation in a one-to-one relationship. </xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation.  The individual plotObservation is defined within the element veg:plotObservation which is a container for all the plotObservations within the dataset.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation. Note that the relationship is in fact be one-to-one. Only one site observation (with multiple measurements inside) is allowed for each plotObservation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="relatedObservation" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="relatedSiteObservation" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">An abiotic observation may be related to a another.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">An site observation may be related to a another.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="soil" minOccurs="0">
+            <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Specific soil attributes.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific soil type.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="humusType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A specific humus type. 		</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="soilMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Measurements of soil attributes including soil water</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="climateType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A specific climate type.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="name" type="xsd:string">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">A specific soil type.</xsd:documentation>
+                                <xsd:documentation>Name.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="humusType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">A specific humus type. 		</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="soilMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Measurements of soil attributes including soil water</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
+                        <xsd:element name="schema" type="xsd:string" minOccurs="0" />
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="climate" minOccurs="0">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="climateType" minOccurs="0" maxOccurs="unbounded">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">A specific climate type.</xsd:documentation>
-                            </xsd:annotation>
-                            <xsd:complexType>
-                                <xsd:sequence>
-                                    <xsd:element name="name" type="xsd:string">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Name.</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="schema" type="xsd:string" minOccurs="0" />
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                        <xsd:element name="climateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Phosphorus in soil.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
+            <xsd:element name="climateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Phosphorus in soil.</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
-            <xsd:element name="water" minOccurs="0">
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="hydrologicRegimeType" type="misc:ClassType" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation source="VegBank, Bfn" xml:lang="en">What is the hydrologic regime, which is a reflection of frequency and duration of flooding? 					</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="waterMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Phosphorus in soil.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
+            <xsd:element name="hydrologicRegimeType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank, Bfn" xml:lang="en">What is the hydrologic regime, which is a reflection of frequency and duration of flooding? 					</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="waterMassMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Measurements of attributes of a water mass within the plot (not for soil water, which should be included in soilMeasurement)</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
             <xsd:element name="legalProtection" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
@@ -360,6 +343,11 @@
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observation groupings within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the element of concern.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">

@@ -195,6 +195,7 @@ addSiteObservations<-function(target, x, projectTitle,
     # TO BE DONE: CHECK that the site observation is new
     abioObsID = as.character(length(target@siteObservations)+1)
     abioObs = list("plotObservationID" = plotObsID)
+    target@plotObservations[[plotObsID]]$siteObservationID = abioObsID # Set a one-to-one link
     for(m in names(measurementMethods)) {
       value = siteValues[[m]][i]
       method = measurementMethods[[m]]

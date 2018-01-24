@@ -43,7 +43,7 @@ The **VegX R package** currently uses a simplified version of the Veg-X exchange
 
 Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. 
 
-![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element.](LogicalStructure_1.6.0.png) 
+![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element. Observations are in tinted boxes. ](LogicalStructure_1.6.0.png) 
 
 
 The following table provides the description of the main elements of the standard (column 'R' indicates whether the sub-elements are currently implemented in the **VegX R package**):
@@ -59,7 +59,7 @@ individualOrganism             | An identified organism recorded during one or m
 aggregatedOrganismObservation  | An observation applying to all occurrences of an organism based on an aggregation factor. |
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
-siteObservation             | A container for all the site observations made on a single Plot during a single date-time period. | Yes |
+siteObservation             | A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. | Yes |
 surfaceCover | TO BE DONE | No |
 surfaceCoverObservation | TO BE DONE | No |
 vegetationObservation | TO BE DONE | No |
@@ -127,10 +127,11 @@ obsStartDate             | The start date of this specific observation of the pl
 obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 0..1 | Yes |
 plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
 projectID | A reference to a specific 'project'.  | 0..n | Yes |
-partyWithRole | The party that undertook the plot observation. | 0..n | No |
+siteObservationID | A reference to a specific siteObservation by ID. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |
+previousObservationID | Link to previous plot observations.	| 0..n | No |
+partyWithRole | The party that undertook the plot observation and/or other parties with different roles. | 0..n | No |
 license | License linked to this plot observation. | 0..1 | No |
 taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | 0..n | No |
-previousObservationID | Link to previous plot observations.	| 0..n | No |
 observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| 0..1 | No |
 observationConditions | Conditions at the time of observation. | 0..1 | No |
 referencePublication | Reference to an original publication and additionally a table or section within a publication. | 0..n | No |
