@@ -4,8 +4,11 @@
 \alias{addSiteObservations}
 \title{Add site observation records}
 \usage{
-addSiteObservations(target, x, projectTitle, mapping,
-  measurementMethods = list(), missing.values = c(NA, ""), verbose = TRUE)
+addSiteObservations(target, x, projectTitle, plotObservationMapping,
+  soilMeasurementMapping = NULL, climateMeasurementMapping = NULL,
+  waterMassMeasurementMapping = NULL, soilMeasurementMethods = list(),
+  climateMeasurementMethods = list(), waterMassMeasurementMethods = list(),
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -14,13 +17,24 @@ addSiteObservations(target, x, projectTitle, mapping,
 
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Site variables that can be mapped are: 'phosphorus', 'pottasium', 'magnesium', 'nitrogen' and 'pH'.
-Additional optional mappings are: 'subPlotName' and 'obsEndDate'.}
+\item{plotObservationMapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+Additional optional mappings are: 'subPlotName'.}
 
-\item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
-for each of the site variables stated in \code{mapping}. List names should be the same as site variables
+\item{soilMeasurementMapping}{A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
+
+\item{climateMeasurementMapping}{A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
+
+\item{waterMassMeasurementMapping}{A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
+
+\item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).}
+
+\item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.}
+
+\item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -41,16 +55,18 @@ data(mokihinui)
 target = newVegX()
 
 # Define mapping
-abiomapping = list(plotName = "Plot", subPlotName = "Subplot",
-                   obsStartDate = "obsDate", obsEndDate = "obsEndDate",
-                   pH = "pH")
+mapping = list(plotName = "Plot", subPlotName = "Subplot",
+                   obsStartDate = "obsDate")
+soilmapping = list(pH = "pH")
+
 # Define pH method
 pHMeth = predefinedMeasurementMethod("pH")
 
 # Mapping process
 z = addSiteObservations(target, site, "Mokihinui",
-                           mapping = abiomapping,
-                           measurementMethods = list(pH = pHMeth))
+                           plotObservationMapping = mapping,
+                           soilMeasurementMapping = soilmapping,
+                           soilMeasurementMethods = list(pH = pHMeth))
 
 summary(z)
 

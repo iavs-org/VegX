@@ -7,12 +7,18 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Site variables that can be mapped are: 'phosphorus', 'pottasium', 'magnesium', 'nitrogen' and 'pH'.
-#' Additional optional mappings are: 'subPlotName' and 'obsEndDate'.
-#' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
-#' for each of the site variables stated in \code{mapping}. List names should be the same as site variables
+#' @param plotObservationMapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' Additional optional mappings are: 'subPlotName'.
+#' @param soilMeasurementMapping A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param climateMeasurementMapping A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param waterMassMeasurementMapping A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 #' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).
+#' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.
+#' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -30,22 +36,29 @@
 #' target = newVegX()
 #'
 #' # Define mapping
-#' abiomapping = list(plotName = "Plot", subPlotName = "Subplot",
-#'                    obsStartDate = "obsDate", obsEndDate = "obsEndDate",
-#'                    pH = "pH")
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot",
+#'                    obsStartDate = "obsDate")
+#' soilmapping = list(pH = "pH")
+#'
 #' # Define pH method
 #' pHMeth = predefinedMeasurementMethod("pH")
 #'
 #' # Mapping process
 #' z = addSiteObservations(target, site, "Mokihinui",
-#'                            mapping = abiomapping,
-#'                            measurementMethods = list(pH = pHMeth))
+#'                            plotObservationMapping = mapping,
+#'                            soilMeasurementMapping = soilmapping,
+#'                            soilMeasurementMethods = list(pH = pHMeth))
 #'
 #' summary(z)
 #'
 addSiteObservations<-function(target, x, projectTitle,
-                              mapping,
-                              measurementMethods = list(),
+                              plotObservationMapping,
+                              soilMeasurementMapping = NULL,
+                              climateMeasurementMapping = NULL,
+                              waterMassMeasurementMapping = NULL,
+                              soilMeasurementMethods = list(),
+                              climateMeasurementMethods = list(),
+                              waterMassMeasurementMethods = list(),
                               missing.values = c(NA,""),
                               verbose = TRUE) {
   x = as.data.frame(x)
@@ -53,40 +66,68 @@ addSiteObservations<-function(target, x, projectTitle,
   nmissing = 0
 
 
+  # Get recognized site subjects
+  soilVariables = c('pH')
+  climateVariables = c()
+  waterMassVariables = c()
+
   #check mappings
-  soilVariables = c('phosphorus', 'potassium', 'magnesium', 'nitrogen','pH')
-  siteVariables = c(soilVariables)
-  mappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", siteVariables)
+  siteVariables = c(soilVariables, climateVariables, waterMassVariables)
+  plotObservationMappingsAvailable = c("plotName", "obsStartDate","subPlotName")
   siteValues = list()
-  for(i in 1:length(mapping)) {
-    if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
-    if(names(mapping)[i] %in% siteVariables) {
-      if(!(names(mapping)[i] %in% names(measurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(mapping)[i], "'."))
-      siteValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
-    }
+  for(i in 1:length(plotObservationMapping)) {
+    if(!(names(plotObservationMapping)[i] %in% plotObservationMappingsAvailable)) stop(paste0("Mapping for '", names(plotObservationMapping)[i], "' cannot be defined."))
+  }
+  for(i in 1:length(soilMeasurementMapping)) {
+    if(!(names(soilMeasurementMapping)[i] %in% soilVariables)) stop(paste0("Mapping for '", names(soilMeasurementMapping)[i], "' cannot be defined."))
+    if(!(names(soilMeasurementMapping)[i] %in% names(soilMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(soilMeasurementMapping)[i], "'."))
+    siteValues[[names(soilMeasurementMapping)[i]]] = as.character(x[[soilMeasurementMapping[[i]]]])
+  }
+  for(i in 1:length(climateMeasurementMapping)) {
+    if(!(names(climateMeasurementMapping)[i] %in% climateVariables)) stop(paste0("Mapping for '", names(climateMeasurementMapping)[i], "' cannot be defined."))
+    if(!(names(climateMeasurementMapping)[i] %in% names(climateMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(climateMeasurementMapping)[i], "'."))
+    siteValues[[names(climateMeasurementMapping)[i]]] = as.character(x[[climateMeasurementMapping[[i]]]])
+  }
+  for(i in 1:length(waterMassMeasurementMapping)) {
+    if(!(names(waterMassMeasurementMapping)[i] %in% waterMassVariables)) stop(paste0("Mapping for '", names(waterMassMeasurementMapping)[i], "' cannot be defined."))
+    if(!(names(waterMassMeasurementMapping)[i] %in% names(waterMassMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(waterMassMeasurementMapping)[i], "'."))
+    siteValues[[names(waterMassMeasurementMapping)[i]]] = as.character(x[[waterMassMeasurementMapping[[i]]]])
   }
 
   #Check columns exist
-  for(i in 1:length(mapping)) {
-    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+  for(i in 1:length(plotObservationMapping)) {
+    if(!(plotObservationMapping[i] %in% names(x))) stop(paste0("Variable '", plotObservationMapping[i],"' not found in column names. Revise mapping or data."))
   }
-  plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
+  for(i in 1:length(soilMeasurementMapping)) {
+    if(!(soilMeasurementMapping[i] %in% names(x))) stop(paste0("Variable '", soilMeasurementMapping[i],"' not found in column names. Revise mapping or data."))
+  }
+  for(i in 1:length(climateMeasurementMapping)) {
+    if(!(climateMeasurementMapping[i] %in% names(x))) stop(paste0("Variable '", climateMeasurementMapping[i],"' not found in column names. Revise mapping or data."))
+  }
+  for(i in 1:length(waterMassMeasurementMapping)) {
+    if(!(soilMeasurementMapping[i] %in% names(x))) stop(paste0("Variable '", soilMeasurementMapping[i],"' not found in column names. Revise mapping or data."))
+  }
+  plotNames = as.character(x[[plotObservationMapping[["plotName"]]]])
+  obsStartDates = as.Date(as.character(x[[plotObservationMapping[["obsStartDate"]]]]))
 
   #Optional mappings
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
-  }
-  subPlotFlag = ("subPlotName" %in% names(mapping))
+  subPlotFlag = ("subPlotName" %in% names(plotObservationMapping))
   if(subPlotFlag) {
-    subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
+    subPlotNames = as.character(x[[plotObservationMapping[["subPlotName"]]]])
   }
 
   #check methods for site variables
-  for(i in 1:length(measurementMethods)) {
-    if(!(names(measurementMethods)[i] %in% siteVariables)) stop(paste0("Method for '", names(measurementMethods)[i], "' cannot be applied."))
-    if(!(names(measurementMethods)[i] %in% names(mapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(measurementMethods)[i], "'."))
+  for(i in 1:length(soilMeasurementMethods)) {
+    if(!(names(soilMeasurementMethods)[i] %in% soilVariables)) stop(paste0("Method for '", names(soilMeasurementMethods)[i], "' cannot be applied."))
+    if(!(names(soilMeasurementMethods)[i] %in% names(soilMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(soilMeasurementMethods)[i], "'."))
+  }
+  for(i in 1:length(climateMeasurementMethods)) {
+    if(!(names(climateMeasurementMethods)[i] %in% climateVariables)) stop(paste0("Method for '", names(climateMeasurementMethods)[i], "' cannot be applied."))
+    if(!(names(climateMeasurementMethods)[i] %in% names(climateMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(climateMeasurementMethods)[i], "'."))
+  }
+  for(i in 1:length(waterMassMeasurementMethods)) {
+    if(!(names(waterMassMeasurementMethods)[i] %in% waterMassVariables)) stop(paste0("Method for '", names(waterMassMeasurementMethods)[i], "' cannot be applied."))
+    if(!(names(waterMassMeasurementMethods)[i] %in% names(waterMassMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(waterMassMeasurementMethods)[i], "'."))
   }
 
 
@@ -202,8 +243,10 @@ addSiteObservations<-function(target, x, projectTitle,
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       if(!(value %in% as.character(missing.values))) {
-        if(m %in% soilVariables) {
-          if(!("soil" %in% names(abioObs))) abioObs$soil = list()
+        if(m %in% waterMassVariables) {
+          if(!("soilMeasurements" %in% names(abioObs))) abioObs$soilMeasurements = list()
+          mesID = as.character(length(abioObs$soilMeasurements)+1)
+          abioObs$soilMeasurements[[mesID]] = list()
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
             if(value > method@attributes[[1]]$upperBound) {
@@ -212,12 +255,12 @@ addSiteObservations<-function(target, x, projectTitle,
             else if(value < method@attributes[[1]]$lowerBound) {
               stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
             }
-            abioObs$soil[[m]] = list("attributeID" = attIDs[[1]],
-                                "value" = value)
+            abioObs$soilMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
+                                                          "value" = value)
           } else {
             ind = which(codes==as.character(value))
             if(length(ind)==1) {
-              abioObs$soil[[m]] = list("attributeID" = attIDs[[ind]],
+              abioObs$soilMeasurements[[mesID]] = list("attributeID" = attIDs[[ind]],
                                   "value" = value)
             }
             else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))

@@ -169,12 +169,29 @@ writeVegXML<-function(x, file) {
       abio = newXMLNode("siteObservation",
                         attrs = c(id = names(x@siteObservations)[i]),
                         parent = siteObservations)
-      if("soil" %in% names(x@siteObservations[[i]])) {
-        soil = newXMLNode("soil", parent=abio)
-        if("pH" %in% names(x@siteObservations[[i]]$soil)) { #Add pH information
-          pH = newXMLNode("pH", parent=soil)
-          newXMLNode("value", x@siteObservations[[i]]$soil$pH$value, parent=pH)
-          newXMLNode("attributeID", x@siteObservations[[i]]$soil$pH$attributeID, parent=pH)
+      if("plotObservationID" %in% names(x@siteObservations[[i]])) newXMLNode("plotObservationID", x@siteObservations[[i]]$plotObservationID, parent=abio)
+      if("soilMeasurements" %in% names(x@siteObservations[[i]])) {
+        soilMeasurements = x@siteObservations[[i]]$soilMeasurements
+        for(j in 1:length(soilMeasurements)) {
+          sm = newXMLNode("soilMeasurement", parent=abio)
+          newXMLNode("value", soilMeasurements[[j]]$value, parent=sm)
+          newXMLNode("attributeID", soilMeasurements[[j]]$attributeID, parent=sm)
+        }
+      }
+      if("climateMeasurements" %in% names(x@siteObservations[[i]])) {
+        climateMeasurements = x@siteObservations[[i]]$climateMeasurements
+        for(j in 1:length(climateMeasurements)) {
+          cm = newXMLNode("climateMeasurement", parent=abio)
+          newXMLNode("value", climateMeasurements[[j]]$value, parent=cm)
+          newXMLNode("attributeID", climateMeasurements[[j]]$attributeID, parent=cm)
+        }
+      }
+      if("waterMassMeasurements" %in% names(x@siteObservations[[i]])) {
+        waterMassMeasurements = x@siteObservations[[i]]$waterMassMeasurements
+        for(j in 1:length(waterMassMeasurements)) {
+          cm = newXMLNode("waterMassMeasurement", parent=abio)
+          newXMLNode("value", waterMassMeasurements[[j]]$value, parent=cm)
+          newXMLNode("attributeID", waterMassMeasurements[[j]]$attributeID, parent=cm)
         }
       }
     }
