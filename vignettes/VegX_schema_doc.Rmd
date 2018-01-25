@@ -187,16 +187,16 @@ upperLimit | Potential upper limit of the measurement | 0..1 | Yes |
 
 ### Element *stratum*
 
-Strata are identified by *stratumName*.
+The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method. Strata that are defined from limits in a quantitative measurement, like height, the user of the Veg-X standard can use the method pointed by *methodID* to describe the quantitative attribute associated to the stratum definition (e.g. height in m). From the perspective of the **VegX package** user, strata are uniquely identified by *stratumName*.
 
-Sub-element (quantitative) | Description                                        |  R  |
--------------------------- | -------------------------------------------------- | --- |
-stratumName               | Name associated with this stratum  | Yes |
-methodID               | A reference to a specific method used to define this stratum. | Yes |
-stratumIndex               | Short code used to identify the stratum. | No |
-stratumSequence               | An indication of a position in an ordered sequence of strata.  | Yes |
-lowerLimit | TO BE DONE | Yes |
-upperLimit | TO BE DONE | Yes |
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+stratumName                | Name associated with this stratum and which identifies it. | 1 | Yes |
+methodID                   | A reference to a specific method used to define this stratum. | 0..1 | Yes |
+definition                 | A longer description of the stratum definition. | 0..1 | No |
+order                      | An indication of a position in an ordered sequence of strata.  | 0..1 | Yes |
+lowerLimit | Lower limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
+upperLimit | Upper limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
 
 ### Element *stratumObservation*
 

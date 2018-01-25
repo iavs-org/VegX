@@ -10,8 +10,6 @@
     <xsd:complexType name="PlotObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped.</xsd:documentation>
-            <xsd:appinfo>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotID" type="xsd:string">
@@ -182,8 +180,6 @@
     <xsd:complexType name="VegetationObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">The abiotic measurements made on a single plot during a single date-time period. </xsd:documentation>
-            <xsd:documentation xml:lang="de" />
-            <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
@@ -228,7 +224,6 @@
     <xsd:complexType name="SurfaceCoverType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
-            <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="surfaceName" type="xsd:string">

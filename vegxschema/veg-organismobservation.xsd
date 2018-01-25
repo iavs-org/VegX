@@ -11,9 +11,6 @@
     <xsd:complexType name="CommunityDeterminationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An identification applying one or more community concepts to a PlotObservation. </xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-				</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
@@ -285,9 +282,6 @@ The end date of this specific community determination. Recorded in ISO 8601 date
     <xsd:complexType name="StratumType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="stratumName" type="xsd:string">

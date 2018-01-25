@@ -22,8 +22,8 @@ defineHeightStrata<-function(name = "Strata by height",
   attributes = list(
     list(type="quantitative",
          unit = heightUnit,
-         lowerBound = 0,
-         upperBound = Inf)
+         lowerLimit = 0,
+         upperLimit = Inf)
   )
   names(attributes) = 1
   defMethod = new("VegXMethod",
@@ -38,8 +38,8 @@ defineHeightStrata<-function(name = "Strata by height",
   for(i in 1:(length(heightBreaks)-1)) {
      strata[[as.character(i)]] = list(stratumName = stratumNames[i],
                         stratumSequence = i,
-                        lowerBound = heightBreaks[i],
-                        upperBound = heightBreaks[i+1])
+                        lowerLimit = heightBreaks[i],
+                        upperLimit = heightBreaks[i+1])
   }
   return(new("VegXStrata",
              method = defMethod,
@@ -114,8 +114,8 @@ defineMixedStrata<-function(name = "Strata by height or category",
   attributes = list(
     list(type="quantitative",
          unit = heightStrataUnit,
-         lowerBound = 0,
-         upperBound = Inf)
+         lowerLimit = 0,
+         upperLimit = Inf)
   )
   names(attributes) = 1
   defMethod = new("VegXMethod",
@@ -134,8 +134,8 @@ defineMixedStrata<-function(name = "Strata by height or category",
   for(i in 1:nhstr) {
     strata[[as.character(i)]] = list(stratumName = heightStrataNames[i],
                                      stratumSequence = order[i],
-                                     lowerBound = heightStrataBreaks[i],
-                                     upperBound = heightStrataBreaks[i+1])
+                                     lowerLimit = heightStrataBreaks[i],
+                                     upperLimit = heightStrataBreaks[i+1])
   }
   for(i in 1:ncstr) {
     strata[[as.character(nhstr+i)]] = list(stratumName = categoryStrataNames[i],
