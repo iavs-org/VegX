@@ -209,8 +209,7 @@
                         <xsd:sequence>
                             <xsd:element name="stratumObservation" type="org:StratumObservationType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum.</xsd:documentation>
-                                    <xsd:appinfo>Typically, it contains the lower and upper vertical bounds of the stratum and an assessment of cover. A StratumObservation always contains a reference to a PlotObservation, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a Stratum, which contains its definition.</xsd:appinfo>
+                                    <xsd:documentation xml:lang="en">A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. Typically, it contains the lower and upper vertical bounds of the stratum and an assessment of cover. A StratumObservation always contains a reference to a PlotObservation, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a Stratum, which contains its definition.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

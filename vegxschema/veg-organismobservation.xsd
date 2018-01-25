@@ -266,12 +266,12 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation>Optional height at which the aggregated observation was made, e.g. in meters.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGroupings which is a container for all observationGroupings within the dataset</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
@@ -291,7 +291,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
             </xsd:element>
             <xsd:element name="methodID" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="definition" type="xsd:string" minOccurs="0">
@@ -337,23 +337,27 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation>A reference to a specific plotObservation. The individual plotObservation is defined within the element veg:plotObservations which is a container for all plotObservations within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="height" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+            <xsd:element name="lowerLimitMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Average height to the top of the stratum. Usually recorded in meters. </xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">A measurement of the lower limit (i.e. height) of the stratum.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="base" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+            <xsd:element name="upperLimitMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Average height of the bottom of the stratum. Usually recorded in meters.</xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">A measurement of the upper limit (i.e. height) of the stratum.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="stratumValue" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="stratumMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">The value (e.g. cover, count) given to the observation in that strata</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A measurement (e.g. plant cover, or individual count) made in the stratum.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific observationGrouping.  </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
-            <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>

@@ -200,15 +200,16 @@ upperLimit | Upper limit of the stratum in some known dimension (e.g. height) de
 
 ### Element *stratumObservation*
 
-Stratum observations are identified by *stratumID* and *plotObservationID*.
+A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the perspective of the **VegX package** user, stratum observations are identified by *stratumID* (i.e., stratum name) and *plotObservationID* (i.e. plot name and observation start date).
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-stratumID                | A reference to a specific stratum. | Yes |
-plotObservationID        | A reference to a specific plotObservation. | Yes |
-height                   | Average height to the top of the stratum.  | No |
-base                     | Average height of the bottom of the stratum. | No |
-stratumValue             | The value (e.g. cover, count) given to the observation in that strata | No |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+stratumID                | A reference to a specific stratum by ID. | 1 | Yes |
+plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
+lowerLimitMeasurement    | A measurement of the lower limit (i.e. height) of the stratum.  | 0..1 | No |
+upperLimitMeasurement    | A measurement of the upper limit (i.e. height) of the stratum.  | 0..1 | No |
+stratumMeasurement       | A measurement (e.g. plant cover, or individual count) made in the stratum. | 0..n | No |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 ### Element *aggregateOrganismObservation*
 
