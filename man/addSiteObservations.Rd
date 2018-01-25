@@ -5,8 +5,8 @@
 \title{Add site observation records}
 \usage{
 addSiteObservations(target, x, projectTitle, plotObservationMapping,
-  soilMeasurementMapping = NULL, climateMeasurementMapping = NULL,
-  waterMassMeasurementMapping = NULL, soilMeasurementMethods = list(),
+  soilMeasurementMapping = list(), climateMeasurementMapping = list(),
+  waterMassMeasurementMapping = list(), soilMeasurementMethods = list(),
   climateMeasurementMethods = list(), waterMassMeasurementMethods = list(),
   missing.values = c(NA, ""), verbose = TRUE)
 }
@@ -18,7 +18,7 @@ addSiteObservations(target, x, projectTitle, plotObservationMapping,
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{plotObservationMapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName'.}
+Additional optional mappings are: 'obsEndDate', 'subPlotName'.}
 
 \item{soilMeasurementMapping}{A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
 
