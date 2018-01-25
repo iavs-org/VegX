@@ -362,20 +362,21 @@ The end date of this specific community determination. Recorded in ISO 8601 date
     <xsd:complexType name="IndividualOrganismType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="plotID" type="xsd:string" />
+            <xsd:element name="plotID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific plot by the plot ID.	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="identificationLabel" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A label that is associated with an individual (e.g. a numerical tree tag)</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
+            <xsd:element name="taxonNameUsageConceptID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. The individual datasetNameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all datasetNameUsageConcepts within the dataset.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="birthDate" type="xsd:date" minOccurs="0">
@@ -390,7 +391,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
             </xsd:element>
             <xsd:element name="relativePlotPosition" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Relative position of organism described in geometric space within the plot the organism is located in. Relative to teh plot point of origin. </xsd:documentation>
+                    <xsd:documentation>Position, relative to the plot origin, of the organism within the plot.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
