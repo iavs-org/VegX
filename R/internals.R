@@ -190,10 +190,55 @@
   return(cnt)
 }
 
+#Translate attributes of measurements in a plot element
+.applyAttributeMappingToPlot<-function(plot, attIDmap) {
+  for(n in names(plot)) {
+    # Update attribute codes
+    if(n %in% c("topography")) {
+      for(m in names(plot[[n]])) {
+        if(m %in% c("slope", "aspect"))
+          plot[[n]][[m]]$attributeID = attIDmap[[plot[[n]][[m]]$attributeID]]
+      }
+    }
+  }
+  return(plot)
+}
+.applyAttributeMappingToAggregatePlotObservations <-function(aggObs, attIDmap) {
+  for(n in names(aggObs)) {
+    # Update attribute codes
+    if(n %in% c("attributeID")) {
+      aggObs[[n]] = attIDmap[[aggObs[[n]]]]
+    }
+  }
+  return(aggObs)
+}
+.applyAttributeMappingToSiteObservations<-function(siteobs, attIDmap) {
+  # Update attribute codes
+  for(n in names(siteobs)) {
+    if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+      for(i in 1:length(siteobs[[n]])) {
+        siteobs[[n]][[i]]$attributeID = attIDmap[[siteobs[[n]][[i]]$attributeID]]
+      }
+    }
+  }
+  return(siteobs)
+}
+.applyAttributeMappingToIndividualOrganismObservations<-function(indObs, attIDmap) {
+  for(n in names(indObs)) {
+    # Update attribute codes
+    if(n %in% c("diameterAttributeID")) {
+      indObs[[n]] = attIDmap[[indObs[[n]]]]
+    }
+  }
+  return(indObs)
+}
+
+
 #Pools the information of two plots
 .mergePlots<-function(plot1, plot2, attIDmap) {
    n1 = names(plot1)
    n2 = names(plot2)
+   plot2 = .applyAttributeMappingToPlot(plot2, attIDmap)
    npool = unique(c(n1,n2))
    res = list()
    for(n in npool) {
@@ -208,7 +253,6 @@
    }
    return(res)
 }
-
 
 #Pools the information of two plot observationss
 .mergePlotObservations<-function(plotObservation1, plotObservation2, attIDmap) {
@@ -309,13 +353,10 @@
 .mergeAggregateOrganismObservations<-function(aggobs1, aggobs2, attIDmap) {
   n1 = names(aggobs1)
   n2 = names(aggobs2)
+  aggobs2 = .applyAttributeMappingToAggregatePlotObservations(aggobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
-    # Update attribute codes
-    if((n %in% n2) && (n %in% c("attributeID"))) {
-      aggobs2[[n]] = attIDmap[[aggobs2[[n]]]]
-    }
     if((n %in% n1) && (n %in% n2)) {
       if(aggobs1[[n]]!=aggobs2[[n]]) stop(paste0("Aggregate organism observations have different data for '", n, "'. Cannot merge."))
       res[[n]] = aggobs1[[n]]
@@ -350,13 +391,10 @@
 .mergeIndividualOrganismObservations<-function(indobs1, indobs2, attIDmap) {
   n1 = names(indobs1)
   n2 = names(indobs2)
+  indobs2 = .applyAttributeMappingToIndividualOrganismObservations(indobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
-    # Update attribute codes
-    if((n %in% n2) && (n %in% c("diameterAttributeID"))) {
-      indobs2[[n]] = attIDmap[[indobs2[[n]]]]
-    }
     if((n %in% n1) && (n %in% n2)) {
       if(indobs1[[n]]!=indobs2[[n]]) stop(paste0("Individual organism observations have different data for '", n, "'. Cannot merge."))
       res[[n]] = indobs1[[n]]
@@ -374,15 +412,10 @@
 .mergeSiteObservations<-function(siteobs1, siteobs2, attIDmap) {
   n1 = names(siteobs1)
   n2 = names(siteobs2)
+  siteobs2 = .applyAttributeMappingToSiteObservations(siteobs2, attIDmap)
   npool = unique(c(n1,n2)) # these are soilMeasurements, climateMeasurements, ...
   res = list()
   for(n in npool) {
-    # Update attribute codes
-    if((n %in% n2) && (n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements"))) {
-      for(i in 1:length(siteobs2[[n]])) {
-        siteobs2[[n]][[i]]$attributeID = attIDmap[[siteobs2[[n]][[i]]$attributeID]]
-      }
-    }
     if((n %in% n1) && (n %in% n2)) {
       res[[n]] = c(siteobs1[[n]], siteobs2[[n]])# add both vector elements to the result
     } else if(n %in% n1) {

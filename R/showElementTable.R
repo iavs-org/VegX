@@ -72,12 +72,14 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
         }
         if("topography" %in% names(x@plots[[i]])) {
           if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information
+            res[i,"slope_method"] = x@methods[[x@attributes[[x@plots[[i]]$topography$slope$attributeID]]$methodID]]$name
             res[i,"slope_value"] = x@plots[[i]]$topography$slope$value
-            res[i,"slope_attributeID"] = x@plots[[i]]$topography$slope$attributeID
+            if(includeIDs) res[i,"slope_attributeID"] = x@plots[[i]]$topography$slope$attributeID
           }
           if("aspect" %in% names(x@plots[[i]]$topography)) { #Add aspect information
+            res[i,"aspect_method"] = x@methods[[x@attributes[[x@plots[[i]]$topography$aspect$attributeID]]$methodID]]$name
             res[i,"aspect_value"] = x@plots[[i]]$topography$aspect$value
-            res[i,"aspect_attributeID"] = x@plots[[i]]$topography$aspect$attributeID
+            if(includeIDs) res[i,"aspect_attributeID"] = x@plots[[i]]$topography$aspect$attributeID
           }
         }
       }

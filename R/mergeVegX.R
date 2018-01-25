@@ -159,7 +159,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       if("parentPlotID" %in% names(y@plots[[j]])) y@plots[[j]]$parentPlotID = plotIDmap[[y@plots[[j]]$parentPlotID]] #set parent plot ID to translated one in order to avoid matching problems
       npid = .newPlotIDByName(x, y@plots[[j]]$plotName)
       if(npid$new) {
-        x@plots[[npid$id]] = y@plots[[j]]
+        x@plots[[npid$id]] = .applyAttributeMappingToPlot(y@plots[[j]], attIDmap)
       } else { #pool information
         x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]], attIDmap)
         nmergedplots = nmergedplots + 1
@@ -233,14 +233,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       }
       naggobsid = .newAggregateOrganismObservationIDByTaxonID(x, plotObsID, strObsID, tnucID)
       if(naggobsid$new) {
-        aggObs = y@aggregateObservations[[j]]
-        for(n in names(aggObs)) {
-          # Update attribute codes
-          if(n %in% c("attributeID")) {
-            aggObs[[n]] = attIDmap[[aggObs[[n]]]]
-          }
-        }
-        x@aggregateObservations[[naggobsid$id]] = aggObs
+        x@aggregateObservations[[naggobsid$id]] = .applyAttributeMappingToAggregatePlotObservations( y@aggregateObservations[[j]], attIDmap)
       } else { #pool information
         x@aggregateObservations[[naggobsid$id]] = .mergeAggregateOrganismObservations(x@aggregateObservations[[naggobsid$id]], y@aggregateObservations[[j]], attIDmap)
         nmergedaggobs = nmergedaggobs + 1
@@ -291,14 +284,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       }
       nindobsid = .newIndividualOrganismObservationIDByIndividualID(x, plotObsID, indID)
       if(nindobsid$new) {
-        indObs = y@individualObservations[[j]]
-        for(n in names(indObs)) {
-          # Update attribute codes
-          if(n %in% c("diameterAttributeID")) {
-            indObs[[n]] = attIDmap[[indObs[[n]]]]
-          }
-        }
-        x@individualObservations[[nindobsid$id]] = indObs
+        x@individualObservations[[nindobsid$id]] = .applyAttributeMappingToIndividualOrganismObservations(y@individualObservations[[j]], attIDmap)
       } else { #pool information
         x@individualObservations[[nindobsid$id]] = .mergeIndividualOrganismObservations(x@individualObservations[[nindobsid$id]], y@individualObservations[[j]], attIDmap)
         nmergedindobs = nmergedindobs + 1
@@ -320,16 +306,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       y@siteObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
       nsiteobsid = .newSiteObservationIDByID(x, plotObsID)
       if(nsiteobsid$new) {
-        siteobs = y@siteObservations[[j]]
-        # Update attribute codes
-        for(n in names(siteobs)) {
-          if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
-            for(i in 1:length(siteobs[[n]])) {
-              siteobs[[n]][[i]]$attributeID = attIDmap[[siteobs[[n]][[i]]$attributeID]]
-            }
-          }
-        }
-        x@siteObservations[[nsiteobsid$id]] = siteobs
+        x@siteObservations[[nsiteobsid$id]] = .applyAttributeMappingToSiteObservations(y@siteObservations[[j]], attIDmap)
       } else { #pool information
         x@siteObservations[[nsiteobsid$id]] = .mergeSiteObservations(x@siteObservations[[nsiteobsid$id]], y@siteObservations[[j]], attIDmap)
         nmergedsiteobs = nmergedsiteobs + 1
