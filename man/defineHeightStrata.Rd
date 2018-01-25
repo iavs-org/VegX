@@ -6,8 +6,8 @@
 \usage{
 defineHeightStrata(name = "Strata by height",
   description = "Vegetation strata defined by height in m", citation = "",
-  heightBreaks = c(0, 1, 3, 5), stratumNames = c("s1", "s2", "s3"),
-  heightUnit = "m")
+  heightBreaks = c(0, 1, 3, 5), heightUnit = "m", strataNames = c("s1",
+  "s2", "s3"), strataDefinitions = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -18,9 +18,11 @@ defineHeightStrata(name = "Strata by height",
 
 \item{heightBreaks}{A numeric vector with height limits between strata (of length equal to the number of strata plus one).}
 
-\item{stratumNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
-
 \item{heightUnit}{A string to identify height units.}
+
+\item{strataNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
+
+\item{strataDefinitions}{}
 }
 \value{
 an object of class \code{\linkS4class{VegXStrata}}

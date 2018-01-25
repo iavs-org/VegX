@@ -6,7 +6,7 @@
 \usage{
 defineCategoricalStrata(name = "Strata by categories",
   description = "Vegetation categorical strata", citation = "",
-  stratumNames = c("s1", "s2", "s3"))
+  strataNames = c("s1", "s2", "s3"), strataDefinitions = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -15,7 +15,7 @@ defineCategoricalStrata(name = "Strata by categories",
 
 \item{citation}{A string with the bibliographic reference for the method.}
 
-\item{stratumNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
+\item{strataNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
 }
 \value{
 an object of class \code{\linkS4class{VegXStrata}}

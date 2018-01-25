@@ -135,7 +135,8 @@ writeVegXML<-function(x, file) {
                        parent = strata)
       newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
       if("methodID" %in% names(x@strata[[i]])) newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
-      if("stratumSequence" %in% names(x@strata[[i]])) newXMLNode("stratumSequence", x@strata[[i]]$stratumSequence, parent=str)
+      if("definition" %in% names(x@strata[[i]])) newXMLNode("definition", x@strata[[i]]$definition, parent=str)
+      if("order" %in% names(x@strata[[i]])) newXMLNode("order", x@strata[[i]]$order, parent=str)
       if("lowerLimit" %in% names(x@strata[[i]])) newXMLNode("lowerLimit", x@strata[[i]]$lowerLimit, parent=str)
       if("upperLimit" %in% names(x@strata[[i]])) newXMLNode("upperLimit", x@strata[[i]]$upperLimit, parent=str)
     }
@@ -234,10 +235,12 @@ writeVegXML<-function(x, file) {
                        parent = attributes)
       atttype = newXMLNode(x@attributes[[i]]$type, parent=att)
       if(x@attributes[[i]]$type=="qualitative") {
+        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
         newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
         if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$order, parent=atttype)
       }
       else if(x@attributes[[i]]$type=="ordinal") {
+        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
         newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
         if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$order, parent=atttype)
         newXMLNode("order", x@attributes[[i]]$order, parent=atttype)
@@ -246,7 +249,9 @@ writeVegXML<-function(x, file) {
         newXMLNode("midPoint", x@attributes[[i]]$midPoint, parent=atttype)
       }
       else if(x@attributes[[i]]$type=="quantitative") {
+        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
         newXMLNode("unit", x@attributes[[i]]$unit, parent=atttype)
+        if("precision" %in% names(x@attributes[[i]])) newXMLNode("precision", x@attributes[[i]]$unit, parent=atttype)
         newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
         newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
       }
@@ -261,9 +266,8 @@ writeVegXML<-function(x, file) {
                        parent = methods)
       newXMLNode("name", x@methods[[i]]$name, parent=met)
       newXMLNode("description", x@methods[[i]]$description, parent=met)
-      if("citation" %in% names(x@methods[[i]])) if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
       newXMLNode("subject", x@methods[[i]]$subject, parent=met)
-      newXMLNode("attributeType", x@methods[[i]]$attributeType, parent=met)
+      if("citation" %in% names(x@methods[[i]])) if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
     }
   }
   #XML document

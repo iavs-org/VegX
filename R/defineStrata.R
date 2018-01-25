@@ -6,8 +6,9 @@
 #' @param description A string describing how strata are defined.
 #' @param citation A string with the bibliographic reference for the method.
 #' @param heightBreaks A numeric vector with height limits between strata (of length equal to the number of strata plus one).
-#' @param stratumNames A numeric vector of stratum codes (of length equal to the number of strata).
 #' @param heightUnit A string to identify height units.
+#' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
+#' @param strataDefinitions
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
 #' @export
@@ -15,10 +16,12 @@
 #' @family define strata functions
 #'
 defineHeightStrata<-function(name = "Strata by height",
-                               description = "Vegetation strata defined by height in m",
-                               citation = "",
-                               heightBreaks = c(0,1,3,5),
-                               stratumNames = c("s1", "s2", "s3"), heightUnit = "m") {
+                             description = "Vegetation strata defined by height in m",
+                             citation = "",
+                             heightBreaks = c(0,1,3,5),
+                             heightUnit = "m",
+                             strataNames = c("s1", "s2", "s3"),
+                             strataDefinitions = NULL) {
   attributes = list(
     list(type="quantitative",
          unit = heightUnit,
@@ -36,10 +39,11 @@ defineHeightStrata<-function(name = "Strata by height",
 
   strata = list()
   for(i in 1:(length(heightBreaks)-1)) {
-     strata[[as.character(i)]] = list(stratumName = stratumNames[i],
-                        stratumSequence = i,
-                        lowerLimit = heightBreaks[i],
-                        upperLimit = heightBreaks[i+1])
+     strata[[as.character(i)]] = list(stratumName = strataNames[i],
+                                      order = i,
+                                      lowerLimit = heightBreaks[i],
+                                      upperLimit = heightBreaks[i+1])
+     if(!is.null(strataDefinitions)) strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
   return(new("VegXStrata",
              method = defMethod,
@@ -51,7 +55,7 @@ defineHeightStrata<-function(name = "Strata by height",
 #' @param name A string to identify the stratum definition.
 #' @param description A string describing how strata are defined.
 #' @param citation A string with the bibliographic reference for the method.
-#' @param stratumNames A numeric vector of stratum codes (of length equal to the number of strata).
+#' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
 #' @family define strata functions
@@ -59,7 +63,8 @@ defineHeightStrata<-function(name = "Strata by height",
 defineCategoricalStrata<-function(name = "Strata by categories",
                                   description = "Vegetation categorical strata",
                                   citation = "",
-                                  stratumNames = c("s1", "s2", "s3")) {
+                                  strataNames = c("s1", "s2", "s3"),
+                                  strataDefinitions = NULL) {
   defMethod = new("VegXMethod",
                   name = name,
                   description = description,
@@ -69,9 +74,10 @@ defineCategoricalStrata<-function(name = "Strata by categories",
                   attributes = list())
 
   strata = list()
-  for(i in 1:length(stratumNames)) {
-    strata[[as.character(i)]] = list(stratumName = stratumNames[i],
+  for(i in 1:length(strataNames)) {
+    strata[[as.character(i)]] = list(stratumName = strataNames[i],
                                      stratumSequence = i)
+    if(!is.null(strataDefinitions)) strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
   return(new("VegXStrata",
              method = defMethod,
@@ -86,9 +92,11 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #' @param description A string describing how strata are defined.
 #' @param citation A string with the bibliographic reference for the method.
 #' @param heightStrataBreaks A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).
-#' @param heightStrataNames A numeric vector of stratum codes (of length equal to the number of height strata).
 #' @param heightStrataUnit A string to identify height units.
+#' @param heightStrataNames A numeric vector of stratum codes (of length equal to the number of height strata).
 #' @param categoryStrataNames A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).
+#' @param heightStrataDefinitions
+#' @param categoryStrataDefinitions
 #' @param order A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).
 #'
 #' @return an object of class \code{\linkS4class{VegXStrata}}
@@ -107,9 +115,11 @@ defineMixedStrata<-function(name = "Strata by height or category",
                             description = "Vegetation strata defined by height in m and other strata defined by category",
                             citation = "",
                             heightStrataBreaks = c(0,1,3,5),
-                            heightStrataNames = c("s1", "s2", "s3"),
                             heightStrataUnit = "m",
+                            heightStrataNames = c("s1", "s2", "s3"),
                             categoryStrataNames = "s4",
+                            heightStrataDefinitions = NULL,
+                            categoryStrataDefinitions = NULL,
                             order = NULL) {
   attributes = list(
     list(type="quantitative",
@@ -133,13 +143,15 @@ defineMixedStrata<-function(name = "Strata by height or category",
   if(is.null(order)) order = 1:nstr
   for(i in 1:nhstr) {
     strata[[as.character(i)]] = list(stratumName = heightStrataNames[i],
-                                     stratumSequence = order[i],
+                                     order = order[i],
                                      lowerLimit = heightStrataBreaks[i],
                                      upperLimit = heightStrataBreaks[i+1])
+    if(!is.null(heightStrataDefinitions)) strata[[as.character(i)]]$definition = heightStrataDefinitions[i]
   }
   for(i in 1:ncstr) {
     strata[[as.character(nhstr+i)]] = list(stratumName = categoryStrataNames[i],
-                                           stratumSequence = order[nhstr+i])
+                                           order = order[nhstr+i])
+    if(!is.null(categoryStrataDefinitions)) strata[[as.character(nhstr+i)]]$definition = categoryStrataDefinitions[i]
   }
   return(new("VegXStrata",
              method = defMethod,

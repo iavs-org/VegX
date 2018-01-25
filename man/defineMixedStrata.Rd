@@ -7,8 +7,9 @@
 defineMixedStrata(name = "Strata by height or category",
   description = "Vegetation strata defined by height in m and other strata defined by category",
   citation = "", heightStrataBreaks = c(0, 1, 3, 5),
-  heightStrataNames = c("s1", "s2", "s3"), heightStrataUnit = "m",
-  categoryStrataNames = "s4", order = NULL)
+  heightStrataUnit = "m", heightStrataNames = c("s1", "s2", "s3"),
+  categoryStrataNames = "s4", heightStrataDefinitions = NULL,
+  categoryStrataDefinitions = NULL, order = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -19,9 +20,9 @@ defineMixedStrata(name = "Strata by height or category",
 
 \item{heightStrataBreaks}{A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).}
 
-\item{heightStrataNames}{A numeric vector of stratum codes (of length equal to the number of height strata).}
-
 \item{heightStrataUnit}{A string to identify height units.}
+
+\item{heightStrataNames}{A numeric vector of stratum codes (of length equal to the number of height strata).}
 
 \item{categoryStrataNames}{A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).}
 

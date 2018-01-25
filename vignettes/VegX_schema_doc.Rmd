@@ -197,7 +197,7 @@ Sub-element (quantitative) | Description                                        
 -------------------------- | -------------------------------------------------- | --- | --- |
 stratumName                | Name associated with this stratum and which identifies it. | 1 | Yes |
 methodID                   | A reference to a specific method used to define this stratum. | 0..1 | Yes |
-definition                 | A longer description of the stratum definition. | 0..1 | No |
+definition                 | A longer description of the stratum definition. | 0..1 | Yes |
 order                      | An indication of a position in an ordered sequence of strata.  | 0..1 | Yes |
 lowerLimit | Lower limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
 upperLimit | Upper limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
