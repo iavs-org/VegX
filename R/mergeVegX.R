@@ -20,7 +20,8 @@
 #'   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
 #'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
 #'   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value
-#'   \item \code{siteObservations} are merged when their element \code{plotObservationID} has the same value
+#'   \item \code{siteObservations} are merged into the same element when their element \code{plotObservationID} has the same value, but particular measurements are always added
+#'   as if they were distinct pieces of information.
 #' }
 #' Merging to these entities may cause interruption of the process if the two entities to be merged
 #' have different value for the same element. Other entities (e.g., \code{attributes} of a method) are always considered as distinct
@@ -67,6 +68,36 @@ mergeVegX<-function(x, y, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
 
+  # methods/attributes
+  methodIDmap = list()
+  attIDmap = list()
+  nmergedmeths = 0
+  if(length(y@methods)>0) {
+    for(j in 1:length(y@methods)) {
+      nmetid = .newMethodIDByName(x, y@methods[[j]]$name)
+      if(nmetid$new) {
+        x@methods[[nmetid$id]] = y@methods[[j]]
+        # add attributes
+        attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
+        for(i in 1:length(attIDs)) {
+          newAttID = as.character(length(x@attributes)+1)
+          x@attributes[[newAttID]] = y@attributes[[attIDs[i]]]
+          x@attributes[[newAttID]]$methodID = nmetid$id
+          attIDmap[[attIDs[i]]] = newAttID
+        }
+      } else { #pool information
+        x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]])
+        #TO DO: We should check the attribute correspondence here
+        nmergedmeths = nmergedmeths + 1
+      }
+      methodIDmap[names(y@methods)[j]] = nmetid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of methods: ", length(x@methods),". Data pooled for ", nmergedmeths, " method(s).\n"))
+    cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
+  }
+
   #projects IMPORTANT: Should be modified if other elements than 'title' are considered
   projectIDmap = list()
   for(j in 1:length(y@projects)) {
@@ -75,45 +106,6 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       x@projects[[npid$id]] = y@projects[[j]]
     }
     projectIDmap[names(y@projects)[j]] = npid$id
-  }
-
-  #plots
-  plotIDmap = list()
-  nmergedplots = 0
-  if(length(y@plots)>0) {
-    for(j in 1:length(y@plots)) {
-      npid = .newPlotIDByName(x, y@plots[[j]]$plotName)
-      if(npid$new) {
-        x@plots[[npid$id]] = y@plots[[j]]
-      } else { #pool information
-        x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]])
-        nmergedplots = nmergedplots + 1
-      }
-      plotIDmap[names(y@plots)[j]] = npid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of plots: ", length(x@plots),". Data pooled for ", nmergedplots, " plot(s).\n"))
-  }
-  #plotObservations
-  plotObsIDmap = list()
-  nmergedplotobs = 0
-  if(length(y@plotObservations)>0) {
-    for(j in 1:length(y@plotObservations)) {
-      plotID = plotIDmap[[y@plotObservations[[j]]$plotID]]
-      y@plotObservations[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
-      npoid = .newPlotObsIDByDate(x, plotID, y@plotObservations[[j]]$obsStartDate)
-      if(npoid$new) {
-        x@plotObservations[[npoid$id]] = y@plotObservations[[j]]
-      } else { #pool information
-        x@plotObservations[[npoid$id]] = .mergePlotObservations(x@plotObservations[[npoid$id]], y@plotObservations[[j]])
-        nmergedplotobs = nmergedplotobs + 1
-      }
-      plotObsIDmap[names(y@plotObservations)[j]] = npoid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of plot observations: ", length(x@plotObservations),". Data pooled for ", nmergedplotobs, " plot observation(s).\n"))
   }
 
   #taxonNameUsageConcepts
@@ -135,33 +127,6 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of taxon name usage concepts: ", length(x@taxonNameUsageConcepts),". Data pooled for ", nmergedtnucs, " taxon name usage concept(s).\n"))
   }
 
-  # methods/attributes
-  methodIDmap = list()
-  nmergedmeths = 0
-  if(length(y@methods)>0) {
-    for(j in 1:length(y@methods)) {
-      nmetid = .newMethodIDByName(x, y@methods[[j]]$name)
-      if(nmetid$new) {
-        x@methods[[nmetid$id]] = y@methods[[j]]
-        # add attributes
-        attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
-        for(i in 1:length(attIDs)) {
-          newAttID = as.character(length(x@attributes)+1)
-          x@attributes[[newAttID]] = y@attributes[[attIDs[i]]]
-          x@attributes[[newAttID]]$methodID = nmetid$id
-        }
-      } else { #pool information
-        x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]])
-        #TO DO: We should check the attribute correspondence here
-        nmergedmeths = nmergedmeths + 1
-      }
-      methodIDmap[names(y@methods)[j]] = nmetid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of methods: ", length(x@methods),". Data pooled for ", nmergedmeths, " method(s).\n"))
-    cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
-  }
 
 
   #strata
@@ -186,6 +151,46 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   }
 
 
+  #plots
+  plotIDmap = list()
+  nmergedplots = 0
+  if(length(y@plots)>0) {
+    for(j in 1:length(y@plots)) {
+      if("parentPlotID" %in% names(y@plots[[j]])) y@plots[[j]]$parentPlotID = plotIDmap[[y@plots[[j]]$parentPlotID]] #set parent plot ID to translated one in order to avoid matching problems
+      npid = .newPlotIDByName(x, y@plots[[j]]$plotName)
+      if(npid$new) {
+        x@plots[[npid$id]] = y@plots[[j]]
+      } else { #pool information
+        x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]], attIDmap)
+        nmergedplots = nmergedplots + 1
+      }
+      plotIDmap[names(y@plots)[j]] = npid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of plots: ", length(x@plots),". Data pooled for ", nmergedplots, " plot(s).\n"))
+  }
+  #plotObservations
+  plotObsIDmap = list()
+  nmergedplotobs = 0
+  if(length(y@plotObservations)>0) {
+    for(j in 1:length(y@plotObservations)) {
+      plotID = plotIDmap[[y@plotObservations[[j]]$plotID]]
+      y@plotObservations[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
+      npoid = .newPlotObsIDByDate(x, plotID, y@plotObservations[[j]]$obsStartDate)
+      if(npoid$new) {
+        x@plotObservations[[npoid$id]] = y@plotObservations[[j]]
+      } else { #pool information
+        x@plotObservations[[npoid$id]] = .mergePlotObservations(x@plotObservations[[npoid$id]], y@plotObservations[[j]], attIDmap)
+        nmergedplotobs = nmergedplotobs + 1
+      }
+      plotObsIDmap[names(y@plotObservations)[j]] = npoid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of plot observations: ", length(x@plotObservations),". Data pooled for ", nmergedplotobs, " plot observation(s).\n"))
+  }
+
 
   # stratumObservations
   strObsIDmap = list()
@@ -200,7 +205,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       if(nstrobsid$new) {
         x@stratumObservations[[nstrobsid$id]] = y@stratumObservations[[j]]
       } else { #pool information
-        x@stratumObservations[[nstrobsid$id]] = .mergeStratumObservations(x@stratumObservations[[nstrobsid$id]], y@stratumObservations[[j]])
+        x@stratumObservations[[nstrobsid$id]] = .mergeStratumObservations(x@stratumObservations[[nstrobsid$id]], y@stratumObservations[[j]], attIDmap)
         nmergedstrobs = nmergedstrobs + 1
       }
       strObsIDmap[names(y@stratumObservations)[j]] = nstrobsid$id
@@ -230,7 +235,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       if(naggobsid$new) {
         x@aggregateObservations[[naggobsid$id]] = y@aggregateObservations[[j]]
       } else { #pool information
-        x@aggregateObservations[[naggobsid$id]] = .mergeAggregateOrganismObservations(x@aggregateObservations[[naggobsid$id]], y@aggregateObservations[[j]])
+        x@aggregateObservations[[naggobsid$id]] = .mergeAggregateOrganismObservations(x@aggregateObservations[[naggobsid$id]], y@aggregateObservations[[j]], attIDmap)
         nmergedaggobs = nmergedaggobs + 1
       }
       aggObsIDmap[names(y@aggregateObservations)[j]] = naggobsid$id
@@ -281,7 +286,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       if(nindobsid$new) {
         x@individualObservations[[nindobsid$id]] = y@individualObservations[[j]]
       } else { #pool information
-        x@individualObservations[[nindobsid$id]] = .mergeIndividualOrganismObservations(x@individualObservations[[nindobsid$id]], y@individualObservations[[j]])
+        x@individualObservations[[nindobsid$id]] = .mergeIndividualOrganismObservations(x@individualObservations[[nindobsid$id]], y@individualObservations[[j]], attIDmap)
         nmergedindobs = nmergedindobs + 1
       }
       indObsIDmap[names(y@individualObservations)[j]] = nindobsid$id
@@ -301,9 +306,18 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       y@siteObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
       nsiteobsid = .newSiteObservationIDByID(x, plotObsID)
       if(nsiteobsid$new) {
-        x@siteObservations[[nsiteobsid$id]] = y@siteObservations[[j]]
+        siteobs = y@siteObservations[[j]]
+        # Update attribute codes
+        for(n in names(siteobs)) {
+          if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+            for(i in 1:length(siteobs[[n]])) {
+              siteobs[[n]][[i]]$attributeID = attIDmap[[siteobs[[n]][[i]]$attributeID]]
+            }
+          }
+        }
+        x@siteObservations[[nsiteobsid$id]] = siteobs
       } else { #pool information
-        x@siteObservations[[nsiteobsid$id]] = .mergeSiteObservations(x@siteObservations[[nsiteobsid$id]], y@siteObservations[[j]])
+        x@siteObservations[[nsiteobsid$id]] = .mergeSiteObservations(x@siteObservations[[nsiteobsid$id]], y@siteObservations[[j]], attIDmap)
         nmergedsiteobs = nmergedsiteobs + 1
       }
       indObsIDmap[names(y@siteObservations)[j]] = nsiteobsid$id

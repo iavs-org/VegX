@@ -191,7 +191,7 @@
 }
 
 #Pools the information of two plots
-.mergePlots<-function(plot1, plot2) {
+.mergePlots<-function(plot1, plot2, attIDmap) {
    n1 = names(plot1)
    n2 = names(plot2)
    npool = unique(c(n1,n2))
@@ -211,7 +211,7 @@
 
 
 #Pools the information of two plot observationss
-.mergePlotObservations<-function(plotObservation1, plotObservation2) {
+.mergePlotObservations<-function(plotObservation1, plotObservation2, attIDmap) {
   n1 = names(plotObservation1)
   n2 = names(plotObservation2)
   npool = unique(c(n1,n2))
@@ -287,7 +287,7 @@
 }
 
 #Pools the information of two stratum observations
-.mergeStratumObservations<-function(strobs1, strobs2) {
+.mergeStratumObservations<-function(strobs1, strobs2, attIDmap) {
   n1 = names(strobs1)
   n2 = names(strobs2)
   npool = unique(c(n1,n2))
@@ -306,7 +306,7 @@
 }
 
 #Pools the information of two aggregate organism observations
-.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2) {
+.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2, attIDmap) {
   n1 = names(aggobs1)
   n2 = names(aggobs2)
   npool = unique(c(n1,n2))
@@ -343,7 +343,7 @@
 }
 
 #Pools the information of two individual organism observations
-.mergeIndividualOrganisms<-function(indobs1, indobs2) {
+.mergeIndividualOrganismObservations<-function(indobs1, indobs2, attIDmap) {
   n1 = names(indobs1)
   n2 = names(indobs2)
   npool = unique(c(n1,n2))
@@ -361,16 +361,22 @@
   return(res)
 }
 
-#Pools the information of two site observations
-.mergeSiteObservations<-function(siteobs1, siteobs2) {
+# Pools the information of two site observations
+# Measurements
+.mergeSiteObservations<-function(siteobs1, siteobs2, attIDmap) {
   n1 = names(siteobs1)
   n2 = names(siteobs2)
-  npool = unique(c(n1,n2))
+  npool = unique(c(n1,n2)) # these are soilMeasurements, climateMeasurements, ...
   res = list()
   for(n in npool) {
+    # Update attribute codes
+    if((n %in% n2) && (n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements"))) {
+      for(i in 1:length(siteobs2[[n]])) {
+        siteobs2[[n]][[i]]$attributeID = attIDmap[[siteobs2[[n]][[i]]$attributeID]]
+      }
+    }
     if((n %in% n1) && (n %in% n2)) {
-      if(siteobs1[[n]]!=siteobs2[[n]]) stop(paste0("Site observations have different data for '", n, "'. Cannot merge."))
-      res[[n]] = siteobs1[[n]]
+      res[[n]] = c(siteobs1[[n]], siteobs2[[n]])# add both vector elements to the result
     } else if(n %in% n1) {
       res[[n]] = siteobs1[[n]]
     } else if(n %in% n2) {
