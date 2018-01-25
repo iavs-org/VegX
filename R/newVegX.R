@@ -1,6 +1,6 @@
 #' New VegX document
 #'
-#' Creates a new (empty) VegX document
+#' Creates a new (empty) VegX document (ver. 2.0.0)
 #'
 #'
 #' @return an empty object of class \code{\linkS4class{VegX}}
@@ -13,6 +13,7 @@
 #'
 newVegX<-function() {
   return(new("VegX",
+             VegXVersion = "2.0.0",
              projects = list(),
              plots=list(),
              plotObservations = list(),

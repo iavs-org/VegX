@@ -21,35 +21,37 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 \section{Slots}{
 
 \describe{
-\item{\code{projects}}{list of research projects underpinning data collection}
+\item{\code{VegXVersion}}{A string to indicate the version of the Veg-X standard.}
 
-\item{\code{plots}}{list of vegetation plots where measurements were made.}
+\item{\code{projects}}{A list of research projects underpinning data collection.}
 
-\item{\code{plotObservations}}{list of vegetation plot observations.}
+\item{\code{plots}}{A list of vegetation plots where measurements were made.}
 
-\item{\code{taxonNameUsageConcepts}}{list of usages of taxon names as made by the observer.}
+\item{\code{plotObservations}}{A list of vegetation plot observations.}
 
-\item{\code{strata}}{list of stratum definitions.}
+\item{\code{taxonNameUsageConcepts}}{A list of usages of taxon names as made by the observer.}
 
-\item{\code{stratumObservations}}{list of observations made on strata (e.g. overall tree cover).}
+\item{\code{strata}}{A list of stratum definitions.}
 
-\item{\code{aggregateObservations}}{list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).}
+\item{\code{stratumObservations}}{A list of observations made on strata (e.g. overall tree cover).}
 
-\item{\code{individualOrganisms}}{list of individual organisms.}
+\item{\code{aggregateObservations}}{A list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).}
 
-\item{\code{individualObservations}}{list of observations made on individual organisms (e.g. diameter or height values).}
+\item{\code{individualOrganisms}}{A list of individual organisms.}
 
-\item{\code{siteObservations}}{list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).}
+\item{\code{individualObservations}}{A list of observations made on individual organisms (e.g. diameter or height values).}
+
+\item{\code{siteObservations}}{A list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).}
 
 \item{\code{vegetationObservations}}{list of observations applying to the whole stand (e.g. stand maturity)}
 
-\item{\code{surfaceCovers}}{list of surface cover definitions.}
+\item{\code{surfaceCovers}}{A list of surface cover definitions.}
 
 \item{\code{surfaceCoverObservations}}{list of surface cover observations.}
 
-\item{\code{methods}}{list of measurement methods (e.g. cover scales).}
+\item{\code{methods}}{A list of measurement methods (e.g. cover scales).}
 
-\item{\code{attributes}}{list of attribute value description.}
+\item{\code{attributes}}{A list of attribute value description.}
 }}
 
 \examples{

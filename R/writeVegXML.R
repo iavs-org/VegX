@@ -18,8 +18,27 @@
 #'
 writeVegXML<-function(x, file) {
   # Top XML node
-  top = newXMLNode("VegX")
-
+  doc = newXMLDoc()
+  top = newXMLNode(name = "VegX",
+                   namespaceDefinitions = c(acc="eml://ecoinformatics.org/access-2.0.1",
+                                  cov="eml://ecoinformatics.org/coverage-2.0.1",
+                                  doc="eml://ecoinformatics.org/documentation-2.0.1",
+                                  party="eml://ecoinformatics.org/party-2.0.1",
+                                  proj="eml://ecoinformatics.org/project-2.0.1",
+                                  prot="eml://ecoinformatics.org/protocol-2.0.1",
+                                  res="eml://ecoinformatics.org/resource-2.0.1",
+                                  lit="eml://ecoinformatics.org/literature-2.0.1",
+                                  txt="eml://ecoinformatics.org/text-2.0.1",
+                                  tcs="http://www.tdwg.org/schemas/tcs/1.01",
+                                  dwe="http://rs.tdwg.org/dwc/dwelement",
+                                  dwg="http://rs.tdwg.org/dwc/geospatial/",
+                                  veg="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-2.0.0",
+                                  obs="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-misc-2.0.0",
+                                  org="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-organismobservation-2.0.0",
+                                  plot="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-plot-2.0.0",
+                                  plotobs="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-plotobservation-2.0.0",
+                                  userdef="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-userdefined-2.0.0",
+                                  xsi="http://www.w3.org/2001/XMLSchema-instance"))
   #Project elements
   if(length(x@projects)>0){
     prjs = newXMLNode("projects", parent = top)

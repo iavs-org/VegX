@@ -39,7 +39,7 @@ In 2017, the IAVS *Ecoinformatics Working Group* decided to develop an R package
 The **VegX R package** currently uses a simplified version of the Veg-X exchange standard, and only a subset of the main elements and sub-elements are included (see next section). This was a practical decision to have a usable tool with a reasonable amount of complexity. Future versions of the package may allow dealing with more elements of the standard.
 
 
-## Overall structure and main elements of Veg-X (1.6.0)
+## Overall structure and main elements of Veg-X (ver. 2.0.0)
 
 Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. 
 
