@@ -1,17 +1,17 @@
 ---
-title: "The Veg-X schema and the VegX R package"
+title: "The Veg-X standard and the VegX R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     css: mystyle.css
 vignette: >
-  %\VignetteIndexEntry{Veg-X schema documentation}
+  %\VignetteIndexEntry{Veg-X standard documentation}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
 
-## About the Veg-X standard
+## The Veg-X standard
 
 The exchange standard for plot-based vegetation data (Veg-X) is a standard intended to be used for sharing and merging vegetation-plot data of different kinds. It was created by the *Ecoinformatics Working Group* of the **International Association for Vegetation Science (IAVS)** (http://iavs.org) with the to produce a standard specifically for vegetation-plot data that is relatively simple to read and use. To achieve this, highly nested structures were avoided and major vegetation data components were included (e.g. plot attributes, plot observations, organisms) as top-level elements that are referenced by  each other through unique identifiers (e.g. a unique numerical ID) that allow the integrity of the original linkage to be captured. Although the main logical structure of vegetation data (i.e. the logical relationships between major data components) is fixed, alternative, user-defined ways of grouping observations are also allowed. As such, the standard can accommodate projects that are linked across time as well as longitudinal measures of plots or individuals to the extent that these are referenced in the original dataset through appropriate unique identifiers in those original sources.
 
@@ -27,7 +27,7 @@ Although the standard supports fully-specified taxonomic concepts, it does not r
 
 Veg-X is written as an XML schema, which is a definition of user-defined tags to structure textual information in order to create self-describing datasets. XML (Extensible Markup Language) is an open standard, and XML files are both machine and human-readable (they are stored in plain-text ASCII format). These characteristics help to ensure that data in this format will be accessible in the future. We made use of existing XML schema definitions, which we incorporated as modules of our schema. Specifically, we used parts of the Ecological Metadata Language to define entities like projects or protocols. Similarly, we used TDWG standards such as the Darwin Core geospatial extension (http://wiki.tdwg.org/twiki/bin/view/DarwinCore/GeospatialExtension) to deal with georeferences, and the Taxon Concept Schema (http://www.tdwg.org/standards/117/) for taxon names and concepts. 
 
-## About the VegX R package
+## The VegX R package
 
 A barrier with a standard like Veg-X is its complexity, which is nevertheless necessary to accommodate the variety of source data schemes. The large data integration projects employ eco-informaticians to achieve this, but the tools developed are specific to these projects and cannot be readily picked up by others. To make the exchange schema of Veg-X usable by the wider community requires the development of informatics tools for mapping data from different input formats (e.g. relevé tables from different databases, forest inventory data or stem-mapped forest plots) into Veg-X, mechanisms to create unique identifiers to allow source datasets to be combined, and tools to export data from Veg-X to a range of formats that can serve as input to software packages for data analysis and visualisation.  
 
@@ -85,7 +85,7 @@ literatureCitation             | Provides overview information about the literat
 
 ## Details of Veg-X elements and instructions of use
 
-In this section we detail the sub-elements of each main element in the **VegX standard**, along with some instructions on how the standard should be used in practice. In the tables describing sub elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional; '0..n' means they are optional and can occur many times; '1..n' means they should occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No') indicates whether the sub-elements are currently implemented in the **VegX R package**. In the following, we also indicate when the package restricts the usage of sub-elements.
+In this section we detail the sub-elements of each main element in the **Veg-X standard**, along with some instructions on how the standard should be used in practice. In the tables describing sub elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional; '0..n' means they are optional and can occur many times; '1..n' means they should occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No') indicates whether the sub-elements are currently implemented in the **VegX R package**. In the following, we also indicate when the package restricts the usage of sub-elements.
 
 ### Element *project*
 
@@ -147,15 +147,16 @@ authorName               | A string representing a taxon name that the author of
 
 ### Element *method*
 
-Methods are identified by their element *name*.
+An element *method* provides the definition of a specific method followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). From the perspective of the **VegX package** user, methods are identified uniquely through their element *name*. An important sub-element of a *method* is its *subject*, which contains the description of an attribute class to which the method applies, and is used for combining values which may be initially obtained using different methods. All attributes pointing to a given *method* are assumed to apply to the same *subject*. 
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-name               | Name associated with the method. For example, "percent cover". | Yes |
-description | A full description of the type of method e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh. | Yes |
-protocolID | A reference to a protocol using its identifier | No |
-citationID | A reference to a specific citation of literature. | No |
-citationString | A string indicating the citation reference | Yes |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+name               | Name associated with the method. For example, "percent cover". | 1 | Yes |
+description | A full description of the type of method e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh. | 1 | Yes |
+subject | The description of an attribute class for comparative purposes. If two methods measure the same attribute (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject. | 1 | Yes |
+protocolID | A reference to a specific protocol by its ID. | 0..1 | No |
+citationID | A reference to a specific citation of literature. | 0..1 | No |
+citationString | A string indicating the citation reference | 0..1 | Yes |
 
 ### Element *attribute*
 
