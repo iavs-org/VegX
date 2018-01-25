@@ -139,11 +139,15 @@ observationGroupingID | A reference to a specific observation grouping by ID.   
 
 ### Element *taxonNameUsageConcept*
 
-Taxon name usage concepts are identified by their element *authorName*.
+A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according, to an additional third party. It may be further related to a published name (taxon name) and or taxonomic name (taxon concept) by using the *assertedNameID* attribute of its sub-element *authorTaxonName* or alternatively relate the name to a published name (taxon name) and or taxonomic name (taxon concept) in *taxonDetermination*. Currently, the **VegX package** does not support taxon determinations, and only the sub-element *authorTaxonName* is available, which identifies uniquely the taxon name usage concept.
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-authorName               | A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot.       | Yes |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+authorTaxonName               | A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot.       | 1 | Yes |
+authorTaxonCode               | Verbatum short code used by the author to signify the species at time of observation. | 0..1 | No |
+voucher                   | Herbarium accession number for any archived voucher specimens. | 0..n | No |
+partyWithRole             | The party that recorded a specific taxon occurrence event, or other parties with different roles.  | 0..n | No |
+accordingTo               | A third party that had previously defined this usage concept.  | 0..1 | No |
 
 ### Element *method*
 

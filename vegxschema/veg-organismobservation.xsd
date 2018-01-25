@@ -100,9 +100,6 @@ The end date of this specific community determination. Recorded in ISO 8601 date
     <xsd:complexType name="TaxonDeterminationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts to an IndividualOrganismObservation or AggregateTaxonObservation by a Party. May be used to add additional taxon determinations or annotations by users of the dataset beyond the original author.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
@@ -181,24 +178,21 @@ The end date of this specific community determination. Recorded in ISO 8601 date
     <xsd:complexType name="TaxonNameUsageType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according, to an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) by using the authorName assertedNameID attribute or alternatively relate the name to a published name (taxon name) and or taxonomic name (taxon concept) in taxonDetermination.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
-            <xsd:appinfo>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="authorName">
+            <xsd:element name="authorTaxonName">
                 <xsd:annotation>
                     <xsd:documentation source="VegBank" xml:lang="en">A string representing a taxon name that the author of the dataset used to refer to a taxon observed within the plot. The dataset author may reference a specific assertion to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept) by using the assertedNameID attribute. The author may alternatively related the name to a published name (taxon name) and or taxonomic name (taxon concept) in taxonDetermination.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:simpleContent>
                         <xsd:extension base="xsd:string">
-                            <xsd:attribute name="assertedNameID">
+                            <xsd:attribute name="assertedNameID" type="xsd:string">
                                 <xsd:annotation>
                                     <xsd:documentation>A reference to a specific taxonomic or nomenclatural assertion id attribute. The individual taxonName or taxonConcept names are defined within the elements veg:taxonNames or veg:taxonConcepts which are containers for all such names within the dataset.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:attribute>
-                            <xsd:attribute name="type">
+                            <xsd:attribute name="type" type="xsd:string">
                                 <xsd:annotation>
                                     <xsd:documentation>The type of assertion the dataset author is pointing to with the assertedNameID attribute (i.e. taxon name or taxon concept). </xsd:documentation>
                                 </xsd:annotation>
@@ -207,20 +201,19 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     </xsd:simpleContent>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="authorTaxonCode" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="NVS" xml:lang="en">Verbatum short code used by the author to signify the species at time of observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="voucher" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">Herbarium accession number for any archived voucher specimens</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>The party that recorded a specific taxon occurrence event.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="authorCode" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation source="NVS" xml:lang="en">Verbatum short code used by the author to signify the species at time of observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="accordingTo" type="tcs:AccordingToType" minOccurs="0">
@@ -228,6 +221,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation>A third party that had previously defined this usage concept. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
         <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
@@ -251,7 +245,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation xml:lang="en">A reference to a specific taxonNameUsageConcept representing a taxon occurrence by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="aggregateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="aggregateOrganismMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>A measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.</xsd:documentation>
                 </xsd:annotation>
@@ -446,12 +440,12 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation xml:lang="en">A reference to a specific individualOrganism.  The particular individualOrganism is defined with the element veg:individualOrganisms which is a container for all individualOrganisms within the dataset</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="stratumObservationID" type="xsd:string" minOccurs="0">
+            <xsd:element name="stratumObservationID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific stratum observation that this individual was measured in on the plot. The individual stratum observations are defined with the element veg:stratumObservation which is a container for all the stratum observations in the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="heightMeasurement" type="misc:MeasurementType" minOccurs="0">
+            <xsd:element name="heightMeasurement" type="misc:MeasurementType">
                 <xsd:annotation>
                     <xsd:documentation>Measurement of the maximum height reached by the observed individual.</xsd:documentation>
                 </xsd:annotation>
@@ -482,12 +476,12 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     </xsd:complexType>
                 </xsd:element>
             </xsd:choice>
-            <xsd:element name="organismMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="individualOrganismMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>A measurement applying to the observed individual. This includes qualitative, ordinal or quantitative assessments of form, health, dimensions of components, ...</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="organismMultipleMeasurement" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="individualOrganismMultipleMeasurement" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  </xsd:documentation>
                 </xsd:annotation>
