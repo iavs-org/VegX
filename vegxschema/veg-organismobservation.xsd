@@ -243,32 +243,32 @@ The end date of this specific community determination. Recorded in ISO 8601 date
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation. The individual plotObservation is defined within the element veg:plotObservations which is a container for all plotObservations within the dataset.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation by ID. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. The individual datasetNameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all datasetNameUsageConcepts within the dataset.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific taxonNameUsageConcept representing a taxon occurrence by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="aggregateValue" type="misc:MeasurementType">
+            <xsd:element name="aggregateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>A simple measurement for a aggregate value. Values can be further defined uppervalue, accuracy etc.</xsd:documentation>
+                    <xsd:documentation>A simple measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="heightMeasurement" type="misc:MeasurementType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements included in this aggregateOrganismObservation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="stratumObservationID" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific stratumObservation.  The individual stratumObservation is defined within the element veg:stratumObservations which is a container for all stratumObservations within the dataset</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="height" type="misc:MeasurementType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Optional height at which the aggregated observation was made, e.g. in meters.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific stratumObservation by ID. It applies to all aggregate measurements included in this aggregateOrganismObservation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  </xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific observationGrouping by ID.  </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
