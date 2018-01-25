@@ -233,7 +233,14 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       }
       naggobsid = .newAggregateOrganismObservationIDByTaxonID(x, plotObsID, strObsID, tnucID)
       if(naggobsid$new) {
-        x@aggregateObservations[[naggobsid$id]] = y@aggregateObservations[[j]]
+        aggObs = y@aggregateObservations[[j]]
+        for(n in names(aggObs)) {
+          # Update attribute codes
+          if(n %in% c("attributeID")) {
+            aggObs[[n]] = attIDmap[[aggObs[[n]]]]
+          }
+        }
+        x@aggregateObservations[[naggobsid$id]] = aggObs
       } else { #pool information
         x@aggregateObservations[[naggobsid$id]] = .mergeAggregateOrganismObservations(x@aggregateObservations[[naggobsid$id]], y@aggregateObservations[[j]], attIDmap)
         nmergedaggobs = nmergedaggobs + 1
@@ -284,7 +291,14 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       }
       nindobsid = .newIndividualOrganismObservationIDByIndividualID(x, plotObsID, indID)
       if(nindobsid$new) {
-        x@individualObservations[[nindobsid$id]] = y@individualObservations[[j]]
+        indObs = y@individualObservations[[j]]
+        for(n in names(indObs)) {
+          # Update attribute codes
+          if(n %in% c("diameterAttributeID")) {
+            indObs[[n]] = attIDmap[[indObs[[n]]]]
+          }
+        }
+        x@individualObservations[[nindobsid$id]] = indObs
       } else { #pool information
         x@individualObservations[[nindobsid$id]] = .mergeIndividualOrganismObservations(x@individualObservations[[nindobsid$id]], y@individualObservations[[j]], attIDmap)
         nmergedindobs = nmergedindobs + 1

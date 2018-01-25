@@ -312,6 +312,10 @@
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
+    # Update attribute codes
+    if((n %in% n2) && (n %in% c("attributeID"))) {
+      aggobs2[[n]] = attIDmap[[aggobs2[[n]]]]
+    }
     if((n %in% n1) && (n %in% n2)) {
       if(aggobs1[[n]]!=aggobs2[[n]]) stop(paste0("Aggregate organism observations have different data for '", n, "'. Cannot merge."))
       res[[n]] = aggobs1[[n]]
@@ -349,6 +353,10 @@
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
+    # Update attribute codes
+    if((n %in% n2) && (n %in% c("diameterAttributeID"))) {
+      indobs2[[n]] = attIDmap[[indobs2[[n]]]]
+    }
     if((n %in% n1) && (n %in% n2)) {
       if(indobs1[[n]]!=indobs2[[n]]) stop(paste0("Individual organism observations have different data for '", n, "'. Cannot merge."))
       res[[n]] = indobs1[[n]]
