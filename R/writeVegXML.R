@@ -87,8 +87,7 @@ writeVegXML<-function(x, file) {
       tnuc = newXMLNode("taxonNameUsageConcept",
                         attrs = c(id=names(x@taxonNameUsageConcepts)[i]),
                         parent = taxonNameUsageConcepts)
-      newXMLNode("authorName", x@taxonNameUsageConcepts[[i]]$authorName,
-                 # attrs = c(type = "usage name"),
+      newXMLNode("authorTaxonName", x@taxonNameUsageConcepts[[i]]$authorTaxonName,
                  parent=tnuc)
     }
   }

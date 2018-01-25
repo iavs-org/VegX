@@ -15,7 +15,7 @@ addTaxonObservations(target, x, projectTitle, mapping, abundanceMethod,
 
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.}
 
 \item{abundanceMethod}{Measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
@@ -40,7 +40,7 @@ data(mokihinui)
 target = newVegX()
 
 # Define mapping
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", value = "Category")
 
 # Define abundance scale

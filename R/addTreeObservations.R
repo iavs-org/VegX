@@ -7,7 +7,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one tree observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.
 #' @param diameterMethod An object of class \code{\linkS4class{VegXMethod}} indicating the definition of diameter measurements.
 #' @param heightMethod An object of class \code{\linkS4class{VegXMethod}} indicating the definition of height measurements.
@@ -61,7 +61,7 @@ addTreeObservations<-function(target, x, projectTitle,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
-  taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
+  authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
   diameters = as.character(x[[mapping[["diameter"]]]])
 
   #Optional mappings
@@ -263,14 +263,14 @@ addTreeObservations<-function(target, x, projectTitle,
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
-    if(!(taxonAuthorNames[i] %in% parsedTNUCs)) {
-      ntnucid = .newTaxonNameUsageConceptIDByName(target, taxonAuthorNames[i]) # Get the new taxon name usage ID (internal code)
+    if(!(authorTaxonNames[i] %in% parsedTNUCs)) {
+      ntnucid = .newTaxonNameUsageConceptIDByName(target, authorTaxonNames[i]) # Get the new taxon name usage ID (internal code)
       tnucID = ntnucid$id
-      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorName" = taxonAuthorNames[i])
-      parsedTNUCs = c(parsedTNUCs, taxonAuthorNames[i])
+      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonNames[i])
+      parsedTNUCs = c(parsedTNUCs, authorTaxonNames[i])
       parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
     } else {
-      tnucID = parsedTNUCIDs[which(parsedTNUCs==taxonAuthorNames[i])]
+      tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonNames[i])]
     }
 
     # strata

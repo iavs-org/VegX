@@ -25,7 +25,7 @@ Coerces part of the information of a Veg-X object into a data frame
 data(mokihinui)
 
 # Create document 'x' with aggregate taxon observations
-taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", value = "Category")
 scale = defineCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",

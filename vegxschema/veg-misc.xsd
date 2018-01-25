@@ -25,7 +25,7 @@
             <xsd:documentation xml:lang="en">A plot or observation may be related spatially to another plot in order to express parent-child, sub-plot or contiguity. The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="relatedPlotID">
+            <xsd:element name="relatedPlotID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific related plot. This would be the parent plot identifer in most cases.</xsd:documentation>
                 </xsd:annotation>

@@ -81,7 +81,7 @@ addTaxonBySiteData <-function(target,
   for(i in 1:ntnuc) {
     ntnucid = .newTaxonNameUsageConceptIDByName(target, tnucNames[i]) # Get the new taxon name usage ID (internal code)
     tnucIDs[i] = ntnucid$id
-    if(ntnucid$new) target@taxonNameUsageConcepts[[tnucIDs[i]]] = list("authorName" = tnucNames[i])
+    if(ntnucid$new) target@taxonNameUsageConcepts[[tnucIDs[i]]] = list("authorTaxonName" = tnucNames[i])
   }
   finntuc = length(target@taxonNameUsageConcepts)
   if(verbose) {

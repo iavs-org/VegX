@@ -15,7 +15,7 @@ addTreeObservations(target, x, projectTitle, mapping, diameterMethod,
 
 \item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.}
 
 \item{diameterMethod}{An object of class \code{\linkS4class{VegXMethod}} indicating the definition of diameter measurements.}

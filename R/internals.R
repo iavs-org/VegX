@@ -83,10 +83,10 @@
   return(list(id = as.character(length(target@methods)+1), new = TRUE))
 }
 # Returns the ID for a new taxon name usage concept in the data set or the ID of an existing taxon name usage concept with the same name
-.newTaxonNameUsageConceptIDByName<-function(target, authorName) {
+.newTaxonNameUsageConceptIDByName<-function(target, authorTaxonName) {
   if(length(target@taxonNameUsageConcepts)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@taxonNameUsageConcepts)) {
-    if(target@taxonNameUsageConcepts[[i]]$authorName==authorName) return(list(id = names(target@taxonNameUsageConcepts)[i], new = FALSE))
+    if(target@taxonNameUsageConcepts[[i]]$authorTaxonName==authorTaxonName) return(list(id = names(target@taxonNameUsageConcepts)[i], new = FALSE))
   }
   return(list(id = as.character(length(target@taxonNameUsageConcepts)+1), new = TRUE))
 }

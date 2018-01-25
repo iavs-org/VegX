@@ -6,7 +6,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'taxonAuthorName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
 #' @param abundanceMethod Measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
@@ -27,7 +27,7 @@
 #' target = newVegX()
 #'
 #' # Define mapping
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
 #'               stratumName = "Tier", value = "Category")
 #'
 #' # Define abundance scale
@@ -70,7 +70,7 @@ addTaxonObservations<-function(target, x, projectTitle,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
-  taxonAuthorNames = as.character(x[[mapping[["taxonAuthorName"]]]])
+  authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
   values = as.character(x[[mapping[["value"]]]])
 
   #Optional mappings
@@ -228,14 +228,14 @@ addTaxonObservations<-function(target, x, projectTitle,
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
-    if(!(taxonAuthorNames[i] %in% parsedTNUCs)) {
-      ntnucid = .newTaxonNameUsageConceptIDByName(target, taxonAuthorNames[i]) # Get the new taxon name usage ID (internal code)
+    if(!(authorTaxonNames[i] %in% parsedTNUCs)) {
+      ntnucid = .newTaxonNameUsageConceptIDByName(target, authorTaxonNames[i]) # Get the new taxon name usage ID (internal code)
       tnucID = ntnucid$id
-      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorName" = taxonAuthorNames[i])
-      parsedTNUCs = c(parsedTNUCs, taxonAuthorNames[i])
+      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonNames[i])
+      parsedTNUCs = c(parsedTNUCs, authorTaxonNames[i])
       parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
     } else {
-      tnucID = parsedTNUCIDs[which(parsedTNUCs==taxonAuthorNames[i])]
+      tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonNames[i])]
     }
 
     # stratum observations

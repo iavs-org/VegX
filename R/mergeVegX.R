@@ -13,7 +13,7 @@
 #'   \item \code{projects} are merged when their element \code{title} has the same value
 #'   \item \code{plots} are merged when their element \code{plotName} has the same value
 #'   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-#'   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorName} has the same value
+#'   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
 #'   \item \code{methods} are merged when their element \code{name} has the same value
 #'   \item \code{strata} are merged when their element \code{name} has the same value
 #'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
@@ -34,7 +34,7 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate taxon observations
-#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
 #'               stratumName = "Tier", value = "Category")
 #' scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
@@ -54,7 +54,7 @@
 #'
 #' # Create document 'y' with tree observations
 #' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
-#'                    taxonAuthorName = "PreferredSpeciesName", diameter = "Diameter")
+#'                    authorTaxonName = "PreferredSpeciesName", diameter = "Diameter")
 #' diamMeth = predefinedMeasurementMethod("DBH")
 #' y = addTreeObservations(newVegX(), dia, "Mokihinui",
 #'                         mapping = treemapping,
@@ -113,7 +113,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   nmergedtnucs = 0
   if(length(y@taxonNameUsageConcepts)>0) {
     for(j in 1:length(y@taxonNameUsageConcepts)) {
-      ntnucid = .newTaxonNameUsageConceptIDByName(x, y@taxonNameUsageConcepts[[j]]$authorName)
+      ntnucid = .newTaxonNameUsageConceptIDByName(x, y@taxonNameUsageConcepts[[j]]$authorTaxonName)
       if(ntnucid$new) {
         x@taxonNameUsageConcepts[[ntnucid$id]] = y@taxonNameUsageConcepts[[j]]
       } else { #pool information

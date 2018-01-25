@@ -23,7 +23,7 @@ Some entities are attempted to be merged or are kept as separate entities depedi
   \item \code{projects} are merged when their element \code{title} has the same value
   \item \code{plots} are merged when their element \code{plotName} has the same value
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-  \item \code{taxonNameUsageConcepts} are merged when their element \code{authorName} has the same value
+  \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
   \item \code{methods} are merged when their element \code{name} has the same value
   \item \code{strata} are merged when their element \code{name} has the same value
   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
@@ -42,7 +42,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 data(mokihinui)
 
 # Create document 'x' with aggregate taxon observations
-taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
+taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", value = "Category")
 scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
@@ -62,7 +62,7 @@ x = addTaxonObservations(newVegX(), tcv, "Mokihinui",
 
 # Create document 'y' with tree observations
 treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
-                   taxonAuthorName = "PreferredSpeciesName", diameter = "Diameter")
+                   authorTaxonName = "PreferredSpeciesName", diameter = "Diameter")
 diamMeth = predefinedMeasurementMethod("DBH")
 y = addTreeObservations(newVegX(), dia, "Mokihinui",
                         mapping = treemapping,
