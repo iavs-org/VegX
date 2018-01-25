@@ -179,10 +179,10 @@ addSiteCharacteristics<-function(target, x, projectTitle,
           if(!("topography" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$topography = list()
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
-            if(value > method@attributes[[1]]$upperBound) {
+            if(value > method@attributes[[1]]$upperLimit) {
               stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
             }
-            else if(value < method@attributes[[1]]$lowerBound) {
+            else if(value < method@attributes[[1]]$lowerLimit) {
               stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
             }
             target@plots[[plotID]]$topography[[m]] = list("attributeID" = attIDs[[1]],

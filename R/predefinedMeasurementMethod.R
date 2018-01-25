@@ -23,8 +23,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "%",
-           upperBound = 100,
-           lowerBound = 0)
+           upperLimit = 100,
+           lowerLimit = 0)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -38,8 +38,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "individuals",
-           lowerBound = 0,
-           upperBound = Inf)
+           lowerLimit = 0,
+           upperLimit = Inf)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -53,8 +53,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "%",
-           lowerBound = 0,
-           upperBound = 100)
+           lowerLimit = 0,
+           upperLimit = 100)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -68,8 +68,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "m",
-           lowerBound = 0,
-           upperBound = Inf)
+           lowerLimit = 0,
+           upperLimit = Inf)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -83,8 +83,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "cm",
-           lowerBound = 0,
-           upperBound = Inf)
+           lowerLimit = 0,
+           upperLimit = Inf)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -98,8 +98,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "pH",
-           lowerBound = 0,
-           upperBound = 14)
+           lowerLimit = 0,
+           upperLimit = 14)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -113,8 +113,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "degrees",
-           lowerBound = 0,
-           upperBound = 360)
+           lowerLimit = 0,
+           upperLimit = 360)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -128,8 +128,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "degrees",
-           lowerBound = 0,
-           upperBound = 360)
+           lowerLimit = 0,
+           upperLimit = 360)
     )
     names(attributes) = 1
     return(new("VegXMethod",
@@ -143,8 +143,8 @@ predefinedMeasurementMethod<-function(name) {
     attributes = list(
       list(type="quantitative",
            unit = "m",
-           lowerBound = 0,
-           upperBound = Inf)
+           lowerLimit = 0,
+           upperLimit = Inf)
     )
     names(attributes) = 1
     return(new("VegXMethod",

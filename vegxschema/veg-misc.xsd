@@ -407,7 +407,7 @@
                     <xsd:sequence>
                         <xsd:element name="methodID" type="xsd:string">
                             <xsd:annotation>
-                                <xsd:documentation>A reference to a specific method. The individual method is defined within the element veg:method which is a container for all methods within the dataset.	</xsd:documentation>
+                                <xsd:documentation>A reference to a specific method that describes the context for the quantitative attribute.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="unit" type="xsd:string">
@@ -415,20 +415,20 @@
                                 <xsd:documentation xml:lang="en">Unit of measurement (e.g. mm, cm, square meters, number of individuals)</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="precision" type="xsd:decimal">
+                        <xsd:element name="precision" type="xsd:decimal" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
                                 <xsd:documentation source="http://mdk12.org/instruction/curriculum/mathematics/glossary.shtml" xml:lang="en">The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01).
 </xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="upperLimit" type="xsd:decimal">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">potential upper limit of the measurement</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="lowerLimit" type="xsd:decimal">
+                        <xsd:element name="lowerLimit" type="xsd:decimal" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">potential lower limit of the measurement</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="upperLimit" type="xsd:decimal" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">potential upper limit of the measurement</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>
@@ -436,48 +436,39 @@
             </xsd:element>
             <xsd:element name="ordinal">
                 <xsd:annotation>
-                    <xsd:documentation source="http://www.cliffsnotes.com/WileyCDA/Section/Statistics-Glossary.id-305499,articleId-30041.html" xml:lang="en">A scale using numbers or symbols to rank order; its intervals are unspecified.</xsd:documentation>
+                    <xsd:documentation source="http://www.cliffsnotes.com/WileyCDA/Section/Statistics-Glossary.id-305499,articleId-30041.html" xml:lang="en">A scale using numbers or symbols to rank order; its intervals may be specified or not.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="code" type="xsd:string">
-                            <xsd:annotation>
-                                <xsd:documentation>The value like "+" or "1" in Braun-Blanquet cover scales</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
                         <xsd:element name="methodID" type="xsd:string">
                             <xsd:annotation>
-                                <xsd:documentation>A reference to a method that describes the context for the ordinal code, e.g., cover class code. The individual method is defined within the element veg:method which is a container for all methods within the dataset. </xsd:documentation>
+                                <xsd:documentation>A reference to a method that describes the context for the ordinal code.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="code" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>Ordinal class code (e.g. a value like "+" or "1" in Braun-Blanquet cover scale)</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="definition" type="xsd:string" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>The definition of an ordinal number or symbol used to signify an ordered list. For example a cover class ordinal code such as 1 = &gt;1-5 %</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="upperLimit" type="xsd:decimal" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">
-Upper limit of the cover index in percent (only relevant when the value represents a cover class index)
-					</xsd:documentation>
-                                <xsd:documentation xml:lang="de">
-						Obergrenze des Deckungsindex in Prozent.
-					</xsd:documentation>
+                                <xsd:documentation>Longer description of the definition of the ordinal class. For example, "&gt;1-5 % percent cover" for code "1" in an ordinal cover scale.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="lowerLimit" type="xsd:decimal" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">
-				Lower limit of the cover index in percent
+                                <xsd:documentation xml:lang="en">Lower limit of the ordinal class in an associated quantitative scale (e.g. 10% cover in a cover class)
 					</xsd:documentation>
-                                <xsd:documentation xml:lang="de">
-						Untergrenze des Deckungsindex in Prozent.
-					</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="upperLimit" type="xsd:decimal" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Upper limit of the ordinal class in an associated quantitative scale (e.g. 25% cover in a cover class)</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="order" type="xsd:decimal" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Explicit order in the sequence of ordinal values to which this code belongs</xsd:documentation>
+                                <xsd:documentation xml:lang="en">Explicit order in the sequence of ordinal values to which this code belongs.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>

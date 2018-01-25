@@ -229,8 +229,8 @@ writeVegXML<-function(x, file) {
       }
       else if(x@attributes[[i]]$type=="quantitative") {
         newXMLNode("unit", x@attributes[[i]]$unit, parent=atttype)
-        newXMLNode("upperBound", x@attributes[[i]]$upperBound, parent=atttype)
-        newXMLNode("lowerBound", x@attributes[[i]]$lowerBound, parent=atttype)
+        newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
+        newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
       }
     }
   }

@@ -281,11 +281,11 @@ addSiteObservations<-function(target, x, projectTitle,
           siteObs$soilMeasurements[[mesID]] = list()
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
-            if(value > method@attributes[[1]]$upperBound) {
-              stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+            if(value > method@attributes[[1]]$upperLimit) {
+              stop(paste0("Value '", value,"' for '", m, "' larger than upper limit of measurement definition. Please revise scale or data."))
             }
-            else if(value < method@attributes[[1]]$lowerBound) {
-              stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Value '", value,"' for '", m, "' smaller than lower limit of measurement definition. Please revise scale or data."))
             }
             siteObs$soilMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
                                                           "value" = value)
@@ -304,11 +304,11 @@ addSiteObservations<-function(target, x, projectTitle,
           siteObs$climateMeasurements[[mesID]] = list()
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
-            if(value > method@attributes[[1]]$upperBound) {
-              stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+            if(value > method@attributes[[1]]$upperLimit) {
+              stop(paste0("Value '", value,"' for '", m, "' larger than upper limit of measurement definition. Please revise scale or data."))
             }
-            else if(value < method@attributes[[1]]$lowerBound) {
-              stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Value '", value,"' for '", m, "' smaller than lower limit of measurement definition. Please revise scale or data."))
             }
             siteObs$climateMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
                                                      "value" = value)
@@ -327,11 +327,11 @@ addSiteObservations<-function(target, x, projectTitle,
           siteObs$waterMassMeasurements[[mesID]] = list()
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
-            if(value > method@attributes[[1]]$upperBound) {
-              stop(paste0("Value '", value,"' for '", m, "' larger than upper bound of measurement definition. Please revise scale or data."))
+            if(value > method@attributes[[1]]$upperLimit) {
+              stop(paste0("Value '", value,"' for '", m, "' larger than upper limit of measurement definition. Please revise scale or data."))
             }
-            else if(value < method@attributes[[1]]$lowerBound) {
-              stop(paste0("Value '", value,"' for '", m, "' smaller than lower bound of measurement definition. Please revise scale or data."))
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Value '", value,"' for '", m, "' smaller than lower limit of measurement definition. Please revise scale or data."))
             }
             siteObs$waterMassMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
                                                         "value" = value)

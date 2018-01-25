@@ -181,8 +181,8 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
           res[i, "methodName"] = x@methods[[x@strata[[i]]$methodID]]$name
         }
         if("stratumSequence" %in% names(x@strata[[i]])) res[i, "stratumSequence"] = x@strata[[i]]$stratumSequence
-        if("lowerBound" %in% names(x@strata[[i]])) res[i, "lowerBound"] = x@strata[[i]]$lowerBound
-        if("upperBound" %in% names(x@strata[[i]])) res[i, "upperBound"] = x@strata[[i]]$upperBound
+        if("lowerLimit" %in% names(x@strata[[i]])) res[i, "lowerLimit"] = x@strata[[i]]$lowerLimit
+        if("upperLimit" %in% names(x@strata[[i]])) res[i, "upperLimit"] = x@strata[[i]]$upperLimit
       }
     }
   }
@@ -357,8 +357,8 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
           resQuantitative[cntQuant, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
           resQuantitative[cntQuant, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
           resQuantitative[cntQuant, "unit"] = x@attributes[[i]]$unit
-          if("lowerBound" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "lowerBound"] = x@attributes[[i]]$lowerBound
-          if("upperBound" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "upperBound"] = x@attributes[[i]]$upperBound
+          if("lowerLimit" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "lowerLimit"] = x@attributes[[i]]$lowerLimit
+          if("upperLimit" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "upperLimit"] = x@attributes[[i]]$upperLimit
           rownames(resQuantitative)[cntQuant] = names(x@attributes)[i]
         }
         else if(x@attributes[[i]]$type=="ordinal") {

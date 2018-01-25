@@ -124,11 +124,11 @@ addTaxonBySiteData <-function(target,
       if(!(as.character(x[i,j]) %in% absence.values)) {
         if(abundanceMethod@attributeType== "quantitative") {
           attID = "1"
-          if(x[i,j]> abundanceMethod@attributes[[1]]$upperBound) {
-            stop(paste0("Value '", x[i,j],"' larger than upper bound of measurement definition. Please revise scale or data."))
+          if(x[i,j]> abundanceMethod@attributes[[1]]$upperLimit) {
+            stop(paste0("Value '", x[i,j],"' larger than upper limit of measurement definition. Please revise scale or data."))
           }
-          else if(x[i,j] < abundanceMethod@attributes[[1]]$lowerBound) {
-            stop(paste0("Value '", x[i,j],"' smaller than lower bound of measurement definition. Please revise scale or data."))
+          else if(x[i,j] < abundanceMethod@attributes[[1]]$lowerLimit) {
+            stop(paste0("Value '", x[i,j],"' smaller than lower limit of measurement definition. Please revise scale or data."))
           }
         } else {
           ind = which(codes==as.character(x[i,j]))

@@ -56,21 +56,21 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   attIDs = .getAttributeIDsByMethodID(target, methodID)
   if(verbose) cat(paste0(" Number of attributes: ", length(attIDs),"\n"))
   mapping = list()
-  lowerBound = 9999999999
-  upperBound = -9999999999
+  lowerLimit = 9999999999
+  upperLimit = -9999999999
 
   for(i in 1:length(attIDs)) {
     att = target@attributes[[attIDs[i]]]
     if(att$type=="ordinal") {
       if("midPoint" %in% names(att)) {
         mapping[[attIDs[i]]] = att$midPoint
-        if("lowerLimit" %in% names(att)) lowerBound = min(as.numeric(att$lowerLimit), lowerBound)
-        if("upperLimit" %in% names(att)) upperBound = max(as.numeric(att$upperLimit), upperBound)
+        if("lowerLimit" %in% names(att)) lowerLimit = min(as.numeric(att$lowerLimit), lowerLimit)
+        if("upperLimit" %in% names(att)) upperLimit = max(as.numeric(att$upperLimit), upperLimit)
       }
     }
   }
   if(verbose) cat(paste0(" Number of attributes with midpoints: ", length(mapping),"\n"))
-  if(verbose) cat(paste0(" Boundaries of the new attribute: [", lowerBound,", ",upperBound ,"]\n"))
+  if(verbose) cat(paste0(" Limits of the new attribute: [", lowerLimit,", ",upperLimit ,"]\n"))
   if(length(mapping)==0) stop("The selected method cannot be transformed.")
 
   # New method and attribute

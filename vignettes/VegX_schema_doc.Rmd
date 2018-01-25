@@ -160,30 +160,30 @@ citationString | A string indicating the citation reference | 0..1 | Yes |
 
 ### Element *attribute*
 
-Each attribute relates to one method and are identified by it. Attributes can be of three scales: *qualitative*, *ordinal* or *quantitative*; and the elements of attributes depend of the scale.
+An *attribute* element contains the definition of a specific measured property. An attribute has to be one of three types: *qualitative* (unordered categorical variable, i.e. nominal), *ordinal* (ordered list of values) or *quantitative* (a numerical variable, either discrete or continuous. The sub-elements of attributes depend on its type.
 
-Sub-element (qualitative) | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-methodID               | A reference to a specific method that describes the context for the qualitative code. | Yes |
-code | TO BE DONE | Yes | 
-definition | The definition of the code. | Yes |
+Sub-element (qualitative) | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+methodID               | A reference to a specific method that describes the context for the qualitative code. | 1 | Yes |
+code | The label of the category used for measurement values. | 1 | Yes | 
+definition | Longer description of the definition of the category. | 0..1 | No |
 
-Sub-element (ordinal)     | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-methodID               | A reference to a method that describes the context for the ordinal code. | Yes |
-code | Ordinal class code (e.g. a value like "+" or "1" in Braun-Blanquet cover scale) | Yes | 
-definition | The definition of an ordinal number or symbol used to signify an ordered list. For example a cover class ordinal code such as 1 = >1-5 % | Yes |
-lowerLimit | TO BE DONE | Yes |
-upperLimit | TO BE DONE | Yes |
-order | Explicit order in the sequence of ordinal values to which this code belongs | Yes |
+Sub-element (ordinal)     | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+methodID               | A reference to a method that describes the context for the ordinal code. | 1 | Yes |
+code | Ordinal class code (e.g. a value like "+" or "1" in Braun-Blanquet cover scale) | 1 | Yes | 
+definition | Longer description of the definition of the ordinal class. For example, ">1-5 % percent cover" for code "1" in an ordinal cover scale. | 0..1 | No |
+lowerLimit | Lower limit of the ordinal class in an associated quantitative scale (e.g. 10% cover in a cover class) | 0..1 | Yes |
+upperLimit | Upper limit of the ordinal class in an associated quantitative scale (e.g. 25% cover in a cover class) | 0..1 | Yes |
+order | Explicit order in the sequence of ordinal values to which this class belongs. | 0..1 | Yes |
 
-Sub-element (quantitative) | Description                                        |  R  |
--------------------------- | -------------------------------------------------- | --- |
-methodID               | A reference to a specific method that describes the context for the quantitative attribute. | Yes |
-unit | Unit of measurement (e.g. mm, cm, square meters, number of individuals). | Yes | 
-precision | The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01). | No |
-lowerBound | Potential lower limit of the measurement | Yes |
-upperBound | Potential upper limit of the measurement | Yes |
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+methodID               | A reference to a specific method that describes the context for the quantitative attribute. | 1 | Yes |
+unit | Unit of measurement (e.g. mm, cm, square meters, number of individuals). | 1 | Yes | 
+precision | The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01). | 0..1 | No |
+lowerLimit | Potential lower limit of the measurement | 0..1 | Yes |
+upperLimit | Potential upper limit of the measurement | 0..1 | Yes |
 
 ### Element *stratum*
 
@@ -195,8 +195,8 @@ stratumName               | Name associated with this stratum  | Yes |
 methodID               | A reference to a specific method used to define this stratum. | Yes |
 stratumIndex               | Short code used to identify the stratum. | No |
 stratumSequence               | An indication of a position in an ordered sequence of strata.  | Yes |
-lowerBound | TO BE DONE | Yes |
-upperBound | TO BE DONE | Yes |
+lowerLimit | TO BE DONE | Yes |
+upperLimit | TO BE DONE | Yes |
 
 ### Element *stratumObservation*
 

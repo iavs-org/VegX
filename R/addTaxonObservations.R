@@ -259,11 +259,11 @@ addTaxonObservations<-function(target, x, projectTitle,
     # TO BE DONE: CHECK that the agg org observation is new
     if(!(values[i] %in% as.character(missing.values))) {
       if(abundanceMethod@attributeType== "quantitative") {
-        if(values[i]> abundanceMethod@attributes[[1]]$upperBound) {
-          stop(paste0("Value '", values[i],"' larger than upper bound of measurement definition. Please revise scale or data."))
+        if(values[i]> abundanceMethod@attributes[[1]]$upperLimit) {
+          stop(paste0("Value '", values[i],"' larger than upper limit of measurement definition. Please revise scale or data."))
         }
-        else if(values[i] < abundanceMethod@attributes[[1]]$lowerBound) {
-          stop(paste0("Value '", values[i],"' smaller than lower bound of measurement definition. Please revise scale or data."))
+        else if(values[i] < abundanceMethod@attributes[[1]]$lowerLimit) {
+          stop(paste0("Value '", values[i],"' smaller than lower limit of measurement definition. Please revise scale or data."))
         }
         target@aggregateObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
                                                                             "taxonNameUsageConceptID" = tnucID,

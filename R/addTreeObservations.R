@@ -315,11 +315,11 @@ addTreeObservations<-function(target, x, projectTitle,
     if(!(diameters[i] %in% as.character(missing.values))) {
       if(diameterMethod@attributeType== "quantitative") {
         value = as.numeric(diameters[i])
-        if(value> diameterMethod@attributes[[1]]$upperBound) {
-          stop(paste0("Diameter '", value,"' larger than upper bound of diameter measurement definition. Please revise scale or data."))
+        if(value> diameterMethod@attributes[[1]]$upperLimit) {
+          stop(paste0("Diameter '", value,"' larger than upper limit of diameter measurement definition. Please revise scale or data."))
         }
-        else if(value < diameterMethod@attributes[[1]]$lowerBound) {
-          stop(paste0("Diameter '", value,"' smaller than lower bound of diameter measurement definition. Please revise scale or data."))
+        else if(value < diameterMethod@attributes[[1]]$lowerLimit) {
+          stop(paste0("Diameter '", value,"' smaller than lower limit of diameter measurement definition. Please revise scale or data."))
         }
         target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
                                                                             "individualOrganismID" = indID,
