@@ -11,7 +11,7 @@ showElementTable(x, element = "plot", includeIDs = FALSE)
 
 \item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
 'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
-'method', 'attribute'.}
+'siteObservation', 'method', 'attribute'.}
 
 \item{includeIDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
 }

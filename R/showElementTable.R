@@ -5,7 +5,7 @@
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
 #' 'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
-#' 'method', 'attribute'.
+#' 'siteObservation', 'method', 'attribute'.
 #' @param includeIDs A boolean flag to indicate whether internal identifiers should be included in the output
 #'
 #' @return a data frame
@@ -51,7 +51,7 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
 
   element = match.arg(element, c("plot", "plotObservation", "taxonNameUsageConcept",
                                  "stratum", "stratumObservation", "aggregateOrganismObservation",
-                                 "individualOrganism", "individualOrganismObservation",
+                                 "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute"))
   res = NULL
   if(element=="plot") {
@@ -99,7 +99,7 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
         if(includeIDs) {
           res[i, "plotID"] = x@plotObservations[[i]]$plotID
         }
-        res[i,"plotName"] = x@plots[[x@plotObservations[[i]]$plotID]]
+        res[i,"plotName"] = x@plots[[x@plotObservations[[i]]$plotID]]$plotName
         res[i,"obsStartDate"] = as.character(x@plotObservations[[i]]$obsStartDate)
         if("obsEndDate" %in% names(x@plotObservations[[i]])) {
           res[i, "obsEndDate"] = as.character(x@plotObservations[[i]]$obsEndDate)
@@ -109,6 +109,11 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
             res[i, "projectID"] = x@plotObservations[[i]]$projectID
           }
           res[i, "projectTitle"] = x@projects[[x@plotObservations[[i]]$projectID]]$title
+        }
+        if("siteObservationID" %in% names(x@plotObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "siteObservationID"] = x@plotObservations[[i]]$siteObservationID
+          }
         }
       }
     }
@@ -276,6 +281,45 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
         }
         res[i, "diameter_value"] = x@individualObservations[[i]]$diameterValue
         res[i, "diameter_method"] = x@methods[[x@attributes[[x@individualObservations[[i]]$diameterAttributeID]]$methodID]]$name
+      }
+    }
+  }
+  else if(element=="siteObservation") {
+    if(includeIDs) {
+      res = data.frame(plotObservationID = rep(NA, length(x@siteObservations)),
+                       plotName = rep(NA, length(x@siteObservations)),
+                       obsStartDate = rep(NA, length(x@siteObservations)),
+                       row.names = names(x@siteObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@siteObservations)),
+                       obsStartDate = rep(NA, length(x@siteObservations)),
+                       row.names = names(x@siteObservations))
+    }
+    if(length(x@siteObservations)>0){
+      for(i in 1:length(x@siteObservations)){
+        if(includeIDs) {
+          res[i, "plotObservationID"] = x@siteObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@siteObservations[[i]]$plotObservationID]]$plotID]]$plotName
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@siteObservations[[i]]$plotObservationID]]$obsStartDate)
+        for(mesType in c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+          if(mesType %in% names(x@siteObservations[[i]])) {
+            measurements = x@siteObservations[[i]][[mesType]]
+            for(j in 1:length(measurements)) {
+              attID = measurements[[j]]$attributeID
+              soilAttID = paste0("soil", names(measurements)[j],"_attributeID")
+              if(includeIDs) {
+                res[i, soilAttID] = measurements[[j]]$attributeID
+              }
+              soilMethod = paste0("soil_", names(measurements)[j],"_method")
+              res[i, soilMethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
+              soilSubject = paste0("soil_", names(measurements)[j],"_subject")
+              res[i, soilSubject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
+              soilVal = paste0("soil_", names(measurements)[j],"_value")
+              res[i, soilVal] = measurements[[j]]$value
+            }
+          }
+        }
       }
     }
   }
