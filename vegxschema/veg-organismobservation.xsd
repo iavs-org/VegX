@@ -391,7 +391,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
             </xsd:element>
             <xsd:element name="relativePlotPosition" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation>Position, relative to the plot origin, of the organism within the plot.</xsd:documentation>
+                    <xsd:documentation>Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
@@ -441,12 +441,12 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation xml:lang="en">A reference to a specific individualOrganism.  The particular individualOrganism is defined with the element veg:individualOrganisms which is a container for all individualOrganisms within the dataset</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="stratumObservationID" type="xsd:string">
+            <xsd:element name="stratumObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific stratum observation that this individual was measured in on the plot. The individual stratum observations are defined with the element veg:stratumObservation which is a container for all the stratum observations in the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="heightMeasurement" type="misc:MeasurementType">
+            <xsd:element name="heightMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation>Measurement of the maximum height reached by the observed individual.</xsd:documentation>
                 </xsd:annotation>
