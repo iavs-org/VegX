@@ -103,7 +103,7 @@ writeVegXML<-function(x, file) {
       newXMLNode("taxonNameUsageConceptID", x@aggregateObservations[[i]]$taxonNameUsageConceptID, parent=aoo)
       if("stratumObservationID" %in% names(x@aggregateObservations[[i]]))
         if(x@aggregateObservations[[i]]$stratumObservationID != "") newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=aoo)
-      aggval = newXMLNode("aggregateMeasurement", parent=aoo)
+      aggval = newXMLNode("aggregateOrganismMeasurement", parent=aoo)
       newXMLNode("value", x@aggregateObservations[[i]]$value, parent=aggval)
       newXMLNode("attributeID", x@aggregateObservations[[i]]$attributeID, parent=aggval)
     }

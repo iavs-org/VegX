@@ -253,7 +253,7 @@ The end date of this specific community determination. Recorded in ISO 8601 date
             </xsd:element>
             <xsd:element name="aggregateMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>A simple measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.</xsd:documentation>
+                    <xsd:documentation>A measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="heightMeasurement" type="misc:MeasurementType" minOccurs="0">
@@ -451,13 +451,18 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation xml:lang="en">A reference to a specific stratum observation that this individual was measured in on the plot. The individual stratum observations are defined with the element veg:stratumObservation which is a container for all the stratum observations in the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="heightMeasurement" type="misc:MeasurementType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Measurement of the maximum height reached by the observed individual.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:choice minOccurs="0" maxOccurs="1">
-                <xsd:element name="diameter" type="misc:MeasurementType">
+                <xsd:element name="diameterMeasurement" type="misc:MeasurementType">
                     <xsd:annotation>
                         <xsd:documentation>Diameter of the stem without explicit measurement of base distance (may be defined in the measurement method definition)</xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                <xsd:element name="diameterBaseDistance">
+                <xsd:element name="diameterBaseDistanceMeasurement">
                     <xsd:annotation>
                         <xsd:documentation xml:lang="en">A container for diameter measurements at a given distance along the stem from the ground.</xsd:documentation>
                     </xsd:annotation>
@@ -477,27 +482,26 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     </xsd:complexType>
                 </xsd:element>
             </xsd:choice>
-            <xsd:element name="height" type="misc:MeasurementType" minOccurs="0">
+            <xsd:element name="organismMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>Height of the stem</xsd:documentation>
+                    <xsd:documentation>A measurement applying to the observed individual. This includes qualitative, ordinal or quantitative assessments of form, health, dimensions of components, ...</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="stemVolume" type="misc:MeasurementType" minOccurs="0">
+            <xsd:element name="organismMultipleMeasurement" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>Stem volume</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  </xsd:documentation>
                 </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="name" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Name of the quantity (e.g. volume) being measured via multiple measurements (e.g. length, width, height).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="measurement" type="misc:MeasurementType" minOccurs="2" maxOccurs="unbounded" />
+                    </xsd:sequence>
+                </xsd:complexType>
             </xsd:element>
-            <xsd:element name="canopyVolume" type="misc:MeasurementType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Canopy volume</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="health" type="misc:MeasurementType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Health of the individual organism referenced in this individual organism observation record. Usually used to describe dead stems.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="growthForm" type="misc:ClassType" minOccurs="0" maxOccurs="1" />
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observationGroupings within the dataset.</xsd:documentation>
@@ -517,21 +521,6 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">Complex user-defined information types. </xsd:documentation>
                 </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="multipleMeasurement" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  </xsd:documentation>
-                </xsd:annotation>
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="name">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Name of the quantity (e.g. volume) being measured via multiple measurements (e.g. length, width, height).</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="measurement" type="misc:MeasurementType" minOccurs="2" maxOccurs="unbounded" />
-                    </xsd:sequence>
-                </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="id" type="res:IDType" use="required" />
