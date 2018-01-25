@@ -135,7 +135,7 @@ taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | 
 observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| 0..1 | No |
 observationConditions | Conditions at the time of observation. | 0..1 | No |
 referencePublication | Reference to an original publication and additionally a table or section within a publication. | 0..n | No |
-observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | Yes |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 ### Element *taxonNameUsageConcept*
 
@@ -252,14 +252,22 @@ individualOrganismHealth | Health of the individual organism referenced in this 
 
 ### Element *siteObservation*
 
-A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity (i.e. the site) to which all measurements refer. There is no specific variable to identify uniquely site observations, but they are uniquely identified by their related *plotObservationID* (i.e. the combination of plot name and observation start date). Abiotic (i.e. soil, climate or water mass) measurements are a special kind of measurements within the Veg-X schema, in the sense that they have IDs and can be related to each other, and they can have relative coordinates of the measurement within the plot, in the same way as individuals.
+A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity (i.e. the site) to which all measurements refer. There is no specific variable to identify uniquely site observations, but they are uniquely identified by their related *plotObservationID* (i.e. the combination of plot name and observation start date). Abiotic (i.e. soil, climate or water mass) measurements are a special kind of measurements within the Veg-X schema, in the sense that: (1) they can have IDs and can thus be related to each other: (2) and they can have relative coordinates of the measurement within the plot, in the same way as individuals.
 
-Sub-element               | Description                                        |  R  |
-------------------------- | -------------------------------------------------- | --- |
-plotObservationID        | A reference to a specific plotObservation. | Yes |
-legalProtection        | Legal protection status of the plot during the plot observation. | Yes |
-landuse        | Landuse, for example pasture | Yes |
-habitat        | A specific habitat type existing during this plot observation. | Yes |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
+soilMeasurement           | A measurement of a soil attribute (soil chemistry, soil texture, structure, ...). |  0..n | Yes
+climateMeasurement        | A measurement of a climate attribute. | 0..n | Yes |
+waterMassMeasurement        | A measurement of an attributes of a water mass within the plot (e.g. water level, not for soil water, which should be included in soilMeasurement). | 0..n | Yes |
+soilType | A specific soil type, applying to this plot during the plot observation. | 0..n | Yes |
+humusType | A specific humus type, applying to this plot during the plot observation. | 0..n | Yes |
+climateType | A specific climate type, applying to this plot during the plot observation. | 0..n | Yes |
+hydrologicRegimeType | Reflection of frequency and duration of water level variations, applying to this plot during the plot observation. | 0..n | Yes |
+legalProtection | Legal protection status of the plot during the plot observation. Recommended that this is from a closed list of legal protection status types. | 0..1 | No |
+landuse        | A specific land use type, for example pasture, applying to this plot during the plot observation. | 0..n | No |
+habitat        | A specific habitat type, applying to this plot during the plot observation. | 0..n | No |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 
 ### Element **observationGrouping**

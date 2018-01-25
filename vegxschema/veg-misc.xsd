@@ -337,7 +337,7 @@
                         </xsd:annotation>
                     </xsd:element>
                 </xsd:sequence>
-                <xsd:attribute name="id" type="res:IDType" use="required" />
+                <xsd:attribute name="id" type="res:IDType" use="optional" />
                 <xsd:attribute name="system" type="res:SystemType" use="optional" />
                 <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
             </xsd:extension>

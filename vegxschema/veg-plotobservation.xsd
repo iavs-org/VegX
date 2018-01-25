@@ -277,32 +277,32 @@
             </xsd:element>
             <xsd:element name="soilMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Measurements of soil attributes including soil water</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A measurement of a soil attribute (soil chemistry, soil texture, structure, ...).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="climateMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Measurements of climate attributes</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A measurement of a climate attribute.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="waterMassMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Measurements of attributes of a water mass within the plot (not for soil water, which should be included in soilMeasurement)</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A measurement of an attributes of a water mass within the plot (e.g. water level, not for soil water, which should be included in soilMeasurement).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific soil type, applying to the whole plot.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific soil type, applying to this plot during the plot observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="humusType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific humus type, applying to the whole plot. 		</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific humus type, applying to this plot during the plot observation. 		</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="climateType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific climate type, applying to the whole plot.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific climate type, applying to this plot during the plot observation.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
@@ -317,22 +317,22 @@
             </xsd:element>
             <xsd:element name="hydrologicRegimeType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank, Bfn" xml:lang="en">Reflection of frequency and duration of water level variations, applying to the whole plot 					</xsd:documentation>
+                    <xsd:documentation source="VegBank, Bfn" xml:lang="en">Reflection of frequency and duration of water level variations, applying to this plot during the plot observation.					</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="legalProtection" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Legal protection status of the plot during the plot observation. Recommended that this is from a closed list of legal protection status types. This will vary depending on region.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Legal protection status of the plot during the plot observation. Recommended that this is from a closed list of legal protection status types.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="landuse" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Land use type, for example pasture</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific land use type, for example pasture, applying to this plot during the plot observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="habitat" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A specific habitat type existing during this plot observation.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A specific habitat type, applying to this plot during the plot observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
