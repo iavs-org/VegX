@@ -113,6 +113,7 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   if(target@attributes[[newAttID]]$type!="quantitative") stop("The attribute of the new method should be quantitative.")
 
   # Apply mapping on aggregated organism observations
+  # REVISE
   naggtransf = 0
   if(length(target@aggregateObservations)>0) {
     for(i in 1:length(target@aggregateObservations)) {
@@ -126,6 +127,7 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   if(verbose && naggtransf > 0) cat(paste0(" ", naggtransf, " transformation(s) were applied on aggregate organism observations.\n"))
 
   # Apply mapping on individual organism observations
+  # REVISE
   nindtransf = 0
   if(length(target@individualObservations)>0) {
     for(i in 1:length(target@individualObservations)) {
@@ -137,6 +139,25 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
     }
   }
   if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
+
+  # Apply mapping on stratum observations
+  # REVISE
+  nstrtransf = 0
+  if(length(target@stratumObservations)>0) {
+    for(i in 1:length(target@stratumObservations)) {
+      if("stratumMeasurements" %in% names(target@stratumObservations[[i]])) {
+        for(j in 1:length(target@stratumObservations[[i]]$stratumMeasurements)) {
+          if(target@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID %in% names(mapping)) {
+            oldID = target@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID
+            target@stratumObservations[[i]]$stratumMeasurements[[j]]$value = mapping[[oldID]]
+            target@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID = newAttID
+            nstrtransf = nstrtransf + 1
+          }
+        }
+      }
+    }
+  }
+  if(verbose && nstrtransf > 0) cat(paste0(" ", nstrtransf, " transformation(s) were applied on stratum observations.\n"))
 
   # Return the modified document
   return(target)
