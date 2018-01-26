@@ -16,9 +16,9 @@
 #'
 #' # Create Veg-X document
 #' target = newVegX()
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
-#'               stratumName = "Tier", value = "Category")
-#' scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
+#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+#'               stratumName = "Tier", cover = "Category")
+#' coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
 #'                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
@@ -28,10 +28,11 @@
 #'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
 #'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7")
+#'                               categoryStrataNames = "Tier 7",
+#'                               categoryStrataDefinition = "Epiphytes")
 #' x = addTaxonObservations(target, tcv, "Mokihinui",
-#'                         mapping = mapping,
-#'                         abundanceMethod = scale,
+#'                         mapping = taxmapping,
+#'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' summary(x)
@@ -117,10 +118,19 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   naggtransf = 0
   if(length(target@aggregateObservations)>0) {
     for(i in 1:length(target@aggregateObservations)) {
-      if(target@aggregateObservations[[i]]$attributeID %in% names(mapping)) {
-        target@aggregateObservations[[i]]$value = mapping[[target@aggregateObservations[[i]]$attributeID]]
-        target@aggregateObservations[[i]]$attributeID = newAttID
-        naggtransf = naggtransf + 1
+      if("aggregateOrganismMeasurements" %in% names(target@aggregateObservations[[i]])) {
+        if(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
+          for(j in 1:length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
+            mes = target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]
+            if(mes$attributeID %in% names(mapping)) {
+              m = list(attributeID = newAttID,
+                       value = mapping[[mes$attributeID]])
+              newmesID = as.character(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)+1)
+              target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[newmesID]] = m
+              naggtransf = naggtransf + 1
+            }
+          }
+        }
       }
     }
   }
@@ -128,17 +138,17 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
 
   # Apply mapping on individual organism observations
   # REVISE
-  nindtransf = 0
-  if(length(target@individualObservations)>0) {
-    for(i in 1:length(target@individualObservations)) {
-      if(target@individualObservations[[i]]$attributeID %in% names(mapping)) {
-        target@individualObservations[[i]]$diameterValue = mapping[[target@individualObservations[[i]]$attributeID]]
-        target@individualObservations[[i]]$diameterAttributeID = newAttID
-        nindtransf = nindtransf + 1
-      }
-    }
-  }
-  if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
+  # nindtransf = 0
+  # if(length(target@individualObservations)>0) {
+  #   for(i in 1:length(target@individualObservations)) {
+  #     if(target@individualObservations[[i]]$attributeID %in% names(mapping)) {
+  #       target@individualObservations[[i]]$diameterValue = mapping[[target@individualObservations[[i]]$attributeID]]
+  #       target@individualObservations[[i]]$diameterAttributeID = newAttID
+  #       nindtransf = nindtransf + 1
+  #     }
+  #   }
+  # }
+  # if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
 
   # Apply mapping on stratum observations
   # REVISE

@@ -27,9 +27,9 @@ data(mokihinui)
 
 # Create Veg-X document
 target = newVegX()
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", taxonAuthorName = "PreferredSpeciesName",
-              stratumName = "Tier", value = "Category")
-scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
+taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+              stratumName = "Tier", cover = "Category")
+coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
@@ -39,10 +39,11 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                               heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7")
+                              categoryStrataNames = "Tier 7",
+                              categoryStrataDefinition = "Epiphytes")
 x = addTaxonObservations(target, tcv, "Mokihinui",
-                        mapping = mapping,
-                        abundanceMethod = scale,
+                        mapping = taxmapping,
+                        methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
 
 summary(x)
