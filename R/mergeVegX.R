@@ -204,7 +204,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       y@stratumObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
       nstrobsid = .newStratumObsIDByIDs(x, plotObsID, stratumID)
       if(nstrobsid$new) {
-        x@stratumObservations[[nstrobsid$id]] = y@stratumObservations[[j]]
+        x@stratumObservations[[nstrobsid$id]] = .applyAttributeMappingToStratumObservations(y@stratumObservations[[j]], attIDmap)
       } else { #pool information
         x@stratumObservations[[nstrobsid$id]] = .mergeStratumObservations(x@stratumObservations[[nstrobsid$id]], y@stratumObservations[[j]], attIDmap)
         nmergedstrobs = nmergedstrobs + 1

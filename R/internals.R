@@ -233,7 +233,19 @@
   }
   return(indObs)
 }
-
+.applyAttributeMappingToStratumObservations<-function(strobs, attIDmap) {
+  for(n in names(strobs)) {
+    if(n %in% c("stratumMeasurements")) {
+      for(i in 1:length(strobs[["stratumMeasurements"]])) {
+        strobs$stratumMeasurements[[i]]$attributeID = attIDmap[[strobs$stratumMeasurements[[i]]$attributeID]]
+      }
+    }
+    else if(n %in% c("lowerLimitMeasurement", "upperLimitMeasurement")) {
+      indObs[[n]]$attributeID = attIDmap[[strobs[[n]]$attributeID]]
+    }
+  }
+  return(strobs)
+}
 
 #Pools the information of two plots
 .mergePlots<-function(plot1, plot2, attIDmap) {
@@ -335,6 +347,7 @@
 .mergeStratumObservations<-function(strobs1, strobs2, attIDmap) {
   n1 = names(strobs1)
   n2 = names(strobs2)
+  strObs2 = .applyAttributeMappingToStratumObservations(strobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
