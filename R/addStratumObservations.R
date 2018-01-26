@@ -6,7 +6,7 @@
 #' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement' and 'lowerLimitMeasurement'.
+#' Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
 #' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -103,7 +103,7 @@ addStratumObservations<-function(target, x, projectTitle,
     stratumMeasurementValues[["upperLimitMeasurement"]] = as.character(x[[mapping[["upperLimitMeasurement"]]]])
   }
 
-  strmesmapping = mapping[!(names(mapping) %in% c("plotName", "subPlotName", "lowerLimitMeasurement", "upperLimitMeasurement","obsStartDate","obsEndDate", "stratumName"))]
+  strmesmapping = mapping[!(names(mapping) %in% c(stratumObservationMappingsAvailable, "lowerLimitMeasurement", "upperLimitMeasurement"))]
   if(verbose) cat(paste0(" ", length(strmesmapping)," stratum measurement variables found.\n"))
   if(length(strmesmapping)>0) {
     for(i in 1:length(strmesmapping)){
@@ -280,9 +280,10 @@ addStratumObservations<-function(target, x, projectTitle,
       method = methods[[m]]
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
-      value = as.numeric(stratumMeasurementValues[[m]][i])
+      value = as.character(stratumMeasurementValues[[m]][i])
       if(!(value %in% as.character(missing.values))) {
         if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
           if(value> method@attributes[[1]]$upperLimit) {
             stop(paste0("Height '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
           }
@@ -291,7 +292,7 @@ addStratumObservations<-function(target, x, projectTitle,
           }
           strObs[[m]] = list("attributeID" = attIDs[1], "value" = value)
         } else {
-          ind = which(codes==as.character(value))
+          ind = which(codes==value)
           if(length(ind)==1) {
             strObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
           }
@@ -306,11 +307,12 @@ addStratumObservations<-function(target, x, projectTitle,
       method = methods[[m]]
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
-      value = as.numeric(stratumMeasurementValues[[m]][i])
+      value = as.character(stratumMeasurementValues[[m]][i])
       if(!(value %in% as.character(missing.values))) {
         if(!("stratumMeasurements" %in% names(strObs))) strObs$stratumMeasurements = list()
         mesID = as.character(length(strObs$stratumMeasurements)+1)
         if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
           if(value> method@attributes[[1]]$upperLimit) {
             stop(paste0("Value '", value,"' larger than upper limit of measurement definition for '",m,"'. Please revise scale or data."))
           }
@@ -319,7 +321,7 @@ addStratumObservations<-function(target, x, projectTitle,
           }
           strObs$stratumMeasurements[[mesID]] = list("attributeID" = attIDs[1], "value" = value)
         } else {
-          ind = which(codes==as.character(value))
+          ind = which(codes==value)
           if(length(ind)==1) {
             strObs$stratumMeasurements[[mesID]] = list("attributeID" = attIDs[ind], "value" = value)
           }

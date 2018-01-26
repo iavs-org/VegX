@@ -207,8 +207,13 @@
 .applyAttributeMappingToAggregatePlotObservations <-function(aggObs, attIDmap) {
   for(n in names(aggObs)) {
     # Update attribute codes
-    if(n %in% c("attributeID")) {
-      aggObs[[n]] = attIDmap[[aggObs[[n]]]]
+    if(n %in% c("aggregateOrganismMeasurements")) {
+      for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
+        aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
+      }
+    }
+    else if(n %in% c("heightMeasurement")) {
+      aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
     }
   }
   return(aggObs)
@@ -241,7 +246,7 @@
       }
     }
     else if(n %in% c("lowerLimitMeasurement", "upperLimitMeasurement")) {
-      indObs[[n]]$attributeID = attIDmap[[strobs[[n]]$attributeID]]
+      strobs[[n]]$attributeID = attIDmap[[strobs[[n]]$attributeID]]
     }
   }
   return(strobs)

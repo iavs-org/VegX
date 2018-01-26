@@ -15,7 +15,7 @@ addStratumObservations(target, x, projectTitle, mapping, methods,
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement' and 'lowerLimitMeasurement'.}
+Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
 
 \item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).}
 

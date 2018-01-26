@@ -4,7 +4,7 @@
 \alias{addTaxonObservations}
 \title{Add taxon observation records}
 \usage{
-addTaxonObservations(target, x, projectTitle, mapping, abundanceMethod,
+addTaxonObservations(target, x, projectTitle, mapping, methods,
   stratumDefinition = NULL, missing.values = c(NA, "0", ""),
   verbose = TRUE)
 }
@@ -16,9 +16,9 @@ addTaxonObservations(target, x, projectTitle, mapping, abundanceMethod,
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.}
+Additional optional mappings are: 'subPlotName', 'obsEndDate', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
 
-\item{abundanceMethod}{Measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{methods}{A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
 
@@ -41,10 +41,10 @@ target = newVegX()
 
 # Define mapping
 mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
-              stratumName = "Tier", value = "Category")
+              stratumName = "Tier", cover = "Category")
 
 # Define abundance scale
-scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
+coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
@@ -62,7 +62,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
 # Mapping process
 x = addTaxonObservations(target, tcv, "Mokihinui",
                         mapping = mapping,
-                        abundanceMethod = scale,
+                        methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
 
 summary(x)

@@ -163,8 +163,31 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
             res[i, "stratumName"] = x@strata[[x@stratumObservations[[x@aggregateObservations[[i]]$stratumObservationID]]$stratumID]]$stratumName
           }
         }
-        res[i, "aggregateValue_value"] = x@aggregateObservations[[i]]$value
-        res[i, "aggregateValue_method"] = x@methods[[x@attributes[[x@aggregateObservations[[i]]$attributeID]]$methodID]]$name
+        if("heightMeasurement" %in% names(x@aggregateObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "height_attID"] = x@aggregateObservations[[i]]$heightMeasurement$attributeID
+          }
+          res[i, "height_method"] = x@methods[[x@attributes[[x@aggregateObservations[[i]]$heightMeasurement$attributeID]]$methodID]]$name
+          res[i, "height_value"] = x@aggregateObservations[[i]]$heightMeasurement$value
+        }
+        if("aggregateOrganismMeasurements" %in% names(x@aggregateObservations[[i]])) {
+          measurements = x@aggregateObservations[[i]]$aggregateOrganismMeasurements
+          if(length(measurements)>0) {
+            for(j in 1:length(measurements)) {
+              attID = measurements[[j]]$attributeID
+              strAttID = paste0("agg_", names(measurements)[j],"_attID")
+              if(includeIDs) {
+                res[i, strAttID] = measurements[[j]]$attributeID
+              }
+              aggMethod = paste0("agg_", names(measurements)[j],"_method")
+              res[i, aggMethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
+              aggSubject = paste0("agg_", names(measurements)[j],"_subject")
+              res[i, aggSubject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
+              aggVal = paste0("agg_", names(measurements)[j],"_value")
+              res[i, aggVal] = measurements[[j]]$value
+            }
+          }
+        }
       }
     }
   }

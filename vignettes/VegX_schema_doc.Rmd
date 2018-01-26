@@ -225,7 +225,7 @@ plotID                   | A reference to a specific plot by ID. | 1 | Yes |
 taxonNameUsageConceptID  | A reference to a specific taxonNameUsageConcept representing a taxon occurrence by ID. | 1 | Yes |
 aggregateOrganismMeasurement     | A measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.  | 0..n | Yes |
 stratumObservationID     | A reference to a specific stratumObservation by ID. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | Yes |
-heightMeasurement        | Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | No |
+heightMeasurement        | Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | Yes |
 observationGroupingID    | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 

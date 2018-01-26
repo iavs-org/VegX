@@ -121,9 +121,20 @@ writeVegXML<-function(x, file) {
       newXMLNode("taxonNameUsageConceptID", x@aggregateObservations[[i]]$taxonNameUsageConceptID, parent=aoo)
       if("stratumObservationID" %in% names(x@aggregateObservations[[i]]))
         if(x@aggregateObservations[[i]]$stratumObservationID != "") newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=aoo)
-      aggval = newXMLNode("aggregateOrganismMeasurement", parent=aoo)
-      newXMLNode("value", x@aggregateObservations[[i]]$value, parent=aggval)
-      newXMLNode("attributeID", x@aggregateObservations[[i]]$attributeID, parent=aggval)
+      if("heightMeasurement" %in% names(x@aggregateObservations[[i]])) {
+        hm = newXMLNode("heightMeasurement", parent=aoo)
+        newXMLNode("value", x@aggregateObservations[[i]]$heightMeasurement$value, parent=hm)
+        newXMLNode("attributeID", x@aggregateObservations[[i]]$heightMeasurement$attributeID, parent=hm)
+      }
+      if("aggregateOrganismMeasurements" %in% names(x@aggregateObservations[[i]])) {
+        if(length(x@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
+          for(j in 1:length(x@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
+            aom = newXMLNode("aggregateOrganismMeasurement", parent=aoo)
+            newXMLNode("value", x@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]$value, parent=aom)
+            newXMLNode("attributeID", x@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]$attributeID, parent=aom)
+          }
+        }
+      }
     }
   }
   #stratum elements

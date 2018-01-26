@@ -35,8 +35,8 @@
 #'
 #' # Create document 'x' with aggregate taxon observations
 #' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
-#'               stratumName = "Tier", value = "Category")
-#' scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
+#'               stratumName = "Tier", cover = "Category")
+#' coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
 #'                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
@@ -48,9 +48,9 @@
 #'                               heightStrataNames = paste0("Tier ",1:6),
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
-#' x = addTaxonObservations(newVegX(), tcv, "Mokihinui",
+#' x = addTaxonObservations(target, tcv, "Mokihinui",
 #'                         mapping = taxmapping,
-#'                         abundanceMethod = scale,
+#'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' # Create document 'y' with tree observations

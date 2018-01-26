@@ -7,8 +7,8 @@
 #' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'obsEndDate' and 'stratumName'.
-#' @param abundanceMethod Measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
+#' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -28,10 +28,10 @@
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
-#'               stratumName = "Tier", value = "Category")
+#'               stratumName = "Tier", cover = "Category")
 #'
 #' # Define abundance scale
-#' scale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
+#' coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
 #'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
 #'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
 #'                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
@@ -49,14 +49,14 @@
 #' # Mapping process
 #' x = addTaxonObservations(target, tcv, "Mokihinui",
 #'                         mapping = mapping,
-#'                         abundanceMethod = scale,
+#'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' summary(x)
 #'
 addTaxonObservations<-function(target, x, projectTitle,
                                      mapping,
-                                     abundanceMethod,
+                                     methods,
                                      stratumDefinition = NULL,
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
@@ -65,6 +65,8 @@ addTaxonObservations<-function(target, x, projectTitle,
   nrecords = nrow(x)
   nmissing = 0
 
+  aggregatedObservationMappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", "stratumName", "authorTaxonName")
+
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
@@ -72,7 +74,6 @@ addTaxonObservations<-function(target, x, projectTitle,
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
   authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
-  values = as.character(x[[mapping[["value"]]]])
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
@@ -91,6 +92,23 @@ addTaxonObservations<-function(target, x, projectTitle,
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
 
+  #heightmeasurement
+  aggMeasurementValues = list()
+  heightMeasurementFlag = ("heightMeasurement" %in% names(mapping))
+  if(heightMeasurementFlag) {
+    if(!("heightMeasurement" %in% names(methods))) stop("Method definition must be provided for 'heightMeasurement'.")
+    aggMeasurementValues[["heightMeasurement"]] = as.character(x[[mapping[["heightMeasurement"]]]])
+  }
+
+  aggmesmapping = mapping[!(names(mapping) %in% c(aggregatedObservationMappingsAvailable, "heightMeasurement"))]
+  if(verbose) cat(paste0(" ", length(aggmesmapping)," aggregated organism measurement variables found.\n"))
+  if(length(aggmesmapping)>0) {
+    for(i in 1:length(aggmesmapping)){
+      if(!(names(aggmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(aggmesmapping)[[i]],"'.")
+      aggMeasurementValues[[names(aggmesmapping)[i]]] = as.character(x[[aggmesmapping[[i]]]])
+    }
+  }
+
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
   projectID = nprid$id
@@ -101,32 +119,42 @@ addTaxonObservations<-function(target, x, projectTitle,
     if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
-  #methods/attributes (WARNING: method match should be made by attributes?)
-  nmtid = .newMethodIDByName(target,abundanceMethod@name)
-  methodID = nmtid$id
-  abundanceCodes = character(0)
-  attIDs = character(0)
-  if(nmtid$new) {
-    target@methods[[methodID]] = list(name = abundanceMethod@name,
-                                      description = abundanceMethod@description,
-                                      subject = abundanceMethod@subject,
-                                      attributeType = abundanceMethod@attributeType)
-    if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
-    # add attributes if necessary
-    cnt = length(target@attributes)+1
-    for(i in 1:length(abundanceMethod@attributes)) {
-      attid = as.character(length(target@attributes)+1)
-      target@attributes[[attid]] = abundanceMethod@attributes[[i]]
-      target@attributes[[attid]]$methodID = methodID
-      attIDs[i] = attid
-      if(abundanceMethod@attributes[[i]]$type != "quantitative") abundanceCodes[i] = abundanceMethod@attributes[[i]]$code
-      cnt = cnt + 1
+  #add methods
+  methodIDs = character(0)
+  methodCodes = list()
+  methodAttIDs = list()
+  for(m in names(methods)) {
+    method = methods[[m]]
+    nmtid = .newMethodIDByName(target,method@name)
+    methodID = nmtid$id
+    methodIDs[[m]] = methodID
+    methodCodes[[m]] = character(0)
+    methodAttIDs[[m]] = character(0)
+    if(nmtid$new) {
+      target@methods[[methodID]] = list(name = method@name,
+                                        description = method@description,
+                                        subject = method@subject,
+                                        attributeType = method@attributeType)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add attributes if necessary
+      cnt = length(target@attributes)+1
+      methodAttIDs[[m]] = character(length(method@attributes))
+      methodCodes[[m]] = character(length(method@attributes))
+      for(i in 1:length(method@attributes)) {
+        attid = as.character(length(target@attributes)+1)
+        target@attributes[[attid]] = method@attributes[[i]]
+        target@attributes[[attid]]$methodID = methodID
+        methodAttIDs[[m]][i] = attid
+        if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
+        cnt = cnt + 1
+      }
+    } else {
+      methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)
+      methodAttIDs[[m]] = .getAttributeIDsByMethodID(target,methodID)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
     }
-  } else {
-    abundanceCodes = .getAttributeCodesByMethodID(target,methodID)
-    attIDs = .getAttributeIDsByMethodID(target,methodID)
-    if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' already included.\n"))
   }
+
   # stratum definition
   if(stratumFlag) {
     # stratum definition method (WARNING: method match should be made by attributes?)
@@ -242,6 +270,7 @@ addTaxonObservations<-function(target, x, projectTitle,
     }
 
     # stratum observations
+    strObsID = NULL
     if(stratumFlag) {
       strID = .getStratumIDByName(target, stratumNames[i])
       if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
@@ -259,38 +288,80 @@ addTaxonObservations<-function(target, x, projectTitle,
     }
 
     # agg org observations
-    # TO BE DONE: CHECK that the agg org observation is new
-    if(!(values[i] %in% as.character(missing.values))) {
-      if(abundanceMethod@attributeType== "quantitative") {
-        if(values[i]> abundanceMethod@attributes[[1]]$upperLimit) {
-          stop(paste0("Value '", values[i],"' larger than upper limit of measurement definition. Please revise scale or data."))
-        }
-        else if(values[i] < abundanceMethod@attributes[[1]]$lowerLimit) {
-          stop(paste0("Value '", values[i],"' smaller than lower limit of measurement definition. Please revise scale or data."))
-        }
-        target@aggregateObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
-                                                                            "taxonNameUsageConceptID" = tnucID,
-                                                                            "attributeID" = attID[1],
-                                                                            "stratumObservationID" = "",
-                                                                            "value" = values[i])
-        if(stratumFlag) target@aggregateObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
-        aggObsCounter = aggObsCounter + 1
-      } else {
-        ind = which(abundanceCodes==as.character(values[i]))
-        if(length(ind)==1) {
-          target@aggregateObservations[[as.character(aggObsCounter)]] = list("plotObservationID" = plotObsID,
-                                                                              "taxonNameUsageConceptID" = tnucID,
-                                                                              "attributeID" = attIDs[ind],
-                                                                              "stratumObservationID" = "",
-                                                                              "value" = values[i])
-          if(stratumFlag) target@aggregateObservations[[as.character(aggObsCounter)]]$stratumObservationID = strObsID
-          aggObsCounter = aggObsCounter + 1
-        }
-        else stop(paste0("Value '", values[i],"' not found in measurement definition. Please revise scale or data."))
-      }
-    } else {
-      nmissing = nmissing + 1
+    naoID = .newAggregateOrganismObservationIDByTaxonID(target, plotObsID, strObsID, tnucID)
+    aggObsID = naoID$id
+    if(naoID$new) {
+      aggObs = list("plotObservationID" = plotObsID,
+                    "taxonNameUsageConceptID" = tnucID,
+                    "stratumObservationID" = "")
+      if(stratumFlag) aggObs$stratumObservationID = strObsID
     }
+    else {
+      aggObs = target@stratumObservations[[aggObsID]]
+    }
+
+    # height limit measurements
+    for(m in c("heightMeasurement")) {
+      if(m %in% mapping) {
+        method = methods[[m]]
+        attIDs = methodAttIDs[[m]]
+        codes = methodCodes[[m]]
+        value = as.character(aggMeasurementValues[[m]][i])
+        if(!(value %in% as.character(missing.values))) {
+          if(method@attributeType== "quantitative") {
+            value = as.numeric(value)
+            if(value> method@attributes[[1]]$upperLimit) {
+              stop(paste0("Height '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+            }
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Height '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+            }
+            aggObs[[m]] = list("attributeID" = attIDs[1], "value" = value)
+          } else {
+            ind = which(codes==as.character(value))
+            if(length(ind)==1) {
+              aggObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+            }
+            else stop(paste0("Value '", value,"' not found in height measurement definition. Please revise height classes or data."))
+          }
+        } else {
+          nmissing = nmissing + 1
+        }
+      }
+    }
+    # stratum measurements
+    for(m in names(aggmesmapping)) {
+      method = methods[[m]]
+      attIDs = methodAttIDs[[m]]
+      codes = methodCodes[[m]]
+      value = as.character(aggMeasurementValues[[m]][i])
+      if(!(value %in% as.character(missing.values))) {
+        if(!("aggregateOrganismMeasurements" %in% names(aggObs))) aggObs$aggregateOrganismMeasurements = list()
+        mesID = as.character(length(aggObs$aggregateOrganismMeasurements)+1)
+        if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
+          if(value> method@attributes[[1]]$upperLimit) {
+            stop(paste0("Value '", value,"' larger than upper limit of measurement definition for '",m,"'. Please revise scale or data."))
+          }
+          else if(value < method@attributes[[1]]$lowerLimit) {
+            stop(paste0("Value '", value,"' smaller than lower limit of measurement definition for '",m,"'. Please revise scale or data."))
+          }
+          aggObs$aggregateOrganismMeasurements[[mesID]] = list("attributeID" = attIDs[1], "value" = value)
+        } else {
+          ind = which(codes==value)
+          if(length(ind)==1) {
+            aggObs$aggregateOrganismMeasurements[[mesID]] = list("attributeID" = attIDs[ind], "value" = value)
+          }
+          else stop(paste0("Value '", value,"' not found in measurement definition for '",m,"'. Please revise height classes or data."))
+        }
+      }
+      else {
+        nmissing = nmissing + 1
+      }
+    }
+    #Store value in target
+    target@aggregateObservations[[aggObsID]] = aggObs
+
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
