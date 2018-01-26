@@ -211,8 +211,38 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
           res[i, "stratumID"] = x@stratumObservations[[i]]$stratumID
         }
         res[i, "stratumName"] = x@strata[[x@stratumObservations[[i]]$stratumID]]$stratumName
-        if("value" %in% names(x@stratumObservations[[i]])) res[i, "stratumValue_value"] = x@stratumObservations[[i]]$value
-        if("attributeID" %in% names(x@stratumObservations[[i]])) res[i, "stratumValue_method"] = x@methods[[x@attributes[[x@stratumObservations[[i]]$attributeID]]$methodID]]$name
+        if("lowerLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "lowerLimit_attID"] = x@stratumObservations[[i]]$lowerLimitMeasurement$attributeID
+          }
+          res[i, "lowerLimit_method"] = x@methods[[x@attributes[[x@stratumObservations[[i]]$lowerLimitMeasurement$attributeID]]$methodID]]$name
+          res[i, "lowerLimit_value"] = x@stratumObservations[[i]]$lowerLimitMeasurement$value
+        }
+        if("upperLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "upperLimit_attID"] = x@stratumObservations[[i]]$upperLimitMeasurement$attributeID
+          }
+          res[i, "upperLimit_method"] = x@methods[[x@attributes[[x@stratumObservations[[i]]$upperLimitMeasurement$attributeID]]$methodID]]$name
+          res[i, "upperLimit_value"] = x@stratumObservations[[i]]$upperLimitMeasurement$value
+        }
+        if("stratumMeasurements" %in% names(x@stratumObservations[[i]])) {
+          measurements = x@stratumObservations[[i]]$stratumMeasurements
+          if(length(measurements)>0) {
+            for(j in 1:length(measurements)) {
+              attID = measurements[[j]]$attributeID
+              strAttID = paste0("str_", names(measurements)[j],"_attID")
+              if(includeIDs) {
+                res[i, strAttID] = measurements[[j]]$attributeID
+              }
+              strMethod = paste0("str_", names(measurements)[j],"_method")
+              res[i, strMethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
+              strSubject = paste0("str_", names(measurements)[j],"_subject")
+              res[i, strSubject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
+              strVal = paste0("str_", names(measurements)[j],"_value")
+              res[i, strVal] = measurements[[j]]$value
+            }
+          }
+        }
       }
     }
   }

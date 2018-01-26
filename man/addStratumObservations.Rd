@@ -5,7 +5,7 @@
 \title{Add stratum observation records}
 \usage{
 addStratumObservations(target, x, projectTitle, mapping, methods,
-  stratumDefinition, missing.values = c(NA, "0", ""), verbose = TRUE)
+  stratumDefinition, missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -29,8 +29,7 @@ Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasur
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds aggregate stratum observation records to a VegX object from a data table
-using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
+Adds stratum observation records to a VegX object from a data table
 }
 \examples{
 data(mokihinui)

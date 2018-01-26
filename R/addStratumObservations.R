@@ -1,7 +1,6 @@
 #' Add stratum observation records
 #'
-#' Adds aggregate stratum observation records to a VegX object from a data table
-#' using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
+#' Adds stratum observation records to a VegX object from a data table
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
@@ -61,7 +60,7 @@ addStratumObservations<-function(target, x, projectTitle,
                                  mapping,
                                  methods,
                                  stratumDefinition,
-                                 missing.values = c(NA, "0", ""),
+                                 missing.values = c(NA, ""),
                                  verbose = TRUE) {
 
   if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.")
@@ -304,13 +303,13 @@ addStratumObservations<-function(target, x, projectTitle,
     }
     # stratum measurements
     for(m in names(strmesmapping)) {
-      if(!("stratumMeasurements" %in% names(strObs))) strObs$stratumMeasurements = list()
-      mesID = as.character(length(strObs$stratumMeasurements)+1)
       method = methods[[m]]
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       value = as.numeric(stratumMeasurementValues[[m]][i])
       if(!(value %in% as.character(missing.values))) {
+        if(!("stratumMeasurements" %in% names(strObs))) strObs$stratumMeasurements = list()
+        mesID = as.character(length(strObs$stratumMeasurements)+1)
         if(method@attributeType== "quantitative") {
           if(value> method@attributes[[1]]$upperLimit) {
             stop(paste0("Value '", value,"' larger than upper limit of measurement definition for '",m,"'. Please revise scale or data."))

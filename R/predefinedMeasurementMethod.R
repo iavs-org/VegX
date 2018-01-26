@@ -73,7 +73,7 @@ predefinedMeasurementMethod<-function(name) {
     )
     names(attributes) = 1
     return(new("VegXMethod",
-               name = "Stratum height",
+               name = "Stratum height in meters",
                description = "Stratum height in meters",
                subject = "stratum height",
                attributeType = "quantitative",
