@@ -190,6 +190,7 @@
   return(cnt)
 }
 
+
 #Translate attributes of measurements in a plot element
 .applyAttributeMappingToPlot<-function(plot, attIDmap) {
   for(n in names(plot)) {

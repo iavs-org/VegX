@@ -150,8 +150,8 @@ addTreeObservations<-function(target, x, projectTitle,
         cnt = cnt + 1
       }
     } else {
-      heightCodes = .getAttributeCodesByMethodID(methodID)
-      heightAttIDs = .getAttributeIDsByMethodID(methodID)
+      heightCodes = .getAttributeCodesByMethodID(target,methodID)
+      heightAttIDs = .getAttributeIDsByMethodID(target,methodID)
       if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' already included.\n"))
     }
 
@@ -170,12 +170,14 @@ addTreeObservations<-function(target, x, projectTitle,
                                            attributeType = stratumDefMethod@attributeType)
       if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
       # add attributes if necessary
-      cnt = length(target@attributes)+1
-      for(i in 1:length(stratumDefMethod@attributes)) {
-        attid = as.character(length(target@attributes)+1)
-        target@attributes[[attid]] = stratumDefMethod@attributes[[i]]
-        target@attributes[[attid]]$methodID = strmethodID
-        cnt = cnt + 1
+      if(length(stratumDefMethod@attributes)>0) {
+        cnt = length(target@attributes)+1
+        for(i in 1:length(stratumDefMethod@attributes)) {
+          attid = as.character(length(target@attributes)+1)
+          target@attributes[[attid]] = stratumDefMethod@attributes[[i]]
+          target@attributes[[attid]]$methodID = strmethodID
+          cnt = cnt + 1
+        }
       }
       # add strata (beware of new strata)
       orinstrata = length(target@strata)
@@ -194,7 +196,7 @@ addTreeObservations<-function(target, x, projectTitle,
         cat(paste0(" ", finnstrata-orinstrata, " new stratum definitions added.\n"))
       }
     } else { #Read stratum IDs and stratum names from selected method
-      stratumIDs = .getStratumIDsByMethodID(strmethodID)
+      stratumIDs = .getStratumIDsByMethodID(target,strmethodID)
       if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
     }
   }

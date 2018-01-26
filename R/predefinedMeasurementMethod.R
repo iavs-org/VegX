@@ -64,6 +64,21 @@ predefinedMeasurementMethod<-function(name) {
                attributeType = "quantitative",
                attributes = attributes))
   }
+  else if (name=="Stratum height") {
+    attributes = list(
+      list(type="quantitative",
+           unit = "m",
+           lowerLimit = 0,
+           upperLimit = Inf)
+    )
+    names(attributes) = 1
+    return(new("VegXMethod",
+               name = "Stratum height",
+               description = "Stratum height in meters",
+               subject = "stratum height",
+               attributeType = "quantitative",
+               attributes = attributes))
+  }
   else if (name=="Plant height") {
     attributes = list(
       list(type="quantitative",

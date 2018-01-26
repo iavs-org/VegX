@@ -37,6 +37,7 @@ New/old plot observations are distinguished by observation date.
 Other add functions: \code{\link{addPlotLocations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
+  \code{\link{addStratumObservations}},
   \code{\link{addTaxonObservations}},
   \code{\link{addTreeObservations}}
 }

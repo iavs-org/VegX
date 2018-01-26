@@ -210,9 +210,9 @@ Sub-element               | Description                                        |
 ------------------------- | -------------------------------------------------- | --- | --- |
 stratumID                | A reference to a specific stratum by ID. | 1 | Yes |
 plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
-lowerLimitMeasurement    | A measurement of the lower limit (i.e. height) of the stratum.  | 0..1 | No |
-upperLimitMeasurement    | A measurement of the upper limit (i.e. height) of the stratum.  | 0..1 | No |
-stratumMeasurement       | A measurement (e.g. plant cover, or individual count) made in the stratum. | 0..n | No |
+lowerLimitMeasurement    | A measurement of the lower limit (i.e. height) of the stratum.  | 0..1 | Yes |
+upperLimitMeasurement    | A measurement of the upper limit (i.e. height) of the stratum.  | 0..1 | Yes |
+stratumMeasurement       | A measurement (e.g. plant cover, or individual count) made in the stratum. | 0..n | Yes |
 observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 ### Element *aggregateOrganismObservation*

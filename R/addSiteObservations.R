@@ -200,8 +200,8 @@ addSiteObservations<-function(target, x, projectTitle,
         cnt = cnt + 1
       }
     } else {
-      methodCodes[[m]] = .getAttributeCodesByMethodID(methodID)
-      methodAttIDs[[m]] = .getAttributeIDsByMethodID(methodID)
+      methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)
+      methodAttIDs[[m]] = .getAttributeIDsByMethodID(target,methodID)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
     }
   }

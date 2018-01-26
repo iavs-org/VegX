@@ -150,6 +150,25 @@ writeVegXML<-function(x, file) {
                         parent = stratumObservations)
       newXMLNode("plotObservationID", x@stratumObservations[[i]]$plotObservationID, parent=stro)
       newXMLNode("stratumID", x@stratumObservations[[i]]$stratumID, parent=stro)
+      if("lowerLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
+        llm = newXMLNode("lowerLimitMeasurement", parent=stro)
+        newXMLNode("value", x@stratumObservations[[i]]$lowerLimitMeasurement$value, parent=llm)
+        newXMLNode("attributeID", x@stratumObservations[[i]]$lowerLimitMeasurement$attributeID, parent=llm)
+      }
+      if("upperLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
+        ulm = newXMLNode("upperLimitMeasurement", parent=stro)
+        newXMLNode("value", x@stratumObservations[[i]]$upperLimitMeasurement$value, parent=ulm)
+        newXMLNode("attributeID", x@stratumObservations[[i]]$upperLimitMeasurement$attributeID, parent=ulm)
+      }
+      if("stratumMeasurements" %in% names(x@stratumObservations[[i]])) {
+        if(length(x@stratumObservations[[i]]$stratumMeasurements)>0) {
+          for(j in 1:length(x@stratumObservations[[i]]$stratumMeasurements)) {
+            sm = newXMLNode("stratumMeasurement", parent=stro)
+            newXMLNode("value", x@stratumObservations[[i]]$stratumMeasurements[[j]]$value, parent=sm)
+            newXMLNode("attributeID", x@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID, parent=sm)
+          }
+        }
+      }
     }
   }
   #Individual Organism elements

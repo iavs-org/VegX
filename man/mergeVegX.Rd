@@ -54,7 +54,8 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                               heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7")
+                              categoryStrataNames = "Tier 7",
+                              categoryStrataDefinition = "Epiphytes")
 x = addTaxonObservations(newVegX(), tcv, "Mokihinui",
                         mapping = taxmapping,
                         abundanceMethod = scale,
