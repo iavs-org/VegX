@@ -34,10 +34,10 @@ Subplots cannot be defined with this function, but observations can be referred 
 New/old plot observations are distinguished by observation date.
 }
 \seealso{
-Other add functions: \code{\link{addPlotLocations}},
+Other add functions: \code{\link{addIndividualOrganismObservations}},
+  \code{\link{addPlotLocations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
-  \code{\link{addTaxonObservations}},
-  \code{\link{addTreeObservations}}
+  \code{\link{addTaxonObservations}}
 }

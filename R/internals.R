@@ -232,8 +232,13 @@
 .applyAttributeMappingToIndividualOrganismObservations<-function(indObs, attIDmap) {
   for(n in names(indObs)) {
     # Update attribute codes
-    if(n %in% c("diameterAttributeID")) {
-      indObs[[n]] = attIDmap[[indObs[[n]]]]
+    if(n %in% c("individualOrganismMeasurements")) {
+      for(i in 1:length(indObs[["individualOrganismMeasurements"]])) {
+        indObs$individualOrganismMeasurements[[i]]$attributeID = attIDmap[[indObs$individualOrganismMeasurements[[i]]$attributeID]]
+      }
+    }
+    else if(n %in% c("heightMeasurement", "diameterMeasurement")) {
+      indObs[[n]]$attributeID = attIDmap[[indObs[[n]]$attributeID]]
     }
   }
   return(indObs)

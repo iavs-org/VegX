@@ -334,8 +334,38 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
             res[i, "stratumName"] = x@strata[[x@stratumObservations[[x@individualObservations[[i]]$stratumObservationID]]$stratumID]]$stratumName
           }
         }
-        res[i, "diameter_value"] = x@individualObservations[[i]]$diameterValue
-        res[i, "diameter_method"] = x@methods[[x@attributes[[x@individualObservations[[i]]$diameterAttributeID]]$methodID]]$name
+        if("diameterMeasurement" %in% names(x@individualObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "diameter_attID"] = x@individualObservations[[i]]$diameterMeasurement$attributeID
+          }
+          res[i, "diameter_method"] = x@methods[[x@attributes[[x@individualObservations[[i]]$diameterMeasurement$attributeID]]$methodID]]$name
+          res[i, "diameter_value"] = x@individualObservations[[i]]$diameterMeasurement$value
+        }
+        if("heightMeasurement" %in% names(x@individualObservations[[i]])) {
+          if(includeIDs) {
+            res[i, "height_attID"] = x@individualObservations[[i]]$heightMeasurement$attributeID
+          }
+          res[i, "height_method"] = x@methods[[x@attributes[[x@individualObservations[[i]]$heightMeasurement$attributeID]]$methodID]]$name
+          res[i, "height_value"] = x@individualObservations[[i]]$heightMeasurement$value
+        }
+        if("individualOrganismMeasurements" %in% names(x@individualObservations[[i]])) {
+          measurements = x@individualObservations[[i]]$individualOrganismMeasurements
+          if(length(measurements)>0) {
+            for(j in 1:length(measurements)) {
+              attID = measurements[[j]]$attributeID
+              strAttID = paste0("ind_", names(measurements)[j],"_attID")
+              if(includeIDs) {
+                res[i, strAttID] = measurements[[j]]$attributeID
+              }
+              indMethod = paste0("ind_", names(measurements)[j],"_method")
+              res[i, indMethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
+              indSubject = paste0("ind_", names(measurements)[j],"_subject")
+              res[i, indSubject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
+              indVal = paste0("ind_", names(measurements)[j],"_value")
+              res[i, indVal] = measurements[[j]]$value
+            }
+          }
+        }
       }
     }
   }

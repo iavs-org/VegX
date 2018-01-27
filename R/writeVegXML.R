@@ -204,10 +204,24 @@ writeVegXML<-function(x, file) {
       newXMLNode("plotObservationID", x@individualObservations[[i]]$plotObservationID, parent=ioo)
       newXMLNode("individualOrganismID", x@individualObservations[[i]]$individualOrganismID, parent=ioo)
       if("stratumObservationID" %in% names(x@individualObservations[[i]])) newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=ioo)
-      if("diameterValue" %in% names(x@individualObservations[[i]])) {
-        diamval = newXMLNode("diameter", parent=ioo)
-        newXMLNode("value", x@individualObservations[[i]]$diameterValue, parent=diamval)
-        if("diameterAttributeID" %in% names(x@individualObservations[[i]])) newXMLNode("diameterID", x@individualObservations[[i]]$diameterAttributeID, parent=diamval)
+      if("diameterMeasurement" %in% names(x@individualObservations[[i]])) {
+        dm = newXMLNode("diameterMeasurement", parent=ioo)
+        newXMLNode("value", x@individualObservations[[i]]$diameterMeasurement$value, parent=dm)
+        newXMLNode("attributeID", x@individualObservations[[i]]$diameterMeasurement$attributeID, parent=dm)
+      }
+      if("heightMeasurement" %in% names(x@individualObservations[[i]])) {
+        hm = newXMLNode("heightMeasurement", parent=ioo)
+        newXMLNode("value", x@individualObservations[[i]]$heightMeasurement$value, parent=hm)
+        newXMLNode("attributeID", x@individualObservations[[i]]$heightMeasurement$attributeID, parent=hm)
+      }
+      if("individualOrganismMeasurements" %in% names(x@individualObservations[[i]])) {
+        if(length(x@individualObservations[[i]]$individualOrganismMeasurements)>0) {
+          for(j in 1:length(x@individualObservations[[i]]$individualOrganismMeasurements)) {
+            iom = newXMLNode("individualOrganismMeasurement", parent=ioo)
+            newXMLNode("value", x@individualObservations[[i]]$individualOrganismMeasurements[[j]]$value, parent=iom)
+            newXMLNode("attributeID", x@individualObservations[[i]]$individualOrganismMeasurements[[j]]$attributeID, parent=iom)
+          }
+        }
       }
     }
   }

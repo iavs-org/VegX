@@ -1,16 +1,13 @@
-#' Add tree observation records
+#' Add individual organism observation records
 #'
-#' Adds tree observation records to a VegX object from a data table,
-#' using a mapping to identify columns: plot, observation date, taxon name and diameter.
-#' Additional mappings can be used to specify a stratum where the tree is located.
+#' Adds individual organism observation records to a VegX object from a data table.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one tree observation. Columns can be varied.
 #' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'diameter', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'height' and 'stratumName'.
-#' @param diameterMethod An object of class \code{\linkS4class{VegXMethod}} indicating the definition of diameter measurements.
-#' @param heightMethod An object of class \code{\linkS4class{VegXMethod}} indicating the definition of height measurements.
+#' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
+#' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -29,31 +26,32 @@
 #' target = newVegX()
 #'
 #' # Define mapping
-#' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
-#'                    taxonAuthorName = "PreferredSpeciesName", diameter = "Diameter")
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
+#'                authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 #'
 #' # Define diameter measurement method
 #' diamMeth = predefinedMeasurementMethod("DBH")
 #'
 #'
 #' # Mapping process
-#' y = addTreeObservations(target, dia, "Mokihinui",
-#'                         mapping = treemapping,
-#'                         diameterMethod = diamMeth)
+#' y = addIndividualOrganismObservations(target, dia, "Mokihinui",
+#'                                       mapping = mapping,
+#'                                       methods = c(diameterMeasurement = diamMeth))
 #'
 #' # Inspect the result
 #' summary(y)
 #'
-addTreeObservations<-function(target, x, projectTitle,
-                                    mapping,
-                                    diameterMethod,
-                                    heightMethod = NULL,
-                                    stratumDefinition = NULL,
-                                    missing.values = c(NA, "0", ""),
-                                    verbose = TRUE) {
+addIndividualOrganismObservations<-function(target, x, projectTitle,
+                                            mapping,
+                                            methods = list(),
+                                            stratumDefinition = NULL,
+                                            missing.values = c(NA, "0", ""),
+                                            verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
+
+  individualObservationMappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", "stratumName", "authorTaxonName", "individual")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -62,7 +60,6 @@ addTreeObservations<-function(target, x, projectTitle,
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
   authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
-  diameters = as.character(x[[mapping[["diameter"]]]])
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
@@ -80,17 +77,34 @@ addTreeObservations<-function(target, x, projectTitle,
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
-  heightFlag = ("height" %in% names(mapping))
-  if(stratumFlag) {
-    heights = as.character(x[[mapping[["height"]]]])
-    if(is.null(heightMethod)) stop("Height method must be supplied to map individual heights. Revise mapping or provide a method.")
-  } else {
-    if(!is.null(heightMethod)) stop("You need to include a mapping for 'height' in order to map individual heights.")
-  }
   individualFlag = ("individual" %in% names(mapping))
-  if(stratumFlag) {
-    individuals = as.character(x[[mapping[["individual"]]]])
+  if(individualFlag) {
+    individuals = as.Date(as.character(x[[mapping[["individual"]]]]))
   }
+  
+  indMeasurementValues = list()
+  #diametermeasurement
+  diameterMeasurementFlag = ("diameterMeasurement" %in% names(mapping))
+  if(diameterMeasurementFlag) {
+    if(!("diameterMeasurement" %in% names(methods))) stop("Method definition must be provided for 'diameterMeasurement'.")
+    indMeasurementValues[["diameterMeasurement"]] = as.character(x[[mapping[["diameterMeasurement"]]]])
+  }
+  #heightmeasurement
+  heightMeasurementFlag = ("heightMeasurement" %in% names(mapping))
+  if(heightMeasurementFlag) {
+    if(!("heightMeasurement" %in% names(methods))) stop("Method definition must be provided for 'heightMeasurement'.")
+    indMeasurementValues[["heightMeasurement"]] = as.character(x[[mapping[["heightMeasurement"]]]])
+  }
+  
+  indmesmapping = mapping[!(names(mapping) %in% c(individualObservationMappingsAvailable, "diameterMeasurement", "heightMeasurement"))]
+  if(verbose) cat(paste0(" ", length(indmesmapping)," additional individual organism measurement variables found.\n"))
+  if(length(indmesmapping)>0) {
+    for(i in 1:length(indmesmapping)){
+      if(!(names(indmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(indmesmapping)[[i]],"'.")
+      indMeasurementValues[[names(indmesmapping)[i]]] = as.character(x[[indmesmapping[[i]]]])
+    }
+  }
+  
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
   projectID = nprid$id
@@ -101,62 +115,42 @@ addTreeObservations<-function(target, x, projectTitle,
     if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
-  #methods/attributes (WARNING: method match should be made by attributes?)
-  nmtid = .newMethodIDByName(target,diameterMethod@name)
-  methodID = nmtid$id
-  diameterCodes = character(0)
-  diamAttIDs = character(0)
-  if(nmtid$new) {
-    target@methods[[methodID]] = list(name = diameterMethod@name,
-                                      description = diameterMethod@description,
-                                      subject = diameterMethod@subject,
-                                      attributeType = diameterMethod@attributeType)
-    if(verbose) cat(paste0(" Diameter measurement method '", diameterMethod@name,"' added.\n"))
-    # add attributes if necessary
-    cnt = length(target@attributes)+1
-    for(i in 1:length(diameterMethod@attributes)) {
-      attid = as.character(length(target@attributes)+1)
-      target@attributes[[attid]] = diameterMethod@attributes[[i]]
-      target@attributes[[attid]]$methodID = methodID
-      diamAttIDs[i] = attid
-      if(diameterMethod@attributes[[i]]$type != "quantitative") diameterCodes[i] = diameterMethod@attributes[[i]]$code
-      cnt = cnt + 1
-    }
-  } else {
-    diameterCodes = .getAttributeCodesByMethodID(methodID)
-    diamAttIDs = .getAttributeIDsByMethodID(methodID)
-    if(verbose) cat(paste0(" Diameter measurement method '", diameterMethod@name,"' already included.\n"))
-  }
-
-  if(heightFlag) {
-    nmtid = .newMethodIDByName(target,heightMethod@name)
+  #add methods
+  methodIDs = character(0)
+  methodCodes = list()
+  methodAttIDs = list()
+  for(m in names(methods)) {
+    method = methods[[m]]
+    nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
-    heightCodes = character(0)
-    heightAttIDs = character(0)
+    methodIDs[[m]] = methodID
+    methodCodes[[m]] = character(0)
+    methodAttIDs[[m]] = character(0)
     if(nmtid$new) {
-      target@methods[[methodID]] = list(name = heightMethod@name,
-                                        description = heightMethod@description,
-                                        subject = heightMethod@subject,
-                                        attributeType = heightMethod@attributeType)
-      if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' added.\n"))
+      target@methods[[methodID]] = list(name = method@name,
+                                        description = method@description,
+                                        subject = method@subject,
+                                        attributeType = method@attributeType)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
       # add attributes if necessary
       cnt = length(target@attributes)+1
-      for(i in 1:length(heightMethod@attributes)) {
+      methodAttIDs[[m]] = character(length(method@attributes))
+      methodCodes[[m]] = character(length(method@attributes))
+      for(i in 1:length(method@attributes)) {
         attid = as.character(length(target@attributes)+1)
-        target@attributes[[attid]] = heightMethod@attributes[[i]]
+        target@attributes[[attid]] = method@attributes[[i]]
         target@attributes[[attid]]$methodID = methodID
-        heightAttIDs[i] = attid
-        if(heightMethod@attributes[[i]]$type != "quantitative") heightCodes[i] = heightMethod@attributes[[i]]$code
+        methodAttIDs[[m]][i] = attid
+        if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
         cnt = cnt + 1
       }
     } else {
-      heightCodes = .getAttributeCodesByMethodID(target,methodID)
-      heightAttIDs = .getAttributeIDsByMethodID(target,methodID)
-      if(verbose) cat(paste0(" Diameter measurement method '", heightMethod@name,"' already included.\n"))
+      methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)
+      methodAttIDs[[m]] = .getAttributeIDsByMethodID(target,methodID)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
     }
-
   }
-
+  
   # stratum definition
   if(stratumFlag) {
     # stratum definition method (WARNING: method match should be made by attributes?)
@@ -261,7 +255,8 @@ addTreeObservations<-function(target, x, projectTitle,
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
       parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
-    } else {
+    } 
+    else {
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
@@ -271,7 +266,8 @@ addTreeObservations<-function(target, x, projectTitle,
       if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonNames[i])
       parsedTNUCs = c(parsedTNUCs, authorTaxonNames[i])
       parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
-    } else {
+    } 
+    else {
       tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonNames[i])]
     }
 
@@ -302,10 +298,12 @@ addTreeObservations<-function(target, x, projectTitle,
                                                                   "taxonNameUsageConceptID" = tnucID)
         parsedInds = c(parsedInds, individuals[i])
         parsedIndIDs = c(parsedIndIDs, indID)
-      } else {
+      } 
+      else {
         indID = parsedIndIDs[which(parsedInds==individuals[i])]
       }
-    } else { # Add a new individual for each individual observation record
+    } 
+    else { # Add a new individual for each individual observation record
       indID = as.character(length(target@individualOrganisms)+1)
       target@individualOrganisms[[indID]] = list("plotID"= plotID,
                                                  "identificationLabel" = paste0("ind",length(target@individualOrganisms)+1),
@@ -313,37 +311,109 @@ addTreeObservations<-function(target, x, projectTitle,
     }
 
     # ind org observations
-    # TO BE DONE: CHECK that the ind org observation is new
-    if(!(diameters[i] %in% as.character(missing.values))) {
-      if(diameterMethod@attributeType== "quantitative") {
-        value = as.numeric(diameters[i])
-        if(value> diameterMethod@attributes[[1]]$upperLimit) {
-          stop(paste0("Diameter '", value,"' larger than upper limit of diameter measurement definition. Please revise scale or data."))
-        }
-        else if(value < diameterMethod@attributes[[1]]$lowerLimit) {
-          stop(paste0("Diameter '", value,"' smaller than lower limit of diameter measurement definition. Please revise scale or data."))
-        }
-        target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
-                                                                            "individualOrganismID" = indID,
-                                                                            "diameterAttributeID" = diamAttIDs[1],
-                                                                            "diameterValue" = value)
-        if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
-        indObsCounter = indObsCounter + 1
-      } else {
-        ind = which(diameterCodes==as.character(diameters[i]))
-        if(length(ind)==1) {
-          target@individualObservations[[as.character(indObsCounter)]] = list("plotObservationID" = plotObsID,
-                                                                              "individualOrganismID" = indID,
-                                                                              "diameterAttributeID" = diamAttIDs[ind],
-                                                                              "diameterValue" = diameters[i])
-          if(stratumFlag) target@individualObservations[[as.character(indObsCounter)]]$stratumObservationID = strObsID
-          indObsCounter = indObsCounter + 1
-        }
-        else stop(paste0("Diameter '", diameters[i],"' not found in diameter measurement definition. Please revise diameter classes or data."))
-      }
-    } else {
-      nmissing = nmissing + 1
+    nioID = .newIndividualOrganismObservationIDByIndividualID(target, plotObsID, indID)
+    indObsID = nioID$id
+    if(nioID$new) {
+      indObs = list("plotObservationID" = plotObsID,
+                    "individualOrganismID" = indID)
     }
+    else {
+      indObs = target@stratumObservations[[indObsID]]
+    }
+    if(stratumFlag) indObs$stratumObservationID = strObsID
+    
+    
+    # diameter measurements
+    for(m in c("diameterMeasurement")) {
+      if(m %in% names(mapping)) {
+        method = methods[[m]]
+        attIDs = methodAttIDs[[m]]
+        codes = methodCodes[[m]]
+        value = as.character(indMeasurementValues[[m]][i])
+        if(!(value %in% as.character(missing.values))) {
+          if(method@attributeType== "quantitative") {
+            value = as.numeric(value)
+            if(value> method@attributes[[1]]$upperLimit) {
+              stop(paste0("Diameter '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+            }
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Diameter '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+            }
+            indObs[[m]] = list("attributeID" = attIDs[1], "value" = value)
+          } else {
+            ind = which(codes==as.character(value))
+            if(length(ind)==1) {
+              indObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+            }
+            else stop(paste0("Value '", value,"' not found in diameter measurement definition. Please revise height classes or data."))
+          }
+        } else {
+          nmissing = nmissing + 1
+        }
+      }
+    }
+    # height measurements
+    for(m in c("heightMeasurement")) {
+      if(m %in% names(mapping)) {
+        method = methods[[m]]
+        attIDs = methodAttIDs[[m]]
+        codes = methodCodes[[m]]
+        value = as.character(indMeasurementValues[[m]][i])
+        if(!(value %in% as.character(missing.values))) {
+          if(method@attributeType== "quantitative") {
+            value = as.numeric(value)
+            if(value> method@attributes[[1]]$upperLimit) {
+              stop(paste0("Height '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+            }
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Height '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+            }
+            indObs[[m]] = list("attributeID" = attIDs[1], "value" = value)
+          } else {
+            ind = which(codes==as.character(value))
+            if(length(ind)==1) {
+              indObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+            }
+            else stop(paste0("Value '", value,"' not found in height measurement definition. Please revise height classes or data."))
+          }
+        } else {
+          nmissing = nmissing + 1
+        }
+      }
+    }
+    # individual organism measurements
+    for(m in names(indmesmapping)) {
+      method = methods[[m]]
+      attIDs = methodAttIDs[[m]]
+      codes = methodCodes[[m]]
+      value = as.character(indMeasurementValues[[m]][i])
+      if(!(value %in% as.character(missing.values))) {
+        if(!("individualOrganismMeasurements" %in% names(indObs))) indObs$individualOrganismMeasurements = list()
+        mesID = as.character(length(indObs$individualOrganismMeasurements)+1)
+        if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
+          if(value> method@attributes[[1]]$upperLimit) {
+            stop(paste0("Value '", value,"' larger than upper limit of measurement definition for '",m,"'. Please revise scale or data."))
+          }
+          else if(value < method@attributes[[1]]$lowerLimit) {
+            stop(paste0("Value '", value,"' smaller than lower limit of measurement definition for '",m,"'. Please revise scale or data."))
+          }
+          indObs$individualOrganismMeasurements[[mesID]] = list("attributeID" = attIDs[1], "value" = value)
+        } else {
+          ind = which(codes==value)
+          if(length(ind)==1) {
+            indObs$individualOrganismMeasurements[[mesID]] = list("attributeID" = attIDs[ind], "value" = value)
+          }
+          else stop(paste0("Value '", value,"' not found in measurement definition for '",m,"'. Please revise height classes or data."))
+        }
+      }
+      else {
+        nmissing = nmissing + 1
+      }
+    }
+    #Store value in target
+    target@individualObservations[[indObsID]] = indObs
+    
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)

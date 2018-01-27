@@ -4,7 +4,7 @@
 \alias{addTaxonObservations}
 \title{Add taxon observation records}
 \usage{
-addTaxonObservations(target, x, projectTitle, mapping, methods,
+addTaxonObservations(target, x, projectTitle, mapping, methods = list(),
   stratumDefinition = NULL, missing.values = c(NA, "0", ""),
   verbose = TRUE)
 }
@@ -72,10 +72,10 @@ summary(x)
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other add functions: \code{\link{addPlotLocations}},
+Other add functions: \code{\link{addIndividualOrganismObservations}},
+  \code{\link{addPlotLocations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
-  \code{\link{addTaxonBySiteData}},
-  \code{\link{addTreeObservations}}
+  \code{\link{addTaxonBySiteData}}
 }

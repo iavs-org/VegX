@@ -56,7 +56,7 @@
 #'
 addTaxonObservations<-function(target, x, projectTitle,
                                      mapping,
-                                     methods,
+                                     methods = list(),
                                      stratumDefinition = NULL,
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
@@ -101,7 +101,7 @@ addTaxonObservations<-function(target, x, projectTitle,
   }
 
   aggmesmapping = mapping[!(names(mapping) %in% c(aggregatedObservationMappingsAvailable, "heightMeasurement"))]
-  if(verbose) cat(paste0(" ", length(aggmesmapping)," aggregated organism measurement variables found.\n"))
+  if(verbose) cat(paste0(" ", length(aggmesmapping)," additional aggregated organism measurement variables found.\n"))
   if(length(aggmesmapping)>0) {
     for(i in 1:length(aggmesmapping)){
       if(!(names(aggmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(aggmesmapping)[[i]],"'.")
@@ -302,7 +302,7 @@ addTaxonObservations<-function(target, x, projectTitle,
 
     # height limit measurements
     for(m in c("heightMeasurement")) {
-      if(m %in% mapping) {
+      if(m %in% names(mapping)) {
         method = methods[[m]]
         attIDs = methodAttIDs[[m]]
         codes = methodCodes[[m]]
