@@ -228,7 +228,7 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
         if(includeIDs) {
           res[i, "plotObservationID"] = x@stratumObservations[[i]]$plotObservationID
         }
-        res[i, "plotName"] = x@plots[[x@plotObservations[[x@stratumObservations[[i]]$plotObservationID]]$plotID]]
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@stratumObservations[[i]]$plotObservationID]]$plotID]]$plotName
         res[i, "obsStartDate"] = as.character(x@plotObservations[[x@stratumObservations[[i]]$plotObservationID]]$obsStartDate)
         if(includeIDs) {
           res[i, "stratumID"] = x@stratumObservations[[i]]$stratumID
