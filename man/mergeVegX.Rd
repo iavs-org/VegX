@@ -56,18 +56,18 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
-x = addTaxonObservations(target, tcv, "Mokihinui",
+x = addTaxonObservations(newVegX(), tcv, "Mokihinui",
                         mapping = taxmapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
 
 # Create document 'y' with tree observations
 treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
-                   authorTaxonName = "PreferredSpeciesName", diameter = "Diameter")
+                   authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 diamMeth = predefinedMeasurementMethod("DBH")
-y = addTreeObservations(newVegX(), dia, "Mokihinui",
+y = addIndividualOrganismObservations(newVegX(), dia, "Mokihinui",
                         mapping = treemapping,
-                        diameterMethod = diamMeth)
+                        methods = c(diameterMeasurement = diamMeth))
 
 # Merge 'x' and 'y'
 z = mergeVegX(x,y)
