@@ -153,6 +153,42 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@aggregateObservations), " aggregate organism observation(s) read.\n"))
   }
 
+  #read individual organisms
+  .readIndividualOrganism.2.0.0 = function(x) {
+    ind = list(plotID = xmlValue(x[["plotID"]]),
+               identificationLabel = xmlValue(x[["identificationLabel"]]))
+    n = names(x)
+    if("taxonNameUsageConceptID" %in% n) ind$taxonNameUsageConceptID = xmlValue(x[["taxonNameUsageConceptID"]])
+    return(ind)
+  }
+  if("individualOrganisms" %in% vegnames) {
+    target@individualOrganisms = xmlApply(veg[["individualOrganisms"]], .readIndividualOrganism.2.0.0)
+    names(target@individualOrganisms) = xmlApply(veg[["individualOrganisms"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@individualOrganisms), " individual organism(s) read.\n"))
+  }
+
+  #read individual organism observations
+  .readIndividualOrganismObservation.2.0.0 = function(x) {
+    indObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]),
+                  individualOrganismID = xmlValue(x[["individualOrganismID"]]))
+    n = names(x)
+    if("stratumObservationID" %in% n) indObs$stratumObservationID = xmlValue(x[["stratumObservationID"]])
+    for(nm in n) {
+      if(nm=="heightMeasurement") indObs$heightMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+      else if(nm=="diameterMeasurement") indObs$diameterMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+      else if(nm=="individualOrganismMeasurement") {
+        if(!("individualOrganismMeasurements" %in% names(indObs))) indObs$individualOrganismMeasurements = list()
+        mesid = as.character(length(indObs$individualOrganismMeasurements)+1)
+        indObs$individualOrganismMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      }
+    }
+    return(indObs)
+  }
+  if("individualOrganismObservations" %in% vegnames) {
+    target@individualObservations = xmlApply(veg[["individualOrganismObservations"]], .readIndividualOrganismObservation.2.0.0)
+    names(target@individualObservations) = xmlApply(veg[["individualOrganismObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@individualObservations), " individual organism observation(s) read.\n"))
+  }
 
   #read methods
   .readMethod.2.0.0 = function(x) {
