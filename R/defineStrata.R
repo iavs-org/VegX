@@ -76,7 +76,7 @@ defineCategoricalStrata<-function(name = "Strata by categories",
   strata = list()
   for(i in 1:length(strataNames)) {
     strata[[as.character(i)]] = list(stratumName = strataNames[i],
-                                     stratumSequence = i)
+                                     order = i)
     if(!is.null(strataDefinitions)) strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
   return(new("VegXStrata",

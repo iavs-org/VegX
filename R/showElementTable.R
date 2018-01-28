@@ -203,7 +203,7 @@ showElementTable<-function(x, element = "plot", includeIDs = FALSE) {
           }
           res[i, "methodName"] = x@methods[[x@strata[[i]]$methodID]]$name
         }
-        if("stratumSequence" %in% names(x@strata[[i]])) res[i, "stratumSequence"] = x@strata[[i]]$stratumSequence
+        if("order" %in% names(x@strata[[i]])) res[i, "order"] = x@strata[[i]]$order
         if("lowerLimit" %in% names(x@strata[[i]])) res[i, "lowerLimit"] = x@strata[[i]]$lowerLimit
         if("upperLimit" %in% names(x@strata[[i]])) res[i, "upperLimit"] = x@strata[[i]]$upperLimit
       }

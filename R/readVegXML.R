@@ -69,6 +69,29 @@ readVegXML<-function(file) {
   target@plotObservations = xmlApply(veg[["plotObservations"]], .readPlotObservation.2.0.0)
   names(target@plotObservations) = xmlApply(veg[["plotObservations"]], xmlAttrs)
 
+  #read taxon name usage concepts
+  .readTNUC.2.0.0 = function(x) {
+    tnuc = list(authorTaxonName = xmlValue(x[["authorTaxonName"]]))
+    return(tnuc)
+  }
+  target@taxonNameUsageConcepts = xmlApply(veg[["taxonNameUsageConcepts"]], .readTNUC.2.0.0)
+  names(target@taxonNameUsageConcepts) = xmlApply(veg[["taxonNameUsageConcepts"]], xmlAttrs)
+
+  #read strata
+  .readStratum.2.0.0 = function(x) {
+    str = list(stratumName = xmlValue(x[["stratumName"]]))
+    n = names(x)
+    if("methodID" %in% n) str$methodID = xmlValue(x[["methodID"]])
+    if("definition" %in% n) str$definition = xmlValue(x[["definition"]])
+    if("lowerLimit" %in% n) str$lowerLimit = xmlValue(x[["lowerLimit"]])
+    if("upperLimit" %in% n) str$upperLimit = xmlValue(x[["upperLimit"]])
+    if("order" %in% n) str$order = xmlValue(x[["order"]])
+    return(str)
+  }
+  target@strata = xmlApply(veg[["strata"]], .readStratum.2.0.0)
+  names(target@strata) = xmlApply(veg[["strata"]], xmlAttrs)
+
+
   #read methods
   .readMethod.2.0.0 = function(x) {
     met = list()
