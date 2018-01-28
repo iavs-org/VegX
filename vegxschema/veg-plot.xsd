@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
-<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-1.0.1" xmlns="http://iavs.org/vegX/plot-1.0.1" targetNamespace="http://iavs.org/vegX/plot-1.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/plot-2.0.0" targetNamespace="http://iavs.org/vegX/plot-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
     <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
     <xsd:import schemaLocation="eml-documentation.xsd" namespace="eml://ecoinformatics.org/documentation-2.0.1" />
@@ -34,7 +34,7 @@
                     <xsd:documentation xml:lang="en">Plot identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="relatedPlot" type="misc:relatedPlotType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="relatedPlot" xmlns:q1="http://iavs.org/vegX/misc-2.0.0" type="q1:relatedPlotType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. </xsd:documentation>
                 </xsd:annotation>

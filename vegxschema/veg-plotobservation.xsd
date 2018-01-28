@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
-<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:plot="http://iavs.org/vegX/plot-1.0.1" xmlns:proj="eml://ecoinformatics.org/project-2.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-1.0.1" xmlns="http://iavs.org/vegX/plotobservation-1.0.1" targetNamespace="http://iavs.org/vegX/plotobservation-1.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:plot="http://iavs.org/vegX/plot-2.0.0" xmlns:proj="eml://ecoinformatics.org/project-2.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/plotobservation-2.0.0" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
     <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
     <xsd:import schemaLocation="eml-project.xsd" namespace="eml://ecoinformatics.org/project-2.0.1" />
     <xsd:import schemaLocation="eml-documentation.xsd" namespace="eml://ecoinformatics.org/documentation-2.0.1" />
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-1.0.1" />
-    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-1.0.1" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
+    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.0" />
     <xsd:complexType name="PlotObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped.</xsd:documentation>

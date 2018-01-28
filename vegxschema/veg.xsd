@@ -17,8 +17,8 @@
     <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
     <xsd:import schemaLocation="tcsv101.xsd" namespace="http://www.tdwg.org/schemas/tcs/1.01" />
     <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.0" />
-    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-1.0.1" />
-    <xsd:import schemaLocation="veg-organismobservation.xsd" namespace="http://iavs.org/vegX/organismobservation-1.0.1" />
+    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.0" />
+    <xsd:import schemaLocation="veg-organismobservation.xsd" namespace="http://iavs.org/vegX/organismobservation-2.0.0" />
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:import schemaLocation="tdwg_dw_geospatial.xsd" namespace="http://rs.tdwg.org/dwc/geospatial/" />
     <xsd:include schemaLocation="veg-userdefined.xsd" />

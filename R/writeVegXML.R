@@ -317,4 +317,5 @@ writeVegXML<-function(x, file) {
   #XML document
   doc = newXMLDoc(top)
   saveXML(doc, file = file)
+  rm(doc)
 }
