@@ -190,6 +190,35 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@individualObservations), " individual organism observation(s) read.\n"))
   }
 
+  #read site observations
+  .readSiteObservation.2.0.0 = function(x) {
+    siteObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]))
+    n = names(x)
+    for(nm in n) {
+      if(nm=="soilMeasurement") {
+        if(!("soilMeasurements" %in% names(siteObs))) siteObs$soilMeasurements = list()
+        mesid = as.character(length(siteObs$soilMeasurements)+1)
+        siteObs$soilMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      }
+      else if(nm=="climateMeasurement") {
+        if(!("climateMeasurements" %in% names(siteObs))) siteObs$climateMeasurements = list()
+        mesid = as.character(length(siteObs$climateMeasurements)+1)
+        siteObs$climateMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      }
+      else if(nm=="waterMassMeasurement") {
+        if(!("waterMassMeasurements" %in% names(siteObs))) siteObs$waterMassMeasurements = list()
+        mesid = as.character(length(siteObs$waterMassMeasurements)+1)
+        siteObs$waterMassMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      }
+    }
+    return(siteObs)
+  }
+  if("siteObservations" %in% vegnames) {
+    target@siteObservations = xmlApply(veg[["siteObservations"]], .readSiteObservation.2.0.0)
+    names(target@siteObservations) = xmlApply(veg[["siteObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@siteObservations), " site observation(s) read.\n"))
+  }
+
   #read methods
   .readMethod.2.0.0 = function(x) {
     met = list()

@@ -11,9 +11,6 @@ writeVegXML(x, file)
 
 \item{file}{the file name to be written}
 }
-\value{
-A string of the file written
-}
 \description{
 Assembles and writes an XML file on the disk
 following the Veg-X XML schema standard (ver 1.6.0)
