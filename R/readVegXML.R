@@ -21,6 +21,7 @@ readVegXML<-function(file) {
   }
   target@projects = xmlApply(veg[["projects"]], .readProject.2.0.0)
   names(target@projects) = xmlApply(veg[["projects"]], xmlAttrs)
+
   #read plots
   .readPlot.2.0.0 = function(x) {
     plot = list()
@@ -54,6 +55,19 @@ readVegXML<-function(file) {
   }
   target@plots = xmlApply(veg[["plots"]], .readPlot.2.0.0)
   names(target@plots) = xmlApply(veg[["plots"]], xmlAttrs)
+
+  #read plot observations
+  .readPlotObservation.2.0.0 = function(x) {
+    plotObs = list(plotID = xmlValue(x[["plotID"]]),
+                   obsStartDate = as.Date(xmlValue(x[["obsStartDate"]]), format = "%Y-%m-%d"))
+    n = names(x)
+    if("projectID" %in% n) plotObs$projectID = xmlValue(x[["projectID"]])
+    if("obsEndDate" %in% n) plotObs$obsEndDate = as.Date(xmlValue(x[["obsEndDate"]]), format = "%Y-%m-%d")
+    if("siteObservationID" %in% n) plotObs$siteObservationID = xmlValue(x[["siteObservationID"]])
+    return(plotObs)
+  }
+  target@plotObservations = xmlApply(veg[["plotObservations"]], .readPlotObservation.2.0.0)
+  names(target@plotObservations) = xmlApply(veg[["plotObservations"]], xmlAttrs)
 
   #read methods
   .readMethod.2.0.0 = function(x) {
