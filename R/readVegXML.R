@@ -91,6 +91,25 @@ readVegXML<-function(file) {
   target@strata = xmlApply(veg[["strata"]], .readStratum.2.0.0)
   names(target@strata) = xmlApply(veg[["strata"]], xmlAttrs)
 
+  #read stratum observations
+  .readStratumObservation.2.0.0 = function(x) {
+    strObs = list(stratumID = xmlValue(x[["stratumID"]]),
+                  plotObservationID = xmlValue(x[["plotObservationID"]]))
+    n = names(x)
+    for(nm in n) {
+      if(nm=="lowerLimitMeasurement") strObs$lowerLimitMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+      else if(nm=="upperLimitMeasurement") strObs$upperLimitMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+      else if(nm=="stratumMeasurement") {
+        if(!("stratumMeasurements" %in% names(strObs))) strObs$stratumMeasurements = list()
+        mesid = as.character(length(strObs$stratumMeasurements)+1)
+        strObs$stratumMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      }
+    }
+    return(strObs)
+  }
+  target@stratumObservations = xmlApply(veg[["stratumObservations"]], .readStratumObservation.2.0.0)
+  names(target@stratumObservations) = xmlApply(veg[["stratumObservations"]], xmlAttrs)
+
 
   #read methods
   .readMethod.2.0.0 = function(x) {
