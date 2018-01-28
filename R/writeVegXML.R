@@ -32,12 +32,12 @@ writeVegXML<-function(x, file) {
                                   tcs="http://www.tdwg.org/schemas/tcs/1.01",
                                   dwe="http://rs.tdwg.org/dwc/dwelement",
                                   dwg="http://rs.tdwg.org/dwc/geospatial/",
-                                  veg="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-2.0.0",
-                                  obs="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-misc-2.0.0",
-                                  org="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-organismobservation-2.0.0",
-                                  plot="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-plot-2.0.0",
-                                  plotobs="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-plotobservation-2.0.0",
-                                  userdef="https://github.com/miquelcaceres/VegX/tree/master/vegxschema/veg-userdefined-2.0.0",
+                                  veg="http://iavs.org/vegx/veg-2.0.0",
+                                  obs="http://iavs.org/vegx/veg-misc-2.0.0",
+                                  org="http://iavs.org/vegx/veg-organismobservation-2.0.0",
+                                  plot="http://iavs.org/vegx/veg-plot-2.0.0",
+                                  plotobs="http://iavs.org/vegx/veg-plotobservation-2.0.0",
+                                  userdef="http://iavs.org/vegx/veg-userdefined-2.0.0",
                                   xsi="http://www.w3.org/2001/XMLSchema-instance"))
   #Project elements
   if(length(x@projects)>0){

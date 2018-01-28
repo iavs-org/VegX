@@ -1,15 +1,25 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
-<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:tcs="http://www.tdwg.org/schemas/tcs/1.01" xmlns:org="http://www.bfn.de/organismobservation-1.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:obs="http://www.bfn.de/plotobservation-1.0.1" xmlns:proj="eml://ecoinformatics.org/project-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:plot="http://www.bfn.de/plot-1.0.1" xmlns:misc="http://www.bfn.de/misc-1.0.1" xmlns:lit="eml://ecoinformatics.org/literature-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" 
+            xmlns:tcs="http://www.tdwg.org/schemas/tcs/1.01" 
+            xmlns:org="http://iavs.org/vegX/organismobservation-2.0.0" 
+            xmlns:res="eml://ecoinformatics.org/resource-2.0.1" 
+            xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.0" 
+            xmlns:proj="eml://ecoinformatics.org/project-2.0.1" 
+            xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" 
+            xmlns:plot="http://iavs.org/vegX/plot-2.0.0" 
+            xmlns:misc="http://iavs.org/vegX/misc-2.0.0" 
+            xmlns:lit="eml://ecoinformatics.org/literature-2.0.1" 
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="eml-project.xsd" namespace="eml://ecoinformatics.org/project-2.0.1" />
     <xsd:import schemaLocation="eml-literature.xsd" namespace="eml://ecoinformatics.org/literature-2.0.1" />
     <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
     <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
     <xsd:import schemaLocation="tcsv101.xsd" namespace="http://www.tdwg.org/schemas/tcs/1.01" />
-    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://www.bfn.de/plot-1.0.1" />
-    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://www.bfn.de/plotobservation-1.0.1" />
-    <xsd:import schemaLocation="veg-organismobservation.xsd" namespace="http://www.bfn.de/organismobservation-1.0.1" />
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://www.bfn.de/misc-1.0.1" />
+    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.0" />
+    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-1.0.1" />
+    <xsd:import schemaLocation="veg-organismobservation.xsd" namespace="http://iavs.org/vegX/organismobservation-1.0.1" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:import schemaLocation="tdwg_dw_geospatial.xsd" namespace="http://rs.tdwg.org/dwc/geospatial/" />
     <xsd:include schemaLocation="veg-userdefined.xsd" />
     <xsd:annotation>
