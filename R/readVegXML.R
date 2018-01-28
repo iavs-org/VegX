@@ -130,6 +130,29 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@stratumObservations), " stratum observation(s) read.\n"))
   }
 
+  #read aggregate organism observations
+  .readAggregateOrganismObservation.2.0.0 = function(x) {
+    aggObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]),
+                  taxonNameUsageConceptID = xmlValue(x[["taxonNameUsageConceptID"]]))
+    n = names(x)
+    if("stratumObservationID" %in% n) aggObs$stratumObservationID = xmlValue(x[["stratumObservationID"]])
+    for(nm in n) {
+      if(nm=="heightMeasurement") aggObs$heightMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+      else if(nm=="aggregateOrganismMeasurement") {
+        if(!("aggregateOrganismMeasurements" %in% names(aggObs))) aggObs$aggregateOrganismMeasurements = list()
+        mesid = as.character(length(aggObs$aggregateOrganismMeasurements)+1)
+        aggObs$aggregateOrganismMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      }
+    }
+
+    return(aggObs)
+  }
+  if("aggregateOrganismObservations" %in% vegnames) {
+    target@aggregateObservations = xmlApply(veg[["aggregateOrganismObservations"]], .readAggregateOrganismObservation.2.0.0)
+    names(target@aggregateObservations) = xmlApply(veg[["aggregateOrganismObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@aggregateObservations), " aggregate organism observation(s) read.\n"))
+  }
+
 
   #read methods
   .readMethod.2.0.0 = function(x) {
