@@ -4,12 +4,14 @@
 \alias{writeVegXML}
 \title{Write VegX XML file}
 \usage{
-writeVegXML(x, file)
+writeVegXML(x, file, verbose = TRUE)
 }
 \arguments{
 \item{x}{an object of class \code{\linkS4class{VegX}}}
 
 \item{file}{the file name to be written}
+
+\item{verbose}{A boolean flag to indicate console output of the XML tree building process.}
 }
 \description{
 Assembles and writes an XML file on the disk
