@@ -4,10 +4,12 @@
 \alias{readVegXML}
 \title{Reads a Veg-X XML file}
 \usage{
-readVegXML(file)
+readVegXML(file, verbose = TRUE)
 }
 \arguments{
 \item{file}{the filename of an XML file following the Veg-X standard (ver. 2.0)}
+
+\item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
 \value{
 An object of class \code{\linkS4class{VegX}}

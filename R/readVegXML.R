@@ -1,13 +1,15 @@
 #' Reads a Veg-X XML file
 #'
 #' @param file the filename of an XML file following the Veg-X standard (ver. 2.0)
+#' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return An object of class \code{\linkS4class{VegX}}
 #' @export
 #'
-readVegXML<-function(file) {
+readVegXML<-function(file, verbose = TRUE) {
   target = newVegX()
   veg=xmlRoot(xmlTreeParse(file, useInternalNodes = T))
+  vegnames = names(veg)
 
   .readVegXMeasurement.2.0.0 = function(x) {
     return(list(value = xmlValue(x[["value"]]), attributeID = xmlValue(x[["attributeID"]])))
@@ -19,8 +21,11 @@ readVegXML<-function(file) {
     project$title = xmlValue(x[["title"]])
     return(project)
   }
-  target@projects = xmlApply(veg[["projects"]], .readProject.2.0.0)
-  names(target@projects) = xmlApply(veg[["projects"]], xmlAttrs)
+  if("projects" %in% vegnames) {
+    target@projects = xmlApply(veg[["projects"]], .readProject.2.0.0)
+    names(target@projects) = xmlApply(veg[["projects"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@projects), " project(s) read.\n"))
+  }
 
   #read plots
   .readPlot.2.0.0 = function(x) {
@@ -53,8 +58,11 @@ readVegXML<-function(file) {
     }
     return(plot)
   }
-  target@plots = xmlApply(veg[["plots"]], .readPlot.2.0.0)
-  names(target@plots) = xmlApply(veg[["plots"]], xmlAttrs)
+  if("plots" %in% vegnames) {
+    target@plots = xmlApply(veg[["plots"]], .readPlot.2.0.0)
+    names(target@plots) = xmlApply(veg[["plots"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@plots), " plot(s) read.\n"))
+  }
 
   #read plot observations
   .readPlotObservation.2.0.0 = function(x) {
@@ -66,16 +74,22 @@ readVegXML<-function(file) {
     if("siteObservationID" %in% n) plotObs$siteObservationID = xmlValue(x[["siteObservationID"]])
     return(plotObs)
   }
-  target@plotObservations = xmlApply(veg[["plotObservations"]], .readPlotObservation.2.0.0)
-  names(target@plotObservations) = xmlApply(veg[["plotObservations"]], xmlAttrs)
+  if("plotObservations" %in% vegnames) {
+    target@plotObservations = xmlApply(veg[["plotObservations"]], .readPlotObservation.2.0.0)
+    names(target@plotObservations) = xmlApply(veg[["plotObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@plotObservations), " plot observation(s) read.\n"))
+  }
 
   #read taxon name usage concepts
   .readTNUC.2.0.0 = function(x) {
     tnuc = list(authorTaxonName = xmlValue(x[["authorTaxonName"]]))
     return(tnuc)
   }
-  target@taxonNameUsageConcepts = xmlApply(veg[["taxonNameUsageConcepts"]], .readTNUC.2.0.0)
-  names(target@taxonNameUsageConcepts) = xmlApply(veg[["taxonNameUsageConcepts"]], xmlAttrs)
+  if("taxonNameUsageConcepts" %in% vegnames) {
+    target@taxonNameUsageConcepts = xmlApply(veg[["taxonNameUsageConcepts"]], .readTNUC.2.0.0)
+    names(target@taxonNameUsageConcepts) = xmlApply(veg[["taxonNameUsageConcepts"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@taxonNameUsageConcepts), " taxon name usage concept(s) read.\n"))
+  }
 
   #read strata
   .readStratum.2.0.0 = function(x) {
@@ -88,8 +102,11 @@ readVegXML<-function(file) {
     if("order" %in% n) str$order = xmlValue(x[["order"]])
     return(str)
   }
-  target@strata = xmlApply(veg[["strata"]], .readStratum.2.0.0)
-  names(target@strata) = xmlApply(veg[["strata"]], xmlAttrs)
+  if("strata" %in% vegnames) {
+    target@strata = xmlApply(veg[["strata"]], .readStratum.2.0.0)
+    names(target@strata) = xmlApply(veg[["strata"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@strata), " strata read.\n"))
+  }
 
   #read stratum observations
   .readStratumObservation.2.0.0 = function(x) {
@@ -107,8 +124,11 @@ readVegXML<-function(file) {
     }
     return(strObs)
   }
-  target@stratumObservations = xmlApply(veg[["stratumObservations"]], .readStratumObservation.2.0.0)
-  names(target@stratumObservations) = xmlApply(veg[["stratumObservations"]], xmlAttrs)
+  if("stratumObservations" %in% vegnames) {
+    target@stratumObservations = xmlApply(veg[["stratumObservations"]], .readStratumObservation.2.0.0)
+    names(target@stratumObservations) = xmlApply(veg[["stratumObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@stratumObservations), " stratum observation(s) read.\n"))
+  }
 
 
   #read methods
@@ -121,8 +141,11 @@ readVegXML<-function(file) {
     if("citationString" %in% n) met$citationString = xmlValue(x[["citationString"]])
     return(met)
   }
-  target@methods = xmlApply(veg[["methods"]], .readMethod.2.0.0)
-  names(target@methods) = xmlApply(veg[["methods"]], xmlAttrs)
+  if("methods" %in% vegnames) {
+    target@methods = xmlApply(veg[["methods"]], .readMethod.2.0.0)
+    names(target@methods) = xmlApply(veg[["methods"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@methods), " method(s) read.\n"))
+  }
 
   #read attributes
   .readAttribute.2.0.0 = function(x) {
@@ -157,9 +180,12 @@ readVegXML<-function(file) {
     }
     stop("Wrong attribute type")
   }
-  target@attributes = xmlApply(veg[["attributes"]], .readAttribute.2.0.0)
-  names(target@attributes) = xmlApply(veg[["attributes"]], xmlAttrs)
-  for(att in target@attributes) target@methods[[att$methodID]]$attributeType = att$type #Sets method type from attribute type
+  if("attributes" %in% vegnames) {
+    target@attributes = xmlApply(veg[["attributes"]], .readAttribute.2.0.0)
+    names(target@attributes) = xmlApply(veg[["attributes"]], xmlAttrs)
+    for(att in target@attributes) target@methods[[att$methodID]]$attributeType = att$type #Sets method type from attribute type
+    if(verbose) cat(paste0(" ", length(target@attributes), " attribute(s) read.\n"))
+  }
 
   rm(veg)
   return(target)
