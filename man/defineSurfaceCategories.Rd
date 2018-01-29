@@ -5,8 +5,8 @@
 \title{Surface cover definition by simple category}
 \usage{
 defineSurfaceCategories(name = "Surface covers",
-  description = "Four simple surface categories", citation = "",
-  surfaceNames = c("bare soil", "water", "rock", "vegetation"))
+  description = "Four simple surface cover categories", citation = "",
+  surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
 }
 \arguments{
 \item{name}{A string to identify the surface cover definition.}
@@ -18,7 +18,7 @@ defineSurfaceCategories(name = "Surface covers",
 \item{surfaceNames}{A numeric vector of surface codes (of length equal to the number of strata).}
 }
 \value{
-an object of class \code{\linkS4class{VegXStrata}}
+an object of class \code{\linkS4class{VegXSurfaceCoverDefinition}}
 }
 \description{
 Surface cover definition by simple category

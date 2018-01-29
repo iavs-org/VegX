@@ -1,7 +1,7 @@
 #' S4 class for Veg-X surface cover definition
 #'
-#' @slot method VegXMethod.
-#' @slot strata list.
+#' @slot method An object of class \code{\linkS4class{VegXMethod}}.
+#' @slot surfaceCovers A list of surface covers.
 #'
 #' @export
 #'

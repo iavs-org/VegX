@@ -15,7 +15,7 @@
 #' @slot individualOrganisms A list of individual organisms.
 #' @slot individualObservations A list of observations made on individual organisms (e.g. diameter or height values).
 #' @slot siteObservations A list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).
-#' @slot vegetationObservations list of observations applying to the whole stand (e.g. stand maturity)
+#' @slot communityObservations list of observations applying to the whole plant community (e.g. stand age or species richness)
 #' @slot surfaceCovers A list of surface cover definitions.
 #' @slot surfaceCoverObservations list of surface cover observations.
 #' @slot methods A list of measurement methods (e.g. cover scales).
@@ -38,7 +38,7 @@ setClass("VegX",slots=c(VegXVersion = "character",
                         aggregateObservations = "list",
                         individualOrganisms = "list",
                         individualObservations = "list",
-                        vegetationObservations = "list",
+                        communityObservations = "list",
                         surfaceCovers = "list",
                         surfaceCoverObservations = "list",
                         siteObservations = "list",

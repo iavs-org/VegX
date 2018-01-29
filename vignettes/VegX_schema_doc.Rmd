@@ -60,9 +60,9 @@ aggregatedOrganismObservation  | An observation applying to all occurrences of a
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
 siteObservation             | A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. | Yes |
-surfaceCover | TO BE DONE | No |
-surfaceCoverObservation | TO BE DONE | No |
-vegetationObservation | TO BE DONE | No |
+surfaceCover | TO BE DONE | Yes |
+surfaceCoverObservation | TO BE DONE | Yes |
+vegetationObservation | TO BE DONE | Yes |
 taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. | No |
 taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. | No |
 taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
@@ -280,6 +280,34 @@ habitat        | A specific habitat type, applying to this plot during the plot 
 observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 
+### Element *surfaceCover*
+
+The definition of a surface cover class, not the observation of cover.  From the perspective of the **VegX package** user, surface cover classes are uniquely identified by *surfaceName*.
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+surfaceName                | Name associated with this surface cover class and which identifies it. | 1 | Yes |
+methodID                   | A reference to a specific method used to define this surface cover class. | 0..1 | Yes |
+definition                 | A longer description of the surface cover class definition. | 0..1 | Yes |
+
+
+### Element *surfaceCoverObservation*
+
+A *surfaceCoverObservation* is a single cover measurement applying to a surface cover class in a single plot during a single date-time period. From the perspective of the **VegX package** user, surface cover observations are uniquely identified by *surfaceID* (i.e. surface cover name) and *plotObservationID* (i.e. plot name and observation start date).
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+surfaceCoverID             | A reference to a specific surface cover class by ID. | 1 | Yes |
+plotObservationID          | A reference to a specific plotObservation by ID. | 1 | Yes |
+coverMeasurement           | A cover measurement, usually in percent. | 1 | Yes |
+
+
+
 ### Element **observationGrouping**
 
 A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the schema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a plotObservation).
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+name                       | The unique name of a specific grouping entity that is subsequently referenced by specific observations. | 1 | Yes |
+type                   | The grouping entity type. For example, grouping of individual organism observations for the purposes of describing a physical relationship. Recommended that a closed-list is developed and used. | 1 | Yes |

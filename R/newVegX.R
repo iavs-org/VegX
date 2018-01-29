@@ -3,7 +3,7 @@
 #' Creates a new (empty) VegX document (ver. 2.0.0)
 #'
 #'
-#' @return an empty object of class \code{\linkS4class{VegX}}
+#' @return An empty object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
 #' @examples
@@ -23,7 +23,10 @@ newVegX<-function() {
              stratumObservations = list(),
              strata = list(),
              individualOrganisms = list(),
+             communityObservations = list(),
+             surfaceCovers = list(),
+             surfaceCoverObservations = list(),
+             siteObservations = list(),
              methods = list(),
-             attributes = list(),
-             siteObservations = list()))
+             attributes = list()))
 }

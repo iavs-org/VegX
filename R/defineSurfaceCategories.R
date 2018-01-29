@@ -6,11 +6,11 @@
 #' @param citation A string with the bibliographic reference for the method.
 #' @param surfaceNames A numeric vector of surface codes (of length equal to the number of strata).
 #'
-#' @return an object of class \code{\linkS4class{VegXStrata}}
+#' @return an object of class \code{\linkS4class{VegXSurfaceCoverDefinition}}
 defineSurfaceCategories<-function(name = "Surface covers",
-                                  description = "Four simple surface categories",
+                                  description = "Four simple surface cover categories",
                                   citation = "",
-                                  surfaceNames = c("bare soil", "water", "rock", "vegetation")) {
+                                  surfaceNames = c("bare soil", "water", "rocks", "vegetation")) {
   defMethod = new("VegXMethod",
                   name = name,
                   description = description,

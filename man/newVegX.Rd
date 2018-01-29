@@ -7,7 +7,7 @@
 newVegX()
 }
 \value{
-an empty object of class \code{\linkS4class{VegX}}
+An empty object of class \code{\linkS4class{VegX}}.
 }
 \description{
 Creates a new (empty) VegX document (ver. 2.0.0)

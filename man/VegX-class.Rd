@@ -43,7 +43,7 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 
 \item{\code{siteObservations}}{A list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).}
 
-\item{\code{vegetationObservations}}{list of observations applying to the whole stand (e.g. stand maturity)}
+\item{\code{communityObservations}}{list of observations applying to the whole plant community (e.g. stand age or species richness)}
 
 \item{\code{surfaceCovers}}{A list of surface cover definitions.}
 
