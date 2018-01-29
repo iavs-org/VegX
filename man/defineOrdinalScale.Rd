@@ -5,7 +5,8 @@
 \title{Ordinal scale definition}
 \usage{
 defineOrdinalScale(name, description, subject, values, citation = "",
-  breaks = NULL, midPoints = NULL)
+  quantifiableValues = character(0), breaks = NULL, midPoints = NULL,
+  definitions = NULL)
 }
 \arguments{
 \item{name}{String with the name of the ordinal scale}
@@ -18,17 +19,51 @@ defineOrdinalScale(name, description, subject, values, citation = "",
 
 \item{citation}{A string with the bibliographic reference for the method.}
 
+\item{quantifiableValues}{A string vector with the subset of \code{values} that have correspondence in a quantitative scale. These values
+can be transformed to midPoints (if supplied in \code{midPoints}) and, correspondingly, values in the quantitative scale can be transformed to ordinal values
+using class limits (if supplied in \code{breaks}).}
+
 \item{breaks}{A vector of break points (for ordinal scales with class limits)}
 
 \item{midPoints}{A vector of class midpoints (for ordinal scales that can be translated into quantitative values)}
+
+\item{definitions}{A character vector of class definitions}
 }
 \value{
 an object of class \code{\linkS4class{VegXMethod}}
 }
 \description{
-Defines an oridnal scale for a given subject (measurement)
+A general function to define an ordinal scale for a given subject (measurement)
+}
+\examples{
+
+#Ordinal scale with three levels
+defineOrdinalScale("scale1", "Description for scale1", "subject1",
+                   values = c("first", "second","third"))
+
+#Braun-Blanquet plant cover scale with five levels that can be translated to cover values
+defineOrdinalScale(name = "Braun-Blanquet",
+                   description = "Five-level Braun-Blanquet cover scale",
+                   subject = "plant cover",
+                   citation = "",
+                   values = as.character(1:5),
+                   quantifiableValues = as.character(1:5),
+                   breaks = c(0,5,25,50,75,100),
+                   midPoints = c(2.5,17.5, 37.5, 62.5, 87.5))
+
+
+#Ordinal plant cover scale with seven levels where six can be translated to a quantitative scale
+defineOrdinalScale(name = "Recce cover scale",
+                   description = "Recce recording method by Hurst/Allen",
+                   subject = "plant cover",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   values = c("P","1","2","3", "4", "5", "6"),
+                   quantifiableValues = c("1","2","3", "4", "5", "6"),
+                   breaks = c(0, 1, 5, 25, 50, 75, 100),
+                   midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+                   definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
+
 }
 \seealso{
-Other define measurement functions: \code{\link{definePlantCoverScale}},
-  \code{\link{predefinedMeasurementMethod}}
+Other define measurement functions: \code{\link{predefinedMeasurementMethod}}
 }

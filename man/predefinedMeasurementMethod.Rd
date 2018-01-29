@@ -24,6 +24,5 @@ predefinedMeasurementMethod("Percent cover")
 
 }
 \seealso{
-Other define measurement functions: \code{\link{defineOrdinalScale}},
-  \code{\link{definePlantCoverScale}}
+Other define measurement functions: \code{\link{defineOrdinalScale}}
 }

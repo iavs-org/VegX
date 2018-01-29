@@ -1,10 +1,9 @@
-#' Add taxon observation records
+#' Add aggregate organism observation records
 #'
-#' Adds aggregate taxon observation records to a VegX object from a data table
-#' using a mapping to identify columns: plot, observation date, stratum, taxon name and value.
+#' Adds aggregate organism observation records to a VegX object from a data table
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
+#' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
@@ -47,14 +46,14 @@
 #'                               categoryStrataDefinition = "Epiphytes")
 #'
 #' # Mapping process
-#' x = addTaxonObservations(target, tcv, "Mokihinui",
+#' x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
 #'                         mapping = mapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' summary(x)
 #'
-addTaxonObservations<-function(target, x, projectTitle,
+addAggregateOrganismObservations<-function(target, x, projectTitle,
                                      mapping,
                                      methods = list(),
                                      stratumDefinition = NULL,

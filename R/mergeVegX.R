@@ -48,7 +48,7 @@
 #'                               heightStrataNames = paste0("Tier ",1:6),
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
-#' x = addTaxonObservations(newVegX(), tcv, "Mokihinui",
+#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
 #'                         mapping = taxmapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)

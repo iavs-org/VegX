@@ -296,12 +296,12 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if(x@attributes[[i]]$type=="qualitative") {
         newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
         newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
-        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$order, parent=atttype)
+        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$definition, parent=atttype)
       }
       else if(x@attributes[[i]]$type=="ordinal") {
         newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
         newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
-        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$order, parent=atttype)
+        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$definition, parent=atttype)
         newXMLNode("order", x@attributes[[i]]$order, parent=atttype)
         newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
         newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
