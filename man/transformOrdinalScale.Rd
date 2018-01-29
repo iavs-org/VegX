@@ -69,3 +69,6 @@ percentScale = predefinedMeasurementMethod("Plant cover/\%")
 y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 
 }
+\seealso{
+Other transform functions: \code{\link{transformQuantitativeScale}}
+}

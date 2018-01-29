@@ -1,12 +1,13 @@
-#' Transform ordinal scale
+#' Transform quantitative scale
 #'
-#' Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
-#' appropriate for the midpoint values of the ordinal classes.
+#' Transforms all the values in a VegX object made using a quantitative scale into another quantitative scale
+#' following a given transformation function.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
-#' @param method An integer (index) or a name of an ordinal scale method.
+#' @param method An integer (index) or a name of the original quantitative scale method.
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
 #' or an object of class \code{\linkS4class{VegXMethod}}.
+#' @param fun A function used to transform numeric values.
 #' @param replaceValues A boolean flag to indicate that values of the new scale should replace the old ones. 
 #' For some measurements transformations will not be possible if replacement is not forced using this flag.
 #' @param verbose A boolean flag to indicate console output of the data transformation process.
@@ -19,45 +20,9 @@
 #' @examples
 #' data(mokihinui)
 #'
-#' # Create Veg-X document with aggregate organism observations with ordinal cover scale
-#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
-#'               stratumName = "Tier", cover = "Category")
-#' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
-#'                    description = "Recce recording method by Hurst/Allen",
-#'                    subject = "plant cover",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                    codes = c("P","1","2","3", "4", "5", "6"),
-#'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
-#'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
-#'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
-#' strataDef = defineMixedStrata(name = "Recce strata",
-#'                               description = "Standard Recce stratum definition",
-#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-#'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7",
-#'                               categoryStrataDefinition = "Epiphytes")
-#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
-#'                         mapping = taxmapping,
-#'                         methods = c(cover=coverscale),
-#'                         stratumDefinition = strataDef)
-#'
-#' #Add stratum observations with ordinal cover scale
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
-#'                cover = "CoverClass")
-#'
-#' x = addStratumObservations(x, tier, "Mokihinui",
-#'                         mapping = mapping,
-#'                         methods = list(cover=coverscale),
-#'                         stratumDefinition = strataDef)
-#'
-#'
-#' # Transform from "Recce cover scale" to "Plant cover/%"
-#' percentScale = predefinedMeasurementMethod("Plant cover/%")
-#' y = transformOrdinalScale(x, "Recce cover scale", percentScale)
-#'
-transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE, verbose = TRUE) {
+transformQuantitativeScale<-function(target, method, newMethod, 
+                                     fun,
+                                     replaceValues = FALSE, verbose = TRUE) {
   if(length(target@methods)==0) stop("VegX object has no methods")
   methodID = NULL
   if(is.numeric(method)) {
@@ -71,24 +36,8 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
   if(is.null(methodID)) stop("Target method not found.")
   if(verbose) cat(paste0(" Target method: '",target@methods[[methodID]]$name,"'\n"))
   attIDs = .getAttributeIDsByMethodID(target, methodID)
-  if(verbose) cat(paste0(" Number of attributes: ", length(attIDs),"\n"))
-  mapping = list()
-  lowerLimit = Inf
-  upperLimit = -Inf
-
-  for(i in 1:length(attIDs)) {
-    att = target@attributes[[attIDs[i]]]
-    if(att$type=="ordinal") {
-      if("midPoint" %in% names(att)) {
-        mapping[[attIDs[i]]] = att$midPoint
-        if("lowerLimit" %in% names(att)) lowerLimit = min(as.numeric(att$lowerLimit), lowerLimit)
-        if("upperLimit" %in% names(att)) upperLimit = max(as.numeric(att$upperLimit), upperLimit)
-      }
-    }
-  }
-  if(verbose) cat(paste0(" Number of quantifiable attributes with midpoints: ", length(mapping),"\n"))
-  if(verbose) cat(paste0(" Limits of the new attribute: [", lowerLimit,", ",upperLimit ,"]\n"))
-  if(length(mapping)==0) stop("The selected method cannot be transformed.")
+  if(verbose) cat(paste0(" Number of quantitative attributes: ", length(attIDs),"\n"))
+  if(length(attIDs)!=1) stop("The selected method cannot be transformed.")
 
   # New method and attribute
   newMethodID = NULL
