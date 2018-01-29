@@ -45,7 +45,7 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 
 \item{\code{communityObservations}}{list of observations applying to the whole plant community (e.g. stand age or species richness)}
 
-\item{\code{surfaceCovers}}{A list of surface cover definitions.}
+\item{\code{surfaceTypes}}{A list of surface class definitions.}
 
 \item{\code{surfaceCoverObservations}}{list of surface cover observations.}
 

@@ -24,7 +24,7 @@ newVegX<-function() {
              strata = list(),
              individualOrganisms = list(),
              communityObservations = list(),
-             surfaceCovers = list(),
+             surfaceTypes = list(),
              surfaceCoverObservations = list(),
              siteObservations = list(),
              methods = list(),

@@ -1,23 +1,23 @@
 
-#' Surface cover class definition by simple category
+#' Surface type definition by simple category
 #'
-#' @param name A string to identify the surface cover class definition.
-#' @param description A string describing how surface cover classes are defined.
-#' @param surfaceNames A character vector of codes for surface cover classes.
-#' @param surfaceDefinitions A character vector of definition of surface cover classes.
+#' @param name A string to identify the surface type definition.
+#' @param description A string describing how surface types are defined.
+#' @param surfaceNames A character vector of names for surface types.
+#' @param definitions A character vector of definition of surface types.
 #' @param citation A string with the bibliographic reference for the method.
 #'
-#' @return an object of class \code{\linkS4class{VegXSurfaceCoverDefinition}}
+#' @return an object of class \code{\linkS4class{VegXSurfaceTypeDefinition}}
 #'
 #' @examples
 #'
-#' defineSurfaceCategories(name = "Surface covers",
-#'                         description = "Four simple surface cover categories",
+#' defineSurfaceCategories(name = "Surface classes",
+#'                         description = "Four simple surface categories",
 #'                         surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
 #'
 defineSurfaceCategories<-function(name, description,
                                   surfaceNames,
-                                  surfaceDefinitions = NULL,
+                                  definitions = NULL,
                                   citation = "") {
   defMethod = new("VegXMethod",
                   name = name,
@@ -27,13 +27,13 @@ defineSurfaceCategories<-function(name, description,
                   attributeType = "qualitative",
                   attributes = list())
 
-  surfaceCovers = list()
+  surfaceTypes = list()
   for(i in 1:length(surfaceNames)) {
-    surfaceCovers[[as.character(i)]] = list(surfaceNames = surfaceNames[i])
-    if(!is.null(surfaceDefinitions)) surfaceCovers[[as.character(i)]]$definition = surfaceDefinitions[i]
+    surfaceTypes[[as.character(i)]] = list(surfaceNames = surfaceNames[i])
+    if(!is.null(definitions)) surfaceTypes[[as.character(i)]]$definition = definitions[i]
   }
   return(new("VegXSurfaceCoverDefinition",
              method = defMethod,
-             surfaceCovers = surfaceCovers))
+             surfaceTypes = surfaceTypes))
 }
 

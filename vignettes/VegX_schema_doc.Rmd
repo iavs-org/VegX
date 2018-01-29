@@ -60,7 +60,7 @@ aggregatedOrganismObservation  | An observation applying to all occurrences of a
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
 siteObservation             | A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. | Yes |
-surfaceCover | TO BE DONE | Yes |
+surfaceTypes | TO BE DONE | Yes |
 surfaceCoverObservation | TO BE DONE | Yes |
 vegetationObservation | TO BE DONE | Yes |
 taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. | No |
@@ -282,24 +282,24 @@ habitat        | A specific habitat type, applying to this plot during the plot 
 observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 
 
-### Element *surfaceCover*
+### Element *surfaceTypes*
 
-The definition of a surface cover class, not the observation of cover.  From the perspective of the **VegX package** user, surface cover classes are uniquely identified by *surfaceName*.
+The definition of surface types, not the observation of cover on them.  From the perspective of the **VegX package** user, surface types are uniquely identified by *surfaceName*.
 
 Sub-element (quantitative) | Description                                        |  #  |  R  |
 -------------------------- | -------------------------------------------------- | --- | --- |
-surfaceName                | Name associated with this surface cover class and which identifies it. | 1 | Yes |
-methodID                   | A reference to a specific method used to define this surface cover class. | 0..1 | Yes |
-definition                 | A longer description of the surface cover class definition. | 0..1 | Yes |
+surfaceName                | Name associated with this surface type and which identifies it. | 1 | Yes |
+methodID                   | A reference to a specific method used to define this surface type. | 0..1 | Yes |
+definition                 | A longer description of the surface type definition. | 0..1 | Yes |
 
 
 ### Element *surfaceCoverObservation*
 
-A *surfaceCoverObservation* is a single cover measurement applying to a surface cover class in a single plot during a single date-time period. From the perspective of the **VegX package** user, surface cover observations are uniquely identified by *surfaceID* (i.e. surface cover name) and *plotObservationID* (i.e. plot name and observation start date).
+A *surfaceCoverObservation* is a single cover measurement applying to a surface type in a single plot during a single date-time period. From the perspective of the **VegX package** user, surface cover observations are uniquely identified by *surfaceTypeID* (i.e. surface name) and *plotObservationID* (i.e. plot name and observation start date).
 
 Sub-element (quantitative) | Description                                        |  #  |  R  |
 -------------------------- | -------------------------------------------------- | --- | --- |
-surfaceCoverID             | A reference to a specific surface cover class by ID. | 1 | Yes |
+surfaceTypeID             | A reference to a specific surface type by ID. | 1 | Yes |
 plotObservationID          | A reference to a specific plotObservation by ID. | 1 | Yes |
 coverMeasurement           | A cover measurement, usually in percent. | 1 | Yes |
 

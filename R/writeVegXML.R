@@ -236,18 +236,18 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@individualObservations), " individual organism observation(s) added to XML tree.\n"))
   }
-  #surfacecover elements
-  if(length(x@surfaceCovers)>0) {
-    surfaceCovers = newXMLNode("surfaceCovers", parent = top)
+  #surfaceType elements
+  if(length(x@surfaceTypes)>0) {
+    surfaceTypes = newXMLNode("surfaceTypes", parent = top)
     for(i in 1:length(x@siteObservations)){
-      surf = newXMLNode("surfaceCover",
-                        attrs = c(id = names(x@surfaceCovers)[i]),
-                        parent = surfaceCovers)
-      newXMLNode("surfaceName", x@surfaceCovers[[i]]$surfaceName, parent=surf)
-      if("methodID" %in% names(x@surfaceCovers[[i]])) newXMLNode("methodID", x@surfaceCovers[[i]]$methodID, parent=surf)
-      if("definition" %in% names(x@surfaceCovers[[i]])) newXMLNode("definition", x@surfaceCovers[[i]]$definition, parent=surf)
+      surf = newXMLNode("surfaceType",
+                        attrs = c(id = names(x@surfaceTypes)[i]),
+                        parent = surfaceTypes)
+      newXMLNode("surfaceName", x@surfaceTypes[[i]]$surfaceName, parent=surf)
+      if("methodID" %in% names(x@surfaceTypes[[i]])) newXMLNode("methodID", x@surfaceTypes[[i]]$methodID, parent=surf)
+      if("definition" %in% names(x@surfaceTypes[[i]])) newXMLNode("definition", x@surfaceTypes[[i]]$definition, parent=surf)
     }
-    if(verbose) cat(paste0(" ", length(x@surfaceCovers), " surface cover classes to XML tree.\n"))
+    if(verbose) cat(paste0(" ", length(x@surfaceTypes), " surface types to XML tree.\n"))
   }
   #surfaceCoverObservation elements
   if(length(x@surfaceCoverObservations)>0) {
@@ -257,7 +257,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                         attrs = c(id = names(x@surfaceCoverObservations)[i]),
                         parent = surfaceCoverObservations)
       newXMLNode("plotObservationID", x@surfaceCoverObservations[[i]]$plotObservationID, parent=sco)
-      newXMLNode("surfaceCoverID", x@surfaceCoverObservations[[i]]$surfaceCoverID, parent=sco)
+      newXMLNode("surfaceTypeID", x@surfaceCoverObservations[[i]]$surfaceTypeID, parent=sco)
       if("coverMeasurement" %in% names(x@surfaceCoverObservations[[i]])) {
         cm = newXMLNode("coverMeasurement", parent=sco)
         newXMLNode("value", x@surfaceCoverObservations[[i]]$coverMeasurement$value, parent=cm)
