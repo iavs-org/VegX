@@ -8,20 +8,57 @@
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
 #' or an object of class \code{\linkS4class{VegXMethod}}.
 #' @param fun A function used to transform numeric values.
-#' @param replaceValues A boolean flag to indicate that values of the new scale should replace the old ones. 
+#' @param replaceValues A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 #' For some measurements transformations will not be possible if replacement is not forced using this flag.
 #' @param verbose A boolean flag to indicate console output of the data transformation process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details The function will normally create new measurements without destroying the original ones, unless replacement is forced by setting \code{replaceValues = TRUE}.
+#' Veg-X only allows a single measurement per observations of some kinds:
+#' \itemize{
+#'   \item{"diameterMeasurement" and "heightMeasurement" of indvidual organism observations.}
+#'   \item{"heightMeasurement" of aggregate organism observations.}
+#'   \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum observations.}
+#' }
+#' In these cases, scale transformations are not possible if \code{replaceValues = FALSE}.
+#'
 #' @family transform functions
-#' 
+#'
 #' @examples
 #' data(mokihinui)
 #'
-transformQuantitativeScale<-function(target, method, newMethod, 
-                                     fun,
+#' # Create initial Veg-X document with stratum heights in meters
+#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+#'                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper")
+#' heightMethod1 = predefinedMeasurementMethod("Stratum height/m")
+#' strataDef = defineMixedStrata(name = "Recce strata",
+#'                               description = "Standard Recce stratum definition",
+#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                               heightStrataNames = paste0("Tier ",1:6),
+#'                               categoryStrataNames = "Tier 7",
+#'                               categoryStrataDefinition = "Epiphytes")
+#' x = addStratumObservations(newVegX(), tier, "Mokihinui",
+#'                         mapping = mapping,
+#'                         methods = list(lowerLimitMeasurement = heightMethod1,
+#'                                        upperLimitMeasurement = heightMethod1),
+#'                         stratumDefinition = strataDef)
+#'
+#' # Examine stratum heights
+#' showElementTable(x, "stratumObservation")
+#'
+#' # Transform stratum heights from m to cm by multiplying values by 10
+#' # ('replaceValues' needs to be set to TRUE to force replacement)
+#' heightMethod2 = predefinedMeasurementMethod("Stratum height/cm")
+#' y = transformQuantitativeScale(x, "Stratum height/m", heightMethod2,
+#'                                function(x){return(x*10)}, replaceValues = TRUE)
+#' # Examine new stratum heights
+#' showElementTable(y, "stratumObservation")
+#'
+transformQuantitativeScale<-function(target, method, newMethod,
+                                     FUN,
                                      replaceValues = FALSE, verbose = TRUE) {
   if(length(target@methods)==0) stop("VegX object has no methods")
   methodID = NULL
@@ -76,7 +113,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
   if(length(newAttID)!=1) stop("New method has the wrong number of attributes.")
   if(target@attributes[[newAttID]]$type!="quantitative") stop("The attribute of the new method should be quantitative.")
   if(target@methods[[methodID]]$subject!=target@methods[[newMethodID]]$subject) stop("The two methods should apply to the same subject. Aborting.")
-  
+
   # Apply mapping on aggregated organism observations
   naggtransf = 0
   nfruaggtransf = 0
@@ -84,10 +121,10 @@ transformQuantitativeScale<-function(target, method, newMethod,
     for(i in 1:length(target@aggregateObservations)) {
       if("heightMeasurement" %in% names(target@aggregateObservations[[i]])){
         mes = target@aggregateObservations[[i]]$heightMeasurement
-        if(mes$attributeID %in% names(mapping)) {
+        if(mes$attributeID  == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
-                     value = mapping[[mes$attributeID]])
+                     value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
             target@aggregateObservations[[i]]$heightMeasurement = m
             naggtransf = naggtransf + 1
           } else {
@@ -99,9 +136,9 @@ transformQuantitativeScale<-function(target, method, newMethod,
         if(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
           for(j in 1:length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
             mes = target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]
-            if(mes$attributeID %in% names(mapping)) {
+            if(mes$attributeID  == attIDs) {
               m = list(attributeID = newAttID,
-                       value = mapping[[mes$attributeID]])
+                       value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
               if(replaceValues){
                 target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]] = m
               } else {
@@ -125,10 +162,10 @@ transformQuantitativeScale<-function(target, method, newMethod,
     for(i in 1:length(target@individualObservations)) {
       if("heightMeasurement" %in% names(target@individualObservations[[i]])){
         mes = target@individualObservations[[i]]$heightMeasurement
-        if(mes$attributeID %in% names(mapping)) {
+        if(mes$attributeID  == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
-                     value = mapping[[mes$attributeID]])
+                     value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
             target@individualObservations[[i]]$heightMeasurement = m
             nindtransf = nindtransf + 1
           } else {
@@ -138,10 +175,10 @@ transformQuantitativeScale<-function(target, method, newMethod,
       }
       if("diameterMeasurement" %in% names(target@individualObservations[[i]])){
         mes = target@individualObservations[[i]]$diameterMeasurement
-        if(mes$attributeID %in% names(mapping)) {
+        if(mes$attributeID  == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
-                     value = mapping[[mes$attributeID]])
+                     value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
             target@individualObservations[[i]]$diameterMeasurement = m
             nindtransf = nindtransf + 1
           } else {
@@ -153,9 +190,9 @@ transformQuantitativeScale<-function(target, method, newMethod,
         if(length(target@individualObservations[[i]]$individualOrganismMeasurements)>0) {
           for(j in 1:length(target@individualObservations[[i]]$individualOrganismMeasurements)) {
             mes = target@individualObservations[[i]]$individualOrganismMeasurements[[j]]
-            if(mes$attributeID %in% names(mapping)) {
+            if(mes$attributeID  == attIDs) {
               m = list(attributeID = newAttID,
-                       value = mapping[[mes$attributeID]])
+                       value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
               if(replaceValues) {
                 target@individualObservations[[i]]$individualOrganismMeasurements[[j]] = m
               }
@@ -178,13 +215,26 @@ transformQuantitativeScale<-function(target, method, newMethod,
   nfrustrtransf = 0
   if(length(target@stratumObservations)>0) {
     for(i in 1:length(target@stratumObservations)) {
-      if("heightMeasurement" %in% names(target@stratumObservations[[i]])){
-        mes = target@stratumObservations[[i]]$heightMeasurement
-        if(mes$attributeID %in% names(mapping)) {
+      if("lowerLimitMeasurement" %in% names(target@stratumObservations[[i]])){
+        mes = target@stratumObservations[[i]]$lowerLimitMeasurement
+        if(mes$attributeID == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
-                     value = mapping[[mes$attributeID]])
-            target@stratumObservations[[i]]$heightMeasurement = m
+                     value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
+            target@stratumObservations[[i]]$lowerLimitMeasurement = m
+            nstrtransf = nstrtransf + 1
+          } else {
+            nfrustrtransf = nfrustrtransf + 1
+          }
+        }
+      }
+      if("upperLimitMeasurement" %in% names(target@stratumObservations[[i]])){
+        mes = target@stratumObservations[[i]]$upperLimitMeasurement
+        if(mes$attributeID == attIDs) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
+            target@stratumObservations[[i]]$upperLimitMeasurement = m
             nstrtransf = nstrtransf + 1
           } else {
             nfrustrtransf = nfrustrtransf + 1
@@ -195,9 +245,9 @@ transformQuantitativeScale<-function(target, method, newMethod,
         if(length(target@stratumObservations[[i]]$stratumMeasurements)>0) {
           for(j in 1:length(target@stratumObservations[[i]]$stratumMeasurements)) {
             mes = target@stratumObservations[[i]]$stratumMeasurements[[j]]
-            if(mes$attributeID %in% names(mapping)) {
+            if(mes$attributeID == attIDs) {
               m = list(attributeID = newAttID,
-                       value = mapping[[mes$attributeID]])
+                       value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
               if(replaceValues) {
                 target@stratumObservations[[i]]$stratumMeasurements[[j]] = m
               } else {
@@ -224,12 +274,12 @@ transformQuantitativeScale<-function(target, method, newMethod,
           if(length(target@siteObservations[[i]][[m]])>0) {
             for(j in 1:length(target@siteObservations[[i]][[m]])) {
               mes = target@siteObservations[[i]][[m]][[j]]
-              if(mes$attributeID %in% names(mapping)) {
+              if(mes$attributeID  == attIDs) {
                 m = list(attributeID = newAttID,
-                         value = mapping[[mes$attributeID]])
+                         value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
                 if(replaceValues) {
                   target@siteObservations[[i]][[m]][[j]] = m
-                } 
+                }
                 else {
                   newmesID = as.character(length(target@siteObservations[[i]][[m]])+1)
                   target@siteObservations[[i]][[m]][[newmesID]] = m

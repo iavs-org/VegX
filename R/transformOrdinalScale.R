@@ -7,15 +7,24 @@
 #' @param method An integer (index) or a name of an ordinal scale method.
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
 #' or an object of class \code{\linkS4class{VegXMethod}}.
-#' @param replaceValues A boolean flag to indicate that values of the new scale should replace the old ones. 
+#' @param replaceValues A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 #' For some measurements transformations will not be possible if replacement is not forced using this flag.
 #' @param verbose A boolean flag to indicate console output of the data transformation process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details The function will normally create new measurements without destroying the original ones, unless replacement is forced by setting \code{replaceValues = TRUE}.
+#' Veg-X only allows a single measurement per observations of some kinds:
+#' \itemize{
+#'   \item{"diameterMeasurement" and "heightMeasurement" of indvidual organism observations.}
+#'   \item{"heightMeasurement" of aggregate organism observations.}
+#'   \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum observations.}
+#' }
+#' In these cases, scale transformations are not possible if \code{replaceValues = FALSE}.
+#'
 #' @family transform functions
-#' 
+#'
 #' @examples
 #' data(mokihinui)
 #'
@@ -127,7 +136,7 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
   if(length(newAttID)!=1) stop("New method has the wrong number of attributes.")
   if(target@attributes[[newAttID]]$type!="quantitative") stop("The attribute of the new method should be quantitative.")
   if(target@methods[[methodID]]$subject!=target@methods[[newMethodID]]$subject) stop("The two methods should apply to the same subject. Aborting.")
-  
+
   # Apply mapping on aggregated organism observations
   naggtransf = 0
   nfruaggtransf = 0
@@ -229,13 +238,26 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
   nfrustrtransf = 0
   if(length(target@stratumObservations)>0) {
     for(i in 1:length(target@stratumObservations)) {
-      if("heightMeasurement" %in% names(target@stratumObservations[[i]])){
-        mes = target@stratumObservations[[i]]$heightMeasurement
+      if("lowerLimitMeasurement" %in% names(target@stratumObservations[[i]])){
+        mes = target@stratumObservations[[i]]$lowerLimitMeasurement
         if(mes$attributeID %in% names(mapping)) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
                      value = mapping[[mes$attributeID]])
-            target@stratumObservations[[i]]$heightMeasurement = m
+            target@stratumObservations[[i]]$lowerLimitMeasurement = m
+            nstrtransf = nstrtransf + 1
+          } else {
+            nfrustrtransf = nfrustrtransf + 1
+          }
+        }
+      }
+      if("upperLimitMeasurement" %in% names(target@stratumObservations[[i]])){
+        mes = target@stratumObservations[[i]]$upperLimitMeasurement
+        if(mes$attributeID %in% names(mapping)) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = mapping[[mes$attributeID]])
+            target@stratumObservations[[i]]$upperLimitMeasurement = m
             nstrtransf = nstrtransf + 1
           } else {
             nfrustrtransf = nfrustrtransf + 1
@@ -280,7 +302,7 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
                          value = mapping[[mes$attributeID]])
                 if(replaceValues) {
                   target@siteObservations[[i]][[m]][[j]] = m
-                } 
+                }
                 else {
                   newmesID = as.character(length(target@siteObservations[[i]][[m]])+1)
                   target@siteObservations[[i]][[m]][[newmesID]] = m

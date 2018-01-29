@@ -13,6 +13,7 @@ predefinedMeasurementMethod(name)
  \item{\code{"Plant counts"}: Number of individuals in the plot.}
  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
  \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
+ \item{\code{"Stratum height/cm"}: Stratum height in cm above the ground.}
  \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
  \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
  \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}

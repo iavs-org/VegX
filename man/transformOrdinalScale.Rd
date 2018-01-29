@@ -15,7 +15,7 @@ transformOrdinalScale(target, method, newMethod, replaceValues = FALSE,
 \item{newMethod}{An integer (index) or a name of a quantitative method existing in the initial object,
 or an object of class \code{\linkS4class{VegXMethod}}.}
 
-\item{replaceValues}{A boolean flag to indicate that values of the new scale should replace the old ones. 
+\item{replaceValues}{A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 For some measurements transformations will not be possible if replacement is not forced using this flag.}
 
 \item{verbose}{A boolean flag to indicate console output of the data transformation process.}
@@ -26,6 +26,16 @@ The modified object of class \code{\linkS4class{VegX}}.
 \description{
 Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
 appropriate for the midpoint values of the ordinal classes.
+}
+\details{
+The function will normally create new measurements without destroying the original ones, unless replacement is forced by setting \code{replaceValues = TRUE}.
+Veg-X only allows a single measurement per observations of some kinds:
+\itemize{
+  \item{"diameterMeasurement" and "heightMeasurement" of indvidual organism observations.}
+  \item{"heightMeasurement" of aggregate organism observations.}
+  \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum observations.}
+}
+In these cases, scale transformations are not possible if \code{replaceValues = FALSE}.
 }
 \examples{
 data(mokihinui)

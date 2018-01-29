@@ -8,6 +8,7 @@
 #'  \item{\code{"Plant counts"}: Number of individuals in the plot.}
 #'  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
 #'  \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
+#'  \item{\code{"Stratum height/cm"}: Stratum height in cm above the ground.}
 #'  \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
 #'  \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
 #'  \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}
@@ -30,7 +31,7 @@
 predefinedMeasurementMethod<-function(name) {
 
   name = match.arg(name, c("Plant cover/%", "Plant counts", "Plant frequency/%",
-                           "Stratum height/m",
+                           "Stratum height/m", "Stratum height/cm",
                            "Plant height/m", "Plant height/cm", "DBH/cm",
                            "pH",
                            "Slope/degrees", "Aspect/degrees", "Elevation/m"))
@@ -60,6 +61,13 @@ predefinedMeasurementMethod<-function(name) {
   else if (name=="Stratum height/m") {
     return(defineQuantitativeScaleMethod(name = "Stratum height/m",
                                          description = "Stratum height in meters above the ground",
+                                         subject = "stratum height",
+                                         unit = "m",
+                                         lowerLimit = 0))
+  }
+  else if (name=="Stratum height/cm") {
+    return(defineQuantitativeScaleMethod(name = "Stratum height/cm",
+                                         description = "Stratum height in cm above the ground",
                                          subject = "stratum height",
                                          unit = "m",
                                          lowerLimit = 0))

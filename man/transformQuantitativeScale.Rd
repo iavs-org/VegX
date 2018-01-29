@@ -4,7 +4,7 @@
 \alias{transformQuantitativeScale}
 \title{Transform quantitative scale}
 \usage{
-transformQuantitativeScale(target, method, newMethod, fun,
+transformQuantitativeScale(target, method, newMethod, FUN,
   replaceValues = FALSE, verbose = TRUE)
 }
 \arguments{
@@ -15,12 +15,12 @@ transformQuantitativeScale(target, method, newMethod, fun,
 \item{newMethod}{An integer (index) or a name of a quantitative method existing in the initial object,
 or an object of class \code{\linkS4class{VegXMethod}}.}
 
-\item{fun}{A function used to transform numeric values.}
-
-\item{replaceValues}{A boolean flag to indicate that values of the new scale should replace the old ones. 
+\item{replaceValues}{A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 For some measurements transformations will not be possible if replacement is not forced using this flag.}
 
 \item{verbose}{A boolean flag to indicate console output of the data transformation process.}
+
+\item{fun}{A function used to transform numeric values.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}.
@@ -29,8 +29,46 @@ The modified object of class \code{\linkS4class{VegX}}.
 Transforms all the values in a VegX object made using a quantitative scale into another quantitative scale
 following a given transformation function.
 }
+\details{
+The function will normally create new measurements without destroying the original ones, unless replacement is forced by setting \code{replaceValues = TRUE}.
+Veg-X only allows a single measurement per observations of some kinds:
+\itemize{
+  \item{"diameterMeasurement" and "heightMeasurement" of indvidual organism observations.}
+  \item{"heightMeasurement" of aggregate organism observations.}
+  \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum observations.}
+}
+In these cases, scale transformations are not possible if \code{replaceValues = FALSE}.
+}
 \examples{
 data(mokihinui)
+
+# Create initial Veg-X document with stratum heights in meters
+mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+               lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper")
+heightMethod1 = predefinedMeasurementMethod("Stratum height/m")
+strataDef = defineMixedStrata(name = "Recce strata",
+                              description = "Standard Recce stratum definition",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                              heightStrataNames = paste0("Tier ",1:6),
+                              categoryStrataNames = "Tier 7",
+                              categoryStrataDefinition = "Epiphytes")
+x = addStratumObservations(newVegX(), tier, "Mokihinui",
+                        mapping = mapping,
+                        methods = list(lowerLimitMeasurement = heightMethod1,
+                                       upperLimitMeasurement = heightMethod1),
+                        stratumDefinition = strataDef)
+
+# Examine stratum heights
+showElementTable(x, "stratumObservation")
+
+# Transform stratum heights from m to cm by multiplying values by 10
+# ('replaceValues' needs to be set to TRUE to force replacement)
+heightMethod2 = predefinedMeasurementMethod("Stratum height/cm")
+y = transformQuantitativeScale(x, "Stratum height/m", heightMethod2,
+                               function(x){return(x*10)}, replaceValues = TRUE)
+# Examine new stratum heights
+showElementTable(y, "stratumObservation")
 
 }
 \seealso{
