@@ -127,6 +127,8 @@ obsStartDate             | The start date of this specific observation of the pl
 obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 0..1 | Yes |
 plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
 projectID | A reference to a specific 'project'.  | 0..n | Yes |
+previousObservationID | Link to previous plot observations.	| 0..n | No |
+communityObservationID | A reference to a specific communityObservation by ID. Note that the relationship is one-to-one. Only one communityObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |
 siteObservationID | A reference to a specific siteObservation by ID. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |
 previousObservationID | Link to previous plot observations.	| 0..n | No |
 partyWithRole | The party that undertook the plot observation and/or other parties with different roles. | 0..n | No |

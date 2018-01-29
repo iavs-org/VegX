@@ -236,6 +236,37 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@individualObservations), " individual organism observation(s) added to XML tree.\n"))
   }
+  #surfacecover elements
+  if(length(x@surfaceCovers)>0) {
+    surfaceCovers = newXMLNode("surfaceCovers", parent = top)
+    for(i in 1:length(x@siteObservations)){
+      surf = newXMLNode("surfaceCover",
+                        attrs = c(id = names(x@surfaceCovers)[i]),
+                        parent = surfaceCovers)
+      newXMLNode("surfaceName", x@surfaceCovers[[i]]$surfaceName, parent=surf)
+      if("methodID" %in% names(x@surfaceCovers[[i]])) newXMLNode("methodID", x@surfaceCovers[[i]]$methodID, parent=surf)
+      if("definition" %in% names(x@surfaceCovers[[i]])) newXMLNode("definition", x@surfaceCovers[[i]]$definition, parent=surf)
+    }
+    if(verbose) cat(paste0(" ", length(x@surfaceCovers), " surface cover classes to XML tree.\n"))
+  }
+  #surfaceCoverObservation elements
+  if(length(x@surfaceCoverObservations)>0) {
+    surfaceCoverObservations = newXMLNode("surfaceCoverObservations", parent = top)
+    for(i in 1:length(x@surfaceCoverObservations)){
+      sco = newXMLNode("surfaceCoverObservation",
+                        attrs = c(id = names(x@surfaceCoverObservations)[i]),
+                        parent = surfaceCoverObservations)
+      newXMLNode("plotObservationID", x@surfaceCoverObservations[[i]]$plotObservationID, parent=sco)
+      newXMLNode("surfaceCoverID", x@surfaceCoverObservations[[i]]$surfaceCoverID, parent=sco)
+      if("coverMeasurement" %in% names(x@surfaceCoverObservations[[i]])) {
+        cm = newXMLNode("coverMeasurement", parent=sco)
+        newXMLNode("value", x@surfaceCoverObservations[[i]]$coverMeasurement$value, parent=cm)
+        newXMLNode("attributeID", x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID, parent=cm)
+      }
+    }
+    if(verbose) cat(paste0(" ", length(x@surfaceCoverObservations), " surface cover observation(s) added to XML tree.\n"))
+  }
+
   #siteObservation elements
   if(length(x@siteObservations)>0) {
     siteObservations = newXMLNode("siteObservations", parent = top)

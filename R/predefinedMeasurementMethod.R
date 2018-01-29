@@ -12,6 +12,7 @@
 #'  \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
 #'  \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
 #'  \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}
+#'  \item{\code{"Surface cover/\%"}: Surface covered by a surface cover class as percentage of ground covered by the projection.}
 #'  \item{\code{"pH"}: pH scale from 0 to 14.}
 #'  \item{\code{"Slope/degrees"}: Slope measured using degrees.}
 #'  \item{\code{"Aspect/degrees"}: Aspect measured using degrees from North.}
@@ -33,6 +34,7 @@ predefinedMeasurementMethod<-function(name) {
   name = match.arg(name, c("Plant cover/%", "Plant counts", "Plant frequency/%",
                            "Stratum height/m", "Stratum height/cm",
                            "Plant height/m", "Plant height/cm", "DBH/cm",
+                           "Surface cover/%",
                            "pH",
                            "Slope/degrees", "Aspect/degrees", "Elevation/m"))
   if(name=="Plant cover/%") {
@@ -92,6 +94,14 @@ predefinedMeasurementMethod<-function(name) {
                                          subject = "plant diameter",
                                          unit = "cm",
                                          lowerLimit = 0))
+  }
+  else if (name=="Surface cover/%") {
+    return(defineQuantitativeScaleMethod(name = "Surface cover/%",
+                                         description = "Surface covered by a surface cover class as percentage of ground covered by the projection.",
+                                         subject = "surface cover",
+                                         unit = "%",
+                                         lowerLimit = 0,
+                                         upperLimit = 100))
   }
   else if (name=="pH") {
     return(defineQuantitativeScaleMethod(name = "pH",
