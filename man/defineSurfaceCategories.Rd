@@ -2,24 +2,32 @@
 % Please edit documentation in R/defineSurfaceCategories.R
 \name{defineSurfaceCategories}
 \alias{defineSurfaceCategories}
-\title{Surface cover definition by simple category}
+\title{Surface cover class definition by simple category}
 \usage{
-defineSurfaceCategories(name = "Surface covers",
-  description = "Four simple surface cover categories", citation = "",
-  surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
+defineSurfaceCategories(name, description, surfaceNames,
+  surfaceDefinitions = NULL, citation = "")
 }
 \arguments{
-\item{name}{A string to identify the surface cover definition.}
+\item{name}{A string to identify the surface cover class definition.}
 
-\item{description}{A string describing how surface covers are defined.}
+\item{description}{A string describing how surface cover classes are defined.}
+
+\item{surfaceNames}{A character vector of codes for surface cover classes.}
+
+\item{surfaceDefinitions}{A character vector of definition of surface cover classes.}
 
 \item{citation}{A string with the bibliographic reference for the method.}
-
-\item{surfaceNames}{A numeric vector of surface codes (of length equal to the number of strata).}
 }
 \value{
 an object of class \code{\linkS4class{VegXSurfaceCoverDefinition}}
 }
 \description{
-Surface cover definition by simple category
+Surface cover class definition by simple category
+}
+\examples{
+
+defineSurfaceCategories(name = "Surface covers",
+                        description = "Four simple surface cover categories",
+                        surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
+
 }
