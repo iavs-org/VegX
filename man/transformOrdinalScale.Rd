@@ -52,8 +52,8 @@ x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
 
 summary(x)
 
-# Transform from "Recce cover scale" to "Percent cover"
-percentScale = predefinedMeasurementMethod("Percent cover")
+# Transform from "Recce cover scale" to "Plant cover/\%"
+percentScale = predefinedMeasurementMethod("Plant cover/\%")
 y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 
 }

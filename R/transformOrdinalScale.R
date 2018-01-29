@@ -41,8 +41,8 @@
 #'
 #' summary(x)
 #'
-#' # Transform from "Recce cover scale" to "Percent cover"
-#' percentScale = predefinedMeasurementMethod("Percent cover")
+#' # Transform from "Recce cover scale" to "Plant cover/%"
+#' percentScale = predefinedMeasurementMethod("Plant cover/%")
 #' y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 #'
 transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
@@ -61,8 +61,8 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   attIDs = .getAttributeIDsByMethodID(target, methodID)
   if(verbose) cat(paste0(" Number of attributes: ", length(attIDs),"\n"))
   mapping = list()
-  lowerLimit = 9999999999
-  upperLimit = -9999999999
+  lowerLimit = Inf
+  upperLimit = -Inf
 
   for(i in 1:length(attIDs)) {
     att = target@attributes[[attIDs[i]]]
@@ -74,7 +74,7 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
       }
     }
   }
-  if(verbose) cat(paste0(" Number of attributes with midpoints: ", length(mapping),"\n"))
+  if(verbose) cat(paste0(" Number of quantifiable attributes with midpoints: ", length(mapping),"\n"))
   if(verbose) cat(paste0(" Limits of the new attribute: [", lowerLimit,", ",upperLimit ,"]\n"))
   if(length(mapping)==0) stop("The selected method cannot be transformed.")
 
@@ -118,7 +118,6 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   if(target@attributes[[newAttID]]$type!="quantitative") stop("The attribute of the new method should be quantitative.")
 
   # Apply mapping on aggregated organism observations
-  # REVISE
   naggtransf = 0
   if(length(target@aggregateObservations)>0) {
     for(i in 1:length(target@aggregateObservations)) {

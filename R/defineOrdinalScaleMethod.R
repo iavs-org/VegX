@@ -73,7 +73,7 @@ defineOrdinalScaleMethod<-function(name, description, subject, codes,
         attributes[[i]]$upperLimit = breaks[cnt+1]
       }
       if(!is.null(midPoints)) {
-        attributes[[i]]$midPoints = midPoints[cnt]
+        attributes[[i]]$midPoint = midPoints[cnt]
       }
       cnt = cnt + 1
     }
@@ -84,7 +84,7 @@ defineOrdinalScaleMethod<-function(name, description, subject, codes,
              name = name,
              description = description,
              citation = citation,
-             subject = "subject",
+             subject = subject,
              attributeType = "ordinal",
              attributes = attributes))
 }

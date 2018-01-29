@@ -1,10 +1,25 @@
+.nextProjectID<-function(target) return(as.character(as.numeric(names(target@projects)[length(target@projects)])+1))
+.nextPlotID<-function(target) return(as.character(as.numeric(names(target@plots)[length(target@plots)])+1))
+.nextPlotObservationID<-function(target) return(as.character(as.numeric(names(target@plotObservations)[length(target@plotObservations)])+1))
+.nextStratumID<-function(target) return(as.character(as.numeric(names(target@strata)[length(target@strata)])+1))
+.nextStratumObservationID<-function(target) return(as.character(as.numeric(names(target@stratumObservations)[length(target@stratumObservations)])+1))
+.nextAggregateOrganismObservationID<-function(target) return(as.character(as.numeric(names(target@aggregateObservations)[length(target@aggregateObservations)])+1))
+.nextIndividualOrganismID<-function(target) return(as.character(as.numeric(names(target@individualOrganisms)[length(target@individualOrganisms)])+1))
+.nextIndividualOrganismObservationID<-function(target) return(as.character(as.numeric(names(target@individualObservations)[length(target@individualObservations)])+1))
+.nextSiteObservationID<-function(target) return(as.character(as.numeric(names(target@siteObservations)[length(target@siteObservations)])+1))
+.nextMethodID<-function(target) return(as.character(as.numeric(names(target@methods)[length(target@methods)])+1))
+.nextAttributeID<-function(target) return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
+.nextTNUCID<-function(target) return(as.character(as.numeric(names(target@taxonNameUsageConcepts)[length(target@taxonNameUsageConcepts)])+1))
+
+
+
 # Returns the projectID for a new project in the data set or the ID of an existing project with the same name
 .newProjectIDByTitle<-function(target, projectTitle) {
   if(length(target@projects)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@projects)) {
     if(target@projects[[i]]$title==projectTitle) return(list(id=names(target@projects)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@projects)+1), new = TRUE))
+  return(list(id = .nextProjectID(target), new = TRUE))
 }
 # Returns the plotID for a new plot in the data set or the ID of an existing plot with the same name
 .newPlotIDByName<-function(target, plotName) {
@@ -12,7 +27,7 @@
   for(i in 1:length(target@plots)) {
     if(target@plots[[i]]$plotName==plotName) return(list(id = names(target@plots)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@plots)+1), new = TRUE))
+  return(list(id = .nextPlotID(target), new = TRUE))
 }
 # Returns the ID for a new plot observation in the data set or the ID of an existing plot observation
 .newPlotObsIDByDate<-function(target, plotID, obsStartDate) {
@@ -21,7 +36,7 @@
   for(i in 1:length(target@plotObservations)) {
     if((target@plotObservations[[i]]$plotID==plotID) && (target@plotObservations[[i]]$obsStartDate==obsStartDate)) return(list(id = names(target@plotObservations)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@plotObservations)+1), new = TRUE))
+  return(list(id = .nextPlotObservationID(target), new = TRUE))
 }
 # Returns the ID for a new stratum in the data set or the ID of an existing stratum
 .newStratumIDByName<-function(target, methodID, stratumName) {
@@ -29,7 +44,7 @@
   for(i in 1:length(target@strata)) {
     if((target@strata[[i]]$methodID==methodID) && (target@strata[[i]]$stratumName==stratumName)) return(list(id = names(target@strata)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@strata)+1), new = TRUE))
+  return(list(id = .nextStratumID(target), new = TRUE))
 }
 # Returns the ID for a new stratum observation in the data set or the ID of an existing stratum observation
 .newStratumObsIDByIDs<-function(target, plotObservationID, stratumID) {
@@ -37,7 +52,7 @@
   for(i in 1:length(target@stratumObservations)) {
     if((target@stratumObservations[[i]]$plotObservationID==plotObservationID) && (target@stratumObservations[[i]]$stratumID==stratumID)) return(list(id = names(target@stratumObservations)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@stratumObservations)+1), new = TRUE))
+  return(list(id = .nextStratumObservationID(target), new = TRUE))
 }
 # Returns the ID for a new aggregate organism observation in the data set or the ID of an existing aggregate organism observation
 .newAggregateOrganismObservationIDByTaxonID<-function(target, plotObservationID, stratumObservationID, tnucID) {
@@ -48,7 +63,7 @@
        (target@aggregateObservations[[i]]$taxonNameUsageConcept==tnucID))
       return(list(id = names(target@aggregateObservations)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@aggregateObservations)+1), new = TRUE))
+  return(list(id = .nextAggregateOrganismObservationID(target), new = TRUE))
 }
 # Returns the ID for a new individual organism in the data set or the ID of an existing organism
 .newIndividualOrganismIDByIdentificationLabel<-function(target, plotID, identificationLabel) {
@@ -56,7 +71,7 @@
   for(i in 1:length(target@individualOrganisms)) {
     if((target@individualOrganisms[[i]]$plotID==plotID) && (target@individualOrganisms[[i]]$identificationLabel==identificationLabel)) return(list(id = names(target@individualOrganisms)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@individualOrganisms)+1), new = TRUE))
+  return(list(id = .nextIndividualOrganismID(target), new = TRUE))
 }
 # Returns the ID for a new individual organism observation in the data set or the ID of an existing organism observation
 .newIndividualOrganismObservationIDByIndividualID<-function(target, plotObservationID, individualOrganismID) {
@@ -64,7 +79,7 @@
   for(i in 1:length(target@individualObservations)) {
     if((target@individualObservations[[i]]$plotObservationID==plotObservationID) && (target@individualObservations[[i]]$individualOrganismID==individualOrganismID)) return(list(id = names(target@individualObservations)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@individualObservations)+1), new = TRUE))
+  return(list(id = .nextIndividualOrganismObservationID(target), new = TRUE))
 }
 # Returns the ID for a new site observation in the data set or the ID of an existing site observation
 .newSiteObservationIDByID<-function(target, plotObservationID) {
@@ -72,7 +87,7 @@
   for(i in 1:length(target@siteObservations)) {
     if(target@siteObservations[[i]]$plotObservationID==plotObservationID) return(list(id = names(target@siteObservations)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@siteObservations)+1), new = TRUE))
+  return(list(id = .nextSiteObservationID(target), new = TRUE))
 }
 # Returns the ID for a new method in the data set or the ID of an existing method with the same name
 .newMethodIDByName<-function(target, methodName) {
@@ -80,7 +95,7 @@
   for(i in 1:length(target@methods)) {
     if(target@methods[[i]]$name==methodName) return(list(id = names(target@methods)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@methods)+1), new = TRUE))
+  return(list(id = .nextMethodID(target), new = TRUE))
 }
 # Returns the ID for a new taxon name usage concept in the data set or the ID of an existing taxon name usage concept with the same name
 .newTaxonNameUsageConceptIDByName<-function(target, authorTaxonName) {
@@ -88,7 +103,7 @@
   for(i in 1:length(target@taxonNameUsageConcepts)) {
     if(target@taxonNameUsageConcepts[[i]]$authorTaxonName==authorTaxonName) return(list(id = names(target@taxonNameUsageConcepts)[i], new = FALSE))
   }
-  return(list(id = as.character(length(target@taxonNameUsageConcepts)+1), new = TRUE))
+  return(list(id = .nextTNUCID(target), new = TRUE))
 }
 
 

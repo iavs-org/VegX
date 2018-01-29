@@ -9,8 +9,9 @@ predefinedMeasurementMethod(name)
 \arguments{
 \item{name}{A string with the desired measurement method. Current accepted options are:
 \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-\code{"Plant height"}, \code{"DBH"}, \code{"pH"}, \code{"Slope degrees"}, \code{"Aspect degrees"},
-\code{"Elevation meters"}.}
+\code{"Stratum height/m"},
+\code{"Plant height/m"}, \code{"Plant height/cm"}, \code{"DBH"}, \code{"pH"}, \code{"Slope/degrees"}, \code{"Aspect/degrees"},
+\code{"Elevation/m"}.}
 }
 \value{
 an object of class \code{\linkS4class{VegXMethod}}
@@ -20,7 +21,7 @@ Creates a measurement method for Veg-X documents from a set of predefined option
 }
 \examples{
 # Create a method for plant percent cover
-predefinedMeasurementMethod("Percent cover")
+predefinedMeasurementMethod("Plant cover/\%")
 
 }
 \seealso{
