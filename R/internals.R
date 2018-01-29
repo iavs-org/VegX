@@ -1,14 +1,20 @@
 .nextProjectID<-function(target) return(as.character(as.numeric(names(target@projects)[length(target@projects)])+1))
 .nextPlotID<-function(target) return(as.character(as.numeric(names(target@plots)[length(target@plots)])+1))
 .nextPlotObservationID<-function(target) return(as.character(as.numeric(names(target@plotObservations)[length(target@plotObservations)])+1))
-.nextStratumID<-function(target) return(as.character(as.numeric(names(target@strata)[length(target@strata)])+1))
+.nextStratumID<-function(target) {
+  if(length(target@strata)==0) return("1")
+  return(as.character(as.numeric(names(target@strata)[length(target@strata)])+1))
+}
 .nextStratumObservationID<-function(target) return(as.character(as.numeric(names(target@stratumObservations)[length(target@stratumObservations)])+1))
 .nextAggregateOrganismObservationID<-function(target) return(as.character(as.numeric(names(target@aggregateObservations)[length(target@aggregateObservations)])+1))
 .nextIndividualOrganismID<-function(target) return(as.character(as.numeric(names(target@individualOrganisms)[length(target@individualOrganisms)])+1))
 .nextIndividualOrganismObservationID<-function(target) return(as.character(as.numeric(names(target@individualObservations)[length(target@individualObservations)])+1))
 .nextSiteObservationID<-function(target) return(as.character(as.numeric(names(target@siteObservations)[length(target@siteObservations)])+1))
 .nextMethodID<-function(target) return(as.character(as.numeric(names(target@methods)[length(target@methods)])+1))
-.nextAttributeID<-function(target) return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
+.nextAttributeID<-function(target) {
+  if(length(target@attributes)==0) return("1")
+  return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
+}
 .nextTNUCID<-function(target) return(as.character(as.numeric(names(target@taxonNameUsageConcepts)[length(target@taxonNameUsageConcepts)])+1))
 
 

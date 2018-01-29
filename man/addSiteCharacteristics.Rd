@@ -44,8 +44,8 @@ sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
                    slope = "PlotSlope", aspect = "PlotAspect")
 
 # Define site methods
-slopeDeg = predefinedMeasurementMethod("Slope degrees")
-aspectDeg = predefinedMeasurementMethod("Aspect degrees")
+slopeDeg = predefinedMeasurementMethod("Slope/degrees")
+aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
 
 # Mapping process
 w = addSiteCharacteristics(target, site, "Mokihinui",

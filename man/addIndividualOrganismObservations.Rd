@@ -43,7 +43,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDa
                authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 
 # Define diameter measurement method
-diamMeth = predefinedMeasurementMethod("DBH")
+diamMeth = predefinedMeasurementMethod("DBH/cm")
 
 
 # Mapping process

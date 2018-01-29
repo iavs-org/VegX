@@ -188,16 +188,14 @@ addSiteObservations<-function(target, x, projectTitle,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
       # add attributes if necessary
-      cnt = length(target@attributes)+1
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))
       for(i in 1:length(method@attributes)) {
-        attid = as.character(length(target@attributes)+1)
+        attid = .nextAttributeID(target)
         target@attributes[[attid]] = method@attributes[[i]]
         target@attributes[[attid]]$methodID = methodID
         methodAttIDs[[m]][i] = attid
         if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
-        cnt = cnt + 1
       }
     } else {
       methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)

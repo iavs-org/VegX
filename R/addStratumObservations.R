@@ -32,19 +32,27 @@
 #'
 #'
 #' # Define cover scale
-#' coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
-#'                          citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                          breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
-#'                          midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                          values = c("P","1","2","3", "4", "5", "6"))
+#' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
+#'                    description = "Recce recording method by Hurst/Allen",
+#'                    subject = "plant cover",
+#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                    codes = c("P","1","2","3", "4", "5", "6"),
+#'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
+#'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
+#'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #'
 #' # Define height measurement methods
 #' heightMethod = predefinedMeasurementMethod("Stratum height")
 #'
 #' # Define strata
-#' strataDef = defineCategoricalStrata(name = "Category strata",
-#'                                  description = "Strata with boundaries undefined",
-#'                                  strataNames = paste0("Tier ",1:7))
+#' strataDef = defineMixedStrata(name = "Recce strata",
+#'                               description = "Standard Recce stratum definition",
+#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                               heightStrataNames = paste0("Tier ",1:6),
+#'                               categoryStrataNames = "Tier 7",
+#'                               categoryStrataDefinition = "Epiphytes")
 #'
 #' # Mapping process
 #' x = addStratumObservations(target, tier, "Mokihinui",
@@ -142,16 +150,14 @@ addStratumObservations<-function(target, x, projectTitle,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
       # add attributes if necessary
-      cnt = length(target@attributes)+1
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))
       for(i in 1:length(method@attributes)) {
-        attid = as.character(length(target@attributes)+1)
+        attid = .nextAttributeID(target)
         target@attributes[[attid]] = method@attributes[[i]]
         target@attributes[[attid]]$methodID = methodID
         methodAttIDs[[m]][i] = attid
         if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
-        cnt = cnt + 1
       }
     } else {
       methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)
@@ -173,25 +179,21 @@ addStratumObservations<-function(target, x, projectTitle,
     if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
     # add attributes if necessary
     if(length(stratumDefMethod@attributes)>0) {
-      cnt = length(target@attributes)+1
       for(i in 1:length(stratumDefMethod@attributes)) {
-        attid = as.character(length(target@attributes)+1)
+        attid = .nextAttributeID(target)
         target@attributes[[attid]] = stratumDefMethod@attributes[[i]]
         target@attributes[[attid]]$methodID = strmethodID
-        cnt = cnt + 1
       }
     }
     # add strata (beware of new strata)
     orinstrata = length(target@strata)
     nstr = length(stratumDefinition@strata)
     stratumIDs = character(0)
-    cnt = length(target@strata)+1
     for(i in 1:nstr) {
-      strid = as.character(cnt)
+      strid = .nextStratumID(target)
       stratumIDs[i] = strid
       target@strata[[strid]] = stratumDefinition@strata[[i]]
       target@strata[[strid]]$methodID = strmethodID
-      cnt = cnt + 1
     }
     finnstrata = length(target@strata)
     if(verbose) {
