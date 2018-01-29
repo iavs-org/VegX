@@ -139,8 +139,12 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
             if(mes$attributeID %in% names(mapping)) {
               m = list(attributeID = newAttID,
                        value = mapping[[mes$attributeID]])
-              newmesID = as.character(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)+1)
-              target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[newmesID]] = m
+              if(replaceValues){
+                target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]] = m
+              } else {
+                newmesID = as.character(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)+1)
+                target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[newmesID]] = m
+              }
               naggtransf = naggtransf + 1
             }
           }
@@ -162,8 +166,13 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
             if(mes$attributeID %in% names(mapping)) {
               m = list(attributeID = newAttID,
                        value = mapping[[mes$attributeID]])
-              newmesID = as.character(length(target@individualObservations[[i]]$individualOrganismMeasurements)+1)
-              target@individualObservations[[i]]$individualOrganismMeasurements[[newmesID]] = m
+              if(replaceValues) {
+                target@individualObservations[[i]]$individualOrganismMeasurements[[j]] = m
+              }
+              else {
+                newmesID = as.character(length(target@individualObservations[[i]]$individualOrganismMeasurements)+1)
+                target@individualObservations[[i]]$individualOrganismMeasurements[[newmesID]] = m
+              }
               nindtransf = nindtransf + 1
             }
           }
@@ -227,8 +236,13 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
               if(mes$attributeID %in% names(mapping)) {
                 m = list(attributeID = newAttID,
                          value = mapping[[mes$attributeID]])
-                newmesID = as.character(length(target@siteObservations[[i]][[m]])+1)
-                target@siteObservations[[i]][[m]][[newmesID]] = m
+                if(replaceValues) {
+                  target@siteObservations[[i]][[m]][[j]] = m
+                } 
+                else {
+                  newmesID = as.character(length(target@siteObservations[[i]][[m]])+1)
+                  target@siteObservations[[i]][[m]][[newmesID]] = m
+                }
                 nsitetransf = nsitetransf + 1
               }
             }
