@@ -68,7 +68,7 @@ x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
 # Create document 'y' with tree observations
 treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
                    authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
-diamMeth = predefinedMeasurementMethod("DBH")
+diamMeth = predefinedMeasurementMethod("DBH/cm")
 y = addIndividualOrganismObservations(newVegX(), dia, "Mokihinui",
                         mapping = treemapping,
                         methods = c(diameterMeasurement = diamMeth))

@@ -4,7 +4,7 @@
 \alias{showElementTable}
 \title{Coerces VegX elements into a data frame}
 \usage{
-showElementTable(x, element = "plot", includeIDs = FALSE)
+showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE)
 }
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}
@@ -13,7 +13,9 @@ showElementTable(x, element = "plot", includeIDs = FALSE)
 'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute'.}
 
-\item{includeIDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
+\item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
+
+\item{subjects}{A boolean flag to indicate whether method subjects should be included in the output}
 }
 \value{
 a data frame

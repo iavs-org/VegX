@@ -60,7 +60,7 @@
 #' # Create document 'y' with tree observations
 #' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
 #'                    authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
-#' diamMeth = predefinedMeasurementMethod("DBH")
+#' diamMeth = predefinedMeasurementMethod("DBH/cm")
 #' y = addIndividualOrganismObservations(newVegX(), dia, "Mokihinui",
 #'                         mapping = treemapping,
 #'                         methods = c(diameterMeasurement = diamMeth))
@@ -85,7 +85,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
         # add attributes
         attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
         for(i in 1:length(attIDs)) {
-          newAttID = as.character(length(x@attributes)+1)
+          newAttID = .nextAttributeID(x)
           x@attributes[[newAttID]] = y@attributes[[attIDs[i]]]
           x@attributes[[newAttID]]$methodID = nmetid$id
           attIDmap[[attIDs[i]]] = newAttID
