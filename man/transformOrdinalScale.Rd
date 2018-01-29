@@ -25,8 +25,7 @@ Replaces all the values in a VegX object made using an ordinal scale into the co
 \examples{
 data(mokihinui)
 
-# Create Veg-X document
-target = newVegX()
+# Create Veg-X document with aggregate organism observations with ordinal cover scale
 taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
@@ -45,12 +44,20 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
-x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
+x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
                         mapping = taxmapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
 
-summary(x)
+#Add stratum observations with ordinal cover scale
+mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+               cover = "CoverClass")
+
+x = addStratumObservations(x, tier, "Mokihinui",
+                        mapping = mapping,
+                        methods = list(cover=coverscale),
+                        stratumDefinition = strataDef)
+
 
 # Transform from "Recce cover scale" to "Plant cover/\%"
 percentScale = predefinedMeasurementMethod("Plant cover/\%")

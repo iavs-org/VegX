@@ -14,8 +14,7 @@
 #' @examples
 #' data(mokihinui)
 #'
-#' # Create Veg-X document
-#' target = newVegX()
+#' # Create Veg-X document with aggregate organism observations with ordinal cover scale
 #' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
@@ -34,12 +33,20 @@
 #'                               heightStrataNames = paste0("Tier ",1:6),
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
-#' x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
+#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
 #'                         mapping = taxmapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
-#' summary(x)
+#' #Add stratum observations with ordinal cover scale
+#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+#'                cover = "CoverClass")
+#'
+#' x = addStratumObservations(x, tier, "Mokihinui",
+#'                         mapping = mapping,
+#'                         methods = list(cover=coverscale),
+#'                         stratumDefinition = strataDef)
+#'
 #'
 #' # Transform from "Recce cover scale" to "Plant cover/%"
 #' percentScale = predefinedMeasurementMethod("Plant cover/%")
@@ -140,37 +147,73 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   if(verbose && naggtransf > 0) cat(paste0(" ", naggtransf, " transformation(s) were applied on aggregate organism observations.\n"))
 
   # Apply mapping on individual organism observations
-  # REVISE
-  # nindtransf = 0
-  # if(length(target@individualObservations)>0) {
-  #   for(i in 1:length(target@individualObservations)) {
-  #     if(target@individualObservations[[i]]$attributeID %in% names(mapping)) {
-  #       target@individualObservations[[i]]$diameterValue = mapping[[target@individualObservations[[i]]$attributeID]]
-  #       target@individualObservations[[i]]$diameterAttributeID = newAttID
-  #       nindtransf = nindtransf + 1
-  #     }
-  #   }
-  # }
-  # if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
+  nindtransf = 0
+  if(length(target@individualObservations)>0) {
+    for(i in 1:length(target@individualObservations)) {
+      if("individualOrganismMeasurements" %in% names(target@individualObservations[[i]])) {
+        if(length(target@individualObservations[[i]]$individualOrganismMeasurements)>0) {
+          for(j in 1:length(target@individualObservations[[i]]$individualOrganismMeasurements)) {
+            mes = target@individualObservations[[i]]$individualOrganismMeasurements[[j]]
+            if(mes$attributeID %in% names(mapping)) {
+              m = list(attributeID = newAttID,
+                       value = mapping[[mes$attributeID]])
+              newmesID = as.character(length(target@individualObservations[[i]]$individualOrganismMeasurements)+1)
+              target@individualObservations[[i]]$individualOrganismMeasurements[[newmesID]] = m
+              nindtransf = nindtransf + 1
+            }
+          }
+        }
+      }
+    }
+  }
+  if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
 
   # Apply mapping on stratum observations
-  # REVISE
   nstrtransf = 0
   if(length(target@stratumObservations)>0) {
     for(i in 1:length(target@stratumObservations)) {
       if("stratumMeasurements" %in% names(target@stratumObservations[[i]])) {
-        for(j in 1:length(target@stratumObservations[[i]]$stratumMeasurements)) {
-          if(target@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID %in% names(mapping)) {
-            oldID = target@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID
-            target@stratumObservations[[i]]$stratumMeasurements[[j]]$value = mapping[[oldID]]
-            target@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID = newAttID
-            nstrtransf = nstrtransf + 1
+        if(length(target@stratumObservations[[i]]$stratumMeasurements)>0) {
+          for(j in 1:length(target@stratumObservations[[i]]$stratumMeasurements)) {
+            mes = target@stratumObservations[[i]]$stratumMeasurements[[j]]
+            if(mes$attributeID %in% names(mapping)) {
+              m = list(attributeID = newAttID,
+                       value = mapping[[mes$attributeID]])
+              newmesID = as.character(length(target@stratumObservations[[i]]$stratumMeasurements)+1)
+              target@stratumObservations[[i]]$stratumMeasurements[[newmesID]] = m
+              nstrtransf = nstrtransf + 1
+            }
           }
         }
       }
     }
   }
   if(verbose && nstrtransf > 0) cat(paste0(" ", nstrtransf, " transformation(s) were applied on stratum observations.\n"))
+
+
+  # Apply mapping on site observations
+  nsitetransf = 0
+  if(length(target@siteObservations)>0) {
+    for(i in 1:length(target@siteObservations)) {
+      for(m in c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+        if(m %in% names(target@siteObservations[[i]])) {
+          if(length(target@siteObservations[[i]][[m]])>0) {
+            for(j in 1:length(target@siteObservations[[i]][[m]])) {
+              mes = target@siteObservations[[i]][[m]][[j]]
+              if(mes$attributeID %in% names(mapping)) {
+                m = list(attributeID = newAttID,
+                         value = mapping[[mes$attributeID]])
+                newmesID = as.character(length(target@siteObservations[[i]][[m]])+1)
+                target@siteObservations[[i]][[m]][[newmesID]] = m
+                nsitetransf = nsitetransf + 1
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+  if(verbose && nsitetransf > 0) cat(paste0(" ", nsitetransf, " transformation(s) were applied on site observations.\n"))
 
   # Return the modified document
   return(target)

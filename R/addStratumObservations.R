@@ -279,29 +279,31 @@ addStratumObservations<-function(target, x, projectTitle,
 
     # height limit measurements
     for(m in c("lowerLimitMeasurement","upperLimitMeasurement")) {
-      method = methods[[m]]
-      attIDs = methodAttIDs[[m]]
-      codes = methodCodes[[m]]
-      value = as.character(stratumMeasurementValues[[m]][i])
-      if(!(value %in% as.character(missing.values))) {
-        if(method@attributeType== "quantitative") {
-          value = as.numeric(value)
-          if(value> method@attributes[[1]]$upperLimit) {
-            stop(paste0("Height '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+      if(m %in% names(mapping)) {
+        method = methods[[m]]
+        attIDs = methodAttIDs[[m]]
+        codes = methodCodes[[m]]
+        value = as.character(stratumMeasurementValues[[m]][i])
+        if(!(value %in% as.character(missing.values))) {
+          if(method@attributeType== "quantitative") {
+            value = as.numeric(value)
+            if(value> method@attributes[[1]]$upperLimit) {
+              stop(paste0("Height '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+            }
+            else if(value < method@attributes[[1]]$lowerLimit) {
+              stop(paste0("Height '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+            }
+            strObs[[m]] = list("attributeID" = attIDs[1], "value" = value)
+          } else {
+            ind = which(codes==value)
+            if(length(ind)==1) {
+              strObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+            }
+            else stop(paste0("Value '", value,"' not found in height measurement definition. Please revise height classes or data."))
           }
-          else if(value < method@attributes[[1]]$lowerLimit) {
-            stop(paste0("Height '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
-          }
-          strObs[[m]] = list("attributeID" = attIDs[1], "value" = value)
         } else {
-          ind = which(codes==value)
-          if(length(ind)==1) {
-            strObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
-          }
-          else stop(paste0("Value '", value,"' not found in height measurement definition. Please revise height classes or data."))
+          nmissing = nmissing + 1
         }
-      } else {
-        nmissing = nmissing + 1
       }
     }
     # stratum measurements
