@@ -1,5 +1,5 @@
 
-#' Surface type definition by simple category
+#' Surface type definition
 #'
 #' @param name A string to identify the surface type definition.
 #' @param description A string describing how surface types are defined.
@@ -11,14 +11,14 @@
 #'
 #' @examples
 #'
-#' defineSurfaceCategories(name = "Surface classes",
+#' defineSurfaceTypes(name = "Surface classes",
 #'                         description = "Four simple surface categories",
 #'                         surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
 #'
-defineSurfaceCategories<-function(name, description,
-                                  surfaceNames,
-                                  definitions = NULL,
-                                  citation = "") {
+defineSurfaceTypes<-function(name, description,
+                             surfaceNames,
+                             definitions = NULL,
+                             citation = "") {
   defMethod = new("VegXMethod",
                   name = name,
                   description = description,
