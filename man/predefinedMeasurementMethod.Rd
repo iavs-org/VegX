@@ -8,10 +8,19 @@ predefinedMeasurementMethod(name)
 }
 \arguments{
 \item{name}{A string with the desired measurement method. Current accepted options are:
-\code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-\code{"Stratum height/m"},
-\code{"Plant height/m"}, \code{"Plant height/cm"}, \code{"DBH"}, \code{"pH"}, \code{"Slope/degrees"}, \code{"Aspect/degrees"},
-\code{"Elevation/m"}.}
+\itemize{
+ \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
+ \item{\code{"Plant counts"}: Number of individuals in the plot.}
+ \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
+ \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
+ \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
+ \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
+ \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}
+ \item{\code{"pH"}: pH scale from 0 to 14.}
+ \item{\code{"Slope/degrees"}: Slope measured using degrees.}
+ \item{\code{"Aspect/degrees"}: Aspect measured using degrees from North.}
+ \item{\code{"Elevation/m"}: Elevation measured using meters above sea level.}
+}}
 }
 \value{
 an object of class \code{\linkS4class{VegXMethod}}

@@ -3,10 +3,19 @@
 #' Creates a measurement method for Veg-X documents from a set of predefined options
 #'
 #' @param name A string with the desired measurement method. Current accepted options are:
-#' \code{"Percent cover"}, \code{"Individual counts"}, \code{"Frequency of occurrence"},
-#' \code{"Stratum height/m"},
-#' \code{"Plant height/m"}, \code{"Plant height/cm"}, \code{"DBH"}, \code{"pH"}, \code{"Slope/degrees"}, \code{"Aspect/degrees"},
-#' \code{"Elevation/m"}.
+#' \itemize{
+#'  \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
+#'  \item{\code{"Plant counts"}: Number of individuals in the plot.}
+#'  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
+#'  \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
+#'  \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
+#'  \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
+#'  \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}
+#'  \item{\code{"pH"}: pH scale from 0 to 14.}
+#'  \item{\code{"Slope/degrees"}: Slope measured using degrees.}
+#'  \item{\code{"Aspect/degrees"}: Aspect measured using degrees from North.}
+#'  \item{\code{"Elevation/m"}: Elevation measured using meters above sea level.}
+#' }
 #'
 #'
 #' @return an object of class \code{\linkS4class{VegXMethod}}
@@ -20,7 +29,7 @@
 #'
 predefinedMeasurementMethod<-function(name) {
 
-  name = match.arg(name, c("Plant cover/%", "Individual counts", "Frequency of occurrence",
+  name = match.arg(name, c("Plant cover/%", "Plant counts", "Plant frequency/%",
                            "Stratum height/m",
                            "Plant height/m", "Plant height/cm", "DBH/cm",
                            "pH",
@@ -33,15 +42,15 @@ predefinedMeasurementMethod<-function(name) {
                                          lowerLimit = 0,
                                          upperLimit = 100))
   }
-  else if (name=="Individual counts") {
+  else if (name=="Plant counts") {
     return(defineQuantitativeScaleMethod(name = "Individual counts",
                                          description = "Number of individuals in the plot",
                                          subject = "plant count",
                                          unit = "individuals",
                                          lowerLimit = 0))
   }
-  else if (name=="Frequency of occurrence") {
-    return(defineQuantitativeScaleMethod(name = "Frequency of occurrence",
+  else if (name=="Plant frequency/%") {
+    return(defineQuantitativeScaleMethod(name = "Plant frequency/%",
                                          description = "Frequency of occurrence in fixed subunits of the plot",
                                          subject = "plant frequency",
                                          unit = "%",
