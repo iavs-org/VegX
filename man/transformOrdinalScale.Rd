@@ -4,7 +4,8 @@
 \alias{transformOrdinalScale}
 \title{Transform ordinal scale}
 \usage{
-transformOrdinalScale(target, method, newMethod, verbose = TRUE)
+transformOrdinalScale(target, method, newMethod, replaceValues = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -13,6 +14,9 @@ transformOrdinalScale(target, method, newMethod, verbose = TRUE)
 
 \item{newMethod}{An integer (index) or a name of a quantitative method existing in the initial object,
 or an object of class \code{\linkS4class{VegXMethod}}.}
+
+\item{replaceValues}{A boolean flag to indicate that values of the new scale should replace the old ones. 
+For some measurements transformations will not be possible if replacement is not forced using this flag.}
 
 \item{verbose}{A boolean flag to indicate console output of the data transformation process.}
 }

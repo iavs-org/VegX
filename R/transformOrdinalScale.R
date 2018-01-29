@@ -6,6 +6,8 @@
 #' @param method An integer (index) or a name of an ordinal scale method.
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
 #' or an object of class \code{\linkS4class{VegXMethod}}.
+#' @param replaceValues A boolean flag to indicate that values of the new scale should replace the old ones. 
+#' For some measurements transformations will not be possible if replacement is not forced using this flag.
 #' @param verbose A boolean flag to indicate console output of the data transformation process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -52,7 +54,7 @@
 #' percentScale = predefinedMeasurementMethod("Plant cover/%")
 #' y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 #'
-transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
+transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE, verbose = TRUE) {
   if(length(target@methods)==0) stop("VegX object has no methods")
   methodID = NULL
   if(is.numeric(method)) {
@@ -123,9 +125,11 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
   newAttID = .getAttributeIDsByMethodID(target,newMethodID)
   if(length(newAttID)!=1) stop("New method has the wrong number of attributes.")
   if(target@attributes[[newAttID]]$type!="quantitative") stop("The attribute of the new method should be quantitative.")
-
+  if(target@methods[[methodID]]$subject!=target@methods[[newMethodID]]$subject) stop("The two methods should apply to the same subject. Aborting.")
+  
   # Apply mapping on aggregated organism observations
   naggtransf = 0
+  nfruaggtransf = 0
   if(length(target@aggregateObservations)>0) {
     for(i in 1:length(target@aggregateObservations)) {
       if("aggregateOrganismMeasurements" %in% names(target@aggregateObservations[[i]])) {
@@ -144,6 +148,7 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
       }
     }
   }
+  if(verbose && nfruaggtransf > 0) cat(paste0(" ", nfruaggtransf, " transformation(s) could not be applied on aggregate organism observations (see 'replaceValues').\n"))
   if(verbose && naggtransf > 0) cat(paste0(" ", naggtransf, " transformation(s) were applied on aggregate organism observations.\n"))
 
   # Apply mapping on individual organism observations
@@ -170,8 +175,22 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
 
   # Apply mapping on stratum observations
   nstrtransf = 0
+  nfrustrtransf = 0
   if(length(target@stratumObservations)>0) {
     for(i in 1:length(target@stratumObservations)) {
+      if("heightMeasurement" %in% names(target@stratumObservations[[i]])){
+        mes = target@stratumObservations[[i]]$heightMeasurement
+        if(mes$attributeID %in% names(mapping)) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = mapping[[mes$attributeID]])
+            target@stratumObservations[[i]]$heightMeasurement = m
+            nstrtransf = nstrtransf + 1
+          } else {
+            nfrustrtransf = nfrustrtransf + 1
+          }
+        }
+      }
       if("stratumMeasurements" %in% names(target@stratumObservations[[i]])) {
         if(length(target@stratumObservations[[i]]$stratumMeasurements)>0) {
           for(j in 1:length(target@stratumObservations[[i]]$stratumMeasurements)) {
@@ -179,8 +198,12 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
             if(mes$attributeID %in% names(mapping)) {
               m = list(attributeID = newAttID,
                        value = mapping[[mes$attributeID]])
-              newmesID = as.character(length(target@stratumObservations[[i]]$stratumMeasurements)+1)
-              target@stratumObservations[[i]]$stratumMeasurements[[newmesID]] = m
+              if(replaceValues) {
+                target@stratumObservations[[i]]$stratumMeasurements[[j]] = m
+              } else {
+                newmesID = as.character(length(target@stratumObservations[[i]]$stratumMeasurements)+1)
+                target@stratumObservations[[i]]$stratumMeasurements[[newmesID]] = m
+              }
               nstrtransf = nstrtransf + 1
             }
           }
@@ -188,6 +211,7 @@ transformOrdinalScale<-function(target, method, newMethod, verbose = TRUE) {
       }
     }
   }
+  if(verbose && nfrustrtransf > 0) cat(paste0(" ", nfrustrtransf, " transformation(s) could not be applied on stratum observations (see 'replaceValues').\n"))
   if(verbose && nstrtransf > 0) cat(paste0(" ", nstrtransf, " transformation(s) were applied on stratum observations.\n"))
 
 
