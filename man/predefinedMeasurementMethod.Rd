@@ -24,5 +24,7 @@ predefinedMeasurementMethod("Percent cover")
 
 }
 \seealso{
-Other define measurement functions: \code{\link{defineOrdinalScale}}
+Other define measurement functions: \code{\link{defineOrdinalScaleMethod}},
+  \code{\link{defineQualitativeScaleMethod}},
+  \code{\link{defineQuantitativeScaleMethod}}
 }

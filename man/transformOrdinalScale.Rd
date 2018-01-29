@@ -29,11 +29,15 @@ data(mokihinui)
 target = newVegX()
 taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
-coverscale = definePlantCoverScale(name = "Recce cover scale", description = "Recce recording method by Allen",
-                         citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                         breaks = c(0, 0.1, 1, 5, 25, 50, 75, 100),
-                         midPoints = c(0.01, 0.05, 0.5, 15, 37.5, 62.5, 87.5),
-                         values = c("P","1","2","3", "4", "5", "6"))
+coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
+                   description = "Recce recording method by Hurst/Allen",
+                   subject = "plant cover",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   codes = c("P","1","2","3", "4", "5", "6"),
+                   quantifiableCodes = c("1","2","3", "4", "5", "6"),
+                   breaks = c(0, 1, 5, 25, 50, 75, 100),
+                   midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+                   definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
 strataDef = defineMixedStrata(name = "Recce strata",
                               description = "Standard Recce stratum definition",
                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
@@ -41,7 +45,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
-x = addTaxonObservations(target, tcv, "Mokihinui",
+x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
                         mapping = taxmapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)

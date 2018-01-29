@@ -20,34 +20,19 @@
 predefinedMeasurementMethod<-function(name) {
 
   if(name=="Percent cover") {
-    attributes = list(
-      list(type="quantitative",
-           unit = "%",
-           upperLimit = 100,
-           lowerLimit = 0)
-    )
-    names(attributes) = 1
-    return(new("VegXMethod",
-               name = "Percent cover",
-               description = "Quantitative plant percent cover",
-               subject = "plant cover",
-               attributeType = "quantitative",
-               attributes = attributes))
+    return(defineQuantitativeScaleMethod(name = "Percent cover",
+                                         description = "Quantitative plant percent cover",
+                                         subject = "plant cover",
+                                         unit = "%",
+                                         lowerLimit = 0,
+                                         upperLimit = 100))
   }
   else if (name=="Individual counts") {
-    attributes = list(
-      list(type="quantitative",
-           unit = "individuals",
-           lowerLimit = 0,
-           upperLimit = Inf)
-    )
-    names(attributes) = 1
-    return(new("VegXMethod",
-               name = "Individual counts",
-               description = "Number of individuals in the (sub)plot",
-               subject = "plant count",
-               attributeType = "quantitative",
-               attributes = attributes))
+    return(defineQuantitativeScaleMethod(name = "Individual counts",
+                                         description = "Number of individuals in the (sub)plot",
+                                         subject = "plant count",
+                                         unit = "individuals",
+                                         lowerLimit = 0))
   }
   else if (name=="Frequency of occurrence") {
     attributes = list(
