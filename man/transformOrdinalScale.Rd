@@ -24,7 +24,8 @@ For some measurements transformations will not be possible if replacement is not
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Replaces all the values in a VegX object made using an ordinal scale into the corresponding scale midpoint values.
+Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
+appropriate for the midpoint values of the ordinal classes.
 }
 \examples{
 data(mokihinui)

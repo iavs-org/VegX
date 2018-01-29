@@ -1,6 +1,7 @@
 #' Transform ordinal scale
 #'
-#' Replaces all the values in a VegX object made using an ordinal scale into the corresponding scale midpoint values.
+#' Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
+#' appropriate for the midpoint values of the ordinal classes.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
 #' @param method An integer (index) or a name of an ordinal scale method.
@@ -132,6 +133,19 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
   nfruaggtransf = 0
   if(length(target@aggregateObservations)>0) {
     for(i in 1:length(target@aggregateObservations)) {
+      if("heightMeasurement" %in% names(target@aggregateObservations[[i]])){
+        mes = target@aggregateObservations[[i]]$heightMeasurement
+        if(mes$attributeID %in% names(mapping)) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = mapping[[mes$attributeID]])
+            target@aggregateObservations[[i]]$heightMeasurement = m
+            naggtransf = naggtransf + 1
+          } else {
+            nfruaggtransf = nfruaggtransf + 1
+          }
+        }
+      }
       if("aggregateOrganismMeasurements" %in% names(target@aggregateObservations[[i]])) {
         if(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
           for(j in 1:length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
@@ -157,8 +171,35 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
 
   # Apply mapping on individual organism observations
   nindtransf = 0
+  nfruindtransf = 0
   if(length(target@individualObservations)>0) {
     for(i in 1:length(target@individualObservations)) {
+      if("heightMeasurement" %in% names(target@individualObservations[[i]])){
+        mes = target@individualObservations[[i]]$heightMeasurement
+        if(mes$attributeID %in% names(mapping)) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = mapping[[mes$attributeID]])
+            target@individualObservations[[i]]$heightMeasurement = m
+            nindtransf = nindtransf + 1
+          } else {
+            nfruindtransf = nfruindtransf + 1
+          }
+        }
+      }
+      if("diameterMeasurement" %in% names(target@individualObservations[[i]])){
+        mes = target@individualObservations[[i]]$diameterMeasurement
+        if(mes$attributeID %in% names(mapping)) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = mapping[[mes$attributeID]])
+            target@individualObservations[[i]]$diameterMeasurement = m
+            nindtransf = nindtransf + 1
+          } else {
+            nfruindtransf = nfruindtransf + 1
+          }
+        }
+      }
       if("individualOrganismMeasurements" %in% names(target@individualObservations[[i]])) {
         if(length(target@individualObservations[[i]]$individualOrganismMeasurements)>0) {
           for(j in 1:length(target@individualObservations[[i]]$individualOrganismMeasurements)) {
@@ -180,6 +221,7 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
       }
     }
   }
+  if(verbose && nfruindtransf > 0) cat(paste0(" ", nfruindtransf, " transformation(s) could not be applied on individual organism observations (see 'replaceValues').\n"))
   if(verbose && nindtransf > 0) cat(paste0(" ", nindtransf, " transformation(s) were applied on individual organism observations.\n"))
 
   # Apply mapping on stratum observations
