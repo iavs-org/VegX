@@ -1,7 +1,7 @@
 Package: VegX
 Type: Package
 Title: Vegetation data in Veg-X
-Version: 0.3.6
+Version: 0.4.0
 Authors@R: c(
 	person('Miquel', 'De Caceres', role=c('aut','cre'),
 	email='miquelcaceres@gmail.com'))

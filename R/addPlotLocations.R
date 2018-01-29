@@ -5,7 +5,6 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
-#' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
 #' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places
@@ -25,21 +24,17 @@
 #' @examples
 #' data(mokihinui)
 #'
-#' # Create new Veg-X document
-#' target = newVegX()
-#'
 #' # Define location mapping
 #' locmapping = list(plotName = "Plot", subPlotName = "Subplot",
 #'                   x = "Longitude", y = "Latitude")
 #'
-#' # Mapping process
-#' v = addPlotLocations(target, loc, "Mokihinui",
-#'                      mapping = locmapping)
+#' # Create new Veg-X document with plot locations
+#' v = addPlotLocations(newVegX(), loc, mapping = locmapping)
 #'
 #' # Summary of the new Veg-X document
-#' summary(v)
+#' showElementTable(v, "plot")
 #'
-addPlotLocations<-function(target, x, projectTitle,
+addPlotLocations<-function(target, x,
                            mapping,
                            proj4string = "+proj=longlat +ellps=WGS84",
                            reset.places = FALSE,
@@ -71,26 +66,10 @@ addPlotLocations<-function(target, x, projectTitle,
   plotNames = as.character(x[[mapping[["plotName"]]]])
 
   #Optional mappings
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
-  }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
-
-
-  #get project ID and add new project if necessary
-  nprid = .newProjectIDByTitle(target,projectTitle)
-  projectID = nprid$id
-  if(nprid$new) {
-    target@projects[[projectID]] = list("title" = projectTitle)
-    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
-  } else {
-    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
-  }
-
 
 
   orinplots = length(target@plots)

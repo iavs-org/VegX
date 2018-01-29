@@ -299,9 +299,9 @@ A *surfaceCoverObservation* is a single cover measurement applying to a surface 
 
 Sub-element (quantitative) | Description                                        |  #  |  R  |
 -------------------------- | -------------------------------------------------- | --- | --- |
-surfaceTypeID             | A reference to a specific surface type by ID. | 1 | Yes |
+surfaceTypeID              | A reference to a specific surface type by ID. | 1 | Yes |
 plotObservationID          | A reference to a specific plotObservation by ID. | 1 | Yes |
-coverMeasurement           | A cover measurement, usually in percent. | 1 | Yes |
+coverMeasurement           | The cover measurement, usually in percent cover of the surface when projected to the ground. | 1 | Yes |
 
 
 

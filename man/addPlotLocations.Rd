@@ -4,7 +4,7 @@
 \alias{addPlotLocations}
 \title{Adds/replaces plot location information}
 \usage{
-addPlotLocations(target, x, projectTitle, mapping,
+addPlotLocations(target, x, mapping,
   proj4string = "+proj=longlat +ellps=WGS84", reset.places = FALSE,
   missing.values = c(NA, ""), verbose = TRUE)
 }
@@ -12,8 +12,6 @@ addPlotLocations(target, x, projectTitle, mapping,
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
-
-\item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
@@ -38,19 +36,15 @@ using a mapping to identify plot and subplot (optional). Additional mapping elem
 \examples{
 data(mokihinui)
 
-# Create new Veg-X document
-target = newVegX()
-
 # Define location mapping
 locmapping = list(plotName = "Plot", subPlotName = "Subplot",
                   x = "Longitude", y = "Latitude")
 
-# Mapping process
-v = addPlotLocations(target, loc, "Mokihinui",
-                     mapping = locmapping)
+# Create new Veg-X document with plot locations
+v = addPlotLocations(newVegX(), loc, mapping = locmapping)
 
 # Summary of the new Veg-X document
-summary(v)
+showElementTable(v, "plot")
 
 }
 \references{
@@ -59,6 +53,7 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addIndividualOrganismObservations}},
+  \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},

@@ -62,6 +62,7 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addIndividualOrganismObservations}},
   \code{\link{addPlotLocations}},
+  \code{\link{addPlotObservations}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
   \code{\link{addTaxonBySiteData}}
