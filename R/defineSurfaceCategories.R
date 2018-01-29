@@ -15,7 +15,7 @@ defineSurfaceCategories<-function(name = "Surface covers",
                   name = name,
                   description = description,
                   citation = citation,
-                  attributeClass = "surface category",
+                  subject = "surface category",
                   attributeType = "qualitative",
                   attributes = list())
 
