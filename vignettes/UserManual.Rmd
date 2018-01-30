@@ -1,0 +1,55 @@
+---
+title: "Using the VegX package"
+author: "IAVS Ecoinformatics Working Group"
+date: "`r Sys.Date()`"
+output: 
+  rmarkdown::html_vignette:
+    css: mystyle.css
+vignette: >
+  %\VignetteIndexEntry{Veg-X standard documentation}
+  %\VignetteEngine{knitr::rmarkdown}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## About this manual
+
+In this vignette you will learn how to use the **VegX R package** to integrate and harmonize vegetation data. For the examples, we use the example data sets provided in the package. If you do not know what Veg-X is, please refer to vignette *The Veg-X standard and the VegX R package*.
+
+```{r load VegX}
+library(VegX)
+```
+
+## Creating and populating Veg-X documents
+
+### Loading the source data into R
+
+```{r load source data}
+data(mokihinui)
+```
+
+
+### Creating a new Veg-X document
+```{r init}
+x = newVegX()
+```
+
+### Adding project, plot and observation dates
+
+You can also embed plots, for example:
+
+```{r add plot obs}
+# Define mapping
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
+
+# Adds information about projects, plots and plot observations (no measurements yet)
+x = addPlotObservations(x, site, mapping = mapping)
+```
+
+```{r summary}
+summary(x)
+```
