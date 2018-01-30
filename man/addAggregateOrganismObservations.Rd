@@ -4,19 +4,17 @@
 \alias{addAggregateOrganismObservations}
 \title{Add aggregate organism observation records}
 \usage{
-addAggregateOrganismObservations(target, x, projectTitle, mapping,
-  methods = list(), stratumDefinition = NULL, missing.values = c(NA, "0",
-  ""), verbose = TRUE)
+addAggregateOrganismObservations(target, x, mapping, methods = list(),
+  stratumDefinition = NULL, missing.values = c(NA, "0", ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.}
 
-\item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
-
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'obsEndDate', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
+Additional optional mappings are: 'subPlotName', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
 
 \item{methods}{A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).}
 
@@ -35,12 +33,9 @@ Adds aggregate organism observation records to a VegX object from a data table
 \examples{
 data(mokihinui)
 
-# Create new Veg-X document
-target = newVegX()
-
 # Define mapping
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
-              stratumName = "Tier", cover = "Category")
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+               stratumName = "Tier", cover = "Category")
 
 # Define abundance scale
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
@@ -62,8 +57,8 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
 
-# Mapping process
-x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
+# Create new Veg-X document with aggregate organism observations
+x = addAggregateOrganismObservations(newVegX(), tcv,
                         mapping = mapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)

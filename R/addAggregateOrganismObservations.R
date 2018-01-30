@@ -4,9 +4,8 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
-#' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
+#'                Additional optional mappings are: 'subPlotName', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
 #' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -22,12 +21,9 @@
 #' @examples
 #' data(mokihinui)
 #'
-#' # Create new Veg-X document
-#' target = newVegX()
-#'
 #' # Define mapping
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
-#'               stratumName = "Tier", cover = "Category")
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+#'                stratumName = "Tier", cover = "Category")
 #'
 #' # Define abundance scale
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
@@ -49,15 +45,15 @@
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
 #'
-#' # Mapping process
-#' x = addAggregateOrganismObservations(target, tcv, "Mokihinui",
+#' # Create new Veg-X document with aggregate organism observations
+#' x = addAggregateOrganismObservations(newVegX(), tcv,
 #'                         mapping = mapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' summary(x)
 #'
-addAggregateOrganismObservations<-function(target, x, projectTitle,
+addAggregateOrganismObservations<-function(target, x,
                                      mapping,
                                      methods = list(),
                                      stratumDefinition = NULL,
@@ -68,14 +64,14 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
   nrecords = nrow(x)
   nmissing = 0
 
-  aggregatedObservationMappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", "stratumName", "authorTaxonName")
+  aggregatedObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format ="%Y-%m-%d")
   authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
 
   #Optional mappings
@@ -85,10 +81,6 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
     if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.\n  Revise mapping or provide a stratum definition.")
   } else {
     if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
-  }
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
   }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
@@ -104,22 +96,12 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
   }
 
   aggmesmapping = mapping[!(names(mapping) %in% c(aggregatedObservationMappingsAvailable, "heightMeasurement"))]
-  if(verbose) cat(paste0(" ", length(aggmesmapping)," additional aggregated organism measurement variables found.\n"))
+  if(verbose && (length(aggmesmapping)>0)) cat(paste0(" ", length(aggmesmapping)," additional aggregate organism measurement variables found: ",paste(aggmesmapping, collapse = ", ") ,".\n"))
   if(length(aggmesmapping)>0) {
     for(i in 1:length(aggmesmapping)){
       if(!(names(aggmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(aggmesmapping)[[i]],"'.")
       aggMeasurementValues[[names(aggmesmapping)[i]]] = as.character(x[[aggmesmapping[[i]]]])
     }
-  }
-
-  #get project ID and add new project if necessary
-  nprid = .newProjectIDByTitle(target,projectTitle)
-  projectID = nprid$id
-  if(nprid$new) {
-    target@projects[[projectID]] = list("title" = projectTitle)
-    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
-  } else {
-    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
   #add methods
@@ -243,20 +225,18 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
       }
     }
     #plot observation
-    pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
+    pObsString = paste(plotID, as.character(obsStartDates[i])) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
       npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
       plotObsID = npoid$id
       if(npoid$new) {
         target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                   "projectID" = projectID,
-                                                   "obsStartDate" = obsStartDates[i])
-        if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
+                                                    "obsStartDate" = obsStartDates[i])
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
       parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
     } else {
-      plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
+      plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
     if(!(authorTaxonNames[i] %in% parsedTNUCs)) {
@@ -270,7 +250,7 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
     }
 
     # stratum observations
-    strObsID = NULL
+    strObsID = ""
     if(stratumFlag) {
       strID = .getStratumIDByName(target, stratumNames[i])
       if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
@@ -297,7 +277,7 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
       if(stratumFlag) aggObs$stratumObservationID = strObsID
     }
     else {
-      aggObs = target@stratumObservations[[aggObsID]]
+      aggObs = target@aggregateObservations[[aggObsID]]
     }
 
     # height limit measurements
@@ -361,7 +341,6 @@ addAggregateOrganismObservations<-function(target, x, projectTitle,
     }
     #Store value in target
     target@aggregateObservations[[aggObsID]] = aggObs
-
   }
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)

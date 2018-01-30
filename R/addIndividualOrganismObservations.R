@@ -4,9 +4,8 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one tree observation. Columns can be varied.
-#' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
+#'                Additional optional mappings are: 'subPlotName', 'individual', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -20,10 +19,9 @@
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
 #'
-#' # Create new Veg-X document
-#' target = newVegX()
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
@@ -33,16 +31,14 @@
 #' diamMeth = predefinedMeasurementMethod("DBH/cm")
 #'
 #'
-#' # Mapping process
-#' y = addIndividualOrganismObservations(target, dia, "Mokihinui",
-#'                                       mapping = mapping,
+#' # Create new Veg-X document with individual organism observations
+#' y = addIndividualOrganismObservations(newVegX(), dia, mapping = mapping,
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #'
 #' # Inspect the result
-#' summary(y)
+#' head(showElementTable(y, "individualOrganismObservation"))
 #'
-addIndividualOrganismObservations<-function(target, x, projectTitle,
-                                            mapping,
+addIndividualOrganismObservations<-function(target, x, mapping,
                                             methods = list(),
                                             stratumDefinition = NULL,
                                             missing.values = c(NA, "0", ""),
@@ -51,7 +47,7 @@ addIndividualOrganismObservations<-function(target, x, projectTitle,
   nrecords = nrow(x)
   nmissing = 0
 
-  individualObservationMappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", "stratumName", "authorTaxonName", "individual")
+  individualObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName", "individual")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -68,10 +64,6 @@ addIndividualOrganismObservations<-function(target, x, projectTitle,
     if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.\n  Revise mapping or provide a stratum definition.")
   } else {
     if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
-  }
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
   }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
@@ -103,16 +95,6 @@ addIndividualOrganismObservations<-function(target, x, projectTitle,
       if(!(names(indmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(indmesmapping)[[i]],"'.")
       indMeasurementValues[[names(indmesmapping)[i]]] = as.character(x[[indmesmapping[[i]]]])
     }
-  }
-
-  #get project ID and add new project if necessary
-  nprid = .newProjectIDByTitle(target,projectTitle)
-  projectID = nprid$id
-  if(nprid$new) {
-    target@projects[[projectID]] = list("title" = projectTitle)
-    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
-  } else {
-    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
   #add methods

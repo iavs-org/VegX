@@ -51,7 +51,7 @@ addPlotObservations<-function(target, x,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format ="%Y-%m-%d")
 
   #Optional mappings
   projectFlag = ("projectTitle" %in% names(mapping))
@@ -60,7 +60,7 @@ addPlotObservations<-function(target, x,
   }
   obsEndFlag = ("obsEndDate" %in% names(mapping))
   if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
+    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]), format ="%Y-%m-%d")
   }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
