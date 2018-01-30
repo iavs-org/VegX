@@ -27,33 +27,59 @@ library(VegX)
 
 ### Loading the source data into R
 
+We begin by loading the data from the two data sets that we will use as examples:
 ```{r load source data}
 data(mokihinui)
+data(mtfyffe)
+ls()
 ```
-
+Each of the two data sets contains different tables, corresponding to plot location, site observations, taxon observations, ...:
 
 ### Creating a new Veg-X document
+Before mapping any data to the Veg-X standard, we need to create a new (empty) document, using ``newVegX()``:
 ```{r init}
 moki_vegx = newVegX()
+print(moki_vegx)
 ```
-
-### Adding project, plot and observation dates
-
-You can also embed plots, for example:
-
-```{r add plot obs}
-# Define mapping
-mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
-               obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
-
-# Adds information about projects, plots and plot observations (no measurements yet)
-moki_vegx = addPlotObservations(moki_vegx, moki_site, mapping = mapping)
-```
-
-```{r summary}
+The output from ``print()`` command reveals that Veg-X objects are defined using S4 classes, each of the different slots corresponding to the main elements of Veg-X documents. Printing the Veg-X object will normally result in too much data shown in the console output. A much user-friendly information about the Veg-X document can be obtained using function ``summary()``, which tell us how many instances we have of each of the main elements:
+```{r summary empty}
 summary(moki_vegx)
 ```
 
+
+### Adding project, plot and observation dates
+
+```{r inspect data}
+head(moki_site)
+
+```
+To import data into Veg-X documents, we often need a **mapping** between the names of elements in the Veg-X standard and the names of columns in the data table used as input. For example, in the following code we define that column ``"Project"`` in the source data table contains the information about the *projectTitle* in Veg-X, column ``"Plot"`` contains the information about the *plotName*  element, and so on:
+
+```{r mapping}
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
+```
+
+Once the mapping is defined, we can import the data using ``addPlotObservations()``:
+
+```{r add plot obs}
+# Adds information about projects, plots and plot observations (no measurements yet)
+moki_vegx = addPlotObservations(moki_vegx, moki_site, mapping = mapping)
+```
+The output the add function informs us of the steps that took place and which modified our Veg-X R object (note that we could store the result in a different object instead of replacing ``moki_vegx``). 25 plots were identified, all belonging to the same project, and one plot observation was read for each plot. If we call again the ``summary`` function we will see a change in the number of data elements:
+```{r summary}
+summary(moki_vegx)
+```
+If we want to inspect, at any time, the information of a Veg-X document, we can use the function ``showElementTable``, indicating which of the main Veg-X elements we want to inspect:
 ```{r show plot obs}
 head(showElementTable(moki_vegx, "plotObservation"),10)
 ```
+
+
+```{r add plot obs mtfyffe}
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot", 
+               obsStartDate = "PlotObsStartDate")
+mtfyffe_vegx = addPlotObservations(newVegX(), mtfyffe_site, mapping)
+summary(mtfyffe_vegx)
+```
+

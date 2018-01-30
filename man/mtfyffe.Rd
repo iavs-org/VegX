@@ -3,7 +3,7 @@
 \docType{data}
 \name{mtfyffe}
 \alias{mtfyffe}
-\title{Mt Fyffe xample dataset for Veg-X}
+\title{Mt Fyffe example dataset for Veg-X}
 \description{
 The data set concerns observations made on 5 plots with their subplots.
 The data set includes six data frames:

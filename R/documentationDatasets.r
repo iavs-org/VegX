@@ -1,13 +1,13 @@
 #' Mokihinui example dataset for Veg-X
 #'
-#' The data set concerns observations made on 10 plots with 4 subplots each.
+#' The data set concerns observations made on 5 plots with 4 subplots each.
 #' The data set includes four data frames:
 #'
 #' \itemize{
-#'  \item momki_loc Location of vegetation plots (10 records x 25 variables)
-#'  \item momki_site Site characteristics of plots/subplots (50 records x 43 variables)
-#'  \item momki_tcv Observations of taxon categories, grouped by vegetation strata (1197 records x 33 variables)
-#'  \item momki_dia Observations made on individual trees (1618 records x 33 variables)
+#'  \item moki_loc Location of vegetation plots (5 records x 25 variables)
+#'  \item moki_site Site characteristics of plots/subplots (25 records x 43 variables)
+#'  \item moki_tcv Observations of taxon categories, grouped by vegetation strata (578 records x 33 variables)
+#'  \item moki_dia Observations made on individual trees (968 records x 33 variables)
 #' }
 #'
 #' @name mokihinui

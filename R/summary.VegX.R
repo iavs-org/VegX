@@ -4,7 +4,7 @@
 #'
 setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("================================================================\n"))
-  cat(paste0("                     VegX object (ver 1.5.3)                    \n"))
+  cat(paste0("\                    Veg-X object (ver 2.0.0)                   \n"))
   cat(paste0("----------------------------------------------------------------\n"))
   cat(paste0("\n"))
   cat(paste0("   Projects: ", length(object@projects),"\n"))
