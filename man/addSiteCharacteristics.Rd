@@ -4,15 +4,13 @@
 \alias{addSiteCharacteristics}
 \title{Adds/replaces site information}
 \usage{
-addSiteCharacteristics(target, x, projectTitle, mapping,
-  measurementMethods = list(), missing.values = c(NA, ""), verbose = TRUE)
+addSiteCharacteristics(target, x, mapping, measurementMethods = list(),
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
-
-\item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
@@ -34,10 +32,8 @@ Adds/replaces static site characteristics (topography, geology, ...) to plot ele
 using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
 }
 \examples{
+# Load source data
 data(mokihinui)
-
-# Create new Veg-X document
-target = newVegX()
 
 # Define mapping
 sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
@@ -47,12 +43,12 @@ sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
 slopeDeg = predefinedMeasurementMethod("Slope/degrees")
 aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
 
-# Mapping process
-w = addSiteCharacteristics(target, site, "Mokihinui",
-                           mapping = sitemapping,
+# Create new Veg-X document with site characteristics
+x = addSiteCharacteristics(newVegX(), site, mapping = sitemapping,
                            measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 
-summary(w)
+# Inspect the result
+showElementTable(x, "plot")
 
 }
 \references{

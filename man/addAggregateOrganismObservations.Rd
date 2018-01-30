@@ -31,6 +31,7 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds aggregate organism observation records to a VegX object from a data table
 }
 \examples{
+# Load source data
 data(mokihinui)
 
 # Define mapping
@@ -63,7 +64,8 @@ x = addAggregateOrganismObservations(newVegX(), tcv,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
 
-summary(x)
+# Inspect the result
+head(showElementTable(x, "aggregateOrganismObservation"))
 
 }
 \references{

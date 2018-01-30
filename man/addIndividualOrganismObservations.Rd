@@ -4,19 +4,17 @@
 \alias{addIndividualOrganismObservations}
 \title{Add individual organism observation records}
 \usage{
-addIndividualOrganismObservations(target, x, projectTitle, mapping,
-  methods = list(), stratumDefinition = NULL, missing.values = c(NA, "0",
-  ""), verbose = TRUE)
+addIndividualOrganismObservations(target, x, mapping, methods = list(),
+  stratumDefinition = NULL, missing.values = c(NA, "0", ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one tree observation. Columns can be varied.}
 
-\item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
-
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'obsEndDate', 'individual', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
+\item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+Additional optional mappings are: 'subPlotName', 'individual', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
 
 \item{methods}{A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
 
@@ -33,26 +31,24 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds individual organism observation records to a VegX object from a data table.
 }
 \examples{
+# Load source data
 data(mokihinui)
 
-# Create new Veg-X document
-target = newVegX()
 
 # Define mapping
-mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 
 # Define diameter measurement method
 diamMeth = predefinedMeasurementMethod("DBH/cm")
 
 
-# Mapping process
-y = addIndividualOrganismObservations(target, dia, "Mokihinui",
-                                      mapping = mapping,
+# Create new Veg-X document with individual organism observations
+x = addIndividualOrganismObservations(newVegX(), dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
 # Inspect the result
-summary(y)
+head(showElementTable(x, "individualOrganismObservation"))
 
 }
 \references{

@@ -134,13 +134,17 @@ addPlotObservations<-function(target, x,
           target@plotObservations[[plotObsID]] = list("plotID" = plotID,
                                                       "projectID" = projectID,
                                                       "obsStartDate" = obsStartDates[i])
-          if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
         }
         parsedPlotObs = c(parsedPlotObs, pObsString)
         parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
       } else {
         plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
       }
+    }
+
+    #add observation end if needed
+    if(obsEndFlag) {
+      if(!(obsEndDates[i] %in% missing.values)) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
     }
   }
   finnprojects = length(target@projects)

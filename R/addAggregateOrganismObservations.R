@@ -19,6 +19,7 @@
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
 #'
 #' # Define mapping
@@ -51,7 +52,8 @@
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
-#' summary(x)
+#' # Inspect the result
+#' head(showElementTable(x, "aggregateOrganismObservation"))
 #'
 addAggregateOrganismObservations<-function(target, x,
                                      mapping,
@@ -64,7 +66,7 @@ addAggregateOrganismObservations<-function(target, x,
   nrecords = nrow(x)
   nmissing = 0
 
-  aggregatedObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName")
+  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -95,7 +97,7 @@ addAggregateOrganismObservations<-function(target, x,
     aggMeasurementValues[["heightMeasurement"]] = as.character(x[[mapping[["heightMeasurement"]]]])
   }
 
-  aggmesmapping = mapping[!(names(mapping) %in% c(aggregatedObservationMappingsAvailable, "heightMeasurement"))]
+  aggmesmapping = mapping[!(names(mapping) %in% c(aggObservationMapping, "heightMeasurement"))]
   if(verbose && (length(aggmesmapping)>0)) cat(paste0(" ", length(aggmesmapping)," additional aggregate organism measurement variables found: ",paste(aggmesmapping, collapse = ", ") ,".\n"))
   if(length(aggmesmapping)>0) {
     for(i in 1:length(aggmesmapping)){
@@ -103,6 +105,12 @@ addAggregateOrganismObservations<-function(target, x,
       aggMeasurementValues[[names(aggmesmapping)[i]]] = as.character(x[[aggmesmapping[[i]]]])
     }
   }
+
+  #Check duplicate records
+  mapcols = as.character(mapping[aggObservationMapping[c(T,T,subPlotFlag,stratumFlag,T)]])
+  xstrings = apply(x[, mapcols],1, paste, collapse=" ")
+  us = length(unique(xstrings))
+  if(us<nrow(x)) warning(paste0(nrow(x)-us," duplicate records found!"))
 
   #add methods
   methodIDs = character(0)
@@ -198,14 +206,16 @@ addAggregateOrganismObservations<-function(target, x,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% parsedPlots)) {
-      npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
-      plotID = npid$id
-      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-      parsedPlots = c(parsedPlots, plotNames[i])
-      parsedPlotIDs = c(parsedPlotIDs, plotID)
-    } else { #this access should be faster
-      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+    if(!(plotNames[i] %in% missing.values)) {
+      if(!(plotNames[i] %in% parsedPlots)) {
+        npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+        plotID = npid$id
+        if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
+        parsedPlots = c(parsedPlots, plotNames[i])
+        parsedPlotIDs = c(parsedPlotIDs, plotID)
+      } else { #this access should be faster
+        plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+      }
     }
     #subplot (if defined)
     if(subPlotFlag){

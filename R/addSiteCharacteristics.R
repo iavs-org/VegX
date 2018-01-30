@@ -5,7 +5,6 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
-#' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
 #' Additional optional mappings are: 'subPlotName'.
@@ -23,10 +22,8 @@
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
-#'
-#' # Create new Veg-X document
-#' target = newVegX()
 #'
 #' # Define mapping
 #' sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
@@ -36,14 +33,14 @@
 #' slopeDeg = predefinedMeasurementMethod("Slope/degrees")
 #' aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
 #'
-#' # Mapping process
-#' w = addSiteCharacteristics(target, site, "Mokihinui",
-#'                            mapping = sitemapping,
+#' # Create new Veg-X document with site characteristics
+#' x = addSiteCharacteristics(newVegX(), site, mapping = sitemapping,
 #'                            measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 #'
-#' summary(w)
+#' # Inspect the result
+#' showElementTable(x, "plot")
 #'
-addSiteCharacteristics<-function(target, x, projectTitle,
+addSiteCharacteristics<-function(target, x,
                                  mapping,
                                  measurementMethods = list(),
                                  missing.values = c(NA,""),
@@ -72,10 +69,6 @@ addSiteCharacteristics<-function(target, x, projectTitle,
   plotNames = as.character(x[[mapping[["plotName"]]]])
 
   #Optional mappings
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
-  }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
@@ -87,16 +80,6 @@ addSiteCharacteristics<-function(target, x, projectTitle,
     if(!(names(measurementMethods)[i] %in% names(mapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(measurementMethods)[i], "'."))
   }
 
-
-  #get project ID and add new project if necessary
-  nprid = .newProjectIDByTitle(target,projectTitle)
-  projectID = nprid$id
-  if(nprid$new) {
-    target@projects[[projectID]] = list("title" = projectTitle)
-    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
-  } else {
-    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
-  }
 
 
   #add methods
@@ -140,14 +123,16 @@ addSiteCharacteristics<-function(target, x, projectTitle,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% parsedPlots)) {
-      npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
-      plotID = npid$id
-      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-      parsedPlots = c(parsedPlots, plotNames[i])
-      parsedPlotIDs = c(parsedPlotIDs, plotID)
-    } else { #this access should be faster
-      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+    if(!(plotNames[i] %in% missing.values)) {
+      if(!(plotNames[i] %in% parsedPlots)) {
+        npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+        plotID = npid$id
+        if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
+        parsedPlots = c(parsedPlots, plotNames[i])
+        parsedPlotIDs = c(parsedPlotIDs, plotID)
+      } else { #this access should be faster
+        plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+      }
     }
     #subplot (if defined)
     if(subPlotFlag){
