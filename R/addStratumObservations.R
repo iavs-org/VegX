@@ -5,7 +5,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
+#' Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
 #' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -78,7 +78,6 @@ addStratumObservations<-function(target, x, mapping,
   nrecords = nrow(x)
   nmissing = 0
 
-  stratumObservationMappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName", "stratumName")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -94,6 +93,13 @@ addStratumObservations<-function(target, x, mapping,
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
 
+
+  #Check duplicate records
+  stratumObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName", "stratumName")
+  mapcols = as.character(mapping[stratumObservationMappingsAvailable[c(T,T,subPlotFlag,T)]])
+  xstrings = apply(x[, mapcols],1, paste, collapse=" ")
+  us = length(unique(xstrings))
+  if(us<nrow(x)) warning(paste0(nrow(x)-us," duplicate records found!"))
 
   #stratummeasurement
   stratumMeasurementValues = list()
