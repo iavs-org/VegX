@@ -34,7 +34,7 @@ data(mokihinui)
 
 ### Creating a new Veg-X document
 ```{r init}
-x = newVegX()
+moki_vegx = newVegX()
 ```
 
 ### Adding project, plot and observation dates
@@ -47,13 +47,13 @@ mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subpl
                obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
 
 # Adds information about projects, plots and plot observations (no measurements yet)
-x = addPlotObservations(x, site, mapping = mapping)
+moki_vegx = addPlotObservations(moki_vegx, moki_site, mapping = mapping)
 ```
 
 ```{r summary}
-summary(x)
+summary(moki_vegx)
 ```
 
 ```{r show plot obs}
-head(showElementTable(x, "plotObservation"),10)
+head(showElementTable(moki_vegx, "plotObservation"),10)
 ```

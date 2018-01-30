@@ -64,7 +64,7 @@ soilmapping = list(pH = "pH")
 pHMeth = predefinedMeasurementMethod("pH")
 
 # Create new Veg-X document with site observations
-x = addSiteObservations(newVegX(), site,
+x = addSiteObservations(newVegX(), moki_site,
                         plotObservationMapping = mapping,
                         soilMeasurementMapping = soilmapping,
                         soilMeasurementMethods = list(pH = pHMeth))
