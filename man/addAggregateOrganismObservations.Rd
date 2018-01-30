@@ -30,6 +30,11 @@ The modified object of class \code{\linkS4class{VegX}}.
 \description{
 Adds aggregate organism observation records to a VegX object from a data table
 }
+\details{
+Missing plotName, obsStartDate or authorTaxonName values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
+Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+Missing measurements are simply not added to the Veg-X document.
+}
 \examples{
 # Load source data
 data(mokihinui)

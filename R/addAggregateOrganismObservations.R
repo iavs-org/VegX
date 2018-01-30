@@ -18,6 +18,10 @@
 #'
 #' @family add functions
 #'
+#' @details Missing plotName, obsStartDate or authorTaxonName values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
+#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
+#' Missing measurements are simply not added to the Veg-X document.
+#' 
 #' @examples
 #' # Load source data
 #' data(mokihinui)
@@ -148,7 +152,6 @@ addAggregateOrganismObservations<-function(target, x,
 
   # stratum definition
   if(stratumFlag) {
-    # stratum definition method (WARNING: method match should be made by attributes?)
     stratumDefMethod = stratumDefinition@method
     snmtid = .newMethodIDByName(target,stratumDefMethod@name)
     strmethodID = snmtid$id
@@ -206,20 +209,21 @@ addAggregateOrganismObservations<-function(target, x,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% missing.values)) {
-      if(!(plotNames[i] %in% parsedPlots)) {
-        npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
-        plotID = npid$id
-        if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-        parsedPlots = c(parsedPlots, plotNames[i])
-        parsedPlotIDs = c(parsedPlotIDs, plotID)
-      } else { #this access should be faster
-        plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
-      }
+    if(!(plotNames[i] %in% missing.values)) {# If plotName is missing take the previous one
+      plotName = plotNames[i]
+    }
+    if(!(plotName %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotName) # Get the new plot ID (internal code)
+      plotID = npid$id
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotName)
+      parsedPlots = c(parsedPlots, plotName)
+      parsedPlotIDs = c(parsedPlotIDs, plotID)
+    } else { #this access should be faster
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
-      if(!(subPlotNames[i] %in% missing.values)) {
+      if(!(subPlotNames[i] %in% missing.values)) {# If subPlotName is missing use parent plot ID
         subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
         if(!(subPlotCompleteName %in% parsedPlots)) {
           parentPlotID = plotID
@@ -235,13 +239,16 @@ addAggregateOrganismObservations<-function(target, x,
       }
     }
     #plot observation
-    pObsString = paste(plotID, as.character(obsStartDates[i])) # plotID+Date
+    if(!(obsStartDates[i] %in% missing.values)) {# If observation date is missing take the previous one
+      obsStartDate = obsStartDates[i]
+    }
+    pObsString = paste(plotID, as.character(obsStartDate)) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
-      npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDate) # Get the new plot observation ID (internal code)
       plotObsID = npoid$id
       if(npoid$new) {
         target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                    "obsStartDate" = obsStartDates[i])
+                                                    "obsStartDate" = obsStartDate)
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
       parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
@@ -249,31 +256,36 @@ addAggregateOrganismObservations<-function(target, x,
       plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
-    if(!(authorTaxonNames[i] %in% parsedTNUCs)) {
-      ntnucid = .newTaxonNameUsageConceptIDByName(target, authorTaxonNames[i]) # Get the new taxon name usage ID (internal code)
+    if(!(authorTaxonNames[i] %in% missing.values)) {# If taxon name is missing take the previous one
+      authorTaxonName = authorTaxonNames[i]
+    }
+    if(!(authorTaxonName %in% parsedTNUCs)) {
+      ntnucid = .newTaxonNameUsageConceptIDByName(target, authorTaxonName) # Get the new taxon name usage ID (internal code)
       tnucID = ntnucid$id
-      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonNames[i])
-      parsedTNUCs = c(parsedTNUCs, authorTaxonNames[i])
+      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonName)
+      parsedTNUCs = c(parsedTNUCs, authorTaxonName)
       parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
     } else {
-      tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonNames[i])]
+      tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonName)]
     }
 
     # stratum observations
     strObsID = ""
     if(stratumFlag) {
-      strID = .getStratumIDByName(target, stratumNames[i])
-      if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
-      strObsString = paste(plotObsID, strID) # plotObsID+stratumID
-      if(!(strObsString %in% parsedStrObs)) {
-        nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)
-        strObsID = nstroid$id
-        if(nstroid$new) target@stratumObservations[[strObsID]] = list("plotObservationID" = plotObsID,
-                                                                      "stratumID" = strID)
-        parsedStrObs = c(parsedStrObs, strObsString)
-        parsedStrObsIDs = c(parsedStrObsIDs, strObsID)
-      } else {
-        strObsID = parsedStrObsIDs[which(parsedStrObs==strObsString)]
+      if(!(stratumNames[i] %in% missing.values)) { # If stratum name is missing do not add stratum information
+        strID = .getStratumIDByName(target, stratumNames[i])
+        if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
+        strObsString = paste(plotObsID, strID) # plotObsID+stratumID
+        if(!(strObsString %in% parsedStrObs)) {
+          nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)
+          strObsID = nstroid$id
+          if(nstroid$new) target@stratumObservations[[strObsID]] = list("plotObservationID" = plotObsID,
+                                                                        "stratumID" = strID)
+          parsedStrObs = c(parsedStrObs, strObsString)
+          parsedStrObsIDs = c(parsedStrObsIDs, strObsID)
+        } else {
+          strObsID = parsedStrObsIDs[which(parsedStrObs==strObsString)]
+        }
       }
     }
 
