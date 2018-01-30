@@ -53,3 +53,7 @@ x = addPlotObservations(x, site, mapping = mapping)
 ```{r summary}
 summary(x)
 ```
+
+```{r show plot obs}
+head(showElementTable(x, "plotObservation"),10)
+```
