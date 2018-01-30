@@ -36,6 +36,7 @@
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #'
 #' # Inspect the result
+#' summary(x)
 #' head(showElementTable(x, "individualOrganismObservation"))
 #'
 addIndividualOrganismObservations<-function(target, x, mapping,

@@ -6,9 +6,8 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
-#' @param projectTitle A string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param plotObservationMapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Additional optional mappings are: 'obsEndDate', 'subPlotName'.
+#' Additional optional mappings are: 'subPlotName'.
 #' @param soilMeasurementMapping A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param climateMeasurementMapping A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param waterMassMeasurementMapping A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
@@ -25,33 +24,36 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
+#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+#' Missing measurements are simply not added to the Veg-X document.
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
-#'
-#' # Create new Veg-X document
-#' target = newVegX()
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot",
-#'                    obsStartDate = "obsDate")
+#'                obsStartDate = "PlotObsStartDate")
 #' soilmapping = list(pH = "pH")
 #'
 #' # Define pH method
 #' pHMeth = predefinedMeasurementMethod("pH")
 #'
-#' # Mapping process
-#' z = addSiteObservations(target, site, "Mokihinui",
-#'                            plotObservationMapping = mapping,
-#'                            soilMeasurementMapping = soilmapping,
-#'                            soilMeasurementMethods = list(pH = pHMeth))
+#' # Create new Veg-X document with site observations
+#' x = addSiteObservations(newVegX(), site,
+#'                         plotObservationMapping = mapping,
+#'                         soilMeasurementMapping = soilmapping,
+#'                         soilMeasurementMethods = list(pH = pHMeth))
+#' # Examine results
+#' summary(x)
+#' head(showElementTable(x, "siteObservation"))
 #'
-#' summary(z)
-#'
-addSiteObservations<-function(target, x, projectTitle,
+addSiteObservations<-function(target, x,
                               plotObservationMapping,
                               soilMeasurementMapping = list(),
                               climateMeasurementMapping = list(),
@@ -73,7 +75,7 @@ addSiteObservations<-function(target, x, projectTitle,
 
   #check mappings
   siteVariables = c(soilVariables, climateVariables, waterMassVariables)
-  plotObservationMappingsAvailable = c("plotName", "obsStartDate", "obsEndDate", "subPlotName")
+  plotObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName")
   siteValues = list()
   for(i in 1:length(plotObservationMapping)) {
     if(!(names(plotObservationMapping)[i] %in% plotObservationMappingsAvailable)) stop(paste0("Mapping for '", names(plotObservationMapping)[i], "' cannot be defined."))
@@ -128,10 +130,6 @@ addSiteObservations<-function(target, x, projectTitle,
   obsStartDates = as.Date(as.character(x[[plotObservationMapping[["obsStartDate"]]]]))
 
   #Optional mappings
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
-  }
   subPlotFlag = ("subPlotName" %in% names(plotObservationMapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[plotObservationMapping[["subPlotName"]]]])
@@ -155,17 +153,6 @@ addSiteObservations<-function(target, x, projectTitle,
       if(!(names(waterMassMeasurementMethods)[i] %in% waterMassVariables)) stop(paste0("Method for '", names(waterMassMeasurementMethods)[i], "' cannot be applied."))
       if(!(names(waterMassMeasurementMethods)[i] %in% names(waterMassMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(waterMassMeasurementMethods)[i], "'."))
     }
-  }
-
-
-  #get project ID and add new project if necessary
-  nprid = .newProjectIDByTitle(target,projectTitle)
-  projectID = nprid$id
-  if(nprid$new) {
-    target@projects[[projectID]] = list("title" = projectTitle)
-    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
-  } else {
-    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
 
@@ -216,18 +203,19 @@ addSiteObservations<-function(target, x, projectTitle,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% parsedPlots)) {
+    if(!(plotNames[i] %in% missing.values)) plotName = plotNames[i] # Missing plot means we keep with plot of the previous record
+    if(!(plotName %in% parsedPlots)) {
       npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
       plotID = npid$id
-      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-      parsedPlots = c(parsedPlots, plotNames[i])
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotName)
+      parsedPlots = c(parsedPlots, plotName)
       parsedPlotIDs = c(parsedPlotIDs, plotID)
     } else { #this access should be faster
-      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
-      if(!(subPlotNames[i] %in% missing.values)) {
+      if(!(subPlotNames[i] %in% missing.values)) { # Missing subplot means that we add information to the plot
         subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
         if(!(subPlotCompleteName %in% parsedPlots)) {
           parentPlotID = plotID
@@ -243,21 +231,21 @@ addSiteObservations<-function(target, x, projectTitle,
       }
     }
     #plot observation
-    pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
+    if(!(obsStartDates[i] %in% missing.values)) obsStartDate = obsStartDates[i] # Missing date means we keep with date of the previous record
+    pObsString = paste(plotID, obsStartDate) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
-      npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDate) # Get the new plot observation ID (internal code)
       plotObsID = npoid$id
       if(npoid$new) {
         target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                    "projectID" = projectID,
-                                                    "obsStartDate" = obsStartDates[i])
-        if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
+                                                    "obsStartDate" = obsStartDate)
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
       parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
     } else {
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
+
     #site observations
     soid = .newSiteObservationIDByID(target, plotObsID)
     siteObsID = soid$id

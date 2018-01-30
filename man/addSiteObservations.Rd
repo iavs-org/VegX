@@ -4,7 +4,7 @@
 \alias{addSiteObservations}
 \title{Add site observation records}
 \usage{
-addSiteObservations(target, x, projectTitle, plotObservationMapping,
+addSiteObservations(target, x, plotObservationMapping,
   soilMeasurementMapping = list(), climateMeasurementMapping = list(),
   waterMassMeasurementMapping = list(), soilMeasurementMethods = list(),
   climateMeasurementMethods = list(), waterMassMeasurementMethods = list(),
@@ -15,10 +15,8 @@ addSiteObservations(target, x, projectTitle, plotObservationMapping,
 
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
 
-\item{projectTitle}{A string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
-
 \item{plotObservationMapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'obsEndDate', 'subPlotName'.}
+Additional optional mappings are: 'subPlotName'.}
 
 \item{soilMeasurementMapping}{A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
 
@@ -48,27 +46,31 @@ Adds site observation records to a VegX object from a data table where rows are 
 using a mapping to identify plot observation: plot, subplot (optional) and observation date.
 Additional mappings are used to map specific site variables.
 }
+\details{
+Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
+Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+Missing measurements are simply not added to the Veg-X document.
+}
 \examples{
+# Load source data
 data(mokihinui)
-
-# Create new Veg-X document
-target = newVegX()
 
 # Define mapping
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
-                   obsStartDate = "obsDate")
+               obsStartDate = "PlotObsStartDate")
 soilmapping = list(pH = "pH")
 
 # Define pH method
 pHMeth = predefinedMeasurementMethod("pH")
 
-# Mapping process
-z = addSiteObservations(target, site, "Mokihinui",
-                           plotObservationMapping = mapping,
-                           soilMeasurementMapping = soilmapping,
-                           soilMeasurementMethods = list(pH = pHMeth))
-
-summary(z)
+# Create new Veg-X document with site observations
+x = addSiteObservations(newVegX(), site,
+                        plotObservationMapping = mapping,
+                        soilMeasurementMapping = soilmapping,
+                        soilMeasurementMethods = list(pH = pHMeth))
+# Examine results
+summary(x)
+head(showElementTable(x, "siteObservation"))
 
 }
 \references{

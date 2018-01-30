@@ -13,11 +13,15 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details Missing projectTitle, plotName, obsStartDate or obsEndDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
+#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
 #'
 #' # Define mapping
@@ -83,33 +87,35 @@ addPlotObservations<-function(target, x,
     #project
     if(projectFlag) {
       if(!(projectTitles[i] %in% missing.values)) { # If projectTitle is missing take the previous one
-        if(!(projectTitles[i] %in% parsedProjects)) {
-          nprid = .newProjectIDByTitle(target, projectTitles[i]) # Get the new project ID (internal code)
-          projectID = nprid$id
-          if(nprid$new) target@projects[[projectID]] = list("title" = projectTitles[i])
-          parsedProjects = c(parsedProjects, projectTitles[i])
-          parsedProjectIDs = c(parsedProjectIDs, projectID)
-        } else { #this access should be faster
-          projectID = parsedProjectIDs[which(parsedProjects==projectTitles[i])]
-        }
+        projectTitle = projectTitles[i]
+      }
+      if(!(projectTitle %in% parsedProjects)) {
+        nprid = .newProjectIDByTitle(target, projectTitle) # Get the new project ID (internal code)
+        projectID = nprid$id
+        if(nprid$new) target@projects[[projectID]] = list("title" = projectTitle)
+        parsedProjects = c(parsedProjects, projectTitle)
+        parsedProjectIDs = c(parsedProjectIDs, projectID)
+      } else { #this access should be faster
+        projectID = parsedProjectIDs[which(parsedProjects==projectTitle)]
       }
     }
 
     #plot
     if(!(plotNames[i] %in% missing.values)) {# If plotName is missing take the previous one
-      if(!(plotNames[i] %in% parsedPlots)) {
-        npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
-        plotID = npid$id
-        if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-        parsedPlots = c(parsedPlots, plotNames[i])
-        parsedPlotIDs = c(parsedPlotIDs, plotID)
-      } else { #this access should be faster
-        plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
-      }
+      plotName = plotNames[i]
+    }
+    if(!(plotName %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotName) # Get the new plot ID (internal code)
+      plotID = npid$id
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotName)
+      parsedPlots = c(parsedPlots, plotNames[i])
+      parsedPlotIDs = c(parsedPlotIDs, plotID)
+    } else { #this access should be faster
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
-      if(!(subPlotNames[i] %in% missing.values)) {# If subPlotName is missing take the previous one
+      if(!(subPlotNames[i] %in% missing.values)) {# If subPlotName is missing use parent plot ID
         subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
         if(!(subPlotCompleteName %in% parsedPlots)) {
           parentPlotID = plotID
@@ -126,25 +132,29 @@ addPlotObservations<-function(target, x,
     }
     #plot observation
     if(!(obsStartDates[i] %in% missing.values)) {# If observation date is missing take the previous one
-      pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
-      if(!(pObsString %in% parsedPlotObs)) {
-        npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
-        plotObsID = npoid$id
-        if(npoid$new) {
-          target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                      "projectID" = projectID,
-                                                      "obsStartDate" = obsStartDates[i])
-        }
-        parsedPlotObs = c(parsedPlotObs, pObsString)
-        parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
-      } else {
-        plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
+      obsStartDate = obsStartDates[i]
+    }
+    pObsString = paste(plotID, obsStartDate) # plotID+Date
+    if(!(pObsString %in% parsedPlotObs)) {
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDate) # Get the new plot observation ID (internal code)
+      plotObsID = npoid$id
+      if(npoid$new) {
+        target@plotObservations[[plotObsID]] = list("plotID" = plotID,
+                                                    "projectID" = projectID,
+                                                    "obsStartDate" = obsStartDate)
       }
+      parsedPlotObs = c(parsedPlotObs, pObsString)
+      parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
+    } else {
+      plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
 
     #add observation end if needed
     if(obsEndFlag) {
-      if(!(obsEndDates[i] %in% missing.values)) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
+      if(!(obsEndDates[i] %in% missing.values)) {# If observation end date is missing take the previous one
+        obsEndDate = obsEndDates[i]
+      }
+      target@plotObservations[[plotObsID]]$obsEndDate = obsEndDate
     }
   }
   finnprojects = length(target@projects)

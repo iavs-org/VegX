@@ -4,15 +4,13 @@
 \alias{addStratumObservations}
 \title{Add stratum observation records}
 \usage{
-addStratumObservations(target, x, projectTitle, mapping, methods,
-  stratumDefinition, missing.values = c(NA, ""), verbose = TRUE)
+addStratumObservations(target, x, mapping, methods, stratumDefinition,
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.}
-
-\item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
@@ -31,14 +29,17 @@ The modified object of class \code{\linkS4class{VegX}}.
 \description{
 Adds stratum observation records to a VegX object from a data table
 }
+\details{
+Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
+Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+Missing measurements are simply not added to the Veg-X document.
+}
 \examples{
+# Load source data
 data(mokihinui)
 
-# Create new Veg-X document
-target = newVegX()
-
 # Define mapping
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper",
                cover = "CoverClass")
 
@@ -55,7 +56,7 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
 
 # Define height measurement methods
-heightMethod = predefinedMeasurementMethod("Stratum height")
+heightMethod = predefinedMeasurementMethod("Stratum height/m")
 
 # Define strata
 strataDef = defineMixedStrata(name = "Recce strata",
@@ -66,15 +67,16 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
 
-# Mapping process
-x = addStratumObservations(target, tier, "Mokihinui",
-                        mapping = mapping,
+# Create new Veg-X document with stratum observations
+x = addStratumObservations(newVegX(), tier, mapping = mapping,
                         methods = list(lowerLimitMeasurement = heightMethod,
                                        upperLimitMeasurement = heightMethod,
                                        cover=coverscale),
                         stratumDefinition = strataDef)
 
+# Examine results
 summary(x)
+head(showElementTable(x, "stratumObservation"))
 
 }
 \references{

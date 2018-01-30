@@ -48,6 +48,7 @@ x = addIndividualOrganismObservations(newVegX(), dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
 # Inspect the result
+summary(x)
 head(showElementTable(x, "individualOrganismObservation"))
 
 }

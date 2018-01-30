@@ -4,7 +4,6 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
-#' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'obsEndDate', 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
 #' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).
@@ -15,18 +14,20 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
+#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+#' Missing measurements are simply not added to the Veg-X document.
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
 #'
-#' # Create new Veg-X document
-#' target = newVegX()
-#'
 #' # Define mapping
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
 #'                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper",
 #'                cover = "CoverClass")
 #'
@@ -43,7 +44,7 @@
 #'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #'
 #' # Define height measurement methods
-#' heightMethod = predefinedMeasurementMethod("Stratum height")
+#' heightMethod = predefinedMeasurementMethod("Stratum height/m")
 #'
 #' # Define strata
 #' strataDef = defineMixedStrata(name = "Recce strata",
@@ -54,18 +55,18 @@
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
 #'
-#' # Mapping process
-#' x = addStratumObservations(target, tier, "Mokihinui",
-#'                         mapping = mapping,
+#' # Create new Veg-X document with stratum observations
+#' x = addStratumObservations(newVegX(), tier, mapping = mapping,
 #'                         methods = list(lowerLimitMeasurement = heightMethod,
 #'                                        upperLimitMeasurement = heightMethod,
 #'                                        cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
+#' # Examine results
 #' summary(x)
+#' head(showElementTable(x, "stratumObservation"))
 #'
-addStratumObservations<-function(target, x, projectTitle,
-                                 mapping,
+addStratumObservations<-function(target, x, mapping,
                                  methods,
                                  stratumDefinition,
                                  missing.values = c(NA, ""),
@@ -88,10 +89,6 @@ addStratumObservations<-function(target, x, projectTitle,
   stratumNames = as.character(x[[mapping[["stratumName"]]]])
 
   #Optional mappings
-  obsEndFlag = ("obsEndDate" %in% names(mapping))
-  if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]))
-  }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
@@ -118,17 +115,6 @@ addStratumObservations<-function(target, x, projectTitle,
       if(!(names(strmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(strmesmapping)[[i]],"'.")
       stratumMeasurementValues[[names(strmesmapping)[i]]] = as.character(x[[strmesmapping[[i]]]])
     }
-  }
-
-
-  #get project ID and add new project if necessary
-  nprid = .newProjectIDByTitle(target,projectTitle)
-  projectID = nprid$id
-  if(nprid$new) {
-    target@projects[[projectID]] = list("title" = projectTitle)
-    if(verbose) cat(paste0(" New project '", projectTitle,"' added.\n"))
-  } else {
-    if(verbose) cat(paste0(" Data will be added to existing project '", projectTitle,"'.\n"))
   }
 
 
@@ -218,18 +204,21 @@ addStratumObservations<-function(target, x, projectTitle,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% parsedPlots)) {
+    if(!(plotNames[i] %in% missing.values)) {# If plotName is missing take the previous one
+      plotName = plotNames[i]
+    }
+    if(!(plotName %in% parsedPlots)) {
       npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
       plotID = npid$id
-      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-      parsedPlots = c(parsedPlots, plotNames[i])
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotName)
+      parsedPlots = c(parsedPlots, plotName)
       parsedPlotIDs = c(parsedPlotIDs, plotID)
     } else { #this access should be faster
-      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
-      if(!(subPlotNames[i] %in% missing.values)) {
+      if(!(subPlotNames[i] %in% missing.values)) {# If subPlotName is missing use parent plot ID
         subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
         if(!(subPlotCompleteName %in% parsedPlots)) {
           parentPlotID = plotID
@@ -245,15 +234,16 @@ addStratumObservations<-function(target, x, projectTitle,
       }
     }
     #plot observation
-    pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
+    if(!(obsStartDates[i] %in% missing.values)) {# If observation date is missing take the previous one
+      obsStartDate = obsStartDates[i]
+    }
+    pObsString = paste(plotID, obsStartDate) # plotID+Date
     if(!(pObsString %in% parsedPlotObs)) {
-      npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDate) # Get the new plot observation ID (internal code)
       plotObsID = npoid$id
       if(npoid$new) {
         target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                   "projectID" = projectID,
-                                                   "obsStartDate" = obsStartDates[i])
-        if(obsEndFlag) target@plotObservations[[plotObsID]]$obsEndDate = obsEndDates[i]
+                                                    "obsStartDate" = obsStartDate)
       }
       parsedPlotObs = c(parsedPlotObs, pObsString)
       parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)

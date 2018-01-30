@@ -26,7 +26,12 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds plot observation records to a VegX object from a data table where rows are plot observations,
 using a mapping to identify plot observation: plot, subplot (optional), observation start date and end date (optional).
 }
+\details{
+Missing projectTitle, plotName, obsStartDate or obsEndDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
+Missing subPlotName values are interpreted in that observation refers to the parent plotName.
+}
 \examples{
+# Load source data
 data(mokihinui)
 
 # Define mapping
