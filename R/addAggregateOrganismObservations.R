@@ -21,7 +21,7 @@
 #' @details Missing plotName, obsStartDate or authorTaxonName values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
 #' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
 #' Missing measurements are simply not added to the Veg-X document.
-#' 
+#'
 #' @examples
 #' # Load source data
 #' data(mokihinui)
@@ -51,7 +51,7 @@
 #'                               categoryStrataDefinition = "Epiphytes")
 #'
 #' # Create new Veg-X document with aggregate organism observations
-#' x = addAggregateOrganismObservations(newVegX(), tcv,
+#' x = addAggregateOrganismObservations(newVegX(), moki_tcv,
 #'                         mapping = mapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)

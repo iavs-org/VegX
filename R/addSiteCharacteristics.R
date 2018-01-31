@@ -34,7 +34,7 @@
 #' aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
 #'
 #' # Create new Veg-X document with site characteristics
-#' x = addSiteCharacteristics(newVegX(), site, mapping = sitemapping,
+#' x = addSiteCharacteristics(newVegX(), moki_site, mapping = sitemapping,
 #'                            measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 #'
 #' # Inspect the result

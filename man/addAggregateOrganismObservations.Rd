@@ -64,7 +64,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               categoryStrataDefinition = "Epiphytes")
 
 # Create new Veg-X document with aggregate organism observations
-x = addAggregateOrganismObservations(newVegX(), tcv,
+x = addAggregateOrganismObservations(newVegX(), moki_tcv,
                         mapping = mapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)

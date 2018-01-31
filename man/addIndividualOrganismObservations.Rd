@@ -44,7 +44,7 @@ diamMeth = predefinedMeasurementMethod("DBH/cm")
 
 
 # Create new Veg-X document with individual organism observations
-x = addIndividualOrganismObservations(newVegX(), dia, mapping = mapping,
+x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
 # Inspect the result

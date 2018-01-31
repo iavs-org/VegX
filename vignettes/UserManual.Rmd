@@ -75,11 +75,105 @@ If we want to inspect, at any time, the information of a Veg-X document, we can 
 head(showElementTable(moki_vegx, "plotObservation"),10)
 ```
 
-
+Let's now do the same for the **Mt Fyffe data set**. Since it comes from the same data base, data table have similar column names. In this case, however, there is no information about the sampling end date, only the start date. We modify our mapping accordingly and we call ``addPlotObservations()`` while creating an empty project as the target document:
 ```{r add plot obs mtfyffe}
 mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot", 
                obsStartDate = "PlotObsStartDate")
 mtfyffe_vegx = addPlotObservations(newVegX(), mtfyffe_site, mapping)
 summary(mtfyffe_vegx)
 ```
+In this source data set there are many more subplots for each plot, and each plot/subplot was sampled twice (in 1980 and 2007-2008). Moreover, each survey corresponds to a different project. Veg-X does not require projects to be equated to surveys, but in this case it happens to be like this.
+
+### Adding site characteristics
+
+
+```{r add site topo moki}
+sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
+                   slope = "PlotSlope", aspect = "PlotAspect")
+
+slopeDeg = predefinedMeasurementMethod("Slope/degrees")
+aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
+
+moki_vegx = addSiteCharacteristics(moki_vegx, moki_site, mapping = sitemapping,
+                measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+
+head(showElementTable(moki_vegx, "plot"))
+```
+
+
+```{r add site topo mtfyffe}
+mtfyffe_vegx = addSiteCharacteristics(mtfyffe_vegx, mtfyffe_site, mapping = sitemapping,
+                measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+
+```
+
+
+### Adding taxon observations
+
+```{r mapping taxon obs moki}
+head(moki_tcv)
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+               stratumName = "Tier", cover = "Category")
+```
+
+```{r cover scale def}
+coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
+                   description = "Recce recording method by Hurst/Allen",
+                   subject = "plant cover",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing 
+                               Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   codes = c("P","1","2","3", "4", "5", "6"),
+                   quantifiableCodes = c("1","2","3", "4", "5", "6"),
+                   breaks = c(0, 1, 5, 25, 50, 75, 100),
+                   midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+                   definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
+```
+
+```{r moki strata def}
+moki_strataDef = defineMixedStrata(name = "Recce strata",
+                              description = "Standard Recce stratum definition",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing 
+                                          Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                              heightStrataNames = paste0("Tier ",1:6),
+                              categoryStrataNames = "Tier 7",
+                              categoryStrataDefinition = "Epiphytes")
+```
+
+
+```{r add taxon obs moki}
+moki_vegx = addAggregateOrganismObservations(moki_vegx, moki_tcv, mapping,
+                        methods = c(cover=coverscale),
+                        stratumDefinition = moki_strataDef)
+```
+
+
+
+
+```{r mapping taxon obs mtfyffe}
+head(mtfyffe_counts)
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate", 
+               authorTaxonName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+```
+
+```{r count scale def}
+countscale = predefinedMeasurementMethod("Plant counts")
+```
+
+```{r mtfyffe strata def}
+mtfyffe_strataDef = defineHeightStrata(name = "Standard seedling",
+                              description = "Standard seedling stratum definition",
+                              heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
+                              strataNames = as.character(1:6),
+                              strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", "76-105 cm", "106-135 cm", "> 135 cm"))
+```
+
+
+```{r add taxon obs mtfyffe}
+mtfyffe_vegx = addAggregateOrganismObservations(mtfyffe_vegx, mtfyffe_counts, mapping,
+                        methods = c(counts=countscale),
+                        stratumDefinition = mtfyffe_strataDef)
+```
+
+### Adding individual organism observations
 
