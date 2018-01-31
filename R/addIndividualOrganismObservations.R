@@ -5,7 +5,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one tree observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'individual', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
+#'                Additional optional mappings are: 'subPlotName', 'identificationLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -18,21 +18,27 @@
 #'
 #' @family add functions
 #'
+#' @details Missing plotName, obsStartDate or identificationLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
+#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When authorTaxonName is missing the organism is assumed to be unidentified.
+#' When stratumName values are missing the individual organism observation is not assigned to any stratum.
+#' Missing measurements are simply not added to the Veg-X document.
+#'
 #' @examples
 #' # Load source data
-#' data(mokihinui)
+#' data(mtfyffe)
 #'
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+#'                authorTaxonName = "PreferredSpeciesName", identificationLabel = "Identifier",
+#'                diameterMeasurement = "Diameter")
 #'
 #' # Define diameter measurement method
 #' diamMeth = predefinedMeasurementMethod("DBH/cm")
 #'
 #'
-#' # Create new Veg-X document with individual organism observations
-#' x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
+#' # Create new Veg-X document with identificationLabel organism observations
+#' x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping = mapping,
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #'
 #' # Inspect the result
@@ -48,7 +54,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   nrecords = nrow(x)
   nmissing = 0
 
-  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName", "individual")
+  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName", "identificationLabel")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -74,9 +80,9 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
-  individualFlag = ("individual" %in% names(mapping))
-  if(individualFlag) {
-    individuals = as.Date(as.character(x[[mapping[["individual"]]]]))
+  identificationLabelFlag = ("identificationLabel" %in% names(mapping))
+  if(identificationLabelFlag) {
+    identificationLabels = as.character(x[[mapping[["identificationLabel"]]]])
   }
 
 
@@ -199,20 +205,21 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% missing.values)) {
-      if(!(plotNames[i] %in% parsedPlots)) {
-        npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
-        plotID = npid$id
-        if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-        parsedPlots = c(parsedPlots, plotNames[i])
-        parsedPlotIDs = c(parsedPlotIDs, plotID)
-      } else { #this access should be faster
-        plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
-      }
+    if(!(plotNames[i] %in% missing.values)) {# If plotName is missing take the previous one
+      plotName = plotNames[i]
+    }
+    if(!(plotName %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotName) # Get the new plot ID (internal code)
+      plotID = npid$id
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotName)
+      parsedPlots = c(parsedPlots, plotName)
+      parsedPlotIDs = c(parsedPlotIDs, plotID)
+    } else { #this access should be faster
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
-      if(!(subPlotNames[i] %in% missing.values)) {
+      if(!(subPlotNames[i] %in% missing.values)) {# If subPlotName is missing use parent plot ID
         subPlotCompleteName = paste0(plotNames[i],"_", subPlotNames[i])
         if(!(subPlotCompleteName %in% parsedPlots)) {
           parentPlotID = plotID
@@ -228,21 +235,22 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       }
     }
     #plot observation
-    if(!(as.character(obsStartDates[i]) %in% missing.values)) {
-      pObsString = paste(plotID, obsStartDates[i]) # plotID+Date
-      if(!(pObsString %in% parsedPlotObs)) {
-        npoid = .newPlotObsIDByDate(target, plotID, obsStartDates[i]) # Get the new plot observation ID (internal code)
-        plotObsID = npoid$id
-        if(npoid$new) {
-          target@plotObservations[[plotObsID]] = list("plotID" = plotID,
-                                                      "obsStartDate" = obsStartDates[i])
-        }
-        parsedPlotObs = c(parsedPlotObs, pObsString)
-        parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
+    if(!(as.character(obsStartDates[i]) %in% missing.values)) {# If observation date is missing take the previous one
+      obsStartDate = obsStartDates[i]
+    }
+    pObsString = paste(plotID, as.character(obsStartDate)) # plotID+Date
+    if(!(pObsString %in% parsedPlotObs)) {
+      npoid = .newPlotObsIDByDate(target, plotID, obsStartDate) # Get the new plot observation ID (internal code)
+      plotObsID = npoid$id
+      if(npoid$new) {
+        target@plotObservations[[plotObsID]] = list("plotID" = plotID,
+                                                    "obsStartDate" = obsStartDate)
       }
-      else {
-        plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
-      }
+      parsedPlotObs = c(parsedPlotObs, pObsString)
+      parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
+    }
+    else {
+      plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
     if(taxonFlag) {
@@ -257,6 +265,8 @@ addIndividualOrganismObservations<-function(target, x, mapping,
         else {
           tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonNames[i])]
         }
+      } else {
+        tnucID = NA # Assume the organism has not been identified
       }
     }
 
@@ -280,19 +290,20 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     }
 
     # individual organisms
-    if(individualFlag) { # Allow for repeated observations on the same individuals
-      if(!(individuals[i] %in% missing.values)) {
-        if(!(individuals[i] %in% parsedInds)) {
-          nindid = .newIndividualOrganismIDByIdentificationLabel(target, plotID, individuals[i]) # Get the new individual ID (internal code)
-          indID = nindid$id
-          if(nindid$new) target@individualOrganisms[[indID]] = list("plotID"= plotID,
-                                                                    "identificationLabel" = individuals[i])
-          parsedInds = c(parsedInds, individuals[i])
-          parsedIndIDs = c(parsedIndIDs, indID)
-        }
-        else {
-          indID = parsedIndIDs[which(parsedInds==individuals[i])]
-        }
+    if(identificationLabelFlag) {
+      if(!(identificationLabels[i] %in% missing.values)) { # If label is missing take the previous one (assuming it is a different observation event)
+        identificationLabel = identificationLabels[i]
+      }
+      if(!(identificationLabel %in% parsedInds)) {
+        nindid = .newIndividualOrganismIDByIdentificationLabel(target, plotID, identificationLabel) # Get the new individual ID (internal code)
+        indID = nindid$id
+        if(nindid$new) target@individualOrganisms[[indID]] = list("plotID"= plotID,
+                                                                  "identificationLabel" = identificationLabel)
+        parsedInds = c(parsedInds, identificationLabel)
+        parsedIndIDs = c(parsedIndIDs, indID)
+      }
+      else {
+        indID = parsedIndIDs[which(parsedInds==identificationLabel)]
       }
       # else keep current individual
     }
@@ -301,7 +312,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       target@individualOrganisms[[indID]] = list("plotID"= plotID,
                                                  "identificationLabel" = paste0("ind",indID))
     }
-    if(taxonFlag) target@individualOrganisms[[indID]]$taxonNameUsageConceptID = tnucID
+    if(taxonFlag && (!is.na(tnucID))) target@individualOrganisms[[indID]]$taxonNameUsageConceptID = tnucID
 
     # ind org observations
     nioID = .newIndividualOrganismObservationIDByIndividualID(target, plotObsID, indID)

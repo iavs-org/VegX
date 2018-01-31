@@ -68,7 +68,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               categoryStrataDefinition = "Epiphytes")
 
 # Create new Veg-X document with stratum observations
-x = addStratumObservations(newVegX(), tier, mapping = mapping,
+x = addStratumObservations(newVegX(), moki_str, mapping = mapping,
                         methods = list(lowerLimitMeasurement = heightMethod,
                                        upperLimitMeasurement = heightMethod,
                                        cover=coverscale),

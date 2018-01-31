@@ -56,7 +56,7 @@
 #'                               categoryStrataDefinition = "Epiphytes")
 #'
 #' # Create new Veg-X document with stratum observations
-#' x = addStratumObservations(newVegX(), tier, mapping = mapping,
+#' x = addStratumObservations(newVegX(), moki_str, mapping = mapping,
 #'                         methods = list(lowerLimitMeasurement = heightMethod,
 #'                                        upperLimitMeasurement = heightMethod,
 #'                                        cover=coverscale),
@@ -254,7 +254,7 @@ addStratumObservations<-function(target, x, mapping,
       parsedPlotObs = c(parsedPlotObs, pObsString)
       parsedPlotObsIDs = c(parsedPlotObsIDs, plotObsID)
     } else {
-      plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
+      plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
 
     # stratum observations

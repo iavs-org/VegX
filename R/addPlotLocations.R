@@ -25,14 +25,14 @@
 #' data(mokihinui)
 #'
 #' # Define location mapping
-#' locmapping = list(plotName = "Plot", subPlotName = "Subplot",
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot",
 #'                   x = "Longitude", y = "Latitude")
 #'
 #' # Create new Veg-X document with plot locations
-#' v = addPlotLocations(newVegX(), loc, mapping = locmapping)
+#' x = addPlotLocations(newVegX(), moki_loc, mapping)
 #'
 #' # Summary of the new Veg-X document
-#' showElementTable(v, "plot")
+#' showElementTable(x, "plot")
 #'
 addPlotLocations<-function(target, x,
                            mapping,
