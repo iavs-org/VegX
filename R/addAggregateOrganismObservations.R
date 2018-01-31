@@ -298,7 +298,7 @@ addAggregateOrganismObservations<-function(target, x,
     # stratum observations
     strObsID = ""
     if(stratumFlag) {
-      if(!(stratumNames[i] %in% missing.values)) { # If stratum name is missing do not add stratum information
+      if(!(stratumNamesData[i] %in% missing.values)) { # If stratum name is missing do not add stratum information
         stratumName = stratumNamesData[i]
         if(!(stratumName %in% stratumNames)) stop(paste0(stratumName," not found within stratum names. Revise stratum definition or data."))
         strID = stratumIDs[which(stratumNames==stratumName)]
