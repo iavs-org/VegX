@@ -34,7 +34,7 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate taxon observations
-#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
@@ -52,17 +52,15 @@
 #'                               heightStrataNames = paste0("Tier ",1:6),
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
-#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
-#'                         mapping = taxmapping,
+#' x = addAggregateOrganismObservations(newVegX(), moki_tcv, taxmapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' # Create document 'y' with tree observations
-#' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
+#' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
 #'                    authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 #' diamMeth = predefinedMeasurementMethod("DBH/cm")
-#' y = addIndividualOrganismObservations(newVegX(), dia, "Mokihinui",
-#'                         mapping = treemapping,
+#' y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
 #'                         methods = c(diameterMeasurement = diamMeth))
 #'
 #' # Merge 'x' and 'y'
@@ -72,6 +70,20 @@
 mergeVegX<-function(x, y, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
+  #projects IMPORTANT: Should be modified if other elements than 'title' are considered
+  projectIDmap = list()
+  if(length(y@projects)>0) {
+    for(j in 1:length(y@projects)) {
+      npid = .newProjectIDByTitle(x, y@projects[[j]]$title)
+      if(npid$new) {
+        x@projects[[npid$id]] = y@projects[[j]]
+      }
+      projectIDmap[names(y@projects)[j]] = npid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of projects: ", length(x@projects),".\n"))
+  }
 
   # methods/attributes
   methodIDmap = list()
@@ -103,15 +115,6 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
   }
 
-  #projects IMPORTANT: Should be modified if other elements than 'title' are considered
-  projectIDmap = list()
-  for(j in 1:length(y@projects)) {
-    npid = .newProjectIDByTitle(x, y@projects[[j]]$title)
-    if(npid$new) {
-      x@projects[[npid$id]] = y@projects[[j]]
-    }
-    projectIDmap[names(y@projects)[j]] = npid$id
-  }
 
   #taxonNameUsageConcepts
   tnucIDmap = list()
@@ -141,7 +144,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     for(j in 1:length(y@strata)) {
       methodID = methodIDmap[[y@strata[[j]]$methodID]]
       y@strata[[j]]$methodID = methodID # set method ID to translated one in order to avoid matching problems (does not change id externally)
-      nstrid = .newStratumIDByName(x, y@strata[[j]]$stratumName)
+      nstrid = .newStratumIDByName(x, methodID, y@strata[[j]]$stratumName)
       if(nstrid$new) {
         x@strata[[nstrid$id]] = y@strata[[j]]
       } else { #pool information

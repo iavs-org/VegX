@@ -42,7 +42,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 data(mokihinui)
 
 # Create document 'x' with aggregate taxon observations
-taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
@@ -60,17 +60,15 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
-x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
-                        mapping = taxmapping,
+x = addAggregateOrganismObservations(newVegX(), moki_tcv, taxmapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
 
 # Create document 'y' with tree observations
-treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "obsDate",
+treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                    authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 diamMeth = predefinedMeasurementMethod("DBH/cm")
-y = addIndividualOrganismObservations(newVegX(), dia, "Mokihinui",
-                        mapping = treemapping,
+y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
                         methods = c(diameterMeasurement = diamMeth))
 
 # Merge 'x' and 'y'

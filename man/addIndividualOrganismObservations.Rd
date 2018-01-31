@@ -51,7 +51,7 @@ diamMeth = predefinedMeasurementMethod("DBH/cm")
 
 
 # Create new Veg-X document with identificationLabel organism observations
-x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping = mapping,
+x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
 # Inspect the result

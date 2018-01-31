@@ -252,8 +252,9 @@ head(showElementTable(moki_vegx, "siteObservation"))
 ```
 
 ## Combining Veg-X documents
-# ```{r merge two documents}
-# comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx)
-# summary(comb_vegx)
-# ```
+
+```{r merge two documents}
+comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx)
+summary(comb_vegx)
+```
 
