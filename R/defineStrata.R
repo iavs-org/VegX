@@ -10,7 +10,7 @@
 #' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
 #' @param strataDefinitions
 #'
-#' @return an object of class \code{\linkS4class{VegXStrata}}
+#' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #' @export
 #'
 #' @family define strata functions
@@ -45,7 +45,7 @@ defineHeightStrata<-function(name = "Strata by height",
                                       upperLimit = heightBreaks[i+1])
      if(!is.null(strataDefinitions)) strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
-  return(new("VegXStrata",
+  return(new("VegXStrataDefinition",
              method = defMethod,
              strata = strata))
 }
@@ -57,7 +57,7 @@ defineHeightStrata<-function(name = "Strata by height",
 #' @param citation A string with the bibliographic reference for the method.
 #' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
 #'
-#' @return an object of class \code{\linkS4class{VegXStrata}}
+#' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #' @family define strata functions
 #'
 defineCategoricalStrata<-function(name = "Strata by categories",
@@ -79,7 +79,7 @@ defineCategoricalStrata<-function(name = "Strata by categories",
                                      order = i)
     if(!is.null(strataDefinitions)) strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
-  return(new("VegXStrata",
+  return(new("VegXStrataDefinition",
              method = defMethod,
              strata = strata))
 }
@@ -99,7 +99,7 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #' @param categoryStrataDefinitions
 #' @param order A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).
 #'
-#' @return an object of class \code{\linkS4class{VegXStrata}}
+#' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #' @export
 #'
 #' @family define strata functions
@@ -153,7 +153,7 @@ defineMixedStrata<-function(name = "Strata by height or category",
                                            order = order[nhstr+i])
     if(!is.null(categoryStrataDefinitions)) strata[[as.character(nhstr+i)]]$definition = categoryStrataDefinitions[i]
   }
-  return(new("VegXStrata",
+  return(new("VegXStrataDefinition",
              method = defMethod,
              strata = strata))
 }

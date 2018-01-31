@@ -17,7 +17,7 @@ Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lower
 
 \item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).}
 
-\item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
+\item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 

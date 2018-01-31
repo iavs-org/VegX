@@ -18,7 +18,7 @@ Additional optional mappings are: 'subPlotName', 'identificationLabel', 'authorT
 
 \item{methods}{A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
 
-\item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrata}} indicating the definition of strata.}
+\item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 

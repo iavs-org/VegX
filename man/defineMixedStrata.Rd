@@ -29,7 +29,7 @@ defineMixedStrata(name = "Strata by height or category",
 \item{order}{A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).}
 }
 \value{
-an object of class \code{\linkS4class{VegXStrata}}
+An object of class \code{\linkS4class{VegXStrataDefinition}}
 }
 \description{
 Define some strata by height and other by category

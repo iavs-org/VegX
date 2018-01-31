@@ -8,8 +8,8 @@
 #' @export
 #'
 #' @examples
-#' showClass("VegXStrata")
+#' showClass("VegXStrataDefinition")
 #'
-setClass("VegXStrata",slots=c(
+setClass("VegXStrataDefinition",slots=c(
   method = "VegXMethod",
   strata = "list"))

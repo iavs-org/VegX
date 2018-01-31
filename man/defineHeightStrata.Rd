@@ -25,7 +25,7 @@ defineHeightStrata(name = "Strata by height",
 \item{strataDefinitions}{}
 }
 \value{
-an object of class \code{\linkS4class{VegXStrata}}
+An object of class \code{\linkS4class{VegXStrataDefinition}}
 }
 \description{
 Height-based strata definition

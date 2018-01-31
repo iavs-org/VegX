@@ -20,13 +20,19 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("\n"))
   cat(paste0("   Individual organisms: ", length(object@individualOrganisms),"\n"))
   cat(paste0("\n"))
-  # cat(paste0("   Taxon names: ", length(object@taxonNames),"\n"))
   cat(paste0("   Taxon name usage concepts: ", length(object@taxonNameUsageConcepts),"\n"))
   cat(paste0("\n"))
   cat(paste0("   Vegetation strata: ", length(object@strata),"\n"))
   if(length(object@strata)>0) {
     for(i in 1:length(object@strata)){
-      cat(paste0("      ",i,". ", object@strata[[i]]$stratumName," [",object@strata[[i]]$stratumSequence,"/",object@methods[[object@strata[[i]]$methodID]]$name,"]\n"))
+      cat(paste0("      ",i,". ", object@strata[[i]]$stratumName," [",object@strata[[i]]$order,"/",object@methods[[object@strata[[i]]$methodID]]$name,"]\n"))
+    }
+  }
+  cat(paste0("\n"))
+  cat(paste0("   Surface types: ", length(object@surfaceTypes),"\n"))
+  if(length(object@surfaceTypes)>0) {
+    for(i in 1:length(object@surfaceTypes)){
+      cat(paste0("      ",i,". ", object@surfaceTypes[[i]]$surfaceName,"\n"))
     }
   }
   cat(paste0("\n"))
@@ -48,7 +54,11 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("\n"))
   cat(paste0("   Stratum observations: ", length(object@stratumObservations),"\n"))
   cat(paste0("\n"))
+  cat(paste0("   Community observations: ", length(object@communityObservations),"\n"))
+  cat(paste0("\n"))
   cat(paste0("   Site observations: ", length(object@siteObservations),"\n"))
+  cat(paste0("\n"))
+  cat(paste0("   Surface cover observations: ", length(object@surfaceCoverObservations),"\n"))
   cat(paste0("\n"))
   cat(paste0("================================================================\n"))
 })
