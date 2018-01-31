@@ -5,6 +5,7 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     css: mystyle.css
+    toc: TRUE
 vignette: >
   %\VignetteIndexEntry{VegX package user's manual}
   %\VignetteEngine{knitr::rmarkdown}
@@ -119,7 +120,7 @@ When calling ``showElementTable()`` for plot elements we are shown the plot/subp
 ```{r add plot loc mtfyffe}
 mtfyffe_vegx = addPlotLocations(mtfyffe_vegx, mtfyffe_loc, mapping)
 ```
-Strangely, 10 records were parsed, although only five plots (excluding subplots) are available. Coordinate records are duplicated in ``mtfyffe_loc``, once for each project (or survey). Function ``addPlotLocations()`` will always keep the last record of each plot. 
+Strangely, 10 records were parsed, although only five plots (excluding subplots) are available. Coordinate records are duplicated in ``mtfyffe_loc``, once for each project (or survey). Function ``addPlotLocations()`` will always keep the last location records of each plot. Finally, we parse plot coordinates for the Takikimu grassland data set, realizing that they are lacking for one of the plots.
 
 ```{r add plot loc taki}
 taki_vegx = addPlotLocations(taki_vegx, taki_loc, mapping)
@@ -270,7 +271,7 @@ mtfyffe_vegx = addIndividualOrganismObservations(mtfyffe_vegx, mtfyffe_dia, mapp
 head(showElementTable(mtfyffe_vegx, "individualOrganismObservation"))
 ```
 
-### Add stratum observations
+### Adding stratum observations
 
 ```{r add str obs moki}
 mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
@@ -289,7 +290,7 @@ moki_vegx = addStratumObservations(moki_vegx, moki_str, mapping = mapping,
 head(showElementTable(moki_vegx, "stratumObservation"))
 ```
 
-### Add surface cover observations
+### Adding surface cover observations
 
 ```{r add surface obs mtfyffe}
 head(mtfyffe_groundcover)
@@ -323,7 +324,7 @@ head(showElementTable(taki_vegx, "surfaceCoverObservation"))
 ```
 
 
-### Add site observations
+### Adding site observations
 
 ```{r add site obs moki}
 # mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")

@@ -72,6 +72,48 @@ writeVegXML<-function(x, file, verbose = TRUE) {
         if("DecimalLatitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLatitude", x@plots[[i]]$location$DecimalLatitude, parent=gs)
         if("GeodeticDatum" %in% names(x@plots[[i]]$location)) newXMLNode("GeodeticDatum", x@plots[[i]]$location$GeodeticDatum, parent=gs)
       }
+      if("geometry" %in% names(x@plots[[i]])) {
+        gm = newXMLNode("geometry", parent=p)
+        if("area" %in% names(x@plots[[i]]$geometry$circle)) { #Add ara information
+          mes = newXMLNode("area", parent=gm)
+          newXMLNode("value", x@plots[[i]]$geometry$area$value, parent=mes)
+          newXMLNode("attributeID", x@plots[[i]]$geometry$area$attributeID, parent=mes)
+        }
+        if("circle" %in% names(x@plots[[i]]$geometry)) {
+          sh = newXMLNode("circle", parent=gm)
+          if("radius" %in% names(x@plots[[i]]$geometry$circle)) { #Add radius information
+            mes = newXMLNode("radius", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$circle$radius$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$circle$radius$attributeID, parent=mes)
+          }
+        }
+        if("rectangle" %in% names(x@plots[[i]]$geometry)) {
+          sh = newXMLNode("rectangle", parent=gm)
+          if("length" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
+            mes = newXMLNode("length", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$rectangle$length$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$length$attributeID, parent=mes)
+          }
+          if("width" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
+            mes = newXMLNode("width", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$rectangle$width$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$width$attributeID, parent=mes)
+          }
+        }
+        if("line" %in% names(x@plots[[i]]$geometry)) {
+          sh = newXMLNode("line", parent=gm)
+          if("length" %in% names(x@plots[[i]]$geometry$line)) { #Add length information
+            mes = newXMLNode("length", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$line$length$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$line$length$attributeID, parent=mes)
+          }
+          if("bandWidth" %in% names(x@plots[[i]]$geometry$line)) { #Add length information
+            mes = newXMLNode("width", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$line$bandWidth$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$line$bandWidth$attributeID, parent=mes)
+          }
+        }
+      }
       if("topography" %in% names(x@plots[[i]])) {
         topo = newXMLNode("topography", parent=p)
         if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information

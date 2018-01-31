@@ -5,13 +5,14 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     css: mystyle.css
+    toc: TRUE
 vignette: >
   %\VignetteIndexEntry{Veg-X standard documentation}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
 
-## The Veg-X standard
+## Overview of the Veg-X standard
 
 The exchange standard for plot-based vegetation data (Veg-X) is a standard intended to be used for sharing and merging vegetation-plot data of different kinds. It was created by the *Ecoinformatics Working Group* of the **International Association for Vegetation Science (IAVS)** (http://iavs.org) with the to produce a standard specifically for vegetation-plot data that is relatively simple to read and use. To achieve this, highly nested structures were avoided and major vegetation data components were included (e.g. plot attributes, plot observations, organisms) as top-level elements that are referenced by  each other through unique identifiers (e.g. a unique numerical ID) that allow the integrity of the original linkage to be captured. Although the main logical structure of vegetation data (i.e. the logical relationships between major data components) is fixed, alternative, user-defined ways of grouping observations are also allowed. As such, the standard can accommodate projects that are linked across time as well as longitudinal measures of plots or individuals to the extent that these are referenced in the original dataset through appropriate unique identifiers in those original sources.
 
@@ -305,7 +306,7 @@ coverMeasurement           | The cover measurement, usually in percent cover of 
 
 
 
-### Element **observationGrouping**
+### Element *observationGrouping*
 
 A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the schema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a plotObservation).
 

@@ -50,6 +50,28 @@ readVegXML<-function(file, verbose = TRUE) {
         if("GeodeticDatum" %in% names(geo)) plot$location$GeodeticDatum = xmlValue(geo[["GeodeticDatum"]])
       }
     }
+    if("geometry" %in% names(x)) {
+      gm = x[["geometry"]]
+      plot$geometry = list()
+      if("area" %in% names(gm)) plot$geometry$area = .readVegXMeasurement.2.0.0(gm[["area"]])
+      if("circle" %in% names(gm)) {
+        plot$geometry$circle = list()
+        sh = gm[["circle"]]
+        if("radius" %in% names(sh)) plot$geometry$circle$radius = .readVegXMeasurement.2.0.0(sh[["radius"]])
+      }
+      else if("rectangle" %in% names(gm)) {
+        plot$geometry$rectangle = list()
+        sh = gm[["rectangle"]]
+        if("length" %in% names(sh)) plot$geometry$rectangle$length = .readVegXMeasurement.2.0.0(sh[["length"]])
+        if("width" %in% names(sh)) plot$geometry$rectangle$width = .readVegXMeasurement.2.0.0(sh[["width"]])
+      }
+      else if("line" %in% names(gm)) {
+        plot$geometry$line = list()
+        sh = gm[["line"]]
+        if("length" %in% names(sh)) plot$geometry$line$length = .readVegXMeasurement.2.0.0(sh[["length"]])
+        if("bandWidth" %in% names(sh)) plot$geometry$line$bandWidth = .readVegXMeasurement.2.0.0(sh[["bandWidth"]])
+      }
+    }
     if("topography" %in% names(x)) {
       topo = x[["topography"]]
       plot$topography = list()
