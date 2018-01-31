@@ -28,7 +28,7 @@ Coerces part of the information of a Veg-X object into a data frame
 data(mokihinui)
 
 # Create document 'x' with aggregate organism observations
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
@@ -64,6 +64,6 @@ showElementTable(x, "plotObservation")
 showElementTable(x, "method")
 showElementTable(x, "attribute")
 
-# show aggregate organism observations
-showElementTable(x, "aggregateOrganismObservation")
+# show aggregate organism observations (only some of them)
+head(showElementTable(x, "aggregateOrganismObservation"))
 }

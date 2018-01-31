@@ -1,16 +1,14 @@
-#' Adds/replaces plot location information
+#' Adds/replaces plot geometry information
 #'
-#' Adds/replaces static plot location information (spatial coordinates, place names, ...) to plot elements of a VegX object from a data table where rows are plots,
+#' Adds/replaces static plot geometry information (plot shape, dimensions, ...) to plot elements of a VegX object from a data table where rows are plots,
 #' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 #'
-#' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
+#' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
 #' @param x A data frame where each row corresponds to one plot. Columns can be varied.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places
-#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
-#' Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".
-#' @param reset.places Whether the 'places' vector should be reset before adding new place names.
+#' Geometry variables that can be mapped are: 'area', 'shape', 'radius', 'length','width', 'bandWidth'.
+#' Additional optional mappings are: 'subPlotName'.
+#' @param methods A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethod}}).
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -26,20 +24,20 @@
 #'
 #' # Define location mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot",
-#'                   x = "Longitude", y = "Latitude")
+#'                area = "PlotArea", shape = "Shape",
+#'                width = "PlotRectangleLength01", length = "PlotRectangleLength02")
 #'
 #' # Create new Veg-X document with plot locations
-#' x = addPlotLocations(newVegX(), moki_loc, mapping)
+#' x = addPlotGeometries(newVegX(), moki_site, mapping)
 #'
 #' # Summary of the new Veg-X document
 #' showElementTable(x, "plot")
 #'
-addPlotLocations<-function(target, x,
-                           mapping,
-                           proj4string = "+proj=longlat +ellps=WGS84",
-                           reset.places = FALSE,
-                           missing.values = c(NA,""),
-                           verbose = TRUE) {
+addPlotGeometries<-function(target, x,
+                            mapping,
+                            methods = list(),
+                            missing.values = c(NA,""),
+                            verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0

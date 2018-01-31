@@ -73,6 +73,7 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 }
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},
+  \code{\link{addPlotGeometries}},
   \code{\link{addPlotLocations}},
   \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
