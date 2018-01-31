@@ -130,6 +130,35 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@stratumObservations), " stratum observation(s) read.\n"))
   }
 
+  #read surface types
+  .readSurfaceType.2.0.0 = function(x) {
+    str = list(surfaceName = xmlValue(x[["surfaceName"]]))
+    n = names(x)
+    if("methodID" %in% n) str$methodID = xmlValue(x[["methodID"]])
+    if("definition" %in% n) str$definition = xmlValue(x[["definition"]])
+    return(str)
+  }
+  if("surfaceTypes" %in% vegnames) {
+    target@surfaceTypes = xmlApply(veg[["surfaceTypes"]], .readSurfaceType.2.0.0)
+    names(target@surfaceTypes) = xmlApply(veg[["surfaceTypes"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@surfaceTypes), " surface types read.\n"))
+  }
+  #read surface cover observations
+  .readSurfaceCoverObservation.2.0.0 = function(x) {
+    scObs = list(surfaceTypeID = xmlValue(x[["surfaceTypeID"]]),
+                  plotObservationID = xmlValue(x[["plotObservationID"]]))
+    n = names(x)
+    for(nm in n) {
+      if(nm=="coverMeasurement") scObs$coverMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+    }
+    return(scObs)
+  }
+  if("surfaceCoverObservations" %in% vegnames) {
+    target@surfaceCoverObservations = xmlApply(veg[["surfaceCoverObservations"]], .readSurfaceCoverObservation.2.0.0)
+    names(target@surfaceCoverObservations) = xmlApply(veg[["surfaceCoverObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@surfaceCoverObservations), " surface cover observation(s) read.\n"))
+  }
+
   #read aggregate organism observations
   .readAggregateOrganismObservation.2.0.0 = function(x) {
     aggObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]),

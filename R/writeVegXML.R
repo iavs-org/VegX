@@ -239,7 +239,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
   #surfaceType elements
   if(length(x@surfaceTypes)>0) {
     surfaceTypes = newXMLNode("surfaceTypes", parent = top)
-    for(i in 1:length(x@siteObservations)){
+    for(i in 1:length(x@surfaceTypes)){
       surf = newXMLNode("surfaceType",
                         attrs = c(id = names(x@surfaceTypes)[i]),
                         parent = surfaceTypes)
