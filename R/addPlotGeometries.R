@@ -15,11 +15,16 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details Missing plotName values are interpreted as if the previous non-missing value has to be used to define plot.
+#' Missing subPlotName values are interpreted in that data refers to the parent plotName.
+#' Missing measurements are simply not added to the Veg-X document.
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
 #'
 #' @examples
+#' # Load source data
 #' data(mokihinui)
 #'
 #' # Define location mapping
@@ -30,7 +35,7 @@
 #' # Create new Veg-X document with plot locations
 #' x = addPlotGeometries(newVegX(), moki_site, mapping)
 #'
-#' # Summary of the new Veg-X document
+#' # Inspect results
 #' showElementTable(x, "plot")
 #'
 addPlotGeometries<-function(target, x,
@@ -43,24 +48,28 @@ addPlotGeometries<-function(target, x,
   nmissing = 0
 
 
-  #check mappings
-  nonCoordVariables = c("authorLocation","locationNarrative", "placeName", "placeType")
-  locVariables = c("x", "y", nonCoordVariables)
-  mappingsAvailable = c("plotName", "subPlotName", locVariables)
-  locValues = list()
-  for(i in 1:length(mapping)) {
-    if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
-    if(names(mapping)[i] %in% locVariables) {
-      locValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
-    }
-  }
-  if(("y" %in% names(mapping)) && !("x" %in% names(mapping))) stop("Please supply mapping for 'x' to complete coordinates.")
-  if(("x" %in% names(mapping)) && !("y" %in% names(mapping))) stop("Please supply mapping for 'y' to complete coordinates.")
-
+  #check mappings and extract variables
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
+
+  circleVariables = c("radius")
+  rectangleVariables = c("length", "width")
+  lineVariables = c("length", "bandWidth")
+
+  geometryVariables = unique(c("area", circleVariables, rectangleVariables, lineVariables))
+  mappingsAvailable = c("plotName", "subPlotName", geometryVariables)
+  geometryValues = list()
+  for(i in 1:length(mapping)) {
+    if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
+    if(names(mapping)[i] %in% geometryVariables) {
+      if(!(names(mapping)[i] %in% names(methods)))  stop(paste0("Method needs to be provided to map values of '", names(mapping)[i], "'."))
+      geometryValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
+    }
+  }
+
+
   plotNames = as.character(x[[mapping[["plotName"]]]])
 
   #Optional mappings
@@ -76,14 +85,17 @@ addPlotGeometries<-function(target, x,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% parsedPlots)) {
-      npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+    if(!plotNames[i] %in% missing.values) {# If plotName is missing take the previous one
+      plotName = plotNames[i]
+    }
+    if(!(plotName %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotName) # Get the new plot ID (internal code)
       plotID = npid$id
       if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-      parsedPlots = c(parsedPlots, plotNames[i])
+      parsedPlots = c(parsedPlots, plotName)
       parsedPlotIDs = c(parsedPlotIDs, plotID)
     } else { #this access should be faster
-      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
@@ -102,48 +114,9 @@ addPlotGeometries<-function(target, x,
         }
       }
     }
-    #Add 'location' element if necessary
-    if(!("location" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$location = list()
+    #Add 'geometry' element if necessary
+    if(!("geometry" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$geometry = list()
 
-    # Reset 'places' element if necessary
-    if(reset.places && ("places" %in% names(target@plots[[plotID]]$location))) target@plots[[plotID]]$location$places = list()
-
-    # Add new location if necessary
-    if(("placeName" %in% names(mapping)) || ("placeType" %in% names(mapping))) {
-      #Add 'places' element if necessary
-      if(!("places" %in% names(target@plots[[plotID]]$location))) target@plots[[plotID]]$location$places = list()
-      newloc = paste0(location, length(target@plots[[plotID]]$location$places)+1)
-      target@plots[[plotID]]$location$places[[newloc]] = list()
-    }
-
-    #Add plot location data (non coordinate variables)
-    for(m in names(mapping)[names(mapping) %in% nonCoordVariables]) {
-      value = locValues[[m]][i]
-      if(!(value %in% as.character(missing.values))) {
-        if((m=="placeName") || (m=="placeType")){ #Add placeName/placeType to location
-          target@plots[[plotID]]$location$places[[newloc]][[m]] = value
-        } else {
-          target@plots[[plotID]]$location[[m]] = value
-        }
-      } else {
-        nmissing = nmissing + 1
-      }
-    }
-
-    # Add coordinate variables (transform to latlong)
-    if("x" %in% names(mapping)) {
-      x = as.numeric(locValues[["x"]][i])
-      y = as.numeric(locValues[["y"]][i])
-      if((!is.na(x))&& (!is.na(y))) {
-        sp = SpatialPoints(coords = matrix(c(x,y), nrow=1, ncol=2), proj4string = CRS(proj4string))
-        splatlon = spTransform(sp, CRS("+proj=longlat +datum=WGS84"))
-        target@plots[[plotID]]$location$DecimalLongitude = as.numeric(splatlon@coords[1,1])
-        target@plots[[plotID]]$location$DecimalLatitude = as.numeric(splatlon@coords[1,2])
-        target@plots[[plotID]]$location$GeodeticDatum = "WGS84"
-      } else {
-        nmissing = nmissing + 1
-      }
-    }
   }
   finnplots = length(target@plots)
   if(verbose) {

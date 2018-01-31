@@ -29,7 +29,13 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds/replaces static plot geometry information (plot shape, dimensions, ...) to plot elements of a VegX object from a data table where rows are plots,
 using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 }
+\details{
+Missing plotName values are interpreted as if the previous non-missing value has to be used to define plot.
+Missing subPlotName values are interpreted in that data refers to the parent plotName.
+Missing measurements are simply not added to the Veg-X document.
+}
 \examples{
+# Load source data
 data(mokihinui)
 
 # Define location mapping
@@ -40,7 +46,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot",
 # Create new Veg-X document with plot locations
 x = addPlotGeometries(newVegX(), moki_site, mapping)
 
-# Summary of the new Veg-X document
+# Inspect results
 showElementTable(x, "plot")
 
 }

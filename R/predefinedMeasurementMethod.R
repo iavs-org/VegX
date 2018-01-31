@@ -4,6 +4,10 @@
 #'
 #' @param name A string with the desired measurement method. Current accepted options are:
 #' \itemize{
+#'  \item{\code{"Plot area/m2"}: Plot area measured in square meters.}
+#'  \item{\code{"Plot area/cm2"}: Plot area measured in square centimeters.}
+#'  \item{\code{"Plot dimension/m"}: Plot dimension (radius, length, width) measured in meters.}
+#'  \item{\code{"Plot dimension/cm"}: Plot dimension (radius, length, width) measured in centimeters.}
 #'  \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
 #'  \item{\code{"Plant counts"}: Number of individuals in the plot.}
 #'  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
@@ -31,13 +35,46 @@
 #'
 predefinedMeasurementMethod<-function(name) {
 
-  name = match.arg(name, c("Plant cover/%", "Plant counts", "Plant frequency/%",
+  name = match.arg(name, c("Plot area/m2", "Plot area/cm2","Plot dimension/m","Plot dimension/cm",
+                           "Plant cover/%", "Plant counts", "Plant frequency/%",
                            "Stratum height/m", "Stratum height/cm",
                            "Plant height/m", "Plant height/cm", "DBH/cm",
                            "Surface cover/%",
                            "pH",
                            "Slope/degrees", "Aspect/degrees", "Elevation/m"))
-  if(name=="Plant cover/%") {
+  if(name=="Plot area/m2") {
+    return(defineQuantitativeScaleMethod(name = "Plot area/m2",
+                                         description = "Plot area measured in square meters.",
+                                         subject = "plot area",
+                                         unit = "m2",
+                                         lowerLimit = 0,
+                                         upperLimit = Inf))
+  }
+  else if(name=="Plot area/cm2") {
+    return(defineQuantitativeScaleMethod(name = "Plot area/cm2",
+                                         description = "Plot area measured in square centimeters.",
+                                         subject = "plot area",
+                                         unit = "cm2",
+                                         lowerLimit = 0,
+                                         upperLimit = Inf))
+  }
+  else if(name=="Plot dimension/m") {
+    return(defineQuantitativeScaleMethod(name = "Plot dimension/m",
+                                         description = "Plot dimension (radius, length, width) measured in meters.",
+                                         subject = "plot dimension",
+                                         unit = "m",
+                                         lowerLimit = 0,
+                                         upperLimit = Inf))
+  }
+  else if(name=="Plot dimension/cm") {
+    return(defineQuantitativeScaleMethod(name = "Plot dimension/cm",
+                                         description = "Plot dimension (radius, length, width) measured in centimeters.",
+                                         subject = "plot dimension",
+                                         unit = "cm",
+                                         lowerLimit = 0,
+                                         upperLimit = Inf))
+  }
+  else if(name=="Plant cover/%") {
     return(defineQuantitativeScaleMethod(name = "Plant cover/%",
                                          description = "Plant cover as percentage of ground covered by the projection.",
                                          subject = "plant cover",
