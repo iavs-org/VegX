@@ -13,7 +13,7 @@ addPlotObservations(target, x, mapping, missing.values = c(NA, ""),
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName'.}
+Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -39,12 +39,21 @@ mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subpl
                obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
 
 # Create a new Veg-X document with projects, plots and plot observations (no data)
-x = addPlotObservations(newVegX(), site, mapping = mapping)
+x = addPlotObservations(newVegX(), moki_site, mapping = mapping)
 
 # Examine the result
 showElementTable(x, "plot")
 showElementTable(x, "plotObservation")
 
+# The same but capturing unique identifiers from data source IDs (not used by the Veg-X package)
+
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate",
+               plotUniqueIdentifier = "PlotID", plotObservationUniqueIdentifier = "PlotObsID")
+x = addPlotObservations(newVegX(), moki_site, mapping = mapping)
+
+showElementTable(x, "plot")
+showElementTable(x, "plotObservation")
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

@@ -109,10 +109,10 @@ A plot is a sampling location, with or without explicit boundaries. The element 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 plotName                 | Name or label for a plot, unique within the data set  | 1 | Yes |
-plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
+plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
 relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | 0..n | Yes |
 location | Information regarding the placement of the plot on earth. | 0..1 | Yes |
-geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | No |
+geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | Yes |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
 geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
 partyWithRole | The party that undertook the plot placement, and/or parties with other roles. | 0..n | No |
@@ -126,7 +126,7 @@ Sub-element               | Description                                        |
 plotID                   | A reference to a specific plot by the plot ID       | 1 | Yes |
 obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 1 | Yes |
 obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 0..1 | Yes |
-plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
+plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
 projectID | A reference to a specific 'project'.  | 0..n | Yes |
 previousObservationID | Link to previous plot observations.	| 0..n | No |
 communityObservationID | A reference to a specific communityObservation by ID. Note that the relationship is one-to-one. Only one communityObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |

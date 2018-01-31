@@ -32,7 +32,8 @@ readVegXML<-function(file, verbose = TRUE) {
     plot = list()
     plot$plotName = xmlValue(x[["plotName"]])
     n = names(x)
-    if("relatedPlot" %in% names(x)) {
+    if("plotUniqueIdentifier" %in% n) plot$plotUniqueIdentifier = xmlValue(x[["plotUniqueIdentifier"]])
+    if("relatedPlot" %in% n) {
       rp = x[["relatedPlot"]]
       if(xmlValue(rp[["plotRelationship"]])=="subplot") {
         plot$parentPlotID = xmlValue(rp[["relatedPlotID"]])
@@ -40,7 +41,7 @@ readVegXML<-function(file, verbose = TRUE) {
         warning("Plot relationship could not be parsed!")
       }
     }
-    if("location" %in% names(x)) {
+    if("location" %in% n) {
       loc = x[["location"]]
       plot$location = list()
       if("geospatial" %in% names(loc)) {
@@ -50,7 +51,7 @@ readVegXML<-function(file, verbose = TRUE) {
         if("GeodeticDatum" %in% names(geo)) plot$location$GeodeticDatum = xmlValue(geo[["GeodeticDatum"]])
       }
     }
-    if("geometry" %in% names(x)) {
+    if("geometry" %in% n) {
       gm = x[["geometry"]]
       plot$geometry = list()
       if("area" %in% names(gm)) plot$geometry$area = .readVegXMeasurement.2.0.0(gm[["area"]])
@@ -72,7 +73,7 @@ readVegXML<-function(file, verbose = TRUE) {
         if("bandWidth" %in% names(sh)) plot$geometry$line$bandWidth = .readVegXMeasurement.2.0.0(sh[["bandWidth"]])
       }
     }
-    if("topography" %in% names(x)) {
+    if("topography" %in% n) {
       topo = x[["topography"]]
       plot$topography = list()
       if("slope" %in% names(topo)) plot$topography$slope = .readVegXMeasurement.2.0.0(topo[["slope"]])
@@ -91,9 +92,12 @@ readVegXML<-function(file, verbose = TRUE) {
     plotObs = list(plotID = xmlValue(x[["plotID"]]),
                    obsStartDate = as.Date(xmlValue(x[["obsStartDate"]]), format = "%Y-%m-%d"))
     n = names(x)
+    if("plotObservationUniqueIdentifier" %in% n) plotObs$plotObservationUniqueIdentifier = xmlValue(x[["plotObservationUniqueIdentifier"]])
     if("projectID" %in% n) plotObs$projectID = xmlValue(x[["projectID"]])
     if("obsEndDate" %in% n) plotObs$obsEndDate = as.Date(xmlValue(x[["obsEndDate"]]), format = "%Y-%m-%d")
     if("siteObservationID" %in% n) plotObs$siteObservationID = xmlValue(x[["siteObservationID"]])
+    if("communityObservationID" %in% n) plotObs$communityObservationID = xmlValue(x[["communityObservationID"]])
+
     return(plotObs)
   }
   if("plotObservations" %in% vegnames) {

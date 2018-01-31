@@ -59,6 +59,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                      attrs = c("id"=names(x@plots)[i]),
                      parent = plots)
       newXMLNode("plotName", x@plots[[i]]$plotName, parent=p)
+      if("plotUniqueIdentifier" %in% names(x@plots[[i]])) newXMLNode("plotUniqueIdentifier", x@plots[[i]]$plotUniqueIdentifier, parent=p)
       if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
         rp = newXMLNode("relatedPlot", parent=p)
         newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
@@ -142,7 +143,9 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
       if("obsEndDate" %in% names(x@plotObservations[[i]])) newXMLNode("obsEndDate", as.character(x@plotObservations[[i]]$obsEndDate), parent=po)
       if("projectID" %in% names(x@plotObservations[[i]])) newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
+      if("plotObservationUniqueIdentifier" %in% names(x@plotObservations[[i]])) newXMLNode("plotObservationUniqueIdentifier", x@plotObservations[[i]]$plotObservationUniqueIdentifier, parent=po)
       if("siteObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("siteObservationID", x@plotObservations[[i]]$siteObservationID, parent=po)
+      if("communityObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("communityObservationID", x@plotObservations[[i]]$communityObservationID, parent=po)
     }
     if(verbose) cat(paste0(" ", length(x@plotObservations), " plot observation(s) added to XML tree.\n"))
   }

@@ -14,9 +14,9 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE)
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute'.}
 
-\item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
+\item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output.}
 
-\item{subjects}{A boolean flag to indicate whether method subjects should be included in the output}
+\item{subjects}{A boolean flag to indicate whether method subjects should be included in the output.}
 }
 \value{
 a data frame

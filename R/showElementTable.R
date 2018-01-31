@@ -7,8 +7,8 @@
 #' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 #' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 #' 'siteObservation', 'method', 'attribute'.
-#' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output
-#' @param subjects A boolean flag to indicate whether method subjects should be included in the output
+#' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output.
+#' @param subjects A boolean flag to indicate whether method subjects should be included in the output.
 #'
 #' @return a data frame
 #' @export
@@ -74,6 +74,9 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
           res[i,"relatedPlotName"] = x@plots[[x@plots[[i]]$parentPlotID]]$plotName
           res[i,"plotRelationship"] = "subplot"
         }
+        if("plotUniqueIdentifier"%in% names(x@plots[[i]])) {
+          res[i,"plotUniqueIdentifier"] = x@plots[[i]]$plotUniqueIdentifier
+        }
         # Add location information
         if("location" %in% names(x@plots[[i]])) {
           res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
@@ -116,6 +119,9 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if("obsEndDate" %in% names(x@plotObservations[[i]])) {
           res[i, "obsEndDate"] = as.character(x@plotObservations[[i]]$obsEndDate)
         }
+        if("plotObservationUniqueIdentifier"%in% names(x@plotObservations[[i]])) {
+          res[i,"plotObservationUniqueIdentifier"] = x@plotObservations[[i]]$plotObservationUniqueIdentifier
+        }
         if("projectID" %in% names(x@plotObservations[[i]])) {
           if(IDs) {
             res[i, "projectID"] = x@plotObservations[[i]]$projectID
@@ -125,6 +131,11 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if("siteObservationID" %in% names(x@plotObservations[[i]])) {
           if(IDs) {
             res[i, "siteObservationID"] = x@plotObservations[[i]]$siteObservationID
+          }
+        }
+        if("communityObservationID" %in% names(x@plotObservations[[i]])) {
+          if(IDs) {
+            res[i, "communityObservationID"] = x@plotObservations[[i]]$communityObservationID
           }
         }
       }

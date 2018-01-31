@@ -6,7 +6,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Additional optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName'.
+#' Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -29,12 +29,22 @@
 #'                obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
 #'
 #' # Create a new Veg-X document with projects, plots and plot observations (no data)
-#' x = addPlotObservations(newVegX(), site, mapping = mapping)
+#' x = addPlotObservations(newVegX(), moki_site, mapping = mapping)
 #'
 #' # Examine the result
 #' showElementTable(x, "plot")
 #' showElementTable(x, "plotObservation")
 #'
+#' # The same but capturing unique identifiers from data source IDs (not used by the Veg-X package)
+#'
+#' mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
+#'                obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate",
+#'                plotUniqueIdentifier = "PlotID", plotObservationUniqueIdentifier = "PlotObsID")
+#' x = addPlotObservations(newVegX(), moki_site, mapping = mapping)
+#'
+#' showElementTable(x, "plot")
+#' showElementTable(x, "plotObservation")
+
 addPlotObservations<-function(target, x,
                               mapping,
                               missing.values = c(NA,""),
@@ -46,7 +56,7 @@ addPlotObservations<-function(target, x,
 
 
   #check mappings
-  plotObservationMappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName")
+  plotObservationMappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName", "plotUniqueIdentifier", "plotObservationUniqueIdentifier")
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% plotObservationMappingsAvailable)) stop(paste0("Mapping for '", names(plotObservationMapping)[i], "' cannot be defined."))
   }
@@ -69,6 +79,14 @@ addPlotObservations<-function(target, x,
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
+  }
+  plotUniqueIDFlag = ("plotUniqueIdentifier" %in% names(mapping))
+  if(plotUniqueIDFlag) {
+    plotUniqueIdentifiers = as.character(x[[mapping[["plotUniqueIdentifier"]]]])
+  }
+  plotObsUniqueIDFlag = ("plotObservationUniqueIdentifier" %in% names(mapping))
+  if(plotObsUniqueIDFlag) {
+    plotObsUniqueIdentifiers = as.character(x[[mapping[["plotObservationUniqueIdentifier"]]]])
   }
 
 
@@ -130,6 +148,12 @@ addPlotObservations<-function(target, x,
         }
       }
     }
+    # Set plot unique identifier
+    if(plotUniqueIDFlag) {
+      if(!(plotUniqueIdentifiers[i] %in% missing.values)) {
+        target@plots[[plotID]]$plotUniqueIdentifier = plotUniqueIdentifiers[i]
+      }
+    }
     #plot observation
     if(!(obsStartDates[i] %in% missing.values)) {# If observation date is missing take the previous one
       obsStartDate = obsStartDates[i]
@@ -156,6 +180,14 @@ addPlotObservations<-function(target, x,
       }
       target@plotObservations[[plotObsID]]$obsEndDate = obsEndDate
     }
+
+    # Set plot observation unique identifier
+    if(plotObsUniqueIDFlag) {
+      if(!(plotObsUniqueIdentifiers[i] %in% missing.values)) {
+        target@plotObservations[[plotObsID]]$plotObservationUniqueIdentifier = plotObsUniqueIdentifiers[i]
+      }
+    }
+
   }
   finnprojects = length(target@projects)
   finnplots = length(target@plots)
