@@ -31,6 +31,7 @@ We begin by loading the data from the two data sets that we will use as examples
 ```{r load source data}
 data(mokihinui)
 data(mtfyffe)
+data(takitimu)
 ls()
 ```
 Each of the two data sets contains different tables, corresponding to plot location, site observations, taxon observations, ...:
@@ -84,6 +85,13 @@ summary(mtfyffe_vegx)
 ```
 In this source data set there are many more subplots for each plot, and each plot/subplot was sampled twice (in 1980 and 2007-2008). Moreover, each survey corresponds to a different project. Veg-X does not require projects to be equated to surveys, but in this case it happens to be like this.
 
+```{r add plot obs taki}
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot", 
+               obsStartDate = "PlotObsStartDate")
+taki_vegx = addPlotObservations(newVegX(), taki_site, mapping)
+summary(taki_vegx)
+```
+
 ### Adding plot location
 
 ```{r add plot loc moki}
@@ -118,6 +126,13 @@ head(showElementTable(moki_vegx, "plot"))
 
 ```{r add site topo mtfyffe}
 mtfyffe_vegx = addSiteCharacteristics(mtfyffe_vegx, mtfyffe_site, mapping = sitemapping,
+                measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+
+```
+
+
+```{r add site topo taki}
+taki_vegx = addSiteCharacteristics(taki_vegx, taki_site, mapping = sitemapping,
                 measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 
 ```
@@ -160,6 +175,7 @@ moki_strataDef = defineMixedStrata(name = "Recce strata",
 moki_vegx = addAggregateOrganismObservations(moki_vegx, moki_tcv, mapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = moki_strataDef)
+head(showElementTable(moki_vegx, "aggregateOrganismObservation"))
 ```
 
 
@@ -176,8 +192,8 @@ countscale = predefinedMeasurementMethod("Plant counts")
 ```
 
 ```{r mtfyffe strata def}
-mtfyffe_strataDef = defineHeightStrata(name = "Standard seedling",
-                              description = "Standard seedling stratum definition",
+mtfyffe_strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
+                              description = "Seedling/sapling stratum definition",
                               heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
                               strataNames = as.character(1:6),
                               strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", "76-105 cm", "106-135 cm", "> 135 cm"))
@@ -188,6 +204,25 @@ mtfyffe_strataDef = defineHeightStrata(name = "Standard seedling",
 mtfyffe_vegx = addAggregateOrganismObservations(mtfyffe_vegx, mtfyffe_counts, mapping,
                         methods = c(counts=countscale),
                         stratumDefinition = mtfyffe_strataDef)
+head(showElementTable(mtfyffe_vegx, "aggregateOrganismObservation"))
+```
+
+
+```{r mapping taxon obs taki}
+head(taki_freq)
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate", 
+               authorTaxonName = "PreferredSpeciesName", freq = "Value")
+```
+
+```{r freq scale def}
+freqscale = predefinedMeasurementMethod("Plant frequency/%")
+```
+
+
+```{r add taxon obs taki}
+taki_vegx = addAggregateOrganismObservations(taki_vegx, taki_freq, mapping,
+                        methods = c(freq=freqscale))
+head(showElementTable(taki_vegx, "aggregateOrganismObservation"))
 ```
 
 ### Adding individual organism observations
@@ -202,7 +237,6 @@ diamMeth = predefinedMeasurementMethod("DBH/cm")
 moki_vegx = addIndividualOrganismObservations(moki_vegx, moki_dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
-summary(moki_vegx)
 head(showElementTable(moki_vegx, "individualOrganismObservation"))
 ```
 
@@ -215,7 +249,6 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotO
 mtfyffe_vegx = addIndividualOrganismObservations(mtfyffe_vegx, mtfyffe_dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
-summary(mtfyffe_vegx)
 head(showElementTable(mtfyffe_vegx, "individualOrganismObservation"))
 ```
 
