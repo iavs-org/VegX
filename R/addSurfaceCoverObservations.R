@@ -51,6 +51,21 @@
 #' # Examine results
 #' head(showElementTable(x, "surfaceCoverObservation"))
 #'
+#'
+#' # Another example with different surface types
+#' data(takitimu)
+#' head(taki_groundcover)
+#'
+#' unique(taki_groundcover$PlotGroundCover)
+#' surfaceTypes = defineSurfaceTypes(name = "Default surface types",
+#'                               description = "Five surface categories",
+#'                               surfaceNames = c("Vegetation", "Soil", "Erosion Pavement", "Litter","Rock"))
+#'
+#' x = addSurfaceCoverObservations(newVegX(), taki_groundcover, mapping,
+#'                                 coverMethod, surfaceTypes)
+#'
+#' head(showElementTable(x, "surfaceCoverObservation"))
+#'
 addSurfaceCoverObservations<-function(target, x, mapping,
                                       coverMethod, surfaceTypeDefinition,
                                       missing.values = c(NA, ""),

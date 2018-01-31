@@ -63,6 +63,21 @@ x = addSurfaceCoverObservations(newVegX(), mtfyffe_groundcover, mapping,
 # Examine results
 head(showElementTable(x, "surfaceCoverObservation"))
 
+
+# Another example with different surface types
+data(takitimu)
+head(taki_groundcover)
+
+unique(taki_groundcover$PlotGroundCover)
+surfaceTypes = defineSurfaceTypes(name = "Default surface types",
+                              description = "Five surface categories",
+                              surfaceNames = c("Vegetation", "Soil", "Erosion Pavement", "Litter","Rock"))
+
+x = addSurfaceCoverObservations(newVegX(), taki_groundcover, mapping,
+                                coverMethod, surfaceTypes)
+
+head(showElementTable(x, "surfaceCoverObservation"))
+
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
