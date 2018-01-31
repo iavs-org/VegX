@@ -6,7 +6,7 @@ output:
   rmarkdown::html_vignette:
     css: mystyle.css
 vignette: >
-  %\VignetteIndexEntry{Veg-X standard documentation}
+  %\VignetteIndexEntry{VegX package user's manual}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
