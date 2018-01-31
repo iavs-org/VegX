@@ -42,7 +42,16 @@
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #'
 #' # Inspect the result
-#' summary(x)
+#' head(showElementTable(x, "individualOrganismObservation"))
+#'
+#'
+#'
+#' # Second example without individual labels
+#' data(mokihinui)
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
+#'                authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+#' x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
+#'                                       methods = c(diameterMeasurement = diamMeth))
 #' head(showElementTable(x, "individualOrganismObservation"))
 #'
 addIndividualOrganismObservations<-function(target, x, mapping,
