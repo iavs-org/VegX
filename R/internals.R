@@ -338,6 +338,14 @@
   }
   return(strobs)
 }
+.applyAttributeMappingToSurfaceCoverObservations<-function(scobs, attIDmap) {
+  for(n in names(scobs)) {
+    if(n %in% c("coverMeasurement")) {
+      scobs[[n]]$attributeID = attIDmap[[scobs[[n]]$attributeID]]
+    }
+  }
+  return(scobs)
+}
 
 #Pools the information of two plots
 .mergePlots<-function(plot1, plot2, attIDmap) {
@@ -450,6 +458,26 @@
       res[[n]] = strobs1[[n]]
     } else if(n %in% n2) {
       res[[n]] = strobs2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two surface cover observations
+.mergeSurfaceCoverObservations<-function(scobs1, scobs2, attIDmap) {
+  n1 = names(scobs1)
+  n2 = names(scobs2)
+  scobs2 = .applyAttributeMappingToStratumObservations(scobs2, attIDmap)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(scobs1[[n]]!=scobs2[[n]]) stop(paste0("Surface cover observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = strobs1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = scobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = scobs2[[n]]
     }
   }
   return(res)
