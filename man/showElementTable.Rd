@@ -10,7 +10,8 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE)
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
 \item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
-'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
+'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
+'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute'.}
 
 \item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
@@ -45,7 +46,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
-x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
+x = addAggregateOrganismObservations(newVegX(), moki_tcv,
                         mapping = mapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)

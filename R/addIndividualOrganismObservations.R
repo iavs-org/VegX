@@ -80,7 +80,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   }
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
-    stratumNames = as.character(x[[mapping[["stratumName"]]]])
+    stratumNamesData = as.character(x[[mapping[["stratumName"]]]])
     if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.\n  Revise mapping or provide a stratum definition.")
   } else {
     if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
@@ -155,7 +155,6 @@ addIndividualOrganismObservations<-function(target, x, mapping,
 
   # stratum definition
   if(stratumFlag) {
-    # stratum definition method (WARNING: method match should be made by attributes?)
     stratumDefMethod = stratumDefinition@method
     snmtid = .newMethodIDByName(target,stratumDefMethod@name)
     strmethodID = snmtid$id
@@ -177,9 +176,11 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       orinstrata = length(target@strata)
       nstr = length(stratumDefinition@strata)
       stratumIDs = character(0)
+      stratumNames = character(0)
       for(i in 1:nstr) {
         strid = .nextStratumID(target)
         stratumIDs[i] = strid
+        stratumNames[i] = stratumDefinition@strata[[i]]$stratumName
         target@strata[[strid]] = stratumDefinition@strata[[i]]
         target@strata[[strid]]$methodID = strmethodID
       }
@@ -187,9 +188,11 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       if(verbose) {
         cat(paste0(" ", finnstrata-orinstrata, " new stratum definitions added.\n"))
       }
-    } else { #Read stratum IDs and stratum names from selected method
-      stratumIDs = .getStratumIDsByMethodID(target,strmethodID)
+    }
+    else { #Read stratum IDs and stratum names from selected method
       if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
+      stratumIDs = .getStratumIDsByMethodID(target,strmethodID)
+      stratumNames = .getStratumNamesByMethodID(target,strmethodID)
     }
   }
 
@@ -281,9 +284,10 @@ addIndividualOrganismObservations<-function(target, x, mapping,
 
     # strata
     if(stratumFlag) {
-      if(!(stratumNames[i] %in% missing.values)) {
-        strID = .getStratumIDByName(target, stratumNames[i])
-        if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
+      if(!(stratumNames[i] %in% missing.values)) {# If stratum name is missing do not add stratum information
+        stratumName = stratumNamesData[i]
+        if(!(stratumName %in% stratumNames)) stop(paste0(stratumName," not found within stratum names. Revise stratum definition or data."))
+        strID = stratumIDs[which(stratumNames==stratumName)]
         strObsString = paste(plotObsID, strID) # plotObsID+stratumID
         if(!(strObsString %in% parsedStrObs)) {
           nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)

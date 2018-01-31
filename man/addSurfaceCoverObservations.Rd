@@ -52,8 +52,8 @@ coverMethod = predefinedMeasurementMethod("Surface cover/\%")
 
 # Define surface types from the data
 unique(mtfyffe_groundcover$PlotGroundCover)
-surfaceTypes = defineSurfaceTypes(name = "Default Surface types",
-                                  description = "Five simple surface categories",
+surfaceTypes = defineSurfaceTypes(name = "Default surface types",
+                                  description = "Five surface categories",
                                   surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
 
 # Create new Veg-X document with surface cover observations
@@ -61,7 +61,6 @@ x = addSurfaceCoverObservations(newVegX(), mtfyffe_groundcover, mapping,
                                 coverMethod, surfaceTypes)
 
 # Examine results
-summary(x)
 head(showElementTable(x, "surfaceCoverObservation"))
 
 }

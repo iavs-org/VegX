@@ -4,7 +4,8 @@
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
-#' 'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
+#' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
+#' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 #' 'siteObservation', 'method', 'attribute'.
 #' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output
 #' @param subjects A boolean flag to indicate whether method subjects should be included in the output
@@ -34,7 +35,7 @@
 #'                               heightStrataNames = paste0("Tier ",1:6),
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
-#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
+#' x = addAggregateOrganismObservations(newVegX(), moki_tcv,
 #'                         mapping = mapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
@@ -57,7 +58,9 @@
 showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
 
   element = match.arg(element, c("plot", "plotObservation", "taxonNameUsageConcept",
-                                 "stratum", "stratumObservation", "aggregateOrganismObservation",
+                                 "stratum", "stratumObservation",
+                                 "surfaceType", "surfaceCoverObservation",
+                                 "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute"))
   res = NULL
@@ -276,6 +279,56 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
               res[i, strVal] = measurements[[j]]$value
             }
           }
+        }
+      }
+    }
+  }
+  else if(element=="surfaceType") {
+    res = data.frame(surfaceName = rep(NA, length(x@surfaceTypes)),
+                     row.names = names(x@surfaceTypes))
+    if(length(x@surfaceTypes)>0){
+      for(i in 1:length(x@surfaceTypes)){
+        res[i, "surfaceName"] = x@surfaceTypes[[i]]$surfaceName
+        if("methodID" %in% names(x@surfaceTypes[[i]])) {
+          if(IDs) {
+            res[i, "methodID"] = x@surfaceTypes[[i]]$methodID
+          }
+          res[i, "methodName"] = x@methods[[x@surfaceTypes[[i]]$methodID]]$name
+        }
+      }
+    }
+  }
+  else if(element=="surfaceCoverObservation") {
+    if(IDs) {
+      res = data.frame(plotObservationID = rep(NA, length(x@surfaceCoverObservations)),
+                       plotName = rep(NA, length(x@surfaceCoverObservations)),
+                       obsStartDate = rep(NA, length(x@surfaceCoverObservations)),
+                       surfaceTypeID = rep(NA, length(x@surfaceCoverObservations)),
+                       surfaceName = rep(NA, length(x@surfaceCoverObservations)),
+                       row.names = names(x@surfaceCoverObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@surfaceCoverObservations)),
+                       obsStartDate = rep(NA, length(x@surfaceCoverObservations)),
+                       surfaceName = rep(NA, length(x@surfaceCoverObservations)),
+                       row.names = names(x@surfaceCoverObservations))
+    }
+    if(length(x@surfaceCoverObservations)>0){
+      for(i in 1:length(x@surfaceCoverObservations)){
+        if(IDs) {
+          res[i, "plotObservationID"] = x@surfaceCoverObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@surfaceCoverObservations[[i]]$plotObservationID]]$plotID]]$plotName
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@surfaceCoverObservations[[i]]$plotObservationID]]$obsStartDate)
+        if(IDs) {
+          res[i, "surfaceTypeID"] = x@surfaceCoverObservations[[i]]$surfaceTypeID
+        }
+        res[i, "surfaceName"] = x@surfaceTypes[[x@surfaceCoverObservations[[i]]$surfaceTypeID]]$surfaceName
+        if("coverMeasurement" %in% names(x@surfaceCoverObservations[[i]])) {
+          if(IDs) {
+            res[i, "cover_attID"] = x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID
+          }
+          res[i, "cover_method"] = x@methods[[x@attributes[[x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID]]$methodID]]$name
+          res[i, "cover_value"] = x@surfaceCoverObservations[[i]]$coverMeasurement$value
         }
       }
     }
