@@ -11,7 +11,7 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{A data frame where each row corresponds to one tree observation. Columns can be varied.}
+\item{x}{A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'identificationLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
@@ -78,5 +78,6 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
+  \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }

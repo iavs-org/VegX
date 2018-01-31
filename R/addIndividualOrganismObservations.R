@@ -3,7 +3,7 @@
 #' Adds individual organism observation records to a VegX object from a data table.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param x A data frame where each row corresponds to one tree observation. Columns can be varied.
+#' @param x A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'identificationLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.

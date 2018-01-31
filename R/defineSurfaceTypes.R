@@ -11,9 +11,9 @@
 #'
 #' @examples
 #'
-#' defineSurfaceTypes(name = "Surface classes",
-#'                         description = "Four simple surface categories",
-#'                         surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
+#' defineSurfaceTypes(name = "Default Surface types",
+#'                    description = "Five simple surface categories",
+#'                    surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
 #'
 defineSurfaceTypes<-function(name, description,
                              surfaceNames,
@@ -32,7 +32,7 @@ defineSurfaceTypes<-function(name, description,
     surfaceTypes[[as.character(i)]] = list(surfaceNames = surfaceNames[i])
     if(!is.null(definitions)) surfaceTypes[[as.character(i)]]$definition = definitions[i]
   }
-  return(new("VegXSurfaceCoverDefinition",
+  return(new("VegXSurfaceTypeDefinition",
              method = defMethod,
              surfaceTypes = surfaceTypes))
 }

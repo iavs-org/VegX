@@ -40,5 +40,6 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
-  \code{\link{addStratumObservations}}
+  \code{\link{addStratumObservations}},
+  \code{\link{addSurfaceCoverObservations}}
 }

@@ -60,9 +60,9 @@ aggregatedOrganismObservation  | An observation applying to all occurrences of a
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
 siteObservation             | A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. | Yes |
-surfaceTypes | TO BE DONE | Yes |
-surfaceCoverObservation | TO BE DONE | Yes |
-vegetationObservation | TO BE DONE | Yes |
+surfaceTypes | The definition of surface types, not the observation of cover on them.  | Yes |
+surfaceCoverObservation | A single cover measurement applying to a surface type in a single plot during a single date-time period. | Yes |
+communityObservation | TO BE DONE | Yes |
 taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. | No |
 taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. | No |
 taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
@@ -206,7 +206,7 @@ upperLimit | Upper limit of the stratum in some known dimension (e.g. height) de
 
 ### Element *stratumObservation*
 
-A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the perspective of the **VegX package** user, stratum observations are identified by *stratumID* (i.e., stratum name) and *plotObservationID* (i.e. plot name and observation start date).
+A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the perspective of the **VegX package** user, stratum observations are identified by *methodID* (i.e. method name) and *stratumID* (i.e., stratum name) and *plotObservationID* (i.e. plot name and observation start date).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -284,7 +284,7 @@ observationGroupingID | A reference to a specific observation grouping by ID.   
 
 ### Element *surfaceTypes*
 
-The definition of surface types, not the observation of cover on them.  From the perspective of the **VegX package** user, surface types are uniquely identified by *surfaceName*.
+The definition of surface types, not the observation of cover on them.  From the perspective of the **VegX package** user, surface types are uniquely identified by *methodID* (i.e. method name) and *surfaceName*.
 
 Sub-element (quantitative) | Description                                        |  #  |  R  |
 -------------------------- | -------------------------------------------------- | --- | --- |

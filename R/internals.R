@@ -1,13 +1,30 @@
-.nextProjectID<-function(target) return(as.character(as.numeric(names(target@projects)[length(target@projects)])+1))
-.nextPlotID<-function(target) return(as.character(as.numeric(names(target@plots)[length(target@plots)])+1))
-.nextPlotObservationID<-function(target) return(as.character(as.numeric(names(target@plotObservations)[length(target@plotObservations)])+1))
+.nextProjectID<-function(target) {
+  if(length(target@projects)==0) return("1")
+  return(as.character(as.numeric(names(target@projects)[length(target@projects)])+1))
+}
+.nextPlotID<-function(target) {
+  if(length(target@plots)==0) return("1")
+  return(as.character(as.numeric(names(target@plots)[length(target@plots)])+1))
+}
+.nextPlotObservationID<-function(target) {
+  if(length(target@plotObservations)==0) return("1")
+  return(as.character(as.numeric(names(target@plotObservations)[length(target@plotObservations)])+1))
+}
 .nextStratumID<-function(target) {
   if(length(target@strata)==0) return("1")
   return(as.character(as.numeric(names(target@strata)[length(target@strata)])+1))
 }
+.nextSurfaceTypeID<-function(target) {
+  if(length(target@surfaceTypes)==0) return("1")
+  return(as.character(as.numeric(names(target@surfaceTypes)[length(target@surfaceTypes)])+1))
+}
 .nextStratumObservationID<-function(target) {
   if(length(target@stratumObservations)==0) return("1")
   return(as.character(as.numeric(names(target@stratumObservations)[length(target@stratumObservations)])+1))
+}
+.nextSurfaceCoverObservationID<-function(target) {
+  if(length(target@surfaceCoverObservations)==0) return("1")
+  return(as.character(as.numeric(names(target@surfaceCoverObservations)[length(target@surfaceCoverObservations)])+1))
 }
 .nextAggregateOrganismObservationID<-function(target) {
   if(length(target@aggregateObservations)==0) return("1")
@@ -80,6 +97,22 @@
     if((target@stratumObservations[[i]]$plotObservationID==plotObservationID) && (target@stratumObservations[[i]]$stratumID==stratumID)) return(list(id = names(target@stratumObservations)[i], new = FALSE))
   }
   return(list(id = .nextStratumObservationID(target), new = TRUE))
+}
+# Returns the ID for a new surface type in the data set or the ID of an existing surface type
+.newSurfaceTypeIDByName<-function(target, methodID, surfaceName) {
+  if(length(target@surfaceTypes)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@surfaceTypes)) {
+    if((target@surfaceTypes[[i]]$methodID==methodID) && (target@surfaceTypes[[i]]$surfaceName==surfaceName)) return(list(id = names(target@surfaceTypes)[i], new = FALSE))
+  }
+  return(list(id = .nextSurfaceTypeID(target), new = TRUE))
+}
+# Returns the ID for a new surface cover observation in the data set or the ID of an existing one
+.newSurfaceCoverObsIDByIDs<-function(target, plotObservationID, surfaceTypeID) {
+  if(length(target@surfaceCoverObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@surfaceCoverObservations)) {
+    if((target@surfaceCoverObservations[[i]]$plotObservationID==plotObservationID) && (target@surfaceCoverObservations[[i]]$surfaceTypeID==surfaceTypeID)) return(list(id = names(target@surfaceCoverObservations)[i], new = FALSE))
+  }
+  return(list(id = .nextSurfaceCoverObservationID(target), new = TRUE))
 }
 # Returns the ID for a new aggregate organism observation in the data set or the ID of an existing aggregate organism observation
 .newAggregateOrganismObservationIDByTaxonID<-function(target, plotObservationID, stratumObservationID, tnucID) {
@@ -199,14 +232,21 @@
 
 
 
-.getStratumIDByName<-function(target, stratumName) {
-  if(length(target@strata)>0) {
-    for(i in 1:length(target@strata)) {
-      if(target@strata[[i]]$stratumName==stratumName) return(names(target@strata)[i])
+# Returns surface type IDs corresponding to the input method
+.getSurfaceTypeIDsByMethodID<-function(target, methodID) {
+  stVec = character(0)
+  if(length(target@surfaceTypes)>0) {
+    cnt = 1
+    for(i in 1:length(target@surfaceTypes)) {
+      if(target@surfaceTypes[[i]]$methodID==methodID) {
+        stVec[cnt] = names(target@surfaceTypes)[i]
+        cnt = cnt + 1
+      }
     }
   }
-  return(NULL)
+  return(stVec)
 }
+
 .getNumberOfSubPlots<-function(target) {
   cnt = 0
    if(length(target@plots)>0) {

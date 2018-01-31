@@ -3,7 +3,7 @@
 #' Adds stratum observation records to a VegX object from a data table
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param x A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.
+#' @param x A data frame where each row corresponds to one stratum observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
 #' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).
@@ -63,7 +63,6 @@
 #'                         stratumDefinition = strataDef)
 #'
 #' # Examine results
-#' summary(x)
 #' head(showElementTable(x, "stratumObservation"))
 #'
 addStratumObservations<-function(target, x, mapping,
@@ -85,7 +84,7 @@ addStratumObservations<-function(target, x, mapping,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
-  stratumNames = as.character(x[[mapping[["stratumName"]]]])
+  stratumNamesData = as.character(x[[mapping[["stratumName"]]]])
 
   #Optional mappings
   subPlotFlag = ("subPlotName" %in% names(mapping))
@@ -181,9 +180,11 @@ addStratumObservations<-function(target, x, mapping,
     orinstrata = length(target@strata)
     nstr = length(stratumDefinition@strata)
     stratumIDs = character(0)
+    stratumNames = character(0)
     for(i in 1:nstr) {
       strid = .nextStratumID(target)
       stratumIDs[i] = strid
+      stratumNames[i] = stratumDefinition@strata[[i]]$stratumName
       target@strata[[strid]] = stratumDefinition@strata[[i]]
       target@strata[[strid]]$methodID = strmethodID
     }
@@ -195,6 +196,7 @@ addStratumObservations<-function(target, x, mapping,
   else { #Read stratum IDs and stratum names from selected method
     if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
     stratumIDs = .getStratumIDsByMethodID(target,strmethodID)
+    stratumNames = .getStratumNamesByMethodID(target,strmethodID)
   }
 
   orinplots = length(target@plots)
@@ -258,8 +260,11 @@ addStratumObservations<-function(target, x, mapping,
     }
 
     # stratum observations
-    strID = .getStratumIDByName(target, stratumNames[i])
-    if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
+    if(!(stratumNamesData[i] %in% missing.values)) {# If stratum name is missing take the previous one
+      stratumName = stratumNamesData[i]
+    }
+    if(!(stratumName %in% stratumNames)) stop(paste0(stratumName," not found within stratum names. Revise stratum definition or data."))
+    strID = stratumIDs[which(stratumNames==stratumName)]
     strObsString = paste(plotObsID, strID) # plotObsID+stratumID
     if(!(strObsString %in% parsedStrObs)) {
       nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)
