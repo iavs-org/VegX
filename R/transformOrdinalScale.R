@@ -288,6 +288,29 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
   if(verbose && nstrtransf > 0) cat(paste0(" ", nstrtransf, " transformation(s) were applied on stratum observations.\n"))
 
 
+  # Apply mapping on surface cover observations
+  nsctransf = 0
+  nfrusctransf = 0
+  if(length(target@surfaceCoverObservations)>0) {
+    for(i in 1:length(target@surfaceCoverObservations)) {
+      if("coverMeasurement" %in% names(target@surfaceCoverObservations[[i]])){
+        mes = target@surfaceCoverObservations[[i]]$coverMeasurement
+        if(mes$attributeID %in% names(mapping)) {
+          if(replaceValues) {
+            m = list(attributeID = newAttID,
+                     value = mapping[[mes$attributeID]])
+            target@surfaceCoverObservations[[i]]$coverMeasurement = m
+            nsctransf = nsctransf + 1
+          } else {
+            nfrusctransf = nfrusctransf + 1
+          }
+        }
+      }
+    }
+  }
+  if(verbose && nfrusctransf > 0) cat(paste0(" ", nfrusctransf, " transformation(s) could not be applied on surface cover observations (see 'replaceValues').\n"))
+  if(verbose && nsctransf > 0) cat(paste0(" ", nsctransf, " transformation(s) were applied on surface cover observations.\n"))
+
   # Apply mapping on site observations
   nsitetransf = 0
   if(length(target@siteObservations)>0) {
