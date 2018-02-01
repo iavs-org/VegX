@@ -18,7 +18,7 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About this manual
 
-In this vignette you will learn how to use the **VegX R package** to integrate and harmonize vegetation data. For the examples, we use the example data sets provided in the package. If you do not know what Veg-X is, please refer to vignette *The Veg-X standard and the VegX R package*.
+In this vignette you will learn how to use the **VegX R package** to map, integrate and harmonize vegetation data having the Veg-X standard as data model underlying the whole process. For the examples, we use the example data sets provided in the package. If you do not know what the Veg-X standard is, please refer to vignette *The Veg-X standard and the VegX R package*.
 
 ```{r load VegX}
 library(VegX)
@@ -57,10 +57,12 @@ Of course, ``moki_vegx`` is now empty (as are the other two documents). In the f
 ### Adding project, plot and observation dates
 When using the VegX package, it is not important the order in which we introduce data to VegX documents, as elements are created as needed. We start inspecting the data in the data frame ``moki_site``:
 ```{r inspect data}
-head(moki_site)
+head(moki_site, 3)
 
 ```
-The most important columns are ``Plot``, ``Subplot`` and ``PlotObsStartDate``, because these specify the space and time context in  which vegetation surveys were made. Other columns specify IDs, but these are specific to the data base where this data comes from, and Veg-X documents have their own internal IDs. To import data into Veg-X documents, we often need a **mapping** between the names of elements in the Veg-X standard and the names of columns in the data table used as input. For example, in the following code we define that column ``"Project"`` in the source data table contains the information about the *projectTitle* in Veg-X, column ``"Plot"`` contains the information about the *plotName*  element, and so on:
+The data frame has many columns, covering both plot shape, site topography... but the most important columns to parse are ``Plot``, ``Subplot`` and ``PlotObsStartDate``, because these specify the space and time context in which vegetation surveys were made. Other columns specify IDs, but these are specific to the data base where this data comes from, and Veg-X documents have their own internal IDs, so will not import them now. 
+
+In order to import data into Veg-X documents, we always need a **mapping** *between the names of elements in the Veg-X standard and the names of columns in the data table used as input*. For example, in the following code we define that column ``"Project"`` in the source data table contains the information about the *projectTitle* in Veg-X, column ``"Plot"`` contains the information about the *plotName*  element, and so on:
 
 ```{r mapping}
 mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
@@ -103,7 +105,7 @@ According to this summary, the data set contains again 5 plots, but with no subp
 
 The next information that we would normally want to map is about the geographic location of plots (sampling dates were already mapped with ``addPlotObservations()``). We thus take a look at ``moki_loc`` data frame:
 ```{r inspect plot loc moki}
-head(moki_loc)
+head(moki_loc, 3)
 ```
 Locations are expressed using different coordinate systems, but the easiest and more common way of exchanging geographic information is through latitude and longitude. Hence we define a new mapping and use the function ``addPlotLocations()``:
 ```{r add plot loc moki}
@@ -114,7 +116,7 @@ moki_vegx = addPlotLocations(moki_vegx, moki_loc, mapping)
 When defining the mapping also included ``Plot`` and ``Subplot``. This is important because otherwise the function does not know how to match coordinates with the plots already defined in ``moki_vegx``. The console output indicates that no new plots have been added (they were previously defined), but they would if we had started populating the Veg-X object using ``addPlotLocations()`` and an empty document. When can inspect the data recently entered using the following command:
 
 ```{r inspect plot loc res moki}
-head(showElementTable(moki_vegx, "plot"))
+head(showElementTable(moki_vegx, "plot"),3)
 ```
 When calling ``showElementTable()`` for plot elements we are shown the plot/subplot relationships. Note that subplots have no explicit coordinates associated to them (they are not given in ``moki_loc``). It is up to the user to provide them in the source data. We also parse the coordinates of the Mt Fyffe forest data set:
 ```{r add plot loc mtfyffe}
@@ -128,18 +130,20 @@ taki_vegx = addPlotLocations(taki_vegx, taki_loc, mapping)
 
 ### Adding plot geometry
 
-By plot geometry, we refer to plot area, shape and dimensions. Veg-X allows different plot shapes, and each plot shape implies different dimensions. Plot geometry is specified using function ``addPlotGeometries()``, which like ``addPlotLocation()`` will replace any previous information. We start by looking at the plot geometry data in the Mokihinui data set:
+By plot geometry, we refer to plot area, shape and dimensions. Veg-X allows different plot shapes, and each plot shape implies different dimensions. Plot geometry is specified using function ``addPlotGeometries()``, which like ``addPlotLocation()`` will replace any previous information. We start by looking at the plot geometry fields in the Mokihinui data table ``moki_site``:
 ```{r inspect plot geom moki}
 names(moki_site)
 table(moki_site$Shape)
 ```
-which leads us to define the following mapping for rectangular (or square) plots:
+After realizing that plot shapes are rectangular and both length and width are available, we define the following mapping for rectangular (or square) plots:
 ```{r mapping plot geom moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                area = "PlotArea", shape = "Shape",
                width = "PlotRectangleLength01", length = "PlotRectangleLength02")
 ```
-Since plot area and plot dimensions are measurements, it is important to specify measurement protocols and scales. In the Veg-X standard, this is done via defining *method* and *attribute* elements, whereas the VegX package has a S4 class named ``VegXMethod`` that encapsulates both things. Users can define their own methods, but the package provides function ``predefinedMeasurementMethod()`` to easily define methods for the most common variables. After checking the units used in ``moki_site`` we define methods for plot area and plot dimensions using:
+Since plot area and plot dimensions are **measurements**, it is important to specify **measurement methods** (i.e. instruments) and **measurement scales** (i.e. measurement units) because this metadata decreases potential errors when pooling data from different sources. In the Veg-X standard, this information is specified via defining *method* and *attribute* elements, whereas the VegX package has a S4 class named ``VegXMethod`` that encapsulates both things. Users can define their own methods, but the package provides function ``predefinedMeasurementMethod()`` to easily define methods for the most common variables. 
+
+After checking the units used in ``moki_site`` we define methods for plot area and plot dimensions using:
 ```{r define geom methods}
 areaMethod = predefinedMeasurementMethod("Plot area/m2")
 dimensionMethod = predefinedMeasurementMethod("Plot dimension/m")
@@ -148,7 +152,7 @@ We are now ready to import plot geometry using ``addPlotGeometries()``, where we
 ```{r add plot geom moki}
 moki_vegx = addPlotGeometries(moki_vegx, moki_site, mapping,
               list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
-head(showElementTable(moki_vegx, "plot"))
+head(showElementTable(moki_vegx, "plot"),3)
 ```
 Like before, no new plots were added, as previous call functions had already defined them. In the call to ``showElementTable()`` we have now the plot geometry added to the plot location and plot/subplot relationships. Importing plot geometry for the Takitimu grassland data set is 
 ```{r add plot geom taki}
