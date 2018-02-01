@@ -323,7 +323,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     else { # Add a new individual for each individual observation record
       indID = .nextIndividualOrganismID(target)
       target@individualOrganisms[[indID]] = list("plotID"= plotID,
-                                                 "individualOrganismLabel" = paste0("ind",indID))
+                                                 "individualOrganismLabel" = .nextIndividualOrganismLabelForPlot(target, plotID))
     }
     if(taxonFlag && (!is.na(tnucID))) target@individualOrganisms[[indID]]$taxonNameUsageConceptID = tnucID
 

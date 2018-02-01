@@ -1,11 +1,11 @@
 ---
-title: "The Veg-X standard and the VegX R package"
+title: "The Veg-X standard and R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
   # word_document:
   rmarkdown::html_vignette:
-    # css: mystyle.css
+    css: mystyle.css
     toc: TRUE
 vignette: >
   %\VignetteIndexEntry{Veg-X standard documentation}

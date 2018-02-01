@@ -167,6 +167,21 @@
 }
 
 
+# Counts the number of organisms by plot id
+.getNumberOfOrganismsByPlotID<-function(target, plotID) {
+  indCount = 0
+  if(length(target@individualOrganisms)>0) {
+    for(i in 1:length(target@individualOrganisms)) {
+      if(target@individualOrganisms[[i]]$plotID==plotID) {
+          indCount = indCount + 1
+      }
+    }
+  }
+  return(indCount)
+}
+.nextIndividualOrganismLabelForPlot<-function(target, plotID) {
+   return(paste0("ind", .getNumberOfOrganismsByPlotID(target, plotID)+1))
+}
 
 # Returns strata names corresponding to the input method
 .getAttributeCodesByMethodID<-function(target, methodID) {
