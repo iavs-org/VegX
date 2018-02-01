@@ -101,11 +101,11 @@ According to this summary, the data set contains again 5 plots, but with no subp
 
 ### Adding plot location
 
-The next information that we would normally want to map is about the geographic location of plots (sampling dates were already mapped with ``addPlotObservations()``). We thus take a look at ``moki_loc``:
+The next information that we would normally want to map is about the geographic location of plots (sampling dates were already mapped with ``addPlotObservations()``). We thus take a look at ``moki_loc`` data frame:
 ```{r inspect plot loc moki}
 head(moki_loc)
 ```
-Locations are expressed using different coordinate systems, but the easiest and more common way of exchanging geographic information is through latitude and longitude. Hence we define a new mapping and use function ``addPlotLocations()``:
+Locations are expressed using different coordinate systems, but the easiest and more common way of exchanging geographic information is through latitude and longitude. Hence we define a new mapping and use the function ``addPlotLocations()``:
 ```{r add plot loc moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                x = "Longitude", y = "Latitude")
@@ -128,10 +128,13 @@ taki_vegx = addPlotLocations(taki_vegx, taki_loc, mapping)
 
 ### Adding plot geometry
 
-By plot geometry, we refer to plot area, shape and dimensions. Veg-X allows different plot shapes, and each plot shape implies different dimensions. We start by looking at the plot geometry data in the Mokihinui data set, which leads us to define the following mapping for rectangular (or square) plots:
-
+By plot geometry, we refer to plot area, shape and dimensions. Veg-X allows different plot shapes, and each plot shape implies different dimensions. Plot geometry is specified using function ``addPlotGeometries()``, which like ``addPlotLocation()`` will replace any previous information. We start by looking at the plot geometry data in the Mokihinui data set:
 ```{r inspect plot geom moki}
-head(moki_site)
+names(moki_site)
+table(moki_site$Shape)
+```
+which leads us to define the following mapping for rectangular (or square) plots:
+```{r mapping plot geom moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                area = "PlotArea", shape = "Shape",
                width = "PlotRectangleLength01", length = "PlotRectangleLength02")
@@ -147,55 +150,54 @@ moki_vegx = addPlotGeometries(moki_vegx, moki_site, mapping,
               list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
 head(showElementTable(moki_vegx, "plot"))
 ```
-In the call to ``showElementTable()`` we have now the plot geometry added to the plot location and plot/subplot relationships. Importing plot geometry for the Takitimu grassland data set is 
+Like before, no new plots were added, as previous call functions had already defined them. In the call to ``showElementTable()`` we have now the plot geometry added to the plot location and plot/subplot relationships. Importing plot geometry for the Takitimu grassland data set is 
 ```{r add plot geom taki}
 taki_vegx = addPlotGeometries(taki_vegx, taki_site, mapping,
               list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
 head(showElementTable(taki_vegx, "plot"))
 ```
-
+In the case of Mt Fyffe forest data set, shape is missing for many of plots. Other plots are circular but *radius* is not defined in the data frame. 
 
 ```{r inspect plot geom mtfyffe}
-head(mtfyffe_site)
+names(mtfyffe_site)
+table(mtfyffe_site$Shape)
+```
+Hence, we define the following mapping, and a call ``addPlotGeometries()`` produces the following result:
+```{r add plot geom mtfyffe}
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                area = "PlotArea", shape = "Shape")
-```
-
-```{r add plot geom mtfyffe}
 mtfyffe_vegx = addPlotGeometries(mtfyffe_vegx, mtfyffe_site, mapping,
                                  list(area = areaMethod))
+head(showElementTable(mtfyffe_vegx, "plot"))
 ```
 
 ### Adding site characteristics
-
-
-```{r add site topo moki}
+To finish with static plot information, the next data we should add to our Veg-X documents is plot topography. This can be done using function ``addSiteCharacteristics()``. Having inspected data frame ``moki_site`` before makes us suspect that a following mapping is:
+```{r mapping site topo moki}
 sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
                    slope = "PlotSlope", aspect = "PlotAspect")
 
+```
+Since slope and aspect are measurements, we also need to provide methods for them. After checking the units in the source data we define the following methods:
+```{r methods site topo moki}
 slopeDeg = predefinedMeasurementMethod("Slope/degrees")
 aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
-
+```
+and we are ready to import the data:
+```{r add site topo moki}
 moki_vegx = addSiteCharacteristics(moki_vegx, moki_site, mapping = sitemapping,
                 measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 
 head(showElementTable(moki_vegx, "plot"))
 ```
-
+Again, no new plots are added, and missing values correspond to subplots. When calling ``showElementTable()`` the topography information is shown along with the plot information previously added. Since the site data frames for Mt Fyffe forest and Takitimu grassland data sets have the same structure as that of Mokihinui, adding topography information for the former data sets is rather straightforward:
 
 ```{r add site topo mtfyffe}
 mtfyffe_vegx = addSiteCharacteristics(mtfyffe_vegx, mtfyffe_site, mapping = sitemapping,
                 measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
-
-```
-
-
-```{r add site topo taki}
 taki_vegx = addSiteCharacteristics(taki_vegx, taki_site, mapping = sitemapping,
                 measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
-
 ```
-
 
 ### Adding taxon observations
 

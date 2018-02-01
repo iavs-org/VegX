@@ -122,9 +122,9 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
           }
         }
         if("location" %in% names(x@plots[[i]])) {
-          res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
-          res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
-          res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
+          if("DecimalLongitude" %in% names(x@plots[[i]]$location)) res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
+          if("DecimalLatitude" %in% names(x@plots[[i]]$location)) res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
+          if("GeodeticDatum" %in% names(x@plots[[i]]$location)) res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
         }
         if("topography" %in% names(x@plots[[i]])) {
           if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information
