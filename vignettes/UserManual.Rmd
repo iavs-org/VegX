@@ -120,10 +120,50 @@ When calling ``showElementTable()`` for plot elements we are shown the plot/subp
 ```{r add plot loc mtfyffe}
 mtfyffe_vegx = addPlotLocations(mtfyffe_vegx, mtfyffe_loc, mapping)
 ```
-Strangely, 10 records were parsed, although only five plots (excluding subplots) are available. Coordinate records are duplicated in ``mtfyffe_loc``, once for each project (or survey). Function ``addPlotLocations()`` will always keep the last location records of each plot. Finally, we parse plot coordinates for the Takikimu grassland data set, realizing that they are lacking for one of the plots.
+Apparently, 10 records were parsed, but only five plots (excluding subplots) are available. Coordinate records are duplicated in ``mtfyffe_loc``, once for each survey. Function ``addPlotLocations()`` will always keep the last location records of each plot. Finally, we parse plot coordinates for the Takikimu grassland data set, realizing that they are lacking for one of the plots.
 
 ```{r add plot loc taki}
 taki_vegx = addPlotLocations(taki_vegx, taki_loc, mapping)
+```
+
+### Adding plot geometry
+
+By plot geometry, we refer to plot area, shape and dimensions. Veg-X allows different plot shapes, and each plot shape implies different dimensions. We start by looking at the plot geometry data in the Mokihinui data set, which leads us to define the following mapping for rectangular (or square) plots:
+
+```{r inspect plot geom moki}
+head(moki_site)
+mapping = list(plotName = "Plot", subPlotName = "Subplot",
+               area = "PlotArea", shape = "Shape",
+               width = "PlotRectangleLength01", length = "PlotRectangleLength02")
+```
+Since plot area and plot dimensions are measurements, it is important to specify measurement protocols and scales. In the Veg-X standard, this is done via defining *method* and *attribute* elements, whereas the VegX package has a S4 class named ``VegXMethod`` that encapsulates both things. Users can define their own methods, but the package provides function ``predefinedMeasurementMethod()`` to easily define methods for the most common variables. After checking the units used in ``moki_site`` we define methods for plot area and plot dimensions using:
+```{r define geom methods}
+areaMethod = predefinedMeasurementMethod("Plot area/m2")
+dimensionMethod = predefinedMeasurementMethod("Plot dimension/m")
+```
+We are now ready to import plot geometry using ``addPlotGeometries()``, where we specify both the mapping and the list of methods corresponding to the Veg-X element names of the mapping (i.e. ``area``, ``length`` and ``width`` for rectangular plots):
+```{r add plot geom moki}
+moki_vegx = addPlotGeometries(moki_vegx, moki_site, mapping,
+              list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
+head(showElementTable(moki_vegx, "plot"))
+```
+In the call to ``showElementTable()`` we have now the plot geometry added to the plot location and plot/subplot relationships. Importing plot geometry for the Takitimu grassland data set is 
+```{r add plot geom taki}
+taki_vegx = addPlotGeometries(taki_vegx, taki_site, mapping,
+              list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
+head(showElementTable(taki_vegx, "plot"))
+```
+
+
+```{r inspect plot geom mtfyffe}
+head(mtfyffe_site)
+mapping = list(plotName = "Plot", subPlotName = "Subplot",
+               area = "PlotArea", shape = "Shape")
+```
+
+```{r add plot geom mtfyffe}
+mtfyffe_vegx = addPlotGeometries(mtfyffe_vegx, mtfyffe_site, mapping,
+                                 list(area = areaMethod))
 ```
 
 ### Adding site characteristics

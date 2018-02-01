@@ -3,14 +3,14 @@ title: "The Veg-X standard and the VegX R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
-  word_document:
   rmarkdown::html_vignette:
     css: mystyle.css
     toc: TRUE
+  word_document:
 vignette: >
   %\VignetteIndexEntry{Veg-X standard documentation}
-  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ## Overview of the Veg-X standard
