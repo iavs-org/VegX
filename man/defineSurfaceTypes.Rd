@@ -26,8 +26,8 @@ Surface type definition
 }
 \examples{
 
-defineSurfaceTypes(name = "Surface classes",
-                        description = "Four simple surface categories",
-                        surfaceNames = c("bare soil", "water", "rocks", "vegetation"))
+defineSurfaceTypes(name = "Default Surface types",
+                   description = "Five simple surface categories",
+                   surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
 
 }

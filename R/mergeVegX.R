@@ -15,11 +15,13 @@
 #'   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
 #'   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
 #'   \item \code{methods} are merged when their element \code{name} has the same value
-#'   \item \code{strata} are merged when their element \code{name} has the same value
+#'   \item \code{strata} are merged when their element \code{stratumName} has the same value
 #'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
 #'   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
 #'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
 #'   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
+#'   \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
+#'   \item \code{surfaceCoverObservations} are merged when both their \code{surfaceTypeID} and \code{plotObservationID} elements have the same value
 #'   \item \code{siteObservations} are merged into the same element when their element \code{plotObservationID} has the same value, but particular measurements are always added
 #'   as if they were distinct pieces of information.
 #' }
@@ -96,11 +98,13 @@ mergeVegX<-function(x, y, verbose = TRUE) {
         x@methods[[nmetid$id]] = y@methods[[j]]
         # add attributes
         attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
-        for(i in 1:length(attIDs)) {
-          newAttID = .nextAttributeID(x)
-          x@attributes[[newAttID]] = y@attributes[[attIDs[i]]]
-          x@attributes[[newAttID]]$methodID = nmetid$id
-          attIDmap[[attIDs[i]]] = newAttID
+        if(length(attIDs)>0) {
+          for(i in 1:length(attIDs)) {
+            newAttID = .nextAttributeID(x)
+            x@attributes[[newAttID]] = y@attributes[[attIDs[i]]]
+            x@attributes[[newAttID]]$methodID = nmetid$id
+            attIDmap[[attIDs[i]]] = newAttID
+          }
         }
       } else { #pool information
         x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]])
@@ -198,7 +202,6 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of plot observations: ", length(x@plotObservations),". Data pooled for ", nmergedplotobs, " plot observation(s).\n"))
   }
-
 
   # stratumObservations
   strObsIDmap = list()
@@ -304,7 +307,50 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of individual organism observations: ", length(x@individualObservations),". Data pooled for ", nmergedindobs, " individual organism observation(s).\n"))
   }
 
-
+  #surfaceTypes
+  stIDmap = list()
+  nmergedst = 0
+  if(length(y@surfaceTypes)>0) {
+    for(j in 1:length(y@surfaceTypes)) {
+      methodID = methodIDmap[[y@surfaceTypes[[j]]$methodID]]
+      y@surfaceTypes[[j]]$methodID = methodID # set method ID to translated one in order to avoid matching problems (does not change id externally)
+      nstid = .newSurfaceTypeIDByName(x, methodID, y@surfaceTypes[[j]]$surfaceName)
+      if(nstid$new) {
+        x@surfaceTypes[[nstid$id]] = y@surfaceTypes[[j]]
+      } else { #pool information
+        x@surfaceTypes[[nstid$id]] = .mergeStrata(x@surfaceTypes[[nstrid$id]], y@surfaceTypes[[j]])
+        nmergedst = nmergedst + 1
+      }
+      stIDmap[names(y@surfaceTypes)[j]] = nstid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of surface types: ", length(x@surfaceTypes),". Data pooled for ", nmergedst, " surface types.\n"))
+  }
+  
+  # surfaceCoverObservations
+  scObsIDmap = list()
+  nmergedscobs = 0
+  if(length(y@surfaceCoverObservations)>0) {
+    for(j in 1:length(y@surfaceCoverObservations)) {
+      surfaceTypeID = stIDmap[[y@surfaceCoverObservations[[j]]$surfaceTypeID]]
+      plotObsID = plotObsIDmap[[y@surfaceCoverObservations[[j]]$plotObservationID]]
+      y@surfaceCoverObservations[[j]]$surfaceTypeID = surfaceTypeID # set surface ID to translated one in order to avoid matching problems (does not change id externally)
+      y@surfaceCoverObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
+      nscobsid = .newSurfaceCoverObsIDByIDs(x, plotObsID, surfaceTypeID)
+      if(nscobsid$new) {
+        x@surfaceCoverObservations[[nscobsid$id]] = .applyAttributeMappingToSurfaceCoverObservations(y@surfaceCoverObservations[[j]], attIDmap)
+      } else { #pool information
+        x@surfaceCoverObservations[[nscobsid$id]] = .mergeSurfaceCoverObservations(x@surfaceCoverObservations[[nstrobsid$id]], y@surfaceCoverObservations[[j]], attIDmap)
+        nmergedscobs = nmergedscobs + 1
+      }
+      scObsIDmap[names(y@surfaceCoverObservations)[j]] = nscobsid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of surface cover observations: ", length(x@surfaceCoverObservations),". Data pooled for ", nmergedscobs, " surface cover observation(s).\n"))
+  }
+  
   # siteObservations
   siteObsIDmap = list()
   nmergedsiteobs = 0
@@ -326,8 +372,9 @@ mergeVegX<-function(x, y, verbose = TRUE) {
     cat(paste0(" Final number of site observations: ", length(x@siteObservations),". Data pooled for ", nmergedsiteobs, " site observation(s).\n"))
   }
 
-  #                         vegetationObservations = "list",
   #                         surfaceCovers = "list",
   #                         surfaceCoverObservations = "list",
+  
+  #                         vegetationObservations = "list",
   return(x)
 }

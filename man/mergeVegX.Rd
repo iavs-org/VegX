@@ -25,11 +25,13 @@ Some entities are attempted to be merged or are kept as separate entities depedi
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
   \item \code{methods} are merged when their element \code{name} has the same value
-  \item \code{strata} are merged when their element \code{name} has the same value
+  \item \code{strata} are merged when their element \code{stratumName} has the same value
   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
+  \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
+  \item \code{surfaceCoverObservations} are merged when both their \code{surfaceTypeID} and \code{plotObservationID} elements have the same value
   \item \code{siteObservations} are merged into the same element when their element \code{plotObservationID} has the same value, but particular measurements are always added
   as if they were distinct pieces of information.
 }

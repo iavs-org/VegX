@@ -9,6 +9,10 @@ predefinedMeasurementMethod(name)
 \arguments{
 \item{name}{A string with the desired measurement method. Current accepted options are:
 \itemize{
+ \item{\code{"Plot area/m2"}: Plot area measured in squared meters.}
+ \item{\code{"Plot area/cm2"}: Plot area measured in squared centimeters.}
+ \item{\code{"Plot dimension/m"}: Plot dimension (radius, length, width) measured in meters.}
+ \item{\code{"Plot dimension/cm"}: Plot dimension (radius, length, width) measured in centimeters.}
  \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
  \item{\code{"Plant counts"}: Number of individuals in the plot.}
  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}

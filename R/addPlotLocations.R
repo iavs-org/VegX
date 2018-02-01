@@ -4,7 +4,7 @@
 #' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
-#' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
+#' @param x A data frame where each row corresponds to one plot. Columns can be varied.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
 #' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places

@@ -11,7 +11,7 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{A data frame where each row corresponds to one tree observation. Columns can be varied.}
+\item{x}{A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'identificationLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
@@ -55,7 +55,16 @@ x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
 # Inspect the result
-summary(x)
+head(showElementTable(x, "individualOrganismObservation"))
+
+
+
+# Second example without individual labels
+data(mokihinui)
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
+               authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
+                                      methods = c(diameterMeasurement = diamMeth))
 head(showElementTable(x, "individualOrganismObservation"))
 
 }
@@ -64,10 +73,12 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 }
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},
+  \code{\link{addPlotGeometries}},
   \code{\link{addPlotLocations}},
   \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
+  \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }

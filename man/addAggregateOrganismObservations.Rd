@@ -72,16 +72,43 @@ x = addAggregateOrganismObservations(newVegX(), moki_tcv,
 # Inspect the result
 head(showElementTable(x, "aggregateOrganismObservation"))
 
+
+# Example with individual counts
+data(mtfyffe)
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
+               authorTaxonName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+countscale = predefinedMeasurementMethod("Plant counts")
+strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
+                               description = "Seedling/sapling stratum definition",
+                               heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
+                               strataNames = as.character(1:6),
+                               strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", "76-105 cm", "106-135 cm", "> 135 cm"))
+x = addAggregateOrganismObservations(newVegX(), mtfyffe_counts, mapping,
+                                     methods = c(counts=countscale),
+                                     stratumDefinition = strataDef)
+head(showElementTable(x, "aggregateOrganismObservation"))
+
+# Example with frequency in transects
+data(takitimu)
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
+              authorTaxonName = "PreferredSpeciesName", freq = "Value")
+freqscale = predefinedMeasurementMethod("Plant frequency/\%")
+x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
+                                     methods = c(freq=freqscale))
+head(showElementTable(x, "aggregateOrganismObservation"))
+
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
 Other add functions: \code{\link{addIndividualOrganismObservations}},
+  \code{\link{addPlotGeometries}},
   \code{\link{addPlotLocations}},
   \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
+  \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }

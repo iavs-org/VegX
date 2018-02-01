@@ -12,7 +12,7 @@ The data set includes four data frames:
 \itemize{
  \item moki_loc Location of vegetation plots (5 records x 25 variables)
  \item moki_site Site characteristics of plots/subplots (25 records x 43 variables)
- \item moki_tcv Observations of taxon categories, grouped by vegetation strata (578 records x 33 variables)
+ \item moki_tcv Observations of cover of taxon categories, grouped by vegetation strata (578 records x 33 variables)
  \item moki_dia Observations made on individual trees (968 records x 33 variables)
 }
 }

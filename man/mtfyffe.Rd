@@ -12,7 +12,7 @@ The data set includes six data frames:
 \itemize{
  \item mtfyffe_loc Location of vegetation plots (10 records x 25 variables)
  \item mtfyffe_site Site characteristics of plots/subplots (325 records x 29 variables)
- \item mtfyffe_counts Observations of taxon categories, grouped by vegetation strata (543 records x 30 variables)
+ \item mtfyffe_counts Observations of counts of taxon categories, grouped by vegetation strata (543 records x 30 variables)
  \item mtfyffe_dia Observations made on individual trees (880 records x 31 variables)
  \item mtfyffe_disturbance Observations of disturbance events on plots (9 records x 10 variables)
  \item mtfyffe_groundcover Observations of ground cover on plots (50 records x 12 variables)

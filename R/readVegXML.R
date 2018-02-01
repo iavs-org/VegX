@@ -32,7 +32,8 @@ readVegXML<-function(file, verbose = TRUE) {
     plot = list()
     plot$plotName = xmlValue(x[["plotName"]])
     n = names(x)
-    if("relatedPlot" %in% names(x)) {
+    if("plotUniqueIdentifier" %in% n) plot$plotUniqueIdentifier = xmlValue(x[["plotUniqueIdentifier"]])
+    if("relatedPlot" %in% n) {
       rp = x[["relatedPlot"]]
       if(xmlValue(rp[["plotRelationship"]])=="subplot") {
         plot$parentPlotID = xmlValue(rp[["relatedPlotID"]])
@@ -40,7 +41,7 @@ readVegXML<-function(file, verbose = TRUE) {
         warning("Plot relationship could not be parsed!")
       }
     }
-    if("location" %in% names(x)) {
+    if("location" %in% n) {
       loc = x[["location"]]
       plot$location = list()
       if("geospatial" %in% names(loc)) {
@@ -50,7 +51,29 @@ readVegXML<-function(file, verbose = TRUE) {
         if("GeodeticDatum" %in% names(geo)) plot$location$GeodeticDatum = xmlValue(geo[["GeodeticDatum"]])
       }
     }
-    if("topography" %in% names(x)) {
+    if("geometry" %in% n) {
+      gm = x[["geometry"]]
+      plot$geometry = list()
+      if("area" %in% names(gm)) plot$geometry$area = .readVegXMeasurement.2.0.0(gm[["area"]])
+      if("circle" %in% names(gm)) {
+        plot$geometry$circle = list()
+        sh = gm[["circle"]]
+        if("radius" %in% names(sh)) plot$geometry$circle$radius = .readVegXMeasurement.2.0.0(sh[["radius"]])
+      }
+      else if("rectangle" %in% names(gm)) {
+        plot$geometry$rectangle = list()
+        sh = gm[["rectangle"]]
+        if("length" %in% names(sh)) plot$geometry$rectangle$length = .readVegXMeasurement.2.0.0(sh[["length"]])
+        if("width" %in% names(sh)) plot$geometry$rectangle$width = .readVegXMeasurement.2.0.0(sh[["width"]])
+      }
+      else if("line" %in% names(gm)) {
+        plot$geometry$line = list()
+        sh = gm[["line"]]
+        if("length" %in% names(sh)) plot$geometry$line$length = .readVegXMeasurement.2.0.0(sh[["length"]])
+        if("bandWidth" %in% names(sh)) plot$geometry$line$bandWidth = .readVegXMeasurement.2.0.0(sh[["bandWidth"]])
+      }
+    }
+    if("topography" %in% n) {
       topo = x[["topography"]]
       plot$topography = list()
       if("slope" %in% names(topo)) plot$topography$slope = .readVegXMeasurement.2.0.0(topo[["slope"]])
@@ -69,9 +92,12 @@ readVegXML<-function(file, verbose = TRUE) {
     plotObs = list(plotID = xmlValue(x[["plotID"]]),
                    obsStartDate = as.Date(xmlValue(x[["obsStartDate"]]), format = "%Y-%m-%d"))
     n = names(x)
+    if("plotObservationUniqueIdentifier" %in% n) plotObs$plotObservationUniqueIdentifier = xmlValue(x[["plotObservationUniqueIdentifier"]])
     if("projectID" %in% n) plotObs$projectID = xmlValue(x[["projectID"]])
     if("obsEndDate" %in% n) plotObs$obsEndDate = as.Date(xmlValue(x[["obsEndDate"]]), format = "%Y-%m-%d")
     if("siteObservationID" %in% n) plotObs$siteObservationID = xmlValue(x[["siteObservationID"]])
+    if("communityObservationID" %in% n) plotObs$communityObservationID = xmlValue(x[["communityObservationID"]])
+
     return(plotObs)
   }
   if("plotObservations" %in% vegnames) {
@@ -128,6 +154,35 @@ readVegXML<-function(file, verbose = TRUE) {
     target@stratumObservations = xmlApply(veg[["stratumObservations"]], .readStratumObservation.2.0.0)
     names(target@stratumObservations) = xmlApply(veg[["stratumObservations"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@stratumObservations), " stratum observation(s) read.\n"))
+  }
+
+  #read surface types
+  .readSurfaceType.2.0.0 = function(x) {
+    str = list(surfaceName = xmlValue(x[["surfaceName"]]))
+    n = names(x)
+    if("methodID" %in% n) str$methodID = xmlValue(x[["methodID"]])
+    if("definition" %in% n) str$definition = xmlValue(x[["definition"]])
+    return(str)
+  }
+  if("surfaceTypes" %in% vegnames) {
+    target@surfaceTypes = xmlApply(veg[["surfaceTypes"]], .readSurfaceType.2.0.0)
+    names(target@surfaceTypes) = xmlApply(veg[["surfaceTypes"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@surfaceTypes), " surface types read.\n"))
+  }
+  #read surface cover observations
+  .readSurfaceCoverObservation.2.0.0 = function(x) {
+    scObs = list(surfaceTypeID = xmlValue(x[["surfaceTypeID"]]),
+                  plotObservationID = xmlValue(x[["plotObservationID"]]))
+    n = names(x)
+    for(nm in n) {
+      if(nm=="coverMeasurement") scObs$coverMeasurement = .readVegXMeasurement.2.0.0(x[[nm]])
+    }
+    return(scObs)
+  }
+  if("surfaceCoverObservations" %in% vegnames) {
+    target@surfaceCoverObservations = xmlApply(veg[["surfaceCoverObservations"]], .readSurfaceCoverObservation.2.0.0)
+    names(target@surfaceCoverObservations) = xmlApply(veg[["surfaceCoverObservations"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@surfaceCoverObservations), " surface cover observation(s) read.\n"))
   }
 
   #read aggregate organism observations

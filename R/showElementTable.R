@@ -4,10 +4,11 @@
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
-#' 'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
+#' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
+#' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 #' 'siteObservation', 'method', 'attribute'.
-#' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output
-#' @param subjects A boolean flag to indicate whether method subjects should be included in the output
+#' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output.
+#' @param subjects A boolean flag to indicate whether method subjects should be included in the output.
 #'
 #' @return a data frame
 #' @export
@@ -16,7 +17,7 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate organism observations
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
@@ -34,7 +35,7 @@
 #'                               heightStrataNames = paste0("Tier ",1:6),
 #'                               categoryStrataNames = "Tier 7",
 #'                               categoryStrataDefinition = "Epiphytes")
-#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
+#' x = addAggregateOrganismObservations(newVegX(), moki_tcv,
 #'                         mapping = mapping,
 #'                         methods = c(cover=coverscale),
 #'                         stratumDefinition = strataDef)
@@ -52,12 +53,14 @@
 #' showElementTable(x, "method")
 #' showElementTable(x, "attribute")
 #'
-#' # show aggregate organism observations
-#' showElementTable(x, "aggregateOrganismObservation")
+#' # show aggregate organism observations (only some of them)
+#' head(showElementTable(x, "aggregateOrganismObservation"))
 showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
 
   element = match.arg(element, c("plot", "plotObservation", "taxonNameUsageConcept",
-                                 "stratum", "stratumObservation", "aggregateOrganismObservation",
+                                 "stratum", "stratumObservation",
+                                 "surfaceType", "surfaceCoverObservation",
+                                 "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute"))
   res = NULL
@@ -71,11 +74,57 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
           res[i,"relatedPlotName"] = x@plots[[x@plots[[i]]$parentPlotID]]$plotName
           res[i,"plotRelationship"] = "subplot"
         }
-        # Add location information
+        if("plotUniqueIdentifier"%in% names(x@plots[[i]])) {
+          res[i,"plotUniqueIdentifier"] = x@plots[[i]]$plotUniqueIdentifier
+        }
+        if("geometry" %in% names(x@plots[[i]])) {
+          if("area" %in% names(x@plots[[i]]$geometry)) { #Add area information
+            res[i,"area_method"] = x@methods[[x@attributes[[x@plots[[i]]$geometry$area$attributeID]]$methodID]]$name
+            res[i,"area_value"] = x@plots[[i]]$geometry$area$value
+            if(IDs) res[i,"area_attributeID"] = x@plots[[i]]$geometry$area$attributeID
+          }
+          if("circle" %in% names(x@plots[[i]]$geometry)) {
+            res[i,"shape"] = "circle"
+            sh = x@plots[[i]]$geometry$circle
+            if("radius" %in% names(sh)) { #Add radius information
+              res[i,"radius_method"] = x@methods[[x@attributes[[sh$radius$attributeID]]$methodID]]$name
+              res[i,"radius_value"] = sh$radius$value
+              if(IDs) res[i,"radius_attributeID"] = sh$radius$attributeID
+            }
+          }
+          else if("rectangle" %in% names(x@plots[[i]]$geometry)) {
+            res[i,"shape"] = "rectangle"
+            sh = x@plots[[i]]$geometry$rectangle
+            if("length" %in% names(sh)) { #Add length information
+              res[i,"length_method"] = x@methods[[x@attributes[[sh$length$attributeID]]$methodID]]$name
+              res[i,"length_value"] = sh$length$value
+              if(IDs) res[i,"length_attributeID"] = sh$length$attributeID
+            }
+            if("width" %in% names(sh)) { #Add width information
+              res[i,"width_method"] = x@methods[[x@attributes[[sh$width$attributeID]]$methodID]]$name
+              res[i,"width_value"] = sh$width$value
+              if(IDs) res[i,"width_attributeID"] = sh$width$attributeID
+            }
+          }
+          else if("line" %in% names(x@plots[[i]]$geometry)) {
+            res[i,"shape"] = "line"
+            sh = x@plots[[i]]$geometry$line
+            if("length" %in% names(sh)) { #Add length information
+              res[i,"length_method"] = x@methods[[x@attributes[[sh$length$attributeID]]$methodID]]$name
+              res[i,"length_value"] = sh$length$value
+              if(IDs) res[i,"length_attributeID"] = sh$length$attributeID
+            }
+            if("bandWidth" %in% names(sh)) { #Add bandWidth information
+              res[i,"bandWidth_method"] = x@methods[[x@attributes[[sh$bandWidth$attributeID]]$methodID]]$name
+              res[i,"bandWidth_value"] = sh$bandWidth$value
+              if(IDs) res[i,"bandWidth_attributeID"] = sh$bandWidth$attributeID
+            }
+          }
+        }
         if("location" %in% names(x@plots[[i]])) {
-          res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
-          res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
-          res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
+          if("DecimalLongitude" %in% names(x@plots[[i]]$location)) res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
+          if("DecimalLatitude" %in% names(x@plots[[i]]$location)) res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
+          if("GeodeticDatum" %in% names(x@plots[[i]]$location)) res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
         }
         if("topography" %in% names(x@plots[[i]])) {
           if("slope" %in% names(x@plots[[i]]$topography)) { #Add slope information
@@ -113,6 +162,9 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if("obsEndDate" %in% names(x@plotObservations[[i]])) {
           res[i, "obsEndDate"] = as.character(x@plotObservations[[i]]$obsEndDate)
         }
+        if("plotObservationUniqueIdentifier"%in% names(x@plotObservations[[i]])) {
+          res[i,"plotObservationUniqueIdentifier"] = x@plotObservations[[i]]$plotObservationUniqueIdentifier
+        }
         if("projectID" %in% names(x@plotObservations[[i]])) {
           if(IDs) {
             res[i, "projectID"] = x@plotObservations[[i]]$projectID
@@ -122,6 +174,11 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if("siteObservationID" %in% names(x@plotObservations[[i]])) {
           if(IDs) {
             res[i, "siteObservationID"] = x@plotObservations[[i]]$siteObservationID
+          }
+        }
+        if("communityObservationID" %in% names(x@plotObservations[[i]])) {
+          if(IDs) {
+            res[i, "communityObservationID"] = x@plotObservations[[i]]$communityObservationID
           }
         }
       }
@@ -276,6 +333,56 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
               res[i, strVal] = measurements[[j]]$value
             }
           }
+        }
+      }
+    }
+  }
+  else if(element=="surfaceType") {
+    res = data.frame(surfaceName = rep(NA, length(x@surfaceTypes)),
+                     row.names = names(x@surfaceTypes))
+    if(length(x@surfaceTypes)>0){
+      for(i in 1:length(x@surfaceTypes)){
+        res[i, "surfaceName"] = x@surfaceTypes[[i]]$surfaceName
+        if("methodID" %in% names(x@surfaceTypes[[i]])) {
+          if(IDs) {
+            res[i, "methodID"] = x@surfaceTypes[[i]]$methodID
+          }
+          res[i, "methodName"] = x@methods[[x@surfaceTypes[[i]]$methodID]]$name
+        }
+      }
+    }
+  }
+  else if(element=="surfaceCoverObservation") {
+    if(IDs) {
+      res = data.frame(plotObservationID = rep(NA, length(x@surfaceCoverObservations)),
+                       plotName = rep(NA, length(x@surfaceCoverObservations)),
+                       obsStartDate = rep(NA, length(x@surfaceCoverObservations)),
+                       surfaceTypeID = rep(NA, length(x@surfaceCoverObservations)),
+                       surfaceName = rep(NA, length(x@surfaceCoverObservations)),
+                       row.names = names(x@surfaceCoverObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@surfaceCoverObservations)),
+                       obsStartDate = rep(NA, length(x@surfaceCoverObservations)),
+                       surfaceName = rep(NA, length(x@surfaceCoverObservations)),
+                       row.names = names(x@surfaceCoverObservations))
+    }
+    if(length(x@surfaceCoverObservations)>0){
+      for(i in 1:length(x@surfaceCoverObservations)){
+        if(IDs) {
+          res[i, "plotObservationID"] = x@surfaceCoverObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@surfaceCoverObservations[[i]]$plotObservationID]]$plotID]]$plotName
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@surfaceCoverObservations[[i]]$plotObservationID]]$obsStartDate)
+        if(IDs) {
+          res[i, "surfaceTypeID"] = x@surfaceCoverObservations[[i]]$surfaceTypeID
+        }
+        res[i, "surfaceName"] = x@surfaceTypes[[x@surfaceCoverObservations[[i]]$surfaceTypeID]]$surfaceName
+        if("coverMeasurement" %in% names(x@surfaceCoverObservations[[i]])) {
+          if(IDs) {
+            res[i, "cover_attID"] = x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID
+          }
+          res[i, "cover_method"] = x@methods[[x@attributes[[x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID]]$methodID]]$name
+          res[i, "cover_value"] = x@surfaceCoverObservations[[i]]$coverMeasurement$value
         }
       }
     }

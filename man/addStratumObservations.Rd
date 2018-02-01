@@ -10,7 +10,7 @@ addStratumObservations(target, x, mapping, methods, stratumDefinition,
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{A data frame where each row corresponds to one aggregate taxon observation. Columns can be varied.}
+\item{x}{A data frame where each row corresponds to one stratum observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
@@ -75,7 +75,6 @@ x = addStratumObservations(newVegX(), moki_str, mapping = mapping,
                         stratumDefinition = strataDef)
 
 # Examine results
-summary(x)
 head(showElementTable(x, "stratumObservation"))
 
 }
@@ -85,9 +84,11 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addIndividualOrganismObservations}},
+  \code{\link{addPlotGeometries}},
   \code{\link{addPlotLocations}},
   \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
+  \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }

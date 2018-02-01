@@ -11,7 +11,7 @@ addPlotLocations(target, x, mapping,
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
+\item{x}{A data frame where each row corresponds to one plot. Columns can be varied.}
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
@@ -53,9 +53,11 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addIndividualOrganismObservations}},
+  \code{\link{addPlotGeometries}},
   \code{\link{addPlotObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
+  \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }

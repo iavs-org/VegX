@@ -59,6 +59,31 @@
 #' # Inspect the result
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 #'
+#'
+#' # Example with individual counts
+#' data(mtfyffe)
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
+#'                authorTaxonName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+#' countscale = predefinedMeasurementMethod("Plant counts")
+#' strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
+#'                                description = "Seedling/sapling stratum definition",
+#'                                heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
+#'                                strataNames = as.character(1:6),
+#'                                strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", "76-105 cm", "106-135 cm", "> 135 cm"))
+#' x = addAggregateOrganismObservations(newVegX(), mtfyffe_counts, mapping,
+#'                                      methods = c(counts=countscale),
+#'                                      stratumDefinition = strataDef)
+#' head(showElementTable(x, "aggregateOrganismObservation"))
+#'
+#' # Example with frequency in transects
+#' data(takitimu)
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
+#'               authorTaxonName = "PreferredSpeciesName", freq = "Value")
+#' freqscale = predefinedMeasurementMethod("Plant frequency/%")
+#' x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
+#'                                      methods = c(freq=freqscale))
+#' head(showElementTable(x, "aggregateOrganismObservation"))
+#'
 addAggregateOrganismObservations<-function(target, x,
                                      mapping,
                                      methods = list(),
@@ -83,7 +108,7 @@ addAggregateOrganismObservations<-function(target, x,
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
-    stratumNames = as.character(x[[mapping[["stratumName"]]]])
+    stratumNamesData = as.character(x[[mapping[["stratumName"]]]])
     if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.\n  Revise mapping or provide a stratum definition.")
   } else {
     if(!is.null(stratumDefinition)) stop("You need to include a mapping for 'stratumName' in order to map stratum observations.")
@@ -173,22 +198,23 @@ addAggregateOrganismObservations<-function(target, x,
       orinstrata = length(target@strata)
       nstr = length(stratumDefinition@strata)
       stratumIDs = character(0)
-      # cnt = length(target@strata)+1
+      stratumNames = character(0)
       for(i in 1:nstr) {
-        # strid = as.character(cnt)
         strid = .nextStratumID(target)
         stratumIDs[i] = strid
+        stratumNames[i] = stratumDefinition@strata[[i]]$stratumName
         target@strata[[strid]] = stratumDefinition@strata[[i]]
         target@strata[[strid]]$methodID = strmethodID
-        # cnt = cnt + 1
       }
       finnstrata = length(target@strata)
       if(verbose) {
         cat(paste0(" ", finnstrata-orinstrata, " new stratum definitions added.\n"))
       }
-    } else { #Read stratum IDs and stratum names from selected method
-      stratumIDs = .getStratumIDsByMethodID(target,strmethodID)
+    }
+    else { #Read stratum IDs and stratum names from selected method
       if(verbose) cat(paste0(" Stratum definition '", stratumDefMethod@name,"' already included.\n"))
+      stratumIDs = .getStratumIDsByMethodID(target,strmethodID)
+      stratumNames = .getStratumNamesByMethodID(target,strmethodID)
     }
   }
 
@@ -272,9 +298,10 @@ addAggregateOrganismObservations<-function(target, x,
     # stratum observations
     strObsID = ""
     if(stratumFlag) {
-      if(!(stratumNames[i] %in% missing.values)) { # If stratum name is missing do not add stratum information
-        strID = .getStratumIDByName(target, stratumNames[i])
-        if(is.null(strID)) stop(paste0(stratumNames[i]," not found within stratum names. Revise stratum definition or data."))
+      if(!(stratumNamesData[i] %in% missing.values)) { # If stratum name is missing do not add stratum information
+        stratumName = stratumNamesData[i]
+        if(!(stratumName %in% stratumNames)) stop(paste0(stratumName," not found within stratum names. Revise stratum definition or data."))
+        strID = stratumIDs[which(stratumNames==stratumName)]
         strObsString = paste(plotObsID, strID) # plotObsID+stratumID
         if(!(strObsString %in% parsedStrObs)) {
           nstroid = .newStratumObsIDByIDs(target, plotObsID, strID) # Get the new stratum observation ID (internal code)

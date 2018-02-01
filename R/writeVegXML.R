@@ -59,6 +59,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                      attrs = c("id"=names(x@plots)[i]),
                      parent = plots)
       newXMLNode("plotName", x@plots[[i]]$plotName, parent=p)
+      if("plotUniqueIdentifier" %in% names(x@plots[[i]])) newXMLNode("plotUniqueIdentifier", x@plots[[i]]$plotUniqueIdentifier, parent=p)
       if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
         rp = newXMLNode("relatedPlot", parent=p)
         newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
@@ -71,6 +72,48 @@ writeVegXML<-function(x, file, verbose = TRUE) {
         if("DecimalLongitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLongitude", x@plots[[i]]$location$DecimalLongitude, parent=gs)
         if("DecimalLatitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLatitude", x@plots[[i]]$location$DecimalLatitude, parent=gs)
         if("GeodeticDatum" %in% names(x@plots[[i]]$location)) newXMLNode("GeodeticDatum", x@plots[[i]]$location$GeodeticDatum, parent=gs)
+      }
+      if("geometry" %in% names(x@plots[[i]])) {
+        gm = newXMLNode("geometry", parent=p)
+        if("area" %in% names(x@plots[[i]]$geometry)) { #Add area information
+          mes = newXMLNode("area", parent=gm)
+          newXMLNode("value", x@plots[[i]]$geometry$area$value, parent=mes)
+          newXMLNode("attributeID", x@plots[[i]]$geometry$area$attributeID, parent=mes)
+        }
+        if("circle" %in% names(x@plots[[i]]$geometry)) {
+          sh = newXMLNode("circle", parent=gm)
+          if("radius" %in% names(x@plots[[i]]$geometry$circle)) { #Add radius information
+            mes = newXMLNode("radius", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$circle$radius$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$circle$radius$attributeID, parent=mes)
+          }
+        }
+        if("rectangle" %in% names(x@plots[[i]]$geometry)) {
+          sh = newXMLNode("rectangle", parent=gm)
+          if("length" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
+            mes = newXMLNode("length", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$rectangle$length$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$length$attributeID, parent=mes)
+          }
+          if("width" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
+            mes = newXMLNode("width", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$rectangle$width$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$width$attributeID, parent=mes)
+          }
+        }
+        if("line" %in% names(x@plots[[i]]$geometry)) {
+          sh = newXMLNode("line", parent=gm)
+          if("length" %in% names(x@plots[[i]]$geometry$line)) { #Add length information
+            mes = newXMLNode("length", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$line$length$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$line$length$attributeID, parent=mes)
+          }
+          if("bandWidth" %in% names(x@plots[[i]]$geometry$line)) { #Add length information
+            mes = newXMLNode("width", parent=sh)
+            newXMLNode("value", x@plots[[i]]$geometry$line$bandWidth$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$line$bandWidth$attributeID, parent=mes)
+          }
+        }
       }
       if("topography" %in% names(x@plots[[i]])) {
         topo = newXMLNode("topography", parent=p)
@@ -100,7 +143,9 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       newXMLNode("obsStartDate", as.character(x@plotObservations[[i]]$obsStartDate), parent=po)
       if("obsEndDate" %in% names(x@plotObservations[[i]])) newXMLNode("obsEndDate", as.character(x@plotObservations[[i]]$obsEndDate), parent=po)
       if("projectID" %in% names(x@plotObservations[[i]])) newXMLNode("projectID", x@plotObservations[[i]]$projectID, parent=po)
+      if("plotObservationUniqueIdentifier" %in% names(x@plotObservations[[i]])) newXMLNode("plotObservationUniqueIdentifier", x@plotObservations[[i]]$plotObservationUniqueIdentifier, parent=po)
       if("siteObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("siteObservationID", x@plotObservations[[i]]$siteObservationID, parent=po)
+      if("communityObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("communityObservationID", x@plotObservations[[i]]$communityObservationID, parent=po)
     }
     if(verbose) cat(paste0(" ", length(x@plotObservations), " plot observation(s) added to XML tree.\n"))
   }
@@ -239,7 +284,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
   #surfaceType elements
   if(length(x@surfaceTypes)>0) {
     surfaceTypes = newXMLNode("surfaceTypes", parent = top)
-    for(i in 1:length(x@siteObservations)){
+    for(i in 1:length(x@surfaceTypes)){
       surf = newXMLNode("surfaceType",
                         attrs = c(id = names(x@surfaceTypes)[i]),
                         parent = surfaceTypes)

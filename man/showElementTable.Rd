@@ -10,12 +10,13 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE)
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
 \item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
-'stratum', 'stratumObservation', 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
+'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
+'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute'.}
 
-\item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output}
+\item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output.}
 
-\item{subjects}{A boolean flag to indicate whether method subjects should be included in the output}
+\item{subjects}{A boolean flag to indicate whether method subjects should be included in the output.}
 }
 \value{
 a data frame
@@ -27,7 +28,7 @@ Coerces part of the information of a Veg-X object into a data frame
 data(mokihinui)
 
 # Create document 'x' with aggregate organism observations
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
@@ -45,7 +46,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
                               categoryStrataDefinition = "Epiphytes")
-x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
+x = addAggregateOrganismObservations(newVegX(), moki_tcv,
                         mapping = mapping,
                         methods = c(cover=coverscale),
                         stratumDefinition = strataDef)
@@ -63,6 +64,6 @@ showElementTable(x, "plotObservation")
 showElementTable(x, "method")
 showElementTable(x, "attribute")
 
-# show aggregate organism observations
-showElementTable(x, "aggregateOrganismObservation")
+# show aggregate organism observations (only some of them)
+head(showElementTable(x, "aggregateOrganismObservation"))
 }

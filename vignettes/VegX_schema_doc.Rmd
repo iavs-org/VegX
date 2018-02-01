@@ -5,13 +5,15 @@ date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     css: mystyle.css
+    toc: TRUE
+  word_document:
 vignette: >
   %\VignetteIndexEntry{Veg-X standard documentation}
-  %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
-## The Veg-X standard
+## Overview of the Veg-X standard
 
 The exchange standard for plot-based vegetation data (Veg-X) is a standard intended to be used for sharing and merging vegetation-plot data of different kinds. It was created by the *Ecoinformatics Working Group* of the **International Association for Vegetation Science (IAVS)** (http://iavs.org) with the to produce a standard specifically for vegetation-plot data that is relatively simple to read and use. To achieve this, highly nested structures were avoided and major vegetation data components were included (e.g. plot attributes, plot observations, organisms) as top-level elements that are referenced by  each other through unique identifiers (e.g. a unique numerical ID) that allow the integrity of the original linkage to be captured. Although the main logical structure of vegetation data (i.e. the logical relationships between major data components) is fixed, alternative, user-defined ways of grouping observations are also allowed. As such, the standard can accommodate projects that are linked across time as well as longitudinal measures of plots or individuals to the extent that these are referenced in the original dataset through appropriate unique identifiers in those original sources.
 
@@ -60,9 +62,9 @@ aggregatedOrganismObservation  | An observation applying to all occurrences of a
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
 siteObservation             | A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. | Yes |
-surfaceTypes | TO BE DONE | Yes |
-surfaceCoverObservation | TO BE DONE | Yes |
-vegetationObservation | TO BE DONE | Yes |
+surfaceTypes | The definition of surface types, not the observation of cover on them.  | Yes |
+surfaceCoverObservation | A single cover measurement applying to a surface type in a single plot during a single date-time period. | Yes |
+communityObservation | TO BE DONE | Yes |
 taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. | No |
 taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. | No |
 taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
@@ -108,10 +110,10 @@ A plot is a sampling location, with or without explicit boundaries. The element 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 plotName                 | Name or label for a plot, unique within the data set  | 1 | Yes |
-plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
+plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
 relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | 0..n | Yes |
 location | Information regarding the placement of the plot on earth. | 0..1 | Yes |
-geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | No |
+geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | Yes |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
 geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
 partyWithRole | The party that undertook the plot placement, and/or parties with other roles. | 0..n | No |
@@ -125,7 +127,7 @@ Sub-element               | Description                                        |
 plotID                   | A reference to a specific plot by the plot ID       | 1 | Yes |
 obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 1 | Yes |
 obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 0..1 | Yes |
-plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | No |
+plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
 projectID | A reference to a specific 'project'.  | 0..n | Yes |
 previousObservationID | Link to previous plot observations.	| 0..n | No |
 communityObservationID | A reference to a specific communityObservation by ID. Note that the relationship is one-to-one. Only one communityObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |
@@ -206,7 +208,7 @@ upperLimit | Upper limit of the stratum in some known dimension (e.g. height) de
 
 ### Element *stratumObservation*
 
-A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the perspective of the **VegX package** user, stratum observations are identified by *stratumID* (i.e., stratum name) and *plotObservationID* (i.e. plot name and observation start date).
+A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the perspective of the **VegX package** user, stratum observations are identified by *methodID* (i.e. method name) and *stratumID* (i.e., stratum name) and *plotObservationID* (i.e. plot name and observation start date).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -284,7 +286,7 @@ observationGroupingID | A reference to a specific observation grouping by ID.   
 
 ### Element *surfaceTypes*
 
-The definition of surface types, not the observation of cover on them.  From the perspective of the **VegX package** user, surface types are uniquely identified by *surfaceName*.
+The definition of surface types, not the observation of cover on them.  From the perspective of the **VegX package** user, surface types are uniquely identified by *methodID* (i.e. method name) and *surfaceName*.
 
 Sub-element (quantitative) | Description                                        |  #  |  R  |
 -------------------------- | -------------------------------------------------- | --- | --- |
@@ -305,7 +307,7 @@ coverMeasurement           | The cover measurement, usually in percent cover of 
 
 
 
-### Element **observationGrouping**
+### Element *observationGrouping*
 
 A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the schema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a plotObservation).
 
