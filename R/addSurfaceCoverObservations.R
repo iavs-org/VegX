@@ -259,7 +259,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
     }
     scObs = target@surfaceCoverObservations[[scObsID]]
 
-    # height limit measurements
+    # cover measurements
     if("coverMeasurement" %in% names(mapping)) {
       method = methods[[m]]
       attIDs = methodAttIDs[[m]]
@@ -280,7 +280,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
           if(length(ind)==1) {
             scObs[[m]] = list("attributeID" = attIDs[ind], "value" = value)
           }
-          else stop(paste0("Value '", value,"' not found in cover measurement definition. Please revise height classes or data."))
+          else stop(paste0("Value '", value,"' not found in cover measurement definition. Please revise cover classes or data."))
         }
       } else {
         nmissing = nmissing + 1

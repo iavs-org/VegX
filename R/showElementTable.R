@@ -77,7 +77,50 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if("plotUniqueIdentifier"%in% names(x@plots[[i]])) {
           res[i,"plotUniqueIdentifier"] = x@plots[[i]]$plotUniqueIdentifier
         }
-        # Add location information
+        if("geometry" %in% names(x@plots[[i]])) {
+          if("area" %in% names(x@plots[[i]]$geometry)) { #Add area information
+            res[i,"area_method"] = x@methods[[x@attributes[[x@plots[[i]]$geometry$area$attributeID]]$methodID]]$name
+            res[i,"area_value"] = x@plots[[i]]$geometry$area$value
+            if(IDs) res[i,"area_attributeID"] = x@plots[[i]]$geometry$area$attributeID
+          }
+          if("circle" %in% names(x@plots[[i]]$geometry)) {
+            res[i,"shape"] = "circle"
+            sh = x@plots[[i]]$geometry$circle
+            if("radius" %in% names(sh)) { #Add radius information
+              res[i,"radius_method"] = x@methods[[x@attributes[[sh$radius$attributeID]]$methodID]]$name
+              res[i,"radius_value"] = sh$radius$value
+              if(IDs) res[i,"radius_attributeID"] = sh$radius$attributeID
+            }
+          }
+          else if("rectangle" %in% names(x@plots[[i]]$geometry)) {
+            res[i,"shape"] = "rectangle"
+            sh = x@plots[[i]]$geometry$rectangle
+            if("length" %in% names(sh)) { #Add length information
+              res[i,"length_method"] = x@methods[[x@attributes[[sh$length$attributeID]]$methodID]]$name
+              res[i,"length_value"] = sh$length$value
+              if(IDs) res[i,"length_attributeID"] = sh$length$attributeID
+            }
+            if("width" %in% names(sh)) { #Add width information
+              res[i,"width_method"] = x@methods[[x@attributes[[sh$width$attributeID]]$methodID]]$name
+              res[i,"width_value"] = sh$width$value
+              if(IDs) res[i,"width_attributeID"] = sh$width$attributeID
+            }
+          }
+          else if("line" %in% names(x@plots[[i]]$geometry)) {
+            res[i,"shape"] = "line"
+            sh = x@plots[[i]]$geometry$line
+            if("length" %in% names(sh)) { #Add length information
+              res[i,"length_method"] = x@methods[[x@attributes[[sh$length$attributeID]]$methodID]]$name
+              res[i,"length_value"] = sh$length$value
+              if(IDs) res[i,"length_attributeID"] = sh$length$attributeID
+            }
+            if("bandWidth" %in% names(sh)) { #Add bandWidth information
+              res[i,"bandWidth_method"] = x@methods[[x@attributes[[sh$bandWidth$attributeID]]$methodID]]$name
+              res[i,"bandWidth_value"] = sh$bandWidth$value
+              if(IDs) res[i,"bandWidth_attributeID"] = sh$bandWidth$attributeID
+            }
+          }
+        }
         if("location" %in% names(x@plots[[i]])) {
           res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
           res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude

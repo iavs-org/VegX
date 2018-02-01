@@ -15,7 +15,7 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing plotName values are interpreted as if the previous non-missing value has to be used to define plot.
+#' @details Missing 'plotName' and 'shape' values are interpreted as if the previous non-missing value has to be used to define plot.
 #' Missing subPlotName values are interpreted in that data refers to the parent plotName.
 #' Missing measurements are simply not added to the Veg-X document.
 #'
@@ -32,8 +32,13 @@
 #'                area = "PlotArea", shape = "Shape",
 #'                width = "PlotRectangleLength01", length = "PlotRectangleLength02")
 #'
+#' # Define methods
+#' areaMethod = predefinedMeasurementMethod("Plot area/m2")
+#' dimensionMethod = predefinedMeasurementMethod("Plot dimension/m")
+#'
 #' # Create new Veg-X document with plot locations
-#' x = addPlotGeometries(newVegX(), moki_site, mapping)
+#' x = addPlotGeometries(newVegX(), moki_site, mapping,
+#'                       list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
 #'
 #' # Inspect results
 #' showElementTable(x, "plot")
@@ -59,7 +64,7 @@ addPlotGeometries<-function(target, x,
   lineVariables = c("length", "bandWidth")
 
   geometryVariables = unique(c("area", circleVariables, rectangleVariables, lineVariables))
-  mappingsAvailable = c("plotName", "subPlotName", geometryVariables)
+  mappingsAvailable = c("plotName", "subPlotName", "shape", geometryVariables)
   geometryValues = list()
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
@@ -77,7 +82,45 @@ addPlotGeometries<-function(target, x,
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
+  shapeFlag = ("shape" %in% names(mapping))
+  if(subPlotFlag) {
+    shapes = as.character(x[[mapping[["shape"]]]])
+  }
 
+
+  #add methods
+  methodIDs = character(0)
+  methodCodes = list()
+  methodAttIDs = list()
+  for(m in names(methods)) {
+    method = methods[[m]]
+    nmtid = .newMethodIDByName(target,method@name)
+    methodID = nmtid$id
+    methodIDs[[m]] = methodID
+    methodCodes[[m]] = character(0)
+    methodAttIDs[[m]] = character(0)
+    if(nmtid$new) {
+      target@methods[[methodID]] = list(name = method@name,
+                                        description = method@description,
+                                        subject = method@subject,
+                                        attributeType = method@attributeType)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add attributes if necessary
+      methodAttIDs[[m]] = character(length(method@attributes))
+      methodCodes[[m]] = character(length(method@attributes))
+      for(i in 1:length(method@attributes)) {
+        attid = .nextAttributeID(target)
+        target@attributes[[attid]] = method@attributes[[i]]
+        target@attributes[[attid]]$methodID = methodID
+        methodAttIDs[[m]][i] = attid
+        if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
+      }
+    } else {
+      methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)
+      methodAttIDs[[m]] = .getAttributeIDsByMethodID(target,methodID)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
+    }
+  }
 
   orinplots = length(target@plots)
   parsedPlots = character(0)
@@ -117,6 +160,138 @@ addPlotGeometries<-function(target, x,
     #Add 'geometry' element if necessary
     if(!("geometry" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$geometry = list()
 
+    # area measurements
+    if("area" %in% names(mapping)) {
+      m = "area"
+      method = methods[[m]]
+      attIDs = methodAttIDs[[m]]
+      codes = methodCodes[[m]]
+      value = as.character(geometryValues[[m]][i])
+      if(!(value %in% as.character(missing.values))) {
+        if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
+          if(value> method@attributes[[1]]$upperLimit) {
+            stop(paste0("Area '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+          }
+          else if(value < method@attributes[[1]]$lowerLimit) {
+            stop(paste0("Area '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+          }
+          target@plots[[plotID]]$geometry[[m]] = list("attributeID" = attIDs[1], "value" = value)
+        } else {
+          ind = which(codes==value)
+          if(length(ind)==1) {
+            target@plots[[plotID]]$geometry[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+          }
+          else stop(paste0("Value '", value,"' not found in area measurement definition. Please revise area classes or data."))
+        }
+      } else {
+        nmissing = nmissing + 1
+      }
+    }
+
+    if(shapeFlag) {
+      #shape
+      if(!shapes[i] %in% missing.values) {# If shape is missing take the previous one
+        shape = shapes[i]
+      }
+      if(tolower(shape) %in% c("circle", "circular")) {
+        circle = list()
+        for(m in circleVariables) {
+          if(m %in% names(mapping)) {
+            method = methods[[m]]
+            attIDs = methodAttIDs[[m]]
+            codes = methodCodes[[m]]
+            value = as.character(geometryValues[[m]][i])
+            if(!(value %in% as.character(missing.values))) {
+              if(method@attributeType== "quantitative") {
+                value = as.numeric(value)
+                if(value> method@attributes[[1]]$upperLimit) {
+                  stop(paste0("Value '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+                }
+                else if(value < method@attributes[[1]]$lowerLimit) {
+                  stop(paste0("Value '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+                }
+                circle[[m]] = list("attributeID" = attIDs[1], "value" = value)
+              } else {
+                ind = which(codes==value)
+                if(length(ind)==1) {
+                  circle[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+                }
+                else stop(paste0("Value '", value,"' not found in dimension measurement definition. Please revise measurement classes or data."))
+              }
+            } else {
+              nmissing = nmissing + 1
+            }
+          }
+        }
+        target@plots[[plotID]]$geometry$circle = circle
+      }
+      else if(tolower(shape) %in% c("rectangle", "rectangular", "square", "squared")) {
+        rectangle = list()
+        for(m in rectangleVariables) {
+          if(m %in% names(mapping)) {
+            method = methods[[m]]
+            attIDs = methodAttIDs[[m]]
+            codes = methodCodes[[m]]
+            value = as.character(geometryValues[[m]][i])
+            if(!(value %in% as.character(missing.values))) {
+              if(method@attributeType== "quantitative") {
+                value = as.numeric(value)
+                if(value> method@attributes[[1]]$upperLimit) {
+                  stop(paste0("Value '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+                }
+                else if(value < method@attributes[[1]]$lowerLimit) {
+                  stop(paste0("Value '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+                }
+                rectangle[[m]] = list("attributeID" = attIDs[1], "value" = value)
+              } else {
+                ind = which(codes==value)
+                if(length(ind)==1) {
+                  rectangle[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+                }
+                else stop(paste0("Value '", value,"' not found in dimension measurement definition. Please revise measurement classes or data."))
+              }
+            } else {
+              nmissing = nmissing + 1
+            }
+          }
+        }
+        target@plots[[plotID]]$geometry$rectangle = rectangle
+      }
+      else if(tolower(shape) %in% c("line", "linear")) {
+        line = list()
+        for(m in lineVariables) {
+          if(m %in% names(mapping)) {
+            method = methods[[m]]
+            attIDs = methodAttIDs[[m]]
+            codes = methodCodes[[m]]
+            value = as.character(geometryValues[[m]][i])
+            if(!(value %in% as.character(missing.values))) {
+              if(method@attributeType== "quantitative") {
+                value = as.numeric(value)
+                if(value> method@attributes[[1]]$upperLimit) {
+                  stop(paste0("Value '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+                }
+                else if(value < method@attributes[[1]]$lowerLimit) {
+                  stop(paste0("Value '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+                }
+                line[[m]] = list("attributeID" = attIDs[1], "value" = value)
+              } else {
+                ind = which(codes==value)
+                if(length(ind)==1) {
+                  line[[m]] = list("attributeID" = attIDs[ind], "value" = value)
+                }
+                else stop(paste0("Value '", value,"' not found in dimension measurement definition. Please revise measurement classes or data."))
+              }
+            } else {
+              nmissing = nmissing + 1
+            }
+          }
+        }
+
+        target@plots[[plotID]]$geometry$line = line
+      }
+    }
   }
   finnplots = length(target@plots)
   if(verbose) {

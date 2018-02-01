@@ -75,7 +75,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       }
       if("geometry" %in% names(x@plots[[i]])) {
         gm = newXMLNode("geometry", parent=p)
-        if("area" %in% names(x@plots[[i]]$geometry$circle)) { #Add ara information
+        if("area" %in% names(x@plots[[i]]$geometry)) { #Add area information
           mes = newXMLNode("area", parent=gm)
           newXMLNode("value", x@plots[[i]]$geometry$area$value, parent=mes)
           newXMLNode("attributeID", x@plots[[i]]$geometry$area$attributeID, parent=mes)

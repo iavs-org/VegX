@@ -4,8 +4,8 @@
 #'
 #' @param name A string with the desired measurement method. Current accepted options are:
 #' \itemize{
-#'  \item{\code{"Plot area/m2"}: Plot area measured in square meters.}
-#'  \item{\code{"Plot area/cm2"}: Plot area measured in square centimeters.}
+#'  \item{\code{"Plot area/m2"}: Plot area measured in squared meters.}
+#'  \item{\code{"Plot area/cm2"}: Plot area measured in squared centimeters.}
 #'  \item{\code{"Plot dimension/m"}: Plot dimension (radius, length, width) measured in meters.}
 #'  \item{\code{"Plot dimension/cm"}: Plot dimension (radius, length, width) measured in centimeters.}
 #'  \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
@@ -44,7 +44,7 @@ predefinedMeasurementMethod<-function(name) {
                            "Slope/degrees", "Aspect/degrees", "Elevation/m"))
   if(name=="Plot area/m2") {
     return(defineQuantitativeScaleMethod(name = "Plot area/m2",
-                                         description = "Plot area measured in square meters.",
+                                         description = "Plot area measured in squared meters.",
                                          subject = "plot area",
                                          unit = "m2",
                                          lowerLimit = 0,
@@ -52,7 +52,7 @@ predefinedMeasurementMethod<-function(name) {
   }
   else if(name=="Plot area/cm2") {
     return(defineQuantitativeScaleMethod(name = "Plot area/cm2",
-                                         description = "Plot area measured in square centimeters.",
+                                         description = "Plot area measured in squared centimeters.",
                                          subject = "plot area",
                                          unit = "cm2",
                                          lowerLimit = 0,
