@@ -236,12 +236,12 @@ observationGroupingID    | A reference to a specific observation grouping by ID.
 
 ### Element *individualOrganism*
 
-An element *individualOrganism* represents an organism recorded during one or more observation events and identified through an identification label (e.g. tree tag number). In Veg-X documents, individual organisms may or may not have been given a taxon name (i.e. a link via sub-element *taxonNameUsageConceptID*), and the standard allows specifying the relative position of individuals within the plot to which they belong, as well as to specify related individuals. From the perspective of the **VegX package** user, individual organisms are identified by *plotID* (i.e. plot name) and *identificationLabel* (i.e. a tag number or string).
+An element *individualOrganism* represents an organism recorded during one or more observation events and identified through an identification label (e.g. tree tag number). In Veg-X documents, individual organisms may or may not have been given a taxon name (i.e. a link via sub-element *taxonNameUsageConceptID*), and the standard allows specifying the relative position of individuals within the plot to which they belong, as well as to specify related individuals. From the perspective of the **VegX package** user, individual organisms are identified by *plotID* (i.e. plot name) and *individualOrganismLabel* (i.e. a tag number or string).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 plotID                   | A reference to a specific plot by the plot ID.	 | 1 | Yes |
-identificationLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | 1 | Yes |
+individualOrganismLabel      | A label that is associated with the individual organism (e.g. a numerical tree tag). | 1 | Yes |
 taxonNameUsageConceptID  | A reference to a specific taxonNameUsageConcept representing a taxon occurrence by ID. | 0..1 | Yes |
 birthDate | Date of birth recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | No |
 relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | 0..n | No |

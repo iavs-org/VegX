@@ -18,7 +18,7 @@
 #'   \item \code{strata} are merged when their element \code{stratumName} has the same value
 #'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
 #'   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
-#'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{identificationLabel} have the same value
+#'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{individualOrganismLabel} have the same value
 #'   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
 #'   \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
 #'   \item \code{surfaceCoverObservations} are merged when both their \code{surfaceTypeID} and \code{plotObservationID} elements have the same value
@@ -265,7 +265,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
       tnucID = tnucIDmap[[y@individualOrganisms[[j]]$taxonNameUsageConceptID]]
       y@individualOrganisms[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
       y@individualOrganisms[[j]]$taxonNameUsageConceptID = tnucID # set tnuc ID to translated one in order to avoid matching problems (does not change id externally)
-      nindid = .newIndividualOrganismIDByIdentificationLabel(x, plotID, y@individualOrganisms[[j]]$identificationLabel)
+      nindid = .newIndividualOrganismIDByIndividualOrganismLabel(x, plotID, y@individualOrganisms[[j]]$individualOrganismLabel)
       if(nindid$new) {
         x@individualOrganisms[[nindid$id]] = y@individualOrganisms[[j]]
       } else { #pool information
@@ -327,7 +327,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of surface types: ", length(x@surfaceTypes),". Data pooled for ", nmergedst, " surface types.\n"))
   }
-  
+
   # surfaceCoverObservations
   scObsIDmap = list()
   nmergedscobs = 0
@@ -350,7 +350,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of surface cover observations: ", length(x@surfaceCoverObservations),". Data pooled for ", nmergedscobs, " surface cover observation(s).\n"))
   }
-  
+
   # siteObservations
   siteObsIDmap = list()
   nmergedsiteobs = 0
@@ -374,7 +374,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
 
   #                         surfaceCovers = "list",
   #                         surfaceCoverObservations = "list",
-  
+
   #                         vegetationObservations = "list",
   return(x)
 }

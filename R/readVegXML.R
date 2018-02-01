@@ -211,7 +211,7 @@ readVegXML<-function(file, verbose = TRUE) {
   #read individual organisms
   .readIndividualOrganism.2.0.0 = function(x) {
     ind = list(plotID = xmlValue(x[["plotID"]]),
-               identificationLabel = xmlValue(x[["identificationLabel"]]))
+               individualOrganismLabel = xmlValue(x[["individualOrganismLabel"]]))
     n = names(x)
     if("taxonNameUsageConceptID" %in% n) ind$taxonNameUsageConceptID = xmlValue(x[["taxonNameUsageConceptID"]])
     return(ind)

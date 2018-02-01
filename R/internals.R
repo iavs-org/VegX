@@ -126,10 +126,10 @@
   return(list(id = .nextAggregateOrganismObservationID(target), new = TRUE))
 }
 # Returns the ID for a new individual organism in the data set or the ID of an existing organism
-.newIndividualOrganismIDByIdentificationLabel<-function(target, plotID, identificationLabel) {
+.newIndividualOrganismIDByIndividualOrganismLabel<-function(target, plotID, individualOrganismLabel) {
   if(length(target@individualOrganisms)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@individualOrganisms)) {
-    if((target@individualOrganisms[[i]]$plotID==plotID) && (target@individualOrganisms[[i]]$identificationLabel==identificationLabel)) return(list(id = names(target@individualOrganisms)[i], new = FALSE))
+    if((target@individualOrganisms[[i]]$plotID==plotID) && (target@individualOrganisms[[i]]$individualOrganismLabel==individualOrganismLabel)) return(list(id = names(target@individualOrganisms)[i], new = FALSE))
   }
   return(list(id = .nextIndividualOrganismID(target), new = TRUE))
 }

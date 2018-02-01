@@ -391,13 +391,13 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
     if(IDs) {
       res = data.frame(plotID = rep(NA, length(x@individualOrganisms)),
                        plotName = rep(NA, length(x@individualOrganisms)),
-                       identificationLabel = rep(NA, length(x@individualOrganisms)),
+                       individualOrganismLabel = rep(NA, length(x@individualOrganisms)),
                        taxonNameUsageConceptID = rep(NA, length(x@individualOrganisms)),
                        authorTaxonName = rep(NA, length(x@individualOrganisms)),
                        row.names = names(x@individualOrganisms))
     } else {
       res = data.frame(plotName = rep(NA, length(x@individualOrganisms)),
-                       identificationLabel = rep(NA, length(x@individualOrganisms)),
+                       individualOrganismLabel = rep(NA, length(x@individualOrganisms)),
                        authorTaxonName = rep(NA, length(x@individualOrganisms)),
                        row.names = names(x@individualOrganisms))
     }
@@ -411,7 +411,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
           res[i, "taxonNameUsageConceptID"] = x@individualOrganisms[[i]]$taxonNameUsageConceptID
         }
         res[i, "authorTaxonName"] = x@taxonNameUsageConcepts[[x@individualOrganisms[[i]]$taxonNameUsageConceptID]]$authorTaxonName
-        res[i, "identificationLabel"] = x@individualOrganisms[[i]]$identificationLabel
+        res[i, "individualOrganismLabel"] = x@individualOrganisms[[i]]$individualOrganismLabel
       }
     }
   }
@@ -421,13 +421,13 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
                        plotName = rep(NA, length(x@individualObservations)),
                        obsStartDate = rep(NA, length(x@individualObservations)),
                        individualOrganismID = rep(NA, length(x@individualObservations)),
-                       identificationLabel = rep(NA, length(x@individualObservations)),
+                       individualOrganismLabel = rep(NA, length(x@individualObservations)),
                        authorTaxonName = rep(NA, length(x@individualObservations)),
                        row.names = names(x@individualObservations))
     } else {
       res = data.frame(plotName = rep(NA, length(x@individualObservations)),
                        obsStartDate = rep(NA, length(x@individualObservations)),
-                       identificationLabel = rep(NA, length(x@individualObservations)),
+                       individualOrganismLabel = rep(NA, length(x@individualObservations)),
                        authorTaxonName = rep(NA, length(x@individualObservations)),
                        row.names = names(x@individualObservations))
     }
@@ -441,7 +441,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if(IDs) {
           res[i, "individualOrganismID"] = x@individualObservations[[i]]$individualOrganismID
         }
-        res[i, "identificationLabel"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$identificationLabel
+        res[i, "individualOrganismLabel"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$individualOrganismLabel
         res[i, "authorTaxonName"] = x@taxonNameUsageConcepts[[x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$taxonNameUsageConceptID]]$authorTaxonName
         if("stratumObservationID" %in% names(x@individualObservations[[i]])){
           if(x@individualObservations[[i]]$stratumObservationID != "") {

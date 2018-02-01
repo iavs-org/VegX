@@ -5,7 +5,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'identificationLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
+#'                Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -18,7 +18,7 @@
 #'
 #' @family add functions
 #'
-#' @details Missing plotName, obsStartDate or identificationLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
+#' @details Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
 #' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When authorTaxonName is missing the organism is assumed to be unidentified.
 #' When stratumName values are missing the individual organism observation is not assigned to any stratum.
 #' Missing measurements are simply not added to the Veg-X document.
@@ -30,14 +30,14 @@
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                authorTaxonName = "PreferredSpeciesName", identificationLabel = "Identifier",
+#'                authorTaxonName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
 #'                diameterMeasurement = "Diameter")
 #'
 #' # Define diameter measurement method
 #' diamMeth = predefinedMeasurementMethod("DBH/cm")
 #'
 #'
-#' # Create new Veg-X document with identificationLabel organism observations
+#' # Create new Veg-X document with individual organism observations
 #' x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #'
@@ -63,7 +63,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   nrecords = nrow(x)
   nmissing = 0
 
-  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName", "identificationLabel")
+  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName", "individualOrganismLabel")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -89,9 +89,9 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
-  identificationLabelFlag = ("identificationLabel" %in% names(mapping))
-  if(identificationLabelFlag) {
-    identificationLabels = as.character(x[[mapping[["identificationLabel"]]]])
+  individualOrganismLabelFlag = ("individualOrganismLabel" %in% names(mapping))
+  if(individualOrganismLabelFlag) {
+    individualOrganismLabels = as.character(x[[mapping[["individualOrganismLabel"]]]])
   }
 
 
@@ -303,27 +303,27 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     }
 
     # individual organisms
-    if(identificationLabelFlag) {
-      if(!(identificationLabels[i] %in% missing.values)) { # If label is missing take the previous one (assuming it is a different observation event)
-        identificationLabel = identificationLabels[i]
+    if(individualOrganismLabelFlag) {
+      if(!(individualOrganismLabels[i] %in% missing.values)) { # If label is missing take the previous one (assuming it is a different observation event)
+        individualOrganismLabel = individualOrganismLabels[i]
       }
-      if(!(identificationLabel %in% parsedInds)) {
-        nindid = .newIndividualOrganismIDByIdentificationLabel(target, plotID, identificationLabel) # Get the new individual ID (internal code)
+      if(!(individualOrganismLabel %in% parsedInds)) {
+        nindid = .newIndividualOrganismIDByIndividualOrganismLabel(target, plotID, individualOrganismLabel) # Get the new individual ID (internal code)
         indID = nindid$id
         if(nindid$new) target@individualOrganisms[[indID]] = list("plotID"= plotID,
-                                                                  "identificationLabel" = identificationLabel)
-        parsedInds = c(parsedInds, identificationLabel)
+                                                                  "individualOrganismLabel" = individualOrganismLabel)
+        parsedInds = c(parsedInds, individualOrganismLabel)
         parsedIndIDs = c(parsedIndIDs, indID)
       }
       else {
-        indID = parsedIndIDs[which(parsedInds==identificationLabel)]
+        indID = parsedIndIDs[which(parsedInds==individualOrganismLabel)]
       }
       # else keep current individual
     }
     else { # Add a new individual for each individual observation record
       indID = .nextIndividualOrganismID(target)
       target@individualOrganisms[[indID]] = list("plotID"= plotID,
-                                                 "identificationLabel" = paste0("ind",indID))
+                                                 "individualOrganismLabel" = paste0("ind",indID))
     }
     if(taxonFlag && (!is.na(tnucID))) target@individualOrganisms[[indID]]$taxonNameUsageConceptID = tnucID
 
