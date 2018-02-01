@@ -172,7 +172,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot",
                area = "PlotArea", shape = "Shape")
 mtfyffe_vegx = addPlotGeometries(mtfyffe_vegx, mtfyffe_site, mapping,
                                  list(area = areaMethod))
-head(showElementTable(mtfyffe_vegx, "plot"))
+head(showElementTable(mtfyffe_vegx, "plot"), 3)
 ```
 
 ### Adding site characteristics
@@ -192,7 +192,7 @@ and we are ready to import the data:
 moki_vegx = addSiteCharacteristics(moki_vegx, moki_site, mapping = sitemapping,
                 measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
 
-head(showElementTable(moki_vegx, "plot"))
+head(showElementTable(moki_vegx, "plot"), 3)
 ```
 Again, no new plots are added, and missing values correspond to subplots. When calling ``showElementTable()`` the topography information is shown along with the plot information previously added. Since the site data frames for Mt Fyffe forest and Takitimu grassland data sets have the same structure as that of Mokihinui, adding topography information for the former data sets is rather straightforward:
 
@@ -205,13 +205,17 @@ taki_vegx = addSiteCharacteristics(taki_vegx, taki_site, mapping = sitemapping,
 
 ### Adding aggregate organism observations
 
-```{r mapping taxon obs moki}
+Aggregate organism observations include measurements that apply to a set of organisms simultaneously. The most common examples are abundance values (e.g. cover) for species. Function ``addAggregateOrganismObservations()`` can be used to import such data into a VegX document. We first inspect the data frame ``moki_tcv``:
+```{r inspect taxon obs moki}
 head(moki_tcv,3)
+```
+Taxon names can be drawn from column ``PreferredSpeciesName``, column ``Tier`` contains information about the stratum where species were recorded, whereas column ``Category`` contains cover values codified in a cover ordinal scale. First we define a mapping for these variables as well as for plot and observation start date, which together specify a *plotObservation* (subplots are not considered here).
+```{r mapping taxon obs moki}
 mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
                authorTaxonName = "PreferredSpeciesName",
                stratumName = "Tier", cover = "Category")
 ```
-
+In order to parse cover values, we need to define an ordinal scale that can be used to interpret values, this can be used with function ``defineOrdinalScaleMethod()``:
 ```{r cover scale def}
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
@@ -225,7 +229,7 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", 
                                    "51-75%", "76-100%"))
 ```
-
+Since the source data includes
 ```{r moki strata def}
 moki_strataDef = defineMixedStrata(name = "Recce strata",
                    description = "Standard Recce stratum definition",

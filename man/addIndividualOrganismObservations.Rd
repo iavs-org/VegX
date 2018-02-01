@@ -50,7 +50,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotO
 diamMeth = predefinedMeasurementMethod("DBH/cm")
 
 
-# Create new Veg-X document with individualOrganismLabel organism observations
+# Create new Veg-X document with individual organism observations
 x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 
