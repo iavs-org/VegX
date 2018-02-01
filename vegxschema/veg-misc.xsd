@@ -45,7 +45,6 @@
     <xsd:complexType name="relatedItemType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals or paired observations. </xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>relatedSpatialItemType</doc:moduleName>
@@ -81,7 +80,6 @@
     <xsd:complexType name="simpleUserDefinedType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Simple user-defined information types stored as a name-value pair. </xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>simpleUserDefinedType</doc:moduleName>
@@ -117,7 +115,6 @@
     <xsd:complexType name="complexUserDefinedType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Complex user-defined information types. This provides a means to extend the schema to accommodate related information that is more complex than can be accommodated with the simpleUserDefinedType.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>complexUserDefinedType</doc:moduleName>
@@ -139,7 +136,6 @@
     <xsd:complexType name="partyWithRoleType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Based on the the eml-party module - People/organization information and their role as related to the resource</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>partyWithRoleType</doc:moduleName>
@@ -173,7 +169,6 @@
     <xsd:complexType name="noteType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Complex type for specifying additional comments or explanations pertaining to the element of concern</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>noteType</doc:moduleName>
@@ -215,7 +210,6 @@
     <xsd:complexType name="MethodType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A method followed in the creation of the dataset or measurement of a parameter. May link to a protocol and literature reference.A protocol may have many method or steps.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
@@ -276,7 +270,6 @@
     <xsd:complexType name="MeasurementType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Specifies a simple measurement of an attribute.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>MeasurementType</doc:moduleName>
@@ -383,7 +376,6 @@
     <xsd:complexType name="AttributeType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">The definition of a measured property. </xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>AttributeType</doc:moduleName>
@@ -506,7 +498,6 @@
     <xsd:complexType name="ProtocolType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An agreed protocol that is being followed in the creation of the dataset. May have many methods or steps.</xsd:documentation>
-            <xsd:documentation xml:lang="de"> </xsd:documentation>
             <xsd:appinfo>
 				<doc:moduleDocs>
 					<doc:moduleName>ProtocolType</doc:moduleName>
@@ -751,7 +742,7 @@ Core:MaximumElevationInMeters</xsd:appinfo>
             </xsd:element>
             <xsd:element name="waterDepth" type="MeasurementType" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Distance from surface to ground water. Usually recorded in meters.			</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Distance from surface to ground water. Usually recorded in meters.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="shoreDistance" type="MeasurementType" minOccurs="0">
@@ -768,17 +759,17 @@ Core:MaximumElevationInMeters</xsd:appinfo>
         <xsd:sequence>
             <xsd:element name="relativeX" type="xsd:decimal">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related items position in meters. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth. </xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related items position in meters. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="relativeY" type="xsd:decimal">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth. </xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">The Z-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the z-axis defined by the plot azimuth.  </xsd:documentation>
+                    <xsd:documentation xml:lang="en">The Z-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the z-axis defined by the plot azimuth.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
