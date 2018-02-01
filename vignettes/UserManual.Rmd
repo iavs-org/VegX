@@ -292,6 +292,8 @@ head(showElementTable(taki_vegx, "aggregateOrganismObservation"), 3)
 ```
 As expected, no stratum definition nor stratum observations are added to the Veg-X document, but we still see the addition of organism identities and aggregate organism observations.
 
+While aggregated organism observations are often related to strata, it is possible to indicate that measurements of cover of counts were done focusing on a particular height, by mapping to *heightMeasurement* instead of using *stratumName*. 
+
 ### Adding individual organism observations
 Now we turn our attention to observations made on individual organisms (e.g. diameter values measured on individual trees). Since individual organisms can be labelled and remeasured in different surveys, Veg-X uses element *individualOrganism* to keep track of the organism itself. Then, different elements *individualOrganismObservations* can be used to contain measurements made on the individual organism each time there was an observation of the plot (i.e. each time the plot was revisited). The individual organism (e.g. a particular tree) is uniquely identified using plotID (i.e. plot name) and an organism label. Thus, the same label can be repeated in different plots without causing data integrity problems. Individual organisms and their observations are added to Veg-X using the function ``addIndividualOrganismObservations()``. We first show how it works using the data frame ``moki_dia``, which contains diameter measurements for trees in Mokihinui:
 ```{r inspect ind obs moki}
@@ -312,7 +314,7 @@ where we see that the number of individual organisms is equal to the number of o
 ```{r results ind obs moki}
 head(showElementTable(moki_vegx, "individualOrganismObservation"), 3)
 ```
-Note that the column ``individualOrganismLabel`` contains labels created by the function itself. The Mt Fyffe forest data set also contains tree diameter measurements, but in this case there have been two surveys, so we need the mapping to specify which column identifies each tree:
+Note that the column ``individualOrganismLabel`` contains labels created by the function itself, by numbering all individuals of each plot. The Mt Fyffe forest data set also contains tree diameter measurements, but in this case there have been two surveys, so we need the mapping to specify which column identifies each tree in each plot:
 
 ```{r inspect ind obs mtfyffe}
 head(mtfyffe_dia, 3)
@@ -332,11 +334,20 @@ Note that in this case the number of observations of individual trees is higher 
 
 ### Adding stratum observations
 
-```{r add str obs moki}
+In the previous subsections we stated that both individual and aggregate organism observations can be positioned in a particular vegetation stratum (e.g. the moss layer). However, one could imagine measurements that apply to the stratum itself, like the overall cover or basal area of all organisms in the stratum, regardless of their identity. Other common stratum measurements are those that define its vertical limits (e.g. at which height did the tree layer started?). Veg-X allows storing this information in elements *stratumObservations*. We showed that these were automatically created and added when dealing with aggregate taxon observations, but here we show how to add measurements that specifically refer to strata using function ``addStratumObservations()``.
+
+To illustrate how to add stratum observations to a Veg-X document, we take the Mokihinui data set as data source and inspect the data frame ``moki_str``, which contains strata cover measurements:
+```{r inspect str obs moki}
+head(moki_str, 3)
+```
+The data table also contains stratum height limits, although our definition of strata for mokihinui already contained height limits for most strata. We will assume that the data in ``moki_str`` indeed contains actual measurements and define the mapping accordingly:
+```{r mapping str obs moki}
 mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper",
                cover = "CoverClass")
-
+```
+Both the cover ordinal scale and the strata definitions have been used before, so we do not need to redefine them. We do need, however, to create a definition of the method applying to height measurements, before calling ``addStratumObservations()``:
+```{r add str obs moki}
 heightMethod = predefinedMeasurementMethod("Stratum height/m")
 
 moki_vegx = addStratumObservations(moki_vegx, moki_str, mapping = mapping,
@@ -344,7 +355,9 @@ moki_vegx = addStratumObservations(moki_vegx, moki_str, mapping = mapping,
                                        upperLimitMeasurement = heightMethod,
                                        cover=coverscale),
                         stratumDefinition = moki_strataDef)
-
+```
+Note that no new strata definitions are added, as they were already included when adding aggregate stratum observations. We do have some new stratum observations. The status of the stratum observations can be shown using:
+```{r results str obs moki}
 head(showElementTable(moki_vegx, "stratumObservation"), 3)
 ```
 
