@@ -14,7 +14,7 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
 \item{x}{A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
+Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
 
 \item{methods}{A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
 
@@ -32,7 +32,7 @@ Adds individual organism observation records to a VegX object from a data table.
 }
 \details{
 Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
-Missing subPlotName values are interpreted in that observation refers to the parent plotName. When authorTaxonName is missing the organism is assumed to be unidentified.
+Missing subPlotName values are interpreted in that observation refers to the parent plotName. When organismName is missing the organism is assumed to be unidentified.
 When stratumName values are missing the individual organism observation is not assigned to any stratum.
 Missing measurements are simply not added to the Veg-X document.
 }
@@ -43,7 +43,7 @@ data(mtfyffe)
 
 # Define mapping
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               authorTaxonName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
+               organismName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
                diameterMeasurement = "Diameter")
 
 # Define diameter measurement method
@@ -62,7 +62,7 @@ head(showElementTable(x, "individualOrganismObservation"))
 # Second example without individual labels
 data(mokihinui)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+               organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 head(showElementTable(x, "individualOrganismObservation"))

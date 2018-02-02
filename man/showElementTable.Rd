@@ -9,7 +9,7 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE)
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
-\item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'taxonNameUsageConcept',
+\item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'organismIdentity',
 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute'.}
@@ -28,7 +28,7 @@ Coerces part of the information of a Veg-X object into a data frame
 data(mokihinui)
 
 # Create document 'x' with aggregate organism observations
-mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",

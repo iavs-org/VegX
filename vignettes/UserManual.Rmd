@@ -212,7 +212,7 @@ head(moki_tcv,3)
 Taxon names can be drawn from column ``PreferredSpeciesName``, column ``Tier`` contains information about the stratum where species were recorded, whereas column ``Category`` contains cover values codified in a cover ordinal scale. First we define a mapping for these variables as well as for plot and observation start date, which together specify a *plotObservation* (subplots are not considered here).
 ```{r mapping taxon obs moki}
 mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
-               authorTaxonName = "PreferredSpeciesName",
+               organismName = "PreferredSpeciesName",
                stratumName = "Tier", cover = "Category")
 ```
 In order to parse cover values, we need to define an ordinal scale that can be used to interpret values, this can be used with function ``defineOrdinalScaleMethod()``:
@@ -254,7 +254,7 @@ Mt Fyffe forest data set has individual counts by species and stratum (i.e. anot
 ```{r mapping taxon obs mtfyffe}
 head(mtfyffe_counts, 3)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate", 
-               authorTaxonName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+               organismName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
 ```
 Analogously to the previous case, we need to specify a measurement method for counts, and in this case we can use function ``predefinedMeasurementMethod()``:
 ```{r count scale def}
@@ -281,7 +281,7 @@ Again, this involves that elements of several kinds are added to our Veg-X docum
 ```{r mapping taxon obs taki}
 head(taki_freq, 3)
 mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
-               authorTaxonName = "PreferredSpeciesName", freq = "Value")
+               organismName = "PreferredSpeciesName", freq = "Value")
 ```
 Hence, we define the new measurement scale and call again ``addAggregateOrganismObservations()``:
 ```{r freq scale def}
@@ -302,7 +302,7 @@ head(moki_dia, 3)
 Note that there is a column called ``Identifier`` but no data in it. Fortunately, the data set includes a single survey, so that there is no need to provide labels for individual organisms. Hence, we can define our mapping as follows:
 ```{r mapping ind obs moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+               organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 ```
 If no mapping is provided for *individualOrganismLabel*, ``addIndividualOrganismObservations()`` just assumes that each record corresponds to a different organism. After defining a method for diameter measurements (diameter at breast height in cm), the call to the function produces the following output:
 ```{r add ind obs moki}
@@ -319,7 +319,7 @@ Note that the column ``individualOrganismLabel`` contains labels created by the 
 ```{r inspect ind obs mtfyffe}
 head(mtfyffe_dia, 3)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               authorTaxonName = "PreferredSpeciesName", individualOrganismLabel = "Identifier", 
+               organismName = "PreferredSpeciesName", individualOrganismLabel = "Identifier", 
                diameterMeasurement = "Diameter")
 ```
 Since the diameter measurement method is the same as before, we can directly run `addIndividualOrganismObservations()`` and inspect the result:

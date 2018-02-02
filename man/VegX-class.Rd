@@ -29,7 +29,7 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 
 \item{\code{plotObservations}}{A list of vegetation plot observations.}
 
-\item{\code{taxonNameUsageConcepts}}{A list of usages of taxon names as made by the observer.}
+\item{\code{organismIdentities}}{A list of organism identities.}
 
 \item{\code{strata}}{A list of stratum definitions.}
 

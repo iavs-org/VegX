@@ -5,7 +5,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
+#'                Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -19,7 +19,7 @@
 #' @family add functions
 #'
 #' @details Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When authorTaxonName is missing the organism is assumed to be unidentified.
+#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When organismName is missing the organism is assumed to be unidentified.
 #' When stratumName values are missing the individual organism observation is not assigned to any stratum.
 #' Missing measurements are simply not added to the Veg-X document.
 #'
@@ -30,7 +30,7 @@
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                authorTaxonName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
+#'                organismName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
 #'                diameterMeasurement = "Diameter")
 #'
 #' # Define diameter measurement method
@@ -49,7 +49,7 @@
 #' # Second example without individual labels
 #' data(mokihinui)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+#'                organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 #' x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #' head(showElementTable(x, "individualOrganismObservation"))
@@ -63,7 +63,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   nrecords = nrow(x)
   nmissing = 0
 
-  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName", "individualOrganismLabel")
+  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName", "individualOrganismLabel")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -71,12 +71,12 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
-  authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
+  organismNames = as.character(x[[mapping[["organismName"]]]])
 
   #Optional mappings
-  taxonFlag = ("authorTaxonName" %in% names(mapping))
-  if(taxonFlag) {
-    authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
+  organismIdentityFlag = ("organismName" %in% names(mapping))
+  if(organismIdentityFlag) {
+    organismNames = as.character(x[[mapping[["organismName"]]]])
   }
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
@@ -200,15 +200,15 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   orinplots = length(target@plots)
   orinplotobs = length(target@plotObservations)
   orinstrobs = length(target@stratumObservations)
-  orintuc = length(target@taxonNameUsageConcepts)
+  orintuc = length(target@organismIdentities)
   orininds = length(target@individualOrganisms)
   orinindobs = length(target@individualObservations)
   parsedPlots = character(0)
   parsedPlotIDs = character(0)
   parsedPlotObs = character(0)
   parsedPlotObsIDs = character(0)
-  parsedTNUCs = character(0)
-  parsedTNUCIDs = character(0)
+  parsedOIs = character(0)
+  parsedOIIDs = character(0)
   parsedStrObs = character(0)
   parsedStrObsIDs = character(0)
   parsedInds = character(0)
@@ -265,20 +265,20 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
     # taxon name
-    if(taxonFlag) {
-      if(!(authorTaxonNames[i] %in% missing.values)) {
-        if(!(authorTaxonNames[i] %in% parsedTNUCs)) {
-          ntnucid = .newTaxonNameUsageConceptIDByName(target, authorTaxonNames[i]) # Get the new taxon name usage ID (internal code)
-          tnucID = ntnucid$id
-          if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonNames[i])
-          parsedTNUCs = c(parsedTNUCs, authorTaxonNames[i])
-          parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
+    if(organismIdentityFlag) {
+      if(!(organismNames[i] %in% missing.values)) {
+        if(!(organismNames[i] %in% parsedOIs)) {
+          noiid = .newOrganismIdentityIDByName(target, organismNames[i]) # Get the new taxon name usage ID (internal code)
+          oiID = noiid$id
+          if(noiid$new) target@organismIdentities[[oiID]] = list("organismName" = organismNames[i])
+          parsedOIs = c(parsedOIs, organismNames[i])
+          parsedOIIDs = c(parsedOIIDs, oiID)
         }
         else {
-          tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonNames[i])]
+          oiID = parsedOIIDs[which(parsedOIs==organismNames[i])]
         }
       } else {
-        tnucID = NA # Assume the organism has not been identified
+        oiID = NA # Assume the organism has not been identified
       }
     }
 
@@ -325,7 +325,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       target@individualOrganisms[[indID]] = list("plotID"= plotID,
                                                  "individualOrganismLabel" = .nextIndividualOrganismLabelForPlot(target, plotID))
     }
-    if(taxonFlag && (!is.na(tnucID))) target@individualOrganisms[[indID]]$taxonNameUsageConceptID = tnucID
+    if(organismIdentityFlag && (!is.na(oiID))) target@individualOrganisms[[indID]]$organismIdentityID = oiID
 
     # ind org observations
     nioID = .newIndividualOrganismObservationIDByIndividualID(target, plotObsID, indID)
@@ -435,13 +435,13 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
   finnstrobs = length(target@stratumObservations)
-  finntuc = length(target@taxonNameUsageConcepts)
+  finntuc = length(target@organismIdentities)
   finninds = length(target@individualOrganisms)
   finnindobs = length(target@individualObservations)
   if(verbose) {
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new added.\n"))
-    cat(paste0(" " , length(parsedTNUCs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
+    cat(paste0(" " , length(parsedOIs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
     if(stratumFlag) cat(paste0(" " , length(parsedStrObs)," stratum observation(s) parsed, ", finnstrobs-orinstrobs, " new added.\n"))
     cat(paste0(" " , length(parsedInds)," individual organism(s) parsed, ", finninds-orininds, " new added.\n"))
     cat(paste0(" ", nrecords," record(s) parsed, ", finnindobs-orinindobs, " new individual organism observation(s) added.\n"))

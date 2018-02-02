@@ -242,7 +242,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
           y@aggregateObservations[[j]]$stratumObservationID = strObsID
         }
       }
-      naggobsid = .newAggregateOrganismObservationIDByTaxonID(x, plotObsID, strObsID, tnucID)
+      naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x, plotObsID, strObsID, tnucID)
       if(naggobsid$new) {
         x@aggregateObservations[[naggobsid$id]] = .applyAttributeMappingToAggregatePlotObservations( y@aggregateObservations[[j]], attIDmap)
       } else { #pool information

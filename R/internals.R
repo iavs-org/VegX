@@ -115,7 +115,7 @@
   return(list(id = .nextSurfaceCoverObservationID(target), new = TRUE))
 }
 # Returns the ID for a new aggregate organism observation in the data set or the ID of an existing aggregate organism observation
-.newAggregateOrganismObservationIDByTaxonID<-function(target, plotObservationID, stratumObservationID, tnucID) {
+.newAggregateOrganismObservationIDByOrganismIdentityID<-function(target, plotObservationID, stratumObservationID, tnucID) {
   if(length(target@aggregateObservations)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@aggregateObservations)) {
     if((target@aggregateObservations[[i]]$plotObservationID==plotObservationID) &&
