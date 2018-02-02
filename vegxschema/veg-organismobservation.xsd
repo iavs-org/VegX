@@ -77,15 +77,27 @@ It may be further related to a published name (taxon name, tcs:TaxonName) and or
                     <xsd:documentation xml:lang="en">Herbarium accession number for any archived voucher specimens</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="originalTaxonConceptID" type="xsd:string" minOccurs="0" maxOccurs="1">
-                <xsd:annotation>
-                    <xsd:documentation>A link to the taxon concept stated by the author, or as asserted by a third party based on information such as the date of the observation, geographic location, etc.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="conceptInterpretationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation>A party involved in the identification of the original taxon concept.</xsd:documentation>
-                </xsd:annotation>
+            <xsd:element name="originalConceptIdentification" minOccurs="0" maxOccurs="1">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="originalTaxonConceptID" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>A link to the taxon concept stated by the author, or as asserted by a third party based on information such as the date of the observation, geographic location, etc.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="conceptIdentificationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>A party involved in the identification of the original taxon concept.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="conceptIdentificationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="conceptIdenfiticationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+                    </xsd:sequence>
+                </xsd:complexType>
             </xsd:element>
             <xsd:element name="preferredTaxonInterpretation" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
