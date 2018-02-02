@@ -76,9 +76,14 @@ diamMeth = predefinedMeasurementMethod("DBH/cm")
 y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
                         methods = c(diameterMeasurement = diamMeth))
 
-# Merge 'x' and 'y'
-z = mergeVegX(x,y)
-summary(z)
+# Merge 'x' and 'y' while keeping organism identities that have the same name separated
+z1 = mergeVegX(x,y)
+summary(z1)
+
+# Merge 'x' and 'y' while forcing organism identities that have the same name to
+# be merged
+z2 = mergeVegX(x,y, mergeIdentities = TRUE)
+summary(z2)
 
 }
 \seealso{
