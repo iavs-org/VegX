@@ -80,7 +80,7 @@ It may be further related to a published name (taxon name, tcs:TaxonName) and or
             <xsd:element name="originalConceptIdentification" minOccurs="0" maxOccurs="1">
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="originalTaxonConceptID" type="xsd:string">
+                        <xsd:element name="taxonConceptID" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>A link to the taxon concept stated by the author, or as asserted by a third party based on information such as the date of the observation, geographic location, etc.</xsd:documentation>
                             </xsd:annotation>
