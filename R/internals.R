@@ -50,7 +50,7 @@
   if(length(target@attributes)==0) return("1")
   return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
 }
-.nextTNUCID<-function(target) {
+.nextOrganismIdentityID<-function(target) {
   if(length(target@organismIdentities)==0) return("1")
   return(as.character(as.numeric(names(target@organismIdentities)[length(target@organismIdentities)])+1))
 }
@@ -115,12 +115,12 @@
   return(list(id = .nextSurfaceCoverObservationID(target), new = TRUE))
 }
 # Returns the ID for a new aggregate organism observation in the data set or the ID of an existing aggregate organism observation
-.newAggregateOrganismObservationIDByOrganismIdentityID<-function(target, plotObservationID, stratumObservationID, tnucID) {
+.newAggregateOrganismObservationIDByOrganismIdentityID<-function(target, plotObservationID, stratumObservationID, oiID) {
   if(length(target@aggregateObservations)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@aggregateObservations)) {
     if((target@aggregateObservations[[i]]$plotObservationID==plotObservationID) &&
        (target@aggregateObservations[[i]]$stratumObservationID==stratumObservationID) &&
-       (target@aggregateObservations[[i]]$organismIdentity==tnucID))
+       (target@aggregateObservations[[i]]$organismIdentity==oiID))
       return(list(id = names(target@aggregateObservations)[i], new = FALSE))
   }
   return(list(id = .nextAggregateOrganismObservationID(target), new = TRUE))
@@ -163,7 +163,7 @@
   for(i in 1:length(target@organismIdentities)) {
     if(target@organismIdentities[[i]]$organismName==organismName) return(list(id = names(target@organismIdentities)[i], new = FALSE))
   }
-  return(list(id = .nextTNUCID(target), new = TRUE))
+  return(list(id = .nextOrganismIdentityID(target), new = TRUE))
 }
 
 
@@ -402,19 +402,19 @@
 }
 
 #Pools the information of two organism identitys
-.mergeOrganismIdentitys<-function(tnuc1, tnuc2) {
-  n1 = names(tnuc1)
-  n2 = names(tnuc2)
+.mergeOrganismIdentities<-function(oi1, oi2) {
+  n1 = names(oi1)
+  n2 = names(oi2)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
     if((n %in% n1) && (n %in% n2)) {
-      if(tnuc1[[n]]!=tnuc2[[n]]) stop(paste0("Taxon name usage concepts have different data for '", n, "'. Cannot merge."))
-      res[[n]] = tnuc1[[n]]
+      if(oi1[[n]]!=oi2[[n]]) stop(paste0("Taxon name usage concepts have different data for '", n, "'. Cannot merge."))
+      res[[n]] = oi1[[n]]
     } else if(n %in% n1) {
-      res[[n]] = tnuc1[[n]]
+      res[[n]] = oi1[[n]]
     } else if(n %in% n2) {
-      res[[n]] = tnuc2[[n]]
+      res[[n]] = oi2[[n]]
     }
   }
   return(res)

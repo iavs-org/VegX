@@ -2,7 +2,8 @@
 #'
 #' Merges two Veg-X documents while considering that some of their entities may be shared.
 #'
-#' @param x,y The objects of class \code{\linkS4class{VegX}} to be merged
+#' @param x,y The objects of class \code{\linkS4class{VegX}} to be merged.
+#' @param mergeIdentities A flag used to force that organism identities should be merged when sharing the same organismName.
 #' @param verbose A flag to indicate console output of the data integration process.
 #'
 #' @return An object of class \code{\linkS4class{VegX}} with the pooled data
@@ -10,14 +11,15 @@
 #'
 #' @details Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 #' \itemize{
-#'   \item \code{projects} are merged when their element \code{title} has the same value
-#'   \item \code{plots} are merged when their element \code{plotName} has the same value
+#'   \item \code{projects} are merged when their element \code{title} has the same value.
+#'   \item \code{plots} are merged when their element \code{plotName} has the same value.
 #'   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-#'   \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
-#'   \item \code{methods} are merged when their element \code{name} has the same value
-#'   \item \code{strata} are merged when their element \code{stratumName} has the same value
+#'   \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeIdentities = TRUE} because
+#'   one can have the same name used in different data sets but referring to different concepts.
+#'   \item \code{methods} are merged when their element \code{name} has the same value.
+#'   \item \code{strata} are merged when their element \code{stratumName} has the same value.
 #'   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
-#'   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
+#'   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{organismIdentityID} (and \code{stratumObservationID}, if defined) have the same value
 #'   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{individualOrganismLabel} have the same value
 #'   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
 #'   \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
@@ -36,7 +38,7 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate taxon observations
-#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
@@ -60,7 +62,7 @@
 #'
 #' # Create document 'y' with tree observations
 #' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                    authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+#'                    organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 #' diamMeth = predefinedMeasurementMethod("DBH/cm")
 #' y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
 #'                         methods = c(diameterMeasurement = diamMeth))
@@ -69,7 +71,7 @@
 #' z = mergeVegX(x,y)
 #' summary(z)
 #'
-mergeVegX<-function(x, y, verbose = TRUE) {
+mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
   #projects IMPORTANT: Should be modified if other elements than 'title' are considered
@@ -120,23 +122,28 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   }
 
 
-  #taxonNameUsageConcepts
-  tnucIDmap = list()
-  nmergedtnucs = 0
-  if(length(y@taxonNameUsageConcepts)>0) {
-    for(j in 1:length(y@taxonNameUsageConcepts)) {
-      ntnucid = .newTaxonNameUsageConceptIDByName(x, y@taxonNameUsageConcepts[[j]]$authorTaxonName)
-      if(ntnucid$new) {
-        x@taxonNameUsageConcepts[[ntnucid$id]] = y@taxonNameUsageConcepts[[j]]
-      } else { #pool information
-        x@taxonNameUsageConcepts[[ntnucid$id]] = .mergeTaxonNameUsageConcepts(x@taxonNameUsageConcepts[[ntnucid$id]], y@taxonNameUsageConcepts[[j]])
-        nmergedtnucs = nmergedtnucs + 1
+  #organismIdentities
+  oiIDmap = list()
+  nmergedois = 0
+  if(length(y@organismIdentities)>0) {
+    for(j in 1:length(y@organismIdentities)) {
+      if(mergeIdentities) {
+        noiid = .newOrganismIdentityIDByName(x, y@organismIdentities[[j]]$organismName)
+        if(noiid$new) {
+          x@organismIdentities[[noiid$id]] = y@organismIdentities[[j]]
+        } else { #pool information
+          x@organismIdentities[[noiid$id]] = .mergeOrganismIdentities(x@organismIdentities[[noiid$id]], y@organismIdentities[[j]])
+          nmergedois = nmergedois + 1
+        }
+        oiIDmap[names(y@organismIdentities)[j]] = noiid$id
+      } else {
+        newOIID = .nextOrganismIdentityID(x)
+        x@organismIdentities[[newOIID]] = y@organismIdentities[[j]]
       }
-      tnucIDmap[names(y@taxonNameUsageConcepts)[j]] = ntnucid$id
     }
   }
   if(verbose) {
-    cat(paste0(" Final number of taxon name usage concepts: ", length(x@taxonNameUsageConcepts),". Data pooled for ", nmergedtnucs, " taxon name usage concept(s).\n"))
+    cat(paste0(" Final number of organism identities: ", length(x@organismIdentities),". Data pooled for ", nmergedois, " organism identitie(s).\n"))
   }
 
 
@@ -232,9 +239,9 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   if(length(y@aggregateObservations)>0) {
     for(j in 1:length(y@aggregateObservations)) {
       plotObsID = plotObsIDmap[[y@aggregateObservations[[j]]$plotObservationID]]
-      tnucID = tnucIDmap[[y@aggregateObservations[[j]]$taxonNameUsageConceptID]]
+      oiID = oiIDmap[[y@aggregateObservations[[j]]$organismIdentityID]]
       y@aggregateObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
-      y@aggregateObservations[[j]]$taxonNameUsageConceptID = tnucID # set tnuc ID to translated one in order to avoid matching problems (does not change id externally)
+      y@aggregateObservations[[j]]$organismIdentityID = oiID # set oi ID to translated one in order to avoid matching problems (does not change id externally)
       strObsID = ""
       if("stratumObservationID" %in% names(y@aggregateObservations[[j]])) {
         if(y@aggregateObservations[[j]]$stratumObservationID!="") {
@@ -242,7 +249,7 @@ mergeVegX<-function(x, y, verbose = TRUE) {
           y@aggregateObservations[[j]]$stratumObservationID = strObsID
         }
       }
-      naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x, plotObsID, strObsID, tnucID)
+      naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x, plotObsID, strObsID, oiID)
       if(naggobsid$new) {
         x@aggregateObservations[[naggobsid$id]] = .applyAttributeMappingToAggregatePlotObservations( y@aggregateObservations[[j]], attIDmap)
       } else { #pool information
@@ -262,9 +269,9 @@ mergeVegX<-function(x, y, verbose = TRUE) {
   if(length(y@individualOrganisms)>0) {
     for(j in 1:length(y@individualOrganisms)) {
       plotID = plotIDmap[[y@individualOrganisms[[j]]$plotID]]
-      tnucID = tnucIDmap[[y@individualOrganisms[[j]]$taxonNameUsageConceptID]]
+      oiID = oiIDmap[[y@individualOrganisms[[j]]$organismIdentityID]]
       y@individualOrganisms[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
-      y@individualOrganisms[[j]]$taxonNameUsageConceptID = tnucID # set tnuc ID to translated one in order to avoid matching problems (does not change id externally)
+      y@individualOrganisms[[j]]$organismIdentityID = oiID # set oi ID to translated one in order to avoid matching problems (does not change id externally)
       nindid = .newIndividualOrganismIDByIndividualOrganismLabel(x, plotID, y@individualOrganisms[[j]]$individualOrganismLabel)
       if(nindid$new) {
         x@individualOrganisms[[nindid$id]] = y@individualOrganisms[[j]]

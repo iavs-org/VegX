@@ -20,7 +20,7 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("\n"))
   cat(paste0("   Individual organisms: ", length(object@individualOrganisms),"\n"))
   cat(paste0("\n"))
-  cat(paste0("   Taxon name usage concepts: ", length(object@taxonNameUsageConcepts),"\n"))
+  cat(paste0("   Organism Identities: ", length(object@organismIdentities),"\n"))
   cat(paste0("\n"))
   cat(paste0("   Vegetation strata: ", length(object@strata),"\n"))
   if(length(object@strata)>0) {

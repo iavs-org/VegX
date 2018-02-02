@@ -4,10 +4,12 @@
 \alias{mergeVegX}
 \title{Merge Veg-X documents}
 \usage{
-mergeVegX(x, y, verbose = TRUE)
+mergeVegX(x, y, mergeIdentities = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged}
+\item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged.}
+
+\item{mergeIdentities}{A flag used to force that organism identities should be merged when sharing the same organismName.}
 
 \item{verbose}{A flag to indicate console output of the data integration process.}
 }
@@ -20,14 +22,15 @@ Merges two Veg-X documents while considering that some of their entities may be 
 \details{
 Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 \itemize{
-  \item \code{projects} are merged when their element \code{title} has the same value
-  \item \code{plots} are merged when their element \code{plotName} has the same value
+  \item \code{projects} are merged when their element \code{title} has the same value.
+  \item \code{plots} are merged when their element \code{plotName} has the same value.
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-  \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
-  \item \code{methods} are merged when their element \code{name} has the same value
-  \item \code{strata} are merged when their element \code{stratumName} has the same value
+  \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeIdentities = TRUE} because
+  one can have the same name used in different data sets but referring to different concepts.
+  \item \code{methods} are merged when their element \code{name} has the same value.
+  \item \code{strata} are merged when their element \code{stratumName} has the same value.
   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
-  \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
+  \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{organismIdentityID} (and \code{stratumObservationID}, if defined) have the same value
   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{individualOrganismLabel} have the same value
   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
   \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
@@ -44,7 +47,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 data(mokihinui)
 
 # Create document 'x' with aggregate taxon observations
-taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
@@ -68,7 +71,7 @@ x = addAggregateOrganismObservations(newVegX(), moki_tcv, taxmapping,
 
 # Create document 'y' with tree observations
 treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-                   authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+                   organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
 diamMeth = predefinedMeasurementMethod("DBH/cm")
 y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
                         methods = c(diameterMeasurement = diamMeth))
