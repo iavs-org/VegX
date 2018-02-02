@@ -98,29 +98,55 @@
                 </xsd:element>
                 <xsd:element name="taxonNames" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for all nomenclatural units defined for use by a dataset. This is a formal taxonomic name published under codes. Used when applying usage-published name assertions.</xsd:documentation>
+                        <xsd:documentation>A container for all nomenclatural units defined for use by a dataset. </xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="taxonName" type="tcs:ScientificName" maxOccurs="unbounded">
+                            <xsd:element name="taxonName" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation>A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). This is a formal taxonomic name published under codes. Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. Note this is not the same as a taxonomic name, i.e. these are not taxa, which are defined by a taxonConcept.</xsd:documentation>
-                                    <xsd:appinfo source="tcsv101">An object that represents a single scientific biological name that either is, or appears to be, governed by one of the biological codes of nomenclature. These are not taxa. Taxa, whether accepted or not, are represented by TaxonConcept objects. Vernacular names are also dealt with under taxon concepts.</xsd:appinfo>
+                                    <xsd:documentation>A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). This is a formal scientific name published under codes. Each name be referenced in taxonDetermination allowing an organism identity to be determined or asserted as a specific published nomenclatural name.</xsd:documentation>
                                 </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:simpleContent>
+                                        <xsd:extension base="xsd:string">
+                                            <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+                                            <xsd:attribute name="system" type="res:SystemType" use="optional" />
+                                            <xsd:attribute name="id" type="res:IDType" use="required">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:attribute>
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
                 <xsd:element name="taxonConcepts" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for all taxon concepts defined for use by a dataset when applying name usage-taxonomic name assertions. Recommend to be used for published concepts.</xsd:documentation>
+                        <xsd:documentation>A container for all taxon concepts defined for use by a dataset.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="taxonConcept" type="tcs:TaxonConceptType" maxOccurs="unbounded">
+                            <xsd:element name="taxonConcept" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation>Representation of a Taxon Concept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. It is recommended that the relationships between concepts be a child pointing to its parent.</xsd:documentation>
+                                    <xsd:documentation>Representation of a Taxon Concept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. Each taxon concept may be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept.</xsd:documentation>
                                 </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:sequence>
+                                        <xsd:element name="taxonNameID" type="xsd:string">
+                                            <xsd:annotation>
+                                                <xsd:documentation>A link to a specific taxon name by ID.</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                        <xsd:element name="accordingToReferenceID" type="xsd:string">
+                                            <xsd:annotation>
+                                                <xsd:documentation>A link to a bibliographic reference by ID</xsd:documentation>
+                                            </xsd:annotation>
+                                        </xsd:element>
+                                    </xsd:sequence>
+                                </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>

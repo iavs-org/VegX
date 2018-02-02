@@ -8,7 +8,7 @@
 #' @slot projects A list of research projects underpinning data collection.
 #' @slot plots A list of vegetation plots where measurements were made.
 #' @slot plotObservations A list of vegetation plot observations.
-#' @slot taxonNameUsageConcepts A list of usages of taxon names as made by the observer.
+#' @slot organismIdentities A list of organism identities.
 #' @slot strata A list of stratum definitions.
 #' @slot stratumObservations A list of observations made on strata (e.g. overall tree cover).
 #' @slot aggregateObservations A list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).
@@ -32,7 +32,7 @@ setClass("VegX",slots=c(VegXVersion = "character",
                         projects = "list",
                         plots="list",
                         plotObservations = "list",
-                        taxonNameUsageConcepts = "list",
+                        organismIdentities = "list",
                         strata = "list",
                         stratumObservations = "list",
                         aggregateObservations = "list",

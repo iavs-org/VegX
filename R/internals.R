@@ -51,8 +51,8 @@
   return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
 }
 .nextTNUCID<-function(target) {
-  if(length(target@taxonNameUsageConcepts)==0) return("1")
-  return(as.character(as.numeric(names(target@taxonNameUsageConcepts)[length(target@taxonNameUsageConcepts)])+1))
+  if(length(target@organismIdentities)==0) return("1")
+  return(as.character(as.numeric(names(target@organismIdentities)[length(target@organismIdentities)])+1))
 }
 
 
@@ -120,7 +120,7 @@
   for(i in 1:length(target@aggregateObservations)) {
     if((target@aggregateObservations[[i]]$plotObservationID==plotObservationID) &&
        (target@aggregateObservations[[i]]$stratumObservationID==stratumObservationID) &&
-       (target@aggregateObservations[[i]]$taxonNameUsageConcept==tnucID))
+       (target@aggregateObservations[[i]]$organismIdentity==tnucID))
       return(list(id = names(target@aggregateObservations)[i], new = FALSE))
   }
   return(list(id = .nextAggregateOrganismObservationID(target), new = TRUE))
@@ -157,11 +157,11 @@
   }
   return(list(id = .nextMethodID(target), new = TRUE))
 }
-# Returns the ID for a new taxon name usage concept in the data set or the ID of an existing taxon name usage concept with the same name
-.newTaxonNameUsageConceptIDByName<-function(target, authorTaxonName) {
-  if(length(target@taxonNameUsageConcepts)==0) return(list(id="1", new = TRUE))
-  for(i in 1:length(target@taxonNameUsageConcepts)) {
-    if(target@taxonNameUsageConcepts[[i]]$authorTaxonName==authorTaxonName) return(list(id = names(target@taxonNameUsageConcepts)[i], new = FALSE))
+# Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same name
+.newOrganismIdentityIDByName<-function(target, organismName) {
+  if(length(target@organismIdentities)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@organismIdentities)) {
+    if(target@organismIdentities[[i]]$organismName==organismName) return(list(id = names(target@organismIdentities)[i], new = FALSE))
   }
   return(list(id = .nextTNUCID(target), new = TRUE))
 }
@@ -401,8 +401,8 @@
   return(res)
 }
 
-#Pools the information of two taxon name usage concepts
-.mergeTaxonNameUsageConcepts<-function(tnuc1, tnuc2) {
+#Pools the information of two organism identitys
+.mergeOrganismIdentitys<-function(tnuc1, tnuc2) {
   n1 = names(tnuc1)
   n2 = names(tnuc2)
   npool = unique(c(n1,n2))

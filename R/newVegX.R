@@ -17,7 +17,7 @@ newVegX<-function() {
              projects = list(),
              plots=list(),
              plotObservations = list(),
-             taxonNameUsageConcepts = list(),
+             organismIdentities = list(),
              individualObservations = list(),
              aggregateObservations = list(),
              stratumObservations = list(),

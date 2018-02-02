@@ -118,57 +118,34 @@ The end date of this specific community determination. Recorded in ISO 8601 date
                     <xsd:documentation>The party that made the determination that applies to this dataset. This is not the same as the authorship of the asserted relationship. See accordingTo.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="taxonRelationshipAssertions">
+            <xsd:element name="taxonomicAssertions" type="taxonRelationshipAssertionType" minOccurs="1" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>Container for taxonomic or nomenclatural assertion records.</xsd:documentation>
+                    <xsd:documentation>Container for taxonomic assertion records.</xsd:documentation>
                 </xsd:annotation>
-                <xsd:complexType>
-                    <xsd:sequence>
-                        <xsd:element name="taxonRelationshipAssertion" type="taxonRelationshipAssertionType" maxOccurs="unbounded">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">A specific taxonomic or nomenclatural assertion record.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:sequence>
-                </xsd:complexType>
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="taxonRelationshipAssertionType">
         <xsd:annotation>
-            <xsd:documentation>A specific taxonomic or nomenclatural assertion record.</xsd:documentation>
+            <xsd:documentation>A specific taxonomic assertion record.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="assertion">
+            <xsd:element name="taxonConceptID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A taxonomic or nomenclatural assertion to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. </xsd:documentation>
+                    <xsd:documentation>A reference to a specific Taxon Concept. The concept is defined within the element veg:taxonConcept which is a container for all Taxon Concepts within a dataset.</xsd:documentation>
                 </xsd:annotation>
-                <xsd:complexType>
-                    <xsd:choice>
-                        <xsd:element name="taxonNameID" type="xsd:string">
-                            <xsd:annotation>
-                                <xsd:documentation>A reference to a specific Taxon Name. The name is defined within the element veg:taxonName which is a container for all Taxon Names within a dataset.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="taxonConceptID" type="xsd:string">
-                            <xsd:annotation>
-                                <xsd:documentation>A reference to a specific Taxon Concept. The concept is defined within the element veg:taxonConcept which is a container for all Taxon Concepts within a dataset.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                    </xsd:choice>
-                </xsd:complexType>
             </xsd:element>
-            <xsd:element name="fit" minOccurs="0">
+            <xsd:element name="fit" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>Indicates the degree of fit with the concept being assigned.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="confidence" minOccurs="0">
+            <xsd:element name="confidence" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>Indicates the degree of confidence of the interpreter(s) in the interpretation made. This can reflect the level of familiarity with the classification or the sufficiency of information about the plot (e.g., High, Moderate, Low). </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="accordingTo" type="tcs:AccordingToType" minOccurs="0">
+            <xsd:element name="accordingToCitationID" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>Information about the authorship of the asserted relationship. </xsd:documentation>
                 </xsd:annotation>
@@ -188,25 +165,42 @@ It may be further related to a published name (taxon name, tcs:TaxonName) and or
 </xsd:documentation>
                     </xsd:annotation>
                 </xsd:element>
-                <xsd:element name="taxonName" type="xsd:string">
-                    <xsd:annotation>
-                        <xsd:documentation>A taxon name (without authority) corresponding to the organism identification made by the author of the data set.</xsd:documentation>
-                    </xsd:annotation>
-                </xsd:element>
-                <xsd:element name="scientificNameID" type="xsd:string">
-                    <xsd:annotation>
-                        <xsd:documentation>A link to a scientific taxon name corresponding to the organism identification made by the author of the data set.</xsd:documentation>
-                    </xsd:annotation>
-                </xsd:element>
-                <xsd:element name="taxonConceptID" type="xsd:string">
-                    <xsd:annotation>
-                        <xsd:documentation>A link to a taxon concept corresponding to the organism identity</xsd:documentation>
-                    </xsd:annotation>
-                </xsd:element>
+                <xsd:sequence>
+                    <xsd:element name="taxonNameID" type="xsd:string">
+                        <xsd:annotation>
+                            <xsd:documentation>A link to a scientific taxon name currently representing the organism identity, as stated by the author of the data set or a third party responsible for the current nomenclature.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="taxonConceptID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>A link to a taxon concept currently representing the organism identity, as stated by author of the data set or a third party responsible for the current nomenclature and taxonomy.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="nomenclaturalRevisionSource" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="EN">Source for the last nomenclature revision applied to this organism identity (i.e. the Plant List).</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="nomenclaturalRevisionCitationID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="EN">A link to the publication where nomenclature is described.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="nomenclaturalRevisionDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation xml:lang="en">Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="nomenclaturalRevisionPartyID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>A link to a party who undertook the nomenclarure revision.</xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                </xsd:sequence>
             </xsd:choice>
-            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="originalIdentificationPartyID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>A party involved in the organism identification (either the author of the data set or a party that interpreted the concept behind the taxon name used by the author).</xsd:documentation>
+                    <xsd:documentation>A party involved in the original organism identification (normally the author of the data set).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="voucher" type="xsd:string" minOccurs="0" maxOccurs="unbounded">

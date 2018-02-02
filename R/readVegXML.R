@@ -106,15 +106,15 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@plotObservations), " plot observation(s) read.\n"))
   }
 
-  #read taxon name usage concepts
-  .readTNUC.2.0.0 = function(x) {
-    tnuc = list(authorTaxonName = xmlValue(x[["authorTaxonName"]]))
+  #read organism identities
+  .readOrganismIdentities.2.0.0 = function(x) {
+    tnuc = list(organismName = xmlValue(x[["organismName"]]))
     return(tnuc)
   }
-  if("taxonNameUsageConcepts" %in% vegnames) {
-    target@taxonNameUsageConcepts = xmlApply(veg[["taxonNameUsageConcepts"]], .readTNUC.2.0.0)
-    names(target@taxonNameUsageConcepts) = xmlApply(veg[["taxonNameUsageConcepts"]], xmlAttrs)
-    if(verbose) cat(paste0(" ", length(target@taxonNameUsageConcepts), " taxon name usage concept(s) read.\n"))
+  if("organismIdentities" %in% vegnames) {
+    target@organismIdentities = xmlApply(veg[["organismIdentities"]], .readOrganismIdentities.2.0.0)
+    names(target@organismIdentities) = xmlApply(veg[["organismIdentities"]], xmlAttrs)
+    if(verbose) cat(paste0(" ", length(target@organismIdentities), " organism identitie(s) read.\n"))
   }
 
   #read strata
@@ -188,7 +188,7 @@ readVegXML<-function(file, verbose = TRUE) {
   #read aggregate organism observations
   .readAggregateOrganismObservation.2.0.0 = function(x) {
     aggObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]),
-                  taxonNameUsageConceptID = xmlValue(x[["taxonNameUsageConceptID"]]))
+                  organismIdentityID = xmlValue(x[["organismIdentityID"]]))
     n = names(x)
     if("stratumObservationID" %in% n) aggObs$stratumObservationID = xmlValue(x[["stratumObservationID"]])
     for(nm in n) {
@@ -213,7 +213,7 @@ readVegXML<-function(file, verbose = TRUE) {
     ind = list(plotID = xmlValue(x[["plotID"]]),
                individualOrganismLabel = xmlValue(x[["individualOrganismLabel"]]))
     n = names(x)
-    if("taxonNameUsageConceptID" %in% n) ind$taxonNameUsageConceptID = xmlValue(x[["taxonNameUsageConceptID"]])
+    if("organismIdentityID" %in% n) ind$organismIdentityID = xmlValue(x[["organismIdentityID"]])
     return(ind)
   }
   if("individualOrganisms" %in% vegnames) {

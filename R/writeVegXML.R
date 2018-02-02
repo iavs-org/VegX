@@ -149,17 +149,17 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@plotObservations), " plot observation(s) added to XML tree.\n"))
   }
-  #TaxonNameUsageConcept elements
-  if(length(x@taxonNameUsageConcepts)>0) {
-    taxonNameUsageConcepts = newXMLNode("taxonNameUsageConcepts", parent = top)
-    for(i in 1:length(x@taxonNameUsageConcepts)){
-      tnuc = newXMLNode("taxonNameUsageConcept",
-                        attrs = c(id=names(x@taxonNameUsageConcepts)[i]),
-                        parent = taxonNameUsageConcepts)
-      newXMLNode("authorTaxonName", x@taxonNameUsageConcepts[[i]]$authorTaxonName,
-                 parent=tnuc)
+  #organismIdentity elements
+  if(length(x@organismIdentities)>0) {
+    organismIdentities = newXMLNode("organismIdentities", parent = top)
+    for(i in 1:length(x@organismIdentities)){
+      oi = newXMLNode("organismIdentity",
+                        attrs = c(id=names(x@organismIdentities)[i]),
+                        parent = organismIdentities)
+      newXMLNode("organismName", x@organismIdentities[[i]]$organismName,
+                 parent=oi)
     }
-    if(verbose) cat(paste0(" ", length(x@taxonNameUsageConcepts), " taxon name usage concept(s) added to XML tree.\n"))
+    if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
   }
   #AggregateOrganismObservation elements
   if(length(x@aggregateObservations)>0) {
@@ -169,7 +169,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                        attrs = c(id = names(x@aggregateObservations)[i]),
                        parent = aggregatedOrganismObservations)
       newXMLNode("plotObservationID", x@aggregateObservations[[i]]$plotObservationID, parent=aoo)
-      newXMLNode("taxonNameUsageConceptID", x@aggregateObservations[[i]]$taxonNameUsageConceptID, parent=aoo)
+      newXMLNode("organismIdentityID", x@aggregateObservations[[i]]$organismIdentityID, parent=aoo)
       if("stratumObservationID" %in% names(x@aggregateObservations[[i]]))
         if(x@aggregateObservations[[i]]$stratumObservationID != "") newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=aoo)
       if("heightMeasurement" %in% names(x@aggregateObservations[[i]])) {
@@ -245,7 +245,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                       parent = individualOrganisms)
       newXMLNode("plotID", x@individualOrganisms[[i]]$plotID, parent=io)
       newXMLNode("individualOrganismLabel", x@individualOrganisms[[i]]$individualOrganismLabel, parent=io)
-      newXMLNode("taxonNameUsageConceptID", x@individualOrganisms[[i]]$taxonNameUsageConceptID, parent=io)
+      newXMLNode("organismIdentityID", x@individualOrganisms[[i]]$organismIdentityID, parent=io)
     }
     if(verbose) cat(paste0(" ", length(x@individualOrganisms), " individual organism(s) added to XML tree.\n"))
   }
