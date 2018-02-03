@@ -90,8 +90,12 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
         x@literatureCitations[[nlcid$id]] = y@literatureCitations[[j]]
       } else {
         x@literatureCitations[[nlcid$id]] = .mergeLiteratureCitations(x@literatureCitations[[nlcid$id]], y@literatureCitations[[j]])
+        nmergedlits = nmergedlits + 1
       }
     }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of literature citations: ", length(x@literatureCitations),". Data pooled for ", nmergedlits, " citation(s).\n"))
   }
   # methods/attributes
   methodIDmap = list()

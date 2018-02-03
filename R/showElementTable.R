@@ -603,8 +603,10 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
                      row.names = names(x@literatureCitations))
     if(length(x@literatureCitations)>0){
       for(i in 1:length(x@literatureCitations)){
-        res[i, "citationString"] = x@literatureCitations[[i]]$citationString
-        res[i, "DOI"] = x@literatureCitations[[i]]$DOI
+        cit = x@literatureCitations[[i]]$citationString
+        if(nchar(cit)>30) cit = paste0(substr(cit, 0,30),"...")
+        res[i, "citationString"] = cit
+        if("DOI" %in% names(x@literatureCitations[[i]])) res[i, "DOI"] = x@literatureCitations[[i]]$DOI
       }
     }
     
