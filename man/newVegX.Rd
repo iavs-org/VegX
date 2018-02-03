@@ -14,7 +14,7 @@ Creates a new (empty) VegX document (ver. 2.0.0)
 }
 \examples{
 
-# Create new Veg-X document
+# Creates new Veg-X document
 newVegX()
 
 }

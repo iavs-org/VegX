@@ -8,25 +8,29 @@
 #'
 #' @examples
 #'
-#' # Create new Veg-X document
+#' # Creates new Veg-X document
 #' newVegX()
 #'
 newVegX<-function() {
   return(new("VegX",
              VegXVersion = "2.0.0",
              projects = list(),
+             parties = list(),
+             literatureCitations = list(),
+             methods = list(),
+             attributes = list(),
+             organismNames = list(),
+             taxonConcepts = list(),
+             organismIdentities = list(),
+             surfaceTypes = list(),
+             strata = list(),
              plots=list(),
              plotObservations = list(),
-             organismIdentities = list(),
              individualObservations = list(),
              aggregateObservations = list(),
              stratumObservations = list(),
-             strata = list(),
              individualOrganisms = list(),
              communityObservations = list(),
-             surfaceTypes = list(),
              surfaceCoverObservations = list(),
-             siteObservations = list(),
-             methods = list(),
-             attributes = list()))
+             siteObservations = list()))
 }
