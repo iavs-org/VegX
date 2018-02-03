@@ -4,8 +4,8 @@
 \alias{defineQualitativeScaleMethod}
 \title{Qualitative scale method definition}
 \usage{
-defineQualitativeScaleMethod(name, description, subject, codes, citation = "",
-  definitions = NULL)
+defineQualitativeScaleMethod(name, description, subject, codes,
+  citationString = "", DOI = "", definitions = NULL)
 }
 \arguments{
 \item{name}{String with the name of the method.}
@@ -16,12 +16,14 @@ defineQualitativeScaleMethod(name, description, subject, codes, citation = "",
 
 \item{codes}{A character vector of class codes.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 
 \item{definitions}{A character vector of class definitions.}
 }
 \value{
-an object of class \code{\linkS4class{VegXMethod}}
+an object of class \code{\linkS4class{VegXMethodDefinition}}
 }
 \description{
 A general function to define a method for measurements of a given subject in a qualitative (i.e. categorical) scale.

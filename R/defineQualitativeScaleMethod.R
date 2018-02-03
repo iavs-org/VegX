@@ -6,10 +6,11 @@
 #' @param description String describing the method.
 #' @param subject A string to identify the subject.
 #' @param codes A character vector of class codes.
-#' @param citation A string with the bibliographic reference for the method.
+#' @param citationString A string with the bibliographic reference for the method.
+#' @param DOI A string with the DOI of a resource describing the method.
 #' @param definitions A character vector of class definitions.
 #'
-#' @return an object of class \code{\linkS4class{VegXMethod}}
+#' @return an object of class \code{\linkS4class{VegXMethodDefinition}}
 #' @export
 #'
 #' @family define measurement functions
@@ -24,7 +25,7 @@
 #'
 #'
 defineQualitativeScaleMethod<-function(name, description, subject, codes,
-                             citation = "",
+                             citationString = "", DOI = "",
                              definitions = NULL) {
   ncodes = length(codes)
   attributes = vector("list", ncodes)
@@ -39,10 +40,11 @@ defineQualitativeScaleMethod<-function(name, description, subject, codes,
   }
 
   names(attributes) = 1:ncodes
-  return(new("VegXMethod",
+  return(new("VegXMethodDefinition",
              name = name,
              description = description,
-             citation = citation,
+             citationString = citationString,
+             DOI = DOI,
              subject = "subject",
              attributeType = "qualitative",
              attributes = attributes))
