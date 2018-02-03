@@ -5,7 +5,7 @@
 \title{Surface type definition}
 \usage{
 defineSurfaceTypes(name, description, surfaceNames, definitions = NULL,
-  citation = "")
+  citationString = "", DOI = "")
 }
 \arguments{
 \item{name}{A string to identify the surface type definition.}
@@ -16,7 +16,9 @@ defineSurfaceTypes(name, description, surfaceNames, definitions = NULL,
 
 \item{definitions}{A character vector of definition of surface types.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 }
 \value{
 an object of class \code{\linkS4class{VegXSurfaceTypeDefinition}}
