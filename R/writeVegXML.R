@@ -147,14 +147,14 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@taxonConcepts), " taxon concept(s) added to XML tree.\n"))
   }
-  #organismIdentity elements (TO BE CHECKED)
+  #organismIdentity elements (TO BE FINISHED)
   if(length(x@organismIdentities)>0) {
     organismIdentities = newXMLNode("organismIdentities", parent = top)
     for(i in 1:length(x@organismIdentities)){
       oi = newXMLNode("organismIdentity",
                       attrs = c(id=names(x@organismIdentities)[i]),
                       parent = organismIdentities)
-      newXMLNode("organismNameID", x@organismIdentities[[i]]$organismNameID,
+      newXMLNode("originalOrganismNameID", x@organismIdentities[[i]]$originalOrganismNameID,
                  parent=oi)
     }
     if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
@@ -370,6 +370,26 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       }
     }
     if(verbose) cat(paste0(" ", length(x@stratumObservations), " stratum observation(s) added to XML tree.\n"))
+  }
+  #communityObservation elements (TO BE CHECKED)
+  if(length(x@communityObservations)>0) {
+    communityObservations = newXMLNode("communityObservations", parent = top)
+    for(i in 1:length(x@communityObservations)){
+      stro = newXMLNode("communityObservation",
+                        attrs = c(id = names(x@communityObservations)[i]),
+                        parent = communityObservations)
+      newXMLNode("plotObservationID", x@communityObservations[[i]]$plotObservationID, parent=stro)
+      if("communityMeasurements" %in% names(x@communityObservations[[i]])) {
+        if(length(x@communityObservations[[i]]$communityMeasurements)>0) {
+          for(j in 1:length(x@communityObservations[[i]]$communityMeasurements)) {
+            sm = newXMLNode("communityMeasurement", parent=stro)
+            newXMLNode("value", x@communityObservations[[i]]$communityMeasurements[[j]]$value, parent=sm)
+            newXMLNode("attributeID", x@communityObservations[[i]]$communityMeasurements[[j]]$attributeID, parent=sm)
+          }
+        }
+      }
+    }
+    if(verbose) cat(paste0(" ", length(x@communityObservations), " community observation(s) added to XML tree.\n"))
   }
   #siteObservation elements
   if(length(x@siteObservations)>0) {
