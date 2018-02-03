@@ -5,15 +5,17 @@
 \title{Strata definition by simple category}
 \usage{
 defineCategoricalStrata(name = "Strata by categories",
-  description = "Vegetation categorical strata", citation = "",
-  strataNames = c("s1", "s2", "s3"), strataDefinitions = NULL)
+  description = "Vegetation categorical strata", citationString = "",
+  DOI = "", strataNames = c("s1", "s2", "s3"), strataDefinitions = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
 
 \item{description}{A string describing how strata are defined.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 
 \item{strataNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
 }

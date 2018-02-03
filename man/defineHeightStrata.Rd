@@ -5,16 +5,19 @@
 \title{Stratum definition by height}
 \usage{
 defineHeightStrata(name = "Strata by height",
-  description = "Vegetation strata defined by height in m", citation = "",
-  heightBreaks = c(0, 1, 3, 5), heightUnit = "m", strataNames = c("s1",
-  "s2", "s3"), strataDefinitions = NULL)
+  description = "Vegetation strata defined by height in m",
+  citationString = "", DOI = "", heightBreaks = c(0, 1, 3, 5),
+  heightUnit = "m", strataNames = c("s1", "s2", "s3"),
+  strataDefinitions = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
 
 \item{description}{A string describing how strata are defined.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 
 \item{heightBreaks}{A numeric vector with height limits between strata (of length equal to the number of strata plus one).}
 
