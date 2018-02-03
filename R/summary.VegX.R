@@ -20,6 +20,10 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("\n"))
   cat(paste0("   Individual organisms: ", length(object@individualOrganisms),"\n"))
   cat(paste0("\n"))
+  cat(paste0("   Organism names: ", length(object@organismNames),"\n"))
+  cat(paste0("\n"))
+  cat(paste0("   Taxon concepts: ", length(object@taxonConcepts),"\n"))
+  cat(paste0("\n"))
   cat(paste0("   Organism Identities: ", length(object@organismIdentities),"\n"))
   cat(paste0("\n"))
   cat(paste0("   Vegetation strata: ", length(object@strata),"\n"))
@@ -35,6 +39,10 @@ setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
       cat(paste0("      ",i,". ", object@surfaceTypes[[i]]$surfaceName,"\n"))
     }
   }
+  cat(paste0("\n"))
+  cat(paste0("   Parties: ", length(object@parties),"\n"))
+  cat(paste0("\n"))
+  cat(paste0("   Literature citations: ", length(object@literatureCitations),"\n"))
   cat(paste0("\n"))
   cat(paste0("   Methods: ", length(object@methods),"\n"))
   if(length(object@methods)>0) {
