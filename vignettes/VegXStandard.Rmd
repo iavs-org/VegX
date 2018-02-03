@@ -81,7 +81,7 @@ party                          | Describes a responsible party (person or organi
 attribute                      | A specific definition of a measured property. An attribute has to be one of three types: qualitative (unordered categorical variable, i.e. nominal), ordinal (ordered list of values) or quantitative (a numerical variable, either discrete or continuous. | Yes |
 method                         | A specific method definition followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). | Yes |
 protocol                       | A specific grouping of methods related by common action. A protocol may have many method or steps.| No |
-literatureCitation             | Provides overview information about the literature citation, including title, abstract, keywords, and contacts. | No |
+literatureCitation             | Provides overview information about the literature, including citation string and DOI. | Yes |
 
 
 
@@ -152,6 +152,13 @@ voucher                   | Herbarium accession number for any archived voucher 
 partyWithRole             | The party that recorded a specific taxon occurrence event, or other parties with different roles.  | 0..n | No |
 accordingTo               | A third party that had previously defined this usage concept.  | 0..1 | No |
 
+### Element *literatureCitation*
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+citationString | A string indicating the citation reference | 0..1 | Yes |
+citationDOI | A string indicating the DOI that points to the resource. | 0..1 | Yes |
+
 ### Element *method*
 
 An element *method* provides the definition of a specific method followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). From the perspective of the **VegX package** user, methods are identified uniquely through their element *name*. An important sub-element of a *method* is its *subject*, which contains the description of an attribute class to which the method applies, and is used for combining values which may be initially obtained using different methods. All attributes pointing to a given *method* are assumed to apply to the same *subject*. 
@@ -162,8 +169,7 @@ name               | Name associated with the method. For example, "percent cove
 description | A full description of the type of method e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh. | 1 | Yes |
 subject | The description of an attribute class for comparative purposes. If two methods measure the same attribute (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject. | 1 | Yes |
 protocolID | A reference to a specific protocol by its ID. | 0..1 | No |
-citationID | A reference to a specific citation of literature. | 0..1 | No |
-citationString | A string indicating the citation reference | 0..1 | Yes |
+citationID | A reference to a specific citation of literature. | 0..1 | Yes |
 
 ### Element *attribute*
 

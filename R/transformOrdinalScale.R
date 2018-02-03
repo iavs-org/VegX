@@ -120,6 +120,15 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
                                         subject = newMethod@subject,
                                         attributeType = newMethod@attributeType)
       if(verbose) cat(paste0(" Measurement method '", newMethod@name,"' added.\n"))
+      # add literature citation if necessary
+      if(newMethod@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, newMethod@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =newMethod@citationString)
+          if(newMethod@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = newMethod@DOI
+        }
+        target@methods[[newMethodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       for(i in 1:length(newMethod@attributes)) {
         nattid = .nextAttributeID(target)
