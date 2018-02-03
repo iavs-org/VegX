@@ -4,9 +4,9 @@
 \alias{defineOrdinalScaleMethod}
 \title{Ordinal scale method definition}
 \usage{
-defineOrdinalScaleMethod(name, description, subject, codes, citation = "",
-  quantifiableCodes = character(0), breaks = NULL, midPoints = NULL,
-  definitions = NULL)
+defineOrdinalScaleMethod(name, description, subject, codes,
+  citationString = "", DOI = "", quantifiableCodes = character(0),
+  breaks = NULL, midPoints = NULL, definitions = NULL)
 }
 \arguments{
 \item{name}{String with the name of the method.}
@@ -17,7 +17,9 @@ defineOrdinalScaleMethod(name, description, subject, codes, citation = "",
 
 \item{codes}{A character vector of ordinal class codes.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 
 \item{quantifiableCodes}{A string vector with the subset of \code{codes} that have correspondence in a quantitative scale. These codes
 can be transformed to midPoints (if supplied in \code{midPoints}) and, correspondingly, codes in the quantitative scale can be transformed to ordinal codes
@@ -30,7 +32,7 @@ using class limits (if supplied in \code{breaks}).}
 \item{definitions}{A character vector of class definitions.}
 }
 \value{
-an object of class \code{\linkS4class{VegXMethod}}
+an object of class \code{\linkS4class{VegXMethodDefinition}}
 }
 \description{
 A general function to define a method for measurements in an ordinal scale of a given subject.
