@@ -6,7 +6,7 @@
 #' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'organismIdentity',
 #' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 #' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
-#' 'siteObservation', 'method', 'attribute'.
+#' 'siteObservation', 'method', 'attribute', 'literatureCitation'.
 #' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output.
 #' @param subjects A boolean flag to indicate whether method subjects should be included in the output.
 #'
@@ -62,7 +62,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
                                  "surfaceType", "surfaceCoverObservation",
                                  "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
-                                 "method", "attribute"))
+                                 "method", "attribute", "literatureCitation"))
   res = NULL
   if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
@@ -596,6 +596,18 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
       }
     }
     res = list(quantitative = resQuantitative, ordinal = resOrdinal, qualitative = resQualitative)
+  }
+  else if(element=="literatureCitation") {
+    res = data.frame(citationString = rep(NA, length(x@literatureCitations)),
+                     DOI = rep(NA, length(x@literatureCitations)),
+                     row.names = names(x@literatureCitations))
+    if(length(x@literatureCitations)>0){
+      for(i in 1:length(x@literatureCitations)){
+        res[i, "citationString"] = x@literatureCitations[[i]]$citationString
+        res[i, "DOI"] = x@literatureCitations[[i]]$DOI
+      }
+    }
+    
   }
   return(res)
 }

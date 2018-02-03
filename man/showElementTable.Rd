@@ -12,7 +12,7 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE)
 \item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'organismIdentity',
 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
-'siteObservation', 'method', 'attribute'.}
+'siteObservation', 'method', 'attribute', 'literatureCitation'.}
 
 \item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output.}
 
