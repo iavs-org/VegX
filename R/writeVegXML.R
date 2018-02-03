@@ -1,7 +1,7 @@
 #' Write VegX XML file
 #'
 #' Assembles and writes an XML file on the disk
-#' following the Veg-X XML schema standard (ver 1.6.0)
+#' following the Veg-X XML schema standard (ver 2.0.0)
 #'
 #' @param x an object of class \code{\linkS4class{VegX}}
 #' @param file the file name to be written
@@ -27,30 +27,19 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                                             userdef="http://iavs.org/vegx/veg-userdefined-2.0.0",
                                             xsi="http://www.w3.org/2001/XMLSchema-instance"),
                   doc = doc)
-  #Project elements
-  if(length(x@projects)>0){
-    prjs = newXMLNode("projects", parent = top)
-    for(i in 1:length(x@projects)){
-      prj = newXMLNode("project",
-                       attrs = c("id"=names(x@projects)[i]),
-                       parent = prjs)
-      newXMLNode("title", x@projects[[i]]$title, parent=prj)
-    }
-    if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
-  }
-  #Party elements (TO BE FINISHED)
+  #party elements (TO BE FINISHED)
   if(length(x@parties)>0){
     prts = newXMLNode("parties", parent = top)
-    for(i in 1:length(x@projects)){
+    for(i in 1:length(x@parties)){
       prt = newXMLNode("party",
                        attrs = c("id"=names(x@parties)[i]),
                        parent = prts)
     }
   }
-  #Literature citations (TO BE CHECKED)
+  #literatureCitation elements (TO BE CHECKED)
   if(length(x@literatureCitations)>0){
     lits = newXMLNode("literatureCitations", parent = top)
-    for(i in 1:length(x@projects)){
+    for(i in 1:length(x@literatureCitations)){
       lit = newXMLNode("literatureCitation",
                        attrs = c("id"=names(x@literatureCitations)[i]),
                        parent = lits)
@@ -58,7 +47,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if("DOI" %in% names(x@literatureCitations[[i]])) newXMLNode("DOI", x@literatureCitations[[i]]$DOI, parent=lit)
     }
   }
-  #Method elements
+  #method elements
   if(length(x@methods)>0) {
     methods = newXMLNode("methods", parent = top)
     for(i in 1:length(x@methods)){
@@ -72,7 +61,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@methods), " method(s) added to XML tree.\n"))
   }
-  #Attribute elements
+  #attribute elements
   if(length(x@attributes)>0) {
     attributes = newXMLNode("attributes", parent = top)
     for(i in 1:length(x@attributes)){
@@ -104,21 +93,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@attributes), " attribute(s) added to XML tree.\n"))
   }
-  #organismName elements
-  #organismIdentity elements
-  if(length(x@organismIdentities)>0) {
-    organismIdentities = newXMLNode("organismIdentities", parent = top)
-    for(i in 1:length(x@organismIdentities)){
-      oi = newXMLNode("organismIdentity",
-                      attrs = c(id=names(x@organismIdentities)[i]),
-                      parent = organismIdentities)
-      newXMLNode("organismName", x@organismIdentities[[i]]$organismName,
-                 parent=oi)
-    }
-    if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
-  }
-  #taxonConcept elements
-  
   #stratum elements
   if(length(x@strata)>0) {
     strata = newXMLNode("strata", parent = top)
@@ -148,7 +122,42 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@surfaceTypes), " surface types to XML tree.\n"))
   }
-  #Plot elements
+  #organismName elements
+  if(length(x@organismNames)>0){
+    orgnms = newXMLNode("organismNames", parent = top)
+    for(i in 1:length(x@organismNames)){
+      orgnm = newXMLNode("organismName", x@organismNames[[i]]$name,
+                       attrs = c("id"=names(x@organismNames)[i],
+                                 "isTaxonName" = x@organismNames[[i]]$isTaxonName),
+                       parent = orgnms)
+    }
+  }
+  
+  #taxonConcept elements
+  #organismIdentity elements
+  if(length(x@organismIdentities)>0) {
+    organismIdentities = newXMLNode("organismIdentities", parent = top)
+    for(i in 1:length(x@organismIdentities)){
+      oi = newXMLNode("organismIdentity",
+                      attrs = c(id=names(x@organismIdentities)[i]),
+                      parent = organismIdentities)
+      newXMLNode("organismNameID", x@organismIdentities[[i]]$organismNameID,
+                 parent=oi)
+    }
+    if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
+  }
+  #project elements
+  if(length(x@projects)>0){
+    prjs = newXMLNode("projects", parent = top)
+    for(i in 1:length(x@projects)){
+      prj = newXMLNode("project",
+                       attrs = c("id"=names(x@projects)[i]),
+                       parent = prjs)
+      newXMLNode("title", x@projects[[i]]$title, parent=prj)
+    }
+    if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
+  }
+  #plot elements
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
     for(i in 1:length(x@plots)){
@@ -228,7 +237,20 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@plots), " plot(s) added to XML tree.\n"))
   }
-  #PlotObservation elements
+  #individualOrganism elements
+  if(length(x@individualOrganisms)>0) {
+    individualOrganisms = newXMLNode("individualOrganisms", parent = top)
+    for(i in 1:length(x@individualOrganisms)){
+      io = newXMLNode("individualOrganism",
+                      attrs = c(id = names(x@individualOrganisms)[i]),
+                      parent = individualOrganisms)
+      newXMLNode("plotID", x@individualOrganisms[[i]]$plotID, parent=io)
+      newXMLNode("individualOrganismLabel", x@individualOrganisms[[i]]$individualOrganismLabel, parent=io)
+      newXMLNode("organismIdentityID", x@individualOrganisms[[i]]$organismIdentityID, parent=io)
+    }
+    if(verbose) cat(paste0(" ", length(x@individualOrganisms), " individual organism(s) added to XML tree.\n"))
+  }
+  #plotObservation elements
   if(length(x@plotObservations)>0){
     plotObservations = newXMLNode("plotObservations", parent = top)
     for(i in 1:length(x@plotObservations)){
@@ -244,78 +266,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if("communityObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("communityObservationID", x@plotObservations[[i]]$communityObservationID, parent=po)
     }
     if(verbose) cat(paste0(" ", length(x@plotObservations), " plot observation(s) added to XML tree.\n"))
-  }
-  #AggregateOrganismObservation elements
-  if(length(x@aggregateObservations)>0) {
-    aggregatedOrganismObservations = newXMLNode("aggregateOrganismObservations", parent = top)
-    for(i in 1:length(x@aggregateObservations)){
-      aoo = newXMLNode("aggregateOrganismObservation",
-                       attrs = c(id = names(x@aggregateObservations)[i]),
-                       parent = aggregatedOrganismObservations)
-      newXMLNode("plotObservationID", x@aggregateObservations[[i]]$plotObservationID, parent=aoo)
-      newXMLNode("organismIdentityID", x@aggregateObservations[[i]]$organismIdentityID, parent=aoo)
-      if("stratumObservationID" %in% names(x@aggregateObservations[[i]]))
-        if(x@aggregateObservations[[i]]$stratumObservationID != "") newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=aoo)
-      if("heightMeasurement" %in% names(x@aggregateObservations[[i]])) {
-        hm = newXMLNode("heightMeasurement", parent=aoo)
-        newXMLNode("value", x@aggregateObservations[[i]]$heightMeasurement$value, parent=hm)
-        newXMLNode("attributeID", x@aggregateObservations[[i]]$heightMeasurement$attributeID, parent=hm)
-      }
-      if("aggregateOrganismMeasurements" %in% names(x@aggregateObservations[[i]])) {
-        if(length(x@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
-          for(j in 1:length(x@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
-            aom = newXMLNode("aggregateOrganismMeasurement", parent=aoo)
-            newXMLNode("value", x@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]$value, parent=aom)
-            newXMLNode("attributeID", x@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]$attributeID, parent=aom)
-          }
-        }
-      }
-    }
-    if(verbose) cat(paste0(" ", length(x@aggregateObservations), " aggregate organism observation(s) added to XML tree.\n"))
-  }
-  #StratumObservation elements
-  if(length(x@stratumObservations)>0) {
-    stratumObservations = newXMLNode("stratumObservations", parent = top)
-    for(i in 1:length(x@stratumObservations)){
-      stro = newXMLNode("stratumObservation",
-                        attrs = c(id = names(x@stratumObservations)[i]),
-                        parent = stratumObservations)
-      newXMLNode("plotObservationID", x@stratumObservations[[i]]$plotObservationID, parent=stro)
-      newXMLNode("stratumID", x@stratumObservations[[i]]$stratumID, parent=stro)
-      if("lowerLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
-        llm = newXMLNode("lowerLimitMeasurement", parent=stro)
-        newXMLNode("value", x@stratumObservations[[i]]$lowerLimitMeasurement$value, parent=llm)
-        newXMLNode("attributeID", x@stratumObservations[[i]]$lowerLimitMeasurement$attributeID, parent=llm)
-      }
-      if("upperLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
-        ulm = newXMLNode("upperLimitMeasurement", parent=stro)
-        newXMLNode("value", x@stratumObservations[[i]]$upperLimitMeasurement$value, parent=ulm)
-        newXMLNode("attributeID", x@stratumObservations[[i]]$upperLimitMeasurement$attributeID, parent=ulm)
-      }
-      if("stratumMeasurements" %in% names(x@stratumObservations[[i]])) {
-        if(length(x@stratumObservations[[i]]$stratumMeasurements)>0) {
-          for(j in 1:length(x@stratumObservations[[i]]$stratumMeasurements)) {
-            sm = newXMLNode("stratumMeasurement", parent=stro)
-            newXMLNode("value", x@stratumObservations[[i]]$stratumMeasurements[[j]]$value, parent=sm)
-            newXMLNode("attributeID", x@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID, parent=sm)
-          }
-        }
-      }
-    }
-    if(verbose) cat(paste0(" ", length(x@stratumObservations), " stratum observation(s) added to XML tree.\n"))
-  }
-  #Individual Organism elements
-  if(length(x@individualOrganisms)>0) {
-    individualOrganisms = newXMLNode("individualOrganisms", parent = top)
-    for(i in 1:length(x@individualOrganisms)){
-      io = newXMLNode("individualOrganism",
-                      attrs = c(id = names(x@individualOrganisms)[i]),
-                      parent = individualOrganisms)
-      newXMLNode("plotID", x@individualOrganisms[[i]]$plotID, parent=io)
-      newXMLNode("individualOrganismLabel", x@individualOrganisms[[i]]$individualOrganismLabel, parent=io)
-      newXMLNode("organismIdentityID", x@individualOrganisms[[i]]$organismIdentityID, parent=io)
-    }
-    if(verbose) cat(paste0(" ", length(x@individualOrganisms), " individual organism(s) added to XML tree.\n"))
   }
   #individualOrganismObservation elements
   if(length(x@individualObservations)>0) {
@@ -349,22 +299,64 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@individualObservations), " individual organism observation(s) added to XML tree.\n"))
   }
-  #surfaceCoverObservation elements
-  if(length(x@surfaceCoverObservations)>0) {
-    surfaceCoverObservations = newXMLNode("surfaceCoverObservations", parent = top)
-    for(i in 1:length(x@surfaceCoverObservations)){
-      sco = newXMLNode("surfaceCoverObservation",
-                        attrs = c(id = names(x@surfaceCoverObservations)[i]),
-                        parent = surfaceCoverObservations)
-      newXMLNode("plotObservationID", x@surfaceCoverObservations[[i]]$plotObservationID, parent=sco)
-      newXMLNode("surfaceTypeID", x@surfaceCoverObservations[[i]]$surfaceTypeID, parent=sco)
-      if("coverMeasurement" %in% names(x@surfaceCoverObservations[[i]])) {
-        cm = newXMLNode("coverMeasurement", parent=sco)
-        newXMLNode("value", x@surfaceCoverObservations[[i]]$coverMeasurement$value, parent=cm)
-        newXMLNode("attributeID", x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID, parent=cm)
+  #aggregateOrganismObservation elements
+  if(length(x@aggregateObservations)>0) {
+    aggregatedOrganismObservations = newXMLNode("aggregateOrganismObservations", parent = top)
+    for(i in 1:length(x@aggregateObservations)){
+      aoo = newXMLNode("aggregateOrganismObservation",
+                       attrs = c(id = names(x@aggregateObservations)[i]),
+                       parent = aggregatedOrganismObservations)
+      newXMLNode("plotObservationID", x@aggregateObservations[[i]]$plotObservationID, parent=aoo)
+      newXMLNode("organismIdentityID", x@aggregateObservations[[i]]$organismIdentityID, parent=aoo)
+      if("stratumObservationID" %in% names(x@aggregateObservations[[i]]))
+        if(x@aggregateObservations[[i]]$stratumObservationID != "") newXMLNode("stratumObservationID", x@aggregateObservations[[i]]$stratumObservationID, parent=aoo)
+      if("heightMeasurement" %in% names(x@aggregateObservations[[i]])) {
+        hm = newXMLNode("heightMeasurement", parent=aoo)
+        newXMLNode("value", x@aggregateObservations[[i]]$heightMeasurement$value, parent=hm)
+        newXMLNode("attributeID", x@aggregateObservations[[i]]$heightMeasurement$attributeID, parent=hm)
+      }
+      if("aggregateOrganismMeasurements" %in% names(x@aggregateObservations[[i]])) {
+        if(length(x@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
+          for(j in 1:length(x@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
+            aom = newXMLNode("aggregateOrganismMeasurement", parent=aoo)
+            newXMLNode("value", x@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]$value, parent=aom)
+            newXMLNode("attributeID", x@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]$attributeID, parent=aom)
+          }
+        }
       }
     }
-    if(verbose) cat(paste0(" ", length(x@surfaceCoverObservations), " surface cover observation(s) added to XML tree.\n"))
+    if(verbose) cat(paste0(" ", length(x@aggregateObservations), " aggregate organism observation(s) added to XML tree.\n"))
+  }
+  #stratumObservation elements
+  if(length(x@stratumObservations)>0) {
+    stratumObservations = newXMLNode("stratumObservations", parent = top)
+    for(i in 1:length(x@stratumObservations)){
+      stro = newXMLNode("stratumObservation",
+                        attrs = c(id = names(x@stratumObservations)[i]),
+                        parent = stratumObservations)
+      newXMLNode("plotObservationID", x@stratumObservations[[i]]$plotObservationID, parent=stro)
+      newXMLNode("stratumID", x@stratumObservations[[i]]$stratumID, parent=stro)
+      if("lowerLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
+        llm = newXMLNode("lowerLimitMeasurement", parent=stro)
+        newXMLNode("value", x@stratumObservations[[i]]$lowerLimitMeasurement$value, parent=llm)
+        newXMLNode("attributeID", x@stratumObservations[[i]]$lowerLimitMeasurement$attributeID, parent=llm)
+      }
+      if("upperLimitMeasurement" %in% names(x@stratumObservations[[i]])) {
+        ulm = newXMLNode("upperLimitMeasurement", parent=stro)
+        newXMLNode("value", x@stratumObservations[[i]]$upperLimitMeasurement$value, parent=ulm)
+        newXMLNode("attributeID", x@stratumObservations[[i]]$upperLimitMeasurement$attributeID, parent=ulm)
+      }
+      if("stratumMeasurements" %in% names(x@stratumObservations[[i]])) {
+        if(length(x@stratumObservations[[i]]$stratumMeasurements)>0) {
+          for(j in 1:length(x@stratumObservations[[i]]$stratumMeasurements)) {
+            sm = newXMLNode("stratumMeasurement", parent=stro)
+            newXMLNode("value", x@stratumObservations[[i]]$stratumMeasurements[[j]]$value, parent=sm)
+            newXMLNode("attributeID", x@stratumObservations[[i]]$stratumMeasurements[[j]]$attributeID, parent=sm)
+          }
+        }
+      }
+    }
+    if(verbose) cat(paste0(" ", length(x@stratumObservations), " stratum observation(s) added to XML tree.\n"))
   }
   #siteObservation elements
   if(length(x@siteObservations)>0) {
@@ -400,6 +392,23 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       }
     }
     if(verbose) cat(paste0(" ", length(x@siteObservations), " site observation(s) added to XML tree.\n"))
+  }
+  #surfaceCoverObservation elements
+  if(length(x@surfaceCoverObservations)>0) {
+    surfaceCoverObservations = newXMLNode("surfaceCoverObservations", parent = top)
+    for(i in 1:length(x@surfaceCoverObservations)){
+      sco = newXMLNode("surfaceCoverObservation",
+                       attrs = c(id = names(x@surfaceCoverObservations)[i]),
+                       parent = surfaceCoverObservations)
+      newXMLNode("plotObservationID", x@surfaceCoverObservations[[i]]$plotObservationID, parent=sco)
+      newXMLNode("surfaceTypeID", x@surfaceCoverObservations[[i]]$surfaceTypeID, parent=sco)
+      if("coverMeasurement" %in% names(x@surfaceCoverObservations[[i]])) {
+        cm = newXMLNode("coverMeasurement", parent=sco)
+        newXMLNode("value", x@surfaceCoverObservations[[i]]$coverMeasurement$value, parent=cm)
+        newXMLNode("attributeID", x@surfaceCoverObservations[[i]]$coverMeasurement$attributeID, parent=cm)
+      }
+    }
+    if(verbose) cat(paste0(" ", length(x@surfaceCoverObservations), " surface cover observation(s) added to XML tree.\n"))
   }
   #XML document
   saveXML(doc, file = file)

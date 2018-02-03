@@ -5,19 +5,19 @@
 #' Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented.
 #'
 #' @slot VegXVersion A string to indicate the version of the Veg-X standard.
-#' @slot projects A list of research projects underpinning data collection.
-#' @slot parties A list of persons, organisations cited in the data set.
-#' @slot literatureCitations A list of literature citations.
-#' @slot methods A list of measurement methods (e.g. cover scales).
-#' @slot attributes A list of attribute value description.
+#' @slot parties A list of persons, organisations mentioned in the data set.
+#' @slot literatureCitations A list of literature citations used in the data set.
+#' @slot methods A list of measurement methods (e.g. cover scales) mentioned in the data set.
+#' @slot attributes A list of attribute value descriptions used in the data set.
+#' @slot strata A list of stratum definitions used in the data set.
+#' @slot surfaceTypes A list of surface class definitions used in the data set.
 #' @slot organismNames A list of organism names used in the data set.
 #' @slot taxonConcepts A list of taxon concepts (i.e. taxon name + citation) used in the data set.
-#' @slot organismIdentities A list of organism identities.
-#' @slot strata A list of stratum definitions.
-#' @slot surfaceTypes A list of surface class definitions.
+#' @slot organismIdentities A list of organism identities used in the data set.
+#' @slot projects A list of research projects underpinning plot data collection.
 #' @slot plots A list of vegetation plots where measurements were made.
-#' @slot individualOrganisms A list of individual organisms.
-#' @slot plotObservations A list of vegetation plot observations.
+#' @slot individualOrganisms A list of individual organisms found in vegetation plots.
+#' @slot plotObservations A list of observations (i.e. sampling events) made on vegetation plots.
 #' @slot individualObservations A list of observations made on individual organisms (e.g. diameter or height values).
 #' @slot aggregateObservations A list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).
 #' @slot stratumObservations A list of observations made on strata (e.g. overall tree cover).
@@ -33,16 +33,16 @@
 #' showClass("VegX")
 #'
 setClass("VegX",slots=c(VegXVersion = "character",
-                        projects = "list",
                         parties = "list",
                         literatureCitations = "list",
                         methods = "list",
                         attributes = "list",
+                        strata = "list",
+                        surfaceTypes = "list",
                         organismNames = "list",
                         taxonConcepts = "list",
                         organismIdentities = "list",
-                        strata = "list",
-                        surfaceTypes = "list",
+                        projects = "list",
                         plots="list",
                         individualOrganisms = "list",
                         plotObservations = "list",
