@@ -42,6 +42,10 @@
   if(length(target@siteObservations)==0) return("1")
   return(as.character(as.numeric(names(target@siteObservations)[length(target@siteObservations)])+1))
 }
+.nextLiteratureCitationID<-function(target) {
+  if(length(target@literatureCitations)==0) return("1")
+  return(as.character(as.numeric(names(target@literatureCitations)[length(target@literatureCitations)])+1))
+}
 .nextMethodID<-function(target) {
   if(length(target@methods)==0) return("1")
   return(as.character(as.numeric(names(target@methods)[length(target@methods)])+1))
@@ -156,6 +160,14 @@
     if(target@methods[[i]]$name==methodName) return(list(id = names(target@methods)[i], new = FALSE))
   }
   return(list(id = .nextMethodID(target), new = TRUE))
+}
+# Returns the ID for a new literature citation in the data set or the ID of an existing one with the same string
+.newLiteratureCitationIDByCitationString<-function(target, citationString) {
+  if(length(target@literatureCitations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@literatureCitations)) {
+    if(target@literatureCitations[[i]]$citationString==citationString) return(list(id = names(target@literatureCitations)[i], new = FALSE))
+  }
+  return(list(id = .nextLiteratureCitationID(target), new = TRUE))
 }
 # Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same name
 .newOrganismIdentityIDByName<-function(target, organismName) {

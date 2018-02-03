@@ -170,7 +170,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
   }
-  #plot elements
+  #plot elements (TO BE REVISED (location))
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
     for(i in 1:length(x@plots)){

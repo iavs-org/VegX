@@ -7,7 +7,7 @@
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.
-#' @param missing.values A character vector of values that should be considered as missing observations/measurements.
+#' @param missing.values A character vector of values that should be considered as missing data (see details).
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.

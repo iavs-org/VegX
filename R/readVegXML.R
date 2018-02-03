@@ -48,7 +48,7 @@ readVegXML<-function(file, verbose = TRUE) {
     n = names(x)
     if("description" %in% n) met$description = xmlValue(x[["description"]])
     if("subject" %in% n) met$subject = xmlValue(x[["subject"]])
-    if("citationString" %in% n) met$citationString = xmlValue(x[["citationString"]])
+    if("citationID" %in% n) met$citationID = xmlValue(x[["citationID"]])
     return(met)
   }
   if("methods" %in% vegnames) {
@@ -180,7 +180,7 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@projects), " project(s) read.\n"))
   }
 
-  #read plots
+  #read plots (TO BE REVISED (location))
   .readPlot.2.0.0 = function(x) {
     plot = list()
     plot$plotName = xmlValue(x[["plotName"]])

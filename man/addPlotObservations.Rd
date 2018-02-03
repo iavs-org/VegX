@@ -15,7 +15,7 @@ addPlotObservations(target, x, mapping, missing.values = c(NA, ""),
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.}
 
-\item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
+\item{missing.values}{A character vector of values that should be considered as missing data (see details).}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
