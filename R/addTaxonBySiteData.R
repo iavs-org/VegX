@@ -97,6 +97,15 @@ addTaxonBySiteData <-function(target,
                                       subject = abundanceMethod@subject,
                                       attributeType = abundanceMethod@attributeType)
     if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
+    # add literature citation if necessary
+    if(method@citationString!="") {
+      ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+      if(ncitid$new) {
+        target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString,
+                                                       DOI = method@DOI)
+      }
+      target@methods[[methodID]]$citationID = ncitid$id
+    }
     # add attributes if necessary
     for(i in 1:length(abundanceMethod@attributes)) {
       attid = .nextAttributeID(target)
