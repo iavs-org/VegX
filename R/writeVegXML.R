@@ -19,26 +19,14 @@ writeVegXML<-function(x, file, verbose = TRUE) {
   # Top XML node
   doc = newXMLDoc()
   top = newXMLNode(name = "VegX",
-                   namespaceDefinitions = c(acc="eml://ecoinformatics.org/access-2.0.1",
-                                  cov="eml://ecoinformatics.org/coverage-2.0.1",
-                                  doc="eml://ecoinformatics.org/documentation-2.0.1",
-                                  party="eml://ecoinformatics.org/party-2.0.1",
-                                  proj="eml://ecoinformatics.org/project-2.0.1",
-                                  prot="eml://ecoinformatics.org/protocol-2.0.1",
-                                  res="eml://ecoinformatics.org/resource-2.0.1",
-                                  lit="eml://ecoinformatics.org/literature-2.0.1",
-                                  txt="eml://ecoinformatics.org/text-2.0.1",
-                                  tcs="http://www.tdwg.org/schemas/tcs/1.01",
-                                  dwe="http://rs.tdwg.org/dwc/dwelement",
-                                  dwg="http://rs.tdwg.org/dwc/geospatial/",
-                                  veg="http://iavs.org/vegx/veg-2.0.0",
-                                  obs="http://iavs.org/vegx/veg-misc-2.0.0",
-                                  org="http://iavs.org/vegx/veg-organismobservation-2.0.0",
-                                  plot="http://iavs.org/vegx/veg-plot-2.0.0",
-                                  plotobs="http://iavs.org/vegx/veg-plotobservation-2.0.0",
-                                  userdef="http://iavs.org/vegx/veg-userdefined-2.0.0",
-                                  xsi="http://www.w3.org/2001/XMLSchema-instance"),
-                   doc = doc)
+                   namespaceDefinitions = c(veg="http://iavs.org/vegx/veg-2.0.0",
+                                            obs="http://iavs.org/vegx/veg-misc-2.0.0",
+                                            org="http://iavs.org/vegx/veg-organismobservation-2.0.0",
+                                            plot="http://iavs.org/vegx/veg-plot-2.0.0",
+                                            plotobs="http://iavs.org/vegx/veg-plotobservation-2.0.0",
+                                            userdef="http://iavs.org/vegx/veg-userdefined-2.0.0",
+                                            xsi="http://www.w3.org/2001/XMLSchema-instance"),
+                  doc = doc)
   #Project elements
   if(length(x@projects)>0){
     prjs = newXMLNode("projects", parent = top)
@@ -50,7 +38,116 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
   }
-
+  #Party elements (TO BE FINISHED)
+  if(length(x@parties)>0){
+    prts = newXMLNode("parties", parent = top)
+    for(i in 1:length(x@projects)){
+      prt = newXMLNode("party",
+                       attrs = c("id"=names(x@parties)[i]),
+                       parent = prts)
+    }
+  }
+  #Literature citations (TO BE CHECKED)
+  if(length(x@literatureCitations)>0){
+    lits = newXMLNode("literatureCitations", parent = top)
+    for(i in 1:length(x@projects)){
+      lit = newXMLNode("literatureCitation",
+                       attrs = c("id"=names(x@literatureCitations)[i]),
+                       parent = lits)
+      if("citationString" %in% names(x@literatureCitations[[i]])) newXMLNode("citationString", x@literatureCitations[[i]]$citationString, parent=lit)
+      if("DOI" %in% names(x@literatureCitations[[i]])) newXMLNode("DOI", x@literatureCitations[[i]]$DOI, parent=lit)
+    }
+  }
+  #Method elements
+  if(length(x@methods)>0) {
+    methods = newXMLNode("methods", parent = top)
+    for(i in 1:length(x@methods)){
+      met = newXMLNode("method",
+                       attrs = c(id=names(x@methods)[i]),
+                       parent = methods)
+      newXMLNode("name", x@methods[[i]]$name, parent=met)
+      newXMLNode("description", x@methods[[i]]$description, parent=met)
+      newXMLNode("subject", x@methods[[i]]$subject, parent=met)
+      if("citation" %in% names(x@methods[[i]])) if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
+    }
+    if(verbose) cat(paste0(" ", length(x@methods), " method(s) added to XML tree.\n"))
+  }
+  #Attribute elements
+  if(length(x@attributes)>0) {
+    attributes = newXMLNode("attributes", parent = top)
+    for(i in 1:length(x@attributes)){
+      att = newXMLNode("attribute",
+                       attrs = c(id=names(x@attributes)[i]),
+                       parent = attributes)
+      atttype = newXMLNode(x@attributes[[i]]$type, parent=att)
+      if(x@attributes[[i]]$type=="qualitative") {
+        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
+        newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
+        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$definition, parent=atttype)
+      }
+      else if(x@attributes[[i]]$type=="ordinal") {
+        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
+        newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
+        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$definition, parent=atttype)
+        newXMLNode("order", x@attributes[[i]]$order, parent=atttype)
+        newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
+        newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
+        newXMLNode("midPoint", x@attributes[[i]]$midPoint, parent=atttype)
+      }
+      else if(x@attributes[[i]]$type=="quantitative") {
+        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
+        newXMLNode("unit", x@attributes[[i]]$unit, parent=atttype)
+        if("precision" %in% names(x@attributes[[i]])) newXMLNode("precision", x@attributes[[i]]$unit, parent=atttype)
+        newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
+        newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
+      }
+    }
+    if(verbose) cat(paste0(" ", length(x@attributes), " attribute(s) added to XML tree.\n"))
+  }
+  #organismName elements
+  #organismIdentity elements
+  if(length(x@organismIdentities)>0) {
+    organismIdentities = newXMLNode("organismIdentities", parent = top)
+    for(i in 1:length(x@organismIdentities)){
+      oi = newXMLNode("organismIdentity",
+                      attrs = c(id=names(x@organismIdentities)[i]),
+                      parent = organismIdentities)
+      newXMLNode("organismName", x@organismIdentities[[i]]$organismName,
+                 parent=oi)
+    }
+    if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
+  }
+  #taxonConcept elements
+  
+  #stratum elements
+  if(length(x@strata)>0) {
+    strata = newXMLNode("strata", parent = top)
+    for(i in 1:length(x@strata)){
+      str = newXMLNode("stratum",
+                       attrs = c(id = names(x@strata)[i]),
+                       parent = strata)
+      newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
+      if("methodID" %in% names(x@strata[[i]])) newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
+      if("definition" %in% names(x@strata[[i]])) newXMLNode("definition", x@strata[[i]]$definition, parent=str)
+      if("order" %in% names(x@strata[[i]])) newXMLNode("order", x@strata[[i]]$order, parent=str)
+      if("lowerLimit" %in% names(x@strata[[i]])) newXMLNode("lowerLimit", x@strata[[i]]$lowerLimit, parent=str)
+      if("upperLimit" %in% names(x@strata[[i]])) newXMLNode("upperLimit", x@strata[[i]]$upperLimit, parent=str)
+    }
+    if(verbose) cat(paste0(" ", length(x@strata), " strata added to XML tree.\n"))
+  }
+  #surfaceType elements
+  if(length(x@surfaceTypes)>0) {
+    surfaceTypes = newXMLNode("surfaceTypes", parent = top)
+    for(i in 1:length(x@surfaceTypes)){
+      surf = newXMLNode("surfaceType",
+                        attrs = c(id = names(x@surfaceTypes)[i]),
+                        parent = surfaceTypes)
+      newXMLNode("surfaceName", x@surfaceTypes[[i]]$surfaceName, parent=surf)
+      if("methodID" %in% names(x@surfaceTypes[[i]])) newXMLNode("methodID", x@surfaceTypes[[i]]$methodID, parent=surf)
+      if("definition" %in% names(x@surfaceTypes[[i]])) newXMLNode("definition", x@surfaceTypes[[i]]$definition, parent=surf)
+    }
+    if(verbose) cat(paste0(" ", length(x@surfaceTypes), " surface types to XML tree.\n"))
+  }
   #Plot elements
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
@@ -131,7 +228,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@plots), " plot(s) added to XML tree.\n"))
   }
-
   #PlotObservation elements
   if(length(x@plotObservations)>0){
     plotObservations = newXMLNode("plotObservations", parent = top)
@@ -148,18 +244,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if("communityObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("communityObservationID", x@plotObservations[[i]]$communityObservationID, parent=po)
     }
     if(verbose) cat(paste0(" ", length(x@plotObservations), " plot observation(s) added to XML tree.\n"))
-  }
-  #organismIdentity elements
-  if(length(x@organismIdentities)>0) {
-    organismIdentities = newXMLNode("organismIdentities", parent = top)
-    for(i in 1:length(x@organismIdentities)){
-      oi = newXMLNode("organismIdentity",
-                        attrs = c(id=names(x@organismIdentities)[i]),
-                        parent = organismIdentities)
-      newXMLNode("organismName", x@organismIdentities[[i]]$organismName,
-                 parent=oi)
-    }
-    if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
   }
   #AggregateOrganismObservation elements
   if(length(x@aggregateObservations)>0) {
@@ -188,22 +272,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       }
     }
     if(verbose) cat(paste0(" ", length(x@aggregateObservations), " aggregate organism observation(s) added to XML tree.\n"))
-  }
-  #stratum elements
-  if(length(x@strata)>0) {
-    strata = newXMLNode("strata", parent = top)
-    for(i in 1:length(x@strata)){
-      str = newXMLNode("stratum",
-                       attrs = c(id = names(x@strata)[i]),
-                       parent = strata)
-      newXMLNode("stratumName", x@strata[[i]]$stratumName, parent=str)
-      if("methodID" %in% names(x@strata[[i]])) newXMLNode("methodID", x@strata[[i]]$methodID, parent=str)
-      if("definition" %in% names(x@strata[[i]])) newXMLNode("definition", x@strata[[i]]$definition, parent=str)
-      if("order" %in% names(x@strata[[i]])) newXMLNode("order", x@strata[[i]]$order, parent=str)
-      if("lowerLimit" %in% names(x@strata[[i]])) newXMLNode("lowerLimit", x@strata[[i]]$lowerLimit, parent=str)
-      if("upperLimit" %in% names(x@strata[[i]])) newXMLNode("upperLimit", x@strata[[i]]$upperLimit, parent=str)
-    }
-    if(verbose) cat(paste0(" ", length(x@strata), " strata added to XML tree.\n"))
   }
   #StratumObservation elements
   if(length(x@stratumObservations)>0) {
@@ -281,19 +349,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@individualObservations), " individual organism observation(s) added to XML tree.\n"))
   }
-  #surfaceType elements
-  if(length(x@surfaceTypes)>0) {
-    surfaceTypes = newXMLNode("surfaceTypes", parent = top)
-    for(i in 1:length(x@surfaceTypes)){
-      surf = newXMLNode("surfaceType",
-                        attrs = c(id = names(x@surfaceTypes)[i]),
-                        parent = surfaceTypes)
-      newXMLNode("surfaceName", x@surfaceTypes[[i]]$surfaceName, parent=surf)
-      if("methodID" %in% names(x@surfaceTypes[[i]])) newXMLNode("methodID", x@surfaceTypes[[i]]$methodID, parent=surf)
-      if("definition" %in% names(x@surfaceTypes[[i]])) newXMLNode("definition", x@surfaceTypes[[i]]$definition, parent=surf)
-    }
-    if(verbose) cat(paste0(" ", length(x@surfaceTypes), " surface types to XML tree.\n"))
-  }
   #surfaceCoverObservation elements
   if(length(x@surfaceCoverObservations)>0) {
     surfaceCoverObservations = newXMLNode("surfaceCoverObservations", parent = top)
@@ -311,7 +366,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@surfaceCoverObservations), " surface cover observation(s) added to XML tree.\n"))
   }
-
   #siteObservation elements
   if(length(x@siteObservations)>0) {
     siteObservations = newXMLNode("siteObservations", parent = top)
@@ -346,52 +400,6 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       }
     }
     if(verbose) cat(paste0(" ", length(x@siteObservations), " site observation(s) added to XML tree.\n"))
-  }
-  #Methods
-  if(length(x@methods)>0) {
-    methods = newXMLNode("methods", parent = top)
-    for(i in 1:length(x@methods)){
-      met = newXMLNode("method",
-                       attrs = c(id=names(x@methods)[i]),
-                       parent = methods)
-      newXMLNode("name", x@methods[[i]]$name, parent=met)
-      newXMLNode("description", x@methods[[i]]$description, parent=met)
-      newXMLNode("subject", x@methods[[i]]$subject, parent=met)
-      if("citation" %in% names(x@methods[[i]])) if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
-    }
-    if(verbose) cat(paste0(" ", length(x@methods), " method(s) added to XML tree.\n"))
-  }
-  #Attribute elements
-  if(length(x@attributes)>0) {
-    attributes = newXMLNode("attributes", parent = top)
-    for(i in 1:length(x@attributes)){
-      att = newXMLNode("attribute",
-                       attrs = c(id=names(x@attributes)[i]),
-                       parent = attributes)
-      atttype = newXMLNode(x@attributes[[i]]$type, parent=att)
-      if(x@attributes[[i]]$type=="qualitative") {
-        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
-        newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
-        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$definition, parent=atttype)
-      }
-      else if(x@attributes[[i]]$type=="ordinal") {
-        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
-        newXMLNode("code", x@attributes[[i]]$code, parent=atttype)
-        if("definition" %in% names(x@attributes[[i]])) newXMLNode("definition", x@attributes[[i]]$definition, parent=atttype)
-        newXMLNode("order", x@attributes[[i]]$order, parent=atttype)
-        newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
-        newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
-        newXMLNode("midPoint", x@attributes[[i]]$midPoint, parent=atttype)
-      }
-      else if(x@attributes[[i]]$type=="quantitative") {
-        newXMLNode("methodID", x@attributes[[i]]$methodID, parent=atttype)
-        newXMLNode("unit", x@attributes[[i]]$unit, parent=atttype)
-        if("precision" %in% names(x@attributes[[i]])) newXMLNode("precision", x@attributes[[i]]$unit, parent=atttype)
-        newXMLNode("lowerLimit", x@attributes[[i]]$lowerLimit, parent=atttype)
-        newXMLNode("upperLimit", x@attributes[[i]]$upperLimit, parent=atttype)
-      }
-    }
-    if(verbose) cat(paste0(" ", length(x@attributes), " attribute(s) added to XML tree.\n"))
   }
   #XML document
   saveXML(doc, file = file)
