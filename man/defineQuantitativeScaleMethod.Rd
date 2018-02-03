@@ -4,8 +4,8 @@
 \alias{defineQuantitativeScaleMethod}
 \title{Quantitative scale method definition}
 \usage{
-defineQuantitativeScaleMethod(name, description, subject, unit, citation = "",
-  lowerLimit = -Inf, upperLimit = Inf)
+defineQuantitativeScaleMethod(name, description, subject, unit,
+  citationString = "", DOI = "", lowerLimit = -Inf, upperLimit = Inf)
 }
 \arguments{
 \item{name}{String with the name of the method.}
@@ -16,14 +16,16 @@ defineQuantitativeScaleMethod(name, description, subject, unit, citation = "",
 
 \item{unit}{A character describing measurement units.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 
 \item{lowerLimit}{The lower limit of the quantitative scale, if defined.}
 
 \item{upperLimit}{The upper limit of the quantitative scale, if defined.}
 }
 \value{
-an object of class \code{\linkS4class{VegXMethod}}
+an object of class \code{\linkS4class{VegXMethodDefinition}}
 }
 \description{
 A general function to define a method for measurements in a quantitative scale of a given subject
