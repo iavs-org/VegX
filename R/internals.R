@@ -54,6 +54,14 @@
   if(length(target@attributes)==0) return("1")
   return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
 }
+.nextOrganismNameID<-function(target) {
+  if(length(target@organismNames)==0) return("1")
+  return(as.character(as.numeric(names(target@organismNames)[length(target@organismNames)])+1))
+}
+.nextTaxonConceptID<-function(target) {
+  if(length(target@taxonConcepts)==0) return("1")
+  return(as.character(as.numeric(names(target@taxonConcepts)[length(target@taxonConcepts)])+1))
+}
 .nextOrganismIdentityID<-function(target) {
   if(length(target@organismIdentities)==0) return("1")
   return(as.character(as.numeric(names(target@organismIdentities)[length(target@organismIdentities)])+1))
@@ -169,6 +177,15 @@
   }
   return(list(id = .nextLiteratureCitationID(target), new = TRUE))
 }
+# Returns the ID for a new organism name in the data set or the ID of an existing organismName with the same name
+.newOrganismNameIDByName<-function(target, organismName, taxon) {
+  if(length(target@organismNames)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@organismNames)) {
+    if((target@organismNames[[i]]$name==name) && (target@organismNames[[i]]$taxon==taxon)) return(list(id = names(target@organismNames)[i], new = FALSE))
+  }
+  return(list(id = .nextOrganismNameID(target), new = TRUE))
+}
+
 # Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same name
 .newOrganismIdentityIDByName<-function(target, organismName) {
   if(length(target@organismIdentities)==0) return(list(id="1", new = TRUE))

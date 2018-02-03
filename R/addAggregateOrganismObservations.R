@@ -4,7 +4,7 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'organismName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param mapping A list with element names 'plotName', 'obsStartDate', 'organismName', 'taxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
 #' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
@@ -18,16 +18,17 @@
 #'
 #' @family add functions
 #'
-#' @details Missing plotName, obsStartDate or organismName values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
+#' @details Missing plotName, obsStartDate values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
 #' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
-#' Missing measurements are simply not added to the Veg-X document.
+#' Missing measurements are simply not added to the Veg-X document. Missing values for organismName or taxonName generate errors.
 #'
 #' @examples
 #' # Load source data
 #' data(mokihinui)
 #'
 #' # Define mapping
-#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#'                taxonName = "NVSSpeciesName",
 #'                stratumName = "Tier", cover = "Category")
 #'
 #' # Define abundance scale
@@ -63,7 +64,7 @@
 #' # Example with individual counts
 #' data(mtfyffe)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                organismName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+#'                taxonName = "NVSSpeciesName", stratumName = "Tier", counts = "Value")
 #' countscale = predefinedMeasurementMethod("Plant counts")
 #' strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
 #'                                description = "Seedling/sapling stratum definition",
@@ -78,7 +79,7 @@
 #' # Example with frequency in transects
 #' data(takitimu)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'               organismName = "PreferredSpeciesName", freq = "Value")
+#'                taxonName = "NVSSpeciesName", freq = "Value")
 #' freqscale = predefinedMeasurementMethod("Plant frequency/%")
 #' x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
 #'                                      methods = c(freq=freqscale))
@@ -95,7 +96,7 @@ addAggregateOrganismObservations<-function(target, x,
   nrecords = nrow(x)
   nmissing = 0
 
-  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName")
+  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName", "taxonName")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -103,7 +104,6 @@ addAggregateOrganismObservations<-function(target, x,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format ="%Y-%m-%d")
-  organismNames = as.character(x[[mapping[["organismName"]]]])
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
@@ -116,6 +116,14 @@ addAggregateOrganismObservations<-function(target, x,
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
+  }
+  taxonNameFlag = ("taxonName" %in% names(mapping))
+  if(taxonNameFlag) {
+    taxonNames = as.character(x[[mapping[["taxonName"]]]])
+  }
+  organismNameFlag = ("organismName" %in% names(mapping))
+  if(organismNameFlag) {
+    organismNames = as.character(x[[mapping[["organismName"]]]])
   }
 
   #heightmeasurement
@@ -245,6 +253,8 @@ addAggregateOrganismObservations<-function(target, x,
   parsedPlotIDs = character(0)
   parsedPlotObs = character(0)
   parsedPlotObsIDs = character(0)
+  parsedONs = character(0)
+  parsedONIDs = character(0)
   parsedOIs = character(0)
   parsedOIIDs = character(0)
   parsedStrObs = character(0)
@@ -300,9 +310,27 @@ addAggregateOrganismObservations<-function(target, x,
       plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
     # organism name
-    if(!(organismNames[i] %in% missing.values)) {# If organism name is missing take the previous one
+    organismName = NA
+    isTaxon = FALSE
+    if(taxonNameFlag) {
+      organismName = taxonNames[i]
+      isTaxon = TRUE
+    }
+    if(!isTaxon && organismNameFlag) {
       organismName = organismNames[i]
     }
+    if(!(organismName %in% parsedONs)) {
+      nonid = .newOrganismNameIDByName(target, organismName, isTaxon) # Get the new organism name usage ID (internal code)
+      onID = nonid$id
+      if(nonid$new) target@organismName[[onID]] = list("name" = organismName,
+                                                       "taxon" = isTaxon)
+      parsedONs = c(parsedONs, organismName)
+      parsedONIDs = c(parsedONIDs, onID)
+    } else {
+      onID = parsedONIDs[which(parsedONs==organismName)]
+    }
+    
+    # organism identity
     if(!(organismName %in% parsedOIs)) {
       ntnucid = .newOrganismIdentityIDByName(target, organismName) # Get the new taxon name usage ID (internal code)
       oiID = ntnucid$id
