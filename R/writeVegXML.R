@@ -35,6 +35,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                        attrs = c("id"=names(x@parties)[i]),
                        parent = prts)
     }
+    if(verbose) cat(paste0(" ", length(x@parties), " literature partie(s) added to XML tree.\n"))
   }
   #literatureCitation elements (TO BE CHECKED)
   if(length(x@literatureCitations)>0){
@@ -46,6 +47,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if("citationString" %in% names(x@literatureCitations[[i]])) newXMLNode("citationString", x@literatureCitations[[i]]$citationString, parent=lit)
       if("DOI" %in% names(x@literatureCitations[[i]])) newXMLNode("DOI", x@literatureCitations[[i]]$DOI, parent=lit)
     }
+    if(verbose) cat(paste0(" ", length(x@literatureCitations), " literature citation(s) added to XML tree.\n"))
   }
   #method elements
   if(length(x@methods)>0) {
@@ -57,7 +59,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       newXMLNode("name", x@methods[[i]]$name, parent=met)
       newXMLNode("description", x@methods[[i]]$description, parent=met)
       newXMLNode("subject", x@methods[[i]]$subject, parent=met)
-      if("citation" %in% names(x@methods[[i]])) if(x@methods[[i]]$citation != "") newXMLNode("citationString", x@methods[[i]]$citation, parent=met)
+      if("citationID" %in% names(x@methods[[i]])) newXMLNode("citationID", x@methods[[i]]$citationID, parent=met)
     }
     if(verbose) cat(paste0(" ", length(x@methods), " method(s) added to XML tree.\n"))
   }
@@ -122,19 +124,30 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@surfaceTypes), " surface types to XML tree.\n"))
   }
-  #organismName elements
+  #organismName elements (TO BE CHECKED)
   if(length(x@organismNames)>0){
     orgnms = newXMLNode("organismNames", parent = top)
     for(i in 1:length(x@organismNames)){
       orgnm = newXMLNode("organismName", x@organismNames[[i]]$name,
                        attrs = c("id"=names(x@organismNames)[i],
-                                 "isTaxonName" = x@organismNames[[i]]$isTaxonName),
+                                 "taxon" = x@organismNames[[i]]$taxon),
                        parent = orgnms)
     }
+    if(verbose) cat(paste0(" ", length(x@organismNames), " organism name(s) added to XML tree.\n"))
   }
-  
-  #taxonConcept elements
-  #organismIdentity elements
+  #taxonConcept elements (TO BE CHECKED)
+  if(length(x@taxonConcepts)>0){
+    txcpts = newXMLNode("taxonConcepts", parent = top)
+    for(i in 1:length(x@taxonConcepts)){
+      txcpt = newXMLNode("taxonConcept",
+                         attrs = c("id"=names(x@organismNames)[i]),
+                         parent = txcpts)
+      if("organismNameID" %in% names(x@taxonConcepts[[i]])) newXMLNode("organismNameID", x@taxonConcepts[[i]]$organismNameID, parent=txcpt)
+      if("citationID" %in% names(x@taxonConcepts[[i]])) newXMLNode("citationID", x@taxonConcepts[[i]]$citationID, parent=txcpt)
+    }
+    if(verbose) cat(paste0(" ", length(x@taxonConcepts), " taxon concept(s) added to XML tree.\n"))
+  }
+  #organismIdentity elements (TO BE CHECKED)
   if(length(x@organismIdentities)>0) {
     organismIdentities = newXMLNode("organismIdentities", parent = top)
     for(i in 1:length(x@organismIdentities)){
