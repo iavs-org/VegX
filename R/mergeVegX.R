@@ -81,7 +81,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   # uses 'x' as the target and 'y' as the source of data
   
   # literatureCitations
-  lcIDmap = list()
+  litIDmap = list()
   nmergedlits = 0
   if(length(y@literatureCitations)>0) {
     for(j in 1:length(y@literatureCitations)) {
@@ -92,6 +92,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
         x@literatureCitations[[nlcid$id]] = .mergeLiteratureCitations(x@literatureCitations[[nlcid$id]], y@literatureCitations[[j]])
         nmergedlits = nmergedlits + 1
       }
+      litIDmap[names(y@literatureCitations)[j]] = nlcid$id
     }
   }
   if(verbose) {
@@ -105,7 +106,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     for(j in 1:length(y@methods)) {
       nmetid = .newMethodIDByName(x, y@methods[[j]]$name)
       if(nmetid$new) {
-        x@methods[[nmetid$id]] = y@methods[[j]]
+        x@methods[[nmetid$id]] = .applyLiteratureMappingToMethod(y@methods[[j]], litIDmap)
         # add attributes
         attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
         if(length(attIDs)>0) {
@@ -117,7 +118,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
           }
         }
       } else { #pool information
-        x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]])
+        x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]], litIDmap)
         #TO DO: We should check the attribute correspondence here
         nmergedmeths = nmergedmeths + 1
       }

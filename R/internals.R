@@ -300,6 +300,12 @@
 }
 
 
+.applyLiteratureMappingToMethod<-function(method, litIDmap){
+  if("citationID" %in% names(method)) {
+    method$citationID = litIDmap[[method$citationID]]
+  }
+  return(method)
+}
 #Translate attributes of measurements in a plot element
 .applyAttributeMappingToPlot<-function(plot, attIDmap) {
   for(n in names(plot)) {
@@ -452,9 +458,10 @@
 }
 
 #Pools the information of two methods
-.mergeMethods<-function(met1, met2) {
+.mergeMethods<-function(met1, met2, litIDmap) {
   n1 = names(met1)
   n2 = names(met2)
+  met2 = .applyLiteratureMappingToMethod(met2, litIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
