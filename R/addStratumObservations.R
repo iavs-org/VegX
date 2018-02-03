@@ -144,8 +144,8 @@ addStratumObservations<-function(target, x, mapping,
       if(method@citationString!="") {
         ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
         if(ncitid$new) {
-          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString,
-                                                         DOI = method@DOI)
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
         }
         target@methods[[methodID]]$citationID = ncitid$id
       }
@@ -177,6 +177,15 @@ addStratumObservations<-function(target, x, mapping,
                                          subject = stratumDefMethod@subject,
                                          attributeType = stratumDefMethod@attributeType)
     if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
+    # add literature citation if necessary
+    if(stratumDefMethod@citationString!="") {
+      ncitid = .newLiteratureCitationIDByCitationString(target, stratumDefMethod@citationString)
+      if(ncitid$new) {
+        target@literatureCitations[[ncitid$id]] = list(citationString =stratumDefMethod@citationString)
+        if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = stratumDefMethod@DOI
+      }
+      target@methods[[strmethodID]]$citationID = ncitid$id
+    }
     # add attributes if necessary
     if(length(stratumDefMethod@attributes)>0) {
       for(i in 1:length(stratumDefMethod@attributes)) {

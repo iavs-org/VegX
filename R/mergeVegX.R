@@ -79,21 +79,20 @@
 mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
-  #projects IMPORTANT: Should be modified if other elements than 'title' are considered
-  projectIDmap = list()
-  if(length(y@projects)>0) {
-    for(j in 1:length(y@projects)) {
-      npid = .newProjectIDByTitle(x, y@projects[[j]]$title)
-      if(npid$new) {
-        x@projects[[npid$id]] = y@projects[[j]]
+  
+  # literatureCitations
+  lcIDmap = list()
+  nmergedlits = 0
+  if(length(y@literatureCitations)>0) {
+    for(j in 1:length(y@literatureCitations)) {
+      nlcid = .newLiteratureCitationIDByCitationString(x, y@literatureCitations[[j]]$citationString)
+      if(nlcid$new) {
+        x@literatureCitations[[nlcid$id]] = y@literatureCitations[[j]]
+      } else {
+        x@literatureCitations[[nlcid$id]] = .mergeLiteratureCitations(x@literatureCitations[[nlcid$id]], y@literatureCitations[[j]])
       }
-      projectIDmap[names(y@projects)[j]] = npid$id
     }
   }
-  if(verbose) {
-    cat(paste0(" Final number of projects: ", length(x@projects),".\n"))
-  }
-
   # methods/attributes
   methodIDmap = list()
   attIDmap = list()
@@ -175,6 +174,22 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   }
 
 
+  #projects IMPORTANT: Should be modified if other elements than 'title' are considered
+  projectIDmap = list()
+  if(length(y@projects)>0) {
+    for(j in 1:length(y@projects)) {
+      npid = .newProjectIDByTitle(x, y@projects[[j]]$title)
+      if(npid$new) {
+        x@projects[[npid$id]] = y@projects[[j]]
+      }
+      projectIDmap[names(y@projects)[j]] = npid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of projects: ", length(x@projects),".\n"))
+  }
+  
+  
   #plots
   plotIDmap = list()
   nmergedplots = 0

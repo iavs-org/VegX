@@ -374,6 +374,25 @@
   return(scobs)
 }
 
+#Pools the information of two literature citations
+.mergeLiteratureCitations<-function(cit1, cit2) {
+  n1 = names(cit1)
+  n2 = names(met2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(cit1[[n]]!=cit2[[n]]) stop(paste0("Literature citations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = cit1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = cit1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = cit2[[n]]
+    }
+  }
+  return(res)
+}
+
 #Pools the information of two plots
 .mergePlots<-function(plot1, plot2, attIDmap) {
    n1 = names(plot1)

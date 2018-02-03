@@ -162,8 +162,8 @@ addAggregateOrganismObservations<-function(target, x,
       if(method@citationString!="") {
         ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
         if(ncitid$new) {
-          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString,
-                                                         DOI = method@DOI)
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
         }
         target@methods[[methodID]]$citationID = ncitid$id
       }
@@ -199,8 +199,8 @@ addAggregateOrganismObservations<-function(target, x,
       if(stratumDefMethod@citationString!="") {
         ncitid = .newLiteratureCitationIDByCitationString(target, stratumDefMethod@citationString)
         if(ncitid$new) {
-          target@literatureCitations[[ncitid$id]] = list(citationString =stratumDefMethod@citationString,
-                                                         DOI = stratumDefMethod@DOI)
+          target@literatureCitations[[ncitid$id]] = list(citationString =stratumDefMethod@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = stratumDefMethod@DOI
         }
         target@methods[[strmethodID]]$citationID = ncitid$id
       }
