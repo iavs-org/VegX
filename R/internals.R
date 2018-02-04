@@ -66,6 +66,9 @@
   if(length(target@organismIdentities)==0) return("1")
   return(as.character(as.numeric(names(target@organismIdentities)[length(target@organismIdentities)])+1))
 }
+.nextIndividualOrganismLabelForPlot<-function(target, plotID) {
+  return(paste0("ind", .getNumberOfOrganismsByPlotID(target, plotID)+1))
+}
 
 
 
@@ -227,9 +230,6 @@
     }
   }
   return(indCount)
-}
-.nextIndividualOrganismLabelForPlot<-function(target, plotID) {
-   return(paste0("ind", .getNumberOfOrganismsByPlotID(target, plotID)+1))
 }
 
 # Returns strata names corresponding to the input method
