@@ -22,11 +22,12 @@
 #'
 #' @details Missing value policy:
 #' \itemize{
-#'   \item{Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
-#'   \item{Missing subPlotName values are interpreted in that observation refers to the parent plotName.}
-#'   \item{When organismName is missing the organism is assumed to be unidentified.}
-#'   \item{When stratumName values are missing the individual organism observation is not assigned to any stratum.}
-#'   \item{Missing measurements are simply not added to the Veg-X document.}
+#'   \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{When both 'organismName' and 'taxonName' are missing the organism is assumed to be unidentified (i.e. no identity is added).}
+#'   \item{When 'individualOrganismLabel' is missing the function creates a label for the organism.}
+#'   \item{When 'stratumName' values are missing the individual organism observation is not assigned to any stratum.}
+#'   \item{Missing measurements (e.g. 'diameterMeasurement') are not added to the Veg-X document.}
 #' }
 #'
 #' @examples
