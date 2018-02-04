@@ -40,7 +40,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@literatureCitations) = xmlApply(veg[["literatureCitations"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@literatureCitations), " literature citation(s) read.\n"))
   }
-  
+
   #read methods
   .readMethod.2.0.0 = function(x) {
     met = list()
@@ -56,7 +56,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@methods) = xmlApply(veg[["methods"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@methods), " method(s) read.\n"))
   }
-  
+
   #read attributes
   .readAttribute.2.0.0 = function(x) {
     n = names(x)
@@ -96,7 +96,7 @@ readVegXML<-function(file, verbose = TRUE) {
     for(att in target@attributes) target@methods[[att$methodID]]$attributeType = att$type #Sets method type from attribute type
     if(verbose) cat(paste0(" ", length(target@attributes), " attribute(s) read.\n"))
   }
-  
+
   #read strata
   .readStratum.2.0.0 = function(x) {
     str = list(stratumName = xmlValue(x[["stratumName"]]))
@@ -113,7 +113,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@strata) = xmlApply(veg[["strata"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@strata), " strata read.\n"))
   }
-  
+
   #read surface types
   .readSurfaceType.2.0.0 = function(x) {
     str = list(surfaceName = xmlValue(x[["surfaceName"]]))
@@ -131,16 +131,17 @@ readVegXML<-function(file, verbose = TRUE) {
   #read organism names (TO BE CHECKED)
   .readOrganismName.2.0.0 = function(x) {
     orgName = list()
-    orgName$name = xmlValue(x[["organismName"]])
+    orgName$name = xmlValue(x)
     orgName$taxon = as.logical(xmlAttrs(x)[["taxon"]])
     return(orgName)
   }
+  .xmlAttrs1<-function(x) {return(xmlAttrs(x)[[1]])}
   if("organismNames" %in% vegnames) {
     target@organismNames = xmlApply(veg[["organismNames"]], .readOrganismName.2.0.0)
-    names(target@organismNames) = xmlApply(veg[["organismNames"]], xmlAttrs)
+    names(target@organismNames) = xmlApply(veg[["organismNames"]], .xmlAttrs1)
     if(verbose) cat(paste0(" ", length(target@organismNames), " organism name(s) read.\n"))
   }
-  
+
   #read taxon concepts (TO BE CHECKED)
   .readTaxonConcept.2.0.0 = function(x) {
     txCpt = list()
@@ -154,11 +155,16 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@taxonConcepts) = xmlApply(veg[["taxonConcepts"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@taxonConcepts), " taxon concept(s) read.\n"))
   }
-  
+
   #read organism identities (TO BE FINISHED)
   .readOrganismIdentity.2.0.0 = function(x) {
     orgId = list()
-    orgId$originalOrganismNameID = xmlValue(x[["originalOrganismNameID"]])
+    n = names(x)
+    if("originalOrganismNameID" %in% n)  orgId$originalOrganismNameID = xmlValue(x[["originalOrganismNameID"]])
+    if("originalConceptIdentification" %in% n)  {
+      ocid = x[["originalConceptIdentification"]]
+      orgId$originalConceptIdentification = list(taxonConceptID = xmlValue(ocid[["taxonConceptID"]]))
+    }
     return(orgId)
   }
   if("organismIdentities" %in% vegnames) {
@@ -166,8 +172,8 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@organismIdentities) = xmlApply(veg[["organismIdentities"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@organismIdentities), " organism identitie(s) read.\n"))
   }
-  
-  
+
+
   #read projects
   .readProject.2.0.0 = function(x) {
     project = list()
@@ -253,7 +259,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@individualOrganisms) = xmlApply(veg[["individualOrganisms"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@individualOrganisms), " individual organism(s) read.\n"))
   }
-  
+
   #read plot observations
   .readPlotObservation.2.0.0 = function(x) {
     plotObs = list(plotID = xmlValue(x[["plotID"]]),
@@ -264,7 +270,7 @@ readVegXML<-function(file, verbose = TRUE) {
     if("obsEndDate" %in% n) plotObs$obsEndDate = as.Date(xmlValue(x[["obsEndDate"]]), format = "%Y-%m-%d")
     if("siteObservationID" %in% n) plotObs$siteObservationID = xmlValue(x[["siteObservationID"]])
     if("communityObservationID" %in% n) plotObs$communityObservationID = xmlValue(x[["communityObservationID"]])
-    
+
     return(plotObs)
   }
   if("plotObservations" %in% vegnames) {
@@ -272,7 +278,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@plotObservations) = xmlApply(veg[["plotObservations"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@plotObservations), " plot observation(s) read.\n"))
   }
-  
+
   #read individual organism observations
   .readIndividualOrganismObservation.2.0.0 = function(x) {
     indObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]),
@@ -295,7 +301,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@individualObservations) = xmlApply(veg[["individualOrganismObservations"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@individualObservations), " individual organism observation(s) read.\n"))
   }
-  
+
   #read aggregate organism observations
   .readAggregateOrganismObservation.2.0.0 = function(x) {
     aggObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]),
@@ -310,7 +316,7 @@ readVegXML<-function(file, verbose = TRUE) {
         aggObs$aggregateOrganismMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
       }
     }
-    
+
     return(aggObs)
   }
   if("aggregateOrganismObservations" %in% vegnames) {
@@ -359,7 +365,7 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@communityObservations) = xmlApply(veg[["communityObservations"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@communityObservations), " community observation(s) read.\n"))
   }
-  
+
   #read site observations
   .readSiteObservation.2.0.0 = function(x) {
     siteObs = list(plotObservationID = xmlValue(x[["plotObservationID"]]))
@@ -404,8 +410,8 @@ readVegXML<-function(file, verbose = TRUE) {
     names(target@surfaceCoverObservations) = xmlApply(veg[["surfaceCoverObservations"]], xmlAttrs)
     if(verbose) cat(paste0(" ", length(target@surfaceCoverObservations), " surface cover observation(s) read.\n"))
   }
-  
-  
+
+
   rm(veg)
   return(target)
 }
