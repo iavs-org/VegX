@@ -208,6 +208,14 @@
 }
 
 
+.getOrganismIdentityName<-function(target,  identityID) {
+  oi = x@organismIdentities[[identityID]]
+  oriName = x@organismNames[[oi$originalOrganismNameID]]$name
+  return(oriName)
+}
+.getIndividualOrganismIdentityName <-function(target, individualID){
+  return(.getOrganismIdentity(target@individualOrganisms[[individualID]]$organismIdentityID))
+}
 # Counts the number of organisms by plot id
 .getNumberOfOrganismsByPlotID<-function(target, plotID) {
   indCount = 0

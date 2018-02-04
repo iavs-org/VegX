@@ -57,14 +57,101 @@
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation", "organismIdentity",
+  element = match.arg(element, c("plot", "plotObservation", 
+                                 "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",
                                  "surfaceType", "surfaceCoverObservation",
                                  "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute", "literatureCitation"))
   res = NULL
-  if(element=="plot") {
+  if(element=="literatureCitation") {
+    res = data.frame(citationString = rep(NA, length(x@literatureCitations)),
+                     DOI = rep(NA, length(x@literatureCitations)),
+                     row.names = names(x@literatureCitations))
+    if(length(x@literatureCitations)>0){
+      for(i in 1:length(x@literatureCitations)){
+        cit = x@literatureCitations[[i]]$citationString
+        if(nchar(cit)>30) cit = paste0(substr(cit, 0,30),"...")
+        res[i, "citationString"] = cit
+        if("DOI" %in% names(x@literatureCitations[[i]])) res[i, "DOI"] = x@literatureCitations[[i]]$DOI
+      }
+    }
+  }
+  else if(element=="method") {
+    res = data.frame(name = rep(NA, length(x@methods)),
+                     description = rep(NA, length(x@methods)),
+                     subject = rep(NA, length(x@methods)),
+                     attributeType = rep(NA, length(x@methods)),
+                     attributeNumber = rep(NA, length(x@methods)),
+                     row.names = names(x@methods))
+    if(length(x@methods)>0){
+      for(i in 1:length(x@methods)){
+        res[i, "name"] = x@methods[[i]]$name
+        res[i, "description"] = x@methods[[i]]$description
+        res[i, "subject"] = x@methods[[i]]$subject
+        res[i, "attributeType"] = x@methods[[i]]$attributeType
+        res[i, "attributeNumber"] = length(.getAttributeIDsByMethodID(x, names(x@methods)[i]))
+      }
+    }
+  }
+  else if(element=="attribute") {
+    resQuantitative = data.frame()
+    resOrdinal = data.frame()
+    resQualitative = data.frame()
+    if(length(x@attributes)>0){
+      cntQuant = 0
+      cntOrd = 0
+      cntQual = 0
+      for(i in 1:length(x@attributes)){
+        if(x@attributes[[i]]$type=="quantitative") {
+          cntQuant = cntQuant + 1
+          if(IDs) resQuantitative[cntQuant, "methodID"] = x@attributes[[i]]$methodID
+          resQuantitative[cntQuant, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
+          resQuantitative[cntQuant, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
+          resQuantitative[cntQuant, "unit"] = x@attributes[[i]]$unit
+          if("lowerLimit" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "lowerLimit"] = x@attributes[[i]]$lowerLimit
+          if("upperLimit" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "upperLimit"] = x@attributes[[i]]$upperLimit
+          rownames(resQuantitative)[cntQuant] = names(x@attributes)[i]
+        }
+        else if(x@attributes[[i]]$type=="ordinal") {
+          cntOrd = cntOrd + 1
+          if(IDs) resOrdinal[cntOrd, "methodID"] = x@attributes[[i]]$methodID
+          resOrdinal[cntOrd, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
+          resOrdinal[cntOrd, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
+          resOrdinal[cntOrd, "code"] = x@attributes[[i]]$code
+          if("definition" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "definition"] = x@attributes[[i]]$definition
+          if("order" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "order"] = x@attributes[[i]]$order
+          if("lowerLimit" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "lowerLimit"] = x@attributes[[i]]$lowerLimit
+          if("upperLimit" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "upperLimit"] = x@attributes[[i]]$upperLimit
+          if("midPoint" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "midPoint"] = x@attributes[[i]]$midPoint
+          rownames(resOrdinal)[cntOrd] = names(x@attributes)[i]
+        }
+        else if(x@attributes[[i]]$type=="qualitative") {
+          cntQual = cntQual + 1
+          if(IDs) resQualitative[cntQual, "methodID"] = x@attributes[[i]]$methodID
+          resQualitative[cntQual, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
+          resQualitative[cntQual, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
+          resQualitative[cntQual, "code"] = x@attributes[[i]]$code
+          if("definition" %in% names(x@attributes[[i]])) resQualitative[cntQual, "definition"] = x@attributes[[i]]$definition
+          rownames(resQualitative)[cntQual] = names(x@attributes)[i]
+        }
+      }
+    }
+    res = list(quantitative = resQuantitative, ordinal = resOrdinal, qualitative = resQualitative)
+  }
+  else if(element=="organismName") {
+    res = data.frame(organismName = rep(NA, length(x@organismNames)),
+                     taxon = rep(NA, length(x@organismNames)),
+                     row.names = names(x@organismNames))
+    if(length(x@organismNames)>0){
+      for(i in 1:length(x@organismNames)){
+        res[i, "organismName"] = x@organismNames[[i]]$name
+        res[i, "taxon"] = x@organismNames[[i]]$taxon
+      }
+    }
+  }
+  else if(element=="plot") {
     res = data.frame(plotName = rep(NA, length(x@plots)), row.names = names(x@plots))
     if(length(x@plots)>0) {
       for(i in 1:length(x@plots)){
@@ -186,27 +273,18 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
       }
     }
   }
-  else if(element=="organismIdentity") {
-    res = data.frame(organismName = rep(NA, length(x@organismIdentities)),
-                     row.names = names(x@organismIdentities))
-    if(length(x@organismIdentities)>0){
-      for(i in 1:length(x@organismIdentities)){
-        res[i, "organismName"] = x@organismIdentities[[i]]$organismName
-      }
-    }
-  }
   else if(element=="aggregateOrganismObservation") {
     if(IDs) {
       res = data.frame(plotObservationID = rep(NA, length(x@aggregateObservations)),
                      plotName = rep(NA, length(x@aggregateObservations)),
                      obsStartDate = rep(NA, length(x@aggregateObservations)),
                      organismIdentityID = rep(NA, length(x@aggregateObservations)),
-                     organismIdentity = rep(NA, length(x@aggregateObservations)),
+                     organismIdentityName = rep(NA, length(x@aggregateObservations)),
                      row.names = names(x@aggregateObservations))
     } else {
       res = data.frame(plotName = rep(NA, length(x@aggregateObservations)),
                        obsStartDate = rep(NA, length(x@aggregateObservations)),
-                       organismIdentity = rep(NA, length(x@aggregateObservations)),
+                       organismIdentityName = rep(NA, length(x@aggregateObservations)),
                        row.names = names(x@aggregateObservations))
     }
     if(length(x@aggregateObservations)>0){
@@ -219,7 +297,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if(IDs) {
           res[i, "organismIdentityID"] = x@aggregateObservations[[i]]$organismIdentityID
         }
-        res[i, "organismIdentity"] = x@organismIdentities[[x@aggregateObservations[[i]]$organismIdentityID]]$organismName
+        res[i, "organismIdentityName"] = .getOrganismIdentityName(x, x@aggregateObservations[[i]]$organismIdentityID)
         if("stratumObservationID" %in% names(x@aggregateObservations[[i]])){
           if(x@aggregateObservations[[i]]$stratumObservationID != "") {
             if(IDs) {
@@ -395,12 +473,12 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
                        plotName = rep(NA, length(x@individualOrganisms)),
                        individualOrganismLabel = rep(NA, length(x@individualOrganisms)),
                        organismIdentityID = rep(NA, length(x@individualOrganisms)),
-                       organismIdentity = rep(NA, length(x@individualOrganisms)),
+                       organismIdentityName = rep(NA, length(x@individualOrganisms)),
                        row.names = names(x@individualOrganisms))
     } else {
       res = data.frame(plotName = rep(NA, length(x@individualOrganisms)),
                        individualOrganismLabel = rep(NA, length(x@individualOrganisms)),
-                       organismIdentity = rep(NA, length(x@individualOrganisms)),
+                       organismIdentityName = rep(NA, length(x@individualOrganisms)),
                        row.names = names(x@individualOrganisms))
     }
     if(length(x@individualOrganisms)>0){
@@ -412,7 +490,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if(IDs) {
           res[i, "organismIdentityID"] = x@individualOrganisms[[i]]$organismIdentityID
         }
-        res[i, "organismIdentity"] = x@organismIdentities[[x@individualOrganisms[[i]]$organismIdentityID]]$organismName
+        res[i, "organismIdentityName"] = .getOrganismIdentityName(x, x@individualOrganisms[[i]]$organismIdentityID)
         res[i, "individualOrganismLabel"] = x@individualOrganisms[[i]]$individualOrganismLabel
       }
     }
@@ -424,13 +502,13 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
                        obsStartDate = rep(NA, length(x@individualObservations)),
                        individualOrganismID = rep(NA, length(x@individualObservations)),
                        individualOrganismLabel = rep(NA, length(x@individualObservations)),
-                       organismIdentity = rep(NA, length(x@individualObservations)),
+                       organismIdentityName = rep(NA, length(x@individualObservations)),
                        row.names = names(x@individualObservations))
     } else {
       res = data.frame(plotName = rep(NA, length(x@individualObservations)),
                        obsStartDate = rep(NA, length(x@individualObservations)),
                        individualOrganismLabel = rep(NA, length(x@individualObservations)),
-                       organismIdentity = rep(NA, length(x@individualObservations)),
+                       organismIdentityName = rep(NA, length(x@individualObservations)),
                        row.names = names(x@individualObservations))
     }
     if(length(x@individualObservations)>0){
@@ -447,7 +525,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if(IDs) {
           res[i, "organismIdentityID"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$organismIdentityID
         }
-        res[i, "organismIdentity"] = x@organismIdentities[[x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$organismIdentityID]]$organismName
+        res[i, "organismIdentityName"] = .getIndividualOrganismIdentityName(x, x@individualObservations[[i]]$individualOrganismID)
         if("stratumObservationID" %in% names(x@individualObservations[[i]])){
           if(x@individualObservations[[i]]$stratumObservationID != "") {
             if(IDs) {
@@ -534,82 +612,6 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         }
       }
     }
-  }
-  else if(element=="method") {
-    res = data.frame(name = rep(NA, length(x@methods)),
-                     description = rep(NA, length(x@methods)),
-                     subject = rep(NA, length(x@methods)),
-                     attributeType = rep(NA, length(x@methods)),
-                     attributeNumber = rep(NA, length(x@methods)),
-                     row.names = names(x@methods))
-    if(length(x@methods)>0){
-      for(i in 1:length(x@methods)){
-        res[i, "name"] = x@methods[[i]]$name
-        res[i, "description"] = x@methods[[i]]$description
-        res[i, "subject"] = x@methods[[i]]$subject
-        res[i, "attributeType"] = x@methods[[i]]$attributeType
-        res[i, "attributeNumber"] = length(.getAttributeIDsByMethodID(x, names(x@methods)[i]))
-      }
-    }
-  }
-  else if(element=="attribute") {
-    resQuantitative = data.frame()
-    resOrdinal = data.frame()
-    resQualitative = data.frame()
-    if(length(x@attributes)>0){
-      cntQuant = 0
-      cntOrd = 0
-      cntQual = 0
-      for(i in 1:length(x@attributes)){
-        if(x@attributes[[i]]$type=="quantitative") {
-          cntQuant = cntQuant + 1
-          if(IDs) resQuantitative[cntQuant, "methodID"] = x@attributes[[i]]$methodID
-          resQuantitative[cntQuant, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
-          resQuantitative[cntQuant, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
-          resQuantitative[cntQuant, "unit"] = x@attributes[[i]]$unit
-          if("lowerLimit" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "lowerLimit"] = x@attributes[[i]]$lowerLimit
-          if("upperLimit" %in% names(x@attributes[[i]])) resQuantitative[cntQuant, "upperLimit"] = x@attributes[[i]]$upperLimit
-          rownames(resQuantitative)[cntQuant] = names(x@attributes)[i]
-        }
-        else if(x@attributes[[i]]$type=="ordinal") {
-          cntOrd = cntOrd + 1
-          if(IDs) resOrdinal[cntOrd, "methodID"] = x@attributes[[i]]$methodID
-          resOrdinal[cntOrd, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
-          resOrdinal[cntOrd, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
-          resOrdinal[cntOrd, "code"] = x@attributes[[i]]$code
-          if("definition" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "definition"] = x@attributes[[i]]$definition
-          if("order" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "order"] = x@attributes[[i]]$order
-          if("lowerLimit" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "lowerLimit"] = x@attributes[[i]]$lowerLimit
-          if("upperLimit" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "upperLimit"] = x@attributes[[i]]$upperLimit
-          if("midPoint" %in% names(x@attributes[[i]])) resOrdinal[cntOrd, "midPoint"] = x@attributes[[i]]$midPoint
-          rownames(resOrdinal)[cntOrd] = names(x@attributes)[i]
-        }
-        else if(x@attributes[[i]]$type=="qualitative") {
-          cntQual = cntQual + 1
-          if(IDs) resQualitative[cntQual, "methodID"] = x@attributes[[i]]$methodID
-          resQualitative[cntQual, "methodName"] = x@methods[[x@attributes[[i]]$methodID]]$name
-          resQualitative[cntQual, "methodSubject"] = x@methods[[x@attributes[[i]]$methodID]]$subject
-          resQualitative[cntQual, "code"] = x@attributes[[i]]$code
-          if("definition" %in% names(x@attributes[[i]])) resQualitative[cntQual, "definition"] = x@attributes[[i]]$definition
-          rownames(resQualitative)[cntQual] = names(x@attributes)[i]
-        }
-      }
-    }
-    res = list(quantitative = resQuantitative, ordinal = resOrdinal, qualitative = resQualitative)
-  }
-  else if(element=="literatureCitation") {
-    res = data.frame(citationString = rep(NA, length(x@literatureCitations)),
-                     DOI = rep(NA, length(x@literatureCitations)),
-                     row.names = names(x@literatureCitations))
-    if(length(x@literatureCitations)>0){
-      for(i in 1:length(x@literatureCitations)){
-        cit = x@literatureCitations[[i]]$citationString
-        if(nchar(cit)>30) cit = paste0(substr(cit, 0,30),"...")
-        res[i, "citationString"] = cit
-        if("DOI" %in% names(x@literatureCitations[[i]])) res[i, "DOI"] = x@literatureCitations[[i]]$DOI
-      }
-    }
-    
   }
   return(res)
 }
