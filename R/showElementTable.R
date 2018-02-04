@@ -9,6 +9,7 @@
 #' 'siteObservation', 'method', 'attribute', 'literatureCitation'.
 #' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output.
 #' @param subjects A boolean flag to indicate whether method subjects should be included in the output.
+#' @param max.nchar Maximum number of characters in strings
 #'
 #' @return a data frame
 #' @export
@@ -55,7 +56,7 @@
 #'
 #' # show aggregate organism observations (only some of them)
 #' head(showElementTable(x, "aggregateOrganismObservation"))
-showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
+showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, max.nchar = 30) {
 
   element = match.arg(element, c("plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
@@ -65,15 +66,17 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute", "literatureCitation"))
   res = NULL
+  trimString<-function(s) {
+   if(is.na(max.nchar)) return(s)
+   return(ifelse(nchar(s)>max.nchar, paste0(substr(s, 0,max.nchar-3),"..."), s))
+  }
   if(element=="literatureCitation") {
     res = data.frame(citationString = rep(NA, length(x@literatureCitations)),
                      DOI = rep(NA, length(x@literatureCitations)),
                      row.names = names(x@literatureCitations))
     if(length(x@literatureCitations)>0){
       for(i in 1:length(x@literatureCitations)){
-        cit = x@literatureCitations[[i]]$citationString
-        if(nchar(cit)>30) cit = paste0(substr(cit, 0,30),"...")
-        res[i, "citationString"] = cit
+        res[i, "citationString"] = trimString(x@literatureCitations[[i]]$citationString)
         if("DOI" %in% names(x@literatureCitations[[i]])) res[i, "DOI"] = x@literatureCitations[[i]]$DOI
       }
     }
@@ -209,15 +212,15 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
   }
   else if(element=="organismIdentity") {
     if(IDs) {
-      res = data.frame(originalOrganismNameID = rep(NA, length(x@organismIdentities)),
+      res = data.frame(identityName = rep(NA, length(x@organismIdentities)),
+                       originalOrganismNameID = rep(NA, length(x@organismIdentities)),
                        originalOrganismName = rep(NA, length(x@organismIdentities)),
                        taxon = rep(NA, length(x@organismIdentities)),
-                       identityName = rep(NA, length(x@organismIdentities)),
                        row.names = names(x@organismIdentities))
     } else {
-      res = data.frame(originalOrganismName = rep(NA, length(x@organismIdentities)),
+      res = data.frame(identityName = rep(NA, length(x@organismIdentities)),
+                       originalOrganismName = rep(NA, length(x@organismIdentities)),
                        taxon = rep(NA, length(x@organismIdentities)),
-                       identityName = rep(NA, length(x@organismIdentities)),
                        row.names = names(x@organismIdentities))
     }
     if(length(x@organismIdentities)>0){
@@ -228,6 +231,14 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         res[i, "originalOrganismName"] = x@organismNames[[x@organismIdentities[[i]]$originalOrganismNameID]]$name
         res[i, "taxon"] = x@organismNames[[i]]$taxon
         res[i, "identityName"] = .getOrganismIdentityName(x, names(x@organismIdentities)[i])
+        if("originalConceptIdentification" %in% names(x@organismIdentities[[i]])) {
+          tcID = x@organismIdentities[[i]]$originalConceptIdentification$taxonConceptID
+          if(IDs) {
+            res[i, "taxonConceptID"] = tcID
+          }
+          res[i, "taxonConceptName"] = x@organismNames[[x@taxonConcepts[[tcID]]$organismNameID]]$name
+          res[i, "taxonConceptCitation"] = trimString(x@literatureCitations[[x@taxonConcepts[[tcID]]$citationID]]$citationString)
+        }
       }
     }
   }

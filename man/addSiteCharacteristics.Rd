@@ -16,7 +16,7 @@ addSiteCharacteristics(target, x, mapping, measurementMethods = list(),
 Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
 Additional optional mappings are: 'subPlotName'.}
 
-\item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
 (e.g. \code{list(aspect = aspectMeth)} to specify the use of method '\code{aspectMeth}' for aspect measurements).}
 

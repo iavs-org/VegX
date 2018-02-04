@@ -7,7 +7,7 @@
 #' @param mapping A list with element names 'plotName',  'obsStartDate', 'surfaceName' and 'coverMeasurement'
 #' are used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'subPlotName'.
-#' @param coverMethod A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param coverMethod A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param surfaceTypeDefinition An object of class \code{\linkS4class{VegXSurfaceTypeDefinition}} indicating the definition of surface types.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.

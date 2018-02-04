@@ -7,7 +7,7 @@
 #' @param mapping A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'taxonName' , 'citationString',
 #'                'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.
-#' @param methods A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
+#' @param methods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param citationStringAll A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -311,8 +311,8 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     # Process organism name/taxon concept/identity
     organismName = NA
     oiID = NA
+    tcID = NA
     isTaxon = FALSE
-    tcID = ""
     taxonConceptString = ""
     citationString = ""
     if(taxonNameFlag) {
@@ -372,6 +372,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       } else {
         oiID = parsedOIIDs[which(parsedOIs==taxonConceptString)]
       }
+      if(!is.na(tcID)) target@organismIdentities[[oiID]]$originalConceptIdentification = list(taxonConceptID = tcID)
     }
 
     # stratum observations

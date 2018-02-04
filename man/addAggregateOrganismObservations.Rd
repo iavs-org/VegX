@@ -16,7 +16,7 @@ addAggregateOrganismObservations(target, x, mapping, methods = list(),
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
 
-\item{methods}{A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{methods}{A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 

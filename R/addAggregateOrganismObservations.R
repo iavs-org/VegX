@@ -6,7 +6,7 @@
 #' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
-#' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param citationStringAll A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.

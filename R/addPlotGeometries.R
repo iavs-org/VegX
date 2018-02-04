@@ -8,7 +8,7 @@
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Geometry variables that can be mapped are: 'area', 'shape', 'radius', 'length','width', 'bandWidth'.
 #' Additional optional mappings are: 'subPlotName'.
-#' @param methods A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethod}}).
+#' @param methods A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'

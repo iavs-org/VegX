@@ -16,7 +16,7 @@ addPlotGeometries(target, x, mapping, methods = list(),
 Geometry variables that can be mapped are: 'area', 'shape', 'radius', 'length','width', 'bandWidth'.
 Additional optional mappings are: 'subPlotName'.}
 
-\item{methods}{A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethod}}).}
+\item{methods}{A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{missing.values}{A character vector of values that should be considered as missing data.}
 
