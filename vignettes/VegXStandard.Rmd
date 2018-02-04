@@ -65,7 +65,6 @@ siteObservation             | A container for all the site (i.e. soil, climate, 
 surfaceTypes | The definition of surface types, not the observation of cover on them.  | Yes |
 surfaceCoverObservation | A single cover measurement applying to a surface type in a single plot during a single date-time period. | Yes |
 communityObservation | TO BE DONE | Yes |
-taxonName                      | A published nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). Each name is of type tcs:scientificName and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published nomenclatural name. tcs:scientificName:citation is contained in the literature container. | No |
 taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. | No |
 taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
 communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. | No |
@@ -82,6 +81,7 @@ attribute                      | A specific definition of a measured property. A
 method                         | A specific method definition followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). | Yes |
 protocol                       | A specific grouping of methods related by common action. A protocol may have many method or steps.| No |
 literatureCitation             | Provides overview information about the literature, including citation string and DOI. | Yes |
+organismName                   | The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false. | No |
 
 
 
