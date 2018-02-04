@@ -16,7 +16,7 @@ addAggregateOrganismObservations(target, x, mapping, methods = list(),
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
 
-\item{methods}{A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
+\item{methods}{A list measurement methods for aggregate organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
@@ -33,9 +33,14 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds aggregate organism observation records to a VegX object from a data table
 }
 \details{
-Missing plotName, obsStartDate values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
-Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
-Missing measurements are simply not added to the Veg-X document. Missing values for organismName or taxonName generate errors.
+Missing value policy:
+\itemize{
+  \item{Missing 'plotName' and 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
+  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+  \item{When 'stratumName' values are missing the aggregate organism observation is not assigned to any stratum.}
+  \item{When both 'organismName' and 'taxonName' are missing (i.e. missing organism identity) the function generates an error.}
+  \item{Missing aggregate organism measurements are not added to the Veg-X document.}
+}
 }
 \examples{
 # Load source data

@@ -135,10 +135,9 @@ readVegXML<-function(file, verbose = TRUE) {
     orgName$taxon = as.logical(xmlAttrs(x)[["taxon"]])
     return(orgName)
   }
-  .xmlAttrs1<-function(x) {return(xmlAttrs(x)[[1]])}
   if("organismNames" %in% vegnames) {
     target@organismNames = xmlApply(veg[["organismNames"]], .readOrganismName.2.0.0)
-    names(target@organismNames) = xmlApply(veg[["organismNames"]], .xmlAttrs1)
+    names(target@organismNames) = xmlApply(veg[["organismNames"]], function(x) {return(xmlAttrs(x)[[1]])})
     if(verbose) cat(paste0(" ", length(target@organismNames), " organism name(s) read.\n"))
   }
 

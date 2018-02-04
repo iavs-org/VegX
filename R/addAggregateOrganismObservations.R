@@ -6,7 +6,7 @@
 #' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #'                Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
-#' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
+#' @param methods A list measurement methods for aggregate organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param citationStringAll A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -19,9 +19,14 @@
 #'
 #' @family add functions
 #'
-#' @details Missing plotName, obsStartDate values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
-#' Missing measurements are simply not added to the Veg-X document. Missing values for organismName or taxonName generate errors.
+#' @details Missing value policy:
+#' \itemize{
+#'   \item{Missing 'plotName' and 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{When 'stratumName' values are missing the aggregate organism observation is not assigned to any stratum.}
+#'   \item{When both 'organismName' and 'taxonName' are missing (i.e. missing organism identity) the function generates an error.}
+#'   \item{Missing aggregate organism measurements are not added to the Veg-X document.}
+#' }
 #'
 #' @examples
 #' # Load source data
@@ -328,8 +333,8 @@ addAggregateOrganismObservations<-function(target, x,
     # Process organism name/taxon concept/identity
     organismName = NA
     oiID = NA
+    tcID = NA
     isTaxon = FALSE
-    tcID = ""
     taxonConceptString = ""
     citationString = ""
     if(taxonNameFlag) {
@@ -389,8 +394,8 @@ addAggregateOrganismObservations<-function(target, x,
       } else {
         oiID = parsedOIIDs[which(parsedOIs==taxonConceptString)]
       }
+      if(!is.na(tcID)) target@organismIdentities[[oiID]]$originalConceptIdentification = list(taxonConceptID = tcID)
     }
-
     # stratum observations
     strObsID = ""
     if(stratumFlag) {
@@ -411,6 +416,8 @@ addAggregateOrganismObservations<-function(target, x,
         }
       }
     }
+
+    if(is.na(oiID)) stop(paste0("Missing identity for record #", i,". Please fix source data table."))
 
     # agg org observations
     naoID = .newAggregateOrganismObservationIDByOrganismIdentityID(target, plotObsID, strObsID, oiID)
