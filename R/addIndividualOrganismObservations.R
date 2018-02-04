@@ -32,7 +32,7 @@
 #'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                organismName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
+#'                taxonName = "NVSSpeciesName", individualOrganismLabel = "Identifier",
 #'                diameterMeasurement = "Diameter")
 #'
 #' # Define diameter measurement method
@@ -51,7 +51,7 @@
 #' # Second example without individual labels
 #' data(mokihinui)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+#'                taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 #' x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
 #'                                       methods = c(diameterMeasurement = diamMeth))
 #' head(showElementTable(x, "individualOrganismObservation"))
@@ -77,10 +77,6 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
 
   #Optional mappings
-  organismIdentityFlag = ("organismName" %in% names(mapping))
-  if(organismIdentityFlag) {
-    organismNames = as.character(x[[mapping[["organismName"]]]])
-  }
   stratumFlag = ("stratumName" %in% names(mapping))
   if(stratumFlag) {
     stratumNamesData = as.character(x[[mapping[["stratumName"]]]])
@@ -356,6 +352,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     }
     
     # organism identity
+    oiID = NA
     if(!(organismName %in% parsedOIs)) {
       noiid = .newOrganismIdentityIDByTaxonConcept(target, organismName, citationString) # Get the new taxon name usage ID (internal code)
       oiID = noiid$id
@@ -409,7 +406,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
       target@individualOrganisms[[indID]] = list("plotID"= plotID,
                                                  "individualOrganismLabel" = .nextIndividualOrganismLabelForPlot(target, plotID))
     }
-    if(organismIdentityFlag && (!is.na(oiID))) target@individualOrganisms[[indID]]$organismIdentityID = oiID
+    if(!is.na(oiID)) target@individualOrganisms[[indID]]$organismIdentityID = oiID
 
     # ind org observations
     nioID = .newIndividualOrganismObservationIDByIndividualID(target, plotObsID, indID)

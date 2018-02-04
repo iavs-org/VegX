@@ -46,7 +46,7 @@ data(mtfyffe)
 
 # Define mapping
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               organismName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
+               taxonName = "NVSSpeciesName", individualOrganismLabel = "Identifier",
                diameterMeasurement = "Diameter")
 
 # Define diameter measurement method
@@ -65,7 +65,7 @@ head(showElementTable(x, "individualOrganismObservation"))
 # Second example without individual labels
 data(mokihinui)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+               taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
                                       methods = c(diameterMeasurement = diamMeth))
 head(showElementTable(x, "individualOrganismObservation"))
