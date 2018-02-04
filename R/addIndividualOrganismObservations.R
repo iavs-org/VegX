@@ -66,7 +66,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   nrecords = nrow(x)
   nmissing = 0
 
-  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", 
+  indObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName",
                             "organismName", "taxonName", "citationString", "individualOrganismLabel")
 
   #Check columns exist
@@ -104,7 +104,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   if(citationStringFlag) {
     citationStringData = as.character(x[[mapping[["citationString"]]]])
   }
-  
+
 
   indMeasurementValues = list()
   #diametermeasurement
@@ -249,7 +249,9 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   parsedInds = character(0)
   parsedIndIDs = character(0)
   #Record parsing loop
+  # pb = txtProgressBar(1, nrecords, style = 3)
   for(i in 1:nrecords) {
+    # setTxtProgressBar(pb,i)
     #plot
     if(!(plotNames[i] %in% missing.values)) {# If plotName is missing take the previous one
       plotName = plotNames[i]
@@ -298,7 +300,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     else {
       plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
-    
+
     # organism name
     organismName = NA
     isTaxon = FALSE
@@ -334,7 +336,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     if(citationString!="") {
       taxonConceptString = paste(organismName, citationString)
       if(!(taxonConceptString %in% parsedTCs)) {
-        ntcid = .newTaxonConceptIDByString(target, taxonConceptString) # Get the new taxon concept ID (internal code)
+        ntcid = .newTaxonConceptIDByNameCitation(target, organismName, taxonConceptString) # Get the new taxon concept ID (internal code)
         tcID = ntcid$id
         if(ntcid$new) {
           ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
@@ -344,13 +346,13 @@ addIndividualOrganismObservations<-function(target, x, mapping,
           target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
                                               "citationID" = ncitid$id)
         }
-        parsedTCs = c(parsedTCs, taxonConcept)
+        parsedTCs = c(parsedTCs, taxonConceptString)
         parsedTCIDs = c(parsedTCIDs, tcID)
       } else {
-        tcID = parsedTCIDs[which(parsedTCs==taxonConcept)]
+        tcID = parsedTCIDs[which(parsedTCs==taxonConceptString)]
       }
     }
-    
+
     # organism identity
     oiID = NA
     if(!(organismName %in% parsedOIs)) {
@@ -362,7 +364,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     } else {
       oiID = parsedOIIDs[which(parsedOIs==organismName)]
     }
-    
+
     # stratum observations
     if(stratumFlag) {
       if(!(stratumNamesData[i] %in% missing.values)) {# If stratum name is missing do not add stratum information

@@ -188,6 +188,18 @@
   }
   return(list(id = .nextOrganismNameID(target), new = TRUE))
 }
+.newTaxonConceptIDByNameCitation<-function(target, organismName, citationString) {
+  if(length(target@taxonConcepts)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@taxonConcepts)) {
+    on  = target@organismNames[[target@taxonConcepts[[i]]$organismNameID]]$name
+    cs = target@literatureCitations[[target@taxonConcepts[[i]]$citationID]]$citationString
+    if((on==organismName) && (cs==citationString)) {
+      return(list(id = names(target@taxonConcepts)[i], new = FALSE))
+    }
+  }
+  return(list(id = .nextTaxonConceptID(target), new = TRUE))
+
+}
 
 # Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same taxon concept
 .newOrganismIdentityIDByTaxonConcept<-function(target, organismName, citationString) {

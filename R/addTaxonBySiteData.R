@@ -106,6 +106,7 @@ addTaxonBySiteData <-function(target,
       }
       target@methods[[methodID]]$citationID = ncitid$id
     }
+
     # add attributes if necessary
     for(i in 1:length(abundanceMethod@attributes)) {
       attid = .nextAttributeID(target)
