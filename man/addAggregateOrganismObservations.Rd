@@ -5,20 +5,22 @@
 \title{Add aggregate organism observation records}
 \usage{
 addAggregateOrganismObservations(target, x, mapping, methods = list(),
-  stratumDefinition = NULL, missing.values = c(NA, "0", ""),
-  verbose = TRUE)
+  stratumDefinition = NULL, citationStringAll = NULL,
+  missing.values = c(NA, "0", ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'organismName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
+\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
 
 \item{methods}{A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
+
+\item{citationStringAll}{A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -31,16 +33,17 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds aggregate organism observation records to a VegX object from a data table
 }
 \details{
-Missing plotName, obsStartDate or organismName values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
+Missing plotName, obsStartDate values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
 Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
-Missing measurements are simply not added to the Veg-X document.
+Missing measurements are simply not added to the Veg-X document. Missing values for organismName or taxonName generate errors.
 }
 \examples{
 # Load source data
 data(mokihinui)
 
 # Define mapping
-mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+               taxonName = "NVSSpeciesName",
                stratumName = "Tier", cover = "Category")
 
 # Define abundance scale
@@ -76,7 +79,7 @@ head(showElementTable(x, "aggregateOrganismObservation"))
 # Example with individual counts
 data(mtfyffe)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               organismName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+               taxonName = "NVSSpeciesName", stratumName = "Tier", counts = "Value")
 countscale = predefinedMeasurementMethod("Plant counts")
 strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
                                description = "Seedling/sapling stratum definition",
@@ -91,7 +94,7 @@ head(showElementTable(x, "aggregateOrganismObservation"))
 # Example with frequency in transects
 data(takitimu)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-              organismName = "PreferredSpeciesName", freq = "Value")
+               taxonName = "NVSSpeciesName", freq = "Value")
 freqscale = predefinedMeasurementMethod("Plant frequency/\%")
 x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
                                      methods = c(freq=freqscale))

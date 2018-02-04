@@ -181,16 +181,28 @@
 .newOrganismNameIDByName<-function(target, organismName, taxon) {
   if(length(target@organismNames)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@organismNames)) {
-    if((target@organismNames[[i]]$name==name) && (target@organismNames[[i]]$taxon==taxon)) return(list(id = names(target@organismNames)[i], new = FALSE))
+    if((target@organismNames[[i]]$name==organismName) && (target@organismNames[[i]]$taxon==taxon)) return(list(id = names(target@organismNames)[i], new = FALSE))
   }
   return(list(id = .nextOrganismNameID(target), new = TRUE))
 }
 
-# Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same name
-.newOrganismIdentityIDByName<-function(target, organismName) {
+# Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same taxon concept
+.newOrganismIdentityIDByTaxonConcept<-function(target, organismName, citationString) {
   if(length(target@organismIdentities)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@organismIdentities)) {
-    if(target@organismIdentities[[i]]$organismName==organismName) return(list(id = names(target@organismIdentities)[i], new = FALSE))
+    on  = target@organismNames[[target@organismIdentities[[i]]$originalOrganismNameID]]$name
+    if(on==organismName) {
+      if("originalTaxonConceptID" %in% names(target@organismIdentities[[i]])) {
+        if(target@organismIdentities[[i]]$originalTaxonConceptID!="") {
+          citString = target@literatureCitations[[target@taxonConcepts[[target@organismIdentities[[i]]$originalTaxonConceptID]]$citationID]]$citationString
+          if(citString == citationString) {
+            return(list(id = names(target@organismIdentities)[i], new = FALSE))
+          }
+        }
+      } else { # Same concept
+        return(list(id = names(target@organismIdentities)[i], new = FALSE))
+      }
+    }
   }
   return(list(id = .nextOrganismIdentityID(target), new = TRUE))
 }
