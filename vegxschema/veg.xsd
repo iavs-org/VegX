@@ -19,7 +19,7 @@
     <xsd:element name="vegX">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="literature" minOccurs="0">
+                <xsd:element name="literatureCitations" minOccurs="0">
                     <xsd:annotation>
                         <xsd:documentation>A container literature citations. </xsd:documentation>
                     </xsd:annotation>
