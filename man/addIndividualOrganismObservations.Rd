@@ -5,8 +5,8 @@
 \title{Add individual organism observation records}
 \usage{
 addIndividualOrganismObservations(target, x, mapping, methods = list(),
-  stratumDefinition = NULL, missing.values = c(NA, "0", ""),
-  verbose = TRUE)
+  stratumDefinition = NULL, citationStringAll = NULL,
+  missing.values = c(NA, "0", ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -14,11 +14,14 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
 \item{x}{A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
+Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'taxonName' , 'citationString',
+'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
 
 \item{methods}{A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
+
+\item{citationStringAll}{A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
