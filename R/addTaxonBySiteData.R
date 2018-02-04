@@ -10,7 +10,7 @@
 #' @param target The object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A site-by-species releve table
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param abundanceMethod A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param abundanceMethod A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param obsDates A vector of \code{\link{Date}} objects with plot observation dates.
 #' @param absence.values A vector of values to be interpreted as missing plant information.
 #' @param verbose A flag to indicate console output of the data integration process.

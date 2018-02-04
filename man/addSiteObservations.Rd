@@ -24,14 +24,14 @@ Additional optional mappings are: 'subPlotName'.}
 
 \item{waterMassMeasurementMapping}{A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
 
-\item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).}
 
-\item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.}
 
-\item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}

@@ -11,12 +11,12 @@
 #' @param soilMeasurementMapping A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param climateMeasurementMapping A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param waterMassMeasurementMapping A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 #' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).
-#' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.
-#' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.

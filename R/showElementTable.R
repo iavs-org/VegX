@@ -57,7 +57,7 @@
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
 
-  element = match.arg(element, c("plot", "plotObservation", 
+  element = match.arg(element, c("plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",
                                  "surfaceType", "surfaceCoverObservation",
@@ -184,6 +184,29 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
       }
     }
   }
+  else if(element=="taxonConcept") {
+    if(IDs) {
+      res = data.frame(organismNameID = rep(NA, length(x@taxonConcepts)),
+                       organismName = rep(NA, length(x@taxonConcepts)),
+                       citationID = rep(NA, length(x@taxonConcepts)),
+                       citationString = rep(NA, length(x@taxonConcepts)),
+                       row.names = names(x@taxonConcepts))
+    } else {
+      res = data.frame(organismName = rep(NA, length(x@taxonConcepts)),
+                       citationString = rep(NA, length(x@taxonConcepts)),
+                       row.names = names(x@taxonConcepts))
+    }
+    if(length(x@taxonConcepts)>0){
+      for(i in 1:length(x@taxonConcepts)){
+        if(IDs) {
+          res[i, "organismNameID"] = x@taxonConcepts[[i]]$organismNameID
+          res[i, "citationID"] = x@taxonConcepts[[i]]$citationID
+        }
+        res[i, "organismName"] = x@organismNames[[x@taxonConcepts[[i]]$organismNameID]]$name
+        res[i, "citationString"] = x@literatureCitations[[x@taxonConcepts[[i]]$citationID]]$citationString
+      }
+    }
+  }
   else if(element=="organismIdentity") {
     if(IDs) {
       res = data.frame(originalOrganismNameID = rep(NA, length(x@organismIdentities)),
@@ -229,9 +252,9 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         }
         res[i, "plotName"] = x@plots[[x@individualOrganisms[[i]]$plotID]]$plotName
         if(IDs) {
-          res[i, "organismIdentityID"] = x@individualOrganisms[[i]]$organismIdentityID
+          if("organismIdentityID" %in% names(x@individualOrganisms[[i]])) res[i, "organismIdentityID"] = x@individualOrganisms[[i]]$organismIdentityID
         }
-        res[i, "organismIdentityName"] = .getOrganismIdentityName(x, x@individualOrganisms[[i]]$organismIdentityID)
+        if("organismIdentityID" %in% names(x@individualOrganisms[[i]])) res[i, "organismIdentityName"] = .getOrganismIdentityName(x, x@individualOrganisms[[i]]$organismIdentityID)
         res[i, "individualOrganismLabel"] = x@individualOrganisms[[i]]$individualOrganismLabel
       }
     }

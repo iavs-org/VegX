@@ -15,7 +15,7 @@ addStratumObservations(target, x, mapping, methods, stratumDefinition,
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
 
-\item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
