@@ -42,7 +42,7 @@ Missing measurements are simply not added to the Veg-X document. Missing values 
 data(mokihinui)
 
 # Define mapping
-mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
                taxonName = "NVSSpeciesName",
                stratumName = "Tier", cover = "Category")
 

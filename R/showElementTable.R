@@ -399,6 +399,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
     }
     if(length(x@individualObservations)>0){
       for(i in 1:length(x@individualObservations)){
+        indOrg = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]
         if(IDs) {
           res[i, "plotObservationID"] = x@individualObservations[[i]]$plotObservationID
         }
@@ -407,11 +408,11 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE) {
         if(IDs) {
           res[i, "individualOrganismID"] = x@individualObservations[[i]]$individualOrganismID
         }
-        res[i, "individualOrganismLabel"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$individualOrganismLabel
+        res[i, "individualOrganismLabel"] = indOrg$individualOrganismLabel
         if(IDs) {
-          res[i, "organismIdentityID"] = x@individualOrganisms[[x@individualObservations[[i]]$individualOrganismID]]$organismIdentityID
+          if("organismIdentityID" %in% names(indOrg))  res[i, "organismIdentityID"] = indOrg$organismIdentityID
         }
-        res[i, "organismIdentityName"] = .getIndividualOrganismIdentityName(x, x@individualObservations[[i]]$individualOrganismID)
+        if("organismIdentityID" %in% names(indOrg))  res[i, "organismIdentityName"] = .getIndividualOrganismIdentityName(x, x@individualObservations[[i]]$individualOrganismID)
         if("stratumObservationID" %in% names(x@individualObservations[[i]])){
           if(x@individualObservations[[i]]$stratumObservationID != "") {
             if(IDs) {

@@ -28,7 +28,7 @@
 #' data(mokihinui)
 #'
 #' # Define mapping
-#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 #'                taxonName = "NVSSpeciesName",
 #'                stratumName = "Tier", cover = "Category")
 #'
@@ -98,7 +98,7 @@ addAggregateOrganismObservations<-function(target, x,
   nrecords = nrow(x)
   nmissing = 0
 
-  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName", 
+  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName",
                             "taxonName", "citationString")
 
   #Check columns exist
@@ -132,7 +132,7 @@ addAggregateOrganismObservations<-function(target, x,
   if(citationStringFlag) {
     citationStringData = as.character(x[[mapping[["citationString"]]]])
   }
-  
+
   #heightmeasurement
   aggMeasurementValues = list()
   heightMeasurementFlag = ("heightMeasurement" %in% names(mapping))
@@ -151,9 +151,9 @@ addAggregateOrganismObservations<-function(target, x,
   }
 
   #Check duplicate records
-  # aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName", 
+  # aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName",
   #                           "taxonName", "citationString")
-  
+
   mapcols = as.character(mapping[aggObservationMapping[c(T,T,subPlotFlag,stratumFlag,organismNameFlag,
                                                          taxonNameFlag, citationStringFlag)]])
   xstrings = apply(x[, mapcols],1, paste, collapse=" ")
@@ -324,9 +324,14 @@ addAggregateOrganismObservations<-function(target, x,
     } else {
       plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
-    # organism name
+
+    # Process organism name/taxon concept/identity
     organismName = NA
+    oiID = NA
     isTaxon = FALSE
+    tcID = ""
+    taxonConceptString = ""
+    citationString = ""
     if(taxonNameFlag) {
       organismName = taxonNames[i]
       isTaxon = TRUE
@@ -334,57 +339,56 @@ addAggregateOrganismObservations<-function(target, x,
     if(!isTaxon && organismNameFlag) {
       organismName = organismNames[i]
     }
-    if(!(organismName %in% parsedONs)) {
-      nonid = .newOrganismNameIDByName(target, organismName, isTaxon) # Get the new organism name usage ID (internal code)
-      onID = nonid$id
-      if(nonid$new) target@organismNames[[onID]] = list("name" = organismName,
-                                                       "taxon" = isTaxon)
-      parsedONs = c(parsedONs, organismName)
-      parsedONIDs = c(parsedONIDs, onID)
-    } else {
-      onID = parsedONIDs[which(parsedONs==organismName)]
-    }
-    # taxon concept
-    tcID = ""
-    taxonConceptString = ""
-    citationString = ""
-    if(!is.null(citationStringAll)) {
-      citationString = citationStringAll
-    }
-    if(citationStringFlag){
-      if(!(citationStringData[i] %in% missing.values)) { #If there is citation data in a column, this overrides the string for all data set
-        citationString = citationStringData[i]
-      }
-    }
-    if(citationString!="") {
-      taxonConceptString = paste(organismName, citationString)
-      if(!(taxonConceptString %in% parsedTCs)) {
-        ntcid = .newTaxonConceptIDByString(target, taxonConceptString) # Get the new taxon concept ID (internal code)
-        tcID = ntcid$id
-        if(ntcid$new) {
-          ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
-          if(ncitid$new) {
-            target@literatureCitations[[ncitid$id]] = list(citationString = citationString)
-          }
-          target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
-                                              "citationID" = ncitid$id)
-        }
-        parsedTCs = c(parsedTCs, taxonConcept)
-        parsedTCIDs = c(parsedTCIDs, tcID)
+    if(!(organismName %in% missing.values)) { #Process organism name and identity if the name is not missing
+      if(!(organismName %in% parsedONs)) {
+        nonid = .newOrganismNameIDByName(target, organismName, isTaxon) # Get the new organism name usage ID (internal code)
+        onID = nonid$id
+        if(nonid$new) target@organismNames[[onID]] = list("name" = organismName,
+                                                          "taxon" = isTaxon)
+        parsedONs = c(parsedONs, organismName)
+        parsedONIDs = c(parsedONIDs, onID)
       } else {
-        tcID = parsedTCIDs[which(parsedTCs==taxonConcept)]
+        onID = parsedONIDs[which(parsedONs==organismName)]
       }
-    }
-    
-    # organism identity
-    if(!(organismName %in% parsedOIs)) {
-      noiid = .newOrganismIdentityIDByTaxonConcept(target, organismName, citationString) # Get the new taxon name usage ID (internal code)
-      oiID = noiid$id
-      if(noiid$new) target@organismIdentities[[oiID]] = list("originalOrganismNameID" = onID)
-      parsedOIs = c(parsedOIs, organismName)
-      parsedOIIDs = c(parsedOIIDs, oiID)
-    } else {
-      oiID = parsedOIIDs[which(parsedOIs==organismName)]
+      # taxon concept
+      if(!is.null(citationStringAll)) {
+        citationString = citationStringAll
+      }
+      if(citationStringFlag){
+        if(!(citationStringData[i] %in% missing.values)) { #If there is citation data in a column, this overrides the string for all data set
+          citationString = citationStringData[i]
+        }
+      }
+      taxonConceptString = paste(organismName, citationString)
+      if(citationString!="") { # Parse taxon concept only if citation string is not missing
+        if(!(taxonConceptString %in% parsedTCs)) {
+          ntcid = .newTaxonConceptIDByNameCitation(target, organismName, taxonConceptString) # Get the new taxon concept ID (internal code)
+          tcID = ntcid$id
+          if(ntcid$new) {
+            ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
+            if(ncitid$new) {
+              target@literatureCitations[[ncitid$id]] = list(citationString = citationString)
+            }
+            target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
+                                                "citationID" = ncitid$id)
+          }
+          parsedTCs = c(parsedTCs, taxonConceptString)
+          parsedTCIDs = c(parsedTCIDs, tcID)
+        } else {
+          tcID = parsedTCIDs[which(parsedTCs==taxonConceptString)]
+        }
+      }
+
+      # organism identity
+      if(!(taxonConceptString %in% parsedOIs)) {
+        noiid = .newOrganismIdentityIDByTaxonConcept(target, organismName, citationString) # Get the new taxon name usage ID (internal code)
+        oiID = noiid$id
+        if(noiid$new) target@organismIdentities[[oiID]] = list("originalOrganismNameID" = onID)
+        parsedOIs = c(parsedOIs, taxonConceptString)
+        parsedOIIDs = c(parsedOIIDs, oiID)
+      } else {
+        oiID = parsedOIIDs[which(parsedOIs==taxonConceptString)]
+      }
     }
 
     # stratum observations

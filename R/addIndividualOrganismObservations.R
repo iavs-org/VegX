@@ -20,10 +20,14 @@
 #'
 #' @family add functions
 #'
-#' @details Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When organismName is missing the organism is assumed to be unidentified.
-#' When stratumName values are missing the individual organism observation is not assigned to any stratum.
-#' Missing measurements are simply not added to the Veg-X document.
+#' @details Missing value policy:
+#' \itemize{
+#'   \item{Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
+#'   \item{Missing subPlotName values are interpreted in that observation refers to the parent plotName.}
+#'   \item{When organismName is missing the organism is assumed to be unidentified.}
+#'   \item{When stratumName values are missing the individual organism observation is not assigned to any stratum.}
+#'   \item{Missing measurements are simply not added to the Veg-X document.}
+#' }
 #'
 #' @examples
 #' # Load source data
@@ -41,7 +45,8 @@
 #'
 #' # Create new Veg-X document with individual organism observations
 #' x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
-#'                                       methods = c(diameterMeasurement = diamMeth))
+#'                                       methods = c(diameterMeasurement = diamMeth),
+#'                                       missing.values = c(NA, "(Unknown)", "0",""))
 #'
 #' # Inspect the result
 #' head(showElementTable(x, "individualOrganismObservation"))
@@ -53,7 +58,8 @@
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
 #'                taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 #' x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
-#'                                       methods = c(diameterMeasurement = diamMeth))
+#'                                       methods = c(diameterMeasurement = diamMeth),
+#'                                       missing.values = c(NA, "(Unknown)", "0",""))
 #' head(showElementTable(x, "individualOrganismObservation"))
 #'
 addIndividualOrganismObservations<-function(target, x, mapping,
