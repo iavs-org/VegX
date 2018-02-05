@@ -17,6 +17,14 @@
 #' @family fill functions
 #'
 #' @examples
+#'
+#' x = fillProjectInformation(newVegX(), "MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 2011",
+#'                            personnel = c(contributor = "Susan K. Wiser"),
+#'                            abstract = paste("Characterise the forest and riparian vegetation in the lower Mokihinui gorge,",
+#'                                        "and compare this with the vegetation in (a) North Branch gorge of Mokihinui",
+#'                                        "and (b) Karamea catchment."),
+#'                            studyAreaDescription = "Mokihinui and Karamea catchments. Forest riparian habitat.")
+#'
 fillProjectInformation<-function(target, title,
                                  personnel = list(),
                                  abstract = "", funding = "",
@@ -36,11 +44,12 @@ fillProjectInformation<-function(target, title,
       role = names(personnel)[i]
       npid = .newPartyIDByName(target, personnel[[i]])
       partyID = npid$id
-      if(npid$new) target@parties[[partyID]] = list(name = personnel[[i]])
+      if(npid$new) target@parties[[partyID]] = list(name = personnel[[i]],
+                                                    partyType = "individual")
       project$personnel[[role]] = partyID
     }
     finnparties = length(target@parties)
-    if(verbose) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document. Consider providing party information.\n"))
+    if(verbose) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document as individuals. Consider providing party information.\n"))
   }
 
   if(abstract!="") project$abstract = abstract

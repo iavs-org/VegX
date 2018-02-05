@@ -19,6 +19,24 @@ readVegXML<-function(file, verbose = TRUE) {
   #read parties
   .readParty.2.0.0 = function(x) {
     party = list()
+    n = names(x)
+    if("individualName" %in% n) {
+      party$name = xmlValue(x[["individualName"]])
+      party$partyType = "individual"
+    }
+    else if("organizationName" %in% n) {
+      party$name = xmlValue(x[["organizationName"]])
+      party$partyType = "organization"
+    }
+    else if("positionName" %in% n) {
+      party$name = xmlValue(x[["positionName"]])
+      party$partyType = "position"
+    }
+    if("address" %in% n) party$address = xmlValue(x[["address"]])
+    if("phone" %in% n) party$phone = xmlValue(x[["phone"]])
+    if("electronicMailAddress" %in% n) party$electronicMailAddress = xmlValue(x[["electronicMailAddress"]])
+    if("onlineURL" %in% n) party$onlineURL = xmlValue(x[["onlineURL"]])
+
     return(party)
   }
   if("parties" %in% vegnames) {
@@ -176,7 +194,18 @@ readVegXML<-function(file, verbose = TRUE) {
   #read projects
   .readProject.2.0.0 = function(x) {
     project = list()
+    n = names(x)
     project$title = xmlValue(x[["title"]])
+
+    for(i in 1:length(n)) {
+      if(n[i]=="personnel") {
+        project$personnel[[xmlValue(x[[i]][["role"]])]] = xmlValue(x[[i]][["partyID"]])
+      }
+      else if(n[i] == "abstract") project$abstract = xmlValue(x[[i]])
+      else if(n[i] == "funding") project$funding = xmlValue(x[[i]])
+      else if(n[i] == "studyAreaDescription") project$studyAreaDescription = xmlValue(x[[i]])
+      else if(n[i] == "designDescription") project$designDescription = xmlValue(x[[i]])
+    }
     return(project)
   }
   if("projects" %in% vegnames) {

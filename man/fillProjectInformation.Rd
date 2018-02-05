@@ -31,6 +31,16 @@ The modified object of class \code{\linkS4class{VegX}}.
 \description{
 Fills the information for a given research project
 }
+\examples{
+
+x = fillProjectInformation(newVegX(), "MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 2011",
+                           personnel = c(contributor = "Susan K. Wiser"),
+                           abstract = paste("Characterise the forest and riparian vegetation in the lower Mokihinui gorge,",
+                                       "and compare this with the vegetation in (a) North Branch gorge of Mokihinui",
+                                       "and (b) Karamea catchment."),
+                           studyAreaDescription = "Mokihinui and Karamea catchments. Forest riparian habitat.")
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

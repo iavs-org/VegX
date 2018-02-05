@@ -28,14 +28,20 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                                             userdef="http://iavs.org/vegx/veg-userdefined-2.0.0",
                                             xsi="http://www.w3.org/2001/XMLSchema-instance"),
                   doc = doc)
-  #party elements (TO BE FINISHED)
+  #party elements
   if(length(x@parties)>0){
     prts = newXMLNode("parties", parent = top)
     for(i in 1:length(x@parties)){
       prt = newXMLNode("party",
                        attrs = c("id"=names(x@parties)[i]),
                        parent = prts)
-      if("name" %in% names(x@parties[[i]])) newXMLNode("name", x@parties[[i]]$name, parent=prt)
+      if(x@parties[[i]]$partyType=="individual") newXMLNode("individualName", x@parties[[i]]$name, parent=prt)
+      else if(x@parties[[i]]$partyType=="organization") newXMLNode("organizationName", x@parties[[i]]$name, parent=prt)
+      else if(x@parties[[i]]$partyType=="position") newXMLNode("positionName", x@parties[[i]]$name, parent=prt)
+      if("address" %in% names(x@parties[[i]])) newXMLNode("address", x@parties[[i]]$address, parent=prt)
+      if("phone" %in% names(x@parties[[i]])) newXMLNode("phone", x@parties[[i]]$phone, parent=prt)
+      if("electronicMailAddress" %in% names(x@parties[[i]])) newXMLNode("electronicMailAddress", x@parties[[i]]$electronicMailAddress, parent=prt)
+      if("onlineURL" %in% names(x@parties[[i]])) newXMLNode("onlineURL", x@parties[[i]]$onlineURL, parent=prt)
     }
     if(verbose) cat(paste0(" ", length(x@parties), " partie(s) added to XML tree.\n"))
   }
