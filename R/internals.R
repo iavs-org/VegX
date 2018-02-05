@@ -458,7 +458,14 @@
   return(indObs)
 }
 
-.applyMappingsToAggregatePlotObservations <-function(aggObs, attIDmap) {
+.applyMappingsToAggregatePlotObservations <-function(aggObs, plotObsIDmap, oiIDmap, strObsIDmap, attIDmap) {
+  aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
+  aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
+  if("stratumObservationID" %in% names(aggObs)) {
+    if(aggObs$stratumObservationID!="") {
+      aggObs$stratumObservationID  = strObsIDmap[[aggObs$stratumObservationID]]
+    }
+  }
   for(n in names(aggObs)) {
     # Update attribute codes
     if(n %in% c("aggregateOrganismMeasurements")) {
@@ -748,10 +755,9 @@
 }
 
 #Pools the information of two aggregate organism observations
-.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2, attIDmap) {
+.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2) {
   n1 = names(aggobs1)
   n2 = names(aggobs2)
-  aggobs2 = .applyMappingsToAggregatePlotObservations(aggobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
