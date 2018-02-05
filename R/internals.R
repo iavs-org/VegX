@@ -216,18 +216,10 @@
 .newOrganismIdentityIDByTaxonConcept<-function(target, organismName, citationString) {
   if(length(target@organismIdentities)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@organismIdentities)) {
-    on  = target@organismNames[[target@organismIdentities[[i]]$originalOrganismNameID]]$name
-    if(on==organismName) {
-      if("originalTaxonConceptID" %in% names(target@organismIdentities[[i]])) {
-        if(target@organismIdentities[[i]]$originalTaxonConceptID!="") {
-          citString = target@literatureCitations[[target@taxonConcepts[[target@organismIdentities[[i]]$originalTaxonConceptID]]$citationID]]$citationString
-          if(citString == citationString) {
-            return(list(id = names(target@organismIdentities)[i], new = FALSE))
-          }
-        }
-      } else { # Same concept
-        return(list(id = names(target@organismIdentities)[i], new = FALSE))
-      }
+    on = .getOrganismIdentityName(target, i)
+    citString = .getOrganismIdentityCitationString(target, i)
+    if((on==organismName) && (citString == citationString)) {
+       return(list(id = names(target@organismIdentities)[i], new = FALSE))
     }
   }
   return(list(id = .nextOrganismIdentityID(target), new = TRUE))
@@ -235,9 +227,18 @@
 
 
 .getOrganismIdentityName<-function(target,  identityID) {
-  oi = x@organismIdentities[[identityID]]
-  oriName = x@organismNames[[oi$originalOrganismNameID]]$name
+  oi = target@organismIdentities[[identityID]]
+  oriName = target@organismNames[[oi$originalOrganismNameID]]$name
   return(oriName)
+}
+.getOrganismIdentityCitationString<-function(target,  identityID) {
+  citationString = ""
+  oi = target@organismIdentities[[identityID]]
+  if("originalConceptIdentification" %in% names(oi)) {
+    tc = target@taxonConcepts[[oi$originalConceptIdentification$taxonConceptID]]
+    citationString = target@literatureCitations[[tc$citationID]]$citationString 
+  } 
+  return(citationString)
 }
 .getIndividualOrganismIdentityName <-function(target, individualID){
   return(.getOrganismIdentityName(target, target@individualOrganisms[[individualID]]$organismIdentityID))
@@ -360,7 +361,7 @@
 }
 
 
-.applyLiteratureMappingToMethod<-function(method, litIDmap){
+.applyMappingsToMethod<-function(method, litIDmap){
   if("citationID" %in% names(method)) {
     method$citationID = litIDmap[[method$citationID]]
   }
@@ -376,9 +377,21 @@
   return(taxonConcept)
 }
 
+.applyMappingsToOrganismIdentity<-function(organismIdentity, onIDmap, tcIDmap){
+  if("originalOrganismNameID" %in% names(organismIdentity)) {
+    organismIdentity$originalOrganismNameID = onIDmap[[organismIdentity$originalOrganismNameID]]
+  }
+  if("originalConceptIdentification" %in% names(organismIdentity)) {
+    organismIdentity$originalConceptIdentification$taxonConceptID = tcIDmap[[organismIdentity$originalConceptIdentification$taxonConceptID]]
+  }
+  return(organismIdentity)
+}
+
 #Translate attributes of measurements in a plot element
-.applyAttributeMappingToPlot<-function(plot, attIDmap) {
+.applyMappingsToPlot<-function(plot, partyIDmap, attIDmap) {
   for(n in names(plot)) {
+    # Update party codes
+    if(n=="placementPartyID")  plot[[n]] = partyIDmap[[plot[[n]]]]
     # Update attribute codes
     if(n %in% c("topography")) {
       for(m in names(plot[[n]])) {
@@ -492,7 +505,7 @@
 .mergeMethods<-function(met1, met2, litIDmap) {
   n1 = names(met1)
   n2 = names(met2)
-  met2 = .applyLiteratureMappingToMethod(met2, litIDmap)
+  met2 = .applyMappingsToMethod(met2, litIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -566,10 +579,11 @@
   return(res)
 }
 
-#Pools the information of two organism identitys
-.mergeOrganismIdentities<-function(oi1, oi2) {
+#Pools the information of two organism identities
+.mergeOrganismIdentities<-function(oi1, oi2, onIDmap, tcIDmap) {
   n1 = names(oi1)
   n2 = names(oi2)
+  oi2 = .applyMappingsToOrganismIdentity(oi2, onIDmap, tcIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -586,10 +600,10 @@
 }
 
 #Pools the information of two plots
-.mergePlots<-function(plot1, plot2, attIDmap) {
+.mergePlots<-function(plot1, plot2, partyIDmap, attIDmap) {
    n1 = names(plot1)
    n2 = names(plot2)
-   plot2 = .applyAttributeMappingToPlot(plot2, attIDmap)
+   plot2 = .applyMappingsToPlot(plot2, partyIDmap, attIDmap)
    npool = unique(c(n1,n2))
    res = list()
    for(n in npool) {

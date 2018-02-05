@@ -126,7 +126,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     for(j in 1:length(y@methods)) {
       nmetid = .newMethodIDByName(x, y@methods[[j]]$name)
       if(nmetid$new) {
-        x@methods[[nmetid$id]] = .applyLiteratureMappingToMethod(y@methods[[j]], litIDmap)
+        x@methods[[nmetid$id]] = .applyMappingsToMethod(y@methods[[j]], litIDmap)
         # add attributes
         attIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
         if(length(attIDs)>0) {
@@ -237,11 +237,13 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(length(y@organismIdentities)>0) {
     for(j in 1:length(y@organismIdentities)) {
       if(mergeIdentities) {
-        noiid = .newOrganismIdentityIDByName(x, y@organismIdentities[[j]]$organismName)
+        organismName = .getOrganismIdentityName(y, j)
+        citationString = .getOrganismIdentityCitationString(y,j)
+        noiid = .newOrganismIdentityIDByTaxonConcept(x, organismName, citationString)
         if(noiid$new) {
-          x@organismIdentities[[noiid$id]] = y@organismIdentities[[j]]
+          x@organismIdentities[[noiid$id]] = .applyMappingsToOrganismIdentity(y@organismIdentities[[j]], onIDmap, tcIDmap)
         } else { #pool information
-          x@organismIdentities[[noiid$id]] = .mergeOrganismIdentities(x@organismIdentities[[noiid$id]], y@organismIdentities[[j]])
+          x@organismIdentities[[noiid$id]] = .mergeOrganismIdentities(x@organismIdentities[[noiid$id]], y@organismIdentities[[j]], onIDmap, tcIDmap)
           nmergedois = nmergedois + 1
         }
         oiIDmap[names(y@organismIdentities)[j]] = noiid$id
@@ -279,9 +281,9 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       if("parentPlotID" %in% names(y@plots[[j]])) y@plots[[j]]$parentPlotID = plotIDmap[[y@plots[[j]]$parentPlotID]] #set parent plot ID to translated one in order to avoid matching problems
       npid = .newPlotIDByName(x, y@plots[[j]]$plotName)
       if(npid$new) {
-        x@plots[[npid$id]] = .applyAttributeMappingToPlot(y@plots[[j]], attIDmap)
+        x@plots[[npid$id]] = .applyMappingsToPlot(y@plots[[j]], partyIDmap, attIDmap)
       } else { #pool information
-        x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]], attIDmap)
+        x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]], partyIDmap, attIDmap)
         nmergedplots = nmergedplots + 1
       }
       plotIDmap[names(y@plots)[j]] = npid$id
@@ -290,6 +292,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of plots: ", length(x@plots),". Data pooled for ", nmergedplots, " plot(s).\n"))
   }
+  
   #plotObservations
   plotObsIDmap = list()
   nmergedplotobs = 0
