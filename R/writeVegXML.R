@@ -196,7 +196,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
   }
-  #plot elements (TO BE REVISED (location))
+  #plot elements 
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
     for(i in 1:length(x@plots)){
@@ -212,11 +212,17 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       }
       #Add location information
       if("location" %in% names(x@plots[[i]])) {
+        location = x@plots[[i]]$location
         pl = newXMLNode("location", parent=p)
-        gs = newXMLNode("geospatial", parent=pl)
-        if("DecimalLongitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLongitude", x@plots[[i]]$location$DecimalLongitude, parent=gs)
-        if("DecimalLatitude" %in% names(x@plots[[i]]$location)) newXMLNode("DecimalLatitude", x@plots[[i]]$location$DecimalLatitude, parent=gs)
-        if("GeodeticDatum" %in% names(x@plots[[i]]$location)) newXMLNode("GeodeticDatum", x@plots[[i]]$location$GeodeticDatum, parent=gs)
+        if("horizontalCoordinates" %in% names(location)) {
+          hc = newXMLNode("horizontalCoordinates", parent=pl)
+          if("coordinates" %in% names(location$horizontalCoordinates)) {
+            cc = newXMLNode("coordinates", parent=hc)
+            newXMLNode("valueX", location$horizontalCoordinates$coordinates$valueX, parent=cc)
+            newXMLNode("valueY", location$horizontalCoordinates$coordinates$valueY, parent=cc)
+            newXMLNode("spatialReference", location$horizontalCoordinates$coordinates$spatialReference, parent=cc)
+          }
+        }
       }
       if("geometry" %in% names(x@plots[[i]])) {
         gm = newXMLNode("geometry", parent=p)
