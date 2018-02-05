@@ -240,6 +240,17 @@ readVegXML<-function(file, verbose = TRUE) {
           plot$location$horizontalCoordinates$coordinates$valueX = xmlValue(cc[["valueX"]])
           plot$location$horizontalCoordinates$coordinates$valueY = xmlValue(cc[["valueX"]])
           plot$location$horizontalCoordinates$coordinates$spatialReference = xmlValue(cc[["spatialReference"]])
+          if("attributeID" %in% names(cc)) {
+            plot$location$horizontalCoordinates$coordinates$attributeID = xmlValue(cc[["attributeID"]])
+          }
+        }
+      }
+      if("verticalCoordinates" %in% names(loc)) {
+        plot$location$verticalCoordinates = list()
+        vc = loc[["verticalCoordinates"]]
+        if("elevation" %in% names(vc)) {
+          elev = vc[["elevation"]]
+          plot$location$verticalCoordinates$elevation = .readVegXMeasurement.2.0.0(elev)
         }
       }
     }
