@@ -214,7 +214,7 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@projects), " project(s) read.\n"))
   }
 
-  #read plots (TO BE REVISED (location))
+  #read plots
   .readPlot.2.0.0 = function(x) {
     plot = list()
     plot$plotName = xmlValue(x[["plotName"]])

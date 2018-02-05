@@ -277,7 +277,6 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of projects: ", length(x@projects),". Data pooled for ", nmergedpjs, " project(s).\n"))
   }
   
-  
   #plots
   plotIDmap = list()
   nmergedplots = 0
@@ -298,6 +297,26 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of plots: ", length(x@plots),". Data pooled for ", nmergedplots, " plot(s).\n"))
   }
   
+  # individualOrganisms
+  indIDmap = list()
+  nmergedind = 0
+  if(length(y@individualOrganisms)>0) {
+    for(j in 1:length(y@individualOrganisms)) {
+      indOrg = .applyMappingsToIndividualOrganism(y@individualOrganisms[[j]], plotIDmap, oiIDmap)
+      nindid = .newIndividualOrganismIDByIndividualOrganismLabel(x, indOrg$plotID, indOrg$individualOrganismLabel)
+      if(nindid$new) {
+        x@individualOrganisms[[nindid$id]] = indOrg
+      } else { #pool information
+        x@individualOrganisms[[nindid$id]] = .mergeIndividualOrganisms(x@individualOrganisms[[nindid$id]], indOrg)
+        nmergedind = nmergedind + 1
+      }
+      indIDmap[names(y@individualOrganisms)[j]] = nindid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of individual organisms: ", length(x@individualOrganisms),". Data pooled for ", nmergedind, " individual organism(s).\n"))
+  }
+  
   #plotObservations
   plotObsIDmap = list()
   nmergedplotobs = 0
@@ -307,9 +326,9 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       y@plotObservations[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
       npoid = .newPlotObsIDByDate(x, plotID, y@plotObservations[[j]]$obsStartDate)
       if(npoid$new) {
-        x@plotObservations[[npoid$id]] = y@plotObservations[[j]]
+        x@plotObservations[[npoid$id]] = .applyMappingsToPlotObservation(y@plotObservations[[j]], projectIDmap)
       } else { #pool information
-        x@plotObservations[[npoid$id]] = .mergePlotObservations(x@plotObservations[[npoid$id]], y@plotObservations[[j]], attIDmap)
+        x@plotObservations[[npoid$id]] = .mergePlotObservations(x@plotObservations[[npoid$id]], y@plotObservations[[j]], projectIDmap)
         nmergedplotobs = nmergedplotobs + 1
       }
       plotObsIDmap[names(y@plotObservations)[j]] = npoid$id
@@ -360,7 +379,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       }
       naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x, plotObsID, strObsID, oiID)
       if(naggobsid$new) {
-        x@aggregateObservations[[naggobsid$id]] = .applyAttributeMappingToAggregatePlotObservations( y@aggregateObservations[[j]], attIDmap)
+        x@aggregateObservations[[naggobsid$id]] = .applyMappingsToAggregatePlotObservations(y@aggregateObservations[[j]], attIDmap)
       } else { #pool information
         x@aggregateObservations[[naggobsid$id]] = .mergeAggregateOrganismObservations(x@aggregateObservations[[naggobsid$id]], y@aggregateObservations[[j]], attIDmap)
         nmergedaggobs = nmergedaggobs + 1
@@ -372,28 +391,6 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of aggregate organism observations: ", length(x@aggregateObservations),". Data pooled for ", nmergedaggobs, " aggregate organism observation(s).\n"))
   }
 
-  # individualOrganisms
-  indIDmap = list()
-  nmergedind = 0
-  if(length(y@individualOrganisms)>0) {
-    for(j in 1:length(y@individualOrganisms)) {
-      plotID = plotIDmap[[y@individualOrganisms[[j]]$plotID]]
-      oiID = oiIDmap[[y@individualOrganisms[[j]]$organismIdentityID]]
-      y@individualOrganisms[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
-      y@individualOrganisms[[j]]$organismIdentityID = oiID # set oi ID to translated one in order to avoid matching problems (does not change id externally)
-      nindid = .newIndividualOrganismIDByIndividualOrganismLabel(x, plotID, y@individualOrganisms[[j]]$individualOrganismLabel)
-      if(nindid$new) {
-        x@individualOrganisms[[nindid$id]] = y@individualOrganisms[[j]]
-      } else { #pool information
-        x@individualOrganisms[[nindid$id]] = .mergeIndividualOrganisms(x@individualOrganisms[[nindid$id]], y@individualOrganisms[[j]])
-        nmergedind = nmergedind + 1
-      }
-      indIDmap[names(y@individualOrganisms)[j]] = nindid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of individual organisms: ", length(x@individualOrganisms),". Data pooled for ", nmergedind, " individual organism(s).\n"))
-  }
 
 
   # individualObservations

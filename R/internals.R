@@ -411,7 +411,19 @@
   }
   return(plot)
 }
-.applyAttributeMappingToAggregatePlotObservations <-function(aggObs, attIDmap) {
+.applyMappingsToIndividualOrganism<-function(indOrg, plotIDmap, oiIDmap) {
+  indOrg$plotID = plotIDmap[[indOrg$plotID]]
+  indOrg$organismIdentityID = oiIDmap[[indOrg$organismIdentityID]]
+  return(indOrg)
+}
+.applyMappingsToPlotObservation<-function(plotObs, projectIDmap) {
+  for(n in names(plotObs)) {
+    # Update party codes
+    if(n=="projectID")  plotObs[[n]] = projectIDmap[[plotObs[[n]]]]
+  }
+  return(plotObs)
+}
+.applyMappingsToAggregatePlotObservations <-function(aggObs, attIDmap) {
   for(n in names(aggObs)) {
     # Update attribute codes
     if(n %in% c("aggregateOrganismMeasurements")) {
@@ -648,10 +660,11 @@
    return(res)
 }
 
-#Pools the information of two plot observationss
-.mergePlotObservations<-function(plotObservation1, plotObservation2, attIDmap) {
+#Pools the information of two plot observations
+.mergePlotObservations<-function(plotObservation1, plotObservation2, projectIDmap) {
   n1 = names(plotObservation1)
   n2 = names(plotObservation2)
+  plotObservation2 = .applyMappingsToPlotObservation(plotObservation2, projectIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -732,7 +745,7 @@
 .mergeAggregateOrganismObservations<-function(aggobs1, aggobs2, attIDmap) {
   n1 = names(aggobs1)
   n2 = names(aggobs2)
-  aggobs2 = .applyAttributeMappingToAggregatePlotObservations(aggobs2, attIDmap)
+  aggobs2 = .applyMappingsToAggregatePlotObservations(aggobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
