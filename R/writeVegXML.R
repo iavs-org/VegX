@@ -45,7 +45,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@parties), " partie(s) added to XML tree.\n"))
   }
-  #literatureCitation elements (TO BE CHECKED)
+  #literatureCitation elements
   if(length(x@literatureCitations)>0){
     lits = newXMLNode("literatureCitations", parent = top)
     for(i in 1:length(x@literatureCitations)){
@@ -242,15 +242,16 @@ writeVegXML<-function(x, file, verbose = TRUE) {
         }
         if("rectangle" %in% names(x@plots[[i]]$geometry)) {
           sh = newXMLNode("rectangle", parent=gm)
-          if("length" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
-            mes = newXMLNode("length", parent=sh)
-            newXMLNode("value", x@plots[[i]]$geometry$rectangle$length$value, parent=mes)
-            newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$length$attributeID, parent=mes)
-          }
+          dim = newXMLNode("dimensions", parent=sh)
           if("width" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
-            mes = newXMLNode("width", parent=sh)
+            mes = newXMLNode("width", parent=dim)
             newXMLNode("value", x@plots[[i]]$geometry$rectangle$width$value, parent=mes)
             newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$width$attributeID, parent=mes)
+          }
+          if("length" %in% names(x@plots[[i]]$geometry$rectangle)) { #Add length information
+            mes = newXMLNode("length", parent=dim)
+            newXMLNode("value", x@plots[[i]]$geometry$rectangle$length$value, parent=mes)
+            newXMLNode("attributeID", x@plots[[i]]$geometry$rectangle$length$attributeID, parent=mes)
           }
         }
         if("line" %in% names(x@plots[[i]]$geometry)) {
