@@ -231,11 +231,15 @@ readVegXML<-function(file, verbose = TRUE) {
     if("location" %in% n) {
       loc = x[["location"]]
       plot$location = list()
-      if("geospatial" %in% names(loc)) {
-        geo = loc[["geospatial"]]
-        if("DecimalLongitude" %in% names(geo)) plot$location$DecimalLongitude = xmlValue(geo[["DecimalLongitude"]])
-        if("DecimalLatitude" %in% names(geo)) plot$location$DecimalLatitude = xmlValue(geo[["DecimalLatitude"]])
-        if("GeodeticDatum" %in% names(geo)) plot$location$GeodeticDatum = xmlValue(geo[["GeodeticDatum"]])
+      if("horizontalCoordinates" %in% names(loc)) {
+        plot$location$horizontalCoordinates = list()
+        hc = loc[["horizontalCoordinates"]]
+        if("coordinates" %in% names(hc)) {
+          cc = hc[["coordinates"]]
+          plot$location$horizontalCoordinates$coordinates$valueX = xmlValue(cc[["valueX"]])
+          plot$location$horizontalCoordinates$coordinates$valueY = xmlValue(cc[["valueX"]])
+          plot$location$horizontalCoordinates$coordinates$spatialReference = xmlValue(cc[["spatialReference"]])
+        }
       }
     }
     if("geometry" %in% n) {
