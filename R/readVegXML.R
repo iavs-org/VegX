@@ -220,6 +220,7 @@ readVegXML<-function(file, verbose = TRUE) {
     plot$plotName = xmlValue(x[["plotName"]])
     n = names(x)
     if("plotUniqueIdentifier" %in% n) plot$plotUniqueIdentifier = xmlValue(x[["plotUniqueIdentifier"]])
+    if("placementPartyID" %in% n) plot$placementPartyID = xmlValue(x[["placementPartyID"]])
     if("relatedPlot" %in% n) {
       rp = x[["relatedPlot"]]
       if(xmlValue(rp[["plotRelationship"]])=="subplot") {

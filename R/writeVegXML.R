@@ -205,6 +205,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                      parent = plots)
       newXMLNode("plotName", x@plots[[i]]$plotName, parent=p)
       if("plotUniqueIdentifier" %in% names(x@plots[[i]])) newXMLNode("plotUniqueIdentifier", x@plots[[i]]$plotUniqueIdentifier, parent=p)
+      if("placementPartyID" %in% names(x@plots[[i]])) newXMLNode("placementPartyID", x@plots[[i]]$placementPartyID, parent=p)
       if("parentPlotID" %in% names(x@plots[[i]])) { #Add parent plot information (it is a subplot)
         rp = newXMLNode("relatedPlot", parent=p)
         newXMLNode("relatedPlotID", x@plots[[i]]$parentPlotID, parent=rp)
