@@ -20,10 +20,11 @@ writeVegXML<-function(x, file, verbose = TRUE) {
   doc = newXMLDoc()
   top = newXMLNode(name = "VegX",
                    namespaceDefinitions = c(veg="http://iavs.org/vegx/veg-2.0.0",
-                                            obs="http://iavs.org/vegx/veg-misc-2.0.0",
-                                            org="http://iavs.org/vegx/veg-organismobservation-2.0.0",
                                             plot="http://iavs.org/vegx/veg-plot-2.0.0",
                                             plotobs="http://iavs.org/vegx/veg-plotobservation-2.0.0",
+                                            org="http://iavs.org/vegx/veg-organism-2.0.0",
+                                            com="http://iavs.org/vegx/veg-community-2.0.0",
+                                            misc="http://iavs.org/vegx/veg-misc-2.0.0",
                                             userdef="http://iavs.org/vegx/veg-userdefined-2.0.0",
                                             xsi="http://www.w3.org/2001/XMLSchema-instance"),
                   doc = doc)
@@ -172,6 +173,19 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                        attrs = c("id"=names(x@projects)[i]),
                        parent = prjs)
       newXMLNode("title", x@projects[[i]]$title, parent=prj)
+      if("personnel" %in% names(x@projects[[i]])) {
+        if(length(x@projects[[i]]$personnel)>0) {
+          for(j in 1:length(x@projects[[i]]$personnel)){
+            prjpers = newXMLNode("personnel", parent=prj)
+            newXMLNode("role", names(x@projects[[i]]$personnel)[j],parent=prjpers)
+            newXMLNode("partyID", x@projects[[i]]$personnel[[j]], parent=prjpers)
+          }
+        }
+      }
+      if("abstract" %in% names(x@projects[[i]])) newXMLNode("abstract", x@projects[[i]]$abstract, parent=prj)
+      if("funding" %in% names(x@projects[[i]])) newXMLNode("funding", x@projects[[i]]$funding, parent=prj)
+      if("studyAreaDescription" %in% names(x@projects[[i]])) newXMLNode("studyAreaDescription", x@projects[[i]]$studyAreaDescription, parent=prj)
+      if("designDescription" %in% names(x@projects[[i]])) newXMLNode("designDescription", x@projects[[i]]$designDescription, parent=prj)
     }
     if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
   }

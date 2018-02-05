@@ -4,7 +4,7 @@
 \alias{fillProjectInformation}
 \title{Fills the information for a given research project}
 \usage{
-fillProjectInformation(target, title, personnel = c(), abstract = "",
+fillProjectInformation(target, title, personnel = list(), abstract = "",
   funding = "", studyAreaDescription = "", designDescription = "")
 }
 \arguments{
@@ -12,7 +12,7 @@ fillProjectInformation(target, title, personnel = c(), abstract = "",
 
 \item{title}{A string with the title of the project. It can match one of the existing project or a new one will be defined.}
 
-\item{personnel}{A character vector with party names.}
+\item{personnel}{A named list where element names are roles and values are party names (e.g. \code{list(contributor = "John Smith")}).}
 
 \item{abstract}{A string summarizing the aims and findings of the project.}
 
