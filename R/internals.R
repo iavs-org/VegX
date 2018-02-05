@@ -421,6 +421,27 @@
   if("projectID" %in% names(plotObs)) plotObs$projectID = projectIDmap[[plotObs[[n]]]]
   return(plotObs)
 }
+
+.applyMappingsToIndividualOrganismObservations<-function(indObs, plotObsIDmap, strObsIDmap, indIDmap, attIDmap) {
+  indObs$plotObservationID = plotObsIDmap[[indObs$plotObservationID]]
+  indObs$individualOrganismID = indIDmap[[indObs$individualOrganismID]]
+  if("stratumObservationID" %in% names(indObs)) {
+    indObs$stratumObservationID = strObsIDmap[[indObs$stratumObservationID]]
+  }
+  for(n in names(indObs)) {
+    # Update attribute codes
+    if(n %in% c("individualOrganismMeasurements")) {
+      for(i in 1:length(indObs[["individualOrganismMeasurements"]])) {
+        indObs$individualOrganismMeasurements[[i]]$attributeID = attIDmap[[indObs$individualOrganismMeasurements[[i]]$attributeID]]
+      }
+    }
+    else if(n %in% c("heightMeasurement", "diameterMeasurement")) {
+      indObs[[n]]$attributeID = attIDmap[[indObs[[n]]$attributeID]]
+    }
+  }
+  return(indObs)
+}
+
 .applyMappingsToAggregatePlotObservations <-function(aggObs, attIDmap) {
   for(n in names(aggObs)) {
     # Update attribute codes
@@ -445,20 +466,6 @@
     }
   }
   return(siteobs)
-}
-.applyAttributeMappingToIndividualOrganismObservations<-function(indObs, attIDmap) {
-  for(n in names(indObs)) {
-    # Update attribute codes
-    if(n %in% c("individualOrganismMeasurements")) {
-      for(i in 1:length(indObs[["individualOrganismMeasurements"]])) {
-        indObs$individualOrganismMeasurements[[i]]$attributeID = attIDmap[[indObs$individualOrganismMeasurements[[i]]$attributeID]]
-      }
-    }
-    else if(n %in% c("heightMeasurement", "diameterMeasurement")) {
-      indObs[[n]]$attributeID = attIDmap[[indObs[[n]]$attributeID]]
-    }
-  }
-  return(indObs)
 }
 .applyAttributeMappingToStratumObservations<-function(strobs, attIDmap) {
   for(n in names(strobs)) {
@@ -777,10 +784,9 @@
 }
 
 #Pools the information of two individual organism observations
-.mergeIndividualOrganismObservations<-function(indobs1, indobs2, attIDmap) {
+.mergeIndividualOrganismObservations<-function(indobs1, indobs2) {
   n1 = names(indobs1)
   n2 = names(indobs2)
-  indobs2 = .applyAttributeMappingToIndividualOrganismObservations(indobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
