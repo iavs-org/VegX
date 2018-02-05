@@ -1,69 +1,201 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
 <!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
-<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:tcs="http://www.tdwg.org/schemas/tcs/1.01" xmlns:org="http://iavs.org/vegX/organismobservation-2.0.0" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.0" xmlns:proj="eml://ecoinformatics.org/project-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:plot="http://iavs.org/vegX/plot-2.0.0" xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns:lit="eml://ecoinformatics.org/literature-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="eml-project.xsd" namespace="eml://ecoinformatics.org/project-2.0.1" />
-    <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
-    <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.0" xmlns:plot="http://iavs.org/vegX/plot-2.0.0" xmlns:org="http://iavs.org/vegX/organism-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.0" />
     <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.0" />
-    <xsd:import schemaLocation="veg-organismobservation.xsd" namespace="http://iavs.org/vegX/organismobservation-2.0.0" />
+    <xsd:import schemaLocation="veg-organism.xsd" namespace="http://iavs.org/vegX/organism-2.0.0" />
+    <xsd:import schemaLocation="veg-community.xsd" namespace="http://iavs.org/vegX/community-2.0.0" />
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:include schemaLocation="veg-userdefined.xsd" />
     <xsd:annotation>
         <xsd:documentation>			
             W3C-Schema Proposal for an International Exchange Standard for Vegetation Data.
               Author: IAVS Ecoinformatics Working Group
-              Version: 1.6
+              Version: 2.0.0
     </xsd:documentation>
     </xsd:annotation>
     <xsd:element name="vegX">
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element name="literatureCitations" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container literature citations. </xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="literatureCitation" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation source="eml" xml:lang="en">Provides information about the literature citation. Basically a citation string that should be parsed to derive authors, year, title, etc. DOI may be also specified to facilitate the identification of the document</xsd:documentation>
-                                </xsd:annotation>
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="citationString" type="xsd:string">
-                                            <xsd:annotation>
-                                                <xsd:documentation>a citation string that should be parsed to derive authors, year, title, etc.</xsd:documentation>
-                                            </xsd:annotation>
-                                        </xsd:element>
-                                        <xsd:element name="DOI" type="xsd:string" minOccurs="0" maxOccurs="1">
-                                            <xsd:annotation>
-                                                <xsd:documentation xml:lang="EN">A string of the DOI uniquely identifying the document.</xsd:documentation>
-                                            </xsd:annotation>
-                                        </xsd:element>
-                                    </xsd:sequence>
-                                    <xsd:attribute name="id" type="res:IDType" use="required">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:attribute>
-                                    <xsd:attribute name="system" type="res:SystemType" use="optional" />
-                                    <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
                 <xsd:element name="parties" minOccurs="0">
                     <xsd:annotation>
                         <xsd:documentation>A container for eml-party types. The eml-party module describes a responsible party (person or organization).</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="party" type="party:ResponsibleParty" maxOccurs="unbounded">
+                            <xsd:element name="party" type="misc:partyType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation source="EML" xml:lang="en">The eml-party module describes a responsible party (person or organization), and is typically used to name the originator of a resource or metadata document.</xsd:documentation>
-                                    <xsd:appinfo source="EML">It contains detailed contact information for the party, be it an individual person, an organization, or a named position within an organization. The eml-party module is used throughout the other EML modules where detailed contact information is needed.</xsd:appinfo>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="literatureCitations" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container literature citations. </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="literatureCitation" type="misc:literatureCitationType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation source="eml" xml:lang="en">Provides information about the literature citation. Basically a citation string that should be parsed to derive authors, year, title, etc. DOI may be also specified to facilitate the identification of the document</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="methods" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for the methods followed in the creation of the datasets.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="method" type="misc:MethodType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">A specific method definition followed in the creation of the dataset. Each method links to a protocol and literature citation reference. A protocol may have many method or steps.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="attributes" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for the definitions of measured properties.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="attribute" type="misc:AttributeType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">A specific definition of a measured property. An attribute has to be one of three types: qualitative (unordered categorical variable, i.e. nominal), ordinal (ordered list of values) or quantitative (a numerical variable, either discrete or continuous</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="strata" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for the definitions of strata, following a specific definition method.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="stratum" type="plot:StratumType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. It contains the stratum name (e.g. tree layer) as well as an identification code. It may also contain an indication of a position in an ordered sequence of strata.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">A reference to a specific method applied in comon to all the strata described for a dataset. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="surfaceTypes" minOccurs="0" maxOccurs="1">
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="surfaceCover" type="plot:SurfaceType" minOccurs="1" maxOccurs="unbounded" />
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="organismNames" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for all organism nomenclatural units defined for use by a dataset. </xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="organismName" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation>The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false.</xsd:documentation>
+                                </xsd:annotation>
+                                <xsd:complexType>
+                                    <xsd:simpleContent>
+                                        <xsd:extension xmlns:q1="http://iavs.org/vegX/organismobservation-2.0.0" base="q1:OrganismNameType">
+                                            <xsd:attribute name="id" type="misc:IDType" use="required">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:attribute>
+                                            <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+                                            <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+                                            <xsd:attribute name="taxonName" type="xsd:boolean" use="required">
+                                                <xsd:annotation>
+                                                    <xsd:documentation>A flag to identify that the organism name is a taxon name (i.e. a name according to a nomenclature code)</xsd:documentation>
+                                                </xsd:annotation>
+                                            </xsd:attribute>
+                                        </xsd:extension>
+                                    </xsd:simpleContent>
+                                </xsd:complexType>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="taxonConcepts" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for all taxon concepts defined for use by a dataset.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element xmlns:q2="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonConcept" type="q2:TaxonConceptType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation>Representation of a Taxon Concept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. Each taxon concept may be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="taxonDeterminations" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for relationships or assertions between two concepts. Within vegX this typically allows for an author usage concept (datasetNameUsageConcept), i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element xmlns:q3="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonDetermination" type="q3:TaxonDeterminationType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts or taxon names to an IndividualOrganismObservation or AggregateTaxonObservation by a Party.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="organismIdentities" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for taxon name strings occurring within the dataset. These are usage concepts defined by the dataset author which may follow, or be according, to a third party. They may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element xmlns:q4="http://iavs.org/vegX/organismobservation-2.0.0" name="organismIdentity" type="q4:OrganismIdentityType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation>A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according to, an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="communityConcepts" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for community concepts</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element name="communityConcept" xmlns:q1="http://iavs.org/vegX/community-2.0.0" type="q1:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="EN">A name and some kind of definition of a community type, preferably a community name as used in a reference.v</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="communityDeterminations" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for identifications that apply one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element xmlns:q6="http://iavs.org/vegX/organismobservation-2.0.0" name="communityDetermination" xmlns:q2="http://iavs.org/vegX/community-2.0.0" type="q2:CommunityDeterminationType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">An identification applying one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -75,11 +207,9 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="project" type="proj:ResearchProjectType" maxOccurs="unbounded">
+                            <xsd:element name="project" type="misc:projectType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation source="EML" xml:lang="en">The eml-project module describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc.  Each project should have an identifier that is unique across the dataset, and preferably globally unique.</xsd:documentation>
-                                    <xsd:appinfo source="EML">This is also the module to describe the design of the project: the scientific questions being asked, the architecture of the design, etc. This module is used to place the dataset that is being documented into its larger research context.</xsd:appinfo>
-                                    <xsd:appinfo>A GUID (globally unique identifier) would be ideal for specifying the unique identifier for the project, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.</xsd:appinfo>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -93,8 +223,21 @@
                         <xsd:sequence>
                             <xsd:element name="plot" type="plot:PlotType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">Sampling locations represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time.</xsd:documentation>
-                                    <xsd:appinfo>A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</xsd:appinfo>
+                                    <xsd:documentation xml:lang="en">Sampling locations represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
+                        </xsd:sequence>
+                    </xsd:complexType>
+                </xsd:element>
+                <xsd:element name="individualOrganisms" minOccurs="0">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for all identified organisms recorded within the dataset.</xsd:documentation>
+                    </xsd:annotation>
+                    <xsd:complexType>
+                        <xsd:sequence>
+                            <xsd:element xmlns:q5="http://iavs.org/vegX/organismobservation-2.0.0" name="individualOrganism" type="q5:IndividualOrganismType" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. Individuals may have an identification label (e.g. tree tag number).</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -114,110 +257,15 @@
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element name="organismNames" minOccurs="0">
+                <xsd:element name="individualOrganismObservations" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for all organism nomenclatural units defined for use by a dataset. </xsd:documentation>
+                        <xsd:documentation>A container for measurements/observations applying to one occurrence of an organism.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="organismName" maxOccurs="unbounded">
+                            <xsd:element name="individualOrganismObservation" type="obs:IndividualOrganismObservationType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation>The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false.</xsd:documentation>
-                                </xsd:annotation>
-                                <xsd:complexType>
-                                    <xsd:simpleContent>
-                                        <xsd:extension base="xsd:string">
-                                            <xsd:attribute name="id" type="res:IDType" use="required">
-                                                <xsd:annotation>
-                                                    <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
-                                                </xsd:annotation>
-                                            </xsd:attribute>
-                                            <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
-                                            <xsd:attribute name="system" type="res:SystemType" use="optional" />
-                                            <xsd:attribute name="taxonName" type="xsd:boolean" use="required">
-                                                <xsd:annotation>
-                                                    <xsd:documentation>A flag to identify that the organism name is a taxon name (i.e. a name according to a nomenclature code)</xsd:documentation>
-                                                </xsd:annotation>
-                                            </xsd:attribute>
-                                        </xsd:extension>
-                                    </xsd:simpleContent>
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="taxonConcepts" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for all taxon concepts defined for use by a dataset.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="taxonConcept" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation>Representation of a Taxon Concept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. Each taxon concept may be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept.</xsd:documentation>
-                                </xsd:annotation>
-                                <xsd:complexType>
-                                    <xsd:sequence>
-                                        <xsd:element name="organismNameID" type="xsd:string">
-                                            <xsd:annotation>
-                                                <xsd:documentation>A link to a specific organism name by ID. </xsd:documentation>
-                                            </xsd:annotation>
-                                        </xsd:element>
-                                        <xsd:element name="accordingToReferenceID" type="xsd:string">
-                                            <xsd:annotation>
-                                                <xsd:documentation>A link to a bibliographic reference by ID where the taxon concept is described. </xsd:documentation>
-                                            </xsd:annotation>
-                                        </xsd:element>
-                                    </xsd:sequence>
-                                    <xsd:attribute name="id" type="res:IDType" use="required">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:attribute>
-                                    <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
-                                    <xsd:attribute name="system" type="res:SystemType" use="optional" />
-                                </xsd:complexType>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="organismIdentities" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for taxon name strings occurring within the dataset. These are usage concepts defined by the dataset author which may follow, or be according, to a third party. They may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="organismIdentity" type="org:OrganismIdentity" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation>A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according to, an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="taxonDeterminations" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for relationships or assertions between two concepts. Within vegX this typically allows for an author usage concept (datasetNameUsageConcept), i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="taxonDetermination" type="org:TaxonDeterminationType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts or taxon names to an IndividualOrganismObservation or AggregateTaxonObservation by a Party.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="communityDeterminations" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for identifications that apply one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="communityDetermination" type="org:CommunityDeterminationType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">An identification applying one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
+                                    <xsd:documentation xml:lang="en">An element individualOrganismObservation is an observation applying to one occurrence of an organism (or part of an organism). It is a container for measurements made on the organism (e.g. diameter, height, crown dimensions, biomass, growth form, number of stems). An individualOrganismObservation contains a reference to a unique plotObservation and to an individualOrganism. Optionally, the individualOrganismObservation may also link to a stratumObservation. </xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -229,28 +277,9 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="aggregateOrganismObservation" type="org:AggregateOrganismObservationType" maxOccurs="unbounded">
+                            <xsd:element name="aggregateOrganismObservation" type="obs:AggregateOrganismObservationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">An observation applying to all occurrences of an organism based on an aggregation factor. It contains an AggregateValue, which is an assessment of the overall occurrence of an organism in a Plot (e.g. number of stems, percentage cover, total biomass, basal area). An AggregateOrganismObservation contains a link to a taxonOccurrence, where all the taxon identification information is contained. It also contains a reference to a single PlotObservation. Most of the remaining contextual information concerning the observation (like date-time period, observer, methods, protocol, projects _) is specified in the related PlotObservation. Optionally, the AggregateOrganismObservation may link to a StratumObservation. Additional grouping criteria may be specified through the reference to one or more ObservationGroupings. Finally, it may also have simple and/or complex user-defined elements.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="strata" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for the definitions of strata, following a specific definition method.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="stratum" type="org:StratumType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. It contains the stratum name (e.g. tree layer) as well as an identification code. It may also contain an indication of a position in an ordered sequence of strata.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A reference to a specific method applied in comon to all the strata described for a dataset. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -262,7 +291,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="stratumObservation" type="org:StratumObservationType" maxOccurs="unbounded">
+                            <xsd:element name="stratumObservation" type="obs:StratumObservationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. Typically, it contains the lower and upper vertical bounds of the stratum and an assessment of cover. A StratumObservation always contains a reference to a PlotObservation, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a Stratum, which contains its definition.</xsd:documentation>
                                 </xsd:annotation>
@@ -270,59 +299,10 @@
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element name="individualOrganisms" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for all identified organisms recorded within the dataset.</xsd:documentation>
-                    </xsd:annotation>
+                <xsd:element name="communityObservations" minOccurs="0" maxOccurs="1">
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="individualOrganism" type="org:IndividualOrganismType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. Individuals may have an identification label (e.g. tree tag number).</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="individualOrganismObservations" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for measurements/observations applying to one occurrence of an organism.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="individualOrganismObservation" type="org:IndividualOrganismObservationType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">An element individualOrganismObservation is an observation applying to one occurrence of an organism (or part of an organism). It is a container for measurements made on the organism (e.g. diameter, height, crown dimensions, biomass, growth form, number of stems). An individualOrganismObservation contains a reference to a unique plotObservation and to an individualOrganism. Optionally, the individualOrganismObservation may also link to a stratumObservation. </xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="vegetationObservations" minOccurs="0" maxOccurs="1">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="vegetationObservation" type="obs:VegetationObservationType" minOccurs="1" maxOccurs="unbounded" />
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="abioticObservations" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for all the abiotic measurements made on a single Plot during a single date-time period.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="abioticObservation" type="obs:AbioticObservationType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific abiotic measurement/observation made on a plot. It always contains a reference to a single PlotObservation, where most of the contextual information concerning the observation (like date-time period, observer, methods, protocol, projects) is specified.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="surfaceCovers" minOccurs="0" maxOccurs="1">
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="surfaceCover" type="obs:SurfaceCoverType" minOccurs="1" maxOccurs="unbounded" />
+                            <xsd:element name="communityObservation" type="obs:CommunityObservationType" minOccurs="1" maxOccurs="unbounded" />
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -354,34 +334,6 @@
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
-                <xsd:element name="attributes" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for the definitions of measured properties.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="attribute" type="misc:AttributeType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific definition of a measured property. An attribute has to be one of three types: qualitative (unordered categorical variable, i.e. nominal), ordinal (ordered list of values) or quantitative (a numerical variable, either discrete or continuous</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
-                <xsd:element name="methods" minOccurs="0">
-                    <xsd:annotation>
-                        <xsd:documentation>A container for the methods followed in the creation of the datasets.</xsd:documentation>
-                    </xsd:annotation>
-                    <xsd:complexType>
-                        <xsd:sequence>
-                            <xsd:element name="method" type="misc:MethodType" maxOccurs="unbounded">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific method definition followed in the creation of the dataset. Each method links to a protocol and literature citation reference. A protocol may have many method or steps.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:sequence>
-                    </xsd:complexType>
-                </xsd:element>
                 <xsd:element name="protocols" minOccurs="0">
                     <xsd:annotation>
                         <xsd:documentation>A container for groups of methods related by common action.</xsd:documentation>
@@ -404,13 +356,13 @@
                 </xsd:element>
                 <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             </xsd:sequence>
-            <xsd:attribute name="id" type="res:IDType" use="optional">
+            <xsd:attribute name="id" type="misc:IDType" use="optional">
                 <xsd:annotation>
                     <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
                 </xsd:annotation>
             </xsd:attribute>
-            <xsd:attribute name="system" type="res:SystemType" use="optional" />
-            <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+            <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+            <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
