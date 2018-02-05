@@ -337,6 +337,26 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of plot observations: ", length(x@plotObservations),". Data pooled for ", nmergedplotobs, " plot observation(s).\n"))
   }
 
+  # stratumObservations
+  strObsIDmap = list()
+  nmergedstrobs = 0
+  if(length(y@stratumObservations)>0) {
+    for(j in 1:length(y@stratumObservations)) {
+      strObs = .applyMappingsToStratumObservations(y@stratumObservations[[j]], strIDmap, plotObsIDmap, attIDmap)
+      nstrobsid = .newStratumObsIDByIDs(x, strObs$plotObservationID, strObs$stratumID)
+      if(nstrobsid$new) {
+        x@stratumObservations[[nstrobsid$id]] = strObs
+      } else { #pool information
+        x@stratumObservations[[nstrobsid$id]] = .mergeStratumObservations(x@stratumObservations[[nstrobsid$id]], strObs)
+        nmergedstrobs = nmergedstrobs + 1
+      }
+      strObsIDmap[names(y@stratumObservations)[j]] = nstrobsid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of stratum observations: ", length(x@stratumObservations),". Data pooled for ", nmergedstrobs, " stratum observation(s).\n"))
+  }
+  
   # individualObservations
   indObsIDmap = list()
   nmergedindobs = 0
@@ -357,29 +377,6 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of individual organism observations: ", length(x@individualObservations),". Data pooled for ", nmergedindobs, " individual organism observation(s).\n"))
   }
   
-  # stratumObservations
-  strObsIDmap = list()
-  nmergedstrobs = 0
-  if(length(y@stratumObservations)>0) {
-    for(j in 1:length(y@stratumObservations)) {
-      stratumID = strIDmap[[y@stratumObservations[[j]]$stratumID]]
-      plotObsID = plotObsIDmap[[y@stratumObservations[[j]]$plotObservationID]]
-      y@stratumObservations[[j]]$stratumID = stratumID # set stratum ID to translated one in order to avoid matching problems (does not change id externally)
-      y@stratumObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
-      nstrobsid = .newStratumObsIDByIDs(x, plotObsID, stratumID)
-      if(nstrobsid$new) {
-        x@stratumObservations[[nstrobsid$id]] = .applyAttributeMappingToStratumObservations(y@stratumObservations[[j]], attIDmap)
-      } else { #pool information
-        x@stratumObservations[[nstrobsid$id]] = .mergeStratumObservations(x@stratumObservations[[nstrobsid$id]], y@stratumObservations[[j]], attIDmap)
-        nmergedstrobs = nmergedstrobs + 1
-      }
-      strObsIDmap[names(y@stratumObservations)[j]] = nstrobsid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of stratum observations: ", length(x@stratumObservations),". Data pooled for ", nmergedstrobs, " stratum observation(s).\n"))
-  }
-
   # aggregateObservations
   aggObsIDmap = list()
   nmergedaggobs = 0
@@ -409,6 +406,8 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of aggregate organism observations: ", length(x@aggregateObservations),". Data pooled for ", nmergedaggobs, " aggregate organism observation(s).\n"))
   }
+  
+
 
 
 
