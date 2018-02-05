@@ -38,7 +38,8 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate taxon observations
-#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
+#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#'               taxonName = "NVSSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
@@ -50,19 +51,19 @@
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
 #'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #' strataDef = defineMixedStrata(name = "Recce strata",
-#'                               description = "Standard Recce stratum definition",
-#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-#'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7",
-#'                               categoryStrataDefinition = "Epiphytes")
+#'                    description = "Standard Recce stratum definition",
+#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                    heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                    heightStrataNames = paste0("Tier ",1:6),
+#'                    categoryStrataNames = "Tier 7",
+#'                    categoryStrataDefinition = "Epiphytes")
 #' x = addAggregateOrganismObservations(newVegX(), moki_tcv, taxmapping,
-#'                         methods = c(cover=coverscale),
-#'                         stratumDefinition = strataDef)
+#'                    methods = c(cover=coverscale),
+#'                    stratumDefinition = strataDef)
 #'
 #' # Create document 'y' with tree observations
 #' treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                    organismName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+#'                    taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 #' diamMeth = predefinedMeasurementMethod("DBH/cm")
 #' y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
 #'                         methods = c(diameterMeasurement = diamMeth))
@@ -239,11 +240,12 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       if(mergeIdentities) {
         organismName = .getOrganismIdentityName(y, j)
         citationString = .getOrganismIdentityCitationString(y,j)
+        orgId = .applyMappingsToOrganismIdentity(y@organismIdentities[[j]], onIDmap, tcIDmap)
         noiid = .newOrganismIdentityIDByTaxonConcept(x, organismName, citationString)
         if(noiid$new) {
-          x@organismIdentities[[noiid$id]] = .applyMappingsToOrganismIdentity(y@organismIdentities[[j]], onIDmap, tcIDmap)
+          x@organismIdentities[[noiid$id]] = orgId
         } else { #pool information
-          x@organismIdentities[[noiid$id]] = .mergeOrganismIdentities(x@organismIdentities[[noiid$id]], y@organismIdentities[[j]], onIDmap, tcIDmap)
+          x@organismIdentities[[noiid$id]] = .mergeOrganismIdentities(x@organismIdentities[[noiid$id]], orgId)
           nmergedois = nmergedois + 1
         }
         oiIDmap[names(y@organismIdentities)[j]] = noiid$id
@@ -317,7 +319,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of individual organisms: ", length(x@individualOrganisms),". Data pooled for ", nmergedind, " individual organism(s).\n"))
   }
   
-  #plotObservations (REVISE links to siteObservation/communityObservation)
+  #plotObservations
   plotObsIDmap = list()
   nmergedplotobs = 0
   if(length(y@plotObservations)>0) {
@@ -342,7 +344,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedstrobs = 0
   if(length(y@stratumObservations)>0) {
     for(j in 1:length(y@stratumObservations)) {
-      strObs = .applyMappingsToStratumObservations(y@stratumObservations[[j]], strIDmap, plotObsIDmap, attIDmap)
+      strObs = .applyMappingsToStratumObservation(y@stratumObservations[[j]], strIDmap, plotObsIDmap, attIDmap)
       nstrobsid = .newStratumObsIDByIDs(x, strObs$plotObservationID, strObs$stratumID)
       if(nstrobsid$new) {
         x@stratumObservations[[nstrobsid$id]] = strObs
@@ -382,7 +384,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedaggobs = 0
   if(length(y@aggregateObservations)>0) {
     for(j in 1:length(y@aggregateObservations)) {
-      aggObs = .applyMappingsToAggregatePlotObservations(y@aggregateObservations[[j]], plotObsIDmap, oiIDmap, strObsIDmap, attIDmap)
+      aggObs = .applyMappingsToAggregateOrganismObservation(y@aggregateObservations[[j]], plotObsIDmap, oiIDmap, strObsIDmap, attIDmap)
       naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x, 
                                                                          aggObs$plotObservationID, 
                                                                          aggObs$stratumObservationID, 
@@ -407,7 +409,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedsiteobs = 0
   if(length(y@siteObservations)>0) {
     for(j in 1:length(y@siteObservations)) {
-      siteObs = .applyMappingsToSiteObservations(y@siteObservations[[j]], plotObsIDmap, attIDmap)
+      siteObs = .applyMappingsToSiteObservation(y@siteObservations[[j]], plotObsIDmap, attIDmap)
       nsiteobsid = .newSiteObservationIDByID(x, siteObs$plotObservationID)
       if(nsiteobsid$new) {
         x@siteObservations[[nsiteobsid$id]] = siteObs
@@ -429,7 +431,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedcommobs = 0
   if(length(y@communityObservations)>0) {
     for(j in 1:length(y@communityObservations)) {
-      commObs = .applyMappingsToCommunityObservations(y@communityObservations[[j]], plotObsIDmap, attIDmap)
+      commObs = .applyMappingsToCommunityObservation(y@communityObservations[[j]], plotObsIDmap, attIDmap)
       ncommobsid = .newCommunityObservationIDByID(x, commObs$plotObservationID)
       if(ncommobsid$new) {
         x@communityObservations[[ncommobsid$id]] = commObs

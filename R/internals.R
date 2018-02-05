@@ -434,7 +434,7 @@
   return(plotObs)
 }
 
-.applyMappingsToStratumObservations<-function(strobs, strIDmap, plotObsIDmap, attIDmap) {
+.applyMappingsToStratumObservation<-function(strobs, strIDmap, plotObsIDmap, attIDmap) {
   strobs$stratumID = strIDmap[[strobs$stratumID]]
   strobs$plotObservationID = plotObsIDmap[[strobs$plotObservationID]]
   for(n in names(strobs)) {
@@ -450,7 +450,7 @@
   return(strobs)
 }
 
-.applyMappingsToIndividualOrganismObservations<-function(indObs, plotObsIDmap, strObsIDmap, indIDmap, attIDmap) {
+.applyMappingsToIndividualOrganismObservation<-function(indObs, plotObsIDmap, strObsIDmap, indIDmap, attIDmap) {
   indObs$plotObservationID = plotObsIDmap[[indObs$plotObservationID]]
   indObs$individualOrganismID = indIDmap[[indObs$individualOrganismID]]
   if("stratumObservationID" %in% names(indObs)) {
@@ -470,7 +470,7 @@
   return(indObs)
 }
 
-.applyMappingsToAggregatePlotObservations <-function(aggObs, plotObsIDmap, oiIDmap, strObsIDmap, attIDmap) {
+.applyMappingsToAggregateOrganismObservation <-function(aggObs, plotObsIDmap, oiIDmap, strObsIDmap, attIDmap) {
   aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
   aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
   if("stratumObservationID" %in% names(aggObs)) {
@@ -491,7 +491,7 @@
   }
   return(aggObs)
 }
-.applyMappingsToCommunityObservations<-function(commobs, plotObsIDmap, attIDmap) {
+.applyMappingsToCommunityObservation<-function(commobs, plotObsIDmap, attIDmap) {
   commobs$plotObservationID = plotObsIDmap[[commobs$plotObservationID]]
   # Update attribute codes
   for(n in names(commobs)) {
@@ -504,7 +504,7 @@
   return(commobs)
 }
 
-.applyMappingsToSiteObservations<-function(siteobs, plotObsIDmap, attIDmap) {
+.applyMappingsToSiteObservation<-function(siteobs, plotObsIDmap, attIDmap) {
   siteobs$plotObservationID = plotObsIDmap[[siteobs$plotObservationID]]
   # Update attribute codes
   for(n in names(siteobs)) {
@@ -516,7 +516,7 @@
   }
   return(siteobs)
 }
-.applyMappingsToSurfaceCoverObservations<-function(scobs, stIDmap, plotObsIDmap, attIDmap) {
+.applyMappingsToSurfaceCoverObservation<-function(scobs, stIDmap, plotObsIDmap, attIDmap) {
   scobs$surfaceTypeID = stIDmap[[scobs$surfaceTypeID]]
   scobs$plotObservationID = plotObsIDmap[[scobs$plotObservationID]]
   for(n in names(scobs)) {
