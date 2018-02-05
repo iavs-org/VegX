@@ -141,11 +141,13 @@ Sub-element               | Description                                        |
 plotName                 | Name or label for a plot, unique within the data set  | 1 | Yes |
 plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
 relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | 0..n | Yes |
+placementMethod | Strategy followed when placing this particular plot. Useful for example if different sampling strategies have been followed within one project. | 0..1 | No |
+placementPartyID | The ID of a party that undertook the plot placement. | 0..n | Yes |
+placementNote | TO BE DONE | 0..n | No |
 location | Information regarding the placement of the plot on earth. | 0..1 | Yes |
 geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | Yes |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
 geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
-partyWithRole | The party that undertook the plot placement, and/or parties with other roles. | 0..n | No |
 
 ### Element *plotObservation*
 

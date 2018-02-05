@@ -6,7 +6,7 @@
 \usage{
 addPlotLocations(target, x, mapping,
   proj4string = "+proj=longlat +ellps=WGS84", reset.places = FALSE,
-  missing.values = c(NA, ""), verbose = TRUE)
+  toWGS84 = FALSE, missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -15,12 +15,13 @@ addPlotLocations(target, x, mapping,
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places}
+Additional optional mappings are: 'subPlotName' and 'placementParty'. Note that 'placeName' and 'placeType' will add new places to the list of places}
 
-\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
-Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".}
+\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.}
 
 \item{reset.places}{Whether the 'places' vector should be reset before adding new place names.}
+
+\item{toWGS84}{A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".}
 
 \item{missing.values}{A character vector of values that should be considered as missing data.}
 

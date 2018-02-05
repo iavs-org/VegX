@@ -328,10 +328,10 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
           }
         }
         if("location" %in% names(x@plots[[i]])) {
-          if(length(x@plots[[i]]$location)>0) {
-            if("DecimalLongitude" %in% names(x@plots[[i]]$location)) res[i,"DecimalLongitude"] = x@plots[[i]]$location$DecimalLongitude
-            if("DecimalLatitude" %in% names(x@plots[[i]]$location)) res[i,"DecimalLatitude"] = x@plots[[i]]$location$DecimalLatitude
-            if("GeodeticDatum" %in% names(x@plots[[i]]$location)) res[i,"GeodeticDatum"] = x@plots[[i]]$location$GeodeticDatum
+          if( "horizontalCoordinates" %in% names(x@plots[[i]]$location)) {
+            if("valueX" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) res[i,"coordX"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$valueX
+            if("valueY" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) res[i,"coordY"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$valueY
+            if("spatialReference" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) res[i,"spatialReference"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$spatialReference
           }
         }
         if("topography" %in% names(x@plots[[i]])) {

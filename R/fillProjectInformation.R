@@ -49,7 +49,9 @@ fillProjectInformation<-function(target, title,
       project$personnel[[role]] = partyID
     }
     finnparties = length(target@parties)
-    if(verbose) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document as individuals. Consider providing party information.\n"))
+    if(verbose) {
+      if(finnparties > orinparties) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document as individuals. Consider providing party information.\n"))
+    }
   }
 
   if(abstract!="") project$abstract = abstract

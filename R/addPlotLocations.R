@@ -7,10 +7,10 @@
 #' @param x A data frame where each row corresponds to one plot. Columns can be varied.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places
-#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
-#' Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".
+#' Additional optional mappings are: 'subPlotName' and 'placementParty'. Note that 'placeName' and 'placeType' will add new places to the list of places
+#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
 #' @param reset.places Whether the 'places' vector should be reset before adding new place names.
+#' @param toWGS84 A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -38,6 +38,7 @@ addPlotLocations<-function(target, x,
                            mapping,
                            proj4string = "+proj=longlat +ellps=WGS84",
                            reset.places = FALSE,
+                           toWGS84 = FALSE,
                            missing.values = c(NA,""),
                            verbose = TRUE) {
   x = as.data.frame(x)
@@ -48,7 +49,7 @@ addPlotLocations<-function(target, x,
   #check mappings
   nonCoordVariables = c("authorLocation","locationNarrative", "placeName", "placeType")
   locVariables = c("x", "y", nonCoordVariables)
-  mappingsAvailable = c("plotName", "subPlotName", locVariables)
+  mappingsAvailable = c("plotName", "subPlotName", "placementParty", locVariables)
   locValues = list()
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
@@ -70,9 +71,14 @@ addPlotLocations<-function(target, x,
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
+  placementPartyFlag = ("placementParty" %in% names(mapping))
+  if(placementPartyFlag) {
+    placementParties = as.character(x[[mapping[["placementParty"]]]])
+  }
 
 
   orinplots = length(target@plots)
+  orinparties = length(target@parties)
   parsedPlots = character(0)
   parsedPlotIDs = character(0)
   #Record parsing loop
@@ -102,6 +108,17 @@ addPlotLocations<-function(target, x,
         } else { #this access should be faster
           plotID = parsedPlotIDs[which(parsedPlots==subPlotCompleteName)]
         }
+      }
+    }
+    #placementParty
+    if(placementPartyFlag) {
+      if(!(placementParties[i] %in% missing.values)) {
+        npid = .newPartyIDByName(target, placementParties[i])
+        partyID = npid$id
+        if(npid$new) target@parties[[partyID]] = list(name = placementParties[i],
+                                                      partyType = "individual")
+
+        target@plots[[plotID]]$placementPartyID = partyID
       }
     }
     #Add 'location' element if necessary
@@ -137,19 +154,27 @@ addPlotLocations<-function(target, x,
       x = as.numeric(locValues[["x"]][i])
       y = as.numeric(locValues[["y"]][i])
       if((!is.na(x))&& (!is.na(y))) {
-        sp = SpatialPoints(coords = matrix(c(x,y), nrow=1, ncol=2), proj4string = CRS(proj4string))
-        splatlon = spTransform(sp, CRS("+proj=longlat +datum=WGS84"))
-        target@plots[[plotID]]$location$DecimalLongitude = as.numeric(splatlon@coords[1,1])
-        target@plots[[plotID]]$location$DecimalLatitude = as.numeric(splatlon@coords[1,2])
-        target@plots[[plotID]]$location$GeodeticDatum = "WGS84"
+        if(toWGS84) {
+          sp = SpatialPoints(coords = matrix(c(x,y), nrow=1, ncol=2), proj4string = CRS(proj4string))
+          sp = spTransform(sp, CRS("+proj=longlat +datum=WGS84"))
+          x = sp@coords[1,1]
+          y = sp@coords[1,2]
+          proj4string = "+proj=longlat +datum=WGS84"
+        }
+        target@plots[[plotID]]$location$horizontalCoordinates$coordinates$valueX = as.numeric(x)
+        target@plots[[plotID]]$location$horizontalCoordinates$coordinates$valueY = as.numeric(y)
+        target@plots[[plotID]]$location$horizontalCoordinates$coordinates$spatialReference = proj4string
       } else {
         nmissing = nmissing + 1
       }
     }
   }
   finnplots = length(target@plots)
+  finnparties = length(target@parties)
+
   if(verbose) {
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new plot(s) added.\n"))
+    if(finnparties > orinparties) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document as individuals. Consider providing party information.\n"))
     cat(paste0(" ", nrecords," record(s) parsed.\n"))
     if(nmissing>0) cat(paste0(" ", nmissing, " record(s) with missing value(s) not added.\n"))
   }
