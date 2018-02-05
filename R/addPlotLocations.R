@@ -17,6 +17,11 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details Missing value policy:
+#'  \itemize{
+#'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+#'  }
+#'  
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions

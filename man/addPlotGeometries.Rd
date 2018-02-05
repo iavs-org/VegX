@@ -30,9 +30,12 @@ Adds/replaces static plot geometry information (plot shape, dimensions, ...) to 
 using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
 }
 \details{
-Missing 'plotName' and 'shape' values are interpreted as if the previous non-missing value has to be used to define plot.
-Missing subPlotName values are interpreted in that data refers to the parent plotName.
-Missing measurements are simply not added to the Veg-X document.
+Missing value policy:
+ \itemize{
+    \item{Missing 'plotName' and 'shape' values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. 'area', 'radius',...) are simply not added to the Veg-X document.}
+ }
 }
 \examples{
 # Load source data
