@@ -93,6 +93,9 @@
                     </xsd:complexType>
                 </xsd:element>
                 <xsd:element name="surfaceTypes" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for surface types, following a specific definition method.</xsd:documentation>
+                    </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="surfaceCover" type="plot:SurfaceType" minOccurs="1" maxOccurs="unbounded" />
@@ -105,28 +108,10 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="organismName" maxOccurs="unbounded">
+                            <xsd:element name="organismName" type="org:OrganismNameType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation>The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false.</xsd:documentation>
                                 </xsd:annotation>
-                                <xsd:complexType>
-                                    <xsd:simpleContent>
-                                        <xsd:extension xmlns:q1="http://iavs.org/vegX/organismobservation-2.0.0" base="q1:OrganismNameType">
-                                            <xsd:attribute name="id" type="misc:IDType" use="required">
-                                                <xsd:annotation>
-                                                    <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
-                                                </xsd:annotation>
-                                            </xsd:attribute>
-                                            <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
-                                            <xsd:attribute name="system" type="misc:SystemType" use="optional" />
-                                            <xsd:attribute name="taxonName" type="xsd:boolean" use="required">
-                                                <xsd:annotation>
-                                                    <xsd:documentation>A flag to identify that the organism name is a taxon name (i.e. a name according to a nomenclature code)</xsd:documentation>
-                                                </xsd:annotation>
-                                            </xsd:attribute>
-                                        </xsd:extension>
-                                    </xsd:simpleContent>
-                                </xsd:complexType>
                             </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
@@ -137,7 +122,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q2="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonConcept" type="q2:TaxonConceptType" maxOccurs="unbounded">
+                            <xsd:element xmlns:q2="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonConcept" type="org:TaxonConceptType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation>Representation of a Taxon Concept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. Each taxon concept may be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept.</xsd:documentation>
                                 </xsd:annotation>
@@ -151,7 +136,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q3="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonDetermination" type="q3:TaxonDeterminationType" maxOccurs="unbounded">
+                            <xsd:element xmlns:q3="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonDetermination" type="org:TaxonDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts or taxon names to an IndividualOrganismObservation or AggregateTaxonObservation by a Party.</xsd:documentation>
                                 </xsd:annotation>
@@ -165,7 +150,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q4="http://iavs.org/vegX/organismobservation-2.0.0" name="organismIdentity" type="q4:OrganismIdentityType" maxOccurs="unbounded">
+                            <xsd:element xmlns:q4="http://iavs.org/vegX/organismobservation-2.0.0" name="organismIdentity" type="org:OrganismIdentityType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation>A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according to, an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
                                 </xsd:annotation>
@@ -235,7 +220,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q5="http://iavs.org/vegX/organismobservation-2.0.0" name="individualOrganism" type="q5:IndividualOrganismType" maxOccurs="unbounded">
+                            <xsd:element xmlns:q5="http://iavs.org/vegX/organismobservation-2.0.0" name="individualOrganism" type="org:IndividualOrganismType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. Individuals may have an identification label (e.g. tree tag number).</xsd:documentation>
                                 </xsd:annotation>

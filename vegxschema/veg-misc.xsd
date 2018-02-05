@@ -43,7 +43,7 @@
         <xsd:attribute name="system" type="SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
     </xsd:complexType>
-    <xsd:complexType name="partyType" source="EML">
+    <xsd:complexType name="partyType">
         <xsd:annotation>
             <xsd:documentation>Parties have been designed as a simplification of EML elements party.
 eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
@@ -95,7 +95,7 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
         <xsd:attribute name="system" type="SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
     </xsd:complexType>
-    <xsd:complexType name="projectType" source="EML">
+    <xsd:complexType name="projectType">
         <xsd:sequence>
             <xsd:element name="title" type="xsd:string" />
             <xsd:element name="projectPartyID" type="partyWithRoleType" minOccurs="1" maxOccurs="unbounded" />
@@ -187,7 +187,7 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
             <xsd:any minOccurs="0" />
         </xsd:sequence>
     </xsd:complexType>
-    <xsd:complexType name="partyWithRoleType" source="EML">
+    <xsd:complexType name="partyWithRoleType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Based on the the eml-party module - People/organization information and their role as related to the resource</xsd:documentation>
         </xsd:annotation>
