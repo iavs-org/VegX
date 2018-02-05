@@ -7,6 +7,7 @@
 #' @param funding A string with information about funding agencies.
 #' @param studyAreaDescription A string describing the study area succinctly.
 #' @param designDescription A string describing the overall plot placement design.
+#' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
@@ -20,7 +21,8 @@ fillProjectInformation<-function(target, title,
                                  personnel = list(),
                                  abstract = "", funding = "",
                                  studyAreaDescription = "",
-                                 designDescription = "") {
+                                 designDescription = "",
+                                 verbose = TRUE) {
 
   nprid = .newProjectIDByTitle(target, title) # Get the new project ID (internal code)
   projectID = nprid$id
@@ -28,8 +30,19 @@ fillProjectInformation<-function(target, title,
   else project = target@projects[[projectID]]
 
   if(length(personnel)>0) {
-    project$personnel = personnel
+    orinparties = length(target@parties)
+    project$personnel = list()
+    for(i in 1:length(personnel)) {
+      role = names(personnel)[i]
+      npid = .newPartyIDByName(target, personnel[[i]])
+      partyID = npid$id
+      if(npid$new) target@parties[[partyID]] = list(name = personnel[[i]])
+      project$personnel[[role]] = partyID
+    }
+    finnparties = length(target@parties)
+    if(verbose) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document. Consider providing party information.\n"))
   }
+
   if(abstract!="") project$abstract = abstract
   if(funding!="") project$funding = funding
   if(studyAreaDescription!="") project$studyAreaDescription = studyAreaDescription

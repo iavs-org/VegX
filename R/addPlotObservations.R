@@ -194,7 +194,7 @@ addPlotObservations<-function(target, x,
   finnplotobs = length(target@plotObservations)
   finnabioobs = length(target@siteObservations)
   if(verbose) {
-    cat(paste0(" " , length(parsedProjects)," project(s) parsed, ", finnprojects-orinprojects, " new project(s) added.\n"))
+    cat(paste0(" " , length(parsedProjects)," project(s) parsed, ", finnprojects-orinprojects, " new project(s) added. Consider providing project information.\n"))
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new plot(s) added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new plot observation(s) added.\n"))
   }

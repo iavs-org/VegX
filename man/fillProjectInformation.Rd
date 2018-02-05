@@ -5,7 +5,8 @@
 \title{Fills the information for a given research project}
 \usage{
 fillProjectInformation(target, title, personnel = list(), abstract = "",
-  funding = "", studyAreaDescription = "", designDescription = "")
+  funding = "", studyAreaDescription = "", designDescription = "",
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -21,6 +22,8 @@ fillProjectInformation(target, title, personnel = list(), abstract = "",
 \item{studyAreaDescription}{A string describing the study area succinctly.}
 
 \item{designDescription}{A string describing the overall plot placement design.}
+
+\item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}.

@@ -35,8 +35,9 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       prt = newXMLNode("party",
                        attrs = c("id"=names(x@parties)[i]),
                        parent = prts)
+      if("name" %in% names(x@parties[[i]])) newXMLNode("name", x@parties[[i]]$name, parent=prt)
     }
-    if(verbose) cat(paste0(" ", length(x@parties), " literature partie(s) added to XML tree.\n"))
+    if(verbose) cat(paste0(" ", length(x@parties), " partie(s) added to XML tree.\n"))
   }
   #literatureCitation elements (TO BE CHECKED)
   if(length(x@literatureCitations)>0){

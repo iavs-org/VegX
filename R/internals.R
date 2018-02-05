@@ -1,3 +1,7 @@
+.nextPartyID<-function(target) {
+  if(length(target@parties)==0) return("1")
+  return(as.character(as.numeric(names(target@parties)[length(target@parties)])+1))
+}
 .nextProjectID<-function(target) {
   if(length(target@projects)==0) return("1")
   return(as.character(as.numeric(names(target@projects)[length(target@projects)])+1))
@@ -71,8 +75,15 @@
 }
 
 
-
-# Returns the projectID for a new project in the data set or the ID of an existing project with the same name
+# Returns the projectID for a new party in the data set or the ID of an existing party with the same name
+.newPartyIDByName<-function(target, partyName) {
+  if(length(target@parties)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@parties)) {
+    if(target@parties[[i]]$name==partyName) return(list(id=names(target@parties)[i], new = FALSE))
+  }
+  return(list(id = .nextPartyID(target), new = TRUE))
+}
+# Returns the projectID for a new project in the data set or the ID of an existing project with the same title
 .newProjectIDByTitle<-function(target, projectTitle) {
   if(length(target@projects)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@projects)) {
