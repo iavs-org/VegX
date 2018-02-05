@@ -80,6 +80,24 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
   
+  # parties
+  partyIDmap = list()
+  nmergedparties = 0
+  if(length(y@parties)>0) {
+    for(j in 1:length(y@parties)) {
+      nptid = .newPartyIDByName(x, y@parties[[j]]$name)
+      if(nptid$new) {
+        x@parties[[nptid$id]] = y@parties[[j]]
+      } else {
+        x@parties[[nptid$id]] = .mergeParties(x@parties[[nlcid$id]], y@parties[[j]])
+        nmergedparties = nmergedparties + 1
+      }
+      partyIDmap[names(y@parties)[j]] = nptid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of partie(s): ", length(x@parties),". Data pooled for ", nmergedparties, " partie(s).\n"))
+  }
   # literatureCitations
   litIDmap = list()
   nmergedlits = 0

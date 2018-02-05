@@ -75,7 +75,7 @@
 }
 
 
-# Returns the projectID for a new party in the data set or the ID of an existing party with the same name
+# Returns the partyID for a new party in the data set or the ID of an existing party with the same name
 .newPartyIDByName<-function(target, partyName) {
   if(length(target@parties)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@parties)) {
@@ -440,10 +440,29 @@
   return(scobs)
 }
 
+#Pools the information of two parties
+.mergeParties<-function(par1, par2) {
+  n1 = names(par1)
+  n2 = names(par2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(par1[[n]]!=par2[[n]]) stop(paste0("Parties have different data for '", n, "'. Cannot merge."))
+      res[[n]] = par1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = par1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = par2[[n]]
+    }
+  }
+  return(res)
+}
+
 #Pools the information of two literature citations
 .mergeLiteratureCitations<-function(cit1, cit2) {
   n1 = names(cit1)
-  n2 = names(met2)
+  n2 = names(cit2)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
