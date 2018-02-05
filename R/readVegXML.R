@@ -159,7 +159,7 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@organismNames), " organism name(s) read.\n"))
   }
 
-  #read taxon concepts (TO BE CHECKED)
+  #read taxon concepts
   .readTaxonConcept.2.0.0 = function(x) {
     txCpt = list()
     n = names(x)

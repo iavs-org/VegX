@@ -211,6 +211,26 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of organism names: ", length(x@organismNames),". Data pooled for ", nmergedons, " organism name(s).\n"))
   }
   
+  #taxonConcepts
+  tcIDmap = list()
+  nmergedtcs = 0
+  if(length(y@taxonConcepts)>0) {
+    for(j in 1:length(y@taxonConcepts)) {
+      ntcid = .newTaxonConceptIDByNameCitation(x, y@organismNames[[y@taxonConcepts[[j]]$organismNameID]]$name, 
+                                               y@literatureCitations[[y@taxonConcepts[[j]]$citationID]]$citationString)
+      if(ntcid$new) {
+        x@taxonConcepts[[ntcid$id]] = .applyMappingsToTaxonConcept(y@taxonConcepts[[j]], onIDmap, litIDmap)
+      } else { #pool information
+        x@taxonConcepts[[ntcid$id]] = .mergeTaxonConcepts(x@taxonConcepts[[ntcid$id]], y@taxonConcepts[[j]], onIDmap, litIDmap)
+        nmergedtcs = nmergedtcs + 1
+      }
+      tcIDmap[names(y@taxonConcepts)[j]] = ntcid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of taxon concepts: ", length(x@taxonConcepts),". Data pooled for ", nmergedtcs, " organism name(s).\n"))
+  }
+  
   #organismIdentities
   oiIDmap = list()
   nmergedois = 0
