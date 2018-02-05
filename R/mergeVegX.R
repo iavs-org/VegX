@@ -423,21 +423,20 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of site observations: ", length(x@siteObservations),". Data pooled for ", nmergedsiteobs, " site observation(s).\n"))
   }
   
+  # communityObservations
+  
 
   # surfaceCoverObservations
   scObsIDmap = list()
   nmergedscobs = 0
   if(length(y@surfaceCoverObservations)>0) {
     for(j in 1:length(y@surfaceCoverObservations)) {
-      surfaceTypeID = stIDmap[[y@surfaceCoverObservations[[j]]$surfaceTypeID]]
-      plotObsID = plotObsIDmap[[y@surfaceCoverObservations[[j]]$plotObservationID]]
-      y@surfaceCoverObservations[[j]]$surfaceTypeID = surfaceTypeID # set surface ID to translated one in order to avoid matching problems (does not change id externally)
-      y@surfaceCoverObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
-      nscobsid = .newSurfaceCoverObsIDByIDs(x, plotObsID, surfaceTypeID)
+      scObs = .applyAttributeMappingToSurfaceCoverObservations(y@surfaceCoverObservations[[j]], stIDmap, plotObsIDmap, attIDmap)
+      nscobsid = .newSurfaceCoverObsIDByIDs(x, scObs$plotObservationID, scObs$surfaceTypeID)
       if(nscobsid$new) {
-        x@surfaceCoverObservations[[nscobsid$id]] = .applyAttributeMappingToSurfaceCoverObservations(y@surfaceCoverObservations[[j]], attIDmap)
+        x@surfaceCoverObservations[[nscobsid$id]] = scObs
       } else { #pool information
-        x@surfaceCoverObservations[[nscobsid$id]] = .mergeSurfaceCoverObservations(x@surfaceCoverObservations[[nstrobsid$id]], y@surfaceCoverObservations[[j]], attIDmap)
+        x@surfaceCoverObservations[[nscobsid$id]] = .mergeSurfaceCoverObservations(x@surfaceCoverObservations[[nstrobsid$id]], scObs)
         nmergedscobs = nmergedscobs + 1
       }
       scObsIDmap[names(y@surfaceCoverObservations)[j]] = nscobsid$id
@@ -447,6 +446,5 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of surface cover observations: ", length(x@surfaceCoverObservations),". Data pooled for ", nmergedscobs, " surface cover observation(s).\n"))
   }
 
-  #                         vegetationObservations = "list",
   return(x)
 }

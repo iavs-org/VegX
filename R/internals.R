@@ -490,7 +490,9 @@
   }
   return(siteobs)
 }
-.applyAttributeMappingToSurfaceCoverObservations<-function(scobs, attIDmap) {
+.applyMappingsToSurfaceCoverObservations<-function(scobs, stIDmap, plotObsIDmap, attIDmap) {
+  scobs$surfaceTypeID = stIDmap[[scobs$surfaceTypeID]]
+  scobs$plotObservationID = plotObsIDmap[[scobs$plotObservationID]]
   for(n in names(scobs)) {
     if(n %in% c("coverMeasurement")) {
       scobs[[n]]$attributeID = attIDmap[[scobs[[n]]$attributeID]]
@@ -735,10 +737,9 @@
 }
 
 #Pools the information of two surface cover observations
-.mergeSurfaceCoverObservations<-function(scobs1, scobs2, attIDmap) {
+.mergeSurfaceCoverObservations<-function(scobs1, scobs2) {
   n1 = names(scobs1)
   n2 = names(scobs2)
-  scobs2 = .applyAttributeMappingToStratumObservations(scobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
