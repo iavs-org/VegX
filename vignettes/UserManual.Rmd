@@ -101,7 +101,7 @@ summary(taki_vegx)
 ```
 According to this summary, the data set contains again 5 plots, but with no subplots, so even if we specified a map for subplots none was detected.
 
-### Adding plot location
+### Adding plot coordinates
 
 The next information that we would normally want to map is about the geographic location of plots (sampling dates were already mapped with ``addPlotObservations()``). We thus take a look at ``moki_loc`` data frame:
 ```{r inspect plot loc moki}
@@ -109,11 +109,10 @@ head(moki_loc, 3)
 ```
 Locations are expressed using different coordinate systems, but the easiest and more common way of exchanging geographic information is through latitude and longitude. Hence we define a new mapping and use the function ``addPlotLocations()``:
 ```{r add plot loc moki}
-mapping = list(plotName = "Plot", subPlotName = "Subplot",
-               x = "Longitude", y = "Latitude")
+mapping = list(plotName = "Plot", x = "Longitude", y = "Latitude")
 moki_vegx = addPlotLocations(moki_vegx, moki_loc, mapping)
 ```
-When defining the mapping also included ``Plot`` and ``Subplot``. This is important because otherwise the function does not know how to match coordinates with the plots already defined in ``moki_vegx``. The console output indicates that no new plots have been added (they were previously defined), but they would if we had started populating the Veg-X object using ``addPlotLocations()`` and an empty document. When can inspect the data recently entered using the following command:
+When defining the mapping we also included ``Plot``. This is important because otherwise the function does not know how to match coordinates with the plots already defined in ``moki_vegx`` (``Subplot`` should be included if coordinates were available for subplots). The console output indicates that no new plots have been added (they were previously defined), but they would if we had started populating the Veg-X object using ``addPlotLocations()`` and an empty document. When can inspect the data recently entered using the following command:
 
 ```{r inspect plot loc res moki}
 head(showElementTable(moki_vegx, "plot"),3)
@@ -126,6 +125,31 @@ Apparently, 10 records were parsed, but only five plots (excluding subplots) are
 
 ```{r add plot loc taki}
 taki_vegx = addPlotLocations(taki_vegx, taki_loc, mapping)
+```
+
+### Adding plot elevation
+Since plot elevation is a **measurement**, it is important to specify a **measurement method** (i.e. instruments) and a **measurement scale** (i.e. measurement units) because this metadata decreases potential errors when pooling data from different sources. In the Veg-X standard, this information is specified via defining *method* and *attribute* elements, whereas the VegX package has a S4 class named ``VegXMethod`` that encapsulates both things. Users can define their own methods, but the package provides function ``predefinedMeasurementMethod()`` to easily define methods for the most common variables. For example, we can define the measurement for elevation in meters using:
+```{r add plot elev moki}
+elevMethod = predefinedMeasurementMethod("Elevation/m")
+```
+Add 'elevation' from another table (moki_site). This implies considering subplots.
+
+```{r add plot elev moki}
+mapping = list(plotName = "Plot", elevation = "Altitude")
+moki_vegx = addPlotLocations(moki_vegx, moki_site, mapping, 
+                             methods = c(elevation = elevMethod))
+```
+
+```{r inspect plot elev res moki}
+head(showElementTable(moki_vegx, "plot"),3)
+```
+
+
+```{r add plot loc taki}
+mtfyffe_vegx = addPlotLocations(mtfyffe_vegx, mtfyffe_site, mapping,
+                                methods = c(elevation = elevMethod))
+taki_vegx = addPlotLocations(taki_vegx, taki_site, mapping, 
+                             methods = c(elevation = elevMethod))
 ```
 
 ### Adding plot geometry
