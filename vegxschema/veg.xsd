@@ -188,13 +188,13 @@
                 </xsd:element>
                 <xsd:element name="projects" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for eml-projects. The eml-project module describes the research context in which the dataset was created.</xsd:documentation>
+                        <xsd:documentation>A container for projects.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="project" type="misc:projectType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation source="EML" xml:lang="en">The eml-project module describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc.  Each project should have an identifier that is unique across the dataset, and preferably globally unique.</xsd:documentation>
+                                    <xsd:documentation source="EML" xml:lang="en">Describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. Sub-element definitions were taken from Ecological Markup Language (EML).</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

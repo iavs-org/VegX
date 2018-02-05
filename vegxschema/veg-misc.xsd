@@ -96,9 +96,12 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
         <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="projectType">
+        <xsd:annotation>
+            <xsd:documentation>Describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. Sub-element definitions were taken from Ecological Markup Language (EML).</xsd:documentation>
+        </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="title" type="xsd:string" />
-            <xsd:element name="projectPartyID" type="partyWithRoleType" minOccurs="1" maxOccurs="unbounded" />
+            <xsd:element name="personnel" type="partyWithRoleType" minOccurs="1" maxOccurs="unbounded" />
             <xsd:element name="abstract" type="xsd:string" minOccurs="0" maxOccurs="1" />
             <xsd:element name="funding" type="xsd:string" minOccurs="0" maxOccurs="1" />
             <xsd:element name="studyAreaDescription" type="xsd:string" minOccurs="0" maxOccurs="1" />
