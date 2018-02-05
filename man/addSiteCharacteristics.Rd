@@ -31,6 +31,14 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
 using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
 }
+\details{
+Missing value policy:
+ \itemize{
+    \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. 'aspect', 'slope',...) are simply not added to the Veg-X document.}
+ }
+}
 \examples{
 # Load source data
 data(mokihinui)

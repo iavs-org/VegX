@@ -293,7 +293,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
                      row.names = names(x@projects))
     if(length(x@projects)>0) {
       for(i in 1:length(x@projects)){
-        res[i,"title"] = x@projects[[i]]$title
+        res[i,"title"] = trimString(x@projects[[i]]$title)
         if("abstract"%in% names(x@projects[[i]])) {
           res[i,"abstract"] = trimString(x@projects[[i]]$abstract)
         }
@@ -371,6 +371,17 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
             if("valueX" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) res[i,"coordX"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$valueX
             if("valueY" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) res[i,"coordY"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$valueY
             if("spatialReference" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) res[i,"spatialReference"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$spatialReference
+            if("attributeID" %in% names(x@plots[[i]]$location$horizontalCoordinates$coordinates)) {
+              res[i,"xy_method"] = x@methods[[x@attributes[[x@plots[[i]]$location$horizontalCoordinates$coordinates$attributeID]]$methodID]]$name
+              if(IDs) res[i,"xy_attributeID"] = x@plots[[i]]$location$horizontalCoordinates$coordinates$attributeID
+            }
+          }
+          if( "verticalCoordinates" %in% names(x@plots[[i]]$location)) {
+            if("elevation" %in% names(x@plots[[i]]$location$verticalCoordinates)) {
+              res[i,"elevation_method"] = x@methods[[x@attributes[[x@plots[[i]]$location$verticalCoordinates$elevation$attributeID]]$methodID]]$name
+              res[i,"elevation_value"] = x@plots[[i]]$location$verticalCoordinates$elevation$value
+              if(IDs) res[i,"elevation_attributeID"] = x@plots[[i]]$location$verticalCoordinates$elevation$attributeID
+            } 
           }
         }
         if("topography" %in% names(x@plots[[i]])) {

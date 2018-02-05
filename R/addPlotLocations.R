@@ -1,16 +1,17 @@
 #' Adds/replaces plot location information
 #'
-#' Adds/replaces static plot location information (spatial coordinates, place names, ...) to plot elements of a VegX object from a data table where rows are plots,
-#' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
+#' Adds/replaces static plot location information (spatial coordinates, elevation, place names, ...) to plot elements of a VegX object from a data table where rows are plots.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot. Columns can be varied.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
-#' Additional optional mappings are: 'subPlotName' and 'placementParty'. Note that 'placeName' and 'placeType' will add new places to the list of places
+#' Location variables that can be mapped are: 'x', 'y', 'elevation', 'authorLocation','locationNarrative', 'placeName', 'placeType'and 'placementParty'.
+#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places
 #' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
 #' @param reset.places Whether the 'places' vector should be reset before adding new place names.
 #' @param toWGS84 A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".
+#' @param methods A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
+#' For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -19,7 +20,9 @@
 #'
 #' @details Missing value policy:
 #'  \itemize{
+#'     \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
 #'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+#'     \item{Missing measurements (e.g. 'elevation', 'x', 'y', ...) are simply not added to the Veg-X document.}
 #'  }
 #'  
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
@@ -30,20 +33,29 @@
 #' data(mokihinui)
 #'
 #' # Define location mapping
-#' mapping = list(plotName = "Plot", subPlotName = "Subplot",
-#'                   x = "Longitude", y = "Latitude")
+#' mapping = list(plotName = "Plot", x = "Longitude", y = "Latitude")
 #'
 #' # Create new Veg-X document with plot locations
 #' x = addPlotLocations(newVegX(), moki_loc, mapping)
 #'
 #' # Summary of the new Veg-X document
 #' showElementTable(x, "plot")
-#'
+#' 
+#' # Add 'elevation' from another table (moki_site). This implies considering subplots.
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot", elevation = "Altitude")
+#' elevMethod = predefinedMeasurementMethod("Elevation/m")
+#' x = addPlotLocations(x, moki_site, mapping, 
+#'                      methods = c(elevation = elevMethod))
+#'                      
+#' # Summary of the updated Veg-X document
+#' showElementTable(x, "plot")
+#' 
 addPlotLocations<-function(target, x,
                            mapping,
                            proj4string = "+proj=longlat +ellps=WGS84",
                            reset.places = FALSE,
                            toWGS84 = FALSE,
+                           methods = list(),
                            missing.values = c(NA,""),
                            verbose = TRUE) {
   x = as.data.frame(x)
@@ -53,12 +65,13 @@ addPlotLocations<-function(target, x,
 
   #check mappings
   nonCoordVariables = c("authorLocation","locationNarrative", "placeName", "placeType")
-  locVariables = c("x", "y", nonCoordVariables)
-  mappingsAvailable = c("plotName", "subPlotName", "placementParty", locVariables)
+  coordVariables = c("x", "y", "elevation")
+  allVariables = c(coordVariables, nonCoordVariables)
+  mappingsAvailable = c("plotName", "subPlotName", "placementParty", allVariables)
   locValues = list()
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
-    if(names(mapping)[i] %in% locVariables) {
+    if(names(mapping)[i] %in% allVariables) {
       locValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
     }
   }
@@ -81,7 +94,49 @@ addPlotLocations<-function(target, x,
     placementParties = as.character(x[[mapping[["placementParty"]]]])
   }
 
-
+  #add methods
+  methodIDs = character(0)
+  methodCodes = list()
+  methodAttIDs = list()
+  for(m in names(methods)) {
+    method = methods[[m]]
+    nmtid = .newMethodIDByName(target,method@name)
+    methodID = nmtid$id
+    methodIDs[[m]] = methodID
+    methodCodes[[m]] = character(0)
+    methodAttIDs[[m]] = character(0)
+    if(nmtid$new) {
+      target@methods[[methodID]] = list(name = method@name,
+                                        description = method@description,
+                                        subject = method@subject,
+                                        attributeType = method@attributeType)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
+      # add attributes if necessary
+      methodAttIDs[[m]] = character(length(method@attributes))
+      methodCodes[[m]] = character(length(method@attributes))
+      for(i in 1:length(method@attributes)) {
+        attid = .nextAttributeID(target)
+        target@attributes[[attid]] = method@attributes[[i]]
+        target@attributes[[attid]]$methodID = methodID
+        methodAttIDs[[m]][i] = attid
+        if(method@attributes[[i]]$type != "quantitative") methodCodes[[m]][i] = method@attributes[[i]]$code
+      }
+    } else {
+      methodCodes[[m]] = .getAttributeCodesByMethodID(target,methodID)
+      methodAttIDs[[m]] = .getAttributeIDsByMethodID(target,methodID)
+      if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
+    }
+  }
+  
   orinplots = length(target@plots)
   orinparties = length(target@parties)
   parsedPlots = character(0)
@@ -89,14 +144,17 @@ addPlotLocations<-function(target, x,
   #Record parsing loop
   for(i in 1:nrecords) {
     #plot
-    if(!(plotNames[i] %in% parsedPlots)) {
-      npid = .newPlotIDByName(target, plotNames[i]) # Get the new plot ID (internal code)
+    if(!plotNames[i] %in% missing.values) {# If plotName is missing take the previous one
+      plotName = plotNames[i]
+    }
+    if(!(plotName %in% parsedPlots)) {
+      npid = .newPlotIDByName(target, plotName) # Get the new plot ID (internal code)
       plotID = npid$id
-      if(npid$new) target@plots[[plotID]] = list("plotName" = plotNames[i])
-      parsedPlots = c(parsedPlots, plotNames[i])
+      if(npid$new) target@plots[[plotID]] = list("plotName" = plotName)
+      parsedPlots = c(parsedPlots, plotName)
       parsedPlotIDs = c(parsedPlotIDs, plotID)
     } else { #this access should be faster
-      plotID = parsedPlotIDs[which(parsedPlots==plotNames[i])]
+      plotID = parsedPlotIDs[which(parsedPlots==plotName)]
     }
     #subplot (if defined)
     if(subPlotFlag){
@@ -153,12 +211,47 @@ addPlotLocations<-function(target, x,
         nmissing = nmissing + 1
       }
     }
-
-    # Add coordinate variables (transform to latlong)
-    if("x" %in% names(mapping)) {
+    # Add coordinate variables (if required transform to latlong)
+    if("elevation" %in% names(mapping)) {
+      m = "elevation"
+      method = methods[[m]]
+      attIDs = methodAttIDs[[m]]
+      codes = methodCodes[[m]]
+      value = as.character(locValues[[m]][i])
+      if(!(value %in% as.character(missing.values))) {
+        if(method@attributeType== "quantitative") {
+          value = as.numeric(value)
+          if(value> method@attributes[[1]]$upperLimit) {
+            stop(paste0("Elevation '", value,"' larger than upper limit of measurement definition. Please revise scale or data."))
+          }
+          else if(value < method@attributes[[1]]$lowerLimit) {
+            stop(paste0("Elevation '", value,"' smaller than lower limit of measurement definition. Please revise scale or data."))
+          }
+          target@plots[[plotID]]$location$verticalCoordinates$elevation = list("attributeID" = attIDs[1], "value" = value)
+        } else {
+          ind = which(codes==value)
+          if(length(ind)==1) {
+            target@plots[[plotID]]$location$verticalCoordinates$elevation = list("attributeID" = attIDs[ind], "value" = value)
+          }
+          else stop(paste0("Value '", value,"' not found in area measurement definition. Please revise elevation classes or data."))
+        }
+      } else {
+        nmissing = nmissing + 1
+      }
+      
+    }
+    # Add coordinate variables (if required transform to latlong)
+    if(("x" %in% names(mapping)) && ("y" %in% names(mapping))) {
+      attIDs = NA
+      if("xy" %in% names(methods)) {
+        m = "xy"
+        method = methods[[m]]
+        attIDs = methodAttIDs[[m]]
+        codes = methodCodes[[m]]
+      }
       x = as.numeric(locValues[["x"]][i])
       y = as.numeric(locValues[["y"]][i])
-      if((!is.na(x))&& (!is.na(y))) {
+      if((!is.na(x)) && (!is.na(y))) {
         if(toWGS84) {
           sp = SpatialPoints(coords = matrix(c(x,y), nrow=1, ncol=2), proj4string = CRS(proj4string))
           sp = spTransform(sp, CRS("+proj=longlat +datum=WGS84"))
@@ -169,6 +262,7 @@ addPlotLocations<-function(target, x,
         target@plots[[plotID]]$location$horizontalCoordinates$coordinates$valueX = as.numeric(x)
         target@plots[[plotID]]$location$horizontalCoordinates$coordinates$valueY = as.numeric(y)
         target@plots[[plotID]]$location$horizontalCoordinates$coordinates$spatialReference = proj4string
+        if(!is.na(attIDs)) target@plots[[plotID]]$location$horizontalCoordinates$coordinates$attributeID = attIDs[1]
       } else {
         nmissing = nmissing + 1
       }

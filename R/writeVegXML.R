@@ -222,6 +222,17 @@ writeVegXML<-function(x, file, verbose = TRUE) {
             newXMLNode("valueX", location$horizontalCoordinates$coordinates$valueX, parent=cc)
             newXMLNode("valueY", location$horizontalCoordinates$coordinates$valueY, parent=cc)
             newXMLNode("spatialReference", location$horizontalCoordinates$coordinates$spatialReference, parent=cc)
+            if("attributeID" %in% names(location$horizontalCoordinates$coordinates)) {
+              newXMLNode("spatialReference", location$horizontalCoordinates$coordinates$attributeID, parent=cc)
+            }
+          }
+        }
+        if("verticalCoordinates" %in% names(location)) {
+          vc = newXMLNode("verticalCoordinates", parent=pl)
+          if("elevation" %in% names(location$verticalCoordinates)) {
+            mes = newXMLNode("elevation", parent=vc)
+            newXMLNode("value", location$verticalCoordinates$elevation$value, parent=mes)
+            newXMLNode("attributeID", location$verticalCoordinates$elevation$attributeID, parent=mes)
           }
         }
       }
