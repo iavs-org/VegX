@@ -407,16 +407,17 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedsiteobs = 0
   if(length(y@siteObservations)>0) {
     for(j in 1:length(y@siteObservations)) {
-      plotObsID = plotObsIDmap[[y@siteObservations[[j]]$plotObservationID]]
-      y@siteObservations[[j]]$plotObservationID = plotObsID # set plot observation ID to translated one in order to avoid matching problems (does not change id externally)
-      nsiteobsid = .newSiteObservationIDByID(x, plotObsID)
+      siteObs = .applyMappingsToSiteObservations(y@siteObservations[[j]], plotObsIDmap, attIDmap)
+      nsiteobsid = .newSiteObservationIDByID(x, siteObs$plotObservationID)
       if(nsiteobsid$new) {
-        x@siteObservations[[nsiteobsid$id]] = .applyAttributeMappingToSiteObservations(y@siteObservations[[j]], attIDmap)
+        x@siteObservations[[nsiteobsid$id]] = siteObs
       } else { #pool information
-        x@siteObservations[[nsiteobsid$id]] = .mergeSiteObservations(x@siteObservations[[nsiteobsid$id]], y@siteObservations[[j]], attIDmap)
+        x@siteObservations[[nsiteobsid$id]] = .mergeSiteObservations(x@siteObservations[[nsiteobsid$id]], siteObs)
         nmergedsiteobs = nmergedsiteobs + 1
       }
-      indObsIDmap[names(y@siteObservations)[j]] = nsiteobsid$id
+      siteObsIDmap[names(y@siteObservations)[j]] = nsiteobsid$id
+      # Update link in plotObservation
+      x@plotObservations[[x@siteObservations[[nsiteobsid$id]]$plotObservationID]]$siteObservationID = nsiteobsid$id
     }
   }
   if(verbose) {
@@ -424,6 +425,26 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   }
   
   # communityObservations
+  commObsIDmap = list()
+  nmergedcommobs = 0
+  if(length(y@communityObservations)>0) {
+    for(j in 1:length(y@communityObservations)) {
+      commObs = .applyMappingsToCommunityObservations(y@communityObservations[[j]], plotObsIDmap, attIDmap)
+      ncommobsid = .newCommunityObservationIDByID(x, commObs$plotObservationID)
+      if(ncommobsid$new) {
+        x@communityObservations[[ncommobsid$id]] = commObs
+      } else { #pool information
+        x@communityObservations[[ncommobsid$id]] = .mergeCommunityObservations(x@communityObservations[[ncommobsid$id]], commObs)
+        nmergedcommobs = nmergedcommobs + 1
+      }
+      commObsIDmap[names(y@communityObservations)[j]] = ncommobsid$id
+      # Update link in plotObservation
+      x@plotObservations[[x@communityObservations[[ncommobsid$id]]$plotObservationID]]$communityObservationID = ncommobsid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of community observations: ", length(x@communityObservations),". Data pooled for ", nmergedsiteobs, " community observation(s).\n"))
+  }
   
 
   # surfaceCoverObservations

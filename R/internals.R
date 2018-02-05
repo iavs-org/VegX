@@ -479,7 +479,8 @@
   }
   return(aggObs)
 }
-.applyAttributeMappingToSiteObservations<-function(siteobs, attIDmap) {
+.applyMappingsToSiteObservations<-function(siteobs, plotObsIDmap, attIDmap) {
+  siteobs$plotObservationID = plotObsIDmap[[siteobs$plotObservationID]]
   # Update attribute codes
   for(n in names(siteobs)) {
     if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
@@ -813,10 +814,9 @@
 
 # Pools the information of two site observations
 # Measurements
-.mergeSiteObservations<-function(siteobs1, siteobs2, attIDmap) {
+.mergeSiteObservations<-function(siteobs1, siteobs2) {
   n1 = names(siteobs1)
   n2 = names(siteobs2)
-  siteobs2 = .applyAttributeMappingToSiteObservations(siteobs2, attIDmap)
   npool = unique(c(n1,n2)) # these are soilMeasurements, climateMeasurements, ...
   res = list()
   for(n in npool) {
