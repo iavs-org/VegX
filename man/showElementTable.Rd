@@ -10,7 +10,8 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE,
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
-\item{element}{The name of the main elements to be coerced: 'plot', 'plotObservation', 'organismIdentity',
+\item{element}{The name of the main elements to be coerced: 'project', 'plot', 
+'plotObservation', 'organismIdentity',
 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute', 'literatureCitation'.}
@@ -31,8 +32,9 @@ Coerces part of the information of a Veg-X object into a data frame
 data(mokihinui)
 
 # Create document 'x' with aggregate organism observations
-mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
-              stratumName = "Tier", cover = "Category")
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+               taxonName = "NVSSpeciesName",
+               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
@@ -43,16 +45,16 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
                    definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
 strataDef = defineMixedStrata(name = "Recce strata",
-                              description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-                              heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7",
-                              categoryStrataDefinition = "Epiphytes")
+                   description = "Standard Recce stratum definition",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                   heightStrataNames = paste0("Tier ",1:6),
+                   categoryStrataNames = "Tier 7",
+                   categoryStrataDefinition = "Epiphytes")
 x = addAggregateOrganismObservations(newVegX(), moki_tcv,
-                        mapping = mapping,
-                        methods = c(cover=coverscale),
-                        stratumDefinition = strataDef)
+                   mapping = mapping,
+                   methods = c(cover=coverscale),
+                   stratumDefinition = strataDef)
 
 # Summary
 summary(x)
@@ -63,9 +65,10 @@ showElementTable(x, "plot")
 # show plot observation information
 showElementTable(x, "plotObservation")
 
-# show methods and attributes
+# show methods, attributes, citations
 showElementTable(x, "method")
 showElementTable(x, "attribute")
+showElementTable(x, "literatureCitation")
 
 # show aggregate organism observations (only some of them)
 head(showElementTable(x, "aggregateOrganismObservation"))

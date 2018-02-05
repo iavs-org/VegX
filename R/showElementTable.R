@@ -3,7 +3,8 @@
 #' Coerces part of the information of a Veg-X object into a data frame
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
-#' @param element The name of the main elements to be coerced: 'plot', 'plotObservation', 'organismIdentity',
+#' @param element The name of the main elements to be coerced: 'project', 'plot', 
+#' 'plotObservation', 'organismIdentity',
 #' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 #' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 #' 'siteObservation', 'method', 'attribute', 'literatureCitation'.
@@ -18,8 +19,9 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate organism observations
-#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", organismName = "PreferredSpeciesName",
-#'               stratumName = "Tier", cover = "Category")
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#'                taxonName = "NVSSpeciesName",
+#'                stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
 #'                    subject = "plant cover",
@@ -30,16 +32,16 @@
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
 #'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #' strataDef = defineMixedStrata(name = "Recce strata",
-#'                               description = "Standard Recce stratum definition",
-#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-#'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7",
-#'                               categoryStrataDefinition = "Epiphytes")
+#'                    description = "Standard Recce stratum definition",
+#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                    heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                    heightStrataNames = paste0("Tier ",1:6),
+#'                    categoryStrataNames = "Tier 7",
+#'                    categoryStrataDefinition = "Epiphytes")
 #' x = addAggregateOrganismObservations(newVegX(), moki_tcv,
-#'                         mapping = mapping,
-#'                         methods = c(cover=coverscale),
-#'                         stratumDefinition = strataDef)
+#'                    mapping = mapping,
+#'                    methods = c(cover=coverscale),
+#'                    stratumDefinition = strataDef)
 #'
 #' # Summary
 #' summary(x)
@@ -50,15 +52,16 @@
 #' # show plot observation information
 #' showElementTable(x, "plotObservation")
 #'
-#' # show methods and attributes
+#' # show methods, attributes, citations
 #' showElementTable(x, "method")
 #' showElementTable(x, "attribute")
+#' showElementTable(x, "literatureCitation")
 #'
 #' # show aggregate organism observations (only some of them)
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, max.nchar = 30) {
 
-  element = match.arg(element, c("plot", "plotObservation",
+  element = match.arg(element, c("project", "plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",
                                  "surfaceType", "surfaceCoverObservation",
@@ -267,6 +270,27 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
         }
         if("organismIdentityID" %in% names(x@individualOrganisms[[i]])) res[i, "organismIdentityName"] = .getOrganismIdentityName(x, x@individualOrganisms[[i]]$organismIdentityID)
         res[i, "individualOrganismLabel"] = x@individualOrganisms[[i]]$individualOrganismLabel
+      }
+    }
+  }
+  else if(element=="project") {
+    res = data.frame(title = rep(NA, length(x@projects)), 
+                     row.names = names(x@projects))
+    if(length(x@projects)>0) {
+      for(i in 1:length(x@projects)){
+        res[i,"title"] = x@projects[[i]]$title
+        if("abstract"%in% names(x@projects[[i]])) {
+          res[i,"abstract"] = trimString(x@projects[[i]]$abstract)
+        }
+        if("funding"%in% names(x@projects[[i]])) {
+          res[i,"funding"] = trimString(x@projects[[i]]$funding)
+        }
+        if("studyAreaDescription"%in% names(x@projects[[i]])) {
+          res[i,"studyAreaDescription"] = trimString(x@projects[[i]]$studyAreaDescription)
+        }
+        if("designDescription"%in% names(x@projects[[i]])) {
+          res[i,"designDescription"] = trimString(x@projects[[i]]$designDescription)
+        }
       }
     }
   }
