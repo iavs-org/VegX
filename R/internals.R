@@ -386,8 +386,17 @@
   }
   return(organismIdentity)
 }
+#Translate IDs in a project element
+.applyMappingsToProject<-function(project, partyIDmap) {
+  n = names(project)
+  for(i in 1:length(n)) {
+    # Update party codes
+    if(n[[i]]=="personnel")  project[[i]][[1]] = partyIDmap[[project[[i]][[1]]]]
+  }
+  return(project)
+}
 
-#Translate attributes of measurements in a plot element
+#Translate IDs in a plot element
 .applyMappingsToPlot<-function(plot, partyIDmap, attIDmap) {
   for(n in names(plot)) {
     # Update party codes
@@ -594,6 +603,26 @@
       res[[n]] = oi1[[n]]
     } else if(n %in% n2) {
       res[[n]] = oi2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two projects
+.mergeProjects<-function(prj1, prj2, partyIDmap) {
+  n1 = names(prj1)
+  n2 = names(prj2)
+  prj2 = .applyMappingsToProject(prj2, partyIDmap)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(prj1[[n]]!=prj2[[n]]) stop(paste0("Projects have different data for '", n, "'. Cannot merge."))
+      res[[n]] = prj1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = prj1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = prj2[[n]]
     }
   }
   return(res)

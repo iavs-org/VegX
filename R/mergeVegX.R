@@ -257,19 +257,24 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of organism identities: ", length(x@organismIdentities),". Data pooled for ", nmergedois, " organism identitie(s).\n"))
   }
 
-  #projects IMPORTANT: Should be modified if other elements than 'title' are considered
+  #projects 
+  nmergedpjs = 0
   projectIDmap = list()
   if(length(y@projects)>0) {
     for(j in 1:length(y@projects)) {
       npid = .newProjectIDByTitle(x, y@projects[[j]]$title)
       if(npid$new) {
-        x@projects[[npid$id]] = y@projects[[j]]
+        x@projects[[npid$id]] = .applyMappingsToProject(y@projects[[j]], partyIDmap)
+      } else {
+        x@projects[[npid$id]] = .mergeProjects(x@projects[[npid$id]], y@projects[[j]], partyIDmap)
+        nmergedpjs = nmergedpjs + 1
+        
       }
       projectIDmap[names(y@projects)[j]] = npid$id
     }
   }
   if(verbose) {
-    cat(paste0(" Final number of projects: ", length(x@projects),".\n"))
+    cat(paste0(" Final number of projects: ", length(x@projects),". Data pooled for ", nmergedpjs, " project(s).\n"))
   }
   
   
