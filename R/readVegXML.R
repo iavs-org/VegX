@@ -255,8 +255,11 @@ readVegXML<-function(file, verbose = TRUE) {
       else if("rectangle" %in% names(gm)) {
         plot$geometry$rectangle = list()
         sh = gm[["rectangle"]]
-        if("length" %in% names(sh)) plot$geometry$rectangle$length = .readVegXMeasurement.2.0.0(sh[["length"]])
-        if("width" %in% names(sh)) plot$geometry$rectangle$width = .readVegXMeasurement.2.0.0(sh[["width"]])
+        if("dimensions" %in% names(sh)) {
+          dim = sh[["dimensions"]]
+          if("length" %in% names(dim)) plot$geometry$rectangle$length = .readVegXMeasurement.2.0.0(dim[["length"]])
+          if("width" %in% names(dim)) plot$geometry$rectangle$width = .readVegXMeasurement.2.0.0(dim[["width"]])
+        }
       }
       else if("line" %in% names(gm)) {
         plot$geometry$line = list()
