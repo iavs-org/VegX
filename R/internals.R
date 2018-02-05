@@ -42,6 +42,10 @@
   if(length(target@individualObservations)==0) return("1")
   return(as.character(as.numeric(names(target@individualObservations)[length(target@individualObservations)])+1))
 }
+.nextCommunityObservationID<-function(target) {
+  if(length(target@communityObservations)==0) return("1")
+  return(as.character(as.numeric(names(target@communityObservations)[length(target@communityObservations)])+1))
+}
 .nextSiteObservationID<-function(target) {
   if(length(target@siteObservations)==0) return("1")
   return(as.character(as.numeric(names(target@siteObservations)[length(target@siteObservations)])+1))
@@ -166,6 +170,14 @@
     if((target@individualObservations[[i]]$plotObservationID==plotObservationID) && (target@individualObservations[[i]]$individualOrganismID==individualOrganismID)) return(list(id = names(target@individualObservations)[i], new = FALSE))
   }
   return(list(id = .nextIndividualOrganismObservationID(target), new = TRUE))
+}
+# Returns the ID for a new community observation in the data set or the ID of an existing community observation
+.newCommunityObservationIDByID<-function(target, plotObservationID) {
+  if(length(target@communityObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@communityObservations)) {
+    if(target@communityObservations[[i]]$plotObservationID==plotObservationID) return(list(id = names(target@communityObservations)[i], new = FALSE))
+  }
+  return(list(id = .nextCommunityObservationID(target), new = TRUE))
 }
 # Returns the ID for a new site observation in the data set or the ID of an existing site observation
 .newSiteObservationIDByID<-function(target, plotObservationID) {
@@ -479,6 +491,19 @@
   }
   return(aggObs)
 }
+.applyMappingsToCommunityObservations<-function(commobs, plotObsIDmap, attIDmap) {
+  commobs$plotObservationID = plotObsIDmap[[commobs$plotObservationID]]
+  # Update attribute codes
+  for(n in names(commobs)) {
+    if(n %in% c("communityMeasurements")) {
+      for(i in 1:length(commobs[[n]])) {
+        commobs[[n]][[i]]$attributeID = attIDmap[[commobs[[n]][[i]]$attributeID]]
+      }
+    }
+  }
+  return(commobs)
+}
+
 .applyMappingsToSiteObservations<-function(siteobs, plotObsIDmap, attIDmap) {
   siteobs$plotObservationID = plotObsIDmap[[siteobs$plotObservationID]]
   # Update attribute codes
@@ -807,6 +832,25 @@
       res[[n]] = indobs1[[n]]
     } else if(n %in% n2) {
       res[[n]] = indobs2[[n]]
+    }
+  }
+  return(res)
+}
+
+# Pools the information of two site observations
+# Measurements
+.mergeCommunityObservations<-function(commobs1, commobs2) {
+  n1 = names(commobs1)
+  n2 = names(commobs2)
+  npool = unique(c(n1,n2)) # these are soilMeasurements, climateMeasurements, ...
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      res[[n]] = c(commobs1[[n]], commobs2[[n]])# add both vector elements to the result
+    } else if(n %in% n1) {
+      res[[n]] = commobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = commobs2[[n]]
     }
   }
   return(res)
