@@ -28,8 +28,7 @@ for each of the abiotic variables stated in \code{mapping}. List names should be
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
-using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
+Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots.
 }
 \details{
 Missing value policy:

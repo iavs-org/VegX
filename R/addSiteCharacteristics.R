@@ -1,7 +1,6 @@
 #' Adds/replaces site information
 #'
-#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
-#' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
+#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.

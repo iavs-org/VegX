@@ -1,8 +1,6 @@
 #' Add site observation records
 #'
-#' Adds site observation records to a VegX object from a data table where rows are plot observations,
-#' using a mapping to identify plot observation: plot, subplot (optional) and observation date.
-#' Additional mappings are used to map specific site variables.
+#' Adds site observation records to a VegX object from a data table where rows are plot observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
@@ -24,10 +22,12 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-#' Missing measurements are simply not added to the Veg-X document.
-#'
+#' @details Missing value policy:
+#' \itemize{
+#'   \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{Missing measurements are simply not added to the Veg-X document.}
+#' }
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
