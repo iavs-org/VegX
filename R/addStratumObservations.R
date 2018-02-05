@@ -1,6 +1,6 @@
 #' Add stratum observation records
 #'
-#' Adds stratum observation records to a VegX object from a data table
+#' Adds stratum observation records to a VegX object from a data table where rows are stratum observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one stratum observation. Columns can be varied.
@@ -14,10 +14,13 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-#' Missing measurements are simply not added to the Veg-X document.
-#'
+#' @details Missing value policy:
+#'  \itemize{
+#'   \item{Missing 'plotName', 'obsStartDate' or 'stratumName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{Missing measurements are simply not added to the Veg-X document.}
+#'  }
+#'  
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
