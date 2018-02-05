@@ -98,6 +98,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of partie(s): ", length(x@parties),". Data pooled for ", nmergedparties, " partie(s).\n"))
   }
+  
   # literatureCitations
   litIDmap = list()
   nmergedlits = 0
@@ -116,6 +117,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of literature citations: ", length(x@literatureCitations),". Data pooled for ", nmergedlits, " citation(s).\n"))
   }
+
   # methods/attributes
   methodIDmap = list()
   attIDmap = list()
@@ -148,7 +150,67 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
   }
 
-
+  #strata
+  strIDmap = list()
+  nmergedstr = 0
+  if(length(y@strata)>0) {
+    for(j in 1:length(y@strata)) {
+      methodID = methodIDmap[[y@strata[[j]]$methodID]]
+      y@strata[[j]]$methodID = methodID # set method ID to translated one in order to avoid matching problems (does not change id externally)
+      nstrid = .newStratumIDByName(x, methodID, y@strata[[j]]$stratumName)
+      if(nstrid$new) {
+        x@strata[[nstrid$id]] = y@strata[[j]]
+      } else { #pool information
+        x@strata[[nstrid$id]] = .mergeStrata(x@strata[[nstrid$id]], y@strata[[j]])
+        nmergedstr = nmergedstr + 1
+      }
+      strIDmap[names(y@strata)[j]] = nstrid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of strata: ", length(x@strata),". Data pooled for ", nmergedstr, " strata.\n"))
+  }
+  
+  #surfaceTypes
+  stIDmap = list()
+  nmergedst = 0
+  if(length(y@surfaceTypes)>0) {
+    for(j in 1:length(y@surfaceTypes)) {
+      methodID = methodIDmap[[y@surfaceTypes[[j]]$methodID]]
+      y@surfaceTypes[[j]]$methodID = methodID # set method ID to translated one in order to avoid matching problems (does not change id externally)
+      nstid = .newSurfaceTypeIDByName(x, methodID, y@surfaceTypes[[j]]$surfaceName)
+      if(nstid$new) {
+        x@surfaceTypes[[nstid$id]] = y@surfaceTypes[[j]]
+      } else { #pool information
+        x@surfaceTypes[[nstid$id]] = .mergeStrata(x@surfaceTypes[[nstrid$id]], y@surfaceTypes[[j]])
+        nmergedst = nmergedst + 1
+      }
+      stIDmap[names(y@surfaceTypes)[j]] = nstid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of surface types: ", length(x@surfaceTypes),". Data pooled for ", nmergedst, " surface types.\n"))
+  }
+  
+  #organismNames
+  onIDmap = list()
+  nmergedons = 0
+  if(length(y@organismNames)>0) {
+    for(j in 1:length(y@organismNames)) {
+      nonid = .newOrganismNameIDByName(x, y@organismNames[[j]]$name, y@organismNames[[j]]$taxon)
+      if(nonid$new) {
+        x@organismNames[[nonid$id]] = y@organismNames[[j]]
+      } else { #pool information
+        x@organismNames[[nonid$id]] = .mergeOrganismNames(x@organismNames[[nonid$id]], y@organismNames[[j]])
+        nmergedons = nmergedons + 1
+      }
+      onIDmap[names(y@organismNames)[j]] = nonid$id
+    }
+  }
+  if(verbose) {
+    cat(paste0(" Final number of organism names: ", length(x@organismNames),". Data pooled for ", nmergedons, " organism name(s).\n"))
+  }
+  
   #organismIdentities
   oiIDmap = list()
   nmergedois = 0
@@ -172,30 +234,6 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of organism identities: ", length(x@organismIdentities),". Data pooled for ", nmergedois, " organism identitie(s).\n"))
   }
-
-
-
-  #strata
-  strIDmap = list()
-  nmergedstr = 0
-  if(length(y@strata)>0) {
-    for(j in 1:length(y@strata)) {
-      methodID = methodIDmap[[y@strata[[j]]$methodID]]
-      y@strata[[j]]$methodID = methodID # set method ID to translated one in order to avoid matching problems (does not change id externally)
-      nstrid = .newStratumIDByName(x, methodID, y@strata[[j]]$stratumName)
-      if(nstrid$new) {
-        x@strata[[nstrid$id]] = y@strata[[j]]
-      } else { #pool information
-        x@strata[[nstrid$id]] = .mergeStrata(x@strata[[nstrid$id]], y@strata[[j]])
-        nmergedstr = nmergedstr + 1
-      }
-      strIDmap[names(y@strata)[j]] = nstrid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of strata: ", length(x@strata),". Data pooled for ", nmergedstr, " strata.\n"))
-  }
-
 
   #projects IMPORTANT: Should be modified if other elements than 'title' are considered
   projectIDmap = list()
@@ -357,26 +395,6 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of individual organism observations: ", length(x@individualObservations),". Data pooled for ", nmergedindobs, " individual organism observation(s).\n"))
   }
 
-  #surfaceTypes
-  stIDmap = list()
-  nmergedst = 0
-  if(length(y@surfaceTypes)>0) {
-    for(j in 1:length(y@surfaceTypes)) {
-      methodID = methodIDmap[[y@surfaceTypes[[j]]$methodID]]
-      y@surfaceTypes[[j]]$methodID = methodID # set method ID to translated one in order to avoid matching problems (does not change id externally)
-      nstid = .newSurfaceTypeIDByName(x, methodID, y@surfaceTypes[[j]]$surfaceName)
-      if(nstid$new) {
-        x@surfaceTypes[[nstid$id]] = y@surfaceTypes[[j]]
-      } else { #pool information
-        x@surfaceTypes[[nstid$id]] = .mergeStrata(x@surfaceTypes[[nstrid$id]], y@surfaceTypes[[j]])
-        nmergedst = nmergedst + 1
-      }
-      stIDmap[names(y@surfaceTypes)[j]] = nstid$id
-    }
-  }
-  if(verbose) {
-    cat(paste0(" Final number of surface types: ", length(x@surfaceTypes),". Data pooled for ", nmergedst, " surface types.\n"))
-  }
 
   # surfaceCoverObservations
   scObsIDmap = list()

@@ -146,7 +146,7 @@ readVegXML<-function(file, verbose = TRUE) {
     if(verbose) cat(paste0(" ", length(target@surfaceTypes), " surface types read.\n"))
   }
 
-  #read organism names (TO BE CHECKED)
+  #read organism names
   .readOrganismName.2.0.0 = function(x) {
     orgName = list()
     orgName$name = xmlValue(x)
