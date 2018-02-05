@@ -317,18 +317,17 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of individual organisms: ", length(x@individualOrganisms),". Data pooled for ", nmergedind, " individual organism(s).\n"))
   }
   
-  #plotObservations
+  #plotObservations (REVISE links to siteObservation/communityObservation)
   plotObsIDmap = list()
   nmergedplotobs = 0
   if(length(y@plotObservations)>0) {
     for(j in 1:length(y@plotObservations)) {
-      plotID = plotIDmap[[y@plotObservations[[j]]$plotID]]
-      y@plotObservations[[j]]$plotID = plotID # set plot ID to translated one in order to avoid matching problems (does not change id externally)
-      npoid = .newPlotObsIDByDate(x, plotID, y@plotObservations[[j]]$obsStartDate)
+      plotObs = .applyMappingsToPlotObservation(y@plotObservations[[j]], plotIDmap, projectIDmap)
+      npoid = .newPlotObsIDByDate(x, plotObs$plotID, plotObs$obsStartDate)
       if(npoid$new) {
-        x@plotObservations[[npoid$id]] = .applyMappingsToPlotObservation(y@plotObservations[[j]], projectIDmap)
+        x@plotObservations[[npoid$id]] = plotObs
       } else { #pool information
-        x@plotObservations[[npoid$id]] = .mergePlotObservations(x@plotObservations[[npoid$id]], y@plotObservations[[j]], projectIDmap)
+        x@plotObservations[[npoid$id]] = .mergePlotObservations(x@plotObservations[[npoid$id]], plotObs)
         nmergedplotobs = nmergedplotobs + 1
       }
       plotObsIDmap[names(y@plotObservations)[j]] = npoid$id
