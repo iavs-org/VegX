@@ -28,12 +28,15 @@ Additional optional mappings are: 'subPlotName'.}
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds surface cover observation records to a VegX object from a data table
+Adds surface cover observation records to a VegX object from a data table where rows are cover observations.
 }
 \details{
-Missing 'plotName', 'obsStartDate' or 'surfaceName' values are interpreted as if the previous non-missing value has to be used to define plot observation.
-Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-Missing measurements are simply not added to the Veg-X document.
+Missing value policy:
+ \itemize{
+   \item{Missing 'plotName', 'obsStartDate' or 'surfaceName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+   \item{Missing measurements are simply not added to the Veg-X document.}
+}
 }
 \examples{
 # Load source data
