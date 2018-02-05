@@ -90,7 +90,7 @@ Additional resource elements of the Veg-X schema are used to provide information
 
 Resource element               | Description                                     |  R |
 ------------------------------ | ----------------------------------------------- | --- |
-party                          | Describes a responsible party (person or organization), and is typically used to name the originator of a resource or metadata document. | No |
+party                          | Describes a responsible party (person or organization), and is typically used to name the originator of a resource or metadata document. | Yes |
 attribute                      | A specific definition of a measured property. An attribute has to be one of three types: qualitative (unordered categorical variable, i.e. nominal), ordinal (ordered list of values) or quantitative (a numerical variable, either discrete or continuous. | Yes |
 method                         | A specific method definition followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). | Yes |
 protocol                       | A specific grouping of methods related by common action. A protocol may have many method or steps.| No |
@@ -116,6 +116,20 @@ funding                   | Funding information. | 0..1 | Yes |
 studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | 0..1 | Yes |
 designDescription         | Description of the design of the research project | 0..1 | Yes |
 relatedProjectID          | A link to another project, by ID.                 | 0..n | No  |
+
+### Element *party*
+
+A *party* element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+individualName            | The full name of the person being described.  | 0..1 | Yes |
+organizationName          | The full name of the organization being described. | 0..1 | Yes |
+positionName              | The name of the title or position associated with the resource.  | 0..1 | Yes |
+address                   | The full address information for a given responsible party entry. | 1..n | Yes |
+phone                   | Information about the contact's telephone.  | 0..1 | Yes |
+electronicMailAddress                   | The email address of the contact. | 0..1 | Yes |
+onlineURL                   | A link to associated online information, usually a web site. | 0..1 | Yes |
 
 
 ### Element *plot*

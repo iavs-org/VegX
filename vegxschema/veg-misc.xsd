@@ -81,7 +81,7 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
                     <xs:documentation xml:lang="en">The email address of the contact.</xs:documentation>
                 </xs:annotation>
             </xsd:element>
-            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlineUrl" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlineURL" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
                 <xs:annotation>
                     <xs:documentation xml:lang="en">A link to associated online information, usually a web site.</xs:documentation>
                 </xs:annotation>
