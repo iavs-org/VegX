@@ -3,8 +3,8 @@
 #' Coerces part of the information of a Veg-X object into a data frame
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
-#' @param element The name of the main elements to be coerced: 'project', 'plot', 
-#' 'plotObservation', 'organismIdentity',
+#' @param element The name of the main element to be coerced: 'project', 'plot', 
+#'  'party', 'plotObservation', 'organismIdentity',
 #' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 #' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 #' 'siteObservation', 'method', 'attribute', 'literatureCitation'.
@@ -61,7 +61,7 @@
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, max.nchar = 30) {
 
-  element = match.arg(element, c("project", "plot", "plotObservation",
+  element = match.arg(element, c("project", "party", "plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",
                                  "surfaceType", "surfaceCoverObservation",
@@ -81,6 +81,21 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
       for(i in 1:length(x@literatureCitations)){
         res[i, "citationString"] = trimString(x@literatureCitations[[i]]$citationString)
         if("DOI" %in% names(x@literatureCitations[[i]])) res[i, "DOI"] = x@literatureCitations[[i]]$DOI
+      }
+    }
+  }
+  if(element=="party") {
+    res = data.frame(name = rep(NA, length(x@parties)),
+                     partyType = rep(NA, length(x@parties)),
+                     row.names = names(x@parties))
+    if(length(x@parties)>0){
+      for(i in 1:length(x@parties)){
+        res[i, "name"] = trimString(x@parties[[i]]$name)
+        res[i, "partyType"] = trimString(x@parties[[i]]$partyType)
+        if("address" %in% names(x@parties[[i]])) res[i, "address"] = trimString(x@parties[[i]]$address)
+        if("phone" %in% names(x@parties[[i]])) res[i, "phone"] = trimString(x@parties[[i]]$phone)
+        if("electronicMailAddress" %in% names(x@parties[[i]])) res[i, "electronicMailAddress"] = trimString(x@parties[[i]]$electronicMailAddress)
+        if("onlineURL" %in% names(x@parties[[i]])) res[i, "onlineURL"] = trimString(x@parties[[i]]$onlineURL)
       }
     }
   }

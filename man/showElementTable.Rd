@@ -10,8 +10,8 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE,
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}
 
-\item{element}{The name of the main elements to be coerced: 'project', 'plot', 
-'plotObservation', 'organismIdentity',
+\item{element}{The name of the main element to be coerced: 'project', 'plot', 
+ 'party', 'plotObservation', 'organismIdentity',
 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'siteObservation', 'method', 'attribute', 'literatureCitation'.}
