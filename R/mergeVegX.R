@@ -139,6 +139,14 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
           }
         }
       } else { #pool information
+        # add attributes
+        xattIDs = .getAttributeIDsByMethodID(x, names(x@methods)[j]) #Get attribute IDs in 'x'
+        yattIDs = .getAttributeIDsByMethodID(y, names(y@methods)[j]) #Get attribute IDs in 'y'
+        if(length(xattIDs)>0) {
+          for(i in 1:length(xattIDs)) {
+            attIDmap[[yattIDs[i]]] = xattIDs[i]
+          }
+        }
         x@methods[[nmetid$id]] = .mergeMethods(x@methods[[nmetid$id]], y@methods[[j]], litIDmap)
         #TO DO: We should check the attribute correspondence here
         nmergedmeths = nmergedmeths + 1
@@ -150,7 +158,8 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of methods: ", length(x@methods),". Data pooled for ", nmergedmeths, " method(s).\n"))
     cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
   }
-
+  print(attIDmap)
+  
   #strata
   strIDmap = list()
   nmergedstr = 0
