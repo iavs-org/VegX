@@ -3,7 +3,7 @@
 #' Coerces part of the information of a Veg-X object into a data frame
 #'
 #' @param x An object of class \code{\linkS4class{VegX}}
-#' @param element The name of the main element to be coerced: 'project', 'plot', 
+#' @param element The name of the main element to be coerced: 'project', 'plot',
 #'  'party', 'plotObservation', 'organismIdentity',
 #' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 #' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
@@ -19,7 +19,7 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate organism observations
-#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 #'                taxonName = "NVSSpeciesName",
 #'                stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
@@ -289,7 +289,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
     }
   }
   else if(element=="project") {
-    res = data.frame(title = rep(NA, length(x@projects)), 
+    res = data.frame(title = rep(NA, length(x@projects)),
                      row.names = names(x@projects))
     if(length(x@projects)>0) {
       for(i in 1:length(x@projects)){
@@ -321,6 +321,10 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
         }
         if("plotUniqueIdentifier"%in% names(x@plots[[i]])) {
           res[i,"plotUniqueIdentifier"] = x@plots[[i]]$plotUniqueIdentifier
+        }
+        if("placementPartyID" %in% names(x@plots[[i]])) {
+          if(IDs) res[i,"placementPartyID"] = x@plots[[i]]$placementPartyID
+          res[i,"placementParty"] = trimString(x@parties[[x@plots[[i]]$placementPartyID]]$name)
         }
         if("geometry" %in% names(x@plots[[i]])) {
           if("area" %in% names(x@plots[[i]]$geometry)) { #Add area information
@@ -381,7 +385,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
               res[i,"elevation_method"] = x@methods[[x@attributes[[x@plots[[i]]$location$verticalCoordinates$elevation$attributeID]]$methodID]]$name
               res[i,"elevation_value"] = x@plots[[i]]$location$verticalCoordinates$elevation$value
               if(IDs) res[i,"elevation_attributeID"] = x@plots[[i]]$location$verticalCoordinates$elevation$attributeID
-            } 
+            }
           }
         }
         if("topography" %in% names(x@plots[[i]])) {
@@ -438,6 +442,10 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
           if(IDs) {
             res[i, "communityObservationID"] = x@plotObservations[[i]]$communityObservationID
           }
+        }
+        if("observationPartyID" %in% names(x@plotObservations[[i]])) {
+          if(IDs) res[i,"observationPartyID"] = x@plotObservations[[i]]$observationPartyID
+          res[i,"observationParty"] = trimString(x@parties[[x@plotObservations[[i]]$observationPartyID]]$name)
         }
       }
     }
