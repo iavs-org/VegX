@@ -317,6 +317,7 @@ readVegXML<-function(file, verbose = TRUE) {
     if("obsEndDate" %in% n) plotObs$obsEndDate = as.Date(xmlValue(x[["obsEndDate"]]), format = "%Y-%m-%d")
     if("siteObservationID" %in% n) plotObs$siteObservationID = xmlValue(x[["siteObservationID"]])
     if("communityObservationID" %in% n) plotObs$communityObservationID = xmlValue(x[["communityObservationID"]])
+    if("observationPartyID" %in% n) plotObs$observationPartyID = xmlValue(x[["observationPartyID"]])
 
     return(plotObs)
   }

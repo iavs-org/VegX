@@ -196,7 +196,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     }
     if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
   }
-  #plot elements 
+  #plot elements
   if(length(x@plots)>0){
     plots = newXMLNode("plots", parent = top)
     for(i in 1:length(x@plots)){
@@ -322,6 +322,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if("plotObservationUniqueIdentifier" %in% names(x@plotObservations[[i]])) newXMLNode("plotObservationUniqueIdentifier", x@plotObservations[[i]]$plotObservationUniqueIdentifier, parent=po)
       if("siteObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("siteObservationID", x@plotObservations[[i]]$siteObservationID, parent=po)
       if("communityObservationID" %in% names(x@plotObservations[[i]])) newXMLNode("communityObservationID", x@plotObservations[[i]]$communityObservationID, parent=po)
+      if("observationPartyID" %in% names(x@plotObservations[[i]])) newXMLNode("observationPartyID", x@plotObservations[[i]]$observationPartyID, parent=po)
     }
     if(verbose) cat(paste0(" ", length(x@plotObservations), " plot observation(s) added to XML tree.\n"))
   }
