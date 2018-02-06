@@ -43,21 +43,21 @@ In these cases, scale transformations are not possible if \code{replaceValues = 
 data(mokihinui)
 
 # Create initial Veg-X document with stratum heights in meters
-mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper")
 heightMethod1 = predefinedMeasurementMethod("Stratum height/m")
 strataDef = defineMixedStrata(name = "Recce strata",
-                              description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-                              heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7",
-                              categoryStrataDefinition = "Epiphytes")
-x = addStratumObservations(newVegX(), tier, "Mokihinui",
-                        mapping = mapping,
-                        methods = list(lowerLimitMeasurement = heightMethod1,
+                   description = "Standard Recce stratum definition",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                   heightStrataNames = paste0("Tier ",1:6),
+                   categoryStrataNames = "Tier 7",
+                   categoryStrataDefinition = "Epiphytes")
+x = addStratumObservations(newVegX(), moki_str, "Mokihinui",
+                   mapping = mapping,
+                   methods = list(lowerLimitMeasurement = heightMethod1,
                                        upperLimitMeasurement = heightMethod1),
-                        stratumDefinition = strataDef)
+                   stratumDefinition = strataDef)
 
 # Examine stratum heights
 showElementTable(x, "stratumObservation")
