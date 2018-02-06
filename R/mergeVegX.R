@@ -158,8 +158,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of methods: ", length(x@methods),". Data pooled for ", nmergedmeths, " method(s).\n"))
     cat(paste0(" Final number of attributes: ", length(x@attributes),".\n"))
   }
-  print(attIDmap)
-  
+
   #strata
   strIDmap = list()
   nmergedstr = 0

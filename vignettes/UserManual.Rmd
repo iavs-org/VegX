@@ -502,11 +502,19 @@ Note that function ``mergeVegX()`` can also be used to merge two documents that 
 
 ### Transforming quantitative scales
 
-```{r trasnform height}
+```{r transform height}
 heightMethod2 = predefinedMeasurementMethod("Stratum height/cm")
 trans_vegx = transformQuantitativeScale(comb_vegx, "Stratum height/m", heightMethod2,
                                function(x){return(x*10)}, replaceValues = TRUE)
-showElementTable(comb_vegx, "stratumObservation")
+head(showElementTable(trans_vegx, "stratumObservation"),3)
+```
+
+### Transforming ordinal scales
+
+```{r transform cover}
+percentScale = predefinedMeasurementMethod("Plant cover/%")
+trans_vegx = transformOrdinalScale(comb_vegx, "Recce cover scale", percentScale)
+head(showElementTable(trans_vegx, "stratumObservation"),3)
 ```
 
 ## Writing and reading Veg-X documents
