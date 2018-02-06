@@ -306,7 +306,7 @@ addStratumObservations<-function(target, x, mapping,
         attIDs = methodAttIDs[[m]]
         codes = methodCodes[[m]]
         value = as.character(stratumMeasurementValues[[m]][i])
-        if(!(value %in% as.character(missing.values))) {
+        if(!(value %in% missing.values)) {
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
             if(value> method@attributes[[1]]$upperLimit) {
@@ -334,7 +334,7 @@ addStratumObservations<-function(target, x, mapping,
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       value = as.character(stratumMeasurementValues[[m]][i])
-      if(!(value %in% as.character(missing.values))) {
+      if(!((value %in% missing.values) || (value==""))) {
         if(!("stratumMeasurements" %in% names(strObs))) strObs$stratumMeasurements = list()
         mesID = as.character(length(strObs$stratumMeasurements)+1)
         if(method@attributeType== "quantitative") {
