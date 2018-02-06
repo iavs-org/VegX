@@ -132,7 +132,7 @@
                 </xsd:element>
                 <xsd:element name="taxonDeterminations" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for relationships or assertions between two concepts. Within vegX this typically allows for an author usage concept (datasetNameUsageConcept), i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party.</xsd:documentation>
+                        <xsd:documentation>A container for relationships or assertions between two concepts.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
@@ -146,13 +146,13 @@
                 </xsd:element>
                 <xsd:element name="organismIdentities" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for taxon name strings occurring within the dataset. These are usage concepts defined by the dataset author which may follow, or be according, to a third party. They may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
+                        <xsd:documentation>A container for organism identities used within the dataset.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element xmlns:q4="http://iavs.org/vegX/organismobservation-2.0.0" name="organismIdentity" type="org:OrganismIdentityType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation>A taxon name string occurring within the dataset. This is a usage concept defined by the dataset author which may follow, or be according to, an additional third party. It may be further related to a published name (taxon name, tcs:TaxonName) and or taxonomic name (taxon concept, tcs:TaxonConcept) in taxonDetermination.</xsd:documentation>
+                                    <xsd:documentation>The identity of an organism (or a set of organisms) occurring within the dataset. </xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

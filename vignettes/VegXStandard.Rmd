@@ -216,10 +216,12 @@ The identity of an organism (or a set of organisms) occurring within the dataset
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
-organismName               | A string that the author of the dataset used to refer to an organism (or a group of organisms) observed within the plot.       | 1 | Yes |
+originalOrganismNameID    | A link, by ID, to an organism name (e.g. normally a taxon name, but not necessarily including the authority, or even field names, morphospecies, ...) that the author of the dataset originally used to refer to an organism observed within the plot. The taxon names used as label the organism identity should not contain spelling errors, but they may not be the accepted name according to current nomenclature codes.       | 1 | Yes |
+originalIdentificationPartyID   | A link to a party involved in the original organism identification (normally the author of the data set), by ID. | 0..n | No |
+originalIdentificationNote   | Additional comments or explanations pertaining to the original identification of the organism. | 0..n | No |
+originalConceptIdentification | Information of the taxon concept originally associated to the organism identity. This information may be specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
 voucher                   | Herbarium accession number for any archived voucher specimens. | 0..n | No |
-partyWithRole             | The party that recorded a specific taxon occurrence event, or other parties with different roles.  | 0..n | No |
-accordingTo               | A third party that had previously defined this usage concept.  | 0..1 | No |
+preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. | 0..1 | Yes |
 
 ### Element *literatureCitation*
 
