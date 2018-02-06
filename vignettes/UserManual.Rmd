@@ -504,7 +504,7 @@ Note that function ``mergeVegX()`` can also be used to merge two documents that 
 
 ```{r trasnform height}
 heightMethod2 = predefinedMeasurementMethod("Stratum height/cm")
-comb_vegx = transformQuantitativeScale(comb_vegx, "Stratum height/m", heightMethod2,
+trans_vegx = transformQuantitativeScale(comb_vegx, "Stratum height/m", heightMethod2,
                                function(x){return(x*10)}, replaceValues = TRUE)
 showElementTable(comb_vegx, "stratumObservation")
 ```

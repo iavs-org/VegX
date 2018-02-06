@@ -130,6 +130,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
     for(i in 1:length(target@aggregateObservations)) {
       if("heightMeasurement" %in% names(target@aggregateObservations[[i]])){
         mes = target@aggregateObservations[[i]]$heightMeasurement
+        print(mes)
         if(mes$attributeID  == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
@@ -145,6 +146,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
         if(length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)>0) {
           for(j in 1:length(target@aggregateObservations[[i]]$aggregateOrganismMeasurements)) {
             mes = target@aggregateObservations[[i]]$aggregateOrganismMeasurements[[j]]
+            print(mes)
             if(mes$attributeID  == attIDs) {
               m = list(attributeID = newAttID,
                        value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
@@ -171,6 +173,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
     for(i in 1:length(target@individualObservations)) {
       if("heightMeasurement" %in% names(target@individualObservations[[i]])){
         mes = target@individualObservations[[i]]$heightMeasurement
+        print(mes)
         if(mes$attributeID  == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
@@ -184,6 +187,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
       }
       if("diameterMeasurement" %in% names(target@individualObservations[[i]])){
         mes = target@individualObservations[[i]]$diameterMeasurement
+        print(mes)
         if(mes$attributeID  == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
@@ -199,6 +203,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
         if(length(target@individualObservations[[i]]$individualOrganismMeasurements)>0) {
           for(j in 1:length(target@individualObservations[[i]]$individualOrganismMeasurements)) {
             mes = target@individualObservations[[i]]$individualOrganismMeasurements[[j]]
+            print(mes)
             if(mes$attributeID  == attIDs) {
               m = list(attributeID = newAttID,
                        value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
@@ -226,6 +231,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
     for(i in 1:length(target@stratumObservations)) {
       if("lowerLimitMeasurement" %in% names(target@stratumObservations[[i]])){
         mes = target@stratumObservations[[i]]$lowerLimitMeasurement
+        print(mes)
         if(mes$attributeID == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
@@ -239,6 +245,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
       }
       if("upperLimitMeasurement" %in% names(target@stratumObservations[[i]])){
         mes = target@stratumObservations[[i]]$upperLimitMeasurement
+        print(mes)
         if(mes$attributeID == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
@@ -254,6 +261,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
         if(length(target@stratumObservations[[i]]$stratumMeasurements)>0) {
           for(j in 1:length(target@stratumObservations[[i]]$stratumMeasurements)) {
             mes = target@stratumObservations[[i]]$stratumMeasurements[[j]]
+            print(mes)
             if(mes$attributeID == attIDs) {
               m = list(attributeID = newAttID,
                        value = as.character(do.call(FUN,list(x=as.numeric(mes$value)))))
@@ -281,6 +289,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
     for(i in 1:length(target@surfaceCoverObservations)) {
       if("coverMeasurement" %in% names(target@surfaceCoverObservations[[i]])){
         mes = target@surfaceCoverObservations[[i]]$coverMeasurement
+        print(mes)
         if(mes$attributeID == attIDs) {
           if(replaceValues) {
             m = list(attributeID = newAttID,
