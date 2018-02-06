@@ -430,7 +430,7 @@
 }
 .applyMappingsToPlotObservation<-function(plotObs, plotIDmap, projectIDmap) {
   plotObs$plotID = plotIDmap[[plotObs$plotID]]
-  if("projectID" %in% names(plotObs)) plotObs$projectID = projectIDmap[[plotObs[[n]]]]
+  if("projectID" %in% names(plotObs)) plotObs$projectID = projectIDmap[[plotObs[["projectID"]]]]
   return(plotObs)
 }
 
@@ -471,25 +471,39 @@
 }
 
 .applyMappingsToAggregateOrganismObservation <-function(aggObs, plotObsIDmap, oiIDmap, strObsIDmap, attIDmap) {
-  aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
-  aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
-  if("stratumObservationID" %in% names(aggObs)) {
-    if(aggObs$stratumObservationID!="") {
-      aggObs$stratumObservationID  = strObsIDmap[[aggObs$stratumObservationID]]
+    if("plotObservationID" %in% names(aggObs)) {
+      if(aggObs$plotObservationID!="") {
+        aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
+      }
+    } else {
+      aggObs$plotObservationID = ""
     }
-  }
-  for(n in names(aggObs)) {
-    # Update attribute codes
-    if(n %in% c("aggregateOrganismMeasurements")) {
-      for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
-        aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
+    if("organismIdentityID" %in% names(aggObs)) {
+      if(aggObs$organismIdentityID!="") {
+        aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
+      }
+    } else {
+      aggObs$organismIdentityID = ""
+    }
+    if("stratumObservationID" %in% names(aggObs)) {
+      if(aggObs$stratumObservationID!="") {
+        aggObs$stratumObservationID = strObsIDmap[[aggObs$stratumObservationID]]
+      }
+    } else {
+      aggObs$stratumObservationID = ""
+    }
+    for(n in names(aggObs)) {
+      # Update attribute codes
+      if(n %in% c("aggregateOrganismMeasurements")) {
+        for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
+          aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
+        }
+      }
+      else if(n %in% c("heightMeasurement")) {
+        aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
       }
     }
-    else if(n %in% c("heightMeasurement")) {
-      aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
-    }
-  }
-  return(aggObs)
+    return(aggObs)
 }
 .applyMappingsToCommunityObservation<-function(commobs, plotObsIDmap, attIDmap) {
   commobs$plotObservationID = plotObsIDmap[[commobs$plotObservationID]]

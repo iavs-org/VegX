@@ -252,6 +252,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       } else {
         newOIID = .nextOrganismIdentityID(x)
         x@organismIdentities[[newOIID]] = y@organismIdentities[[j]]
+        oiIDmap[names(y@organismIdentities)[j]] = newOIID
       }
     }
   }
@@ -454,7 +455,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedscobs = 0
   if(length(y@surfaceCoverObservations)>0) {
     for(j in 1:length(y@surfaceCoverObservations)) {
-      scObs = .applyAttributeMappingToSurfaceCoverObservations(y@surfaceCoverObservations[[j]], stIDmap, plotObsIDmap, attIDmap)
+      scObs = .applyMappingsToSurfaceCoverObservation(y@surfaceCoverObservations[[j]], stIDmap, plotObsIDmap, attIDmap)
       nscobsid = .newSurfaceCoverObsIDByIDs(x, scObs$plotObservationID, scObs$surfaceTypeID)
       if(nscobsid$new) {
         x@surfaceCoverObservations[[nscobsid$id]] = scObs
