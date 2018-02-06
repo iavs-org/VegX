@@ -45,7 +45,7 @@
     </xsd:complexType>
     <xsd:complexType name="partyType">
         <xsd:annotation>
-            <xsd:documentation>Parties have been designed as a simplification of EML elements party.
+            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party.
 eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
@@ -100,12 +100,36 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
             <xsd:documentation>Describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. Sub-element definitions were taken from Ecological Markup Language (EML).</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="title" type="xsd:string" />
-            <xsd:element name="personnel" type="partyWithRoleType" minOccurs="0" maxOccurs="unbounded" />
-            <xsd:element name="abstract" type="xsd:string" minOccurs="0" maxOccurs="1" />
-            <xsd:element name="funding" type="xsd:string" minOccurs="0" maxOccurs="1" />
-            <xsd:element name="studyAreaDescription" type="xsd:string" minOccurs="0" maxOccurs="1" />
-            <xsd:element name="designDescription" type="xsd:string" minOccurs="0" maxOccurs="1" />
+            <xsd:element name="title" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>Title of the project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="personnel" type="partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Contact and role information for people involved in the research project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="abstract" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>A brief description of the aims and findings of the project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="funding" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Funding information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="studyAreaDescription" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="designDescription" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Description of the design of the research project (specially overall plot placement).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="relatedProjectID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>A link to another project, by ID.</xsd:documentation>

@@ -29,20 +29,7 @@
     </xsd:simpleType>
     <xsd:complexType name="PlotType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code.</xsd:documentation>
-            <xsd:appinfo>
-                <doc:moduleDocs xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1">
-                    <doc:moduleName>PlotType</doc:moduleName>
-                    <doc:moduleDescription>
-                        <section xmlns="">
-                            <title>Plot - A Plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code</title>
-                            <para>A Plot is a sampling location represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links. </para>
-                        </section>
-                    </doc:moduleDescription>
-                    <doc:recommendedUsage />
-                    <doc:standAlone>no</doc:standAlone>
-                </doc:moduleDocs>
-            </xsd:appinfo>
+            <xsd:documentation xml:lang="en">A plot is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotName" type="xsd:string">
@@ -70,7 +57,11 @@
                     <xsd:documentation>The party that undertook the plot placement, and/or parties with other roles.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="placementNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="placementNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Additional comments or explanations regarding plot placement.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="location" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
                     <xsd:documentation>Information regarding the location of a plot on the earth's surface</xsd:documentation>
@@ -79,7 +70,7 @@
                     <xsd:sequence>
                         <xsd:element name="horizontalCoordinates" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
-                                <xsd:documentation>Location of a plot on the Earth's surface. To avoid ambiguity there should be only one coordinate pair for a plot per measurement. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
+                                <xsd:documentation>Horizontal location of a plot on the Earth's surface. To avoid ambiguity there should be only one coordinate pair for a plot per measurement. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -324,7 +315,7 @@ Methods used could be for example the use of global navigation satellite systems
                         </xsd:element>
                         <xsd:element name="circle" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Describing a circular plot</xsd:documentation>
+                                <xsd:documentation>Describing a circular plot: plot origin and radius.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:choice>
@@ -357,7 +348,7 @@ Methods used could be for example the use of global navigation satellite systems
                         </xsd:element>
                         <xsd:element name="rectangle" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Describung a rectangular (or quadratic) plot.</xsd:documentation>
+                                <xsd:documentation>Describing a rectangular (or quadratic) plot: plot origin, dimensions (width and length) and orientation.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -409,7 +400,7 @@ Methods used could be for example the use of global navigation satellite systems
                         </xsd:element>
                         <xsd:element name="line" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Describing a linear plot shape</xsd:documentation>
+                                <xsd:documentation>Describing a linear plot shape: plot origin, length, bandwidth, orientation and path coordinates.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -479,7 +470,7 @@ Methods used could be for example the use of global navigation satellite systems
                         </xsd:element>
                         <xsd:element name="polygon" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Description of an irregular plot shape</xsd:documentation>
+                                <xsd:documentation>Description of an irregular plot shape: textual description, plot origin, outer boundary coordinates and inner boundary coordinates.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>

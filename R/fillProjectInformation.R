@@ -5,7 +5,7 @@
 #' @param personnel A named list where element names are roles and values are party names (e.g. \code{list(contributor = "John Smith")}).
 #' @param abstract A string summarizing the aims and findings of the project.
 #' @param funding A string with information about funding agencies.
-#' @param studyAreaDescription A string describing the study area succinctly.
+#' @param studyAreaDescription A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..
 #' @param designDescription A string describing the overall plot placement design.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'

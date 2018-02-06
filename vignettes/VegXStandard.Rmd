@@ -62,7 +62,7 @@ Veg-X has a non-hierarchical data structure. Different data elements relate to e
 ![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate that an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element. Observations are in tinted boxes. ](LogicalStructure.png) 
 
 
-The following table provides the description of the main elements of Veg-X (column 'R' indicates whether the sub-elements are currently implemented in the **VegX R package**):
+The following table provides the brief descriptions of the main elements of Veg-X (column 'R' indicates whether the sub-elements are currently implemented in the **VegX R package**):
 
 Main element                   | Description                                     |  R  |
 ------------------------------ | ----------------------------------------------- | --- |
@@ -99,27 +99,29 @@ organismName                   | The name of an organism used in the data set. T
 
 
 
-## Details of Veg-X elements and instructions of use
+## Details of Veg-X elements
 
-In this section we detail the sub-elements of each main element in the **Veg-X standard**, along with some instructions on how the standard should be used in practice. In the tables describing sub elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional and can occur only once; '0..n' means they are optional and can occur many times; '1..n' means they must occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No') indicates whether the sub-elements are currently implemented in the **VegX R package**. 
+In this section we detail the sub-elements of each main element in the **Veg-X standard**, along with some instructions on how the standard should be used in practice. In the tables describing sub elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional and can occur only once; '0..n' means they are optional and can occur many times; '1..n' means they must occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No'/'Partial') indicates whether the sub-elements are currently implemented in the **VegX R package** ('Partial' indicates an implementation that is not complete). 
+
+The **VegX package** maintains unique IDs for all main elements, for internal consistency. However, these IDs are largely hidden from the user (but you will see ID references in the descriptions below). From each element, we indicate the combination of fields that uniquely identify them and are used to guide element merge (i.e. two plots with the same *plotName* sub-element are assumed to refer to the same plot). 
 
 ### Element *project*
 
-A *project* element describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. The definition of Veg-X *project* elements was borrowed from the Ecological Metadata Language (v. 2.0.1). Within **VegX package**, unique IDs are generated fro *project* elements for internal consistency. These are largely hidden from the user; from the user's perspective projects are uniquely identified by their sub-element *title*.
+A *project* element describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. The definition of Veg-X *project* elements was borrowed from the Ecological Metadata Language (v. 2.0.1).  from the user's perspective projects are uniquely identified by their sub-element *title*.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 title                 | Title of the project.  | 1..n | Yes |
 personnel                 | Contact and role information for people involved in the research project. | 1..n | Yes |
-abstract                  | Project abstract.  | 0..1 | Yes |
+abstract                  | A brief description of the aims and findings of the project.  | 0..1 | Yes |
 funding                   | Funding information. | 0..1 | Yes |
 studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | 0..1 | Yes |
-designDescription         | Description of the design of the research project | 0..1 | Yes |
+designDescription         | Description of the design of the research project (specially overall plot placement). | 0..1 | Yes |
 relatedProjectID          | A link to another project, by ID.                 | 0..n | No  |
 
 ### Element *party*
 
-A *party* element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document.
+A *party* element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties are uniquely identified by the party name, which is either an *individualName*, *organizationName* or *positionName*.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -134,43 +136,79 @@ onlineURL                   | A link to associated online information, usually a
 
 ### Element *plot*
 
-A plot is a sampling location, with or without explicit boundaries. The element *plot* records the properties of the vegetation plot that are independent of time and can be referenced by many observations by links to its ID. While the **Veg-X standard** allows storing globally unique identifiers for *plot* elements, when using the **VegX package** a different set of IDs are used for internal consistency. From the perspective of the user plots are uniquely identified by their sub-element *plotName*. Furthermore, even though the standard allows specifying different kinds of spatial relationships between plots, currently the R package only allows specifying parent-child relationships.
+A *plot* is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links. 
+
+The element *plot* records the properties of the vegetation plot that are independent of time. While the **Veg-X standard** allows storing globally unique identifiers for *plot* elements (but the **VegX package** uses its own set of IDs for internal consistency). From the user's perspective plots are uniquely identified by their sub-element *plotName*. Furthermore, even though the standard allows  different kinds of spatial relationships between plots to be specified, the R package only enables  parent-child relationships to be specified.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 plotName                 | Name or label for a plot, unique within the data set  | 1 | Yes |
 plotUniqueIdentifier     | Plot identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
-relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | 0..n | Yes |
+relatedPlot              | A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. | 0..n | Partial |
 placementMethod | Strategy followed when placing this particular plot. Useful for example if different sampling strategies have been followed within one project. | 0..1 | No |
-placementPartyID | The ID of a party that undertook the plot placement. | 0..n | Yes |
-placementNote | TO BE DONE | 0..n | No |
-location | Information regarding the placement of the plot on earth. | 0..1 | Yes |
-geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. | 0..1 | Yes |
+placementPartyID | A link to a party that participated in the establishment of the plot, by ID. | 0..n | Yes |
+placementNote | Additional comments or explanations regarding plot placement. | 0..n | No |
+location | Information regarding the placement of the plot on earth's surface. | 0..1 | Partial |
+geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as the plot origin for location. | 0..1 | Partial |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
 geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
 
-### Element *plotObservation*
+Sub-elements *location* and *geometry* are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe their sub-elements in some detail.
 
-An element *plotObservation* is used to group all observations made on a single plot and during a single date-time period. While the **Veg-X standard** allows storing globally unique identifiers for *plotObservation* elements, when using the **VegX package** a different set of IDs are used for internal consistency. From the perspective of the user, plot observations are uniquely identified  by their sub-elements *plotID* (i.e. the plot name) and *obsStartDate*. Furthermore, the VegX package only allows a single (but obligatory) reference to a *project* element.
+#### Sub-element *location*
+
+Sub-elements *horizontalCoordinates* are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the **VegX R package** follows this rule. However, the Veg-X schema can accomodate multiple measurements made by different parties or at different times. The same applies to *verticalCoordinates*, *locationInWaterBody* and *gridPosition* (the later two not included in the package).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
-plotID                   | A reference to a specific plot by the plot ID       | 1 | Yes |
+horizontalCoordinates     | Horizontal location of a plot on the Earth's surface (i.e. x-y coordinates in a spatial reference system).| 0..n | Partial |
+verticalCoordinates | Elevation of the plot in respect to some vertical datum (such as the mean sea level or an elliposid). | 0..n | Partial |
+locationInWaterBody | Location in respect to a water surface or shoreline. | 0..n | No |
+gridPosition | Position in a grid such as used for floristic surveys. | 0..n | No |
+authorLocation | Descriptive note about the original location described by author. | 0..1 | No |
+locationNarrative | Text description that provides information useful for plot relocation. | 0..1 | No |
+places | A collection of named places or geographic regions. Includes elements to indicate what type of place and which place/geo-region schema it was from. | 0..n | Yes |
+
+
+#### Sub-element *geometry*
+
+Sub-element *geometry* stores information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. Sub-element *geometry* may be lacking in plot-less vegetation observations. When present, the user of the schema has to choose one plot shape: *circle*, *rectangle*, *line* or *polygon*, and these entail different sub-elements describing plot's geometry. Currently, the VegX package allows storing information about area, shape (except polygons) and dimensions, but not plot origin.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+area                      | Total area of the plot. Usually recorded in square meters.| 0..1 | Yes |
+circle                    | Describing a circular plot: plot origin and radius.| 0..1 | Partial |
+rectangle                    | Describing a rectangular (or quadratic) plot: plot origin, dimensions (width and length) and orientation.| 0..1 | Partial |
+line                    | Describing a linear plot shape: plot origin, length, bandwidth, orientation and path coordinates.| 0..1 | Partial |
+polygon                    | Description of an irregular plot shape: textual description, plot origin, outer boundary coordinates and inner boundary coordinates.| 0..1 | No |
+
+
+
+### Element *plotObservation*
+
+An element *plotObservation* is used to group all observations made on a single plot and during a single date-time period. While the **Veg-X standard** allows globally unique identifiers for *plotObservation* elements to be stored, the **VegX package** uses its own set of IDs for internal consistency. From the user's perspective, plot observations are uniquely identified by the plot's name and *obsStartDate*. 
+
+While the schema allows multiple references to *project* elements, the VegX package only enables a single reference to a *project* element to be specified (sub-element *projectID*). Similarly, the package allows only one party to be specified, among those involved in the plot survey (sub-element *observationPartyID*).
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotID                   | A link to a specific plot by the plot's ID .      | 1 | Yes |
 obsStartDate             | The start date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 1 | Yes |
 obsEndDate               | The end date of this specific observation of the plot. Recorded in ISO 8601 date format: yyyy-mm-dd.                   | 0..1 | Yes |
 plotObservationUniqueIdentifier     | Plot observation identifier that is unique across the dataset, derived from the data source, and preferably globally unique. | 0..1 | Yes |
-projectID | A reference to a specific 'project'.  | 0..n | Yes |
-previousObservationID | Link to previous plot observations.	| 0..n | No |
-communityObservationID | A reference to a specific communityObservation by ID. Note that the relationship is one-to-one. Only one communityObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |
-siteObservationID | A reference to a specific siteObservation by ID. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.  | 0..1 | Yes |
-previousObservationID | Link to previous plot observations.	| 0..n | No |
-partyWithRole | The party that undertook the plot observation and/or other parties with different roles. | 0..n | No |
+projectID | A link to a specific 'project' by ID.  | 0..n | Partial |
+previousObservationID | A link to previous plot observations.	| 0..n | No |
+communityObservationID | A link to a specific community observation by ID. Note that the relationship is one-to-one. Only one community observation (with potentially many measurements inside) is allowed for each plot observation.  | 0..1 | Yes |
+siteObservationID | A link to a specific site observation by ID. Note that the relationship is one-to-one. Only one site observation (with potentially many measurements inside) is allowed for each plot observation.  | 0..1 | Yes |
+previousObservationID | A link to a previous plot observation, by ID. Not normally necessary as observations can be ordered via obsStartDate.	| 0..n | No |
+observationPartyID | A link to a party that participated in the observation of the plot, by ID. | 0..n | Partial |
 license | License linked to this plot observation. | 0..1 | No |
 taxonomicQuality| Subjective assessment of the taxonomic quality on the plot. | 0..n | No |
 observationNarrative | Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 		| 0..1 | No |
 observationConditions | Conditions at the time of observation. | 0..1 | No |
 referencePublication | Reference to an original publication and additionally a table or section within a publication. | 0..n | No |
 observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
+observationNote | Additional comments or explanations pertaining to the observation event.   | 0..n | No |
 
 ### Element *organismIdentity*
 

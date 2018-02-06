@@ -29,28 +29,28 @@
             </xsd:element>
             <xsd:element name="projectID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific 'project'.  The individual project is defined within the element veg:projects which is a container for all projects within the dataset. Note a plot can only be linked to a project via the plot observation.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="siteObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific siteObservation by ID. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plotObservation.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific 'project' by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="communityObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific communityObservation by ID. Note that the relationship is one-to-one. Only one communityObservation (with potentially many measurements inside) is allowed for each plotObservation.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link to a specific community observation by ID. Note that the relationship is one-to-one. Only one community observation (with potentially many measurements inside) is allowed for each plot observation. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="siteObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A link to a specific site observation by ID. Note that the relationship is one-to-one. Only one siteObservation (with potentially many measurements inside) is allowed for each plot observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="previousPlotObservationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Link to previous plot observations.
-					</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link to a previous plot observation, by ID. Not normally necessary as observations can be ordered via obsStartDate.
+</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>The party that undertook the plot observation.</xsd:documentation>
+                    <xsd:documentation>A link to a party that participated in the observation of the plot, by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="license" minOccurs="0">
@@ -126,18 +126,11 @@
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:choice>
-                            <xsd:element name="citationID" type="xsd:string">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                            <xsd:element name="citationString" type="xsd:string">
-                                <xsd:annotation>
-                                    <xsd:documentation>A citation string to be used when the full schema for literature citations is to be avoided</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
-                        </xsd:choice>
+                        <xsd:element name="citationID" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A reference to a specific citation of literature by ID.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
                         <xsd:element name="referenceTable" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">Reference to a specific table in the cited publication.</xsd:documentation>
