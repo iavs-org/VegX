@@ -1,5 +1,5 @@
 ---
-title: "Using the VegX package"
+title: "Using the VegX R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
@@ -18,14 +18,14 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About this manual
 
-In this vignette you will learn how to use the **VegX R package** to map, integrate and harmonize vegetation data having the Veg-X standard as data model underlying the whole process. For the examples, we use the example data sets provided in the package. If you do not know what the Veg-X standard is, please refer to vignette *The Veg-X standard and the VegX R package*.
+In this vignette you will learn how to use the **VegX R package** to map, integrate and harmonize vegetation data having the Veg-X standard as data model underlying the whole process. For the examples, we use the example data sets provided in the package. If you do not know what the Veg-X standard is, please refer to vignette **The Veg-X exchange standard**. In the following, we usually refer to elements of the Veg-X standard. Readers should refer to the same vignette to understand the definition of these elements and their logical relationships.
+
+## Loading the package and source data
 
 We begin by loading the package, which results in package *XML* being also loaded:
 ```{r load VegX}
 library(VegX)
 ```
-
-## Loading the source data into R
 
 User's of the VegX package are expected to know how import their source data into R, either using a database connection or by reading files in diverse formats (e.g. txt, csv, xlsx, ...). For the examples of this manual, we will use three data sets that were extracted from the [New Zealand Vegetation Survey (NVS) Databank](https://nvs.landcareresearch.co.nz/). 
 
@@ -426,25 +426,33 @@ head(showElementTable(moki_vegx, "stratumObservation"), 3)
 
 ### Surface cover observations
 
-```{r add surface obs mtfyffe}
+Surface cover observations are measurements of the percentage of the plot's surface that is covered (i.e. when projected onto the ground) by different surface types, such as rocks, bare soil, vegetation, etc. Veg-X allows defining surface types as *surfaceType* elements, and storing  cover values for them in *surfaceCoverObservation* elements. We use the **Mt Fyffe forest** data set to illustrate how this kind of observations are added to a Veg-X document. First we inspect table ``mtfyffe_groundcover`` and define a mapping:
+```{r inspect surface obs mtfyffe}
 head(mtfyffe_groundcover, 3)
 mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
                surfaceName = "PlotGroundCover", coverMeasurement = "Value")
 
+```
+In this case, cover values are specified as percent cover of ground surface, so we need to define an appropriate method:
+```{r cover method surface obs mtfyffe}
 coverMethod = predefinedMeasurementMethod("Surface cover/%")
-
+```
+We inspect the surface types used in the data set and call function ``defineSurfaceTypes()`` as we have done previously for strata:
+```{r surface types mtfyffe}
 unique(mtfyffe_groundcover$PlotGroundCover)
 surfaceTypes = defineSurfaceTypes(name = "Default surface types",
                      description = "Five surface categories",
                      surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", 
                                       "Rock"))
-
+```
+We can now import surface cover observations using function ``addSurfaceCoverObservations()``:
+```{r add surface obs mtfyffe}
 mtfyffe_vegx = addSurfaceCoverObservations(mtfyffe_vegx, mtfyffe_groundcover, mapping,
                                 coverMethod, surfaceTypes)
 
 head(showElementTable(mtfyffe_vegx, "surfaceCoverObservation", 3))
 ```
-
+Analogously to the case of strata, the function added surface type definitions to the Veg-X document, in addition to adding the cover values, themselves.
 ```{r add surface obs taki}
 head(taki_groundcover, 3)
 unique(taki_groundcover$PlotGroundCover)

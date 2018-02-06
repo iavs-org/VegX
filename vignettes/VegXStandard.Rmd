@@ -1,5 +1,5 @@
 ---
-title: "The Veg-X standard and R package"
+title: "The Veg-X exchange standard"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
@@ -8,7 +8,7 @@ output:
     css: mystyle.css
     toc: TRUE
 vignette: >
-  %\VignetteIndexEntry{Veg-X standard documentation}
+  %\VignetteIndexEntry{The Veg-X exchange standard}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
