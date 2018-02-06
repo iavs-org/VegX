@@ -183,7 +183,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       if(nstid$new) {
         x@surfaceTypes[[nstid$id]] = y@surfaceTypes[[j]]
       } else { #pool information
-        x@surfaceTypes[[nstid$id]] = .mergeStrata(x@surfaceTypes[[nstrid$id]], y@surfaceTypes[[j]])
+        x@surfaceTypes[[nstid$id]] = .mergeStrata(x@surfaceTypes[[nstid$id]], y@surfaceTypes[[j]])
         nmergedst = nmergedst + 1
       }
       stIDmap[names(y@surfaceTypes)[j]] = nstid$id

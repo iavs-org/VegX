@@ -452,10 +452,15 @@ mtfyffe_vegx = addSurfaceCoverObservations(mtfyffe_vegx, mtfyffe_groundcover, ma
 
 head(showElementTable(mtfyffe_vegx, "surfaceCoverObservation", 3))
 ```
-Analogously to the case of strata, the function added surface type definitions to the Veg-X document, in addition to adding the cover values, themselves.
-```{r add surface obs taki}
+Analogously to the case of strata, the function added surface type definitions to the Veg-X document, in addition to adding the cover values, themselves. 
+
+The **Takitimu grassland** data set also includes surface cover observations, although the surface types are slightly different:
+```{r inspect surface obs taki}
 head(taki_groundcover, 3)
 unique(taki_groundcover$PlotGroundCover)
+```
+Therefore, we must define a new set of surface types before calling function ``addSurfaceCoverObservations()``:
+```{r add surface obs taki}
 surfaceTypes = defineSurfaceTypes(name = "Default surface types",
                      description = "Five surface categories",
                      surfaceNames = c("Vegetation", "Soil", "Erosion Pavement", "Litter",
@@ -463,13 +468,11 @@ surfaceTypes = defineSurfaceTypes(name = "Default surface types",
 
 taki_vegx = addSurfaceCoverObservations(taki_vegx, taki_groundcover, mapping,
                                 coverMethod, surfaceTypes)
-
-head(showElementTable(taki_vegx, "surfaceCoverObservation"), 3)
 ```
 
 
 ### Site observations
-
+Veg-X includes into elements *siteObservation* all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column ``pH`` with constant values in the ``moki_site`` data frame. The function that allows adding site observations is ``addSiteObservations()`` and the following code should be self-explanatory by now:
 ```{r add site obs moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")
 pHMeth = predefinedMeasurementMethod("pH")
@@ -480,10 +483,27 @@ moki_vegx = addSiteObservations(moki_vegx, moki_site,
 head(showElementTable(moki_vegx, "siteObservation"))
 ```
 
-## Combining Veg-X documents
+## Combining and harmonizing Veg-X documents
 
+One of the purposes of importing data into Veg-X, is the possibility to combine and harmonize documents from different sources. In this section we illustrate how documents can be merged, and some (preliminary) functions that can be used to harmonize their contents.
+
+### Merging two Veg-X documents
+Function ``mergeVegX()`` is used to merge two Veg-X documents into a single one. This function puts all the input elements into the same containers and, whenever elements are considered to be the same, they are merged. Each element kind has its own way to determine when two instances refer to the same entity. For example, two plots will be considered to be equal if they have the same plot name. A call to ``mergeVegX()`` produces the following output:
 ```{r merge two documents}
-comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx)
-summary(comb_vegx)
+comb_vegx = mergeVegX(mtfyffe_vegx, taki_vegx)
 ```
+The two documents to be merged, ``mtfyffe_vegx`` and ``taki_vegx`` had shared methods, so the function identifies them as equal and avoids repetitions. In contrast, the plots had all different names, so they were all kept separately (in this case, merging plots would be considered a mistake, as they come from different study areas). The decisions to merge (i.e. pool) information of other elements can be interpreted similarly. A case of special rellevance concerns *organismName* vs. *organismIdentity*. Note that some organism names were merged, but identities were not. While merging equal names is always safe, merging identities should be done with caution, because two data sets may have employed the same taxon name but with different taxon concepts. Therefore, by default ``mergeVegX()`` does not merge organism identities. If we want to specify that identities can be merged (when considered equal) we can set parameter ``mergeIdentities = TRUE``:
+```{r merge two documents identities}
+comb_vegx = mergeVegX(mtfyffe_vegx, taki_vegx, mergeIdentities = TRUE)
+```
+Note that in this second output, there are the number of merges in *organismName* than *organismIdentity*, as the equal names have been forced to mean equal identity.
+
+Note that function ``mergeVegX()`` can also be used to merge two documents that refer to the same data source, i.e. if one has imported different parts of the same source data into different Veg-X documents. 
+
+## Writing and reading Veg-X documents
+
+The **Veg-X exchange standard** is currently implemented as an **XML schema** (but other physical implementations of the standard could be possible). The VegX package provides functions ``writeVegX()`` and ``readVegX()`` that are used, respectively, to write and read XML files with Veg-X documents. An advantage of XML is that it is text that can be read and understood by humans, but its disadvantage is that files tend to be very large, because of the redundancy of text. One possibility to overcome this is to compress XML files (into zip or tar.gz files) for more efficient storage. However, compressing XML files does not avoid the problem that writing/reading XML files can be slow in large data sets. 
+
+An alternative to XML that users can employ is to directly save and read Veg-X documents as R objects, using functions ``saveRDS()``and ``readRDS()``. This option is fast and will produce much smaller files. The only drawback of saving R objects can arise if the S4 definition of Veg-X documents is changed in future versions of the package. We tried to avoid this potential problem by defining S4 Veg-X objects as lists of the main elements, without defining the internal structure of each main element. If the version of the standard is changed, functions to convert R objects from old to new versions of the standard should be made available to avoid losing backwards compatibility, in the same way that function ``readVegX()`` should be modified to allow reading XML documents formed following old versions of the standard.
+
 
