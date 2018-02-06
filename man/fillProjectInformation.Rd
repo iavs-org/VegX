@@ -19,7 +19,7 @@ fillProjectInformation(target, title, personnel = list(), abstract = "",
 
 \item{funding}{A string with information about funding agencies.}
 
-\item{studyAreaDescription}{A string describing the study area succinctly.}
+\item{studyAreaDescription}{A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..}
 
 \item{designDescription}{A string describing the overall plot placement design.}
 

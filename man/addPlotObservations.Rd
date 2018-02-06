@@ -13,7 +13,7 @@ addPlotObservations(target, x, mapping, missing.values = c(NA, ""),
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.}
+Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observationParty', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.}
 
 \item{missing.values}{A character vector of values that should be considered as missing data (see details).}
 

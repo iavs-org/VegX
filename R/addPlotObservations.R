@@ -6,7 +6,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.
+#' Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observationParty', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.
 #' @param missing.values A character vector of values that should be considered as missing data (see details).
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -59,7 +59,8 @@ addPlotObservations<-function(target, x,
 
 
   #check mappings
-  plotObservationMappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName", "plotUniqueIdentifier", "plotObservationUniqueIdentifier")
+  plotObservationMappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName", "plotUniqueIdentifier", "plotObservationUniqueIdentifier",
+                                       "observationParty")
   for(i in 1:length(mapping)) {
     if(!(names(mapping)[i] %in% plotObservationMappingsAvailable)) stop(paste0("Mapping for '", names(plotObservationMapping)[i], "' cannot be defined."))
   }
@@ -91,11 +92,17 @@ addPlotObservations<-function(target, x,
   if(plotObsUniqueIDFlag) {
     plotObsUniqueIdentifiers = as.character(x[[mapping[["plotObservationUniqueIdentifier"]]]])
   }
+  observationPartyFlag = ("observationParty" %in% names(mapping))
+  if(observationPartyFlag) {
+    observationParties = as.character(x[[mapping[["observationParty"]]]])
+  }
 
 
+  orinparties = length(target@parties)
   orinprojects = length(target@projects)
   orinplots = length(target@plots)
   orinplotobs = length(target@plotObservations)
+  parsedParties = character(0)
   parsedProjects = character(0)
   parsedProjectIDs = character(0)
   parsedPlots = character(0)
@@ -175,6 +182,18 @@ addPlotObservations<-function(target, x,
     } else {
       plotObsID = parsedPlotIDs[which(parsedPlotObs==pObsString)]
     }
+    #observationParty
+    if(observationPartyFlag) {
+      if(!(observationParties[i] %in% missing.values)) {
+        npid = .newPartyIDByName(target, observationParties[i])
+        partyID = npid$id
+        if(npid$new) target@parties[[partyID]] = list(name = observationParties[i],
+                                                      partyType = "individual")
+
+        target@plotObservations[[plotObsID]]$observationPartyID = partyID
+        parsedParties = c(parsedParties, observationParties[i])
+      }
+    }
 
     #add observation end if needed
     if(obsEndFlag) {
@@ -192,12 +211,14 @@ addPlotObservations<-function(target, x,
     }
 
   }
+  finnparties = length(target@parties)
   finnprojects = length(target@projects)
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
   finnabioobs = length(target@siteObservations)
   if(verbose) {
-    cat(paste0(" " , length(parsedProjects)," project(s) parsed, ", finnprojects-orinprojects, " new project(s) added. Consider providing project information.\n"))
+    if(length(parsedParties)>0) cat(paste0(" " , length(parsedParties)," observation partie(s) parsed, ", finnparties-orinparties, " new partie(s) added. Consider providing party information.\n"))
+    if(length(parsedProjects)>0) cat(paste0(" " , length(parsedProjects)," project(s) parsed, ", finnprojects-orinprojects, " new project(s) added. Consider providing project information.\n"))
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new plot(s) added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new plot observation(s) added.\n"))
   }

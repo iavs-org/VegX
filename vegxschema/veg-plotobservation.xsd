@@ -156,7 +156,7 @@
             </xsd:element>
             <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the element of concern.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Additional comments or explanations pertaining to the observation event.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
