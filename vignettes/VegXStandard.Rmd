@@ -118,6 +118,8 @@ funding                   | Funding information. | 0..1 | Yes |
 studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | 0..1 | Yes |
 designDescription         | Description of the design of the research project (specially overall plot placement). | 0..1 | Yes |
 relatedProjectID          | A link to another project, by ID.                 | 0..n | No  |
+documentCitationID        | A link, by ID, to the citation of a document describing the project.                 | 0..n | Yes  |
+
 
 ### Element *party*
 

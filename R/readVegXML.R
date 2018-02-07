@@ -205,6 +205,7 @@ readVegXML<-function(file, verbose = TRUE) {
       else if(n[i] == "funding") project$funding = xmlValue(x[[i]])
       else if(n[i] == "studyAreaDescription") project$studyAreaDescription = xmlValue(x[[i]])
       else if(n[i] == "designDescription") project$designDescription = xmlValue(x[[i]])
+      else if(n[i] == "documentCitationID") project$documentCitationID = xmlValue(x[[i]])
     }
     return(project)
   }

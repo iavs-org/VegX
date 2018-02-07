@@ -306,6 +306,10 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
         if("designDescription"%in% names(x@projects[[i]])) {
           res[i,"designDescription"] = trimString(x@projects[[i]]$designDescription)
         }
+        if("documentCitationID" %in% names(x@projects[[i]])) {
+          if(IDs) res[i,"documentCitationID"] = x@projects[[i]]$documentCitationID
+          res[i,"documentCitationString"] = trimString(x@literatureCitations[[x@projects[[i]]$documentCitationID]]$citationString)
+        }
       }
     }
   }

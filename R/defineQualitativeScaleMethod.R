@@ -7,7 +7,7 @@
 #' @param subject A string to identify the subject.
 #' @param codes A character vector of class codes.
 #' @param citationString A string with the bibliographic reference for the method.
-#' @param DOI A string with the DOI of a resource describing the method.
+#' @param DOI A string with the DOI the resource related to \code{citationString}.
 #' @param definitions A character vector of class definitions.
 #'
 #' @return an object of class \code{\linkS4class{VegXMethodDefinition}}

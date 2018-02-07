@@ -248,8 +248,8 @@
   oi = target@organismIdentities[[identityID]]
   if("originalConceptIdentification" %in% names(oi)) {
     tc = target@taxonConcepts[[oi$originalConceptIdentification$taxonConceptID]]
-    citationString = target@literatureCitations[[tc$citationID]]$citationString 
-  } 
+    citationString = target@literatureCitations[[tc$citationID]]$citationString
+  }
   return(citationString)
 }
 .getIndividualOrganismIdentityName <-function(target, individualID){
@@ -399,11 +399,12 @@
   return(organismIdentity)
 }
 #Translate IDs in a project element
-.applyMappingsToProject<-function(project, partyIDmap) {
+.applyMappingsToProject<-function(project, partyIDmap, litIDmap) {
   n = names(project)
   for(i in 1:length(n)) {
     # Update party codes
     if(n[[i]]=="personnel")  project[[i]][[1]] = partyIDmap[[project[[i]][[1]]]]
+    if(n[[i]]=="documentCitationID")  project[[i]] = litIDmap[[project[[i]]]]
   }
   return(project)
 }
@@ -678,10 +679,9 @@
 }
 
 #Pools the information of two projects
-.mergeProjects<-function(prj1, prj2, partyIDmap) {
+.mergeProjects<-function(prj1, prj2) {
   n1 = names(prj1)
   n2 = names(prj2)
-  prj2 = .applyMappingsToProject(prj2, partyIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {

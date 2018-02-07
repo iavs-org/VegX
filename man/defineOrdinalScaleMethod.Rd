@@ -19,7 +19,7 @@ defineOrdinalScaleMethod(name, description, subject, codes,
 
 \item{citationString}{A string with the bibliographic reference for the method.}
 
-\item{DOI}{A string with the DOI of a resource describing the method.}
+\item{DOI}{A string with the DOI the resource related to \code{citationString}.}
 
 \item{quantifiableCodes}{A string vector with the subset of \code{codes} that have correspondence in a quantitative scale. These codes
 can be transformed to midPoints (if supplied in \code{midPoints}) and, correspondingly, codes in the quantitative scale can be transformed to ordinal codes

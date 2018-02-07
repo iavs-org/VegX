@@ -135,6 +135,11 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
                     <xsd:documentation>A link to another project, by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
+            <xsd:element name="documentCitationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A link, by ID, to the citation of a document describing the project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="id" type="IDType" use="required">
             <xsd:annotation>

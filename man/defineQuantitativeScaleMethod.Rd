@@ -18,7 +18,7 @@ defineQuantitativeScaleMethod(name, description, subject, unit,
 
 \item{citationString}{A string with the bibliographic reference for the method.}
 
-\item{DOI}{A string with the DOI of a resource describing the method.}
+\item{DOI}{A string with the DOI the resource related to \code{citationString}}
 
 \item{lowerLimit}{The lower limit of the quantitative scale, if defined.}
 

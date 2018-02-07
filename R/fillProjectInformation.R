@@ -7,6 +7,8 @@
 #' @param funding A string with information about funding agencies.
 #' @param studyAreaDescription A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..
 #' @param designDescription A string describing the overall plot placement design.
+#' @param citationString A string of the bibliographic reference of a document describing the project.
+#' @param DOI  A string with the DOI the resource related to \code{citationString}.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -30,6 +32,8 @@ fillProjectInformation<-function(target, title,
                                  abstract = "", funding = "",
                                  studyAreaDescription = "",
                                  designDescription = "",
+                                 citationString = "",
+                                 DOI = "",
                                  verbose = TRUE) {
 
   nprid = .newProjectIDByTitle(target, title) # Get the new project ID (internal code)
@@ -52,6 +56,15 @@ fillProjectInformation<-function(target, title,
     if(verbose) {
       if(finnparties > orinparties) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document as individuals. Consider providing party information.\n"))
     }
+  }
+  # add literature citation if necessary
+  if(citationString!="") {
+    ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
+    if(ncitid$new) {
+      target@literatureCitations[[ncitid$id]] = list(citationString =citationString)
+      if(DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = DOI
+    }
+    project$documentCitationID = ncitid$id
   }
 
   if(abstract!="") project$abstract = abstract

@@ -38,7 +38,7 @@
 #' data(mokihinui)
 #'
 #' # Create document 'x' with aggregate taxon observations
-#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 #'               taxonName = "NVSSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
@@ -80,7 +80,7 @@
 mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
-  
+
   # parties
   partyIDmap = list()
   nmergedparties = 0
@@ -99,7 +99,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of partie(s): ", length(x@parties),". Data pooled for ", nmergedparties, " partie(s).\n"))
   }
-  
+
   # literatureCitations
   litIDmap = list()
   nmergedlits = 0
@@ -179,7 +179,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of strata: ", length(x@strata),". Data pooled for ", nmergedstr, " strata.\n"))
   }
-  
+
   #surfaceTypes
   stIDmap = list()
   nmergedst = 0
@@ -200,7 +200,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of surface types: ", length(x@surfaceTypes),". Data pooled for ", nmergedst, " surface types.\n"))
   }
-  
+
   #organismNames
   onIDmap = list()
   nmergedons = 0
@@ -219,13 +219,13 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of organism names: ", length(x@organismNames),". Data pooled for ", nmergedons, " organism name(s).\n"))
   }
-  
+
   #taxonConcepts
   tcIDmap = list()
   nmergedtcs = 0
   if(length(y@taxonConcepts)>0) {
     for(j in 1:length(y@taxonConcepts)) {
-      ntcid = .newTaxonConceptIDByNameCitation(x, y@organismNames[[y@taxonConcepts[[j]]$organismNameID]]$name, 
+      ntcid = .newTaxonConceptIDByNameCitation(x, y@organismNames[[y@taxonConcepts[[j]]$organismNameID]]$name,
                                                y@literatureCitations[[y@taxonConcepts[[j]]$citationID]]$citationString)
       if(ntcid$new) {
         x@taxonConcepts[[ntcid$id]] = .applyMappingsToTaxonConcept(y@taxonConcepts[[j]], onIDmap, litIDmap)
@@ -239,7 +239,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of taxon concepts: ", length(x@taxonConcepts),". Data pooled for ", nmergedtcs, " organism name(s).\n"))
   }
-  
+
   #organismIdentities
   oiIDmap = list()
   nmergedois = 0
@@ -268,18 +268,18 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
     cat(paste0(" Final number of organism identities: ", length(x@organismIdentities),". Data pooled for ", nmergedois, " organism identitie(s).\n"))
   }
 
-  #projects 
+  #projects
   nmergedpjs = 0
   projectIDmap = list()
   if(length(y@projects)>0) {
     for(j in 1:length(y@projects)) {
       npid = .newProjectIDByTitle(x, y@projects[[j]]$title)
       if(npid$new) {
-        x@projects[[npid$id]] = .applyMappingsToProject(y@projects[[j]], partyIDmap)
+        x@projects[[npid$id]] = .applyMappingsToProject(y@projects[[j]], partyIDmap, litIDmap)
       } else {
-        x@projects[[npid$id]] = .mergeProjects(x@projects[[npid$id]], y@projects[[j]], partyIDmap)
+        x@projects[[npid$id]] = .mergeProjects(x@projects[[npid$id]], y@projects[[j]])
         nmergedpjs = nmergedpjs + 1
-        
+
       }
       projectIDmap[names(y@projects)[j]] = npid$id
     }
@@ -287,7 +287,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of projects: ", length(x@projects),". Data pooled for ", nmergedpjs, " project(s).\n"))
   }
-  
+
   #plots
   plotIDmap = list()
   nmergedplots = 0
@@ -307,7 +307,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of plots: ", length(x@plots),". Data pooled for ", nmergedplots, " plot(s).\n"))
   }
-  
+
   # individualOrganisms
   indIDmap = list()
   nmergedind = 0
@@ -327,7 +327,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of individual organisms: ", length(x@individualOrganisms),". Data pooled for ", nmergedind, " individual organism(s).\n"))
   }
-  
+
   #plotObservations
   plotObsIDmap = list()
   nmergedplotobs = 0
@@ -367,7 +367,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of stratum observations: ", length(x@stratumObservations),". Data pooled for ", nmergedstrobs, " stratum observation(s).\n"))
   }
-  
+
   # individualObservations
   indObsIDmap = list()
   nmergedindobs = 0
@@ -387,16 +387,16 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of individual organism observations: ", length(x@individualObservations),". Data pooled for ", nmergedindobs, " individual organism observation(s).\n"))
   }
-  
+
   # aggregateObservations
   aggObsIDmap = list()
   nmergedaggobs = 0
   if(length(y@aggregateObservations)>0) {
     for(j in 1:length(y@aggregateObservations)) {
       aggObs = .applyMappingsToAggregateOrganismObservation(y@aggregateObservations[[j]], plotObsIDmap, oiIDmap, strObsIDmap, attIDmap)
-      naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x, 
-                                                                         aggObs$plotObservationID, 
-                                                                         aggObs$stratumObservationID, 
+      naggobsid = .newAggregateOrganismObservationIDByOrganismIdentityID(x,
+                                                                         aggObs$plotObservationID,
+                                                                         aggObs$stratumObservationID,
                                                                          aggObs$organismIdentityID)
       if(naggobsid$new) {
         x@aggregateObservations[[naggobsid$id]] = aggObs
@@ -410,9 +410,9 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of aggregate organism observations: ", length(x@aggregateObservations),". Data pooled for ", nmergedaggobs, " aggregate organism observation(s).\n"))
   }
-  
 
-  
+
+
   # siteObservations
   siteObsIDmap = list()
   nmergedsiteobs = 0
@@ -434,7 +434,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of site observations: ", length(x@siteObservations),". Data pooled for ", nmergedsiteobs, " site observation(s).\n"))
   }
-  
+
   # communityObservations
   commObsIDmap = list()
   nmergedcommobs = 0
@@ -456,7 +456,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   if(verbose) {
     cat(paste0(" Final number of community observations: ", length(x@communityObservations),". Data pooled for ", nmergedsiteobs, " community observation(s).\n"))
   }
-  
+
 
   # surfaceCoverObservations
   scObsIDmap = list()

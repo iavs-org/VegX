@@ -193,6 +193,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
       if("funding" %in% names(x@projects[[i]])) newXMLNode("funding", x@projects[[i]]$funding, parent=prj)
       if("studyAreaDescription" %in% names(x@projects[[i]])) newXMLNode("studyAreaDescription", x@projects[[i]]$studyAreaDescription, parent=prj)
       if("designDescription" %in% names(x@projects[[i]])) newXMLNode("designDescription", x@projects[[i]]$designDescription, parent=prj)
+      if("documentCitationID" %in% names(x@projects[[i]])) newXMLNode("documentCitationID", x@projects[[i]]$documentCitationID, parent=prj)
     }
     if(verbose) cat(paste0(" ", length(x@projects), " project(s) added to XML tree.\n"))
   }

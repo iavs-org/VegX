@@ -7,7 +7,7 @@
 #' @param subject A string to identify the subject (e.g. 'plant cover').
 #' @param codes A character vector of ordinal class codes.
 #' @param citationString A string with the bibliographic reference for the method.
-#' @param DOI A string with the DOI of a resource describing the method.
+#' @param DOI A string with the DOI the resource related to \code{citationString}.
 #' @param quantifiableCodes A string vector with the subset of \code{codes} that have correspondence in a quantitative scale. These codes
 #' can be transformed to midPoints (if supplied in \code{midPoints}) and, correspondingly, codes in the quantitative scale can be transformed to ordinal codes
 #' using class limits (if supplied in \code{breaks}).

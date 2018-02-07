@@ -47,7 +47,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 data(mokihinui)
 
 # Create document 'x' with aggregate taxon observations
-taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
               taxonName = "NVSSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",

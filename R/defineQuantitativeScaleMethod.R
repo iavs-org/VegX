@@ -7,7 +7,7 @@
 #' @param subject A string to identify the subject.
 #' @param unit A character describing measurement units.
 #' @param citationString A string with the bibliographic reference for the method.
-#' @param DOI A string with the DOI of a resource describing the method.
+#' @param DOI A string with the DOI the resource related to \code{citationString}
 #' @param lowerLimit The lower limit of the quantitative scale, if defined.
 #' @param upperLimit The upper limit of the quantitative scale, if defined.
 #'

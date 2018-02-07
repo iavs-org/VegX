@@ -6,7 +6,7 @@
 \usage{
 fillProjectInformation(target, title, personnel = list(), abstract = "",
   funding = "", studyAreaDescription = "", designDescription = "",
-  verbose = TRUE)
+  citationString = "", DOI = "", verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -22,6 +22,10 @@ fillProjectInformation(target, title, personnel = list(), abstract = "",
 \item{studyAreaDescription}{A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..}
 
 \item{designDescription}{A string describing the overall plot placement design.}
+
+\item{citationString}{A string of the bibliographic reference of a document describing the project.}
+
+\item{DOI}{A string with the DOI the resource related to \code{citationString}.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }

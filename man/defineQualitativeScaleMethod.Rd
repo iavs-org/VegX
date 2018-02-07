@@ -18,7 +18,7 @@ defineQualitativeScaleMethod(name, description, subject, codes,
 
 \item{citationString}{A string with the bibliographic reference for the method.}
 
-\item{DOI}{A string with the DOI of a resource describing the method.}
+\item{DOI}{A string with the DOI the resource related to \code{citationString}.}
 
 \item{definitions}{A character vector of class definitions.}
 }
