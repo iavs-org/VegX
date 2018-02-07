@@ -11,10 +11,88 @@
 #' @family transform functions
 #'
 #' @examples
+#' # Load source data
+#' data(mokihinui)
 #'
+#' # Create new Veg-X document with aggregate organism observations
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
+#'                taxonName = "NVSSpeciesName",
+#'                stratumName = "Tier", cover = "Category")
+#' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
+#'                    description = "Recce recording method by Hurst/Allen",
+#'                    subject = "plant cover",
+#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                    codes = c("P","1","2","3", "4", "5", "6"),
+#'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
+#'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
+#'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
+#' strataDef = defineMixedStrata(name = "Recce strata",
+#'                               description = "Standard Recce stratum definition",
+#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                               heightStrataNames = paste0("Tier ",1:6),
+#'                               categoryStrataNames = "Tier 7",
+#'                               categoryStrataDefinition = "Epiphytes")
+#' x = addAggregateOrganismObservations(newVegX(), moki_tcv,
+#'                         mapping = mapping,
+#'                         methods = c(cover=coverscale),
+#'                         stratumDefinition = strataDef)
+#'
+#' # Inspect the original organism identities
+#' head(showElementTable(x, "organismIdentity"))
+#'
+#' y = transformTaxonNomenclature(x, moki_lookup,
+#'                    c(originalOrganismName = "NVSSpeciesName", preferredTaxonName = "PreferredSpeciesName"))
+#'
+#' # Inspect the modified organism identities
+#' head(showElementTable(y, "organismIdentity"))
 transformTaxonNomenclature<-function(target, x, mapping,
                                      verbose = TRUE) {
 
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
 
+  if(!(("originalOrganismName" %in% names(mapping)) && ("preferredTaxonName" %in% names(mapping)))) {
+    stop(paste0("Mapping should include 'originalOrganismName' and 'preferredTaxonName'."))
+  }
+  #Check columns exist
+  for(i in 1:length(mapping)) {
+    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+  }
 
+  originalOrganismNames = as.character(x[[mapping[["originalOrganismName"]]]])
+  preferredTaxonNames = as.character(x[[mapping[["preferredTaxonName"]]]])
+
+  if(length(target@organismIdentities)==0) stop(paste0("No organism identities in object 'target'."))
+
+  nsetidentities = 0
+  ntransfidentities = 0
+  orinons = length(target@organismNames)
+  for(i in 1:length(target@organismIdentities)) {
+     orgId = target@organismIdentities[[i]]
+     oriOrgName = target@organismNames[[orgId$originalOrganismNameID]]
+     if(oriOrgName$name %in% originalOrganismNames) {
+       id = which(originalOrganismNames==oriOrgName$name)[1] # Get the first occurrence only
+       # Check if the preferred name has to be added to the list of names
+       nonid = .newOrganismNameIDByName(target, preferredTaxonNames[id], TRUE)
+       if(nonid$new) {
+         target@organismNames[[nonid$id]] = list("name" = preferredTaxonNames[id],
+                                            "taxon" = TRUE)
+       }
+       # Set link to preferred name
+       if(nonid$id != orgId$originalOrganismNameID) ntransfidentities = ntransfidentities + 1
+       if(!("preferredTaxonNomenclature" %in% names(orgId))) orgId$preferredTaxonNomenclature = list()
+       orgId$preferredTaxonNomenclature$preferredTaxonNameID = nonid$id
+       nsetidentities = nsetidentities + 1
+     }
+     target@organismIdentities[[i]] = orgId
+  }
+  finnons = length(target@organismNames)
+  if(verbose) {
+    if(finnons > orinons) cat(paste0(" " , finnons-orinons, " new organism name(s) added.\n"))
+    if(nsetidentities > 0) cat(paste0(" Preferred taxon name was set on ", nsetidentities, " organism identities.\n"))
+    if(ntransfidentities > 0) cat(paste0(" Preferred taxon name is now different than original organism name on ", ntransfidentities, " organism identities.\n"))
+  }
+
+  return(target)
 }

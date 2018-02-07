@@ -2,7 +2,7 @@
 % Please edit documentation in R/transformTaxonNomenclature.R
 \name{transformTaxonNomenclature}
 \alias{transformTaxonNomenclature}
-\title{Applies a preferred taxon nomenclature to the organism identities of a data set}
+\title{Applies a preferred taxon nomenclature to the organism identities of a data set using a lookup table}
 \usage{
 transformTaxonNomenclature(target, x, mapping, verbose = TRUE)
 }
@@ -19,10 +19,45 @@ transformTaxonNomenclature(target, x, mapping, verbose = TRUE)
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Applies a preferred taxon nomenclature to the organism identities of a data set
+Applies a preferred taxon nomenclature to the organism identities of a data set using a lookup table
 }
 \examples{
+# Load source data
+data(mokihinui)
 
+# Create new Veg-X document with aggregate organism observations
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
+               taxonName = "NVSSpeciesName",
+               stratumName = "Tier", cover = "Category")
+coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
+                   description = "Recce recording method by Hurst/Allen",
+                   subject = "plant cover",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   codes = c("P","1","2","3", "4", "5", "6"),
+                   quantifiableCodes = c("1","2","3", "4", "5", "6"),
+                   breaks = c(0, 1, 5, 25, 50, 75, 100),
+                   midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+                   definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
+strataDef = defineMixedStrata(name = "Recce strata",
+                              description = "Standard Recce stratum definition",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                              heightStrataNames = paste0("Tier ",1:6),
+                              categoryStrataNames = "Tier 7",
+                              categoryStrataDefinition = "Epiphytes")
+x = addAggregateOrganismObservations(newVegX(), moki_tcv,
+                        mapping = mapping,
+                        methods = c(cover=coverscale),
+                        stratumDefinition = strataDef)
+
+# Inspect the original organism identities
+head(showElementTable(x, "organismIdentity"))
+
+y = transformTaxonNomenclature(x, moki_lookup,
+                   c(originalOrganismName = "NVSSpeciesName", preferredTaxonName = "PreferredSpeciesName"))
+
+# Inspect the modified organism identities
+head(showElementTable(y, "organismIdentity"))
 }
 \seealso{
 Other transform functions: \code{\link{transformOrdinalScale}},

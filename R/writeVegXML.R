@@ -169,6 +169,11 @@ writeVegXML<-function(x, file, verbose = TRUE) {
          newXMLNode("taxonConceptID", x@organismIdentities[[i]]$originalConceptIdentification$taxonConceptID,
                     parent=ocid)
       }
+      if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
+        ptn = newXMLNode("preferredTaxonNomenclature", parent=oi)
+        newXMLNode("preferredTaxonNameID", x@organismIdentities[[i]]$preferredTaxonNomenclature$preferredTaxonNameID,
+                   parent=ptn)
+      }
     }
     if(verbose) cat(paste0(" ", length(x@organismIdentities), " organism identitie(s) added to XML tree.\n"))
   }
