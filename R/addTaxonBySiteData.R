@@ -20,7 +20,6 @@
 #'
 #' @family add functions
 #'
-#' @examples
 addTaxonBySiteData <-function(target,
                               x,
                               projectTitle,

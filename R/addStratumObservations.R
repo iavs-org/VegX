@@ -4,7 +4,7 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one stratum observation. Columns can be varied.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param mapping A named list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
 #' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
@@ -20,7 +20,7 @@
 #'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
 #'   \item{Missing measurements are simply not added to the Veg-X document.}
 #'  }
-#'  
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions

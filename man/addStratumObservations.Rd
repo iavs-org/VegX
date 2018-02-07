@@ -12,7 +12,7 @@ addStratumObservations(target, x, mapping, methods, stratumDefinition,
 
 \item{x}{A data frame where each row corresponds to one stratum observation. Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+\item{mapping}{A named list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
 
 \item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
