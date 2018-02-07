@@ -240,7 +240,11 @@
 
 .getOrganismIdentityName<-function(target,  identityID) {
   oi = target@organismIdentities[[identityID]]
-  oriName = target@organismNames[[oi$originalOrganismNameID]]$name
+  if("preferredTaxonNomenclature" %in% names(oi)) {
+    oriName = target@organismNames[[oi$preferredTaxonNomenclature$preferredTaxonNameID]]$name
+  } else {
+    oriName = target@organismNames[[oi$originalOrganismNameID]]$name
+  }
   return(oriName)
 }
 .getOrganismIdentityCitationString<-function(target,  identityID) {

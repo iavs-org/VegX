@@ -182,6 +182,10 @@ readVegXML<-function(file, verbose = TRUE) {
       ocid = x[["originalConceptIdentification"]]
       orgId$originalConceptIdentification = list(taxonConceptID = xmlValue(ocid[["taxonConceptID"]]))
     }
+    if("preferredTaxonNomenclature" %in% n)  {
+      ptn = x[["preferredTaxonNomenclature"]]
+      orgId$preferredTaxonNomenclature = list(preferredTaxonNameID = xmlValue(ptn[["preferredTaxonNameID"]]))
+    }
     return(orgId)
   }
   if("organismIdentities" %in% vegnames) {

@@ -257,6 +257,13 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
           res[i, "taxonConceptName"] = x@organismNames[[x@taxonConcepts[[tcID]]$organismNameID]]$name
           res[i, "taxonConceptCitation"] = trimString(x@literatureCitations[[x@taxonConcepts[[tcID]]$citationID]]$citationString)
         }
+        if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
+          pnID = x@organismIdentities[[i]]$preferredTaxonNomenclature$preferredTaxonNameID
+          if(IDs) {
+            res[i, "preferredTaxonNameID"] = pnID
+          }
+          res[i, "preferredTaxonName"] = x@organismNames[[pnID]]$name
+        }
       }
     }
   }
