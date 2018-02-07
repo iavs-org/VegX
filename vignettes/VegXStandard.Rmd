@@ -221,7 +221,7 @@ originalIdentificationPartyID   | A link to a party involved in the original org
 originalIdentificationNote   | Additional comments or explanations pertaining to the original identification of the organism. | 0..n | No |
 originalConceptIdentification | Information of the taxon concept originally associated to the organism identity. This information may be specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
 voucher                   | Herbarium accession number for any archived voucher specimens. | 0..n | No |
-preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. | 0..1 | Yes |
+preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. | 0..1 | Partial |
 
 ### Element *literatureCitation*
 
