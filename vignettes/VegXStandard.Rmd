@@ -3,7 +3,6 @@ title: "The Veg-X exchange standard"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
-  word_document:
   rmarkdown::html_vignette:
     css: mystyle.css
     toc: TRUE
@@ -214,31 +213,60 @@ observationNote | Additional comments or explanations pertaining to the observat
 
 ### Element *organismIdentity*
 
-The identity of an organism (or a set of organisms) occurring within the dataset. This is initially a name defined by the dataset author which may follow, or not, nomenclatural codes. The identity may be complemented with an scientific name (taxon name) accepted according to some nomenclatural authority, by using the sub-element *preferredTaxonNomenclature*. The taxonomic concept (taxon name + reference) that the author of the observation interpreted when observing the organism (or that a third party thinks he had in mind) can also be specified in the sub-element *originalConceptIdentification*. Subsequent re-evaluations of the taxon concept (e.g. after inspection of the herbarium voucher) by third parties should be specified using the main element *taxonDetermination* (which are not currently supported by the **VegX package**).
+The identity of an organism (or a set of organisms) occurring within the dataset. This is initially a name defined by the dataset author which may or not be following nomenclatural codes. The identity may be complemented with an scientific name (taxon name) accepted according to a specified nomenclatural authority, by using the sub-element *preferredTaxonNomenclature*. The taxonomic concept (taxon name + reference defining the concept) that the author of the observation had in mind when observing the organism (or that a third party assumes he had in mind) can also be specified in the sub-element *originalIdentificationConcept*. Subsequent re-evaluations of the taxon concept (e.g. after inspection of the herbarium voucher) by third parties should be specified using the main element *taxonDetermination* (which are not currently supported by the **VegX package**).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 originalOrganismNameID    | A link, by ID, to an organism name (e.g. normally a taxon name, but not necessarily including the authority, or even field names, morphospecies, ...) that the author of the dataset originally used to refer to an organism observed within the plot. The taxon names used as label the organism identity should not contain spelling errors, but they may not be the accepted name according to current nomenclature codes.       | 1 | Yes |
 originalIdentificationPartyID   | A link to a party involved in the original organism identification (normally the author of the data set), by ID. | 0..n | No |
 originalIdentificationNote   | Additional comments or explanations pertaining to the original identification of the organism. | 0..n | No |
-originalConceptIdentification | Information of the taxon concept originally associated to the organism identity. This information may be specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
+originalIdentificationConcept | The taxon concept originally associated to the organism identity. This may have been specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
 voucher                   | Herbarium accession number for any archived voucher specimens. | 0..n | No |
-preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. The sub-element *preferredTaxonNameID* points to an organism name that is considered the preferred name for the organism identity. | 0..1 | Partial |
+preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. The sub-element *preferredTaxonNameID* points to an organism name that is the accepted name according to the current nomenclature. | 0..1 | Partial |
 
-In the **VegX package** a field called **organismIdentityName** is used to name organisms with the following rules:
+#### Naming organisms when displaying observations
+
+When displaying organism observations, the VegX package uses a field called **organismIdentityName** to name organisms with the following rules:
 
 + If *preferredTaxonNomenclature* has NOT been defined then *organismIdentityName* is equal to the *originalOrganismName* (via *originalOrganismNameID*).
 + If *preferredTaxonNomenclature* has been defined then *organismIdentityName* is equal to the *preferredTaxonName* (via *preferredTaxonNameID*).
 
-Organism identities are by default kept separate when merging Veg-X documents using the VegX package. If the possibility of merging of identities is enforced by the user, the decision to actually merge two given organism identities distinguishes three cases depending on the availability of taxon concepts:
+#### Merging rules
 
-1. If none of the two organism identities has an associated taxon concept (i.e. if *originalConceptIdentification* is missing in both identities) then the two organism identities are considered the same if they have the same *organismIdentityName*. Three sub-cases are distinguished:
-    i) None of the organism identities have *preferredTaxonNomenclature*, so the decision to merge depends exclusively on having the same *originalOrganismName*.
-    ii) If one of the organism identities has a *preferredTaxonNomenclature* and the other does not, merging will occur if the *originalOrganismName* of the latter is equal to the *preferredTaxonName* of the former. The result of merging the elements in this case will be an organism identity where *originalOrganismName = preferredTaxonName*.
-    iii) If the two identities to be merged have the same *preferredTaxonName* (and hence the same *organismIdentityName*) but different *originalOrganismName*. In that case, the merging function will again return an identity where both *originalOrganismName = preferredTaxonName*.
-2. If only one of the organism identities has an associated taxon concept (i.e. if *originalConceptIdentification* is only specified for one of the organism identities) then the two identities cannot be merged. The user should in this case specify a taxon concept for the organism identity that lacks it before attempting to merge their identities.
-3. If both organism identities have an associated taxon concept (i.e. if *originalConceptIdentification* is specified in both identities) then the two identities are considered the same if they refer to the same taxon concept (i.e. if both the taxon name and bibliographic reference are the same). In this case the result of the merging operation is an organism identity with: (a) *originalConceptIdentification* indicating the (common) taxon concept; (b) *originalOrganismName* equal to the taxon name that forms the taxon concept; (c) no element *preferredTaxonNomenclature*, because the two identities to be merged could differ in their preferred nomenclature. Thus, nomenclature revision may be advisable after merging identities that have taxon concepts defined.
+Users of the VegX package should be aware that **organism identities are by default kept separate** when merging Veg-X objects. If the user chooses to merge identities, the decision to actually merge two given organism identities is complex, depending on both nomenclature and taxon concepts. Let '1' and '2' be two organism identities being compared. If original taxon concepts (i.e. element *originalIdentificationConcept*) are missing for both of them, the following table explains decision according to nomenclature and, in case of merging, the nomenclature of the resulting identity (asterisk indicates that a warning will be raised by the merging function):
 
+Case | Orig.1 | Pref.1 | Orig.2 | Pref.2 | Merge | Orig.Res. | Pref.Res. |
+---- | ------ | ------ | ------ | ------ | ----- | --------- | --------- |
+  1  |    X   |    -   |    Y   |    -   |  No   |     -     |     -     |
+  2  |    X   |    -   |    X   |    -   |  Yes  |     X     |     -     |
+  3  |    X   |    Y   |    X   |    -   |  No*  |     -     |     -     |
+  4  |    X   |    Y   |    Y   |    -   |  Yes  |     -     |     Y     |
+  5  |    X   |    Y   |    X   |    Z   |  No*  |     -     |     -     |
+  6  |    X   |    Y   |    V   |    Z   |  No   |     -     |     -     |
+  7  |    X   |    Y   |    Z   |    Y   |  Yes  |     -     |     Y     |
+  8  |    X   |    Y   |    X   |    Y   |  Yes  |     X     |     Y     |
+  9  |    -   |    X   |    -   |    Y   |  No   |     -     |     -     |
+  10 |    -   |    X   |    -   |    X   |  Yes  |     -     |     X     |
+  11 |    X   |    -   |    -   |    X   |  Yes  |     -     |     X     |
+  12 |    X   |    -   |    -   |    Y   |  No   |     -     |     -     |
+   
+In the more general case where original taxon concepts may have been specified for identity '1', identity '2' or both, the following table explains the decision to merge or not those organism identities, depending on the value of their taxon concepts and whether merging is possible according to nomenclature (asterisk indicates that a warning will be raised by the merging function):
+
+Case | Nom. Merge? | Tax.Con.1 | Tax.Con.2 | Merge | Tax.Con. Res. |
+---- | ----------- | --------- | ----------|------ | ------------- |
+  1  |     No      |      -    |     -     |  No   |      -        |
+  2  |     No      |      X    |     -     |  No   |      -        |
+  3  |     No      |      X    |     Y     |  No   |      -        |
+  4  |     No      |      X    |     X     |  No*  |      -        |
+  5  |     Yes     |      -    |     -     |  Yes  |      -        |
+  6  |     Yes     |      X    |     -     |  Yes  |      -        |
+  7  |     Yes     |      X    |     Y     |  No*  |      -        |
+  8  |     Yes     |      X    |     X     |  Yes  |      X        |
+
+
+#### Adding observations to VegX objects that have identities defined
+
+The general workflow when working with the VegX package is: (1) Create a new VegX document; (2) Add plot data and plot observations; (3) perform nomenclature corrections; (4) Merge documents. However, it could happen that user's attempt to add observations to a VegX object that already contains identities, possibly with nomenclatural revisions and associated taxon concepts. When adding organism observations to VegX objects, the add function assumes that the name supplied is an *originalOrganismName* and it applies the same rules explained to determine whether they refer to the same identity and, if not, then a new organism identity will be created. For example, even if there is a match between the supplied name and the original organism name of an existing identity, a new identity will be created if the original taxon concept has been asserted for the existing one, because there is no way to check that the two organisms involved have indeed the same identity. If existing entity does not have an original taxon concept, then the decision to create or not new organism identities will follow the nomenclature rules of the table above. 
 
 ### Element *literatureCitation*
 
