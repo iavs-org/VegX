@@ -3,7 +3,6 @@ title: "The Veg-X exchange standard"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
-  # word_document:
   rmarkdown::html_vignette:
     css: mystyle.css
     toc: TRUE
