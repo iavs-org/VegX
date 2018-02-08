@@ -14,7 +14,7 @@ addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
 
 \item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
 
-\item{abundanceMethod}{A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{abundanceMethod}{A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{obsDates}{A vector of \code{\link{Date}} objects with plot observation dates.}
 

@@ -4,10 +4,12 @@
 \alias{mergeVegX}
 \title{Merge Veg-X documents}
 \usage{
-mergeVegX(x, y, verbose = TRUE)
+mergeVegX(x, y, mergeIdentities = FALSE, verbose = TRUE)
 }
 \arguments{
-\item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged}
+\item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged.}
+
+\item{mergeIdentities}{A flag used to force that organism identities should be merged when sharing the same organismName.}
 
 \item{verbose}{A flag to indicate console output of the data integration process.}
 }
@@ -20,14 +22,15 @@ Merges two Veg-X documents while considering that some of their entities may be 
 \details{
 Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 \itemize{
-  \item \code{projects} are merged when their element \code{title} has the same value
-  \item \code{plots} are merged when their element \code{plotName} has the same value
+  \item \code{projects} are merged when their element \code{title} has the same value.
+  \item \code{plots} are merged when their element \code{plotName} has the same value.
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-  \item \code{taxonNameUsageConcepts} are merged when their element \code{authorTaxonName} has the same value
-  \item \code{methods} are merged when their element \code{name} has the same value
-  \item \code{strata} are merged when their element \code{stratumName} has the same value
+  \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeIdentities = TRUE} because
+  one can have the same name used in different data sets but referring to different concepts.
+  \item \code{methods} are merged when their element \code{name} has the same value.
+  \item \code{strata} are merged when their element \code{stratumName} has the same value.
   \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
-  \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{taxonUsageConceptID} (and \code{stratumObservationID}, if defined) have the same value
+  \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{organismIdentityID} (and \code{stratumObservationID}, if defined) have the same value
   \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{individualOrganismLabel} have the same value
   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
   \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
@@ -44,7 +47,8 @@ entities between the two data sets to be merged and hence are simply copied to t
 data(mokihinui)
 
 # Create document 'x' with aggregate taxon observations
-taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
+              taxonName = "NVSSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
@@ -56,26 +60,31 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
                    definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
 strataDef = defineMixedStrata(name = "Recce strata",
-                              description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-                              heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7",
-                              categoryStrataDefinition = "Epiphytes")
+                   description = "Standard Recce stratum definition",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                   heightStrataNames = paste0("Tier ",1:6),
+                   categoryStrataNames = "Tier 7",
+                   categoryStrataDefinition = "Epiphytes")
 x = addAggregateOrganismObservations(newVegX(), moki_tcv, taxmapping,
-                        methods = c(cover=coverscale),
-                        stratumDefinition = strataDef)
+                   methods = c(cover=coverscale),
+                   stratumDefinition = strataDef)
 
 # Create document 'y' with tree observations
 treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-                   authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+                   taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 diamMeth = predefinedMeasurementMethod("DBH/cm")
 y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
                         methods = c(diameterMeasurement = diamMeth))
 
-# Merge 'x' and 'y'
-z = mergeVegX(x,y)
-summary(z)
+# Merge 'x' and 'y' while keeping organism identities that have the same name separated
+z1 = mergeVegX(x,y)
+summary(z1)
+
+# Merge 'x' and 'y' while forcing organism identities that have the same name to
+# be merged
+z2 = mergeVegX(x,y, mergeIdentities = TRUE)
+summary(z2)
 
 }
 \seealso{

@@ -16,7 +16,7 @@ addSiteCharacteristics(target, x, mapping, measurementMethods = list(),
 Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
 Additional optional mappings are: 'subPlotName'.}
 
-\item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
 (e.g. \code{list(aspect = aspectMeth)} to specify the use of method '\code{aspectMeth}' for aspect measurements).}
 
@@ -28,8 +28,15 @@ for each of the abiotic variables stated in \code{mapping}. List names should be
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
-using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
+Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots.
+}
+\details{
+Missing value policy:
+ \itemize{
+    \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. 'aspect', 'slope',...) are simply not added to the Veg-X document.}
+ }
 }
 \examples{
 # Load source data

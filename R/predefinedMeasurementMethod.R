@@ -24,7 +24,7 @@
 #' }
 #'
 #'
-#' @return an object of class \code{\linkS4class{VegXMethod}}
+#' @return an object of class \code{\linkS4class{VegXMethodDefinition}}
 #' @export
 #'
 #' @family define measurement functions
@@ -164,7 +164,7 @@ predefinedMeasurementMethod<-function(name) {
                                          lowerLimit = 0,
                                          upperLimit = 360))
   }
-  else if (name=="Elevation meters") {
+  else if (name=="Elevation/m") {
     return(defineQuantitativeScaleMethod(name = "Elevation/m",
                                          description = "Elevation measured using meters above sea level",
                                          subject = "elevation",

@@ -8,16 +8,19 @@
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Geometry variables that can be mapped are: 'area', 'shape', 'radius', 'length','width', 'bandWidth'.
 #' Additional optional mappings are: 'subPlotName'.
-#' @param methods A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethod}}).
+#' @param methods A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing 'plotName' and 'shape' values are interpreted as if the previous non-missing value has to be used to define plot.
-#' Missing subPlotName values are interpreted in that data refers to the parent plotName.
-#' Missing measurements are simply not added to the Veg-X document.
+#' @details Missing value policy:
+#'  \itemize{
+#'     \item{Missing 'plotName' and 'shape' values are interpreted as if the previous non-missing value has to be used to define plot.}
+#'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+#'     \item{Missing measurements (e.g. 'area', 'radius',...) are simply not added to the Veg-X document.}
+#'  }
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
@@ -105,6 +108,15 @@ addPlotGeometries<-function(target, x,
                                         subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))

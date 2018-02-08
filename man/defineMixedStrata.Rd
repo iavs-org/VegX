@@ -6,7 +6,7 @@
 \usage{
 defineMixedStrata(name = "Strata by height or category",
   description = "Vegetation strata defined by height in m and other strata defined by category",
-  citation = "", heightStrataBreaks = c(0, 1, 3, 5),
+  citationString = "", DOI = "", heightStrataBreaks = c(0, 1, 3, 5),
   heightStrataUnit = "m", heightStrataNames = c("s1", "s2", "s3"),
   categoryStrataNames = "s4", heightStrataDefinitions = NULL,
   categoryStrataDefinitions = NULL, order = NULL)
@@ -16,7 +16,9 @@ defineMixedStrata(name = "Strata by height or category",
 
 \item{description}{A string describing how strata are defined.}
 
-\item{citation}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the method.}
+
+\item{DOI}{A string with the DOI of a resource describing the method.}
 
 \item{heightStrataBreaks}{A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).}
 
@@ -25,6 +27,10 @@ defineMixedStrata(name = "Strata by height or category",
 \item{heightStrataNames}{A numeric vector of stratum codes (of length equal to the number of height strata).}
 
 \item{categoryStrataNames}{A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).}
+
+\item{heightStrataDefinitions}{A character vector with height strata definitions}
+
+\item{categoryStrataDefinitions}{A character vector with category strata definitions}
 
 \item{order}{A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).}
 }

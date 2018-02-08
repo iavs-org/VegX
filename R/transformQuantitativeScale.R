@@ -6,7 +6,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
 #' @param method An integer (index) or a name of the original quantitative scale method.
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
-#' or an object of class \code{\linkS4class{VegXMethod}}.
+#' or an object of class \code{\linkS4class{VegXMethodDefinition}}.
 #' @param fun A function used to transform numeric values.
 #' @param replaceValues A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 #' For some measurements transformations will not be possible if replacement is not forced using this flag.
@@ -30,21 +30,21 @@
 #' data(mokihinui)
 #'
 #' # Create initial Veg-X document with stratum heights in meters
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
 #'                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper")
 #' heightMethod1 = predefinedMeasurementMethod("Stratum height/m")
 #' strataDef = defineMixedStrata(name = "Recce strata",
-#'                               description = "Standard Recce stratum definition",
-#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-#'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7",
-#'                               categoryStrataDefinition = "Epiphytes")
-#' x = addStratumObservations(newVegX(), tier, "Mokihinui",
-#'                         mapping = mapping,
-#'                         methods = list(lowerLimitMeasurement = heightMethod1,
+#'                    description = "Standard Recce stratum definition",
+#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                    heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                    heightStrataNames = paste0("Tier ",1:6),
+#'                    categoryStrataNames = "Tier 7",
+#'                    categoryStrataDefinition = "Epiphytes")
+#' x = addStratumObservations(newVegX(), moki_str, "Mokihinui",
+#'                    mapping = mapping,
+#'                    methods = list(lowerLimitMeasurement = heightMethod1,
 #'                                        upperLimitMeasurement = heightMethod1),
-#'                         stratumDefinition = strataDef)
+#'                    stratumDefinition = strataDef)
 #'
 #' # Examine stratum heights
 #' showElementTable(x, "stratumObservation")
@@ -88,7 +88,7 @@ transformQuantitativeScale<-function(target, method, newMethod,
     }
     if(is.null(newMethodID)) stop("New method not found in Veg-X object.")
   }
-  else if(class(newMethod)=="VegXMethod") {
+  else if(class(newMethod)=="VegXMethodDefinition") {
     nmtid = .newMethodIDByName(target,newMethod@name)
     newMethodID = nmtid$id
     if(nmtid$new) { # add new method
@@ -97,6 +97,15 @@ transformQuantitativeScale<-function(target, method, newMethod,
                                         subject = newMethod@subject,
                                         attributeType = newMethod@attributeType)
       if(verbose) cat(paste0(" Measurement method '", newMethod@name,"' added.\n"))
+      # add literature citation if necessary
+      if(newMethod@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, newMethod@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =newMethod@citationString)
+          if(newMethod@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = newMethod@DOI
+        }
+        target@methods[[newMethodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       for(i in 1:length(newMethod@attributes)) {
         nattid = .nextAttributeID(target)

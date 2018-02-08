@@ -1,13 +1,13 @@
 #' Add surface cover observation records
 #'
-#' Adds surface cover observation records to a VegX object from a data table
+#' Adds surface cover observation records to a VegX object from a data table where rows are cover observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one surface cover observation (e.g. bare rock percent cover). Columns can be varied.
 #' @param mapping A list with element names 'plotName',  'obsStartDate', 'surfaceName' and 'coverMeasurement'
 #' are used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'subPlotName'.
-#' @param coverMethod A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param coverMethod A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param surfaceTypeDefinition An object of class \code{\linkS4class{VegXSurfaceTypeDefinition}} indicating the definition of surface types.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -15,10 +15,12 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing 'plotName', 'obsStartDate' or 'surfaceName' values are interpreted as if the previous non-missing value has to be used to define plot observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-#' Missing measurements are simply not added to the Veg-X document.
-#'
+#' @details Missing value policy:
+#'  \itemize{
+#'    \item{Missing 'plotName', 'obsStartDate' or 'surfaceName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+#'    \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'    \item{Missing measurements are simply not added to the Veg-X document.}
+#' }
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
@@ -122,6 +124,15 @@ addSurfaceCoverObservations<-function(target, x, mapping,
                                         subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))

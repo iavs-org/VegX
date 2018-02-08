@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
+<<<<<<< HEAD
 <!--Created with Liquid Studio 2017 - XML Editor Edition (Education) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:lit="eml://ecoinformatics.org/literature-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns="http://iavs.org/vegX/misc-2.0.0" targetNamespace="http://iavs.org/vegX/misc-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="eml-literature.xsd" namespace="eml://ecoinformatics.org/literature-2.0.1" />
@@ -7,23 +8,176 @@
     <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
     <xsd:import schemaLocation="tdwg_dw_geospatial.xsd" namespace="http://rs.tdwg.org/dwc/geospatial/" />
     <xsd:complexType name="relatedPlotType">
+=======
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.0" targetNamespace="http://iavs.org/vegX/misc-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IDType">
+        <xs:annotation>
+            <xs:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="xs:string" />
+    </xsd:simpleType>
+    <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemType">
+        <xs:annotation>
+            <xs:documentation>Identifier System</xs:documentation>
+        </xs:annotation>
+        <xs:list itemType="xs:string" />
+    </xsd:simpleType>
+    <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ScopeType">
+        <xs:annotation>
+            <xs:documentation>The scope of the identifier.</xs:documentation>
+        </xs:annotation>
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="system" />
+            <xs:enumeration value="document" />
+        </xs:restriction>
+    </xsd:simpleType>
+    <xsd:complexType name="literatureCitationType">
+        <xsd:sequence>
+            <xsd:element name="citationString" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>a citation string that should be parsed to derive authors, year, title, etc.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="DOI" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="EN">A string of the DOI uniquely identifying the document.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="IDType" use="required">
+            <xsd:annotation>
+                <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="partyType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A plot or observation may be related spatially to another plot in order to express parent-child, sub-plot or contiguity. The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.</xsd:documentation>
+            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party.
+eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="relatedPlotID" type="xsd:string">
+            <xsd:choice xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="unbounded">
+                <xs:element name="individualName" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The full name of the person being described</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="organizationName" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The full name of the organization being described</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+                <xs:element name="positionName" type="xs:string">
+                    <xs:annotation>
+                        <xs:documentation xml:lang="en">The name of the title or position associated with the resource.</xs:documentation>
+                    </xs:annotation>
+                </xs:element>
+            </xsd:choice>
+            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="address" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The full address information for a given responsible party entry.</xs:documentation>
+                </xs:annotation>
+            </xsd:element>
+            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="phone" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">Information about the contact's telephone.</xs:documentation>
+                </xs:annotation>
+            </xsd:element>
+            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="electronicMailAddress" type="xs:string" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">The email address of the contact.</xs:documentation>
+                </xs:annotation>
+            </xsd:element>
+            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlineURL" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
+                <xs:annotation>
+                    <xs:documentation xml:lang="en">A link to associated online information, usually a web site.</xs:documentation>
+                </xs:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="IDType" use="required">
+            <xsd:annotation>
+                <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="projectType">
+>>>>>>> upstream/devel
+        <xsd:annotation>
+            <xsd:documentation>Describes the research context in which the dataset was created, including descriptions of over-all motivations and goals, funding, personnel, description of the study area etc. Sub-element definitions were taken from Ecological Markup Language (EML).</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="title" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific related plot. This would be the parent plot identifer in most cases.</xsd:documentation>
+                    <xsd:documentation>Title of the project.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="plotRelationship" type="xsd:string">
+            <xsd:element name="personnel" type="partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">The type of relationship e.g. subplots, contiguous plots along transects etc. </xsd:documentation>
+                    <xsd:documentation>Contact and role information for people involved in the research project.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="relativeSpatialCoordinate" type="relativeSpatialCoordinateType" minOccurs="0">
+            <xsd:element name="abstract" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Two related plots may have their relative positions described in geometric space using the relative position with respect to the point of origin for the referenced plot.</xsd:documentation>
+                    <xsd:documentation>A brief description of the aims and findings of the project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="funding" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Funding information.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="studyAreaDescription" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="designDescription" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Description of the design of the research project (specially overall plot placement).</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relatedProjectID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A link to another project, by ID.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="documentCitationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A link, by ID, to the citation of a document describing the project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="IDType" use="required">
+            <xsd:annotation>
+                <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="relativeSpatialCoordinateType">
+        <xsd:annotation>
+            <xsd:documentation>Two related items (e.g., tree or plot) may have their relative positions described in geometric space using the relative position of related items with respect to a point of origin. Normally this point of origin would be an identified plot. This Type should only be used inconjunction with elements containing an origin point defined in geographic space. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="relativeX" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related items position in meters. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relativeY" type="xsd:decimal">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The Z-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the z-axis defined by the plot azimuth.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
@@ -31,19 +185,6 @@
     <xsd:complexType name="relatedItemType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals or paired observations. </xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>relatedSpatialItemType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>relatedSpatialItem - An item may be related spatially to other items.</title>
-							<para>An item (e.g. tree or plot) may be related spatially to other items in order to express parent-child, contiguity, or other type of links. This may include relative coordinates between them.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="relatedItemID" type="xsd:string">
@@ -66,19 +207,6 @@
     <xsd:complexType name="simpleUserDefinedType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Simple user-defined information types stored as a name-value pair. </xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>simpleUserDefinedType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>simpleUserDefined - Simpe user-defined information types stored with as a name-value pair.</title>
-							<para>Simpe user-defined information types stored with as a name-value pair. Includes mandatory link to the method used.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
@@ -101,19 +229,6 @@
     <xsd:complexType name="complexUserDefinedType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Complex user-defined information types. This provides a means to extend the schema to accommodate related information that is more complex than can be accommodated with the simpleUserDefinedType.</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>complexUserDefinedType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>complexUserDefined - Complex user-defined information types.</title>
-							<para>Complex user-defined information types stored. Te nature of these types are also defined by the user.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:any minOccurs="0" />
@@ -122,21 +237,6 @@
     <xsd:complexType name="partyWithRoleType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Based on the the eml-party module - People/organization information and their role as related to the resource</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>partyWithRoleType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>partyWithRole</title>
-							<para>The eml-party module describes a responsible party (person or
-            organization), and is typically used to name the originator or conrtributor of a
-            resource.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="partyID" type="xsd:string">
@@ -147,7 +247,6 @@
             <xsd:element name="role" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">Based on the the eml-party module - The role code field provides information on how a person or organization is related to a resource. </xsd:documentation>
-                    <xsd:documentation xml:lang="de" />
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
@@ -155,19 +254,6 @@
     <xsd:complexType name="noteType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Complex type for specifying additional comments or explanations pertaining to the element of concern</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>noteType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>note - Complex type for specifying additional notes. </title>
-							<para>A Complex type for specifying additional notes.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="text" type="xsd:string">
@@ -183,7 +269,6 @@
             <xsd:element name="type" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation source="VegBank">The type of note: Database Management, Observation Author, Database User and Internal.</xsd:documentation>
-                    <xsd:appinfo> "Database Management" notes are those added by the management team and may be queried and viewed by the public. "Database Use" notes are those entered by the users of the database and are publicly viewable. "Internal" notes are for management to use internally and will not be broadcast. </xsd:appinfo>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="partyID" type="xsd:string" minOccurs="0">
@@ -193,6 +278,7 @@
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+<<<<<<< HEAD
     <xsd:complexType name="MethodType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A method followed in the creation of the dataset or measurement of a parameter. May link to a protocol and literature reference.A protocol may have many method or steps.</xsd:documentation>
@@ -236,6 +322,8 @@
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
+=======
+>>>>>>> upstream/devel
     <xsd:complexType name="ClassType">
         <xsd:annotation>
             <xsd:documentation>An assessment of a qualitative value which can be embeded in a known set of categories.</xsd:documentation>
@@ -256,19 +344,6 @@
     <xsd:complexType name="MeasurementType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Specifies a simple measurement of an attribute.</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>MeasurementType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>Measurement - A used specify a simple measurement of an attribute. </title>
-							<para>A complex type used specify a simple measurement of an attribute. </para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="value" type="xsd:string">
@@ -316,28 +391,15 @@
                         </xsd:annotation>
                     </xsd:element>
                 </xsd:sequence>
-                <xsd:attribute name="id" type="res:IDType" use="optional" />
-                <xsd:attribute name="system" type="res:SystemType" use="optional" />
-                <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+                <xsd:attribute name="id" type="IDType" use="optional" />
+                <xsd:attribute name="system" type="SystemType" use="optional" />
+                <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
     <xsd:complexType name="ObservationGroupingType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A named grouping entity that can be used to define grouping events elsewhere in the dataset. These are a set of observation records that are grouped in the data management system owing to some common characteristic.</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>ObservationGroupingType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>ObservationGrouping - A set of observation records that are grouped.</title>
-							<para>A set of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the vegschema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a PlotObservation).</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
@@ -351,30 +413,17 @@
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="required">
+        <xsd:attribute name="id" type="IDType" use="required">
             <xsd:annotation>
                 <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., a grouping entity) or a GUID in which case it can be resolved to a location on the internet where the record is stored. Read fully description elsewhere.</xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
-        <xsd:attribute name="system" type="res:SystemType" use="optional" />
-        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="AttributeType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">The definition of a measured property. </xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>AttributeType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>Attribute - The definition of a measured property. </title>
-							<para>The definition of a measured property. An attribute has to be one of three types: nominal (unordered categorized variable), ordinal (ordered list of values) or ratio (a numerical variable, either discrete or continuous</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
         </xsd:annotation>
         <xsd:choice>
             <xsd:element name="quantitative">
@@ -477,36 +526,33 @@
                 </xsd:complexType>
             </xsd:element>
         </xsd:choice>
-        <xsd:attribute name="id" type="res:IDType" use="required" />
-        <xsd:attribute name="system" type="res:SystemType" use="optional" />
-        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+        <xsd:attribute name="id" type="IDType" use="required" />
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
     </xsd:complexType>
-    <xsd:complexType name="ProtocolType">
+    <xsd:complexType name="MethodType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">An agreed protocol that is being followed in the creation of the dataset. May have many methods or steps.</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>ProtocolType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>Protocol - An agreed protocol that is being followed.</title>
-							<para>An agreed protocol that is being followed in the creation of the dataset. May have many methods or steps.</para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
+            <xsd:documentation xml:lang="en">A method followed in the creation of the dataset or measurement of a parameter. May link to a protocol and literature reference.A protocol may have many method or steps.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>Name of the protocol.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Name associated with the method. For example, that signified by an ordinal value method such as cover class.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="partyWithRole" type="partyWithRoleType" minOccurs="0" maxOccurs="1">
+            <xsd:element name="description" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>The party involved in describing the protocol.</xsd:documentation>
+                    <xsd:documentation source="NVS" xml:lang="en">A full description of the type of method e.g., research/project or measured parameter or basal area of all stems &gt; 10 cm dbh or counts of all saplings &gt;1.35 m tall and less than 2 cm dbh.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="subject" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>The description of an attribute class for comparative purposes. If two methods measure the same attribute (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="protocolID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a protocol.  The individual protocol is defined within the element veg:protocols which is a container for all protocols within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:choice minOccurs="0" maxOccurs="1">
@@ -522,31 +568,42 @@
                 </xsd:element>
             </xsd:choice>
         </xsd:sequence>
+<<<<<<< HEAD
         <xsd:attribute name="id" type="res:IDType" use="required" />
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:complexType name="relativeSpatialCoordinateType">
+=======
+        <xsd:attribute name="id" type="IDType" use="required" />
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="ProtocolType">
+>>>>>>> upstream/devel
         <xsd:annotation>
-            <xsd:documentation>Two related items (e.g., tree or plot) may have their relative positions described in geometric space using the relative position of related items with respect to a point of origin. Normally this point of origin would be an identified plot. This Type should only be used inconjunction with elements containing an origin point defined in geographic space. </xsd:documentation>
+            <xsd:documentation xml:lang="en">An agreed protocol that is being followed in the creation of the dataset. May have many methods or steps.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:element name="relativeX" type="xsd:decimal">
+            <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related items position in meters. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth.</xsd:documentation>
+                    <xsd:documentation>Name of the protocol.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="relativeY" type="xsd:decimal">
+            <xsd:element name="partyWithRole" type="partyWithRoleType" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth.</xsd:documentation>
+                    <xsd:documentation>The party involved in describing the protocol.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
+            <xsd:element name="citationID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">The Z-coordinate of the related items position in metres. The user will enter the relative position of related item with respect to the plot origin (in meters) with the z-axis defined by the plot azimuth.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific citation of literature.  The literature to which the citation pertains is defined within the element veg:literature [EML] which is a container for all the literature within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
+        <xsd:attribute name="id" type="IDType" use="required" />
+        <xsd:attribute name="system" type="SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="ScopeType" use="optional" />
     </xsd:complexType>
     <xsd:simpleType name="coordinatesType">
         <xsd:list itemType="xsd:decimal" />

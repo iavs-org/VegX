@@ -10,8 +10,8 @@
 }
 \description{
 Implements the minimum subset of Veg-X elements needed for importing and combining vegetation data in this package.
-Only main elements of Veg-X are included here as lists (subelements are not specified in the class definition).
-Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented.
+Only main elements of Veg-X are included here as lists (sub-elements are not specified in the class definition).
+Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented.
 }
 \section{Methods (by generic)}{
 \itemize{
@@ -23,35 +23,43 @@ Other main elements ('taxonConcept', 'taxonDetermination', 'communityConcept', '
 \describe{
 \item{\code{VegXVersion}}{A string to indicate the version of the Veg-X standard.}
 
-\item{\code{projects}}{A list of research projects underpinning data collection.}
+\item{\code{parties}}{A list of persons, organisations mentioned in the data set.}
+
+\item{\code{literatureCitations}}{A list of literature citations used in the data set.}
+
+\item{\code{methods}}{A list of measurement methods (e.g. cover scales) mentioned in the data set.}
+
+\item{\code{attributes}}{A list of attribute value descriptions used in the data set.}
+
+\item{\code{strata}}{A list of stratum definitions used in the data set.}
+
+\item{\code{surfaceTypes}}{A list of surface class definitions used in the data set.}
+
+\item{\code{organismNames}}{A list of organism names used in the data set.}
+
+\item{\code{taxonConcepts}}{A list of taxon concepts (i.e. taxon name + citation) used in the data set.}
+
+\item{\code{organismIdentities}}{A list of organism identities used in the data set.}
+
+\item{\code{projects}}{A list of research projects underpinning plot data collection.}
 
 \item{\code{plots}}{A list of vegetation plots where measurements were made.}
 
-\item{\code{plotObservations}}{A list of vegetation plot observations.}
+\item{\code{individualOrganisms}}{A list of individual organisms found in vegetation plots.}
 
-\item{\code{taxonNameUsageConcepts}}{A list of usages of taxon names as made by the observer.}
-
-\item{\code{strata}}{A list of stratum definitions.}
-
-\item{\code{stratumObservations}}{A list of observations made on strata (e.g. overall tree cover).}
-
-\item{\code{aggregateObservations}}{A list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).}
-
-\item{\code{individualOrganisms}}{A list of individual organisms.}
+\item{\code{plotObservations}}{A list of observations (i.e. sampling events) made on vegetation plots.}
 
 \item{\code{individualObservations}}{A list of observations made on individual organisms (e.g. diameter or height values).}
 
-\item{\code{siteObservations}}{A list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).}
+\item{\code{aggregateObservations}}{A list of observations made on aggregate organisms (e.g. plant abundance by taxa or stratum).}
+
+\item{\code{stratumObservations}}{A list of observations made on strata (e.g. overall tree cover).}
 
 \item{\code{communityObservations}}{list of observations applying to the whole plant community (e.g. stand age or species richness)}
 
-\item{\code{surfaceTypes}}{A list of surface class definitions.}
+\item{\code{siteObservations}}{A list of observations that apply to the site (e.g., abiotic measurements, land use, management regime, legal protection, ...).}
 
 \item{\code{surfaceCoverObservations}}{list of surface cover observations.}
-
-\item{\code{methods}}{A list of measurement methods (e.g. cover scales).}
-
-\item{\code{attributes}}{A list of attribute value description.}
 }}
 
 \examples{

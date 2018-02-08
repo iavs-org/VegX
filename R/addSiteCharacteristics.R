@@ -1,14 +1,13 @@
 #' Adds/replaces site information
 #'
-#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots,
-#' using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific site variables.
+#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
 #' Additional optional mappings are: 'subPlotName'.
-#' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
 #' (e.g. \code{list(aspect = aspectMeth)} to specify the use of method '\code{aspectMeth}' for aspect measurements).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -17,6 +16,13 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
+#' @details Missing value policy:
+#'  \itemize{
+#'     \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
+#'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+#'     \item{Missing measurements (e.g. 'aspect', 'slope',...) are simply not added to the Veg-X document.}
+#'  }
+#'  
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
@@ -99,6 +105,15 @@ addSiteCharacteristics<-function(target, x,
                                         subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))

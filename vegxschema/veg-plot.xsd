@@ -1,27 +1,35 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - XML Editor Edition (Education) 15.1.17.7979 (https://www.liquid-technologies.com)-->
-<xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/plot-2.0.0" targetNamespace="http://iavs.org/vegX/plot-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
-    <xsd:import schemaLocation="eml-resource.xsd" namespace="eml://ecoinformatics.org/resource-2.0.1" />
-    <xsd:import schemaLocation="eml-documentation.xsd" namespace="eml://ecoinformatics.org/documentation-2.0.1" />
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/plot-2.0.0" targetNamespace="http://iavs.org/vegX/plot-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
-    <xsd:import schemaLocation="tdwg_dw_geospatial.xsd" namespace="http://rs.tdwg.org/dwc/geospatial/" />
+    <xsd:complexType name="relatedPlotType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">A plot or observation may be related spatially to another plot in order to express parent-child, sub-plot or contiguity. The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="relatedPlotID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific related plot. This would be the parent plot identifer in most cases.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="plotRelationship" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The type of relationship e.g. subplots, contiguous plots along transects etc. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relativeSpatialCoordinate" type="misc:relativeSpatialCoordinateType" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Two related plots may have their relative positions described in geometric space using the relative position with respect to the point of origin for the referenced plot.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+    </xsd:complexType>
+    <xsd:simpleType name="plotCoordinatesType">
+        <xsd:list itemType="xsd:decimal" />
+    </xsd:simpleType>
     <xsd:complexType name="PlotType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code.</xsd:documentation>
-            <xsd:appinfo>
-				<doc:moduleDocs>
-					<doc:moduleName>PlotType</doc:moduleName>
-					<doc:moduleDescription>
-						<section xmlns="">
-							<title>Plot - A Plot is a sampling location. It records the properties of the vegetation plot independent of time and can be referenced by many observations by links to the unique plot code</title>
-							<para>A Plot is a sampling location represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links. </para>
-						</section>
-					</doc:moduleDescription>
-					<doc:recommendedUsage />
-					<doc:standAlone>no</doc:standAlone>
-				</doc:moduleDocs>
-			</xsd:appinfo>
+            <xsd:documentation xml:lang="en">A plot is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotName" type="xsd:string">
@@ -34,9 +42,24 @@
                     <xsd:documentation xml:lang="en">Plot identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:q1="http://iavs.org/vegX/misc-2.0.0" name="relatedPlot" type="q1:relatedPlotType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element xmlns:q1="http://iavs.org/vegX/misc-2.0.0" name="relatedPlot" type="relatedPlotType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="placementMethod" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Strategy followed when placing this particular plot. Useful for example if different sampling strategies have been followed within one project.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="placementPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The party that undertook the plot placement, and/or parties with other roles.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="placementNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Additional comments or explanations regarding plot placement.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="location" minOccurs="0" maxOccurs="1">
@@ -47,7 +70,11 @@
                     <xsd:sequence>
                         <xsd:element name="horizontalCoordinates" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
+<<<<<<< HEAD
                                 <xsd:documentation>Location of a plot on the Earth's surface. To avoid ambiguity there should be only one coordinate pair for a plot per measurement. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
+=======
+                                <xsd:documentation>Horizontal location of a plot on the Earth's surface. To avoid ambiguity there should be only one coordinate pair for a plot per measurement. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
+>>>>>>> upstream/devel
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -61,7 +88,14 @@
                                                 <xsd:element name="valueY" type="xsd:string" />
                                                 <xsd:element name="attributeID" type="xsd:string">
                                                     <xsd:annotation>
+<<<<<<< HEAD
                                                         <xsd:documentation>Specifying units and methods. This allows to enter decimal values in the value fields without specifying the units. Typical units are decimal degrees or meters. Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
+=======
+                                                        <xsd:documentation>Specifying units and methods. Typical units are: 
+Decimal degrees like 12.993343 S, or -12.993343 or
+UTM coordinates like 11N 345567
+Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
+>>>>>>> upstream/devel
 
 </xsd:documentation>
                                                     </xsd:annotation>
@@ -89,7 +123,11 @@
                                             <xsd:documentation>The date when the coordinates have been assessed or measured. This allows for multiple measurements.</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
+<<<<<<< HEAD
                                     <xsd:element name="locationParty" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded" />
+=======
+                                    <xsd:element name="locationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+>>>>>>> upstream/devel
                                     <xsd:element name="locationSources" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                                         <xsd:annotation>
                                             <xsd:documentation>Optionally, maps, gazetteers or other resources used to georeference the locality. The content of this concept is meant to be specific enough to allow anyone in the future to use the same resource to georeference the same locality. Example: "USGS 1:24000 Florence Montana Quad".</xsd:documentation>
@@ -144,7 +182,7 @@
                                             <xsd:documentation>The date when the elevation has been assessed or measured. This allows for multiple measurements.</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
-                                    <xsd:element name="elevationParty" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+                                    <xsd:element name="elevationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                                         <xsd:annotation>
                                             <xsd:documentation>Party who took the measurement or assessed the value</xsd:documentation>
                                         </xsd:annotation>
@@ -197,7 +235,11 @@
                                             <xsd:documentation>The date when the depth has been assessed or measured. This allows for multiple measurements.</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
+<<<<<<< HEAD
                                     <xsd:element name="depthParty" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
+=======
+                                    <xsd:element name="depthPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+>>>>>>> upstream/devel
                                         <xsd:annotation>
                                             <xsd:documentation>Party who took the measurement</xsd:documentation>
                                         </xsd:annotation>
@@ -255,17 +297,17 @@
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element name="placeName">
+                                    <xsd:element name="placeName" type="xsd:string">
                                         <xsd:annotation>
                                             <xsd:documentation>A place name, e.g. Germany.</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
-                                    <xsd:element name="placeType">
+                                    <xsd:element name="placeType" type="xsd:string">
                                         <xsd:annotation>
                                             <xsd:documentation>What type of place name it is e.g. administrative region, country name, city name etc. </xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
-                                    <xsd:element name="placeSchema" minOccurs="0">
+                                    <xsd:element name="placeSchema" type="xsd:string" minOccurs="0">
                                         <xsd:annotation>
                                             <xsd:documentation>A place/geo-region schema from which the type and name were derived e.g. ISO country names.</xsd:documentation>
                                         </xsd:annotation>
@@ -294,7 +336,11 @@
                         </xsd:element>
                         <xsd:element name="circle" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
+<<<<<<< HEAD
                                 <xsd:documentation>Describing a circular plot</xsd:documentation>
+=======
+                                <xsd:documentation>Describing a circular plot: plot origin and radius.</xsd:documentation>
+>>>>>>> upstream/devel
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:choice>
@@ -327,7 +373,11 @@
                         </xsd:element>
                         <xsd:element name="rectangle" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
+<<<<<<< HEAD
                                 <xsd:documentation>Describung a rectangular (or quadratic) plot.</xsd:documentation>
+=======
+                                <xsd:documentation>Describing a rectangular (or quadratic) plot: plot origin, dimensions (width and length) and orientation.</xsd:documentation>
+>>>>>>> upstream/devel
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -379,7 +429,11 @@
                         </xsd:element>
                         <xsd:element name="line" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
+<<<<<<< HEAD
                                 <xsd:documentation>Describing a linear plot shape</xsd:documentation>
+=======
+                                <xsd:documentation>Describing a linear plot shape: plot origin, length, bandwidth, orientation and path coordinates.</xsd:documentation>
+>>>>>>> upstream/devel
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -420,7 +474,11 @@
                                     <xsd:element name="path" minOccurs="0" maxOccurs="1">
                                         <xsd:complexType>
                                             <xsd:sequence>
+<<<<<<< HEAD
                                                 <xsd:element name="coordinates" type="misc:coordinatesType" />
+=======
+                                                <xsd:element name="coordinates" type="plotCoordinatesType" />
+>>>>>>> upstream/devel
                                                 <xsd:element name="attributeID" type="xsd:string">
                                                     <xsd:annotation>
                                                         <xsd:documentation>Specifying units and methods. Typical units are: 
@@ -449,7 +507,11 @@ Methods used could be for example the use of global navigation satellite systems
                         </xsd:element>
                         <xsd:element name="polygon" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
+<<<<<<< HEAD
                                 <xsd:documentation>Description of an irregular plot shape</xsd:documentation>
+=======
+                                <xsd:documentation>Description of an irregular plot shape: textual description, plot origin, outer boundary coordinates and inner boundary coordinates.</xsd:documentation>
+>>>>>>> upstream/devel
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
@@ -483,7 +545,11 @@ Methods used could be for example the use of global navigation satellite systems
                                         </xsd:annotation>
                                         <xsd:complexType>
                                             <xsd:sequence>
+<<<<<<< HEAD
                                                 <xsd:element name="coordinates" type="xsd:decimal" />
+=======
+                                                <xsd:element name="coordinates" type="plotCoordinatesType" />
+>>>>>>> upstream/devel
                                                 <xsd:element name="attributeID" type="xsd:string">
                                                     <xsd:annotation>
                                                         <xsd:documentation>Specifying units and methods. Typical units are: 
@@ -513,7 +579,11 @@ Methods used could be for example the use of global navigation satellite systems
                                         </xsd:annotation>
                                         <xsd:complexType>
                                             <xsd:sequence>
+<<<<<<< HEAD
                                                 <xsd:element name="coordinates" type="xsd:decimal" />
+=======
+                                                <xsd:element name="coordinates" type="plotCoordinatesType" />
+>>>>>>> upstream/devel
                                                 <xsd:element name="attributeID" type="xsd:string">
                                                     <xsd:annotation>
                                                         <xsd:documentation>Specifying units and methods. Typical units are: 
@@ -572,12 +642,6 @@ Methods used could be for example the use of global navigation satellite systems
                     <xsd:documentation>Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="partyWithRole" type="misc:partyWithRoleType" minOccurs="0" maxOccurs="unbounded">
-                <xsd:annotation>
-                    <xsd:documentation>The party that undertook the plot placement, and/or parties with other roles.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation />
@@ -585,12 +649,77 @@ Methods used could be for example the use of global navigation satellite systems
             </xsd:element>
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
-        <xsd:attribute name="id" type="res:IDType" use="required">
+        <xsd:attribute name="id" type="misc:IDType" use="required">
             <xsd:annotation>
                 <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
             </xsd:annotation>
         </xsd:attribute>
-        <xsd:attribute name="system" type="res:SystemType" use="optional" />
-        <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="StratumType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="stratumName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Name associated with this stratum and which identifies it.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="definition" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">A longer description of the stratum definition.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="order" type="xsd:integer" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An indication of a position in an ordered sequence of strata. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="upperLimit" type="xsd:decimal" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Upper limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="lowerLimit" type="xsd:decimal" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Lower limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="misc:IDType" use="required" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="SurfaceType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="surfaceName" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Name associated with this stratum </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="definition" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation source="VegBank" xml:lang="en">A longer description of the surface definition</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this surface cover. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="misc:IDType" use="required" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
     </xsd:complexType>
 </xsd:schema>

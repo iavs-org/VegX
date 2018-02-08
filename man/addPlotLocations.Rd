@@ -6,7 +6,8 @@
 \usage{
 addPlotLocations(target, x, mapping,
   proj4string = "+proj=longlat +ellps=WGS84", reset.places = FALSE,
-  missing.values = c(NA, ""), verbose = TRUE)
+  toWGS84 = FALSE, methods = list(), missing.values = c(NA, ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -14,13 +15,17 @@ addPlotLocations(target, x, mapping,
 \item{x}{A data frame where each row corresponds to one plot. Columns can be varied.}
 
 \item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Location variables that can be mapped are: 'x', 'y', 'authorLocation','locationNarrative', 'placeName', 'placeType'.
+Location variables that can be mapped are: 'x', 'y', 'elevation', 'authorLocation','locationNarrative', 'placeName', 'placeType'and 'placementParty'.
 Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places}
 
-\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. \
-Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".}
+\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.}
 
 \item{reset.places}{Whether the 'places' vector should be reset before adding new place names.}
+
+\item{toWGS84}{A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".}
+
+\item{methods}{A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
+For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.}
 
 \item{missing.values}{A character vector of values that should be considered as missing data.}
 
@@ -30,20 +35,35 @@ Note that coordinates will be transformed to "+proj=longlat +datum=WGS84".}
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds/replaces static plot location information (spatial coordinates, place names, ...) to plot elements of a VegX object from a data table where rows are plots,
-using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
+Adds/replaces static plot location information (spatial coordinates, elevation, place names, ...) to plot elements of a VegX object from a data table where rows are plots.
+}
+\details{
+Missing value policy:
+ \itemize{
+    \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. 'elevation', 'x', 'y', ...) are simply not added to the Veg-X document.}
+ }
 }
 \examples{
 data(mokihinui)
 
 # Define location mapping
-mapping = list(plotName = "Plot", subPlotName = "Subplot",
-                  x = "Longitude", y = "Latitude")
+mapping = list(plotName = "Plot", x = "Longitude", y = "Latitude")
 
 # Create new Veg-X document with plot locations
 x = addPlotLocations(newVegX(), moki_loc, mapping)
 
 # Summary of the new Veg-X document
+showElementTable(x, "plot")
+
+# Add 'elevation' from another table (moki_site). This implies considering subplots.
+mapping = list(plotName = "Plot", subPlotName = "Subplot", elevation = "Altitude")
+elevMethod = predefinedMeasurementMethod("Elevation/m")
+x = addPlotLocations(x, moki_site, mapping, 
+                     methods = c(elevation = elevMethod))
+                     
+# Summary of the updated Veg-X document
 showElementTable(x, "plot")
 
 }

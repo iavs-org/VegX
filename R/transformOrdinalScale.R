@@ -6,7 +6,7 @@
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
 #' @param method An integer (index) or a name of an ordinal scale method.
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
-#' or an object of class \code{\linkS4class{VegXMethod}}.
+#' or an object of class \code{\linkS4class{VegXMethodDefinition}}.
 #' @param replaceValues A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 #' For some measurements transformations will not be possible if replacement is not forced using this flag.
 #' @param verbose A boolean flag to indicate console output of the data transformation process.
@@ -29,34 +29,35 @@
 #' data(mokihinui)
 #'
 #' # Create Veg-X document with aggregate organism observations with ordinal cover scale
-#' taxmapping = list(plotName = "Plot", obsStartDate = "obsDate", authorTaxonName = "PreferredSpeciesName",
+#' taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+#'               taxonName = "NVSSpeciesName",
 #'               stratumName = "Tier", cover = "Category")
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
-#'                    description = "Recce recording method by Hurst/Allen",
-#'                    subject = "plant cover",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                    codes = c("P","1","2","3", "4", "5", "6"),
-#'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
-#'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
-#'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
+#'                description = "Recce recording method by Hurst/Allen",
+#'                subject = "plant cover",
+#'                citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                codes = c("P","1","2","3", "4", "5", "6"),
+#'                quantifiableCodes = c("1","2","3", "4", "5", "6"),
+#'                breaks = c(0, 1, 5, 25, 50, 75, 100),
+#'                midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+#'                definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #' strataDef = defineMixedStrata(name = "Recce strata",
-#'                               description = "Standard Recce stratum definition",
-#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-#'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7",
-#'                               categoryStrataDefinition = "Epiphytes")
-#' x = addAggregateOrganismObservations(newVegX(), tcv, "Mokihinui",
-#'                         mapping = taxmapping,
-#'                         methods = c(cover=coverscale),
-#'                         stratumDefinition = strataDef)
+#'                description = "Standard Recce stratum definition",
+#'                citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                heightStrataNames = paste0("Tier ",1:6),
+#'                categoryStrataNames = "Tier 7",
+#'                categoryStrataDefinition = "Epiphytes")
+#' x = addAggregateOrganismObservations(newVegX(), moki_tcv, "Mokihinui",
+#'                mapping = taxmapping,
+#'                methods = c(cover=coverscale),
+#'                stratumDefinition = strataDef)
 #'
 #' #Add stratum observations with ordinal cover scale
-#' mapping = list(plotName = "Plot", obsStartDate = "obsDate", stratumName = "Tier",
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
 #'                cover = "CoverClass")
 #'
-#' x = addStratumObservations(x, tier, "Mokihinui",
+#' x = addStratumObservations(x, moki_str, "Mokihinui",
 #'                         mapping = mapping,
 #'                         methods = list(cover=coverscale),
 #'                         stratumDefinition = strataDef)
@@ -111,7 +112,7 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
     }
     if(is.null(newMethodID)) stop("New method not found in Veg-X object.")
   }
-  else if(class(newMethod)=="VegXMethod") {
+  else if(class(newMethod)=="VegXMethodDefinition") {
     nmtid = .newMethodIDByName(target,newMethod@name)
     newMethodID = nmtid$id
     if(nmtid$new) { # add new method
@@ -120,6 +121,15 @@ transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE
                                         subject = newMethod@subject,
                                         attributeType = newMethod@attributeType)
       if(verbose) cat(paste0(" Measurement method '", newMethod@name,"' added.\n"))
+      # add literature citation if necessary
+      if(newMethod@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, newMethod@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =newMethod@citationString)
+          if(newMethod@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = newMethod@DOI
+        }
+        target@methods[[newMethodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       for(i in 1:length(newMethod@attributes)) {
         nattid = .nextAttributeID(target)

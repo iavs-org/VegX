@@ -1,12 +1,12 @@
 #' Add stratum observation records
 #'
-#' Adds stratum observation records to a VegX object from a data table
+#' Adds stratum observation records to a VegX object from a data table where rows are stratum observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one stratum observation. Columns can be varied.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param mapping A named list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
-#' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -14,9 +14,12 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-#' Missing measurements are simply not added to the Veg-X document.
+#' @details Missing value policy:
+#'  \itemize{
+#'   \item{Missing 'plotName', 'obsStartDate' or 'stratumName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{Missing measurements are simply not added to the Veg-X document.}
+#'  }
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
@@ -140,6 +143,15 @@ addStratumObservations<-function(target, x, mapping,
                                         subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))
@@ -168,6 +180,15 @@ addStratumObservations<-function(target, x, mapping,
                                          subject = stratumDefMethod@subject,
                                          attributeType = stratumDefMethod@attributeType)
     if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
+    # add literature citation if necessary
+    if(stratumDefMethod@citationString!="") {
+      ncitid = .newLiteratureCitationIDByCitationString(target, stratumDefMethod@citationString)
+      if(ncitid$new) {
+        target@literatureCitations[[ncitid$id]] = list(citationString =stratumDefMethod@citationString)
+        if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = stratumDefMethod@DOI
+      }
+      target@methods[[strmethodID]]$citationID = ncitid$id
+    }
     # add attributes if necessary
     if(length(stratumDefMethod@attributes)>0) {
       for(i in 1:length(stratumDefMethod@attributes)) {
@@ -285,7 +306,7 @@ addStratumObservations<-function(target, x, mapping,
         attIDs = methodAttIDs[[m]]
         codes = methodCodes[[m]]
         value = as.character(stratumMeasurementValues[[m]][i])
-        if(!(value %in% as.character(missing.values))) {
+        if(!(value %in% missing.values)) {
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
             if(value> method@attributes[[1]]$upperLimit) {
@@ -313,7 +334,7 @@ addStratumObservations<-function(target, x, mapping,
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       value = as.character(stratumMeasurementValues[[m]][i])
-      if(!(value %in% as.character(missing.values))) {
+      if(!((value %in% missing.values) || (value==""))) {
         if(!("stratumMeasurements" %in% names(strObs))) strObs$stratumMeasurements = list()
         mesID = as.character(length(strObs$stratumMeasurements)+1)
         if(method@attributeType== "quantitative") {

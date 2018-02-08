@@ -6,7 +6,8 @@
 #' @param description String describing the method.
 #' @param subject A string to identify the subject (e.g. 'plant cover').
 #' @param codes A character vector of ordinal class codes.
-#' @param citation A string with the bibliographic reference for the method.
+#' @param citationString A string with the bibliographic reference for the method.
+#' @param DOI A string with the DOI the resource related to \code{citationString}.
 #' @param quantifiableCodes A string vector with the subset of \code{codes} that have correspondence in a quantitative scale. These codes
 #' can be transformed to midPoints (if supplied in \code{midPoints}) and, correspondingly, codes in the quantitative scale can be transformed to ordinal codes
 #' using class limits (if supplied in \code{breaks}).
@@ -14,7 +15,7 @@
 #' @param midPoints A vector of class midpoints (for ordinal scales that can be translated into quantitative values)
 #' @param definitions A character vector of class definitions.
 #'
-#' @return an object of class \code{\linkS4class{VegXMethod}}
+#' @return an object of class \code{\linkS4class{VegXMethodDefinition}}
 #' @export
 #'
 #' @family define measurement functions
@@ -47,7 +48,8 @@
 #'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #'
 defineOrdinalScaleMethod<-function(name, description, subject, codes,
-                             citation = "",
+                             citationString = "",
+                             DOI = "",
                              quantifiableCodes = character(0),
                              breaks = NULL,
                              midPoints = NULL,
@@ -80,10 +82,11 @@ defineOrdinalScaleMethod<-function(name, description, subject, codes,
   }
 
   names(attributes) = 1:nvals
-  return(new("VegXMethod",
+  return(new("VegXMethodDefinition",
              name = name,
              description = description,
-             citation = citation,
+             citationString = citationString,
+             DOI = DOI,
              subject = subject,
              attributeType = "ordinal",
              attributes = attributes))

@@ -5,7 +5,8 @@
 #' @param description A string describing how surface types are defined.
 #' @param surfaceNames A character vector of names for surface types.
 #' @param definitions A character vector of definition of surface types.
-#' @param citation A string with the bibliographic reference for the method.
+#' @param citationString A string with the bibliographic reference for the method.
+#' @param DOI A string with the DOI of a resource describing the method.
 #'
 #' @return an object of class \code{\linkS4class{VegXSurfaceTypeDefinition}}
 #'
@@ -18,11 +19,12 @@
 defineSurfaceTypes<-function(name, description,
                              surfaceNames,
                              definitions = NULL,
-                             citation = "") {
-  defMethod = new("VegXMethod",
+                             citationString = "", DOI = "") {
+  defMethod = new("VegXMethodDefinition",
                   name = name,
                   description = description,
-                  citation = citation,
+                  citationString = citationString,
+                  DOI = DOI,
                   subject = "surface category",
                   attributeType = "qualitative",
                   attributes = list())

@@ -4,7 +4,8 @@
 #'
 #' @param name A string to identify the stratum definition.
 #' @param description A string describing how strata are defined.
-#' @param citation A string with the bibliographic reference for the method.
+#' @param citationString A string with the bibliographic reference for the method.
+#' @param DOI A string with the DOI of a resource describing the method.
 #' @param heightBreaks A numeric vector with height limits between strata (of length equal to the number of strata plus one).
 #' @param heightUnit A string to identify height units.
 #' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
@@ -17,7 +18,7 @@
 #'
 defineHeightStrata<-function(name = "Strata by height",
                              description = "Vegetation strata defined by height in m",
-                             citation = "",
+                             citationString = "", DOI = "",
                              heightBreaks = c(0,1,3,5),
                              heightUnit = "m",
                              strataNames = c("s1", "s2", "s3"),
@@ -29,10 +30,11 @@ defineHeightStrata<-function(name = "Strata by height",
          upperLimit = Inf)
   )
   names(attributes) = 1
-  defMethod = new("VegXMethod",
+  defMethod = new("VegXMethodDefinition",
              name = name,
              description = description,
-             citation = citation,
+             citationString = citationString,
+             DOI = DOI,
              subject = "stratum height",
              attributeType = "quantitative",
              attributes = attributes)
@@ -54,7 +56,8 @@ defineHeightStrata<-function(name = "Strata by height",
 #'
 #' @param name A string to identify the stratum definition.
 #' @param description A string describing how strata are defined.
-#' @param citation A string with the bibliographic reference for the method.
+#' @param citationString A string with the bibliographic reference for the method.
+#' @param DOI A string with the DOI of a resource describing the method.
 #' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
@@ -62,13 +65,14 @@ defineHeightStrata<-function(name = "Strata by height",
 #'
 defineCategoricalStrata<-function(name = "Strata by categories",
                                   description = "Vegetation categorical strata",
-                                  citation = "",
+                                  citationString = "", DOI = "",
                                   strataNames = c("s1", "s2", "s3"),
                                   strataDefinitions = NULL) {
-  defMethod = new("VegXMethod",
+  defMethod = new("VegXMethodDefinition",
                   name = name,
                   description = description,
-                  citation = citation,
+                  citationString = citationString,
+                  DOI = DOI,
                   subject = "stratum category",
                   attributeType = "qualitative",
                   attributes = list())
@@ -90,13 +94,14 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #'
 #' @param name A string to identify the stratum definition.
 #' @param description A string describing how strata are defined.
-#' @param citation A string with the bibliographic reference for the method.
+#' @param citationString A string with the bibliographic reference for the method.
+#' @param DOI A string with the DOI of a resource describing the method.
 #' @param heightStrataBreaks A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).
 #' @param heightStrataUnit A string to identify height units.
 #' @param heightStrataNames A numeric vector of stratum codes (of length equal to the number of height strata).
 #' @param categoryStrataNames A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).
-#' @param heightStrataDefinitions
-#' @param categoryStrataDefinitions
+#' @param heightStrataDefinitions A character vector with height strata definitions
+#' @param categoryStrataDefinitions A character vector with category strata definitions
 #' @param order A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
@@ -113,7 +118,7 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #'                               categoryStrataNames = "Tier 7")
 defineMixedStrata<-function(name = "Strata by height or category",
                             description = "Vegetation strata defined by height in m and other strata defined by category",
-                            citation = "",
+                            citationString = "", DOI = "",
                             heightStrataBreaks = c(0,1,3,5),
                             heightStrataUnit = "m",
                             heightStrataNames = c("s1", "s2", "s3"),
@@ -128,10 +133,11 @@ defineMixedStrata<-function(name = "Strata by height or category",
          upperLimit = Inf)
   )
   names(attributes) = 1
-  defMethod = new("VegXMethod",
+  defMethod = new("VegXMethodDefinition",
                   name = name,
                   description = description,
-                  citation = citation,
+                  citationString = citationString,
+                  DOI = DOI,
                   subject = "stratum mixed",
                   attributeType = "quantitative",
                   attributes = attributes)

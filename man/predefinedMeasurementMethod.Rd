@@ -29,7 +29,7 @@ predefinedMeasurementMethod(name)
 }}
 }
 \value{
-an object of class \code{\linkS4class{VegXMethod}}
+an object of class \code{\linkS4class{VegXMethodDefinition}}
 }
 \description{
 Creates a measurement method for Veg-X documents from a set of predefined options

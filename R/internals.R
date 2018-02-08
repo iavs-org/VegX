@@ -1,3 +1,7 @@
+.nextPartyID<-function(target) {
+  if(length(target@parties)==0) return("1")
+  return(as.character(as.numeric(names(target@parties)[length(target@parties)])+1))
+}
 .nextProjectID<-function(target) {
   if(length(target@projects)==0) return("1")
   return(as.character(as.numeric(names(target@projects)[length(target@projects)])+1))
@@ -38,9 +42,17 @@
   if(length(target@individualObservations)==0) return("1")
   return(as.character(as.numeric(names(target@individualObservations)[length(target@individualObservations)])+1))
 }
+.nextCommunityObservationID<-function(target) {
+  if(length(target@communityObservations)==0) return("1")
+  return(as.character(as.numeric(names(target@communityObservations)[length(target@communityObservations)])+1))
+}
 .nextSiteObservationID<-function(target) {
   if(length(target@siteObservations)==0) return("1")
   return(as.character(as.numeric(names(target@siteObservations)[length(target@siteObservations)])+1))
+}
+.nextLiteratureCitationID<-function(target) {
+  if(length(target@literatureCitations)==0) return("1")
+  return(as.character(as.numeric(names(target@literatureCitations)[length(target@literatureCitations)])+1))
 }
 .nextMethodID<-function(target) {
   if(length(target@methods)==0) return("1")
@@ -50,14 +62,32 @@
   if(length(target@attributes)==0) return("1")
   return(as.character(as.numeric(names(target@attributes)[length(target@attributes)])+1))
 }
-.nextTNUCID<-function(target) {
-  if(length(target@taxonNameUsageConcepts)==0) return("1")
-  return(as.character(as.numeric(names(target@taxonNameUsageConcepts)[length(target@taxonNameUsageConcepts)])+1))
+.nextOrganismNameID<-function(target) {
+  if(length(target@organismNames)==0) return("1")
+  return(as.character(as.numeric(names(target@organismNames)[length(target@organismNames)])+1))
+}
+.nextTaxonConceptID<-function(target) {
+  if(length(target@taxonConcepts)==0) return("1")
+  return(as.character(as.numeric(names(target@taxonConcepts)[length(target@taxonConcepts)])+1))
+}
+.nextOrganismIdentityID<-function(target) {
+  if(length(target@organismIdentities)==0) return("1")
+  return(as.character(as.numeric(names(target@organismIdentities)[length(target@organismIdentities)])+1))
+}
+.nextIndividualOrganismLabelForPlot<-function(target, plotID) {
+  return(paste0("ind", .getNumberOfOrganismsByPlotID(target, plotID)+1))
 }
 
 
-
-# Returns the projectID for a new project in the data set or the ID of an existing project with the same name
+# Returns the partyID for a new party in the data set or the ID of an existing party with the same name
+.newPartyIDByName<-function(target, partyName) {
+  if(length(target@parties)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@parties)) {
+    if(target@parties[[i]]$name==partyName) return(list(id=names(target@parties)[i], new = FALSE))
+  }
+  return(list(id = .nextPartyID(target), new = TRUE))
+}
+# Returns the projectID for a new project in the data set or the ID of an existing project with the same title
 .newProjectIDByTitle<-function(target, projectTitle) {
   if(length(target@projects)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@projects)) {
@@ -115,12 +145,12 @@
   return(list(id = .nextSurfaceCoverObservationID(target), new = TRUE))
 }
 # Returns the ID for a new aggregate organism observation in the data set or the ID of an existing aggregate organism observation
-.newAggregateOrganismObservationIDByTaxonID<-function(target, plotObservationID, stratumObservationID, tnucID) {
+.newAggregateOrganismObservationIDByOrganismIdentityID<-function(target, plotObservationID, stratumObservationID, oiID) {
   if(length(target@aggregateObservations)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@aggregateObservations)) {
     if((target@aggregateObservations[[i]]$plotObservationID==plotObservationID) &&
        (target@aggregateObservations[[i]]$stratumObservationID==stratumObservationID) &&
-       (target@aggregateObservations[[i]]$taxonNameUsageConcept==tnucID))
+       (target@aggregateObservations[[i]]$organismIdentity==oiID))
       return(list(id = names(target@aggregateObservations)[i], new = FALSE))
   }
   return(list(id = .nextAggregateOrganismObservationID(target), new = TRUE))
@@ -141,6 +171,14 @@
   }
   return(list(id = .nextIndividualOrganismObservationID(target), new = TRUE))
 }
+# Returns the ID for a new community observation in the data set or the ID of an existing community observation
+.newCommunityObservationIDByID<-function(target, plotObservationID) {
+  if(length(target@communityObservations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@communityObservations)) {
+    if(target@communityObservations[[i]]$plotObservationID==plotObservationID) return(list(id = names(target@communityObservations)[i], new = FALSE))
+  }
+  return(list(id = .nextCommunityObservationID(target), new = TRUE))
+}
 # Returns the ID for a new site observation in the data set or the ID of an existing site observation
 .newSiteObservationIDByID<-function(target, plotObservationID) {
   if(length(target@siteObservations)==0) return(list(id="1", new = TRUE))
@@ -157,16 +195,82 @@
   }
   return(list(id = .nextMethodID(target), new = TRUE))
 }
-# Returns the ID for a new taxon name usage concept in the data set or the ID of an existing taxon name usage concept with the same name
-.newTaxonNameUsageConceptIDByName<-function(target, authorTaxonName) {
-  if(length(target@taxonNameUsageConcepts)==0) return(list(id="1", new = TRUE))
-  for(i in 1:length(target@taxonNameUsageConcepts)) {
-    if(target@taxonNameUsageConcepts[[i]]$authorTaxonName==authorTaxonName) return(list(id = names(target@taxonNameUsageConcepts)[i], new = FALSE))
+# Returns the ID for a new literature citation in the data set or the ID of an existing one with the same string
+.newLiteratureCitationIDByCitationString<-function(target, citationString) {
+  if(length(target@literatureCitations)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@literatureCitations)) {
+    if(target@literatureCitations[[i]]$citationString==citationString) return(list(id = names(target@literatureCitations)[i], new = FALSE))
   }
-  return(list(id = .nextTNUCID(target), new = TRUE))
+  return(list(id = .nextLiteratureCitationID(target), new = TRUE))
+}
+# Returns the ID for a new organism name in the data set or the ID of an existing organismName with the same name
+.newOrganismNameIDByName<-function(target, organismName, taxon) {
+  if(length(target@organismNames)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@organismNames)) {
+    if((target@organismNames[[i]]$name==organismName) && (target@organismNames[[i]]$taxon==taxon)) return(list(id = names(target@organismNames)[i], new = FALSE))
+  }
+  return(list(id = .nextOrganismNameID(target), new = TRUE))
+}
+.newTaxonConceptIDByNameCitation<-function(target, organismName, citationString) {
+  if(length(target@taxonConcepts)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@taxonConcepts)) {
+    on  = target@organismNames[[target@taxonConcepts[[i]]$organismNameID]]$name
+    cs = target@literatureCitations[[target@taxonConcepts[[i]]$citationID]]$citationString
+    if((on==organismName) && (cs==citationString)) {
+      return(list(id = names(target@taxonConcepts)[i], new = FALSE))
+    }
+  }
+  return(list(id = .nextTaxonConceptID(target), new = TRUE))
+
+}
+
+# Returns the ID for a new organism identity in the data set or the ID of an existing organism identity with the same taxon concept
+.newOrganismIdentityIDByTaxonConcept<-function(target, organismName, citationString) {
+  if(length(target@organismIdentities)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@organismIdentities)) {
+    on = .getOrganismIdentityName(target, i)
+    citString = .getOrganismIdentityCitationString(target, i)
+    if((on==organismName) && (citString == citationString)) {
+       return(list(id = names(target@organismIdentities)[i], new = FALSE))
+    }
+  }
+  return(list(id = .nextOrganismIdentityID(target), new = TRUE))
 }
 
 
+.getOrganismIdentityName<-function(target,  identityID) {
+  oi = target@organismIdentities[[identityID]]
+  if("preferredTaxonNomenclature" %in% names(oi)) {
+    oriName = target@organismNames[[oi$preferredTaxonNomenclature$preferredTaxonNameID]]$name
+  } else {
+    oriName = target@organismNames[[oi$originalOrganismNameID]]$name
+  }
+  return(oriName)
+}
+.getOrganismIdentityCitationString<-function(target,  identityID) {
+  citationString = ""
+  oi = target@organismIdentities[[identityID]]
+  if("originalConceptIdentification" %in% names(oi)) {
+    tc = target@taxonConcepts[[oi$originalConceptIdentification$taxonConceptID]]
+    citationString = target@literatureCitations[[tc$citationID]]$citationString
+  }
+  return(citationString)
+}
+.getIndividualOrganismIdentityName <-function(target, individualID){
+  return(.getOrganismIdentityName(target, target@individualOrganisms[[individualID]]$organismIdentityID))
+}
+# Counts the number of organisms by plot id
+.getNumberOfOrganismsByPlotID<-function(target, plotID) {
+  indCount = 0
+  if(length(target@individualOrganisms)>0) {
+    for(i in 1:length(target@individualOrganisms)) {
+      if(target@individualOrganisms[[i]]$plotID==plotID) {
+          indCount = indCount + 1
+      }
+    }
+  }
+  return(indCount)
+}
 
 # Returns strata names corresponding to the input method
 .getAttributeCodesByMethodID<-function(target, methodID) {
@@ -273,9 +377,47 @@
 }
 
 
-#Translate attributes of measurements in a plot element
-.applyAttributeMappingToPlot<-function(plot, attIDmap) {
+.applyMappingsToMethod<-function(method, litIDmap){
+  if("citationID" %in% names(method)) {
+    method$citationID = litIDmap[[method$citationID]]
+  }
+  return(method)
+}
+.applyMappingsToTaxonConcept<-function(taxonConcept, onIDmap, litIDmap){
+  if("organismNameID" %in% names(taxonConcept)) {
+    taxonConcept$organismNameID = onIDmap[[taxonConcept$organismNameID]]
+  }
+  if("citationID" %in% names(taxonConcept)) {
+    taxonConcept$citationID = litIDmap[[taxonConcept$citationID]]
+  }
+  return(taxonConcept)
+}
+
+.applyMappingsToOrganismIdentity<-function(organismIdentity, onIDmap, tcIDmap){
+  if("originalOrganismNameID" %in% names(organismIdentity)) {
+    organismIdentity$originalOrganismNameID = onIDmap[[organismIdentity$originalOrganismNameID]]
+  }
+  if("originalConceptIdentification" %in% names(organismIdentity)) {
+    organismIdentity$originalConceptIdentification$taxonConceptID = tcIDmap[[organismIdentity$originalConceptIdentification$taxonConceptID]]
+  }
+  return(organismIdentity)
+}
+#Translate IDs in a project element
+.applyMappingsToProject<-function(project, partyIDmap, litIDmap) {
+  n = names(project)
+  for(i in 1:length(n)) {
+    # Update party codes
+    if(n[[i]]=="personnel")  project[[i]][[1]] = partyIDmap[[project[[i]][[1]]]]
+    if(n[[i]]=="documentCitationID")  project[[i]] = litIDmap[[project[[i]]]]
+  }
+  return(project)
+}
+
+#Translate IDs in a plot element
+.applyMappingsToPlot<-function(plot, partyIDmap, attIDmap) {
   for(n in names(plot)) {
+    # Update party codes
+    if(n=="placementPartyID")  plot[[n]] = partyIDmap[[plot[[n]]]]
     # Update attribute codes
     if(n %in% c("topography")) {
       for(m in names(plot[[n]])) {
@@ -286,32 +428,39 @@
   }
   return(plot)
 }
-.applyAttributeMappingToAggregatePlotObservations <-function(aggObs, attIDmap) {
-  for(n in names(aggObs)) {
-    # Update attribute codes
-    if(n %in% c("aggregateOrganismMeasurements")) {
-      for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
-        aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
+.applyMappingsToIndividualOrganism<-function(indOrg, plotIDmap, oiIDmap) {
+  indOrg$plotID = plotIDmap[[indOrg$plotID]]
+  indOrg$organismIdentityID = oiIDmap[[indOrg$organismIdentityID]]
+  return(indOrg)
+}
+.applyMappingsToPlotObservation<-function(plotObs, plotIDmap, projectIDmap) {
+  plotObs$plotID = plotIDmap[[plotObs$plotID]]
+  if("projectID" %in% names(plotObs)) plotObs$projectID = projectIDmap[[plotObs[["projectID"]]]]
+  return(plotObs)
+}
+
+.applyMappingsToStratumObservation<-function(strobs, strIDmap, plotObsIDmap, attIDmap) {
+  strobs$stratumID = strIDmap[[strobs$stratumID]]
+  strobs$plotObservationID = plotObsIDmap[[strobs$plotObservationID]]
+  for(n in names(strobs)) {
+    if(n %in% c("stratumMeasurements")) {
+      for(i in 1:length(strobs[["stratumMeasurements"]])) {
+        strobs$stratumMeasurements[[i]]$attributeID = attIDmap[[strobs$stratumMeasurements[[i]]$attributeID]]
       }
     }
-    else if(n %in% c("heightMeasurement")) {
-      aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
+    else if(n %in% c("lowerLimitMeasurement", "upperLimitMeasurement")) {
+      strobs[[n]]$attributeID = attIDmap[[strobs[[n]]$attributeID]]
     }
   }
-  return(aggObs)
+  return(strobs)
 }
-.applyAttributeMappingToSiteObservations<-function(siteobs, attIDmap) {
-  # Update attribute codes
-  for(n in names(siteobs)) {
-    if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
-      for(i in 1:length(siteobs[[n]])) {
-        siteobs[[n]][[i]]$attributeID = attIDmap[[siteobs[[n]][[i]]$attributeID]]
-      }
-    }
+
+.applyMappingsToIndividualOrganismObservation<-function(indObs, plotObsIDmap, strObsIDmap, indIDmap, attIDmap) {
+  indObs$plotObservationID = plotObsIDmap[[indObs$plotObservationID]]
+  indObs$individualOrganismID = indIDmap[[indObs$individualOrganismID]]
+  if("stratumObservationID" %in% names(indObs)) {
+    indObs$stratumObservationID = strObsIDmap[[indObs$stratumObservationID]]
   }
-  return(siteobs)
-}
-.applyAttributeMappingToIndividualOrganismObservations<-function(indObs, attIDmap) {
   for(n in names(indObs)) {
     # Update attribute codes
     if(n %in% c("individualOrganismMeasurements")) {
@@ -325,20 +474,70 @@
   }
   return(indObs)
 }
-.applyAttributeMappingToStratumObservations<-function(strobs, attIDmap) {
-  for(n in names(strobs)) {
-    if(n %in% c("stratumMeasurements")) {
-      for(i in 1:length(strobs[["stratumMeasurements"]])) {
-        strobs$stratumMeasurements[[i]]$attributeID = attIDmap[[strobs$stratumMeasurements[[i]]$attributeID]]
+
+.applyMappingsToAggregateOrganismObservation <-function(aggObs, plotObsIDmap, oiIDmap, strObsIDmap, attIDmap) {
+    if("plotObservationID" %in% names(aggObs)) {
+      if(aggObs$plotObservationID!="") {
+        aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
+      }
+    } else {
+      aggObs$plotObservationID = ""
+    }
+    if("organismIdentityID" %in% names(aggObs)) {
+      if(aggObs$organismIdentityID!="") {
+        aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
+      }
+    } else {
+      aggObs$organismIdentityID = ""
+    }
+    if("stratumObservationID" %in% names(aggObs)) {
+      if(aggObs$stratumObservationID!="") {
+        aggObs$stratumObservationID = strObsIDmap[[aggObs$stratumObservationID]]
+      }
+    } else {
+      aggObs$stratumObservationID = ""
+    }
+    for(n in names(aggObs)) {
+      # Update attribute codes
+      if(n %in% c("aggregateOrganismMeasurements")) {
+        for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
+          aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
+        }
+      }
+      else if(n %in% c("heightMeasurement")) {
+        aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
       }
     }
-    else if(n %in% c("lowerLimitMeasurement", "upperLimitMeasurement")) {
-      strobs[[n]]$attributeID = attIDmap[[strobs[[n]]$attributeID]]
+    return(aggObs)
+}
+.applyMappingsToCommunityObservation<-function(commobs, plotObsIDmap, attIDmap) {
+  commobs$plotObservationID = plotObsIDmap[[commobs$plotObservationID]]
+  # Update attribute codes
+  for(n in names(commobs)) {
+    if(n %in% c("communityMeasurements")) {
+      for(i in 1:length(commobs[[n]])) {
+        commobs[[n]][[i]]$attributeID = attIDmap[[commobs[[n]][[i]]$attributeID]]
+      }
     }
   }
-  return(strobs)
+  return(commobs)
 }
-.applyAttributeMappingToSurfaceCoverObservations<-function(scobs, attIDmap) {
+
+.applyMappingsToSiteObservation<-function(siteobs, plotObsIDmap, attIDmap) {
+  siteobs$plotObservationID = plotObsIDmap[[siteobs$plotObservationID]]
+  # Update attribute codes
+  for(n in names(siteobs)) {
+    if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+      for(i in 1:length(siteobs[[n]])) {
+        siteobs[[n]][[i]]$attributeID = attIDmap[[siteobs[[n]][[i]]$attributeID]]
+      }
+    }
+  }
+  return(siteobs)
+}
+.applyMappingsToSurfaceCoverObservation<-function(scobs, stIDmap, plotObsIDmap, attIDmap) {
+  scobs$surfaceTypeID = stIDmap[[scobs$surfaceTypeID]]
+  scobs$plotObservationID = plotObsIDmap[[scobs$plotObservationID]]
   for(n in names(scobs)) {
     if(n %in% c("coverMeasurement")) {
       scobs[[n]]$attributeID = attIDmap[[scobs[[n]]$attributeID]]
@@ -347,68 +546,49 @@
   return(scobs)
 }
 
-#Pools the information of two plots
-.mergePlots<-function(plot1, plot2, attIDmap) {
-   n1 = names(plot1)
-   n2 = names(plot2)
-   plot2 = .applyAttributeMappingToPlot(plot2, attIDmap)
-   npool = unique(c(n1,n2))
-   res = list()
-   for(n in npool) {
-     if((n %in% n1) && (n %in% n2)) {
-       if(plot1[[n]]!=plot2[[n]]) stop(paste0("Plots have different data for '", n, "'. Cannot merge."))
-       res[[n]] = plot1[[n]]
-     } else if(n %in% n1) {
-       res[[n]] = plot1[[n]]
-     } else if(n %in% n2) {
-       res[[n]] = plot2[[n]]
-     }
-   }
-   return(res)
-}
-
-#Pools the information of two plot observationss
-.mergePlotObservations<-function(plotObservation1, plotObservation2, attIDmap) {
-  n1 = names(plotObservation1)
-  n2 = names(plotObservation2)
+#Pools the information of two parties
+.mergeParties<-function(par1, par2) {
+  n1 = names(par1)
+  n2 = names(par2)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
     if((n %in% n1) && (n %in% n2)) {
-      if(plotObservation1[[n]]!=plotObservation2[[n]]) stop(paste0("Plot observations have different data for '", n, "'. Cannot merge."))
-      res[[n]] = plotObservation1[[n]]
+      if(par1[[n]]!=par2[[n]]) stop(paste0("Parties have different data for '", n, "'. Cannot merge."))
+      res[[n]] = par1[[n]]
     } else if(n %in% n1) {
-      res[[n]] = plotObservation1[[n]]
+      res[[n]] = par1[[n]]
     } else if(n %in% n2) {
-      res[[n]] = plotObservation2[[n]]
+      res[[n]] = par2[[n]]
     }
   }
   return(res)
 }
 
-#Pools the information of two taxon name usage concepts
-.mergeTaxonNameUsageConcepts<-function(tnuc1, tnuc2) {
-  n1 = names(tnuc1)
-  n2 = names(tnuc2)
+#Pools the information of two literature citations
+.mergeLiteratureCitations<-function(cit1, cit2) {
+  n1 = names(cit1)
+  n2 = names(cit2)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
     if((n %in% n1) && (n %in% n2)) {
-      if(tnuc1[[n]]!=tnuc2[[n]]) stop(paste0("Taxon name usage concepts have different data for '", n, "'. Cannot merge."))
-      res[[n]] = tnuc1[[n]]
+      if(cit1[[n]]!=cit2[[n]]) stop(paste0("Literature citations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = cit1[[n]]
     } else if(n %in% n1) {
-      res[[n]] = tnuc1[[n]]
+      res[[n]] = cit1[[n]]
     } else if(n %in% n2) {
-      res[[n]] = tnuc2[[n]]
+      res[[n]] = cit2[[n]]
     }
   }
   return(res)
 }
 
 #Pools the information of two methods
-.mergeMethods<-function(met1, met2) {
+.mergeMethods<-function(met1, met2, litIDmap) {
   n1 = names(met1)
   n2 = names(met2)
+  met2 = .applyMappingsToMethod(met2, litIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -443,11 +623,148 @@
   return(res)
 }
 
+#Pools the information of two organism names
+.mergeOrganismNames<-function(on1, on2) {
+  n1 = names(on1)
+  n2 = names(on2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(on1[[n]]!=on2[[n]]) stop(paste0("Organism names have different data for '", n, "'. Cannot merge."))
+      res[[n]] = on1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = on1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = on2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two taxon concepts
+.mergeTaxonConcepts<-function(tc1, tc2, onIDmap, litIDmap) {
+  n1 = names(tc1)
+  n2 = names(tc2)
+  tc2 = .applyMappingsToTaxonConcept(tc2, onIDmap, litIDmap)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(tc1[[n]]!=tc2[[n]]) stop(paste0("Organism names have different data for '", n, "'. Cannot merge."))
+      res[[n]] = tc1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = tc1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = tc2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two organism identities
+.mergeOrganismIdentities<-function(oi1, oi2, onIDmap, tcIDmap) {
+  n1 = names(oi1)
+  n2 = names(oi2)
+  oi2 = .applyMappingsToOrganismIdentity(oi2, onIDmap, tcIDmap)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(oi1[[n]]!=oi2[[n]]) stop(paste0("Organism identities have different data for '", n, "'. Cannot merge."))
+      res[[n]] = oi1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = oi1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = oi2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two projects
+.mergeProjects<-function(prj1, prj2) {
+  n1 = names(prj1)
+  n2 = names(prj2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(prj1[[n]]!=prj2[[n]]) stop(paste0("Projects have different data for '", n, "'. Cannot merge."))
+      res[[n]] = prj1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = prj1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = prj2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two plots
+.mergePlots<-function(plot1, plot2, partyIDmap, attIDmap) {
+   n1 = names(plot1)
+   n2 = names(plot2)
+   plot2 = .applyMappingsToPlot(plot2, partyIDmap, attIDmap)
+   npool = unique(c(n1,n2))
+   res = list()
+   for(n in npool) {
+     if((n %in% n1) && (n %in% n2)) {
+       if(plot1[[n]]!=plot2[[n]]) stop(paste0("Plots have different data for '", n, "'. Cannot merge."))
+       res[[n]] = plot1[[n]]
+     } else if(n %in% n1) {
+       res[[n]] = plot1[[n]]
+     } else if(n %in% n2) {
+       res[[n]] = plot2[[n]]
+     }
+   }
+   return(res)
+}
+
+#Pools the information of two plot observations
+.mergePlotObservations<-function(plotObservation1, plotObservation2) {
+  n1 = names(plotObservation1)
+  n2 = names(plotObservation2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(plotObservation1[[n]]!=plotObservation2[[n]]) stop(paste0("Plot observations have different data for '", n, "'. Cannot merge."))
+      res[[n]] = plotObservation1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = plotObservation1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = plotObservation2[[n]]
+    }
+  }
+  return(res)
+}
+
+#Pools the information of two organism identitys
+.mergeOrganismIdentities<-function(oi1, oi2) {
+  n1 = names(oi1)
+  n2 = names(oi2)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(oi1[[n]]!=oi2[[n]]) stop(paste0("Taxon name usage concepts have different data for '", n, "'. Cannot merge."))
+      res[[n]] = oi1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = oi1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = oi2[[n]]
+    }
+  }
+  return(res)
+}
+
+
+
 #Pools the information of two stratum observations
-.mergeStratumObservations<-function(strobs1, strobs2, attIDmap) {
+.mergeStratumObservations<-function(strobs1, strobs2) {
   n1 = names(strobs1)
   n2 = names(strobs2)
-  strObs2 = .applyAttributeMappingToStratumObservations(strobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -464,10 +781,9 @@
 }
 
 #Pools the information of two surface cover observations
-.mergeSurfaceCoverObservations<-function(scobs1, scobs2, attIDmap) {
+.mergeSurfaceCoverObservations<-function(scobs1, scobs2) {
   n1 = names(scobs1)
   n2 = names(scobs2)
-  scobs2 = .applyAttributeMappingToStratumObservations(scobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -484,10 +800,9 @@
 }
 
 #Pools the information of two aggregate organism observations
-.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2, attIDmap) {
+.mergeAggregateOrganismObservations<-function(aggobs1, aggobs2) {
   n1 = names(aggobs1)
   n2 = names(aggobs2)
-  aggobs2 = .applyAttributeMappingToAggregatePlotObservations(aggobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -522,10 +837,9 @@
 }
 
 #Pools the information of two individual organism observations
-.mergeIndividualOrganismObservations<-function(indobs1, indobs2, attIDmap) {
+.mergeIndividualOrganismObservations<-function(indobs1, indobs2) {
   n1 = names(indobs1)
   n2 = names(indobs2)
-  indobs2 = .applyAttributeMappingToIndividualOrganismObservations(indobs2, attIDmap)
   npool = unique(c(n1,n2))
   res = list()
   for(n in npool) {
@@ -543,10 +857,28 @@
 
 # Pools the information of two site observations
 # Measurements
-.mergeSiteObservations<-function(siteobs1, siteobs2, attIDmap) {
+.mergeCommunityObservations<-function(commobs1, commobs2) {
+  n1 = names(commobs1)
+  n2 = names(commobs2)
+  npool = unique(c(n1,n2)) # these are soilMeasurements, climateMeasurements, ...
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      res[[n]] = c(commobs1[[n]], commobs2[[n]])# add both vector elements to the result
+    } else if(n %in% n1) {
+      res[[n]] = commobs1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = commobs2[[n]]
+    }
+  }
+  return(res)
+}
+
+# Pools the information of two site observations
+# Measurements
+.mergeSiteObservations<-function(siteobs1, siteobs2) {
   n1 = names(siteobs1)
   n2 = names(siteobs2)
-  siteobs2 = .applyAttributeMappingToSiteObservations(siteobs2, attIDmap)
   npool = unique(c(n1,n2)) # these are soilMeasurements, climateMeasurements, ...
   res = list()
   for(n in npool) {

@@ -4,10 +4,11 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'authorTaxonName' and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
-#' @param methods A list measurement methods for aggregated organism measurements (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param mapping A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#'                Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
+#' @param methods A list measurement methods for aggregate organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
+#' @param citationStringAll A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -18,16 +19,22 @@
 #'
 #' @family add functions
 #'
-#' @details Missing plotName, obsStartDate or authorTaxonName values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName. When stratumName values are missing the aggregate organism observation is not assigned to any stratum.
-#' Missing measurements are simply not added to the Veg-X document.
+#' @details Missing value policy:
+#' \itemize{
+#'   \item{Missing 'plotName' and 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{When 'stratumName' values are missing the aggregate organism observation is not assigned to any stratum.}
+#'   \item{When both 'organismName' and 'taxonName' are missing (i.e. missing organism identity) the function generates an error.}
+#'   \item{Missing aggregate organism measurements are not added to the Veg-X document.}
+#' }
 #'
 #' @examples
 #' # Load source data
 #' data(mokihinui)
 #'
 #' # Define mapping
-#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", authorTaxonName = "PreferredSpeciesName",
+#' mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
+#'                taxonName = "NVSSpeciesName",
 #'                stratumName = "Tier", cover = "Category")
 #'
 #' # Define abundance scale
@@ -63,7 +70,7 @@
 #' # Example with individual counts
 #' data(mtfyffe)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'                authorTaxonName = "PreferredSpeciesName", stratumName = "Tier", counts = "Value")
+#'                taxonName = "NVSSpeciesName", stratumName = "Tier", counts = "Value")
 #' countscale = predefinedMeasurementMethod("Plant counts")
 #' strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
 #'                                description = "Seedling/sapling stratum definition",
@@ -78,7 +85,7 @@
 #' # Example with frequency in transects
 #' data(takitimu)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-#'               authorTaxonName = "PreferredSpeciesName", freq = "Value")
+#'                taxonName = "NVSSpeciesName", freq = "Value")
 #' freqscale = predefinedMeasurementMethod("Plant frequency/%")
 #' x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
 #'                                      methods = c(freq=freqscale))
@@ -88,6 +95,7 @@ addAggregateOrganismObservations<-function(target, x,
                                      mapping,
                                      methods = list(),
                                      stratumDefinition = NULL,
+                                     citationStringAll = NULL,
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
 
@@ -95,7 +103,8 @@ addAggregateOrganismObservations<-function(target, x,
   nrecords = nrow(x)
   nmissing = 0
 
-  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "authorTaxonName")
+  aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName",
+                            "taxonName", "citationString")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -103,7 +112,6 @@ addAggregateOrganismObservations<-function(target, x,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format ="%Y-%m-%d")
-  authorTaxonNames = as.character(x[[mapping[["authorTaxonName"]]]])
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))
@@ -116,6 +124,18 @@ addAggregateOrganismObservations<-function(target, x,
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
+  }
+  taxonNameFlag = ("taxonName" %in% names(mapping))
+  if(taxonNameFlag) {
+    taxonNames = as.character(x[[mapping[["taxonName"]]]])
+  }
+  organismNameFlag = ("organismName" %in% names(mapping))
+  if(organismNameFlag) {
+    organismNames = as.character(x[[mapping[["organismName"]]]])
+  }
+  citationStringFlag = ("citationString" %in% names(mapping))
+  if(citationStringFlag) {
+    citationStringData = as.character(x[[mapping[["citationString"]]]])
   }
 
   #heightmeasurement
@@ -136,7 +156,11 @@ addAggregateOrganismObservations<-function(target, x,
   }
 
   #Check duplicate records
-  mapcols = as.character(mapping[aggObservationMapping[c(T,T,subPlotFlag,stratumFlag,T)]])
+  # aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName",
+  #                           "taxonName", "citationString")
+
+  mapcols = as.character(mapping[aggObservationMapping[c(T,T,subPlotFlag,stratumFlag,organismNameFlag,
+                                                         taxonNameFlag, citationStringFlag)]])
   xstrings = apply(x[, mapcols],1, paste, collapse=" ")
   us = length(unique(xstrings))
   if(us<nrow(x)) warning(paste0(nrow(x)-us," duplicate records found!"))
@@ -158,6 +182,15 @@ addAggregateOrganismObservations<-function(target, x,
                                         subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))
@@ -186,6 +219,15 @@ addAggregateOrganismObservations<-function(target, x,
                                            subject = stratumDefMethod@subject,
                                            attributeType = stratumDefMethod@attributeType)
       if(verbose) cat(paste0(" Stratum definition method '", stratumDefMethod@name,"' added.\n"))
+      # add literature citation if necessary
+      if(stratumDefMethod@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, stratumDefMethod@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =stratumDefMethod@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = stratumDefMethod@DOI
+        }
+        target@methods[[strmethodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       if(length(stratumDefMethod@attributes)>0) {
         for(i in 1:length(stratumDefMethod@attributes)) {
@@ -221,14 +263,20 @@ addAggregateOrganismObservations<-function(target, x,
   orinplots = length(target@plots)
   orinplotobs = length(target@plotObservations)
   orinstrobs = length(target@stratumObservations)
-  orintuc = length(target@taxonNameUsageConcepts)
+  orinons = length(target@organismNames)
+  orintcs = length(target@taxonConcepts)
+  orinois = length(target@organismIdentities)
   orinaggobs = length(target@aggregateObservations)
   parsedPlots = character(0)
   parsedPlotIDs = character(0)
   parsedPlotObs = character(0)
   parsedPlotObsIDs = character(0)
-  parsedTNUCs = character(0)
-  parsedTNUCIDs = character(0)
+  parsedONs = character(0)
+  parsedONIDs = character(0)
+  parsedTCs = character(0)
+  parsedTCIDs = character(0)
+  parsedOIs = character(0)
+  parsedOIIDs = character(0)
   parsedStrObs = character(0)
   parsedStrObsIDs = character(0)
   aggObsCounter = orinaggobs+1 #counter
@@ -281,20 +329,73 @@ addAggregateOrganismObservations<-function(target, x,
     } else {
       plotObsID = parsedPlotObsIDs[which(parsedPlotObs==pObsString)]
     }
-    # taxon name
-    if(!(authorTaxonNames[i] %in% missing.values)) {# If taxon name is missing take the previous one
-      authorTaxonName = authorTaxonNames[i]
-    }
-    if(!(authorTaxonName %in% parsedTNUCs)) {
-      ntnucid = .newTaxonNameUsageConceptIDByName(target, authorTaxonName) # Get the new taxon name usage ID (internal code)
-      tnucID = ntnucid$id
-      if(ntnucid$new) target@taxonNameUsageConcepts[[tnucID]] = list("authorTaxonName" = authorTaxonName)
-      parsedTNUCs = c(parsedTNUCs, authorTaxonName)
-      parsedTNUCIDs = c(parsedTNUCIDs, tnucID)
-    } else {
-      tnucID = parsedTNUCIDs[which(parsedTNUCs==authorTaxonName)]
-    }
 
+    # Process organism name/taxon concept/identity
+    organismName = NA
+    oiID = NA
+    tcID = NA
+    isTaxon = FALSE
+    taxonConceptString = ""
+    citationString = ""
+    if(taxonNameFlag) {
+      organismName = taxonNames[i]
+      isTaxon = TRUE
+    }
+    if(!isTaxon && organismNameFlag) {
+      organismName = organismNames[i]
+    }
+    if(!(organismName %in% missing.values)) { #Process organism name and identity if the name is not missing
+      if(!(organismName %in% parsedONs)) {
+        nonid = .newOrganismNameIDByName(target, organismName, isTaxon) # Get the new organism name usage ID (internal code)
+        onID = nonid$id
+        if(nonid$new) target@organismNames[[onID]] = list("name" = organismName,
+                                                          "taxon" = isTaxon)
+        parsedONs = c(parsedONs, organismName)
+        parsedONIDs = c(parsedONIDs, onID)
+      } else {
+        onID = parsedONIDs[which(parsedONs==organismName)]
+      }
+      # taxon concept
+      if(!is.null(citationStringAll)) {
+        citationString = citationStringAll
+      }
+      if(citationStringFlag){
+        if(!(citationStringData[i] %in% missing.values)) { #If there is citation data in a column, this overrides the string for all data set
+          citationString = citationStringData[i]
+        }
+      }
+      taxonConceptString = paste(organismName, citationString)
+      if(citationString!="") { # Parse taxon concept only if citation string is not missing
+        if(!(taxonConceptString %in% parsedTCs)) {
+          ntcid = .newTaxonConceptIDByNameCitation(target, organismName, taxonConceptString) # Get the new taxon concept ID (internal code)
+          tcID = ntcid$id
+          if(ntcid$new) {
+            ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
+            if(ncitid$new) {
+              target@literatureCitations[[ncitid$id]] = list(citationString = citationString)
+            }
+            target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
+                                                "citationID" = ncitid$id)
+          }
+          parsedTCs = c(parsedTCs, taxonConceptString)
+          parsedTCIDs = c(parsedTCIDs, tcID)
+        } else {
+          tcID = parsedTCIDs[which(parsedTCs==taxonConceptString)]
+        }
+      }
+
+      # organism identity
+      if(!(taxonConceptString %in% parsedOIs)) {
+        noiid = .newOrganismIdentityIDByTaxonConcept(target, organismName, citationString) # Get the new taxon name usage ID (internal code)
+        oiID = noiid$id
+        if(noiid$new) target@organismIdentities[[oiID]] = list("originalOrganismNameID" = onID)
+        parsedOIs = c(parsedOIs, taxonConceptString)
+        parsedOIIDs = c(parsedOIIDs, oiID)
+      } else {
+        oiID = parsedOIIDs[which(parsedOIs==taxonConceptString)]
+      }
+      if(!is.na(tcID)) target@organismIdentities[[oiID]]$originalConceptIdentification = list(taxonConceptID = tcID)
+    }
     # stratum observations
     strObsID = ""
     if(stratumFlag) {
@@ -316,12 +417,14 @@ addAggregateOrganismObservations<-function(target, x,
       }
     }
 
+    if(is.na(oiID)) stop(paste0("Missing identity for record #", i,". Please fix source data table."))
+
     # agg org observations
-    naoID = .newAggregateOrganismObservationIDByTaxonID(target, plotObsID, strObsID, tnucID)
+    naoID = .newAggregateOrganismObservationIDByOrganismIdentityID(target, plotObsID, strObsID, oiID)
     aggObsID = naoID$id
     if(naoID$new) {
       aggObs = list("plotObservationID" = plotObsID,
-                    "taxonNameUsageConceptID" = tnucID,
+                    "organismIdentityID" = oiID,
                     "stratumObservationID" = "")
       if(stratumFlag) aggObs$stratumObservationID = strObsID
     }
@@ -394,12 +497,16 @@ addAggregateOrganismObservations<-function(target, x,
   finnplots = length(target@plots)
   finnplotobs = length(target@plotObservations)
   finnstrobs = length(target@stratumObservations)
-  finntuc = length(target@taxonNameUsageConcepts)
+  finnons = length(target@organismNames)
+  finntcs = length(target@taxonConcepts)
+  finnois = length(target@organismIdentities)
   finnaggobs = length(target@aggregateObservations)
   if(verbose) {
     cat(paste0(" " , length(parsedPlots)," plot(s) parsed, ", finnplots-orinplots, " new added.\n"))
     cat(paste0(" " , length(parsedPlotObs)," plot observation(s) parsed, ", finnplotobs-orinplotobs, " new added.\n"))
-    cat(paste0(" " , length(parsedTNUCs)," taxon name usage concept(s) parsed, ", finntuc-orintuc, " new added.\n"))
+    cat(paste0(" " , length(parsedONs)," organism names(s) parsed, ", finnons-orinons, " new added.\n"))
+    cat(paste0(" " , length(parsedTCs)," taxon concept(s) parsed, ", finntcs-orintcs, " new added.\n"))
+    cat(paste0(" " , length(parsedOIs)," organism identitie(s) parsed, ", finnois-orinois, " new added.\n"))
     if(stratumFlag) cat(paste0(" " , length(parsedStrObs)," stratum observation(s) parsed, ", finnstrobs-orinstrobs, " new added.\n"))
     cat(paste0(" ", nrecords," record(s) parsed, ", finnaggobs-orinaggobs, " new aggregate organism observation(s) added.\n"))
     if(nmissing>0) cat(paste0(" ", nmissing, " aggregate organism observation(s) with missing abundance value(s) not added.\n"))

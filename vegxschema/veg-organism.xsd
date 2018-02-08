@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/organism-2.0.0" targetNamespace="http://iavs.org/vegX/organism-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
+    <xsd:complexType name="IndividualOrganismType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="plotID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific plot by the plot ID.	</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="individualOrganismLabel" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A label that is associated with an individual (e.g. a numerical tree tag)</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="taxonNameUsageConceptID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="birthDate" type="xsd:date" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Date of birth recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relatedIndividual" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="relativePlotPosition" minOccurs="0">
+                <xsd:annotation>
+                    <xsd:documentation>Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="relativeX" type="xsd:decimal">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related item position in m. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="relativeY" type="xsd:decimal">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">The Z-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot elevation (in meters). </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the IndividualOrganismType.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="misc:IDType" use="required" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="OrganismNameType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="id" type="misc:IDType" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+                <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+                <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+                <xsd:attribute name="taxonName" type="xsd:boolean" use="required">
+                    <xsd:annotation>
+                        <xsd:documentation>A flag to identify that the organism name is a taxon name (i.e. a name according to a nomenclature code)</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:attribute>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    <xsd:complexType name="TaxonConceptType">
+        <xsd:sequence>
+            <xsd:element name="organismNameID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A link to a specific organism name by ID. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="accordingToReferenceID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A link to a bibliographic reference by ID where the taxon concept is described. </xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="misc:IDType" use="required">
+            <xsd:annotation>
+                <xsd:documentation>Unique internal identifier (key) of the element. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. </xsd:documentation>
+            </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="OrganismIdentityType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">The identity of an organism (or a set of organisms) occurring within the dataset. </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="originalOrganismNameID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A link, by ID, to an organism name (e.g. normally a taxon name, but not necessarily including the authority, or even field names, morphospecies, ...) that the author of the dataset originally used to refer to an organism observed within the plot. The taxon names used as label the organism identity should not contain spelling errors, but they may not be the accepted name according to current nomenclature codes.
+</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="originalIdentificationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>A link to a party involved in the original organism identification (normally the author of the data set), by ID.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="originalIdentificationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Additional comments or explanations pertaining to the original identification of the organism.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="voucher" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Herbarium accession number for any archived voucher specimens</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="originalConceptIdentification" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information of the taxon concept originally associated to the organism identity. This information may be specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="taxonConceptID" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>A link to the taxon concept stated by the author, or as asserted by a third party based on information such as the date of the observation, geographic location, etc.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="conceptIdentificationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="conceptIdentificationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>A party involved in the identification of the original taxon concept.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="conceptIdenfiticationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>Additional comments or explanations pertaining to the original identification of the taxon concept.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:element name="preferredTaxonNomenclature" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="preferredTaxonNameID" type="xsd:string">
+                            <xsd:annotation>
+                                <xsd:documentation>A link to a scientific taxon name (i.e. an organism name whose attribute 'taxonName' is true) accepted to label the organism identity appropriately, as stated by the author of the data set or a third party responsible for its nomenclature.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="interpretationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="interpretationSource" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="EN">A string describing the source for the last nomenclature interpretation applied to this organism identity (i.e. the Plant List).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="interpretationCitationID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="EN">A link to the publication where nomenclature interpretation is described.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="interpretationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>A link to a party who undertook the nomenclarure revision.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="interpretationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>Additional comments or explanations pertaining to the nomenclature interpretation.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="misc:IDType" use="required" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+    </xsd:complexType>
+    <xsd:complexType name="TaxonDeterminationType">
+        <xsd:annotation>
+            <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts to an IndividualOrganismObservation or AggregateTaxonObservation by a Party. May be used to add additional taxon determinations or annotations by users of the dataset beyond the original author.</xsd:documentation>
+            <xsd:documentation xml:lang="de" />
+        </xsd:annotation>
+        <xsd:sequence>
+            <xsd:element name="organismIdentityID" type="xsd:string">
+                <xsd:annotation>
+                    <xsd:documentation>A reference to a specific taxonNameUsageConcept through the NameUsageConcept id attribute. The individual NameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all name usage concepts within the dataset.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element name="determinationDate" type="xsd:date">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The determination date for the organism or taxon observation. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element xmlns:q2="http://www.bfn.de/misc-1.0.1" name="determinationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>The party that made the determination that applies to this dataset. This is not the same as the authorship of the asserted relationship. See accordingTo.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
+            <xsd:element xmlns:q1="http://www.bfn.de/misc-1.0.1" name="determinationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="taxonRelationshipAssertion" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A specific taxonomic or nomenclatural assertion record.</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="assertion">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">A taxonomic or nomenclatural assertion to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. </xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:choice>
+                                    <xsd:element name="taxonNameID" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>A reference to a specific Taxon Name. The name is defined within the element veg:taxonName which is a container for all Taxon Names within a dataset.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="taxonConceptID" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>A reference to a specific Taxon Concept. The concept is defined within the element veg:taxonConcept which is a container for all Taxon Concepts within a dataset.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:choice>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="fit" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Indicates the degree of fit with the concept being assigned.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="confidence" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Indicates the degree of confidence of the interpreter(s) in the interpretation made. This can reflect the level of familiarity with the classification or the sufficiency of information about the plot (e.g., High, Moderate, Low). </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element xmlns:q3="http://www.tdwg.org/schemas/tcs/1.01" name="accordingTo" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about the authorship of the asserted relationship. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:sequence>
+        <xsd:attribute name="id" type="misc:IDType" use="required" />
+        <xsd:attribute name="system" type="misc:SystemType" use="optional" />
+        <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+    </xsd:complexType>
+</xsd:schema>

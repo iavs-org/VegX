@@ -5,8 +5,8 @@
 \title{Add individual organism observation records}
 \usage{
 addIndividualOrganismObservations(target, x, mapping, methods = list(),
-  stratumDefinition = NULL, missing.values = c(NA, "0", ""),
-  verbose = TRUE)
+  stratumDefinition = NULL, citationStringAll = NULL,
+  missing.values = c(NA, "0", ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -14,11 +14,14 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
 \item{x}{A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.}
 
 \item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'authorTaxonName', 'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
+Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'taxonName' , 'citationString',
+'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
 
-\item{methods}{A named list of objects of class \code{\linkS4class{VegXMethod}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
+\item{methods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
+
+\item{citationStringAll}{A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -31,10 +34,15 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds individual organism observation records to a VegX object from a data table.
 }
 \details{
-Missing plotName, obsStartDate or individualOrganismLabel values are interpreted as if the previous non-missing value has to be used to define individual organism observation.
-Missing subPlotName values are interpreted in that observation refers to the parent plotName. When authorTaxonName is missing the organism is assumed to be unidentified.
-When stratumName values are missing the individual organism observation is not assigned to any stratum.
-Missing measurements are simply not added to the Veg-X document.
+Missing value policy:
+\itemize{
+  \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
+  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+  \item{When both 'organismName' and 'taxonName' are missing the organism is assumed to be unidentified (i.e. no identity is added).}
+  \item{When 'individualOrganismLabel' is missing the function creates a label for the organism.}
+  \item{When 'stratumName' values are missing the individual organism observation is not assigned to any stratum.}
+  \item{Missing measurements (e.g. 'diameterMeasurement') are not added to the Veg-X document.}
+}
 }
 \examples{
 # Load source data
@@ -43,7 +51,7 @@ data(mtfyffe)
 
 # Define mapping
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               authorTaxonName = "PreferredSpeciesName", individualOrganismLabel = "Identifier",
+               taxonName = "NVSSpeciesName", individualOrganismLabel = "Identifier",
                diameterMeasurement = "Diameter")
 
 # Define diameter measurement method
@@ -52,7 +60,8 @@ diamMeth = predefinedMeasurementMethod("DBH/cm")
 
 # Create new Veg-X document with individual organism observations
 x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
-                                      methods = c(diameterMeasurement = diamMeth))
+                                      methods = c(diameterMeasurement = diamMeth),
+                                      missing.values = c(NA, "(Unknown)", "0",""))
 
 # Inspect the result
 head(showElementTable(x, "individualOrganismObservation"))
@@ -62,9 +71,10 @@ head(showElementTable(x, "individualOrganismObservation"))
 # Second example without individual labels
 data(mokihinui)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
-               authorTaxonName = "PreferredSpeciesName", diameterMeasurement = "Diameter")
+               taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
-                                      methods = c(diameterMeasurement = diamMeth))
+                                      methods = c(diameterMeasurement = diamMeth),
+                                      missing.values = c(NA, "(Unknown)", "0",""))
 head(showElementTable(x, "individualOrganismObservation"))
 
 }

@@ -10,7 +10,7 @@
 #' @param target The object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A site-by-species releve table
 #' @param projectTitle A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.
-#' @param abundanceMethod A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethod}}).
+#' @param abundanceMethod A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param obsDates A vector of \code{\link{Date}} objects with plot observation dates.
 #' @param absence.values A vector of values to be interpreted as missing plant information.
 #' @param verbose A flag to indicate console output of the data integration process.
@@ -20,7 +20,6 @@
 #'
 #' @family add functions
 #'
-#' @examples
 addTaxonBySiteData <-function(target,
                               x,
                               projectTitle,
@@ -97,6 +96,16 @@ addTaxonBySiteData <-function(target,
                                       subject = abundanceMethod@subject,
                                       attributeType = abundanceMethod@attributeType)
     if(verbose) cat(paste0(" Abundance measurement method '", abundanceMethod@name,"' added.\n"))
+    # add literature citation if necessary
+    if(method@citationString!="") {
+      ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+      if(ncitid$new) {
+        target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+        if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+      }
+      target@methods[[methodID]]$citationID = ncitid$id
+    }
+
     # add attributes if necessary
     for(i in 1:length(abundanceMethod@attributes)) {
       attid = .nextAttributeID(target)

@@ -1,8 +1,6 @@
 #' Add site observation records
 #'
-#' Adds site observation records to a VegX object from a data table where rows are plot observations,
-#' using a mapping to identify plot observation: plot, subplot (optional) and observation date.
-#' Additional mappings are used to map specific site variables.
+#' Adds site observation records to a VegX object from a data table where rows are plot observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
@@ -11,12 +9,12 @@
 #' @param soilMeasurementMapping A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param climateMeasurementMapping A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param waterMassMeasurementMapping A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 #' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).
-#' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.
-#' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+#' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -24,10 +22,12 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
-#' Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-#' Missing measurements are simply not added to the Veg-X document.
-#'
+#' @details Missing value policy:
+#' \itemize{
+#'   \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+#'   \item{Missing measurements are simply not added to the Veg-X document.}
+#' }
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
@@ -174,6 +174,15 @@ addSiteObservations<-function(target, x,
                                         subject = method@subject,
                                         attributeType = method@attributeType)
       if(verbose) cat(paste0(" Measurement method '", method@name,"' added for '",m,"'.\n"))
+      # add literature citation if necessary
+      if(method@citationString!="") {
+        ncitid = .newLiteratureCitationIDByCitationString(target, method@citationString)
+        if(ncitid$new) {
+          target@literatureCitations[[ncitid$id]] = list(citationString =method@citationString)
+          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = method@DOI
+        }
+        target@methods[[methodID]]$citationID = ncitid$id
+      }
       # add attributes if necessary
       methodAttIDs[[m]] = character(length(method@attributes))
       methodCodes[[m]] = character(length(method@attributes))

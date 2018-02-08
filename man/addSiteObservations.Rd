@@ -24,14 +24,14 @@ Additional optional mappings are: 'subPlotName'.}
 
 \item{waterMassMeasurementMapping}{A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
 
-\item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).}
 
-\item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.}
 
-\item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethod}} with the measurement method
+\item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
@@ -42,14 +42,15 @@ for each of the soil variables stated in \code{soilMeasurementMapping}. List nam
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds site observation records to a VegX object from a data table where rows are plot observations,
-using a mapping to identify plot observation: plot, subplot (optional) and observation date.
-Additional mappings are used to map specific site variables.
+Adds site observation records to a VegX object from a data table where rows are plot observations.
 }
 \details{
-Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
-Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-Missing measurements are simply not added to the Veg-X document.
+Missing value policy:
+\itemize{
+  \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+  \item{Missing measurements are simply not added to the Veg-X document.}
+}
 }
 \examples{
 # Load source data

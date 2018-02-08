@@ -12,10 +12,10 @@ addStratumObservations(target, x, mapping, methods, stratumDefinition,
 
 \item{x}{A data frame where each row corresponds to one stratum observation. Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+\item{mapping}{A named list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
 
-\item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethod}}).}
+\item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
@@ -27,12 +27,15 @@ Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lower
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds stratum observation records to a VegX object from a data table
+Adds stratum observation records to a VegX object from a data table where rows are stratum observations.
 }
 \details{
-Missing plotName or obsStartDate values are interpreted as if the previous non-missing value has to be used to define plot observation.
-Missing subPlotName values are interpreted in that observation refers to the parent plotName.
-Missing measurements are simply not added to the Veg-X document.
+Missing value policy:
+ \itemize{
+  \item{Missing 'plotName', 'obsStartDate' or 'stratumName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+  \item{Missing measurements are simply not added to the Veg-X document.}
+ }
 }
 \examples{
 # Load source data
