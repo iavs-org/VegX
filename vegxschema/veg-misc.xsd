@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<!--Created with Liquid Studio 2017 - XML Editor Edition (Education) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:party="eml://ecoinformatics.org/party-2.0.1" xmlns:res="eml://ecoinformatics.org/resource-2.0.1" xmlns:dwg="http://rs.tdwg.org/dwc/geospatial/" xmlns:lit="eml://ecoinformatics.org/literature-2.0.1" xmlns:doc="eml://ecoinformatics.org/documentation-2.0.1" xmlns="http://iavs.org/vegX/misc-2.0.0" targetNamespace="http://iavs.org/vegX/misc-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="eml-literature.xsd" namespace="eml://ecoinformatics.org/literature-2.0.1" />
     <xsd:import schemaLocation="eml-party.xsd" namespace="eml://ecoinformatics.org/party-2.0.1" />
@@ -201,17 +201,17 @@
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Name associated with the method. For example, that signified by an ordinal value method such as cover class.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Name associated with the method, for example 'Cover estimate using cover classes defined by Dengler (2003)'.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="description" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation source="NVS" xml:lang="en">A full description of the type of method e.g., research/project or measured parameter or basal area of all stems &gt; 10 cm dbh or counts of all saplings &gt;1.35 m tall and less than 2 cm dbh.</xsd:documentation>
+                    <xsd:documentation source="NVS" xml:lang="en">A description of the method e.g. basal area of all stems &gt; 10 cm dbh or counts of all saplings &gt;1.35 m tall and less than 2 cm dbh. Individual cover codes are defined as attributes.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="subject" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation>The description of an attribute class for comparative purposes. If two methods measure the same attribute (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject.</xsd:documentation>
+                    <xsd:documentation>If two methods related to the same subject (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="protocolID" type="xsd:string" minOccurs="0">
@@ -281,17 +281,17 @@
                     <xsd:documentation>Allows a measurement value to be qualified (type, units, method, etc.).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="accuracy" type="xsd:decimal" minOccurs="0">
+            <xsd:element name="accuracy" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation source="http://www.geod.nrcan.gc.ca/edu/gloss_e.php" xml:lang="en">The closeness of the estimate or measurement to its true (but unknown) value</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="upperValue" type="xsd:decimal" minOccurs="0">
+            <xsd:element name="upperValue" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>An upper value for an uncertain measurement.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="lowerValue" type="xsd:decimal" minOccurs="0">
+            <xsd:element name="lowerValue" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation>A lower value for an uncertain measurement.</xsd:documentation>
                 </xsd:annotation>
@@ -526,218 +526,6 @@
         <xsd:attribute name="system" type="res:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="res:ScopeType" use="optional" />
     </xsd:complexType>
-    <xsd:complexType name="GeospatialType">
-        <xsd:annotation>
-            <xsd:documentation>Compex type for capturing geospatial location. Based on Darwin Core Geospatial extension. Includes an extension for depth and elevation following TDWG taxonOccurrence ontology and additions for coordinates based on a projected grid coordinate system. For example a map series, map sheet name and easting and northing coordinates.</xsd:documentation>
-        </xsd:annotation>
-        <xsd:sequence>
-            <xsd:element ref="dwg:DecimalLatitude" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The latitude of the location from which the plot was observed, expressed in decimal degrees. Positive values are North of the Equator, negative values are South of the Equator.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:DecimalLongitude" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The longitude of the location from which the plot was observed, expressed in decimal degrees. Positive values are East of the Greenwich Meridian, negative values are West of the Greenwich Meridian.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:GeodeticDatum" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The geodetic datum to which the latitude and longitude refer.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:CoordinateUncertaintyInMeters" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The upper limit of the distance (in meters) from the given latitude and longitude describing a circle within which the whole of the described locality lies. Leave the value empty if the uncertainty is unknown, cannot be estimated, or is not applicable (because there are no coordinates). The value should be greater than zero.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:PointRadiusSpatialFit" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A measure of how well the circle defined by the coordinates and uncertainty match the original spatial representation, as a ratio of the area of the circle to the area of the original spatial representation. Legal values are 0, greater than or equal to 1. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given georeference does not completely contain the original representation. The PointRadiusSpatialFit is undefined if the original representation is a point without uncertainty and the given georeference is not that same point (without uncertainty). If both the original and the given georeference are the same point, the PointRadiusSpatialFit is 1. Detailed explanations with graphical examples can be found in the Guide to Best Practices for Georeferencing (Chapman and Wieczorek, eds. 2006) http://www.gbif.org/prog/digit/Georeferencing.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:FootprintWKT" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A Well-Known Text (WKT; see http://en.wikipedia.org/wiki/Well-known_text) representation of the the shape (footprint) that defines the location of the occurrence. Example: the one-degree boundin box with opposite corners at (longitude=10, latitude=20) and (longitude=11, latitude=21) would be expressed in well-known text as POLYGON ((10 20, 11 20, 11 21, 10 21, 10 20))</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:FootprintSpatialFit" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A measure of how well the geometry expressed in the footprint match the original spatial representation, as a ratio of the area of the footprint given to the area of the original spatial representation. Legal values are 0, greater than or equal to 1. A value of 1 is an exact match or 100% overlap. A value of 0 should be used if the given georeference does not completely contain the original representation. The FootprintSpatialFit is undefined if the original representation is a point without uncertainty and the given georeference is not that same point (without uncertainty). If both the original and the given georeference are the same point, the FootprintSpatialFit is 1. Detailed explanations with graphical examples can be found in the Guide to Best Practices for Georeferencing (Chapman and Wieczorek, eds. 2006). http://www.gbif.org/prog/digit/Georeferencing</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:VerbatimCoordinates" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A text representation of the coordinate data (Latitude/ Longitude, UTM, TRS, etc.) from its original source if it cannot be separated into its component parts. Example: "470999 1234300".</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:VerbatimLatitude" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A text representation of the Latitude part of the coordinate data from its original source. Example: 47d09'99"N</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:VerbatimLongitude" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A text representation of the Longitude part of the coordinate data from its original source. Example: -122.43254</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:VerbatimCoordinateSystem" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The name of the system in which the verbatim geographic coordinates were recorded. Examples: "decimal degrees", "degrees minutes seconds", "degrees decimal minutes", "UTM"</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:GeoreferenceProtocol" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A reference to the methods used for determining the coordinates and uncertainties. Example: "http://manisnet.org/GeorefGuide.html".</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:GeoreferenceSources" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A list of maps, gazetteers or other resources used to georeference the locality. The content of this concept is meant to be specific enough to allow anyone in the future to use the same resource to georeference the same locality. Example: "USGS 1:24000 Florence Montana Quad".</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:GeoreferenceVerificationStatus" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A categorical description of the extent to which the georeference has been verified to represent the location where the specimen or observation was collected. This element should be vocabulary-controlled. Examples: "requires verification", "verified by collector", "verified by curator".</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element ref="dwg:GeoreferenceRemarks" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Comments about the spatial description determination, explaining assumptions made in addition or opposition to the those formalized in the method referred to in GeoreferenceProtocol.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="minimumDepthInMeters" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The minimum or actual depth at which the plot observation was made. Use positive values for locations below the surface. Examples: 0 (for a depth of up to 10m). 50 (for a depth between 50m and 100m).</xsd:documentation>
-                    <xsd:appinfo>Is Defined By
-http://rs.tdwg.org/ontology/voc/TaxonOccurrence
-
-DarwinCore Equivalent
-Core:MinimumDepthInMeters</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="maximumDepthInMeters" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The maximum or actual depth at which the plot observation was made. Use positive values for locations below the surface. Examples: 10 (for a depth of up to 10m). 100 (for a depth between 50m and 100m).</xsd:documentation>
-                    <xsd:appinfo>Is Defined By
-http://rs.tdwg.org/ontology/voc/TaxonOccurrence
-
-DarwinCore Equivalent
-Core:MaximumDepthInMeters</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="verbatimDepth" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A text representation of the depth in its original format on the specimen or in the collection catalogue. Example: "100 to 200 ft below sea level".</xsd:documentation>
-                    <xsd:appinfo>Is Defined By
-http://rs.tdwg.org/ontology/voc/TaxonOccurrence
-
-DarwinCore Equivalent
-Curatorial:VerbatimDepth</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="verbatimElevation" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>A text representation of the altitude in its original format of an observed plot. Example: "1000+- meters".</xsd:documentation>
-                    <xsd:appinfo>Is Defined By
-http://rs.tdwg.org/ontology/voc/TaxonOccurrence
-
-DarwinCore Equivalent
-Curatorial:VerbatimElevation</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="minimumElevationInMeters" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The minimum or actual elevation at which the observation of a plot was made. Use negative values for locations below sea level. Examples: 75 (for an elevation of 100 +- 25 meters). 100 (for an elevation between 100m and 200m).</xsd:documentation>
-                    <xsd:appinfo>Is Defined By
-http://rs.tdwg.org/ontology/voc/TaxonOccurrence
-
-DarwinCore Equivalent
-Core:MinimumElevationInMeters</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="maximumElevationInMeters" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>The maximum or actual elevation at which the observation of a plot was made. Use negative values for locations below sea level. Examples: Examples: 125 (for an elevation of 100 +- 25 meters). 200 (for an elevation between 100m and 200m).</xsd:documentation>
-                    <xsd:appinfo>Is Defined By
-http://rs.tdwg.org/ontology/voc/TaxonOccurrence
-
-DarwinCore Equivalent
-Core:MaximumElevationInMeters</xsd:appinfo>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="gridCoordinateSystemName" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-				Name of a projected map series or grid. For example, 
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Kartentyp der Rasterbezeichnung (TK25, DGK5 usw.)
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="gridCode" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-				Map sheet or grid cell identifier. For example, H123
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Nummer der Topographischen Karte
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="gridCellQuadrant" type="TINYINT" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-				Quadrant of the grid cell.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Quadrant innerhalb der Topographischen Karte
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="authorZone" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-				Zone of geographical map projection. For example, the original UTM zone reported by the author.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Bezeichnung der Projektionszone
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="authorEastCoordinate" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-				East coordinate of author map projection.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Ostkoordinate innerhalb der Zone (Rechtswert)
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="authorNorthCoordinate" type="xsd:string" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">
-				North coordinate of author map projection.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Nordkoordinate innerhalb der Zone (Hochwert)
-					</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="waterDepth" type="MeasurementType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Distance from surface to ground water. Usually recorded in meters.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="shoreDistance" type="MeasurementType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">For aquatic or marine vegetation, what was the closest distance to shore. Usually recorded in meters.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-        </xsd:sequence>
-    </xsd:complexType>
     <xsd:complexType name="relativeSpatialCoordinateType">
         <xsd:annotation>
             <xsd:documentation>Two related items (e.g., tree or plot) may have their relative positions described in geometric space using the relative position of related items with respect to a point of origin. Normally this point of origin would be an identified plot. This Type should only be used inconjunction with elements containing an origin point defined in geographic space. </xsd:documentation>
@@ -760,4 +548,7 @@ Core:MaximumElevationInMeters</xsd:appinfo>
             </xsd:element>
         </xsd:sequence>
     </xsd:complexType>
+    <xsd:simpleType name="coordinatesType">
+        <xsd:list itemType="xsd:decimal" />
+    </xsd:simpleType>
 </xsd:schema>
