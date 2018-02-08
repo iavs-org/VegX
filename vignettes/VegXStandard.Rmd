@@ -3,6 +3,7 @@ title: "The Veg-X exchange standard"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
+  word_document:
   rmarkdown::html_vignette:
     css: mystyle.css
     toc: TRUE
@@ -213,7 +214,7 @@ observationNote | Additional comments or explanations pertaining to the observat
 
 ### Element *organismIdentity*
 
-The identity of an organism (or a set of organisms) occurring within the dataset. This is initially a name defined by the dataset author which may follow, or not, nomenclatural codes. It may be further related to a published name (taxon name) and or taxonomic name (taxon concept) by using the *assertedNameID* attribute of its sub-element *authorTaxonName* or alternatively relate the name to a published name (taxon name) and or taxonomic name (taxon concept) in *taxonDetermination*. Currently, the **VegX package** does not support taxon determinations, and only the sub-element *organismName* is available, which identifies uniquely the taxon name usage concept.
+The identity of an organism (or a set of organisms) occurring within the dataset. This is initially a name defined by the dataset author which may follow, or not, nomenclatural codes. The identity may be complemented with an scientific name (taxon name) accepted according to some nomenclatural authority, by using the sub-element *preferredTaxonNomenclature*. The taxonomic concept (taxon name + reference) that the author of the observation interpreted when observing the organism (or that a third party thinks he had in mind) can also be specified in the sub-element *originalConceptIdentification*. Subsequent re-evaluations of the taxon concept (e.g. after inspection of the herbarium voucher) by third parties should be specified using the main element *taxonDetermination* (which are not currently supported by the **VegX package**).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -222,7 +223,22 @@ originalIdentificationPartyID   | A link to a party involved in the original org
 originalIdentificationNote   | Additional comments or explanations pertaining to the original identification of the organism. | 0..n | No |
 originalConceptIdentification | Information of the taxon concept originally associated to the organism identity. This information may be specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
 voucher                   | Herbarium accession number for any archived voucher specimens. | 0..n | No |
-preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. | 0..1 | Partial |
+preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. The sub-element *preferredTaxonNameID* points to an organism name that is considered the preferred name for the organism identity. | 0..1 | Partial |
+
+In the **VegX package** a field called **organismIdentityName** is used to name organisms with the following rules:
+
++ If *preferredTaxonNomenclature* has NOT been defined then *organismIdentityName* is equal to the *originalOrganismName* (via *originalOrganismNameID*).
++ If *preferredTaxonNomenclature* has been defined then *organismIdentityName* is equal to the *preferredTaxonName* (via *preferredTaxonNameID*).
+
+Organism identities are by default kept separate when merging Veg-X documents using the VegX package. If the possibility of merging of identities is enforced by the user, the decision to actually merge two given organism identities distinguishes three cases depending on the availability of taxon concepts:
+
+1. If none of the two organism identities has an associated taxon concept (i.e. if *originalConceptIdentification* is missing in both identities) then the two organism identities are considered the same if they have the same *organismIdentityName*. Three sub-cases are distinguished:
+    i) None of the organism identities have *preferredTaxonNomenclature*, so the decision to merge depends exclusively on having the same *originalOrganismName*.
+    ii) If one of the organism identities has a *preferredTaxonNomenclature* and the other does not, merging will occur if the *originalOrganismName* of the latter is equal to the *preferredTaxonName* of the former. The result of merging the elements in this case will be an organism identity where *originalOrganismName = preferredTaxonName*.
+    iii) If the two identities to be merged have the same *preferredTaxonName* (and hence the same *organismIdentityName*) but different *originalOrganismName*. In that case, the merging function will again return an identity where both *originalOrganismName = preferredTaxonName*.
+2. If only one of the organism identities has an associated taxon concept (i.e. if *originalConceptIdentification* is only specified for one of the organism identities) then the two identities cannot be merged. The user should in this case specify a taxon concept for the organism identity that lacks it before attempting to merge their identities.
+3. If both organism identities have an associated taxon concept (i.e. if *originalConceptIdentification* is specified in both identities) then the two identities are considered the same if they refer to the same taxon concept (i.e. if both the taxon name and bibliographic reference are the same). In this case the result of the merging operation is an organism identity with: (a) *originalConceptIdentification* indicating the (common) taxon concept; (b) *originalOrganismName* equal to the taxon name that forms the taxon concept; (c) no element *preferredTaxonNomenclature*, because the two identities to be merged could differ in their preferred nomenclature. Thus, nomenclature revision may be advisable after merging identities that have taxon concepts defined.
+
 
 ### Element *literatureCitation*
 
@@ -238,10 +254,10 @@ An element *method* provides the definition of a specific method followed in the
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 name               | Name associated with the method. For example, "percent cover". | 1 | Yes |
-description | A full description of the type of method e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh. | 1 | Yes |
+description | A brief description of the method (e.g., measured parameter or basal area of all stems > 10 cm dbh or counts of all saplings >1.35 m tall and less than 2 cm dbh). | 1 | Yes |
 subject | The description of an attribute class for comparative purposes. If two methods measure the same attribute (e.g. plant cover), but with different degrees of precision and accuracy, setting 'subject' to 'plant cover' allows combining their values. All attributes pointing to the same method are assumed to apply to the same subject. | 1 | Yes |
 protocolID | A reference to a specific protocol by its ID. | 0..1 | No |
-citationID | A reference to a specific citation of literature. | 0..1 | Yes |
+citationID | A reference to a specific citation of literature, by ID, where the method is explained in length. | 0..1 | Yes |
 
 ### Element *attribute*
 
