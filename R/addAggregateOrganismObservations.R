@@ -1,14 +1,22 @@
 #' Add aggregate organism observation records
 #'
-#' Adds aggregate organism observation records to a VegX object from a data table
+#' Adds aggregate organism observation records to a VegX object from a data frame where rows are observation records.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#'                Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).
-#' @param methods A list measurement methods for aggregate organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
+#' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+#'  \itemize{
+#'    \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+#'    \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+#'    \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+#'    \item{\code{organismName} - The string of a name, defined by the dataset author, and which does not follow nomenclatural codes.}
+#'    \item{\code{taxonName} - The string of a taxon name (not necessarily including authority). }
+#'    \item{\code{stratumName} - A string used to identify a stratum (see \code{stratumDefinition}; optional).}
+#'    \item{\code{heightMeasurement} - Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements (optional).}
+#'    \item{\code{...} - User defined names used to map aggregate organism measurements, such as percent cover (optional).}
+#'  }
+#' @param methods A list measurement methods for \code{heightMeasurement} and all the user defined aggregate organism measurements (each method is an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
-#' @param citationStringAll A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -20,12 +28,13 @@
 #'
 #' @family add functions
 #'
-#' @details Missing value policy:
+#' @details The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names 
+#' and others that are not taxa. Missing value policy:
 #' \itemize{
-#'   \item{Missing 'plotName' and 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
-#'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
-#'   \item{When 'stratumName' values are missing the aggregate organism observation is not assigned to any stratum.}
-#'   \item{When both 'organismName' and 'taxonName' are missing (i.e. missing organism identity) the function generates an error.}
+#'   \item{Missing \code{plotName} and \code{obsStartDate} values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
+#'   \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
+#'   \item{When \code{stratumName} values are missing the aggregate organism observation is not assigned to any stratum.}
+#'   \item{When both \code{organismName} and \code{taxonName} are missing (i.e. missing organism identity) the function generates an error.}
 #'   \item{Missing aggregate organism measurements are not added to the Veg-X document.}
 #' }
 #'
@@ -96,7 +105,6 @@ addAggregateOrganismObservations<-function(target, x,
                                      mapping,
                                      methods = list(),
                                      stratumDefinition = NULL,
-                                     citationStringAll = NULL,
                                      date.format = "%Y-%m-%d",
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
@@ -106,7 +114,7 @@ addAggregateOrganismObservations<-function(target, x,
   nmissing = 0
 
   aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName",
-                            "taxonName", "citationString")
+                            "taxonName")
 
   #Check columns exist
   for(i in 1:length(mapping)) {
@@ -135,10 +143,6 @@ addAggregateOrganismObservations<-function(target, x,
   if(organismNameFlag) {
     organismNames = as.character(x[[mapping[["organismName"]]]])
   }
-  citationStringFlag = ("citationString" %in% names(mapping))
-  if(citationStringFlag) {
-    citationStringData = as.character(x[[mapping[["citationString"]]]])
-  }
 
   #heightmeasurement
   aggMeasurementValues = list()
@@ -159,10 +163,10 @@ addAggregateOrganismObservations<-function(target, x,
 
   #Check duplicate records
   # aggObservationMapping = c("plotName", "obsStartDate", "subPlotName", "stratumName", "organismName",
-  #                           "taxonName", "citationString")
+  #                           "taxonName")
 
   mapcols = as.character(mapping[aggObservationMapping[c(T,T,subPlotFlag,stratumFlag,organismNameFlag,
-                                                         taxonNameFlag, citationStringFlag)]])
+                                                         taxonNameFlag)]])
   xstrings = apply(x[, mapcols],1, paste, collapse=" ")
   us = length(unique(xstrings))
   if(us<nrow(x)) warning(paste0(nrow(x)-us," duplicate records found!"))
@@ -226,7 +230,7 @@ addAggregateOrganismObservations<-function(target, x,
         ncitid = .newLiteratureCitationIDByCitationString(target, stratumDefMethod@citationString)
         if(ncitid$new) {
           target@literatureCitations[[ncitid$id]] = list(citationString =stratumDefMethod@citationString)
-          if(method@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = stratumDefMethod@DOI
+          if(stratumDefMethod@DOI!="")  target@literatureCitations[[ncitid$id]]$DOI = stratumDefMethod@DOI
         }
         target@methods[[strmethodID]]$citationID = ncitid$id
       }
@@ -358,33 +362,33 @@ addAggregateOrganismObservations<-function(target, x,
         onID = parsedONIDs[which(parsedONs==organismName)]
       }
       # taxon concept
-      if(!is.null(citationStringAll)) {
-        citationString = citationStringAll
-      }
-      if(citationStringFlag){
-        if(!(citationStringData[i] %in% missing.values)) { #If there is citation data in a column, this overrides the string for all data set
-          citationString = citationStringData[i]
-        }
-      }
+      # if(!is.null(citationStringAll)) {
+      #   citationString = citationStringAll
+      # }
+      # if(citationStringFlag){
+      #   if(!(citationStringData[i] %in% missing.values)) { #If there is citation data in a column, this overrides the string for all data set
+      #     citationString = citationStringData[i]
+      #   }
+      # }
       taxonConceptString = paste(organismName, citationString)
-      if(citationString!="") { # Parse taxon concept only if citation string is not missing
-        if(!(taxonConceptString %in% parsedTCs)) {
-          ntcid = .newTaxonConceptIDByNameCitation(target, organismName, taxonConceptString) # Get the new taxon concept ID (internal code)
-          tcID = ntcid$id
-          if(ntcid$new) {
-            ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
-            if(ncitid$new) {
-              target@literatureCitations[[ncitid$id]] = list(citationString = citationString)
-            }
-            target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
-                                                "citationID" = ncitid$id)
-          }
-          parsedTCs = c(parsedTCs, taxonConceptString)
-          parsedTCIDs = c(parsedTCIDs, tcID)
-        } else {
-          tcID = parsedTCIDs[which(parsedTCs==taxonConceptString)]
-        }
-      }
+      # if(citationString!="") { # Parse taxon concept only if citation string is not missing
+      #   if(!(taxonConceptString %in% parsedTCs)) {
+      #     ntcid = .newTaxonConceptIDByNameCitation(target, organismName, taxonConceptString) # Get the new taxon concept ID (internal code)
+      #     tcID = ntcid$id
+      #     if(ntcid$new) {
+      #       ncitid = .newLiteratureCitationIDByCitationString(target, citationString)
+      #       if(ncitid$new) {
+      #         target@literatureCitations[[ncitid$id]] = list(citationString = citationString)
+      #       }
+      #       target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
+      #                                           "citationID" = ncitid$id)
+      #     }
+      #     parsedTCs = c(parsedTCs, taxonConceptString)
+      #     parsedTCIDs = c(parsedTCIDs, tcID)
+      #   } else {
+      #     tcID = parsedTCIDs[which(parsedTCs==taxonConceptString)]
+      #   }
+      # }
 
       # organism identity
       if(!(taxonConceptString %in% parsedOIs)) {

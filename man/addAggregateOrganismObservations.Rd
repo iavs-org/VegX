@@ -5,23 +5,29 @@
 \title{Add aggregate organism observation records}
 \usage{
 addAggregateOrganismObservations(target, x, mapping, methods = list(),
-  stratumDefinition = NULL, citationStringAll = NULL,
-  date.format = "\%Y-\%m-\%d", missing.values = c(NA, "0", ""),
-  verbose = TRUE)
+  stratumDefinition = NULL, date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, "0", ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one aggregate organism observation. Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', 'organismName' or 'taxonName', and 'value', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName', 'heightMeasurement' and mappings to other measurements (e.g. taxon abundance).}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+\itemize{
+  \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+  \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+  \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+  \item{\code{organismName} - The string of a name, defined by the dataset author, and which does not follow nomenclatural codes.}
+  \item{\code{taxonName} - The string of a taxon name (not necessarily including authority). }
+  \item{\code{stratumName} - A string used to identify a stratum (see \code{stratumDefinition}; optional).}
+  \item{\code{heightMeasurement} - Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements (optional).}
+  \item{\code{...} - User defined names used to map aggregate organism measurements, such as percent cover (optional).}
+}}
 
-\item{methods}{A list measurement methods for aggregate organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
+\item{methods}{A list measurement methods for \code{heightMeasurement} and all the user defined aggregate organism measurements (each method is an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
-
-\item{citationStringAll}{A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.}
 
 \item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
@@ -33,15 +39,16 @@ Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName'
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds aggregate organism observation records to a VegX object from a data table
+Adds aggregate organism observation records to a VegX object from a data frame where rows are observation records.
 }
 \details{
-Missing value policy:
+The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names 
+and others that are not taxa. Missing value policy:
 \itemize{
-  \item{Missing 'plotName' and 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
-  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
-  \item{When 'stratumName' values are missing the aggregate organism observation is not assigned to any stratum.}
-  \item{When both 'organismName' and 'taxonName' are missing (i.e. missing organism identity) the function generates an error.}
+  \item{Missing \code{plotName} and \code{obsStartDate} values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
+  \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
+  \item{When \code{stratumName} values are missing the aggregate organism observation is not assigned to any stratum.}
+  \item{When both \code{organismName} and \code{taxonName} are missing (i.e. missing organism identity) the function generates an error.}
   \item{Missing aggregate organism measurements are not added to the Veg-X document.}
 }
 }

@@ -7,6 +7,7 @@
 #' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
 #'  \itemize{
 #'    \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+#'    \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
 #'    \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
 #'    \item{\code{projectTitle} - Title of the project related to the plot observation (optional).}
 #'    \item{\code{obsEndDate} - Plot observation end date (optional; see  \code{date.format}).}
