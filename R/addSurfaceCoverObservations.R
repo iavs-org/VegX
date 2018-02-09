@@ -21,7 +21,7 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing value policy:
+#' @details Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
 #'  \itemize{
 #'    \item{Missing \code{plotName}, \code{obsStartDate} or \code{surfaceName} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
 #'    \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
@@ -87,15 +87,23 @@ addSurfaceCoverObservations<-function(target, x, mapping,
   nrecords = nrow(x)
   nmissing = 0
 
+  mappingsSCO = c("plotName", "obsStartDate", "subPlotName", "surfaceName")
+  mappingsAvailable = c(mappingsSCO, "coverMeasurement")
+  
+  #Warning for non-recognized mappings
+  nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
+  if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function and will be ignored."))
 
   #Check columns exist
   for(i in 1:length(mapping)) {
-    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+    if(!(mapping[i] %in% names(x))) {
+      if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+    }
   }
+  
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format = date.format)
   surfaceNameData = as.character(x[[mapping[["surfaceName"]]]])
-
   #Optional mappings
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
@@ -104,8 +112,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
 
 
   #Check duplicate records
-  surfaceObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName", "surfaceName")
-  mapcols = as.character(mapping[surfaceObservationMappingsAvailable[c(T,T,subPlotFlag,T)]])
+  mapcols = as.character(mapping[mappingsSCO[c(T,T,subPlotFlag,T)]])
   xstrings = apply(x[, mapcols],1, paste, collapse=" ")
   us = length(unique(xstrings))
   if(us<nrow(x)) warning(paste0(nrow(x)-us," duplicate records found!"))

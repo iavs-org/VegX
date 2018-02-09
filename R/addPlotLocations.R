@@ -83,7 +83,7 @@ addPlotLocations<-function(target, x,
 
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
-  if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function will be ignored."))
+  if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function and will be ignored."))
   
   #Check columns exist
   for(i in 1:length(mapping)) {
