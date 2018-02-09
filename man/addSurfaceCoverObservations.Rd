@@ -13,9 +13,14 @@ addSurfaceCoverObservations(target, x, mapping, coverMethod,
 
 \item{x}{A data frame where each row corresponds to one surface cover observation (e.g. bare rock percent cover). Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName',  'obsStartDate', 'surfaceName' and 'coverMeasurement'
-are used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName'.}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+\itemize{
+  \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+  \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+  \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+  \item{\code{surfaceName} - The string of the name of a surface type (see \code{surfaceTypeDefinition}; required).}
+  \item{\code{coverMeasurement} - Surface cover values (required).}
+}}
 
 \item{coverMethod}{A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
@@ -36,9 +41,9 @@ Adds surface cover observation records to a VegX object from a data table where 
 \details{
 Missing value policy:
  \itemize{
-   \item{Missing 'plotName', 'obsStartDate' or 'surfaceName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
-   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
-   \item{Missing measurements are simply not added to the Veg-X document.}
+   \item{Missing \code{plotName}, \code{obsStartDate} or \code{surfaceName} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+   \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
+   \item{Missing values of \code{coverMeasurement} are simply not added to the Veg-X document.}
 }
 }
 \examples{

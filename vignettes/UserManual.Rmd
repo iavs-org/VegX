@@ -523,7 +523,7 @@ comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx)
 ```
 The two documents to be merged, ``mtfyffe_vegx`` and ``taki_vegx`` had shared methods, so the function identifies them as equal and avoids repetitions. In contrast, the plots had all different names, so they were all kept separately (in this case, merging plots would be considered a mistake, as they come from different study areas). The decisions to merge (i.e. pool) information of other elements can be interpreted similarly. A case of special rellevance concerns *organismName* vs. *organismIdentity*. Note that some organism names were merged, but identities were not. While merging equal names is always safe, merging identities should be done with caution, because two data sets may have employed the same taxon name but with different taxon concepts. Therefore, by default ``mergeVegX()`` does not merge organism identities. If we want to specify that identities can be merged (when considered equal) we can set parameter ``mergeIdentities = TRUE``:
 ```{r merge two documents identities}
-comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, mergeIdentities = TRUE)
+# comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, mergeIdentities = TRUE)
 ```
 Note that in this second output, there are the number of merges in *organismName* than *organismIdentity*, as the equal names have been forced to mean equal identity.
 
