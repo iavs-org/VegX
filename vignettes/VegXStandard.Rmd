@@ -4,7 +4,6 @@ author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
-    css: mystyle.css
     toc: TRUE
 vignette: >
   %\VignetteIndexEntry{The Veg-X exchange standard}

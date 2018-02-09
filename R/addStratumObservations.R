@@ -8,6 +8,7 @@
 #' Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.
 #' @param methods A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
+#' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -71,6 +72,7 @@
 addStratumObservations<-function(target, x, mapping,
                                  methods,
                                  stratumDefinition,
+                                 date.format = "%Y-%m-%d",
                                  missing.values = c(NA, ""),
                                  verbose = TRUE) {
 
@@ -86,7 +88,7 @@ addStratumObservations<-function(target, x, mapping,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format = date.format)
   stratumNamesData = as.character(x[[mapping[["stratumName"]]]])
 
   #Optional mappings

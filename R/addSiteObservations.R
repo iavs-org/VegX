@@ -16,6 +16,7 @@
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.
 #' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.
+#' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -61,6 +62,7 @@ addSiteObservations<-function(target, x,
                               soilMeasurementMethods = list(),
                               climateMeasurementMethods = list(),
                               waterMassMeasurementMethods = list(),
+                              date.format = "%Y-%m-%d",
                               missing.values = c(NA,""),
                               verbose = TRUE) {
   x = as.data.frame(x)
@@ -127,7 +129,7 @@ addSiteObservations<-function(target, x,
     }
   }
   plotNames = as.character(x[[plotObservationMapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[plotObservationMapping[["obsStartDate"]]]]))
+  obsStartDates = as.Date(as.character(x[[plotObservationMapping[["obsStartDate"]]]]), format = date.format)
 
   #Optional mappings
   subPlotFlag = ("subPlotName" %in% names(plotObservationMapping))

@@ -9,6 +9,7 @@
 #' Additional optional mappings are: 'subPlotName'.
 #' @param coverMethod A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param surfaceTypeDefinition An object of class \code{\linkS4class{VegXSurfaceTypeDefinition}} indicating the definition of surface types.
+#' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -70,6 +71,7 @@
 #'
 addSurfaceCoverObservations<-function(target, x, mapping,
                                       coverMethod, surfaceTypeDefinition,
+                                      date.format = "%Y-%m-%d",
                                       missing.values = c(NA, ""),
                                       verbose = TRUE) {
 
@@ -86,7 +88,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format = date.format)
   surfaceNameData = as.character(x[[mapping[["surfaceName"]]]])
 
   #Optional mappings

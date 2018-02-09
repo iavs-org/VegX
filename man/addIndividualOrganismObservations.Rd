@@ -6,7 +6,8 @@
 \usage{
 addIndividualOrganismObservations(target, x, mapping, methods = list(),
   stratumDefinition = NULL, citationStringAll = NULL,
-  missing.values = c(NA, "0", ""), verbose = TRUE)
+  date.format = "\%Y-\%m-\%d", missing.values = c(NA, "0", ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}

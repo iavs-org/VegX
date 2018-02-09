@@ -8,7 +8,7 @@ addSiteObservations(target, x, plotObservationMapping,
   soilMeasurementMapping = list(), climateMeasurementMapping = list(),
   waterMassMeasurementMapping = list(), soilMeasurementMethods = list(),
   climateMeasurementMethods = list(), waterMassMeasurementMethods = list(),
-  missing.values = c(NA, ""), verbose = TRUE)
+  date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -33,6 +33,8 @@ for each of the soil variables stated in \code{soilMeasurementMapping}. List nam
 
 \item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.}
+
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 

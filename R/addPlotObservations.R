@@ -7,6 +7,7 @@
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observationParty', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.
+#' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing data (see details).
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -51,6 +52,7 @@
 addPlotObservations<-function(target, x,
                               mapping,
                               missing.values = c(NA,""),
+                              date.format = "%Y-%m-%d",
                               verbose = TRUE) {
   x = as.data.frame(x)
   nrecords = nrow(x)
@@ -69,7 +71,7 @@ addPlotObservations<-function(target, x,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format ="%Y-%m-%d")
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format =date.format)
 
   #Optional mappings
   projectFlag = ("projectTitle" %in% names(mapping))
@@ -78,7 +80,7 @@ addPlotObservations<-function(target, x,
   }
   obsEndFlag = ("obsEndDate" %in% names(mapping))
   if(obsEndFlag) {
-    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]), format ="%Y-%m-%d")
+    obsEndDates = as.Date(as.character(x[[mapping[["obsEndDate"]]]]), format =date.format)
   }
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {

@@ -5,7 +5,7 @@
 \title{Add stratum observation records}
 \usage{
 addStratumObservations(target, x, mapping, methods, stratumDefinition,
-  missing.values = c(NA, ""), verbose = TRUE)
+  date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -18,6 +18,8 @@ Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lower
 \item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
+
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 

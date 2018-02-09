@@ -5,7 +5,8 @@
 \title{Add surface cover observation records}
 \usage{
 addSurfaceCoverObservations(target, x, mapping, coverMethod,
-  surfaceTypeDefinition, missing.values = c(NA, ""), verbose = TRUE)
+  surfaceTypeDefinition, date.format = "\%Y-\%m-\%d", missing.values = c(NA,
+  ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -19,6 +20,8 @@ Additional optional mappings are: 'subPlotName'.}
 \item{coverMethod}{A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{surfaceTypeDefinition}{An object of class \code{\linkS4class{VegXSurfaceTypeDefinition}} indicating the definition of surface types.}
+
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 

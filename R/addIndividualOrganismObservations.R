@@ -67,6 +67,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
                                             methods = list(),
                                             stratumDefinition = NULL,
                                             citationStringAll = NULL,
+                                            date.format = "%Y-%m-%d",
                                             missing.values = c(NA, "0", ""),
                                             verbose = TRUE) {
   x = as.data.frame(x)
@@ -81,7 +82,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]))
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format = date.format)
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))

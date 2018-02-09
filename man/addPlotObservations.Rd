@@ -5,7 +5,7 @@
 \title{Add plot observation records}
 \usage{
 addPlotObservations(target, x, mapping, missing.values = c(NA, ""),
-  verbose = TRUE)
+  date.format = "\%Y-\%m-\%d", verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -16,6 +16,8 @@ addPlotObservations(target, x, mapping, missing.values = c(NA, ""),
 Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observationParty', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.}
 
 \item{missing.values}{A character vector of values that should be considered as missing data (see details).}
+
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
