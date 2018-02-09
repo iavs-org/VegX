@@ -12,10 +12,17 @@ addStratumObservations(target, x, mapping, methods, stratumDefinition,
 
 \item{x}{A data frame where each row corresponds to one stratum observation. Columns can be varied.}
 
-\item{mapping}{A named list with element names 'plotName', 'obsStartDate', and 'stratumName' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'lowerLimitMeasurement', 'lowerLimitMeasurement', and mappings to other stratum measurements.}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+\itemize{
+  \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+  \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+  \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+  \item{\code{stratumName} - A string used to identify a stratum (see \code{stratumDefinition}; required).}
+  \item{\code{lowerLimitMeasurement},  \code{upperLimitMeasurement}- Lower and upper limits, respectively, of strata (e.g. height limits in m).}
+  \item{\code{...} - User defined names used to map stratum measurements, such as percent cover (optional).}
+}}
 
-\item{methods}{A list measurement methods for stratum measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
+\item{methods}{A list measurement methods for \code{lowerLimitMeasurement}, \code{upperLimitMeasurement} and other stratum measurements (each one is object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
@@ -34,8 +41,8 @@ Adds stratum observation records to a VegX object from a data table where rows a
 \details{
 Missing value policy:
  \itemize{
-  \item{Missing 'plotName', 'obsStartDate' or 'stratumName' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
-  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
+  \item{Missing \code{plotName}, \code{obsStartDate} or \code{stratumName} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+  \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
   \item{Missing measurements are simply not added to the Veg-X document.}
  }
 }
