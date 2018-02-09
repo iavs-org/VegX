@@ -12,8 +12,15 @@ addPlotObservations(target, x, mapping, missing.values = c(NA, ""),
 
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observationParty', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+ \itemize{
+   \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+   \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+   \item{\code{projectTitle} - Title of the project related to the plot observation (optional).}
+   \item{\code{obsEndDate} - Plot observation end date (optional; see  \code{date.format}).}
+   \item{\code{observationParty} - Name of the party that undertook plot observation (optional).}
+   \item{\code{plotUniqueIdentifier} - A string used to identify the plot uniquely, preferably globally unique (optional).}
+}}
 
 \item{missing.values}{A character vector of values that should be considered as missing data (see details).}
 
@@ -25,14 +32,13 @@ Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observation
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds plot observation records to a VegX object from a data table where rows are plot observations,
-using a mapping to identify plot observation: plot, subplot (optional), observation start date and end date (optional).
+Adds plot observation records to a VegX object from a data table where rows are plot observations.
 }
 \details{
-Missing value policy:
+Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
  \itemize{
-    \item{Missing 'projectTitle', 'plotName', 'obsStartDate' or 'obsEndDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
-    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+    \item{Missing \code{projectTitle}, \code{plotName}, \code{obsStartDate} or \code{obsEndDate} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+    \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
  }
 }
 \examples{

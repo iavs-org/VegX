@@ -1,12 +1,18 @@
 #' Add plot observation records
 #'
-#' Adds plot observation records to a VegX object from a data table where rows are plot observations,
-#' using a mapping to identify plot observation: plot, subplot (optional), observation start date and end date (optional).
+#' Adds plot observation records to a VegX object from a data table where rows are plot observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
-#' @param mapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Optional mappings are: 'projectTitle'  'obsEndDate', 'subPlotName', 'observationParty', 'plotUniqueIdentifier' and 'plotObservationUniqueIdentifier'.
+#' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+#'  \itemize{
+#'    \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+#'    \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+#'    \item{\code{projectTitle} - Title of the project related to the plot observation (optional).}
+#'    \item{\code{obsEndDate} - Plot observation end date (optional; see  \code{date.format}).}
+#'    \item{\code{observationParty} - Name of the party that undertook plot observation (optional).}
+#'    \item{\code{plotUniqueIdentifier} - A string used to identify the plot uniquely, preferably globally unique (optional).}
+#' }
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing data (see details).
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -14,10 +20,10 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing value policy:
+#' @details Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
 #'  \itemize{
-#'     \item{Missing 'projectTitle', 'plotName', 'obsStartDate' or 'obsEndDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
-#'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
+#'     \item{Missing \code{projectTitle}, \code{plotName}, \code{obsStartDate} or \code{obsEndDate} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
+#'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
 #'  }
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
@@ -63,13 +69,17 @@ addPlotObservations<-function(target, x,
   #check mappings
   plotObservationMappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName", "plotUniqueIdentifier", "plotObservationUniqueIdentifier",
                                        "observationParty")
-  for(i in 1:length(mapping)) {
-    if(!(names(mapping)[i] %in% plotObservationMappingsAvailable)) stop(paste0("Mapping for '", names(plotObservationMapping)[i], "' cannot be defined."))
-  }
   #Check columns exist
   for(i in 1:length(mapping)) {
-    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+    if(!(mapping[i] %in% names(x))) {
+      if(mapping[i] %in% plotObservationMappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+    }
   }
+  
+  nonRecognizedMappings = names(mapping)[!(names(mapping) %in% plotObservationMappingsAvailable)]
+  print(nonRecognizedMappings)
+  if(length(nonRecognizedMappings)>0) warning(paste0("Some names in 'mapping' were not recognized and therefore ignored: ", paste(nonRecognizedMappings, collapse = ",")))
+  
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format =date.format)
 
