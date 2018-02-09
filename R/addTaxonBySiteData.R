@@ -27,6 +27,8 @@ addTaxonBySiteData <-function(target,
                               obsDates = Sys.Date(), absence.values = c(NA, 0),
                               verbose = TRUE) {
 
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  
   #get project ID and add new project if necessary
   nprid = .newProjectIDByTitle(target,projectTitle)
   projectID = nprid$id

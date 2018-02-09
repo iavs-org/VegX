@@ -14,7 +14,7 @@
 #'    \item{\code{locationNarrative} -  (optional).}
 #'    \item{\code{placeName}, \code{placeType} - A string of a place name and place type (e.g. province, county, ...) (optional).}
 #' }
-#' Note that 'placeName' and 'placeType' will add new places to the list of places.
+#' Note that \code{placeName} and \code{placeType} will add new places to the list of places.
 #' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. 
 #' This parameter is needed if \code{toWGS84 = TRUE}.
 #' @param reset.places Whether the 'places' vector should be reset before adding new place names.
@@ -27,7 +27,7 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
+#' @details Named elements in \code{mapping} other than those used by this function will be ignored. Missing value policy:
 #'  \itemize{
 #'     \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
 #'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
@@ -68,6 +68,7 @@ addPlotLocations<-function(target, x,
                            methods = list(),
                            missing.values = c(NA,""),
                            verbose = TRUE) {
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0

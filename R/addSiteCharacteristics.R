@@ -1,26 +1,32 @@
 #' Adds/replaces site information
 #'
-#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots.
+#' Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data frame where rows are plots.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
-#' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
-#' Additional optional mappings are: 'subPlotName'.
+#' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+#' \itemize{
+#'    \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+#'    \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+#'    \item{\code{slope} - Slope of the plot (optional).}
+#'    \item{\code{aspect} - Aspect (i.e. orientation) of the plot (optional).}
+#'    \item{\code{landform} - Site land form (e.g. slope, ridge, saddle point; optional).}
+#'    \item{\code{parentMaterial} - Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. (optional).}
+#' }
 #' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
-#' (e.g. \code{list(aspect = aspectMeth)} to specify the use of method '\code{aspectMeth}' for aspect measurements).
+#' for each of the site variables stated in \code{mapping}. List names should be the same as the names of site variables
+#' (e.g. \code{list(aspect = aspectMeth)} to specify the use of method \code{aspectMeth} for aspect measurements).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing value policy:
+#' @details Named elements in \code{mapping} other than those used by this function will be ignored. Missing value policy:
 #'  \itemize{
-#'     \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
-#'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
-#'     \item{Missing measurements (e.g. 'aspect', 'slope',...) are simply not added to the Veg-X document.}
+#'     \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
+#'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
+#'     \item{Missing measurements (e.g. \code{aspect}, \code{slope},...) are simply not added to the Veg-X document.}
 #'  }
 #'  
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
@@ -51,6 +57,8 @@ addSiteCharacteristics<-function(target, x,
                                  measurementMethods = list(),
                                  missing.values = c(NA,""),
                                  verbose = TRUE) {
+  
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -59,19 +67,26 @@ addSiteCharacteristics<-function(target, x,
   #check mappings
   siteVariables = c("slope", "aspect", "landform", "parentMaterial")
   mappingsAvailable = c("plotName", "subPlotName", siteVariables)
+  
+  #Warning for non-recognized mappings
+  nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
+  if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function and will be ignored."))
+  
+  #Check columns exist
+  for(i in 1:length(mapping)) {
+    if(!(mapping[i] %in% names(x))) {
+      if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+    }
+  }
+  
   siteValues = list()
   for(i in 1:length(mapping)) {
-    if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
     if(names(mapping)[i] %in% siteVariables) {
       if(!(names(mapping)[i] %in% names(measurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(mapping)[i], "'."))
       siteValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
     }
   }
 
-  #Check columns exist
-  for(i in 1:length(mapping)) {
-    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
-  }
   plotNames = as.character(x[[mapping[["plotName"]]]])
 
   #Optional mappings

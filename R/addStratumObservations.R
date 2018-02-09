@@ -83,6 +83,7 @@ addStratumObservations<-function(target, x, mapping,
                                  missing.values = c(NA, ""),
                                  verbose = TRUE) {
 
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   if(is.null(stratumDefinition)) stop("Stratum definition must be supplied to map stratum observations.")
 
   x = as.data.frame(x)

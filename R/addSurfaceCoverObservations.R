@@ -1,6 +1,6 @@
 #' Add surface cover observation records
 #'
-#' Adds surface cover observation records to a VegX object from a data table where rows are cover observations.
+#' Adds surface cover observation records to a VegX object from a data frame where rows are cover observations.
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one surface cover observation (e.g. bare rock percent cover). Columns can be varied.
@@ -21,7 +21,7 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
+#' @details Named elements in \code{mapping} other than those used by this function will be ignored. Missing value policy:
 #'  \itemize{
 #'    \item{Missing \code{plotName}, \code{obsStartDate} or \code{surfaceName} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
 #'    \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
@@ -80,6 +80,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
                                       missing.values = c(NA, ""),
                                       verbose = TRUE) {
 
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   if(is.null(surfaceTypeDefinition)) stop("Surface type definition must be supplied to map cover observations.")
   if(is.null(coverMethod)) stop("Cover measurement method must be supplied to map cover observations.")
 

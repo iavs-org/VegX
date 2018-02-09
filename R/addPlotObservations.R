@@ -61,6 +61,7 @@ addPlotObservations<-function(target, x,
                               missing.values = c(NA,""),
                               date.format = "%Y-%m-%d",
                               verbose = TRUE) {
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0

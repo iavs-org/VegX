@@ -109,6 +109,7 @@ addAggregateOrganismObservations<-function(target, x,
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
 
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0

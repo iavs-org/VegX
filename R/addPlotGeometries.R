@@ -58,6 +58,7 @@ addPlotGeometries<-function(target, x,
                             methods = list(),
                             missing.values = c(NA,""),
                             verbose = TRUE) {
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0

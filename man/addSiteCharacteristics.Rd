@@ -12,13 +12,19 @@ addSiteCharacteristics(target, x, mapping, measurementMethods = list(),
 
 \item{x}{A data frame where each row corresponds to one plot observation. Columns can be varied.}
 
-\item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Site variables that can be mapped are: 'slope', 'aspect', 'landform', 'parentMaterial'.
-Additional optional mappings are: 'subPlotName'.}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+\itemize{
+   \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+   \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+   \item{\code{slope} - Slope of the plot (optional).}
+   \item{\code{aspect} - Aspect (i.e. orientation) of the plot (optional).}
+   \item{\code{landform} - Site land form (e.g. slope, ridge, saddle point; optional).}
+   \item{\code{parentMaterial} - Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. (optional).}
+}}
 
 \item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-for each of the abiotic variables stated in \code{mapping}. List names should be the same as abiotic variables
-(e.g. \code{list(aspect = aspectMeth)} to specify the use of method '\code{aspectMeth}' for aspect measurements).}
+for each of the site variables stated in \code{mapping}. List names should be the same as the names of site variables
+(e.g. \code{list(aspect = aspectMeth)} to specify the use of method \code{aspectMeth} for aspect measurements).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -28,14 +34,14 @@ for each of the abiotic variables stated in \code{mapping}. List names should be
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data table where rows are plots.
+Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object from a data frame where rows are plots.
 }
 \details{
-Missing value policy:
+Named elements in \code{mapping} other than those used by this function will be ignored. Missing value policy:
  \itemize{
-    \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
-    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
-    \item{Missing measurements (e.g. 'aspect', 'slope',...) are simply not added to the Veg-X document.}
+    \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. \code{aspect}, \code{slope},...) are simply not added to the Veg-X document.}
  }
 }
 \examples{

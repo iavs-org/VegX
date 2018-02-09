@@ -36,10 +36,10 @@ addSurfaceCoverObservations(target, x, mapping, coverMethod,
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds surface cover observation records to a VegX object from a data table where rows are cover observations.
+Adds surface cover observation records to a VegX object from a data frame where rows are cover observations.
 }
 \details{
-Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
+Named elements in \code{mapping} other than those used by this function will be ignored. Missing value policy:
  \itemize{
    \item{Missing \code{plotName}, \code{obsStartDate} or \code{surfaceName} values are interpreted as if the previous non-missing value has to be used to define plot observation.}
    \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
