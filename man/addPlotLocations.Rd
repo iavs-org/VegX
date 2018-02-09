@@ -4,21 +4,28 @@
 \alias{addPlotLocations}
 \title{Adds/replaces plot location information}
 \usage{
-addPlotLocations(target, x, mapping,
-  proj4string = "+proj=longlat +ellps=WGS84", reset.places = FALSE,
-  toWGS84 = FALSE, methods = list(), missing.values = c(NA, ""),
-  verbose = TRUE)
+addPlotLocations(target, x, mapping, proj4string = NULL,
+  reset.places = FALSE, toWGS84 = FALSE, methods = list(),
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one plot. Columns can be varied.}
 
-\item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Location variables that can be mapped are: 'x', 'y', 'elevation', 'authorLocation','locationNarrative', 'placeName', 'placeType'and 'placementParty'.
-Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+\itemize{
+   \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+   \item{\code{x}, \code{y} - Spatial coordinates of the plot (optional).}
+   \item{\code{elevation} - Elevation of the plot (optional).}
+   \item{\code{authorLocation} - A string describing the location of the plot as made by the author (optional).}
+   \item{\code{locationNarrative} -  (optional).}
+   \item{\code{placeName}, \code{placeType} - A string of a place name and place type (e.g. province, county, ...) (optional).}
+}
+Note that 'placeName' and 'placeType' will add new places to the list of places.}
 
-\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.}
+\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. 
+This parameter is needed if \code{toWGS84 = TRUE}.}
 
 \item{reset.places}{Whether the 'places' vector should be reset before adding new place names.}
 
@@ -40,9 +47,9 @@ Adds/replaces static plot location information (spatial coordinates, elevation, 
 \details{
 Missing value policy:
  \itemize{
-    \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
-    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
-    \item{Missing measurements (e.g. 'elevation', 'x', 'y', ...) are simply not added to the Veg-X document.}
+    \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. \code{elevation}, \code{x}, \code{y}, ...) are simply not added to the Veg-X document.}
  }
 }
 \examples{
@@ -52,7 +59,8 @@ data(mokihinui)
 mapping = list(plotName = "Plot", x = "Longitude", y = "Latitude")
 
 # Create new Veg-X document with plot locations
-x = addPlotLocations(newVegX(), moki_loc, mapping)
+x = addPlotLocations(newVegX(), moki_loc, mapping,
+                     proj4string = "+proj=longlat +datum=WGS84")
 
 # Summary of the new Veg-X document
 showElementTable(x, "plot")

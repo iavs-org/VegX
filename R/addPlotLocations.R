@@ -4,10 +4,18 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one plot. Columns can be varied.
-#' @param mapping A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' Location variables that can be mapped are: 'x', 'y', 'elevation', 'authorLocation','locationNarrative', 'placeName', 'placeType'and 'placementParty'.
-#' Additional optional mappings are: 'subPlotName'. Note that 'placeName' and 'placeType' will add new places to the list of places
-#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
+#' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+#' \itemize{
+#'    \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+#'    \item{\code{x}, \code{y} - Spatial coordinates of the plot (optional).}
+#'    \item{\code{elevation} - Elevation of the plot (optional).}
+#'    \item{\code{authorLocation} - A string describing the location of the plot as made by the author (optional).}
+#'    \item{\code{locationNarrative} -  (optional).}
+#'    \item{\code{placeName}, \code{placeType} - A string of a place name and place type (e.g. province, county, ...) (optional).}
+#' }
+#' Note that 'placeName' and 'placeType' will add new places to the list of places.
+#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. 
+#' This parameter is needed if \code{toWGS84 = TRUE}.
 #' @param reset.places Whether the 'places' vector should be reset before adding new place names.
 #' @param toWGS84 A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".
 #' @param methods A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
@@ -20,9 +28,9 @@
 #'
 #' @details Missing value policy:
 #'  \itemize{
-#'     \item{Missing 'plotName' values are interpreted as if the previous non-missing value has to be used to define plot.}
-#'     \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
-#'     \item{Missing measurements (e.g. 'elevation', 'x', 'y', ...) are simply not added to the Veg-X document.}
+#'     \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
+#'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
+#'     \item{Missing measurements (e.g. \code{elevation}, \code{x}, \code{y}, ...) are simply not added to the Veg-X document.}
 #'  }
 #'  
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
@@ -36,7 +44,8 @@
 #' mapping = list(plotName = "Plot", x = "Longitude", y = "Latitude")
 #'
 #' # Create new Veg-X document with plot locations
-#' x = addPlotLocations(newVegX(), moki_loc, mapping)
+#' x = addPlotLocations(newVegX(), moki_loc, mapping,
+#'                      proj4string = "+proj=longlat +datum=WGS84")
 #'
 #' # Summary of the new Veg-X document
 #' showElementTable(x, "plot")
@@ -52,7 +61,7 @@
 #' 
 addPlotLocations<-function(target, x,
                            mapping,
-                           proj4string = "+proj=longlat +ellps=WGS84",
+                           proj4string = NULL,
                            reset.places = FALSE,
                            toWGS84 = FALSE,
                            methods = list(),
@@ -94,6 +103,12 @@ addPlotLocations<-function(target, x,
     placementParties = as.character(x[[mapping[["placementParty"]]]])
   }
 
+  if(("y" %in% names(mapping)) && ("x" %in% names(mapping))) {
+    if(toWGS84 && is.null(proj4string)) {
+      stop("Cannot translate input coordinates to WGS84 if 'proj4string' is not specified.")
+    }
+  }
+  
   #add methods
   methodIDs = character(0)
   methodCodes = list()
@@ -261,7 +276,7 @@ addPlotLocations<-function(target, x,
         }
         target@plots[[plotID]]$location$horizontalCoordinates$coordinates$valueX = as.numeric(x)
         target@plots[[plotID]]$location$horizontalCoordinates$coordinates$valueY = as.numeric(y)
-        target@plots[[plotID]]$location$horizontalCoordinates$coordinates$spatialReference = proj4string
+        if(!is.null(proj4string)) target@plots[[plotID]]$location$horizontalCoordinates$coordinates$spatialReference = proj4string
         if(!is.na(attIDs)) target@plots[[plotID]]$location$horizontalCoordinates$coordinates$attributeID = attIDs[1]
       } else {
         nmissing = nmissing + 1
