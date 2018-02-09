@@ -80,7 +80,9 @@
 mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
-
+  if(class(x)!="VegX") stop("Wrong class for 'x'. Should be an object of class 'VegX'")
+  if(class(y)!="VegX") stop("Wrong class for 'y'. Should be an object of class 'VegX'")
+  
   # parties
   partyIDmap = list()
   nmergedparties = 0

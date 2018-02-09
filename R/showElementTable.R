@@ -68,6 +68,8 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
                                  "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute", "literatureCitation"))
+  if(class(x)!="VegX") stop("Wrong class for 'x'. Should be an object of class 'VegX'")
+
   res = NULL
   trimString<-function(s) {
    if(is.na(max.nchar)) return(s)

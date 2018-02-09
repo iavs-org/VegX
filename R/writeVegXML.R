@@ -16,6 +16,8 @@
 #' }
 #'
 writeVegXML<-function(x, file, verbose = TRUE) {
+  if(class(x)!="VegX") stop("Wrong class for 'x'. Should be an object of class 'VegX'")
+
   # Top XML node
   doc = newXMLDoc()
   top = newXMLNode(name = "VegX",

@@ -36,6 +36,8 @@ fillProjectInformation<-function(target, title,
                                  DOI = "",
                                  verbose = TRUE) {
 
+  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  
   nprid = .newProjectIDByTitle(target, title) # Get the new project ID (internal code)
   projectID = nprid$id
   if(nprid$new) project = list("title" = title)
