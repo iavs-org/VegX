@@ -5,24 +5,31 @@
 \title{Add individual organism observation records}
 \usage{
 addIndividualOrganismObservations(target, x, mapping, methods = list(),
-  stratumDefinition = NULL, citationStringAll = NULL,
-  date.format = "\%Y-\%m-\%d", missing.values = c(NA, "0", ""),
-  verbose = TRUE)
+  stratumDefinition = NULL, date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, "0", ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
 \item{x}{A data frame where each row corresponds to one individual organism (e.g. a tree) observation. Columns can be varied.}
 
-\item{mapping}{A list with element names 'plotName', 'obsStartDate' used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'organismName', 'taxonName' , 'citationString',
-'stratumName', 'diameterMeasurement', 'heightMeasurement', and names to identify additional specific measurements.}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+\itemize{
+  \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+  \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+  \item{\code{obsStartDate} - Plot observation start date (required; see \code{date.format}).}
+  \item{\code{individualOrganismLabel} - The string of a name, defined by the dataset author, and which does not follow nomenclatural codes.}
+  \item{\code{organismName} - The string of a name, defined by the dataset author, and which does not follow nomenclatural codes.}
+  \item{\code{taxonName} - The string of a taxon name (not necessarily including authority). }
+  \item{\code{stratumName} - A string used to identify a stratum (see \code{stratumDefinition}; optional).}
+  \item{\code{diameterMeasurement} - Individual organism (e.g. tree) diameter (optional).}
+  \item{\code{heightMeasurement} - Individual organism (e.g. tree) height (optional).}
+  \item{\code{...} - User defined names used to map additional individual organism measurements (optional).}
+}}
 
 \item{methods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
-
-\item{citationStringAll}{A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -32,17 +39,18 @@ Additional optional mappings are: 'subPlotName', 'individualOrganismLabel', 'org
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds individual organism observation records to a VegX object from a data table.
+Adds individual organism observation records to a VegX object from a data frame where rows are individual observations.
 }
 \details{
-Missing value policy:
+The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names 
+and others that are not taxa. Missing value policy:
 \itemize{
-  \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
-  \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
-  \item{When both 'organismName' and 'taxonName' are missing the organism is assumed to be unidentified (i.e. no identity is added).}
-  \item{When 'individualOrganismLabel' is missing the function creates a label for the organism.}
-  \item{When 'stratumName' values are missing the individual organism observation is not assigned to any stratum.}
-  \item{Missing measurements (e.g. 'diameterMeasurement') are not added to the Veg-X document.}
+  \item{Missing \code{plotName} or \code{obsStartDate} values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
+  \item{Missing \code{subPlotName} values are interpreted in that observation refers to the parent plotName.}
+  \item{When both \code{organismName} and \code{taxonName} are missing the organism is assumed to be unidentified (i.e. no identity is added).}
+  \item{When \code{individualOrganismLabel} is missing the function creates a label for the organism.}
+  \item{When \code{stratumName} values are missing the individual organism observation is not assigned to any stratum.}
+  \item{Missing measurements (e.g. \code{diameterMeasurement}) are not added to the Veg-X document.}
 }
 }
 \examples{

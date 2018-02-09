@@ -153,7 +153,7 @@ addAggregateOrganismObservations<-function(target, x,
   }
 
   aggmesmapping = mapping[!(names(mapping) %in% c(aggObservationMapping, "heightMeasurement"))]
-  if(verbose && (length(aggmesmapping)>0)) cat(paste0(" ", length(aggmesmapping)," additional aggregate organism measurement variables found: ",paste(aggmesmapping, collapse = ", ") ,".\n"))
+  if(verbose && (length(aggmesmapping)>0)) cat(paste0(" ", length(aggmesmapping)," additional aggregate organism measurements found: ",paste(aggmesmapping, collapse = ", ") ,".\n"))
   if(length(aggmesmapping)>0) {
     for(i in 1:length(aggmesmapping)){
       if(!(names(aggmesmapping)[[i]] %in% names(methods))) stop("Method definition must be provided for '",names(aggmesmapping)[[i]],"'.")
