@@ -7,6 +7,7 @@
 #' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
 #' \itemize{
 #'    \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+#'    \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
 #'    \item{\code{x}, \code{y} - Spatial coordinates of the plot (optional).}
 #'    \item{\code{elevation} - Elevation of the plot (optional).}
 #'    \item{\code{authorLocation} - A string describing the location of the plot as made by the author (optional).}
@@ -82,7 +83,7 @@ addPlotLocations<-function(target, x,
 
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
-  if(length(nonRecognizedMappings)>0) warning(paste0("Some names in 'mapping' were not recognized and therefore ignored: ", paste(nonRecognizedMappings, collapse = ", ")))
+  if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function will be ignored."))
   
   #Check columns exist
   for(i in 1:length(mapping)) {

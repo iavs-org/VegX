@@ -12,9 +12,17 @@ addPlotGeometries(target, x, mapping, methods = list(),
 
 \item{x}{A data frame where each row corresponds to one plot. Columns can be varied.}
 
-\item{mapping}{A list with at least element name 'plotName', is used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-Geometry variables that can be mapped are: 'area', 'shape', 'radius', 'length','width', 'bandWidth'.
-Additional optional mappings are: 'subPlotName'.}
+\item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+#' \itemize{
+   \item{\code{plotName} - A string identifying the vegetation plot within the data set (required).}
+   \item{\code{subPlotName} - A string identifying a subplot of the plot given by \code{plotName} (optional).}
+   \item{\code{area} - Area of the plot (optional).}
+   \item{\code{shape} - Shape of the plot: circle/circular, rectangle/rectangular/squared, line/linear (optional).}
+   \item{\code{radius} - Radius of the plot, for circular plots (optional).}
+   \item{\code{width} -  Width of the plot, for rectangular plots (optional).}
+   \item{\code{length} -  Length of the plot, for linear and rectangular plots (optional).}
+   \item{\code{bandWidth} - Sampling bandwidth, for linear plots (optional).}
+}}
 
 \item{methods}{A list measurement methods for plot geometry measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
@@ -26,15 +34,14 @@ Additional optional mappings are: 'subPlotName'.}
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Adds/replaces static plot geometry information (plot shape, dimensions, ...) to plot elements of a VegX object from a data table where rows are plots,
-using a mapping to identify plot and subplot (optional). Additional mapping elements are used to map specific variables.
+Adds/replaces static plot geometry information (plot shape, dimensions, ...) to plot elements of a VegX object from a data frame where rows are plots.
 }
 \details{
-Missing value policy:
+Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
  \itemize{
-    \item{Missing 'plotName' and 'shape' values are interpreted as if the previous non-missing value has to be used to define plot.}
-    \item{Missing 'subPlotName' values are interpreted in that data refers to the parent plotName.}
-    \item{Missing measurements (e.g. 'area', 'radius',...) are simply not added to the Veg-X document.}
+    \item{Missing \code{plotName} and \code{shape} values are interpreted as if the previous non-missing value has to be used to define plot.}
+    \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
+    \item{Missing measurements (e.g. \code{area}, \code{radius},...) are simply not added to the Veg-X document.}
  }
 }
 \examples{
