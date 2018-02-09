@@ -9,6 +9,7 @@
 #' @param methods A list measurement methods for aggregate organism measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param citationStringAll A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.
+#' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
@@ -96,6 +97,7 @@ addAggregateOrganismObservations<-function(target, x,
                                      methods = list(),
                                      stratumDefinition = NULL,
                                      citationStringAll = NULL,
+                                     date.format = "%Y-%m-%d",
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
 
@@ -111,7 +113,7 @@ addAggregateOrganismObservations<-function(target, x,
     if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
-  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format ="%Y-%m-%d")
+  obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format =date.format)
 
   #Optional mappings
   stratumFlag = ("stratumName" %in% names(mapping))

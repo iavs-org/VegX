@@ -6,7 +6,8 @@
 \usage{
 addAggregateOrganismObservations(target, x, mapping, methods = list(),
   stratumDefinition = NULL, citationStringAll = NULL,
-  missing.values = c(NA, "0", ""), verbose = TRUE)
+  date.format = "\%Y-\%m-\%d", missing.values = c(NA, "0", ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -21,6 +22,8 @@ Additional optional mappings are: 'subPlotName', 'citationString' ,'stratumName'
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
 \item{citationStringAll}{A string of a literature citation that explains the taxon concepts for all taxon names of the source data table.}
+
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
