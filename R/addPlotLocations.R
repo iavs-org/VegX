@@ -26,7 +26,7 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing value policy:
+#' @details Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
 #'  \itemize{
 #'     \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
 #'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
@@ -77,20 +77,28 @@ addPlotLocations<-function(target, x,
   coordVariables = c("x", "y", "elevation")
   allVariables = c(coordVariables, nonCoordVariables)
   mappingsAvailable = c("plotName", "subPlotName", "placementParty", allVariables)
+  if(("y" %in% names(mapping)) && !("x" %in% names(mapping))) stop("Please supply mapping for 'x' to complete coordinates.")
+  if(("x" %in% names(mapping)) && !("y" %in% names(mapping))) stop("Please supply mapping for 'y' to complete coordinates.")
+
+  #Warning for non-recognized mappings
+  nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
+  if(length(nonRecognizedMappings)>0) warning(paste0("Some names in 'mapping' were not recognized and therefore ignored: ", paste(nonRecognizedMappings, collapse = ", ")))
+  
+  #Check columns exist
+  for(i in 1:length(mapping)) {
+    if(!(mapping[i] %in% names(x))) {
+      if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' for '", names(mapping)[i], "' not found in column names. Revise mapping or data.")) 
+    }
+  }
+  
   locValues = list()
   for(i in 1:length(mapping)) {
-    if(!(names(mapping)[i] %in% mappingsAvailable)) stop(paste0("Mapping for '", names(mapping)[i], "' cannot be defined."))
     if(names(mapping)[i] %in% allVariables) {
       locValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
     }
   }
-  if(("y" %in% names(mapping)) && !("x" %in% names(mapping))) stop("Please supply mapping for 'x' to complete coordinates.")
-  if(("x" %in% names(mapping)) && !("y" %in% names(mapping))) stop("Please supply mapping for 'y' to complete coordinates.")
-
-  #Check columns exist
-  for(i in 1:length(mapping)) {
-    if(!(mapping[i] %in% names(x))) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
-  }
+  
+  
   plotNames = as.character(x[[mapping[["plotName"]]]])
 
   #Optional mappings

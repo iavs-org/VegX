@@ -67,18 +67,20 @@ addPlotObservations<-function(target, x,
 
 
   #check mappings
-  plotObservationMappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName", "plotUniqueIdentifier", "plotObservationUniqueIdentifier",
+  mappingsAvailable = c("projectTitle", "plotName", "obsStartDate", "obsEndDate", "subPlotName", "plotUniqueIdentifier", "plotObservationUniqueIdentifier",
                                        "observationParty")
+
+  #Warning for non-recognized mappings
+  nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
+  if(length(nonRecognizedMappings)>0) warning(paste0("Some names in 'mapping' were not recognized and therefore ignored: ", paste(nonRecognizedMappings, collapse = ", ")))
+  
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) {
-      if(mapping[i] %in% plotObservationMappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
+      if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
     }
   }
   
-  nonRecognizedMappings = names(mapping)[!(names(mapping) %in% plotObservationMappingsAvailable)]
-  print(nonRecognizedMappings)
-  if(length(nonRecognizedMappings)>0) warning(paste0("Some names in 'mapping' were not recognized and therefore ignored: ", paste(nonRecognizedMappings, collapse = ",")))
   
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format =date.format)

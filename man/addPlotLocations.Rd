@@ -45,7 +45,7 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds/replaces static plot location information (spatial coordinates, elevation, place names, ...) to plot elements of a VegX object from a data table where rows are plots.
 }
 \details{
-Missing value policy:
+Named elements in \code{mapping} beyond those used by this function will be ignored. Missing value policy:
  \itemize{
     \item{Missing \code{plotName} values are interpreted as if the previous non-missing value has to be used to define plot.}
     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
