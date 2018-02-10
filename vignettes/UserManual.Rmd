@@ -42,7 +42,7 @@ We envisage two different kinds of users of the VegX package:
 
 ## Installing the package and loading source data
 
-The **VegX package** is currently distributed from (GitHub)[https://github.com]. To install it, you should have package ``devtools`` installed and use the following command: ``devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)``. Assuming that the package is already installed you begin by loading it, which results in the required package *XML* also being loaded:
+The **VegX package** is currently distributed from [GitHub](https://github.com). To install it, you should have package ``devtools`` installed and use the following command: ``devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)``. Assuming that the package is already installed you begin by loading it, which results in the required package *XML* also being loaded:
 ```{r load VegX}
 library(VegX)
 ```
@@ -51,7 +51,7 @@ User's of the VegX package are expected to know how import their source data int
 
 + **Mokihinui forest**: Forest and riparian data from 5 plots from the west coast of South Island (New Zealand).  The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; and iii) dbh measurement of individual trees.
 + **Mt Fyffe forest**: Forest data from five permanent plots from the east coast of South Island (New Zealand).  The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; iii) dbh measurement of individual trees within subplots that fully partition the permanent plot; iv) counts of saplings within subplots that fully partition the permanent plot; and v) counts of seedlings within height strata within subplots that sample the permanent plot.  Two full measurements of the permanent plots are provided.
-+ **Takitimu grassland**: Alpine grassland data from xx plots from the southern South Island.  The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; iii) groundcover; iv) disturbance.
++ **Takitimu grassland**: Alpine grassland data from 5 plots from the southern South Island (New Zealand).  The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; iii) groundcover; iv) disturbance.
 
 Each of the three data sets contains different tables, corresponding to plot location, site observations, taxon observations, ... For simplicity, we reduced the number of plots in each example data set to five, although some data sets contain subplots. As the three data sets are included with the package, we load  the data from the three data sets into the R workspace using:
 ```{r load source data}
@@ -74,13 +74,13 @@ The output from ``print()`` command reveals that a Veg-X document is defined in 
 ```{r print}
 print(moki_vegx)
 ```
-Printing a Veg-X object will normally result in too much data shown in the console output. A much user-friendly information about the Veg-X document can be obtained using function ``summary()``, which tell us how many instances we have of each of the main elements:
+Printing a Veg-X object will normally result in too much data being shown in the console output. More user-friendly information about the Veg-X object can be obtained using the function ``summary()``, which tell us how many instances we have of each of the main elements:
 ```{r summary empty}
 summary(moki_vegx)
 ```
-Of course, ``moki_vegx`` is now empty (as are the other two documents). 
+Of course, ``moki_vegx`` is now empty (as are the other two VegX objects). 
 
-In the following sections we will progressively add content to them. When using the VegX package, it is not important the order in which we introduce data to VegX documents, as elements are created as needed. Nevertheless, we will introduce the different functions that add data following the logical order in which they should be used. Thus, we begin by introducing plot and survey information, followed by observation of individual organisms, taxa, strata,...
+In the following sections we will progressively add content to the VegX objects. When using the VegX package, the order in which we introduce data to VegX documents is not particularly important, as elements are created as needed. Nevertheless, we will introduce the different functions that add data following a logical sequence. Thus, we begin by introducing plot and survey information, followed by observations of individual organisms, taxa, strata, etc. Later sections of the manual deal with functions that facilitate data integration and harmonization.
 
 ## Adding plot and survey data to Veg-X documents
 
