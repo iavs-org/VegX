@@ -3,7 +3,8 @@
 #' Merges two Veg-X documents while considering that some of their entities may be shared.
 #'
 #' @param x,y The objects of class \code{\linkS4class{VegX}} to be merged.
-#' @param mergeIdentities A flag used to force that organism identities should be merged when sharing the same organismName.
+#' @param mergePlots A flag used to force that plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier.
+#' @param mergeOrganismIdentities A flag used to force that organism identities should be merged when sharing the same organismName.
 #' @param verbose A flag to indicate console output of the data integration process.
 #'
 #' @return An object of class \code{\linkS4class{VegX}} with the pooled data
@@ -12,9 +13,10 @@
 #' @details Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 #' \itemize{
 #'   \item \code{projects} are merged when their element \code{title} has the same value.
-#'   \item \code{plots} are merged when their element \code{plotName} has the same value.
+#'   \item \code{plots} are merged when they have the same value for element \code{plotName} and, if defined, 
+#'   \code{plotUniqueIdentifier} are also equal.
 #'   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-#'   \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeIdentities = TRUE} because
+#'   \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeOrganismIdentities = TRUE} because
 #'   one can have the same name used in different data sets but referring to different concepts.
 #'   \item \code{methods} are merged when their element \code{name} has the same value.
 #'   \item \code{strata} are merged when their element \code{stratumName} has the same value.
@@ -74,10 +76,13 @@
 #'
 #' # Merge 'x' and 'y' while forcing organism identities that have the same name to
 #' # be merged
-#' z2 = mergeVegX(x,y, mergeIdentities = TRUE)
+#' z2 = mergeVegX(x,y, mergeOrganismIdentities = TRUE)
 #' summary(z2)
 #'
-mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
+mergeVegX<-function(x, y, 
+                    mergePlots = FALSE, 
+                    mergeOrganismIdentities = FALSE, 
+                    verbose = TRUE) {
 
   # uses 'x' as the target and 'y' as the source of data
   if(class(x)!="VegX") stop("Wrong class for 'x'. Should be an object of class 'VegX'")
@@ -247,7 +252,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedois = 0
   if(length(y@organismIdentities)>0) {
     for(j in 1:length(y@organismIdentities)) {
-      if(mergeIdentities) {
+      if(mergeOrganismIdentities) {
         organismName = .getOrganismIdentityName(y, j)
         citationString = .getOrganismIdentityCitationString(y,j)
         orgId = .applyMappingsToOrganismIdentity(y@organismIdentities[[j]], onIDmap, tcIDmap)
@@ -261,7 +266,7 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
         oiIDmap[names(y@organismIdentities)[j]] = noiid$id
       } else {
         newOIID = .nextOrganismIdentityID(x)
-        x@organismIdentities[[newOIID]] = y@organismIdentities[[j]]
+        x@organismIdentities[[newOIID]] = .applyMappingsToOrganismIdentity(y@organismIdentities[[j]], onIDmap, tcIDmap)
         oiIDmap[names(y@organismIdentities)[j]] = newOIID
       }
     }
@@ -281,7 +286,6 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
       } else {
         x@projects[[npid$id]] = .mergeProjects(x@projects[[npid$id]], y@projects[[j]])
         nmergedpjs = nmergedpjs + 1
-
       }
       projectIDmap[names(y@projects)[j]] = npid$id
     }
@@ -295,15 +299,23 @@ mergeVegX<-function(x, y, mergeIdentities = FALSE, verbose = TRUE) {
   nmergedplots = 0
   if(length(y@plots)>0) {
     for(j in 1:length(y@plots)) {
-      if("parentPlotID" %in% names(y@plots[[j]])) y@plots[[j]]$parentPlotID = plotIDmap[[y@plots[[j]]$parentPlotID]] #set parent plot ID to translated one in order to avoid matching problems
-      npid = .newPlotIDByName(x, y@plots[[j]]$plotName)
-      if(npid$new) {
-        x@plots[[npid$id]] = .applyMappingsToPlot(y@plots[[j]], partyIDmap, attIDmap)
-      } else { #pool information
-        x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]], partyIDmap, attIDmap)
-        nmergedplots = nmergedplots + 1
+      if(mergePlots) {
+        if("parentPlotID" %in% names(y@plots[[j]])) y@plots[[j]]$parentPlotID = plotIDmap[[y@plots[[j]]$parentPlotID]] #set parent plot ID to translated one in order to avoid matching problems
+        plotUniqueIdentifier = ""
+        if("plotUniqueIdentifier" %in% names(y@plots[[j]])) plotUniqueIdentifier = y@plots[[j]]$plotUniqueIdentifier
+        npid = .newPlotIDByNameAndUniqueIdentifier(x, y@plots[[j]]$plotName, plotUniqueIdentifier)
+        if(npid$new) {
+          x@plots[[npid$id]] = .applyMappingsToPlot(y@plots[[j]], partyIDmap, attIDmap)
+        } else { #pool information
+          x@plots[[npid$id]] = .mergePlots(x@plots[[npid$id]], y@plots[[j]], partyIDmap, attIDmap)
+          nmergedplots = nmergedplots + 1
+        }
+        plotIDmap[names(y@plots)[j]] = npid$id
+      } else {
+        newplotID = .nextPlotID(x)
+        x@plots[[newplotID]] = .applyMappingsToPlot(y@organismIdentities[[j]], partyIDmap, attIDmap)
+        plotIDmap[names(y@plots)[j]] = newplotID
       }
-      plotIDmap[names(y@plots)[j]] = npid$id
     }
   }
   if(verbose) {

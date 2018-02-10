@@ -103,6 +103,18 @@
   }
   return(list(id = .nextPlotID(target), new = TRUE))
 }
+# Returns the plotID for a new plot in the data set or the ID of an existing plot with the same name
+.newPlotIDByNameAndUniqueIdentifier<-function(target, plotName, plotUniqueIdentifier) {
+  if(length(target@plots)==0) return(list(id="1", new = TRUE))
+  for(i in 1:length(target@plots)) {
+    if(!("plotUniqueIdentifier" %in% names(target@plots[[i]]))) {
+      if(target@plots[[i]]$plotName==plotName) return(list(id = names(target@plots)[i], new = FALSE))
+    } else if(plotUniqueIdentifier=="") { #If unique identifier is missing in both plots, compare names only
+      if((target@plots[[i]]$plotName==plotName) &&  (target@plots[[i]]$plotUniqueIdentifier==plotUniqueIdentifier)) return(list(id = names(target@plots)[i], new = FALSE))
+    }
+  }
+  return(list(id = .nextPlotID(target), new = TRUE))
+}
 # Returns the ID for a new plot observation in the data set or the ID of an existing plot observation
 .newPlotObsIDByDate<-function(target, plotID, obsStartDate) {
   obsStartDate = as.Date(obsStartDate)
