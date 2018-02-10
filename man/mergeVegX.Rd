@@ -4,12 +4,15 @@
 \alias{mergeVegX}
 \title{Merge Veg-X documents}
 \usage{
-mergeVegX(x, y, mergeIdentities = FALSE, verbose = TRUE)
+mergeVegX(x, y, mergePlots = FALSE, mergeOrganismIdentities = FALSE,
+  verbose = TRUE)
 }
 \arguments{
 \item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged.}
 
-\item{mergeIdentities}{A flag used to force that organism identities should be merged when sharing the same organismName.}
+\item{mergePlots}{A flag used to force that plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier.}
+
+\item{mergeOrganismIdentities}{A flag used to force that organism identities should be merged when sharing the same organismName.}
 
 \item{verbose}{A flag to indicate console output of the data integration process.}
 }
@@ -23,9 +26,10 @@ Merges two Veg-X documents while considering that some of their entities may be 
 Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 \itemize{
   \item \code{projects} are merged when their element \code{title} has the same value.
-  \item \code{plots} are merged when their element \code{plotName} has the same value.
+  \item \code{plots} are merged when they have the same value for element \code{plotName} and, if defined, 
+  \code{plotUniqueIdentifier} are also equal.
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-  \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeIdentities = TRUE} because
+  \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeOrganismIdentities = TRUE} because
   one can have the same name used in different data sets but referring to different concepts.
   \item \code{methods} are merged when their element \code{name} has the same value.
   \item \code{strata} are merged when their element \code{stratumName} has the same value.
@@ -83,7 +87,7 @@ summary(z1)
 
 # Merge 'x' and 'y' while forcing organism identities that have the same name to
 # be merged
-z2 = mergeVegX(x,y, mergeIdentities = TRUE)
+z2 = mergeVegX(x,y, mergeOrganismIdentities = TRUE)
 summary(z2)
 
 }

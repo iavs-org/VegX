@@ -3,7 +3,8 @@
 #' Merges two Veg-X documents while considering that some of their entities may be shared.
 #'
 #' @param x,y The objects of class \code{\linkS4class{VegX}} to be merged.
-#' @param mergePlots A flag used to force that plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier.
+#' @param mergePlots If \code{TRUE} plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier. 
+#' If \code{FALSE} plots are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).
 #' @param mergeOrganismIdentities A flag used to force that organism identities should be merged when sharing the same organismName.
 #' @param verbose A flag to indicate console output of the data integration process.
 #'
@@ -313,7 +314,7 @@ mergeVegX<-function(x, y,
         plotIDmap[names(y@plots)[j]] = npid$id
       } else {
         newplotID = .nextPlotID(x)
-        x@plots[[newplotID]] = .applyMappingsToPlot(y@organismIdentities[[j]], partyIDmap, attIDmap)
+        x@plots[[newplotID]] = .applyMappingsToPlot(y@plots[[j]], partyIDmap, attIDmap)
         plotIDmap[names(y@plots)[j]] = newplotID
       }
     }
