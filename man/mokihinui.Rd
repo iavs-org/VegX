@@ -5,21 +5,22 @@
 \alias{mokihinui}
 \title{Mokihinui example dataset for Veg-X}
 \description{
-The data set concerns observations made on 5 plots with 4 subplots each.
+Forest and riparian data from 5 plots (with four sub-plots each) from the west coast of South Island (New Zealand).  
+The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; and iii) dbh measurement of individual trees.
 The data set includes four data frames:
 }
 \details{
 \itemize{
  \item moki_loc Location of vegetation plots (5 records x 25 variables)
- \item moki_site Site characteristics of plots/subplots (25 records x 43 variables)
- \item moki_tcv Observations of cover of taxon categories, grouped by vegetation strata (578 records x 33 variables)
- \item moki_dia Observations made on individual trees (968 records x 33 variables)
+ \item moki_site Site characteristics of plots/subplots (25 records x 41 variables)
+ \item moki_tcv Observations of cover of taxon categories, grouped by vegetation strata (582 records x 30 variables)
+ \item moki_dia Observations made on individual trees (643 records x 30 variables)
 }
 }
 \references{
 Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing biodiversity information:  development of the National Vegetation Survey Databank.  New Zealand Journal of Ecology 25(2): 1-17.
 }
 \author{
-NVS database. Landcare Research (New Zealand) \email{nvs@landcareresearch.co.nz}
+New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
 }
 \keyword{data}

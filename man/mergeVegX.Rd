@@ -4,15 +4,17 @@
 \alias{mergeVegX}
 \title{Merge Veg-X documents}
 \usage{
-mergeVegX(x, y, mergePlots = FALSE, mergeOrganismIdentities = FALSE,
-  verbose = TRUE)
+mergeVegX(x, y, allowMergePlots = FALSE,
+  allowMergeOrganismIdentities = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged.}
 
-\item{mergePlots}{A flag used to force that plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier.}
+\item{allowMergePlots}{If \code{TRUE} plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier. 
+If \code{FALSE} plots are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).}
 
-\item{mergeOrganismIdentities}{A flag used to force that organism identities should be merged when sharing the same organismName.}
+\item{allowMergeOrganismIdentities}{If \code{TRUE}, allows organism identities sharing the same organismName to be merged. 
+If \code{FALSE} organism identities are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).}
 
 \item{verbose}{A flag to indicate console output of the data integration process.}
 }
@@ -26,18 +28,18 @@ Merges two Veg-X documents while considering that some of their entities may be 
 Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 \itemize{
   \item \code{projects} are merged when their element \code{title} has the same value.
-  \item \code{plots} are merged when they have the same value for element \code{plotName} and, if defined, 
+  \item \code{plots} are merged, if \code{allowMergePlots = TRUE}, when they have the same value for element \code{plotName} and, if defined, 
   \code{plotUniqueIdentifier} are also equal.
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
-  \item \code{organismIdentities} are merged if they share the same organismName and \code{mergeOrganismIdentities = TRUE} because
+  \item \code{organismIdentities} are merged if they share the same organismName and \code{allowMergeOrganismIdentities = TRUE} because
   one can have the same name used in different data sets but referring to different concepts.
   \item \code{methods} are merged when their element \code{name} has the same value.
-  \item \code{strata} are merged when their element \code{stratumName} has the same value.
-  \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value
+  \item \code{strata} are merged when their element \code{stratumName} has the same value and the corresponding method has the same \code{name}.
+  \item \code{stratumObservations} are merged when both their \code{stratumID} and \code{plotObservationID} elements have the same value.
   \item \code{aggregateOrganismObservations} are merged when their \code{plotObservationID} and \code{organismIdentityID} (and \code{stratumObservationID}, if defined) have the same value
-  \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{individualOrganismLabel} have the same value
+  \item \code{individualOrganisms} are merged when both their \code{plotID} and \code{individualOrganismLabel} have the same value.
   \item \code{individualOrganismObservations} are merged when both their \code{plotObservationID} and \code{individualOrganismID} have the same value.
-  \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value
+  \item \code{surfaceTypes} are merged when their element \code{surfaceName} has the same value and the corresponding method has the same \code{name}.
   \item \code{surfaceCoverObservations} are merged when both their \code{surfaceTypeID} and \code{plotObservationID} elements have the same value
   \item \code{siteObservations} are merged into the same element when their element \code{plotObservationID} has the same value, but particular measurements are always added
   as if they were distinct pieces of information.
@@ -81,13 +83,17 @@ diamMeth = predefinedMeasurementMethod("DBH/cm")
 y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
                         methods = c(diameterMeasurement = diamMeth))
 
-# Merge 'x' and 'y' while keeping organism identities that have the same name separated
+# Merge 'x' and 'y' while keeping plots of the same name separate and
+# organism identities that have the same name separated. This default behaviour
+# is set assuming that 'x' and 'y' come from different data sources.
 z1 = mergeVegX(x,y)
 summary(z1)
 
-# Merge 'x' and 'y' while forcing organism identities that have the same name to
-# be merged
-z2 = mergeVegX(x,y, mergeOrganismIdentities = TRUE)
+# Merge 'x' and 'y' while allowing plots of the same name to be merged
+# and organism identities that have the same name to be merged. This configuration
+# should be used when merging two VegX objects that come from the same data source (i.e. Mokihinui data)
+z2 = mergeVegX(x,y, allowMergePlots = TRUE,
+               allowMergeOrganismIdentities = TRUE)
 summary(z2)
 
 }

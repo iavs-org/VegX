@@ -5,8 +5,9 @@
 \alias{takitimu}
 \title{Takitimu example dataset for Veg-X}
 \description{
-The data set concerns observations made on 5 plots with their subplots.
-The data set includes five data frames:
+Alpine grassland data from 5 plots from the southern South Island (New Zealand). 
+The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; 
+iii) groundcover; iv) disturbance. The data set includes five data frames:
 }
 \details{
 \itemize{
@@ -21,6 +22,6 @@ The data set includes five data frames:
 Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing biodiversity information:  development of the National Vegetation Survey Databank.  New Zealand Journal of Ecology 25(2): 1-17.
 }
 \author{
-NVS database. Landcare Research (New Zealand) \email{nvs@landcareresearch.co.nz}
+New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
 }
 \keyword{data}

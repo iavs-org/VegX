@@ -5,8 +5,12 @@
 \alias{mtfyffe}
 \title{Mt Fyffe example dataset for Veg-X}
 \description{
-The data set concerns observations made on 5 plots with their subplots.
-The data set includes six data frames:
+Forest data from five permanent plots from the east coast of South Island (New Zealand).  
+The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; 
+iii) dbh measurement of individual trees within subplots that fully partition the permanent plot; 
+iv) counts of saplings within subplots that fully partition the permanent plot; 
+and v) counts of seedlings within height strata within subplots that sample the permanent plot.  
+Two full measurements of the permanent plots are provided. The data set includes six data frames:
 }
 \details{
 \itemize{
@@ -22,6 +26,6 @@ The data set includes six data frames:
 Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing biodiversity information:  development of the National Vegetation Survey Databank.  New Zealand Journal of Ecology 25(2): 1-17.
 }
 \author{
-NVS database. Landcare Research (New Zealand) \email{nvs@landcareresearch.co.nz}
+New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
 }
 \keyword{data}
