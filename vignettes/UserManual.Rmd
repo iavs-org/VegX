@@ -17,20 +17,41 @@ knitr::opts_chunk$set(echo = TRUE)
 
 ## About this manual
 
-In this vignette you will learn how to use the **VegX R package** to map, integrate and harmonize vegetation data having the Veg-X standard as data model underlying the whole process. For the examples, we use the example data sets provided in the package. If you do not know what the Veg-X standard is, please refer to vignette **The Veg-X exchange standard**. In the following, we usually refer to elements of the Veg-X standard. Readers should refer to the same vignette to understand the definition of these elements and their logical relationships.
+In this vignette you will learn how to use the **VegX R package** to map, integrate and harmonize vegetation data using the Veg-X standard (v. 2.0). For the examples, we use the data sets provided in the package. If you do not know what the Veg-X standard is, please refer to vignette **The Veg-X exchange standard**. Here we refer to elements of the Veg-X standard. Readers should refer to the same vignette to understand the definition of these elements and their logical relationships.
+
+## Package users and their main interests
+We envisage two different kinds of users of the VegX package:
+
+* **Vegetation data providers**: These are people that are in possession of plot vegetation data (i.e. plot database managers or people having their own spread sheets) and get requests to share its data with third parties. Data providers would benefit from VegX package, in that they would perform the mapping of their source data into Veg-X only once, and then they would send the Veg-X file to any party requesting access to data.  The functions most interesting to data providers are:
+    + Create new VegX documents
+    + Add information about plot location, plot shape and site characteristics.
+    + Add vegetation observations of different kinds: individual plants, aggregated cover values, strata observations...
+    + Add site observations (e.g. abiotic measurements).
+    + Provide information about the taxon concepts related to organism identifications.
+    + Provide information about the research project and contact information.
+    + Write Veg-X XML files or other supported export formats.
+
+* **Vegetation data integrators**: These are people interested in gathering data from different sources, for the sake of compiling a new vegetation plot data base or conducting analyses based on integrated data sets.
+    + Load Veg-X XML files.
+    + Merge several Veg-X objects from different sources.
+    + Assess the degree of compatibility of the different source data.
+    + Harmonize measurement units and taxonomic nomenclature across data sets.
+    + Generate new observations at a given level of vegetation resolution by aggregating data at a lower level (e.g. from individual tree diameters to basal area estimates).
+    + Export data into formats suitable for analysis.
+
 
 ## Installing the package and loading source data
 
-The **VegX package** is currently distributed from (GitHub)[https://github.com]. To install it, you should have package ``devtools`` installed and use the following command: ``devtools::github_install("miquelcaceres/VegX", build_vignettes=TRUE)``. Assuming that the package is already installed we begin by loading it, which results in the required package *XML* being also loaded:
+The **VegX package** is currently distributed from (GitHub)[https://github.com]. To install it, you should have package ``devtools`` installed and use the following command: ``devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)``. Assuming that the package is already installed you begin by loading it, which results in the required package *XML* also being loaded:
 ```{r load VegX}
 library(VegX)
 ```
 
-User's of the VegX package are expected to know how import their source data into R, either using a database connection or by reading files in diverse formats (e.g. txt, csv, xlsx, ...). For the examples of this manual, we will use three data sets that were extracted from the [New Zealand Vegetation Survey (NVS) Databank](https://nvs.landcareresearch.co.nz/). 
+User's of the VegX package are expected to know how import their source data into R, either using a database connection or by reading files in diverse formats (e.g. txt, csv, xlsx, ...). For the examples of this manual, we will use three data sets that were extracted from the [New Zealand National Vegetation Survey (NVS) Databank](https://nvs.landcareresearch.co.nz/). These are subsets of the original datasets prepared for demonstration purposes only.
 
-+ **Mokihinui forest**: Brief description
-+ **Mt Fyffe forest**: Brief description
-+ **Takitimu grassland**: Brief description
++ **Mokihinui forest**: Forest and riparian data from 5 plots from the west coast of South Island (New Zealand).  The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; and iii) dbh measurement of individual trees.
++ **Mt Fyffe forest**: Forest data from five permanent plots from the east coast of South Island (New Zealand).  The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; iii) dbh measurement of individual trees within subplots that fully partition the permanent plot; iv) counts of saplings within subplots that fully partition the permanent plot; and v) counts of seedlings within height strata within subplots that sample the permanent plot.  Two full measurements of the permanent plots are provided.
++ **Takitimu grassland**: Alpine grassland data from xx plots from the southern South Island.  The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; iii) groundcover; iv) disturbance.
 
 Each of the three data sets contains different tables, corresponding to plot location, site observations, taxon observations, ... For simplicity, we reduced the number of plots in each example data set to five, although some data sets contain subplots. As the three data sets are included with the package, we load  the data from the three data sets into the R workspace using:
 ```{r load source data}
