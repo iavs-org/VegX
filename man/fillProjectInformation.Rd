@@ -49,5 +49,6 @@ x = fillProjectInformation(newVegX(), "MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 20
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other fill functions: \code{\link{fillPartyInformation}}
+Other fill functions: \code{\link{fillPartyInformation}},
+  \code{\link{fillUniqueIdentifiers}}
 }

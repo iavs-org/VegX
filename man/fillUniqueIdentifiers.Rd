@@ -2,15 +2,46 @@
 % Please edit documentation in R/fillUniqueIdentifiers.R
 \name{fillUniqueIdentifiers}
 \alias{fillUniqueIdentifiers}
-\title{Title}
+\title{Generates unique identifiers}
 \usage{
 fillUniqueIdentifiers(target, element = "plot", replace.existing = FALSE)
 }
 \arguments{
-\item{target}{}
+\item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
 
-\item{replace.existing}{}
+\item{element}{The Veg-X main element for which unique identifiers are needed: \code{"plot"} or \code{"plotObservation"}.}
+
+\item{replace.existing}{A boolean flag to indicate whether newly generated identifiers should replace existing identifiers.}
+}
+\value{
+The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Title
+Generates unique identifiers for plot elements or plot observation elements
+}
+\examples{
+# Load source data
+data(mokihinui)
+
+# Create a new Veg-X document with projects, plots and plot observations (no data)
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate")
+x = addPlotObservations(newVegX(), moki_site, mapping = mapping)
+
+# Examine the result
+showElementTable(x, "plot")
+
+# Add unique identifiers
+y = fillUniqueIdentifiers(x, "plot")
+
+# Examine the result
+showElementTable(y, "plot")
+
+}
+\references{
+Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+}
+\seealso{
+Other fill functions: \code{\link{fillPartyInformation}},
+  \code{\link{fillProjectInformation}}
 }
