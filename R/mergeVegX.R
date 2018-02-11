@@ -110,7 +110,7 @@ mergeVegX<-function(x, y,
     }
   }
   if(verbose) {
-    cat(paste0(" Final number of partie(s): ", length(x@parties),". Data pooled for ", nmergedparties, " partie(s).\n"))
+    cat(paste0(" Final number of party(ies): ", length(x@parties),". Data pooled for ", nmergedparties, " party(ies).\n"))
   }
 
   # literatureCitations

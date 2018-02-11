@@ -56,7 +56,7 @@ fillProjectInformation<-function(target, title,
     }
     finnparties = length(target@parties)
     if(verbose) {
-      if(finnparties > orinparties) cat(paste0(" " , finnparties-orinparties, " new partie(s) were added to the document as individuals. Consider providing party information.\n"))
+      if(finnparties > orinparties) cat(paste0(" " , finnparties-orinparties, " new party(ies) added to the document as individuals.\n"))
     }
   }
   # add literature citation if necessary

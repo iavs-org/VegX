@@ -42,7 +42,7 @@ readVegXML<-function(file, verbose = TRUE) {
   if("parties" %in% vegnames) {
     target@parties = xmlApply(veg[["parties"]], .readParty.2.0.0)
     names(target@parties) = xmlApply(veg[["parties"]], xmlAttrs)
-    if(verbose) cat(paste0(" ", length(target@parties), " partie(s) read.\n"))
+    if(verbose) cat(paste0(" ", length(target@parties), " party(ies) read.\n"))
   }
 
   #read literatureCitations
