@@ -193,7 +193,7 @@ mapping = list(plotName = "Plot", elevation = "Altitude")
 moki_vegx = addPlotLocations(moki_vegx, moki_site, mapping, 
                              methods = c(elevation = elevMethod))
 ```
-Again, only the parent plots have elevation data, and the records of subplots are empty. If we inspect again the *plot* elements of our document we find that elevation data has been added to plot coordinates:
+Only the parent plots have elevation data (i.e., the records of sub-plots are missing). If we inspect again the *plot* elements of our document we find that elevation data has been added to plot coordinates:
 ```{r inspect plot elev res moki}
 head(showElementTable(moki_vegx, "plot"),3)
 ```
@@ -508,7 +508,36 @@ head(showElementTable(moki_vegx, "siteObservation"))
 
 ## Combining and harmonizing Veg-X documents
 
-One of the purposes of importing data into Veg-X, is the possibility to combine and harmonize documents from different sources. In this section we illustrate how documents can be merged, and some (preliminary) functions that can be used to harmonize their contents.
+One of the purposes of importing data into Veg-X, is the possibility to combine and harmonize documents from different sources. In this section we illustrate how documents should be merged, and some functions that can be used to harmonize their contents.
+
+### Adding unique identifiers
+
+When combining VegX objects from different sources it is important to pay attention to plot names, because plots from two different sources may have been given the same name while in fact they correspond to different sampled areas. To combine two vegetation sources while avoiding confusion in plot identity one should use **plot unique identifiers**, i.e. sub-element *plotUniqueIdentifier* of *plot*. When populating a Veg-X object from a single source data set, unique identifiers are not normally available nor needed, and the functions that add observations to the object will only look at *plotName* to identifying plots uniquely. However, when merging VegX objects unique identifiers should be defined, and two plots should be considered to be the same only if both their plot name and unique identifier have the same values in both plots. While less critical than plot unique identifiers, the Veg-X standard also allows unique identifiers for plot observations, via the sub-element *plotObservationUniqueIdentifier* of *plotObservation*.
+
+The VegX package provides two ways to supply unique identifiers. The function ``addPlotObservations()`` allows specifying mappings for both *plotUniqueIdentifier* and *plotObservationUniqueIdentifier*:
+
+```{r add unique identifiers moki}
+mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", obsEndDate = "PlotObsStopDate",
+               plotUniqueIdentifier = "PlotID", plotObservationUniqueIdentifier = "PlotObsID")
+vegx_ids = addPlotObservations(newVegX(), moki_site, mapping = mapping, verbose = FALSE)
+
+head(showElementTable(vegx_ids, "plot"), 3)
+head(showElementTable(vegx_ids, "plotObservation"), 3)
+```
+We could use function ``addPlotObservations()`` to define unique identifiers because these were available from our source data. Note however, that IDs coming from NVS are only unique within the context of this data bank. In cases the source data does not include unique identifiers or those available may not be unique in all situations, one can generate  **universally unique identifiers** (or replace the current identifiers) using function ``fillUniqueIdentifiers()``:
+
+```{r generate unique identifiers moki}
+moki_vegx = fillUniqueIdentifiers(target = moki_vegx, element = "plot")
+head(showElementTable(moki_vegx, "plot"),3)
+```
+A UUID (Universal Unique Identifier) is a 128-bit number used to uniquely identify some object or entity. When generated according to the standard methods, UUIDs are for practical purposes unique, without depending for their uniqueness on a central registration authority or coordination between the parties generating them, unlike most other numbering schemes. While the probability that a UUID will be duplicated is not zero, it is close enough to zero to be negligible. If we are interested in merging different documents it is important to ensure that unique identifiers are defined for plots. Function ``fillUniqueIdentifiers()`` generates UUIDs by calling function ``UUIDgenerate()`` from the R package ``uuid``.
+
+As we did for Mokihinui VegX object, we generate universally unique identifiers for the other two VegX objects:
+```{r generate unique identifiers mtfyffe, taki}
+mtfyffe_vegx = fillUniqueIdentifiers(target = mtfyffe_vegx, element = "plot")
+taki_vegx = fillUniqueIdentifiers(target = taki_vegx, element = "plot")
+```
 
 ### Updating taxon nomenclature
 
