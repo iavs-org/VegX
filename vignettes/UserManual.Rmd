@@ -90,9 +90,9 @@ In this subsection we show how to introduce information about plot names and sur
 head(moki_site, 3)
 
 ```
-The data frame has many columns, covering both plot shape, site topography... but the most important columns to parse are ``Plot``, ``Subplot`` and ``PlotObsStartDate``, because these specify the space and time context in which vegetation surveys were made. Other columns specify IDs, but these are specific to the data base where this data comes from, and Veg-X documents have their own internal IDs, so we will not import them now. 
+The data frame has many columns, encompasing both plot shape, site characteirstics, experimental treamtments, etc. The most important columns to parse in the beginning are ``Plot``, ``Subplot`` and ``PlotObsStartDate``, because these specify the space and time context of the vegetation observations. Other columns specify identifiers (IDs), but these are specific to the source data base. As Veg-X documents have their own internal IDs, it is not necessary to import the source identifiers. 
 
-In order to import data into Veg-X documents, we almost always need a **mapping** *between the names of elements in the Veg-X standard and the names of columns in the data table used as input*. For example, in the following code we define that column ``"Project"`` in the source data table contains the information about the *projectTitle* in Veg-X, column ``"Plot"`` contains the information about the *plotName*  element, and so on:
+To import data into Veg-X documents, we almost always need a **mapping** *between the names of elements in the Veg-X standard and the names of columns in the data table used as input*. For example, in the following code we define that column ``"Project"`` in the source data table contains the information about the *projectTitle* in Veg-X, column ``"Plot"`` contains the information about the *plotName*  element, and so on:
 
 ```{r mapping}
 mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot",
@@ -105,23 +105,23 @@ Once the mapping is defined, we can import the data using ``addPlotObservations(
 # Adds information about projects, plots and plot observations (no measurements yet)
 moki_vegx = addPlotObservations(moki_vegx, moki_site, mapping = mapping)
 ```
-The console output of the add function informs us of the steps that took place and which modified our Veg-X R object (note that we could store the result in a different object instead of replacing ``moki_vegx``). 25 plots were identified, all belonging to the same research project, and one plot observation was read for each plot. If we call again the ``summary`` function we will see a change in the number of data elements:
+The console output of the add function informs us of the steps that took place and the modifications of our Veg-X R object (note that we could store the result in a different object instead of replacing ``moki_vegx``). 25 plots were identified, all belonging to the same research project, and one plot observation was read for each plot. If we again call the ``summary`` function we will see a change in the number of data elements:
 ```{r summary}
 summary(moki_vegx)
 ```
-Note that among the 25 plots there are 20 subplots (in fact, 4 for each parent plot). If we want to inspect, at any time, the information of a Veg-X document in more detail, we can use the function ``showElementTable()``, indicating which of the main Veg-X elements we want to inspect:
+Note that among the 25 plots there are 20 sub-plots (i.e. 4 quadrants for each parent plot). If we want to inspect, at any time, the content of a Veg-X object in more detail, we can use the function ``showElementTable()``, indicating which of the main Veg-X elements we want to inspect:
 ```{r show plot obs}
-head(showElementTable(moki_vegx, "plotObservation"),10)
+head(showElementTable(moki_vegx, "plotObservation"),6)
 ```
 
-Let's now do the same for the **Mt Fyffe forest data set**. Since it comes from the same data base (NVS), data table have similar column names and we will not show them again. In this case, however, there is no information about the sampling end date, only the start date. We modify our mapping accordingly and we call ``addPlotObservations()`` :
+Let's now do the same for the **Mt Fyffe forest data set**. Since it comes from the same data base (NVS), the data tables have similar column names and we will not show them again. In this case, however, there is no information about the sampling end date, only the start date. We modify our mapping accordingly and we call ``addPlotObservations()`` :
 ```{r add plot obs mtfyffe}
 mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot", 
                obsStartDate = "PlotObsStartDate")
 mtfyffe_vegx = addPlotObservations(mtfyffe_vegx, mtfyffe_site, mapping)
 summary(mtfyffe_vegx)
 ```
-In this source data set there are many more subplots for each plot, and each plot/subplot was visited twice (in 1980 and 2007-2008). Moreover, each survey corresponds to a different project. Veg-X does not require projects to be equated to surveys, but in this data set it happens to be like this. We now turn our attention to the **Takitimu grassland data set**. 
+In this source data set there are many more sub-plots for each parent plot, and each plot was visited twice (in 1980 and the austral summer of 2007-2008). Moreover, each survey corresponds to a different project. Veg-X does not require projects to be equated to surveys, but this data set is structured this way. We now turn our attention to the **Takitimu grassland data set**. 
 
 ```{r add plot obs taki}
 mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subplot", 
@@ -129,7 +129,7 @@ mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subpl
 taki_vegx = addPlotObservations(taki_vegx, taki_site, mapping)
 summary(taki_vegx)
 ```
-According to this summary, this third data set contains again 5 plots, but with no subplots, so even if we specified a map for subplots none was detected.
+According to this summary, this third data set contains again 5 plots, but with no sub-plots, so even though we specified a mapping for sub-plots, there were no sub-plots in the source data table to populate the VegX object.
 
 ### Project information
 In the previous subsection, we specified a mapping for research project titles, and this lead to the creation of *project* elements in Veg-X documents. However, we did not introduce any data regarding the project description:
