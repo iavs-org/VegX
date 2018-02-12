@@ -570,17 +570,17 @@ a[which(a$identityName!= a$originalOrganismName),]
 ```
 
 ### Merging two Veg-X documents
-Function ``mergeVegX()`` is used to merge two Veg-X documents into a single one. This function puts all the input elements into the same containers and, whenever elements are considered to be the same, they are merged. Each element kind has its own way to determine when two instances refer to the same entity. For example, two plots will be considered to be equal if they have the same plot name. A call to ``mergeVegX()`` produces the following output:
+Function ``mergeVegX()`` is used to merge two Veg-X documents into a single one. This function puts all the input elements into the same containers and, whenever elements are considered to be the same, they are merged. Each element kind has its own way to determine when two instances refer to the same entity. For example, two plots will be considered to be equal if they have the same plot name and, if defined, they have the same *plotUniqueIdentifier*. By default, however, plots and organism identities are not merged. This is a security measure to avoid plots with the same name but from different sources to be identified as equal. A call to ``mergeVegX()`` to merge the ``mtfyffe_vegx`` and ``taki_vegx`` VegX objects produces the following output:
 ```{r merge two documents}
 comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx)
 ```
-The two documents to be merged, ``mtfyffe_vegx`` and ``taki_vegx`` had shared methods, so the function identifies them as equal and avoids repetitions. In contrast, the plots had all different names, so they were all kept separately (in this case, merging plots would be considered a mistake, as they come from different study areas). The decisions to merge (i.e. pool) information of other elements can be interpreted similarly. A case of special rellevance concerns *organismName* vs. *organismIdentity*. Note that some organism names were merged, but identities were not. While merging equal names is always safe, merging identities should be done with caution, because two data sets may have employed the same taxon name but with different taxon concepts. Therefore, by default ``mergeVegX()`` does not merge organism identities. If we want to specify that identities can be merged (when considered equal) we can set parameter ``mergeIdentities = TRUE``:
+Plots were all kept separately because ``allowMergePlots = FALSE`` by default. However, in this case the plots had all different names and unique identifiers, so even if we had set ``allowMergePlots = TRUE``, they would have been all kept separately. The objects to be merged had shared methods, so the function identifies them as equal and avoids repetitions. The decisions to merge (i.e. pool) information of other elements can be interpreted similarly. A special case concerns *organismName* vs. *organismIdentity*. Note that some organism names were merged, but identities were not. While merging equal names is always safe, merging identities should be done with extreme caution, because two data sets may have employed the same taxon name but with different taxon concepts. Therefore, by default ``mergeVegX()`` does not merge organism identities. If we want to specify that identities can be merged (when considered equal) we can set parameter ``allowMergeOrganismIdentities = TRUE``:
 ```{r merge two documents identities}
-# comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, mergeIdentities = TRUE)
+comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, allowMergeOrganismIdentities = TRUE)
 ```
-Note that in this second output, there are the number of merges in *organismName* than *organismIdentity*, as the equal names have been forced to mean equal identity.
+In this second output, there are the number of merges in *organismName* than *organismIdentity*, as the equal names have been forced to mean equal identity. 
 
-Note that function ``mergeVegX()`` can also be used to merge two documents that refer to the same data source, i.e. if one has imported different parts of the same source data into different Veg-X documents. 
+Note that function ``mergeVegX()`` can also be used to merge two documents that refer to the same data source, i.e. if one has imported different parts of the same source data into different Veg-X objects. In this case the user should specify ``allowMergePlots = TRUE``.
 
 ### Transforming quantitative scales
 
