@@ -102,5 +102,6 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addSiteObservations}},
   \code{\link{addStratumObservations}},
-  \code{\link{addTaxonBySiteData}}
+  \code{\link{addTaxonBySiteData}},
+  \code{\link{addTaxonConcepts}}
 }

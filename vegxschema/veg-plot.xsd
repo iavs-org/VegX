@@ -308,6 +308,11 @@ Methods used could be for example the use of global navigation satellite systems
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
+                        <xsd:element name="shapeDescription" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Textual description of the plot's shape</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
                         <xsd:element name="area" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">Total area of the plot. Usually recorded in square meters.</xsd:documentation>
@@ -474,30 +479,6 @@ Methods used could be for example the use of global navigation satellite systems
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element name="shapeDescription" type="xsd:string">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Textual description of the irregular shape</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="plotOrigin" minOccurs="0">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Definition of the position of the plot origin within the plot (like centroid). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
-                                        </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="plotOriginLabel" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="plotOriginPosition" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners of 4-sided plots e.g., bottom-left, top-right etc.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>
                                     <xsd:element name="outerBoundary" minOccurs="0" maxOccurs="1">
                                         <xsd:annotation>
                                             <xsd:documentation>Absolute or relative coordinates defining the outline of the polygon.</xsd:documentation>
@@ -552,6 +533,25 @@ Methods used could be for example the use of global navigation satellite systems
                                                 <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                                                     <xsd:annotation>
                                                         <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="plotOrigin" minOccurs="0">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Definition of the position of the plot origin within the plot (like centroid). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="plotOriginLabel" type="xsd:string">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="plotOriginPosition" type="xsd:string">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners of 4-sided plots e.g., bottom-left, top-right etc.</xsd:documentation>
                                                     </xsd:annotation>
                                                 </xsd:element>
                                             </xsd:sequence>
