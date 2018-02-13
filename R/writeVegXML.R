@@ -170,6 +170,10 @@ writeVegXML<-function(x, file, verbose = TRUE) {
          ocid = newXMLNode("originalIdentificationConcept", parent=oi)
          newXMLNode("taxonConceptID", x@organismIdentities[[i]]$originalIdentificationConcept$taxonConceptID,
                     parent=ocid)
+         if("assertionDate" %in% names(x@organismIdentities[[i]]$originalIdentificationConcept)) 
+           newXMLNode("assertionDate", as.character(x@organismIdentities[[i]]$originalIdentificationConcept$assertionDate), parent=ocid)
+         if("assertionPartyID" %in% names(x@organismIdentities[[i]]$originalIdentificationConcept)) 
+           newXMLNode("assertionPartyID", x@organismIdentities[[i]]$originalIdentificationConcept$assertionPartyID, parent=ocid)
       }
       if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
         ptn = newXMLNode("preferredTaxonNomenclature", parent=oi)

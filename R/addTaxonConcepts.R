@@ -124,7 +124,7 @@ addTaxonConcepts<-function(target, citationStringAll = "",
           }
           
           #citation string
-          if(!(citationStrings[i] %in% missing.values)) {
+          if(!(citationStrings[i] %in% missing.values)) { # If citation string is missing use the previous one
             citationString = citationStrings[i]
             ncitid = .newLiteratureCitationIDByCitationString(target,citationString)
             citID = ncitid$id
@@ -141,23 +141,29 @@ addTaxonConcepts<-function(target, citationStringAll = "",
           }
           
           #assertionParty
+          partyID = NULL
           if(assertionPartyFlag) {
-            if(!(assertionParties[i] %in% missing.values)) {
+            if(!(assertionParties[i] %in% missing.values)) { # assertion party is missing do not use
               npid = .newPartyIDByName(target, assertionParties[i])
               partyID = npid$id
               if(npid$new) target@parties[[partyID]] = list(name = assertionParties[i],
                                                             partyType = "individual")
-            } else {
-              partyID = ""
             }
-          } else {
-            partyID = ""
+          }
+          
+          #assertionDate
+          assertionDate = NULL
+          if(assertionDateFlag) {
+            if(!(assertionDates[i] %in% missing.values)) {# If assertion date is missing do not use
+              assertionDate = assertionDates[i]
+            }
           }
           
           for(j in 1:length(oiIDs)) {
             resetCounter = resetCounter + 1
             target@organismIdentities[[oiIDs[j]]]$originalIdentificationConcept$taxonConceptID = tcID
-            if(partyID!="") target@organismIdentities[[oiIDs[j]]]$originalIdentificationConcept$assertionPartyID = partyID
+            if(!is.null(partyID)) target@organismIdentities[[oiIDs[j]]]$originalIdentificationConcept$assertionPartyID = partyID
+            if(!is.null(assertionDate)) target@organismIdentities[[oiIDs[j]]]$originalIdentificationConcept$assertionDate = assertionDate
           }
         }
       }

@@ -181,6 +181,9 @@ readVegXML<-function(file, verbose = TRUE) {
     if("originalIdentificationConcept" %in% n)  {
       ocid = x[["originalIdentificationConcept"]]
       orgId$originalIdentificationConcept = list(taxonConceptID = xmlValue(ocid[["taxonConceptID"]]))
+      
+      if("assertionDate" %in% names(ocid)) orgId$originalIdentificationConcept$assertionDate = as.Date(xmlValue(ocid[["assertionDate"]]), format = "%Y-%m-%d")
+      if("assertionPartyID" %in% names(ocid)) orgId$originalIdentificationConcept$assertionPartyID = xmlValue(ocid[["assertionPartyID"]])
     }
     if("preferredTaxonNomenclature" %in% n)  {
       ptn = x[["preferredTaxonNomenclature"]]
