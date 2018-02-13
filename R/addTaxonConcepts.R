@@ -25,6 +25,8 @@
 #' @family add functions
 #'
 #' @examples
+#' 
+#'   # TO BE DONE
 addTaxonConcepts<-function(target, citationStringAll = "", 
                            x = NULL, mapping = list(), 
                            date.format = "%Y-%m-%d",

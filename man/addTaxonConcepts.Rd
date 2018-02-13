@@ -35,6 +35,10 @@ The modified object of class \code{\linkS4class{VegX}}.
 \description{
 Sets or resets taxon concepts associated with organism identities
 }
+\examples{
+
+  # TO BE DONE
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

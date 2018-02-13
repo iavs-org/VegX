@@ -251,13 +251,16 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
         res[i, "originalOrganismName"] = x@organismNames[[x@organismIdentities[[i]]$originalOrganismNameID]]$name
         res[i, "taxon"] = x@organismNames[[i]]$taxon
         res[i, "identityName"] = .getOrganismIdentityName(x, names(x@organismIdentities)[i])
-        if("originalConceptIdentification" %in% names(x@organismIdentities[[i]])) {
-          tcID = x@organismIdentities[[i]]$originalConceptIdentification$taxonConceptID
+        if("originalIdentificationConcept" %in% names(x@organismIdentities[[i]])) {
+          oic = x@organismIdentities[[i]]$originalIdentificationConcept
+          tcID = oic$taxonConceptID
           if(IDs) {
             res[i, "taxonConceptID"] = tcID
           }
-          res[i, "taxonConceptName"] = x@organismNames[[x@taxonConcepts[[tcID]]$organismNameID]]$name
-          res[i, "taxonConceptCitation"] = trimString(x@literatureCitations[[x@taxonConcepts[[tcID]]$citationID]]$citationString)
+          res[i, "taxonConcept"] = paste(x@organismNames[[x@taxonConcepts[[tcID]]$organismNameID]]$name, "sec.",
+                                         trimString(x@literatureCitations[[x@taxonConcepts[[tcID]]$citationID]]$citationString))
+          if("assertionDate" %in% names(oic)) res[i, "assertionDate"] = as.character(oic$assertionDate)
+          if("assertionPartyID" %in% names(oic)) res[i, "assertionParty"] = trimString(x@parties[[oic$assertionPartyID]]$name)
         }
         if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
           pnID = x@organismIdentities[[i]]$preferredTaxonNomenclature$preferredTaxonNameID
