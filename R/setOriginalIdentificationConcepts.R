@@ -1,6 +1,6 @@
-#' Add taxon concepts
+#' Sets original identification taxon concepts
 #'
-#' Sets or resets taxon concepts associated with organism identities
+#' Sets (or resets) taxon concepts associated with the original identification of organisms
 #'  
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to one organism identity, given by a column that can be mapped to \code{originalOrganismName}.
@@ -22,12 +22,12 @@
 #' 
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
-#' @family add functions
+#' @family organism identity functions
 #'
 #' @examples
 #' 
 #'   # TO BE DONE
-addTaxonConcepts<-function(target, citationStringAll = "", 
+setOriginalIdentificationConcepts<-function(target, citationStringAll = "", 
                            x = NULL, mapping = list(), 
                            date.format = "%Y-%m-%d",
                            missing.values = c(NA, "0", ""),

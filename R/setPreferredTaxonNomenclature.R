@@ -1,4 +1,6 @@
-#' Applies a preferred taxon nomenclature to the organism identities of a data set using a lookup table
+#' Sets preferred taxon nomenclature
+#' 
+#' Sets (or resets) a preferred taxon nomenclature to the organism identities of a data set using a lookup table
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to a different value of 'originalOrganismName'.
@@ -8,7 +10,7 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @family transform functions
+#' @family organism identity functions
 #'
 #' @examples
 #' # Load source data
@@ -42,12 +44,12 @@
 #' # Inspect the original organism identities
 #' head(showElementTable(x, "organismIdentity"))
 #'
-#' y = transformTaxonNomenclature(x, moki_lookup,
+#' y = setPreferredTaxonNomenclature(x, moki_lookup,
 #'                    c(originalOrganismName = "NVSSpeciesName", preferredTaxonName = "PreferredSpeciesName"))
 #'
 #' # Inspect the modified organism identities
 #' head(showElementTable(y, "organismIdentity"))
-transformTaxonNomenclature<-function(target, x, mapping,
+setPreferredTaxonNomenclature<-function(target, x, mapping,
                                      verbose = TRUE) {
 
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")

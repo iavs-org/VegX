@@ -88,6 +88,5 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addSiteCharacteristics}},
   \code{\link{addStratumObservations}},
   \code{\link{addSurfaceCoverObservations}},
-  \code{\link{addTaxonBySiteData}},
-  \code{\link{addTaxonConcepts}}
+  \code{\link{addTaxonBySiteData}}
 }

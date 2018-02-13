@@ -546,7 +546,7 @@ head(showElementTable(moki_vegx, "organismIdentity"),10)
 ```
 
 ```{r transf tax id moki}
-moki_vegx = transformTaxonNomenclature(moki_vegx, moki_lookup,
+moki_vegx = setPreferredTaxonNomenclature(moki_vegx, moki_lookup,
                    c(originalOrganismName = "NVSSpeciesName", preferredTaxonName = "PreferredSpeciesName"))
 ```
 
@@ -556,14 +556,14 @@ a[which(a$identityName!= a$originalOrganismName),]
 ```
 
 ```{r transf tax id mtfyffe}
-mtfyffe_vegx = transformTaxonNomenclature(mtfyffe_vegx, mtfyffe_lookup,
+mtfyffe_vegx = setPreferredTaxonNomenclature(mtfyffe_vegx, mtfyffe_lookup,
                    c(originalOrganismName = "NVSSpeciesName", preferredTaxonName = "PreferredSpeciesName"))
 a = showElementTable(mtfyffe_vegx, "organismIdentity")
 a[which(a$identityName!= a$originalOrganismName),]
 ```
 
 ```{r transf tax id taki}
-taki_vegx = transformTaxonNomenclature(taki_vegx, taki_lookup,
+taki_vegx = setPreferredTaxonNomenclature(taki_vegx, taki_lookup,
                    c(originalOrganismName = "NVSSpeciesName", preferredTaxonName = "PreferredSpeciesName"))
 a = showElementTable(taki_vegx, "organismIdentity")
 a[which(a$identityName!= a$originalOrganismName),]

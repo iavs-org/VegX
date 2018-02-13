@@ -72,6 +72,5 @@ showElementTable(y, "stratumObservation")
 
 }
 \seealso{
-Other transform functions: \code{\link{transformOrdinalScale}},
-  \code{\link{transformTaxonNomenclature}}
+Other transform functions: \code{\link{transformOrdinalScale}}
 }

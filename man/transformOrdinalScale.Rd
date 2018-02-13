@@ -81,6 +81,5 @@ y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 
 }
 \seealso{
-Other transform functions: \code{\link{transformQuantitativeScale}},
-  \code{\link{transformTaxonNomenclature}}
+Other transform functions: \code{\link{transformQuantitativeScale}}
 }
