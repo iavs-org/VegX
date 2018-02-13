@@ -5,7 +5,8 @@
 \title{Add taxon concepts}
 \usage{
 addTaxonConcepts(target, citationStringAll = "", x = NULL,
-  mapping = list())
+  mapping = list(), date.format = "\%Y-\%m-\%d", missing.values = c(NA,
+  "0", ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -18,15 +19,21 @@ or to all original organism names listed in \code{x}.}
 \item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
 \itemize{
   \item{\code{originalOrganismName} - A string with the original name given by the author of the data set (required).}
-  \item{\code{taxonConceptName} - A string with the taxon name forming the taxon concept, if different from \code{originalOrganismName} (optional).}
-  \item{\code{taxonConceptCitation} - A string with the bibliographic citation forming the taxon concept (optional).}
+  \item{\code{taxonName} - A string with the taxon name forming the taxon concept, if different from \code{originalOrganismName} (optional).}
+  \item{\code{citationString} - A string with the bibliographic citation forming the taxon concept (optional).}
+  \item{\code{assertionDate} - Date of taxon concept assertion (see \code{date.format}) (optional).}
+  \item{\code{assertionParty} - Name of the party that undertook taxon concept assertion (optional).}
 }}
+
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
+
+\item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Add taxon concepts
+Sets or resets taxon concepts associated with organism identities
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

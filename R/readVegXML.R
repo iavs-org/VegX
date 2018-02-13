@@ -178,9 +178,9 @@ readVegXML<-function(file, verbose = TRUE) {
     orgId = list()
     n = names(x)
     if("originalOrganismNameID" %in% n)  orgId$originalOrganismNameID = xmlValue(x[["originalOrganismNameID"]])
-    if("originalConceptIdentification" %in% n)  {
-      ocid = x[["originalConceptIdentification"]]
-      orgId$originalConceptIdentification = list(taxonConceptID = xmlValue(ocid[["taxonConceptID"]]))
+    if("originalIdentificationConcept" %in% n)  {
+      ocid = x[["originalIdentificationConcept"]]
+      orgId$originalIdentificationConcept = list(taxonConceptID = xmlValue(ocid[["taxonConceptID"]]))
     }
     if("preferredTaxonNomenclature" %in% n)  {
       ptn = x[["preferredTaxonNomenclature"]]

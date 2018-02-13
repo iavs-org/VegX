@@ -283,6 +283,20 @@
   }
   return(indCount)
 }
+# Returns organism identities having the corresponding original organism name ID
+.getOrganismIdentityIDsByOriginalOrganismNameID<-function(target, originalOrganismNameID) {
+  orgIdVec = character(0)
+  if(length(target@organismIdentities)>0) {
+    cnt = 1
+    for(i in 1:length(target@organismIdentities)) {
+      if(target@organismIdentities[[i]]$originalOrganismNameID==originalOrganismNameID) {
+        orgIdVec[cnt] = names(target@organismIdentities)[i]
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(orgIdVec)
+}
 
 # Returns strata names corresponding to the input method
 .getAttributeCodesByMethodID<-function(target, methodID) {

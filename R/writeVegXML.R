@@ -166,9 +166,9 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                       parent = organismIdentities)
       newXMLNode("originalOrganismNameID", x@organismIdentities[[i]]$originalOrganismNameID,
                  parent=oi)
-      if("originalConceptIdentification" %in% names(x@organismIdentities[[i]])) {
-         ocid = newXMLNode("originalConceptIdentification", parent=oi)
-         newXMLNode("taxonConceptID", x@organismIdentities[[i]]$originalConceptIdentification$taxonConceptID,
+      if("originalIdentificationConcept" %in% names(x@organismIdentities[[i]])) {
+         ocid = newXMLNode("originalIdentificationConcept", parent=oi)
+         newXMLNode("taxonConceptID", x@organismIdentities[[i]]$originalIdentificationConcept$taxonConceptID,
                     parent=ocid)
       }
       if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
