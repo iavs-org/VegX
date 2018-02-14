@@ -6,8 +6,8 @@
 \usage{
 addSiteObservations(target, x, plotObservationMapping,
   soilMeasurementMapping = list(), climateMeasurementMapping = list(),
-  waterMassMeasurementMapping = list(), soilMeasurementMethods = list(),
-  climateMeasurementMethods = list(), waterMassMeasurementMethods = list(),
+  waterBodyMeasurementMapping = list(), soilMeasurementMethods = list(),
+  climateMeasurementMethods = list(), waterBodyMeasurementMethods = list(),
   date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
@@ -22,7 +22,7 @@ Additional optional mappings are: 'subPlotName'.}
 
 \item{climateMeasurementMapping}{A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
 
-\item{waterMassMeasurementMapping}{A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
+\item{waterBodyMeasurementMapping}{A list with element names equal to water body measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.}
 
 \item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
@@ -31,8 +31,8 @@ for each of the soil variables stated in \code{soilMeasurementMapping}. List nam
 \item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.}
 
-\item{waterMassMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.}
+\item{waterBodyMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
+for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water body subject measurement variables.}
 
 \item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
