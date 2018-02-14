@@ -183,6 +183,11 @@ Methods used could be for example the use of global navigation satellite systems
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
+                        <xsd:element name="markers" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about markers (like magnetic markers or wooden pegs) that help locating the plot. There should also be a description about where in the plot the markers are found (for example in the corners or in the centre).</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
                         <xsd:element name="locationInWaterBody" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
                                 <xsd:documentation>Location in respect to a water surface or shoreline.</xsd:documentation>
