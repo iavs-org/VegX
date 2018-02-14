@@ -679,7 +679,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
         }
         res[i, "plotName"] = x@plots[[x@plotObservations[[x@siteObservations[[i]]$plotObservationID]]$plotID]]$plotName
         res[i, "obsStartDate"] = as.character(x@plotObservations[[x@siteObservations[[i]]$plotObservationID]]$obsStartDate)
-        for(mesType in c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+        for(mesType in c("soilMeasurements", "climateMeasurements", "waterBodyMeasurements")) {
           if(mesType %in% names(x@siteObservations[[i]])) {
             measurements = x@siteObservations[[i]][[mesType]]
             for(j in 1:length(measurements)) {

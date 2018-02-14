@@ -553,7 +553,7 @@
   siteobs$plotObservationID = plotObsIDmap[[siteobs$plotObservationID]]
   # Update attribute codes
   for(n in names(siteobs)) {
-    if(n %in% c("soilMeasurements", "climateMeasurements", "waterMassMeasurements")) {
+    if(n %in% c("soilMeasurements", "climateMeasurements", "waterBodyMeasurements")) {
       for(i in 1:length(siteobs[[n]])) {
         siteobs[[n]][[i]]$attributeID = attIDmap[[siteobs[[n]][[i]]$attributeID]]
       }

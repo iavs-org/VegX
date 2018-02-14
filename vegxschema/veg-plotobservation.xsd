@@ -427,9 +427,9 @@
                     <xsd:documentation xml:lang="en">A measurement of a climate attribute.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="waterMassMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="waterBodyMeasurement" type="misc:AbioticMeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A measurement of an attributes of a water mass within the plot (e.g. water level, not for soil water, which should be included in soilMeasurement).</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A measurement of an attributes of a water body within the plot (e.g. water level, water chemistry, etc.). Not for soil water, which should be included in soilMeasurement.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="soilType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">

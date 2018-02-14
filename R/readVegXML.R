@@ -428,10 +428,10 @@ readVegXML<-function(file, verbose = TRUE) {
         mesid = as.character(length(siteObs$climateMeasurements)+1)
         siteObs$climateMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
       }
-      else if(nm=="waterMassMeasurement") {
-        if(!("waterMassMeasurements" %in% names(siteObs))) siteObs$waterMassMeasurements = list()
-        mesid = as.character(length(siteObs$waterMassMeasurements)+1)
-        siteObs$waterMassMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
+      else if(nm=="waterBodyMeasurement") {
+        if(!("waterBodyMeasurements" %in% names(siteObs))) siteObs$waterBodyMeasurements = list()
+        mesid = as.character(length(siteObs$waterBodyMeasurements)+1)
+        siteObs$waterBodyMeasurements[[mesid]] = .readVegXMeasurement.2.0.0(x[[nm]])
       }
     }
     return(siteObs)

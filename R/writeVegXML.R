@@ -469,12 +469,12 @@ writeVegXML<-function(x, file, verbose = TRUE) {
           newXMLNode("attributeID", climateMeasurements[[j]]$attributeID, parent=cm)
         }
       }
-      if("waterMassMeasurements" %in% names(x@siteObservations[[i]])) {
-        waterMassMeasurements = x@siteObservations[[i]]$waterMassMeasurements
-        for(j in 1:length(waterMassMeasurements)) {
-          cm = newXMLNode("waterMassMeasurement", parent=abio)
-          newXMLNode("value", waterMassMeasurements[[j]]$value, parent=cm)
-          newXMLNode("attributeID", waterMassMeasurements[[j]]$attributeID, parent=cm)
+      if("waterBodyMeasurements" %in% names(x@siteObservations[[i]])) {
+        waterBodyMeasurements = x@siteObservations[[i]]$waterBodyMeasurements
+        for(j in 1:length(waterBodyMeasurements)) {
+          cm = newXMLNode("waterBodyMeasurement", parent=abio)
+          newXMLNode("value", waterBodyMeasurements[[j]]$value, parent=cm)
+          newXMLNode("attributeID", waterBodyMeasurements[[j]]$attributeID, parent=cm)
         }
       }
     }

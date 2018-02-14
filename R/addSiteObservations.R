@@ -8,14 +8,14 @@
 #' Additional optional mappings are: 'subPlotName'.
 #' @param soilMeasurementMapping A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param climateMeasurementMapping A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' @param waterMassMeasurementMapping A list with element names equal to water mass measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param waterBodyMeasurementMapping A list with element names equal to water body measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
 #' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).
 #' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.
-#' @param waterMassMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water mass subject measurement variables.
+#' @param waterBodyMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
+#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water body subject measurement variables.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -58,10 +58,10 @@ addSiteObservations<-function(target, x,
                               plotObservationMapping,
                               soilMeasurementMapping = list(),
                               climateMeasurementMapping = list(),
-                              waterMassMeasurementMapping = list(),
+                              waterBodyMeasurementMapping = list(),
                               soilMeasurementMethods = list(),
                               climateMeasurementMethods = list(),
-                              waterMassMeasurementMethods = list(),
+                              waterBodyMeasurementMethods = list(),
                               date.format = "%Y-%m-%d",
                               missing.values = c(NA,""),
                               verbose = TRUE) {
@@ -75,10 +75,10 @@ addSiteObservations<-function(target, x,
   # Get recognized site subjects
   soilVariables = c('pH')
   climateVariables = c()
-  waterMassVariables = c()
+  waterBodyVariables = c()
 
   #check mappings
-  siteVariables = c(soilVariables, climateVariables, waterMassVariables)
+  siteVariables = c(soilVariables, climateVariables, waterBodyVariables)
   plotObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName")
   siteValues = list()
   for(i in 1:length(plotObservationMapping)) {
@@ -98,11 +98,11 @@ addSiteObservations<-function(target, x,
       siteValues[[names(climateMeasurementMapping)[i]]] = as.character(x[[climateMeasurementMapping[[i]]]])
     }
   }
-  if(length(waterMassMeasurementMapping)>0) {
-    for(i in 1:length(waterMassMeasurementMapping)) {
-      if(!(names(waterMassMeasurementMapping)[i] %in% waterMassVariables)) stop(paste0("Mapping for '", names(waterMassMeasurementMapping)[i], "' cannot be defined."))
-      if(!(names(waterMassMeasurementMapping)[i] %in% names(waterMassMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(waterMassMeasurementMapping)[i], "'."))
-      siteValues[[names(waterMassMeasurementMapping)[i]]] = as.character(x[[waterMassMeasurementMapping[[i]]]])
+  if(length(waterBodyMeasurementMapping)>0) {
+    for(i in 1:length(waterBodyMeasurementMapping)) {
+      if(!(names(waterBodyMeasurementMapping)[i] %in% waterBodyVariables)) stop(paste0("Mapping for '", names(waterBodyMeasurementMapping)[i], "' cannot be defined."))
+      if(!(names(waterBodyMeasurementMapping)[i] %in% names(waterBodyMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(waterBodyMeasurementMapping)[i], "'."))
+      siteValues[[names(waterBodyMeasurementMapping)[i]]] = as.character(x[[waterBodyMeasurementMapping[[i]]]])
     }
   }
   #Check columns exist
@@ -123,10 +123,10 @@ addSiteObservations<-function(target, x,
       }
     }
   }
-  if(length(waterMassMeasurementMapping)>0) {
-    if(length(waterMassMeasurementMapping)>0) {
-      for(i in 1:length(waterMassMeasurementMapping)) {
-        if(!(waterMassMeasurementMapping[i] %in% names(x))) stop(paste0("Variable '", waterMassMeasurementMapping[i],"' not found in column names. Revise mapping or data."))
+  if(length(waterBodyMeasurementMapping)>0) {
+    if(length(waterBodyMeasurementMapping)>0) {
+      for(i in 1:length(waterBodyMeasurementMapping)) {
+        if(!(waterBodyMeasurementMapping[i] %in% names(x))) stop(paste0("Variable '", waterBodyMeasurementMapping[i],"' not found in column names. Revise mapping or data."))
       }
     }
   }
@@ -152,10 +152,10 @@ addSiteObservations<-function(target, x,
       if(!(names(climateMeasurementMethods)[i] %in% names(climateMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(climateMeasurementMethods)[i], "'."))
     }
   }
-  if(length(waterMassMeasurementMethods)>0) {
-    for(i in 1:length(waterMassMeasurementMethods)) {
-      if(!(names(waterMassMeasurementMethods)[i] %in% waterMassVariables)) stop(paste0("Method for '", names(waterMassMeasurementMethods)[i], "' cannot be applied."))
-      if(!(names(waterMassMeasurementMethods)[i] %in% names(waterMassMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(waterMassMeasurementMethods)[i], "'."))
+  if(length(waterBodyMeasurementMethods)>0) {
+    for(i in 1:length(waterBodyMeasurementMethods)) {
+      if(!(names(waterBodyMeasurementMethods)[i] %in% waterBodyVariables)) stop(paste0("Method for '", names(waterBodyMeasurementMethods)[i], "' cannot be applied."))
+      if(!(names(waterBodyMeasurementMethods)[i] %in% names(waterBodyMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(waterBodyMeasurementMethods)[i], "'."))
     }
   }
 
@@ -164,7 +164,7 @@ addSiteObservations<-function(target, x,
   methodIDs = character(0)
   methodCodes = list()
   methodAttIDs = list()
-  measurementMethods = c(soilMeasurementMethods, climateMeasurementMethods, waterMassMeasurementMethods)
+  measurementMethods = c(soilMeasurementMethods, climateMeasurementMethods, waterBodyMeasurementMethods)
   for(m in names(measurementMethods)) {
     method = measurementMethods[[m]]
     nmtid = .newMethodIDByName(target,method@name)
@@ -320,10 +320,10 @@ addSiteObservations<-function(target, x,
             else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
           }
         }
-        if(m %in% waterMassVariables) {
-          if(!("waterMassMeasurements" %in% names(siteObs))) siteObs$waterMassMeasurements = list()
-          mesID = as.character(length(siteObs$waterMassMeasurements)+1)
-          siteObs$waterMassMeasurements[[mesID]] = list()
+        if(m %in% waterBodyVariables) {
+          if(!("waterBodyMeasurements" %in% names(siteObs))) siteObs$waterBodyMeasurements = list()
+          mesID = as.character(length(siteObs$waterBodyMeasurements)+1)
+          siteObs$waterBodyMeasurements[[mesID]] = list()
           if(method@attributeType== "quantitative") {
             value = as.numeric(value)
             if(value > method@attributes[[1]]$upperLimit) {
@@ -332,12 +332,12 @@ addSiteObservations<-function(target, x,
             else if(value < method@attributes[[1]]$lowerLimit) {
               stop(paste0("Value '", value,"' for '", m, "' smaller than lower limit of measurement definition. Please revise scale or data."))
             }
-            siteObs$waterMassMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
+            siteObs$waterBodyMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
                                                         "value" = value)
           } else {
             ind = which(codes==as.character(value))
             if(length(ind)==1) {
-              siteObs$waterMassMeasurements[[mesID]] = list("attributeID" = attIDs[[ind]],
+              siteObs$waterBodyMeasurements[[mesID]] = list("attributeID" = attIDs[[ind]],
                                                           "value" = value)
             }
             else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
