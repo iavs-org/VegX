@@ -174,10 +174,10 @@ setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
     finntcs = length(target@taxonConcepts)
     finnlcs = length(target@literatureCitations)
     if(verbose) {
-      cat(paste0(" Taxon concept set for ", resetCounter, " organism identity(ies) .\n"))
-      cat(paste0(" ", finntcs-orintcs, " new taxon concept(s) added.\n"))
-      cat(paste0(" ", finnlcs-orinlcs, " new literature citation(s) added.\n"))
-      cat(paste0(" ", finnpts-orinpts, " party(ies) added.\n"))
+      cat(paste0(" Taxon concept (re)set for ", resetCounter, " organism identity(ies) .\n"))
+      if(finntcs > orintcs) cat(paste0(" ", finntcs-orintcs, " new taxon concept(s) added.\n"))
+      if(finnlcs > orinlcs) cat(paste0(" ", finnlcs-orinlcs, " new literature citation(s) added.\n"))
+      if(finnpts > orinpts) cat(paste0(" ", finnpts-orinpts, " new party(ies) added.\n"))
     }
   }
   

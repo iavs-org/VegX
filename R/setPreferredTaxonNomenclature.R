@@ -153,9 +153,9 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
   finnpts = length(target@parties)
   finnlcs = length(target@literatureCitations)
   if(verbose) {
-    if(finnons > orinons) cat(paste0(" " , finnons-orinons, " new organism name(s) added.\n"))
     if(nsetidentities > 0) cat(paste0(" Preferred taxon name was set on ", nsetidentities, " organism identities.\n"))
     if(ntransfidentities > 0) cat(paste0(" Preferred taxon name is now different than original organism name on ", ntransfidentities, " organism identities.\n"))
+    if(finnons > orinons) cat(paste0(" " , finnons-orinons, " new organism name(s) added.\n"))
     if(finnlcs > orinlcs) cat(paste0(" ", finnlcs-orinlcs, " new literature citation(s) added.\n"))
     if(finnpts > orinpts) cat(paste0(" ", finnpts-orinpts, " new party(ies) added.\n"))
   }
