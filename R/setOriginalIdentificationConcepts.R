@@ -7,8 +7,8 @@
 #' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
 #'  \itemize{
 #'    \item{\code{originalOrganismName} - A string with the original name given by the author of the data set (required).}
-#'    \item{\code{taxonName} - A string with the taxon name forming the taxon concept, if different from \code{originalOrganismName} (optional).}
-#'    \item{\code{citationString} - A string with the bibliographic citation forming the taxon concept (optional).}
+#'    \item{\code{conceptName} - A string with the taxon name forming the taxon concept, if different from \code{originalOrganismName} (optional).}
+#'    \item{\code{conceptCitation} - A string with the bibliographic citation forming the taxon concept (optional).}
 #'    \item{\code{assertionDate} - Date of taxon concept assertion (see \code{date.format}) (optional).}
 #'    \item{\code{assertionParty} - Name of the party that undertook taxon concept assertion (optional).}
 #'  }
@@ -30,7 +30,7 @@
 setOriginalIdentificationConcepts<-function(target, citationStringAll = "", 
                            x = NULL, mapping = list(), 
                            date.format = "%Y-%m-%d",
-                           missing.values = c(NA, "0", ""),
+                           missing.values = c(NA, ""),
                            verbose = TRUE) {
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   
@@ -69,7 +69,7 @@ setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
   } 
   else {
     x = as.data.frame(x)
-    availableMapping = c("originalOrganismName", "taxonName", "citationString", 
+    availableMapping = c("originalOrganismName", "conceptName", "conceptCitation", 
                          "assertionDate", "assertionParty")
     
     #Check columns exist
@@ -79,18 +79,18 @@ setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
     
     originalOrganismNames = as.character(x[[mapping[["originalOrganismName"]]]])
     #Optional mappings
-    taxonNameFlag = ("taxonName" %in% names(mapping))
-    if(taxonNameFlag) {
-      taxonNames = as.character(x[[mapping[["taxonName"]]]])
+    conceptNameFlag = ("conceptName" %in% names(mapping))
+    if(conceptNameFlag) {
+      conceptNames = as.character(x[[mapping[["conceptName"]]]])
     }
-    citationStringFlag = ("citationString" %in% names(mapping))
-    if(citationStringFlag) {
-      citationStrings = as.character(x[[mapping[["citationString"]]]])
+    conceptCitationFlag = ("conceptCitation" %in% names(mapping))
+    if(conceptCitationFlag) {
+      conceptCitations = as.character(x[[mapping[["conceptCitation"]]]])
     } else {
       if(citationStringAll!="") {
-        citationStrings = rep(citationStringAll, length(originalOrganismNames))
+        conceptCitations = rep(citationStringAll, length(originalOrganismNames))
       } else {
-        stop("Supply mapping for 'citationString' or suitable string for parameter 'citationStringAll'.")
+        stop("Supply mapping for 'conceptCitation' or suitable string for parameter 'citationStringAll'.")
       }
     }
     assertionDateFlag = ("assertionDate" %in% names(mapping))
@@ -115,28 +115,28 @@ setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
         oiIDs = .getOrganismIdentityIDsByOriginalOrganismNameID(target, onID)
         if(length(oiIDs)>0) {
           
-          if(taxonNameFlag) {
-            taxonName = taxonNames[i]
-            tnid = .newOrganismNameIDByName(target, taxonName, TRUE) # Get the new taxon name usage ID (internal code)
+          if(conceptNameFlag) {
+            conceptName = conceptNames[i]
+            tnid = .newOrganismNameIDByName(target, conceptName, TRUE) # Get the new taxon name usage ID (internal code)
             tnID = tnid$id
-            if(tnid$new) target@organismNames[[tnID]] = list("name" = taxonName, "taxon" = TRUE)
+            if(tnid$new) target@organismNames[[tnID]] = list("name" = conceptName, "taxon" = TRUE)
           } else {
-            taxonName = originalOrganismName
+            conceptName = originalOrganismName
             tnID = onID #If taxon names not supplied, use original organism name as taxon concept name
           }
           
           #citation string
-          if(!(citationStrings[i] %in% missing.values)) { # If citation string is missing use the previous one
-            citationString = citationStrings[i]
-            ncitid = .newLiteratureCitationIDByCitationString(target,citationString)
+          if(!(conceptCitations[i] %in% missing.values)) { # If citation string is missing use the previous one
+            conceptCitation = conceptCitations[i]
+            ncitid = .newLiteratureCitationIDByCitationString(target,conceptCitation)
             citID = ncitid$id
             if(ncitid$new) {
-              target@literatureCitations[[citID]] = list(citationString = citationString)
+              target@literatureCitations[[citID]] = list(citationString = conceptCitation)
             }
           }
           
           #taxon concept
-          ntcid = .newTaxonConceptIDByNameCitation(target, taxonName, citationString) # Get the new taxon concept ID (internal code)
+          ntcid = .newTaxonConceptIDByNameCitation(target, conceptName, conceptCitation) # Get the new taxon concept ID (internal code)
           tcID = ntcid$id
           if(ntcid$new) {
             target@taxonConcepts[[tcID]] = list("organismNameID" = tnID, "citationID" = citID)

@@ -6,7 +6,7 @@
 \usage{
 setOriginalIdentificationConcepts(target, citationStringAll = "", x = NULL,
   mapping = list(), date.format = "\%Y-\%m-\%d", missing.values = c(NA,
-  "0", ""), verbose = TRUE)
+  ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -19,8 +19,8 @@ or to all original organism names listed in \code{x}.}
 \item{mapping}{A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
 \itemize{
   \item{\code{originalOrganismName} - A string with the original name given by the author of the data set (required).}
-  \item{\code{taxonName} - A string with the taxon name forming the taxon concept, if different from \code{originalOrganismName} (optional).}
-  \item{\code{citationString} - A string with the bibliographic citation forming the taxon concept (optional).}
+  \item{\code{conceptName} - A string with the taxon name forming the taxon concept, if different from \code{originalOrganismName} (optional).}
+  \item{\code{conceptCitation} - A string with the bibliographic citation forming the taxon concept (optional).}
   \item{\code{assertionDate} - Date of taxon concept assertion (see \code{date.format}) (optional).}
   \item{\code{assertionParty} - Name of the party that undertook taxon concept assertion (optional).}
 }}

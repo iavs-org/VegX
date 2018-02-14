@@ -64,6 +64,11 @@
                                 <xsd:documentation>License name like Public Domain, BY, BY-NC, BY-NC-SA, all rights reserved</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
+                        <xsd:element name="attribution" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>TO BE DONE</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
                         <xsd:element name="partyID" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation>Reference to a party holding the license.</xsd:documentation>

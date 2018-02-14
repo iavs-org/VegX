@@ -14,7 +14,7 @@
             </xsd:element>
             <xsd:element name="plotRelationship" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">The type of relationship e.g. subplots, contiguous plots along transects etc. </xsd:documentation>
+                    <xsd:documentation xml:lang="en">The type of relationship of the current plot with respect to the referenced plot. For a parent-child relationship the relatedPlotType should appear in the subplot and plotRelationship should be 'subplot'. For contiguous plots in a transect both plots should have a relatedPlotType and the value of plotRelationship should be 'contiguous'.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="relativeSpatialCoordinate" type="misc:relativeSpatialCoordinateType" minOccurs="0">
@@ -308,9 +308,9 @@ Methods used could be for example the use of global navigation satellite systems
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="shapeDescription" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:element name="shape" type="xsd:string" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Textual description of the plot's shape</xsd:documentation>
+                                <xsd:documentation>Textual description of the plot's shape (e.g., linear, rectangle, polygon, circle)</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="area" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
@@ -318,244 +318,135 @@ Methods used could be for example the use of global navigation satellite systems
                                 <xsd:documentation xml:lang="en">Total area of the plot. Usually recorded in square meters.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="circle" minOccurs="0" maxOccurs="1">
+                        <xsd:element name="plotOrigin" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation>Describing a circular plot: plot origin and radius.</xsd:documentation>
-                            </xsd:annotation>
-                            <xsd:complexType>
-                                <xsd:choice>
-                                    <xsd:element name="plotOrigin" minOccurs="0">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Definition of the position of the plot origin within the plot (here usually "center"). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
-                                        </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="plotOriginPosition" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>The position of the origin point on the plot. Usually the center of the circle. If there are coordinates for this point they should be given under location &gt; hozizontalCoordinates.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="plotOriginLabel" type="xsd:string" minOccurs="0" maxOccurs="1">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="radius" type="misc:MeasurementType">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Define the radius of circular plots. Usually recorded in meters.</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                </xsd:choice>
-                            </xsd:complexType>
-                        </xsd:element>
-                        <xsd:element name="rectangle" minOccurs="0" maxOccurs="1">
-                            <xsd:annotation>
-                                <xsd:documentation>Describing a rectangular (or quadratic) plot: plot origin, dimensions (width and length) and orientation.</xsd:documentation>
+                                <xsd:documentation>Definition of the position of the plot origin within the plot (here usually "center"). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element name="plotOrigin" minOccurs="0">
+                                    <xsd:element name="plotOriginPosition" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>Definition of the position of the plot origin within the plot (like south-eastern corner"). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
+                                            <xsd:documentation>The position of the origin point on the plot. Usually the center of the circle. If there are coordinates for this point they should be given under location &gt; hozizontalCoordinates.</xsd:documentation>
                                         </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="plotOriginPosition" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners e.g., south-east, north-west etc. If there are coordinates for this point they should be given under location &gt; hozizontalCoordinates.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="plotOriginLabel" type="xsd:string" minOccurs="0" maxOccurs="1">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
                                     </xsd:element>
-                                    <xsd:element name="dimensions" minOccurs="0" maxOccurs="1">
+                                    <xsd:element name="plotOriginLabel" type="xsd:string" minOccurs="0" maxOccurs="1">
                                         <xsd:annotation>
-                                            <xsd:documentation>Dimensions of the rectangle (or only width in case of quadrats)</xsd:documentation>
-                                        </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="width" type="misc:MeasurementType">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation source="NVS" xml:lang="en">Width of a regular rectangle. In case of a quadrat width of all sides.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="length" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation source="NVS" xml:lang="en">Length (largest dimension) of regular rectangle.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation source="NVS" xml:lang="en">Orientation of the main axis of the plot (e.g. in degrees from North). For quadrat plots the axis closer to the N-S axis should be given.</xsd:documentation>
+                                            <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
-                        <xsd:element name="line" minOccurs="0" maxOccurs="1">
+                        <xsd:element name="radius" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Describing a linear plot shape: plot origin, length, bandwidth, orientation and path coordinates.</xsd:documentation>
+                                <xsd:documentation>Define the radius of circular plots. Usually recorded in meters.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="width" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation source="NVS" xml:lang="en">Width of a regular rectangle. In case of a quadrat width of all sides.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="length" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation source="NVS" xml:lang="en">Length (largest dimension) of a rectangle plot or length of a linear plot.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation source="NVS" xml:lang="en">Orientation of the main axis of the plot (e.g. in degrees from North). For quadrat plots the axis closer to the N-S axis should be given.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="bandWidth" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation source="NVS" xml:lang="en">Distance from the linear plot axis. This distance delimits the surface included for measurements. </xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="path" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Set of points conforming the path in a linear plot (i.e. a transect)</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element name="plotOrigin" minOccurs="0">
+                                    <xsd:element name="coordinates" type="plotCoordinatesType" />
+                                    <xsd:element name="attributeID" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>Definition of the position of the plot origin within the plot (like southernmost end). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
-                                        </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="plotOriginLabel" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="plotOriginPosition" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>The position of the origin point on the plot. A suggested option is one end-point of the line. If there are coordinates for this point they should be given under location &gt; hozizontalCoordinates.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="length" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation source="NVS" xml:lang="en">Length of regular rectangle.</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="bandWidth" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation source="NVS" xml:lang="en">Distance from the plot axis that is included for measurements. </xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="orientation" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation source="NVS" xml:lang="en">Oritentation of the plot axis (e.g. in degrees from North) </xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="path" minOccurs="0" maxOccurs="1">
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="coordinates" type="plotCoordinatesType" />
-                                                <xsd:element name="attributeID" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Specifying units and methods. Typical units are: 
+                                            <xsd:documentation>Specifying units and methods. Typical units are: 
 Decimal degrees like 12.993343 S, or -12.993343 or
 UTM coordinates like 11N 345567
 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
 
 </xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="spatialReference" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be a unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="spatialReference" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be a unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
+                                        </xsd:annotation>
                                     </xsd:element>
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
-                        <xsd:element name="polygon" minOccurs="0" maxOccurs="1">
+                        <xsd:element name="outerBoundary" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation>Description of an irregular plot shape: textual description, plot origin, outer boundary coordinates and inner boundary coordinates.</xsd:documentation>
+                                <xsd:documentation>Absolute or relative coordinates defining the outline of a polygon.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element name="outerBoundary" minOccurs="0" maxOccurs="1">
+                                    <xsd:element name="coordinates" type="plotCoordinatesType" />
+                                    <xsd:element name="attributeID" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>Absolute or relative coordinates defining the outline of the polygon.</xsd:documentation>
-                                        </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="coordinates" type="plotCoordinatesType" />
-                                                <xsd:element name="attributeID" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Specifying units and methods. Typical units are: 
+                                            <xsd:documentation>Specifying units and methods. Typical units are: 
 Decimal degrees like 12.993343 S, or -12.993343 or
 UTM coordinates like 11N 345567
 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
 
 </xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="spatialReference" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be a unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="innerBoundary" minOccurs="0" maxOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Coordinates defining any inner boundary of the polygon</xsd:documentation>
                                         </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="coordinates" type="plotCoordinatesType" />
-                                                <xsd:element name="attributeID" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Specifying units and methods. Typical units are: 
+                                    </xsd:element>
+                                    <xsd:element name="spatialReference" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be a unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="innerBoundary" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Coordinates defining any inner boundary of a polygon</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="coordinates" type="plotCoordinatesType" />
+                                    <xsd:element name="attributeID" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Specifying units and methods. Typical units are: 
 Decimal degrees like 12.993343 S, or -12.993343 or
 UTM coordinates like 11N 345567
 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
 </xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="spatialReference" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be a unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="plotOrigin" minOccurs="0">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Definition of the position of the plot origin within the plot (like centroid). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element</xsd:documentation>
                                         </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="plotOriginLabel" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>An identifier used to label the plot origin.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="plotOriginPosition" type="xsd:string">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>The position of the origin point on the plot. Suggested options include center or one of the four corners of 4-sided plots e.g., bottom-left, top-right etc.</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="spatialReference" type="xsd:string">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be a unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
+                                        </xsd:annotation>
                                     </xsd:element>
                                 </xsd:sequence>
                             </xsd:complexType>
@@ -588,7 +479,7 @@ Methods used could be for example the use of global navigation satellite systems
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="geologicalParentMaterial" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="parentRock" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. </xsd:documentation>
                 </xsd:annotation>

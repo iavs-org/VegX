@@ -4,7 +4,15 @@
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
 #' @param x A data frame where each row corresponds to a different value of 'originalOrganismName'.
-#' @param mapping A named list with element names 'originalOrganismName', 'preferredTaxonName'
+#' @param mapping A named list whose elements are strings that correspond to column names in \code{x}. Names of the list should be:
+#'  \itemize{
+#'    \item{\code{originalOrganismName} - A string with the original name given by the author of the data set (required).}
+#'    \item{\code{preferredTaxonName} - A string with the preferred taxon name forming the taxon (required).}
+#'    \item{\code{interpretationSource} - A string describing the source for the last nomenclature interpretation applied to this organism identity (i.e. the Plant List). (optional).}
+#'    \item{\code{interpretationCitation} - A string of the publication where nomenclature interpretation is described. (optional).}
+#'    \item{\code{interpretationDate} - Date of taxon nomenclature interpretation (see \code{date.format}) (optional).}
+#'    \item{\code{interpretationParty} - Name of the party that undertook nomenclature revision (optional).}
+#'  }
 #' @param verbose A boolean flag to indicate console output of the nomenclatural change process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -50,7 +58,8 @@
 #' # Inspect the modified organism identities
 #' head(showElementTable(y, "organismIdentity"))
 setPreferredTaxonNomenclature<-function(target, x, mapping,
-                                     verbose = TRUE) {
+                                        missing.values = c(NA, ""),
+                                        verbose = TRUE) {
 
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
 
@@ -64,11 +73,30 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
 
   originalOrganismNames = as.character(x[[mapping[["originalOrganismName"]]]])
   preferredTaxonNames = as.character(x[[mapping[["preferredTaxonName"]]]])
-
+  
+  interpretationSourceFlag = ("interpretationSource" %in% names(mapping))
+  if(interpretationSourceFlag) {
+    interpretationSources = as.character(x[[mapping[["interpretationSource"]]]])
+  } 
+  interpretationDateFlag = ("interpretationDate" %in% names(mapping))
+  if(interpretationDateFlag) {
+    interpretationDates = as.Date(as.character(x[[mapping[["interpretationDate"]]]]), format =date.format)
+  }
+  interpretationCitationFlag = ("interpretationCitation" %in% names(mapping))
+  if(interpretationCitationFlag) {
+    interpretationCitations = as.character(x[[mapping[["interpretationCitation"]]]])
+  }
+  interpretationPartyFlag = ("interpretationParty" %in% names(mapping))
+  if(interpretationPartyFlag) {
+    interpretationParties = as.character(x[[mapping[["interpretationParty"]]]])
+  }
+  
   if(length(target@organismIdentities)==0) stop(paste0("No organism identities in object 'target'."))
 
   nsetidentities = 0
   ntransfidentities = 0
+  orinpts = length(target@parties)
+  orinlcs = length(target@literatureCitations)
   orinons = length(target@organismNames)
   for(i in 1:length(target@organismIdentities)) {
      orgId = target@organismIdentities[[i]]
@@ -85,15 +113,51 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
        if(nonid$id != orgId$originalOrganismNameID) ntransfidentities = ntransfidentities + 1
        if(!("preferredTaxonNomenclature" %in% names(orgId))) orgId$preferredTaxonNomenclature = list()
        orgId$preferredTaxonNomenclature$preferredTaxonNameID = nonid$id
+       
+       if(interpretationSourceFlag) {
+           if(!(interpretationSources[id] %in% missing.values)) {# If interpretation source is missing do not use
+             orgId$preferredTaxonNomenclature$interpretationSource = interpretationSources[id]
+           }
+       }
+       if(interpretationDateFlag) {
+         if(!(interpretationDates[id] %in% missing.values)) {# If interpretation date is missing do not use
+           orgId$preferredTaxonNomenclature$interpretationDate = interpretationDates[id]
+         }
+       }
+       if(interpretationCitationFlag) {
+         if(!(interpretationCitations[id] %in% missing.values)) {# If interpretation citation is missing do not use
+           ncitid = .newLiteratureCitationIDByCitationString(target,interpretationCitations[id])
+           citID = ncitid$id
+           if(ncitid$new) {
+             target@literatureCitations[[citID]] = list(citationString = interpretationCitations[id])
+           }
+           orgId$preferredTaxonNomenclature$interpretationCitationID = citID
+         }
+       }
+       if(interpretationPartyFlag) {
+         if(!(interpretationParties[id] %in% missing.values)) { # interpretation party is missing do not use
+           npid = .newPartyIDByName(target, interpretationParties[id])
+           partyID = npid$id
+           if(npid$new) target@parties[[partyID]] = list(name = interpretationParties[id],
+                                                         partyType = "individual")
+           orgId$preferredTaxonNomenclature$interpretationPartyID = partyID
+         }
+       }
+       
+       
        nsetidentities = nsetidentities + 1
      }
      target@organismIdentities[[i]] = orgId
   }
   finnons = length(target@organismNames)
+  finnpts = length(target@parties)
+  finnlcs = length(target@literatureCitations)
   if(verbose) {
     if(finnons > orinons) cat(paste0(" " , finnons-orinons, " new organism name(s) added.\n"))
     if(nsetidentities > 0) cat(paste0(" Preferred taxon name was set on ", nsetidentities, " organism identities.\n"))
     if(ntransfidentities > 0) cat(paste0(" Preferred taxon name is now different than original organism name on ", ntransfidentities, " organism identities.\n"))
+    if(finnlcs > orinlcs) cat(paste0(" ", finnlcs-orinlcs, " new literature citation(s) added.\n"))
+    if(finnpts > orinpts) cat(paste0(" ", finnpts-orinpts, " new party(ies) added.\n"))
   }
 
   return(target)
