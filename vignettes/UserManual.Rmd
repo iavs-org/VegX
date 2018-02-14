@@ -1,12 +1,12 @@
 ---
-title: "Using the VegX R package"
+title: "Tutorial of the VegX R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
   rmarkdown::html_vignette:
     toc: TRUE
 vignette: >
-  %\VignetteIndexEntry{VegX package user's manual}
+  %\VignetteIndexEntry{VegX package tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---
@@ -15,7 +15,7 @@ vignette: >
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## About this manual
+## About this tutorial
 
 In this vignette you will learn how to use the **VegX R package** to map, integrate and harmonize vegetation data using the Veg-X standard (v. 2.0). For the examples, we use the data sets provided in the package. If you do not know what the Veg-X standard is, please refer to vignette **The Veg-X exchange standard**. Here we refer to elements of the Veg-X standard. Readers should refer to the same vignette to understand the definition of these elements and their logical relationships.
 

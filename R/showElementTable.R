@@ -347,47 +347,34 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
           res[i,"placementParty"] = trimString(x@parties[[x@plots[[i]]$placementPartyID]]$name)
         }
         if("geometry" %in% names(x@plots[[i]])) {
-          if("area" %in% names(x@plots[[i]]$geometry)) { #Add area information
-            res[i,"area_method"] = x@methods[[x@attributes[[x@plots[[i]]$geometry$area$attributeID]]$methodID]]$name
-            res[i,"area_value"] = x@plots[[i]]$geometry$area$value
-            if(IDs) res[i,"area_attributeID"] = x@plots[[i]]$geometry$area$attributeID
+          geometry = x@plots[[i]]$geometry
+          if("area" %in% names(geometry)) { #Add area information
+            res[i,"area_method"] = x@methods[[x@attributes[[geometry$area$attributeID]]$methodID]]$name
+            res[i,"area_value"] = geometry$area$value
+            if(IDs) res[i,"area_attributeID"] = geometry$area$attributeID
           }
-          if("circle" %in% names(x@plots[[i]]$geometry)) {
-            res[i,"shape"] = "circle"
-            sh = x@plots[[i]]$geometry$circle
-            if("radius" %in% names(sh)) { #Add radius information
-              res[i,"radius_method"] = x@methods[[x@attributes[[sh$radius$attributeID]]$methodID]]$name
-              res[i,"radius_value"] = sh$radius$value
-              if(IDs) res[i,"radius_attributeID"] = sh$radius$attributeID
-            }
+          if("shape" %in% names(geometry)) {
+            res[i,"shape"] = geometry$shape
           }
-          else if("rectangle" %in% names(x@plots[[i]]$geometry)) {
-            res[i,"shape"] = "rectangle"
-            sh = x@plots[[i]]$geometry$rectangle
-            if("length" %in% names(sh)) { #Add length information
-              res[i,"length_method"] = x@methods[[x@attributes[[sh$length$attributeID]]$methodID]]$name
-              res[i,"length_value"] = sh$length$value
-              if(IDs) res[i,"length_attributeID"] = sh$length$attributeID
-            }
-            if("width" %in% names(sh)) { #Add width information
-              res[i,"width_method"] = x@methods[[x@attributes[[sh$width$attributeID]]$methodID]]$name
-              res[i,"width_value"] = sh$width$value
-              if(IDs) res[i,"width_attributeID"] = sh$width$attributeID
-            }
+          if("radius" %in% names(geometry)) { #Add radius information
+            res[i,"radius_method"] = x@methods[[x@attributes[[geometry$radius$attributeID]]$methodID]]$name
+            res[i,"radius_value"] = geometry$radius$value
+            if(IDs) res[i,"radius_attributeID"] = geometry$radius$attributeID
           }
-          else if("line" %in% names(x@plots[[i]]$geometry)) {
-            res[i,"shape"] = "line"
-            sh = x@plots[[i]]$geometry$line
-            if("length" %in% names(sh)) { #Add length information
-              res[i,"length_method"] = x@methods[[x@attributes[[sh$length$attributeID]]$methodID]]$name
-              res[i,"length_value"] = sh$length$value
-              if(IDs) res[i,"length_attributeID"] = sh$length$attributeID
-            }
-            if("bandWidth" %in% names(sh)) { #Add bandWidth information
-              res[i,"bandWidth_method"] = x@methods[[x@attributes[[sh$bandWidth$attributeID]]$methodID]]$name
-              res[i,"bandWidth_value"] = sh$bandWidth$value
-              if(IDs) res[i,"bandWidth_attributeID"] = sh$bandWidth$attributeID
-            }
+          if("length" %in% names(geometry)) { #Add length information
+            res[i,"length_method"] = x@methods[[x@attributes[[geometry$length$attributeID]]$methodID]]$name
+            res[i,"length_value"] = geometry$length$value
+            if(IDs) res[i,"length_attributeID"] = geometry$length$attributeID
+          }
+          if("width" %in% names(geometry)) { #Add width information
+            res[i,"width_method"] = x@methods[[x@attributes[[geometry$width$attributeID]]$methodID]]$name
+            res[i,"width_value"] = geometry$width$value
+            if(IDs) res[i,"width_attributeID"] = geometry$width$attributeID
+          }
+          if("bandWidth" %in% names(geometry)) { #Add bandWidth information
+            res[i,"bandWidth_method"] = x@methods[[x@attributes[[geometry$bandWidth$attributeID]]$methodID]]$name
+            res[i,"bandWidth_value"] = geometry$bandWidth$value
+            if(IDs) res[i,"bandWidth_attributeID"] = geometry$bandWidth$attributeID
           }
         }
         if("location" %in% names(x@plots[[i]])) {
