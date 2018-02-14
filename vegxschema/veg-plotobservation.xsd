@@ -255,7 +255,7 @@
             </xsd:element>
             <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Complex type for specifying additional comments or explanations pertaining to the element</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Additional comments or explanations regarding this observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
@@ -282,12 +282,12 @@
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation by ID. </xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link to a specific plot observation by ID. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="taxonNameUsageConceptID" type="xsd:string">
+            <xsd:element name="organismIdentityID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific taxonNameUsageConcept representing a taxon occurrence by ID.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link to a specific organism identity  by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="aggregateOrganismMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
@@ -310,7 +310,11 @@
                     <xsd:documentation xml:lang="en">A reference to a specific observationGrouping by ID.  </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Additional comments or explanations regarding this observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
@@ -355,7 +359,11 @@
                     <xsd:documentation>A reference to a specific observationGrouping.  </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation>Additional comments or explanations regarding this observation.</xsd:documentation>
+                </xsd:annotation>
+            </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded" />
         </xsd:sequence>
@@ -482,9 +490,9 @@
                     <xsd:documentation xml:lang="en">A reference to a specific observationGrouping.  The individual observationGrouping is defined within the element veg:observationGrouping which is a container for all observation groupings within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="observationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the element of concern.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Additional comments or explanations regarding this observation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">

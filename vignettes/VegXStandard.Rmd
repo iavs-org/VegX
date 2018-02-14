@@ -11,6 +11,12 @@ vignette: >
   \usepackage[utf8]{inputenc}
 ---
 
+## Why a vegetation data exchange standard?
+
+A primary technical impediment to large-scale sharing of vegetation data is the lack of a recognized international exchange standard for linking the panoply of tools and database implementations that exist among various organizations and individuals participating in vegetation research. In the absence of an exchange standard, the need for multiple, ad hoc mappings among databases and applications discourages merging of data and slows development of new analytical tools (Fig. 1a). By contrast, widespread use of a common exchange standard would avoid the need to repeatedly map data for synthetic projects by requiring only a single mapping between a given database or tool and the standard (Fig. 1b), thus facilitating data exchange and analysis. Application of an international exchange standard for vegetation data would form a critical part of the necessary infrastructure to allow these data to be combined for synthetic analysis at local and global scales.
+
+![Fig. 1. Schematic diagram showing (a) problem: multiple tools and databases and (b) solution: sharing tools through a common standard.](DataExchange.png) 
+
 ## Overview of the Veg-X standard
 
 The **Veg-X exchange standard** for plot-based vegetation data (Wiser et al. 2011) is intended to be used to share and merge vegetation-plot data of different kinds. Veg-X allows for observations of vegetation at both individual plant and aggregated observation levels. It ensures that observations are fixed to physical sample plots at specific points in space and time, and makes a distinction between the entity of interest (e.g. an individual tree) and the observational act (i.e. a measurement). The standard supports repeated measurements of both individual organisms and plots, and enables the connection between the entity observed and the taxonomic concept associated with that observation to be maintained.
@@ -19,7 +25,7 @@ A goal in the creation of Veg-X was to have a schema that is relatively simple t
 
 The standard accommodates different data collection protocols by allowing specific aspects of data collection methods to be captured, such as whether plots were located subjectively or randomly, plot dimensions, definitions of cover-abundance scales, references to published measurement methods, etc. The standard also allows for the original units of measurement to be retained. All elements in the standard are clearly defined. This allows synonymous terms in source datasets to be mapped to a common set of concepts, thus overcoming the problems caused by inconsistent terminologies.
 
-The *plotObservation* is the central Veg-X element, resulting from sampling a physical plot at a specific point in time, and can be related to one or more research projects (Fig. 1). The information about a sampled plot that is fixed over time (e.g. altitude, plot identifier or name, dimensions, aspect, slope, geology) and references to related plots (e.g. a parent plot) are stored in the separate element *plot*. By structuring the plot data in this way, repeat measures and nested plots can be accommodated in the standard. 
+The *plotObservation* is the central Veg-X element, resulting from sampling a physical plot at a specific point in time, and can be related to one or more research projects (Fig. 2). The information about a sampled plot that is fixed over time (e.g. altitude, plot identifier or name, dimensions, aspect, slope, geology) and references to related plots (e.g. a parent plot) are stored in the separate element *plot*. By structuring the plot data in this way, repeat measures and nested plots can be accommodated in the standard. 
 
 Specific observations, either biotic or abiotic, are linked to the plot observation event. The standard allows storing observations of vegetation made at four different levels:
 
@@ -28,7 +34,7 @@ Specific observations, either biotic or abiotic, are linked to the plot observat
 + **Stratum** level, such as the basal area of trees of the emergent layer (element *stratumObservation*).
 + **Community** level, such as the successional stage or species richness (element *communityObservation*). 
 
-The standard maintains a clear distinction between the entity of interest (e.g. an individual organism, plot, or stratum) and the observation act (e.g. a measuring event applied to it). Together with unique identifiers that maintain the integrity of references between individual records within each component (e.g. between a plot and all the measuring events applied to it), the separation of components allows the standard to store multiple observations of the same entity (e.g. a plot or a tree). Analogously, a single observation event (e.g. a plot observation) may apply to multiple entities, thereby providing explicit grouping of entity observations. Each entity of interest (e.g. a tree) may have multiple observed properties (e.g. height, dbh) whose values are determined through measurement using a specific procedure or a method belonging to a particular protocol. Unlike individual organism observations, aggregate (i.e. collective) organism observations do not relate to a specific physical entity but provide estimates of the importance of a (abstract) taxonomic entity within the plot, such as through a cover estimate. Strata can be the subject of stratum observations (e.g. % of tree cover, tree height) and can be linked to aggregate organisms observations (Fig. 1). 
+The standard maintains a clear distinction between the entity of interest (e.g. an individual organism, plot, or stratum) and the observation act (e.g. a measuring event applied to it). Together with unique identifiers that maintain the integrity of references between individual records within each component (e.g. between a plot and all the measuring events applied to it), the separation of components allows the standard to store multiple observations of the same entity (e.g. a plot or a tree). Analogously, a single observation event (e.g. a plot observation) may apply to multiple entities, thereby providing explicit grouping of entity observations. Each entity of interest (e.g. a tree) may have multiple observed properties (e.g. height, dbh) whose values are determined through measurement using a specific procedure or a method belonging to a particular protocol. Unlike individual organism observations, aggregate (i.e. collective) organism observations do not relate to a specific physical entity but provide estimates of the importance of a (abstract) taxonomic entity within the plot, such as through a cover estimate. Strata can be the subject of stratum observations (e.g. % of tree cover, tree height) and can be linked to aggregate organisms observations (Fig. 2). 
 
 The standard also maintains a distinction between identity of organisms (the taxon or taxon concept) and how these identities are applied to particular observations of organisms. This is done through three top-level elements: 
 
@@ -57,7 +63,7 @@ The development of **VegX R package** has been conducted in parallel to an exten
 
 Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. 
 
-![Fig. 1. Main VegX elements and their logical relationships. Arrows indicate that an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element. Observations are in tinted boxes. ](LogicalStructure.png) 
+![Fig. 2. Main VegX elements and their logical relationships. Arrows indicate that an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element. Observations are in tinted boxes. ](LogicalStructure.png) 
 
 
 The following table provides the brief descriptions of the main elements of Veg-X (column 'R' indicates whether the sub-elements are currently implemented in the **VegX R package**):
@@ -96,12 +102,10 @@ literatureCitation             | Provides overview information about the literat
 organismName                   | The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false. | No |
 
 
+In the following sections we detail the sub-elements of each main element and each resource element in the **Veg-X standard**, along with some instructions on how the standard should be used in practice.  The **VegX package** maintains unique IDs for all main elements, for internal consistency. However, these IDs are largely hidden from the user (but you will see ID references in the descriptions below). From each element described, we indicate the combination of fields that uniquely identify them and are used to guide element merge. In the tables describing sub-elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional and can occur only once; '0..n' means they are optional and can occur many times; '1..n' means they must occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No'/'Partial') indicates whether the sub-elements are currently implemented in the **VegX R package** ('Partial' indicates an implementation that is not complete).
 
-## Details of Veg-X elements
 
-In this section we detail the sub-elements of each main element in the **Veg-X standard**, along with some instructions on how the standard should be used in practice. In the tables describing sub elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional and can occur only once; '0..n' means they are optional and can occur many times; '1..n' means they must occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No'/'Partial') indicates whether the sub-elements are currently implemented in the **VegX R package** ('Partial' indicates an implementation that is not complete). 
-
-The **VegX package** maintains unique IDs for all main elements, for internal consistency. However, these IDs are largely hidden from the user (but you will see ID references in the descriptions below). From each element, we indicate the combination of fields that uniquely identify them and are used to guide element merge (i.e. two plots with the same *plotName* sub-element are assumed to refer to the same plot). 
+## Details of the main Veg-X elements
 
 ### Element *project*
 
@@ -119,26 +123,11 @@ relatedProjectID          | A link to another project, by ID.                 | 
 documentCitationID        | A link, by ID, to the citation of a document describing the project.                 | 0..n | Yes  |
 
 
-### Element *party*
-
-A *party* element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties are uniquely identified by the party name, which is either an *individualName*, *organizationName* or *positionName*.
-
-Sub-element               | Description                                        |  #  |  R  |
-------------------------- | -------------------------------------------------- | --- | --- |
-individualName            | The full name of the person being described.  | 0..1 | Yes |
-organizationName          | The full name of the organization being described. | 0..1 | Yes |
-positionName              | The name of the title or position associated with the resource.  | 0..1 | Yes |
-address                   | The full address information for a given responsible party entry. | 1..n | Yes |
-phone                   | Information about the contact's telephone.  | 0..1 | Yes |
-electronicMailAddress                   | The email address of the contact. | 0..1 | Yes |
-onlineURL                   | A link to associated online information, usually a web site. | 0..1 | Yes |
-
-
 ### Element *plot*
 
 A *plot* is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links. 
 
-The element *plot* records the properties of the vegetation plot that are independent of time. While the **Veg-X standard** allows storing globally unique identifiers for *plot* elements (but the **VegX package** uses its own set of IDs for internal consistency). From the user's perspective plots are uniquely identified by their sub-element *plotName*. Furthermore, even though the standard allows  different kinds of spatial relationships between plots to be specified, the R package only enables  parent-child relationships to be specified.
+The element *plot* records the properties of the vegetation plot that are independent of time. The **Veg-X standard** allows storing globally unique identifiers for *plot* elements, but the **VegX package** uses its own set of IDs for internal consistency. From the perspective of the provider of a single data set, plots can be uniquely identified by their sub-element *plotName*. However, when merging data sets *plotUniqueIdentifier* from different sources, helps distinguishing plots that may have the same name but come from different sampled areas. Even though the standard allows  different kinds of spatial relationships between plots to be specified, the R package only enables  parent-child relationships to be specified.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -151,7 +140,7 @@ placementNote | Additional comments or explanations regarding plot placement. | 
 location | Information regarding the placement of the plot on earth's surface. | 0..1 | Partial |
 geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as the plot origin for location. | 0..1 | Partial |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
-geologicalParentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
+parentRock | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
 
 Sub-elements *location* and *geometry* are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe their sub-elements in some detail.
 
@@ -163,6 +152,7 @@ Sub-element               | Description                                        |
 ------------------------- | -------------------------------------------------- | --- | --- |
 horizontalCoordinates     | Horizontal location of a plot on the Earth's surface (i.e. x-y coordinates in a spatial reference system).| 0..n | Partial |
 verticalCoordinates | Elevation of the plot in respect to some vertical datum (such as the mean sea level or an elliposid). | 0..n | Partial |
+markers | Information about markers (like magnetic markers or wooden pegs) that help locating the plot. There should also be a description about where in the plot the markers are found (for example in the corners or in the centre). | 0..1 | No |
 locationInWaterBody | Location in respect to a water surface or shoreline. | 0..n | No |
 gridPosition | Position in a grid such as used for floristic surveys. | 0..n | No |
 authorLocation | Descriptive note about the original location described by author. | 0..1 | No |
@@ -172,21 +162,27 @@ places | A collection of named places or geographic regions. Includes elements t
 
 #### Sub-element *geometry*
 
-Sub-element *geometry* stores information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. Sub-element *geometry* may be lacking in plot-less vegetation observations. When present, the user of the schema has to choose one plot shape: *circle*, *rectangle*, *line* or *polygon*, and these entail different sub-elements describing plot's geometry. Currently, the VegX package allows storing information about area, shape (except polygons) and dimensions, but not plot origin.
+Sub-element *geometry* stores information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location. Sub-element *geometry* may be lacking in plot-less vegetation observations. When present, the user of the schema has to choose one plot shape: *circle*, *rectangle*, *line* or *polygon*. Currently, the VegX R package allows storing information about area, shape and dimensions, but not plot origin, orientation and path.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 area                      | Total area of the plot. Usually recorded in square meters.| 0..1 | Yes |
-circle                    | Describing a circular plot: plot origin and radius.| 0..1 | Partial |
-rectangle                    | Describing a rectangular (or quadratic) plot: plot origin, dimensions (width and length) and orientation.| 0..1 | Partial |
-line                    | Describing a linear plot shape: plot origin, length, bandwidth, orientation and path coordinates.| 0..1 | Partial |
-polygon                    | Description of an irregular plot shape: textual description, plot origin, outer boundary coordinates and inner boundary coordinates.| 0..1 | No |
+shape                     | Plot's shape: linear, rectangle, polygon or circle.| 0..1 | Yes |
+plotOrigin                | Definition of the position of the plot origin within the plot (here usually "center"). This is referred to in the horizontalCoordinates element under locationInPlot. The actual coordinates go into the location - horizontalCoordinates element | 0..1 | No |
+radius                    | Define the radius of circular plots. Usually recorded in meters.| 0..1 | Yes |
+width                     | Width of a regular rectangle. In case of a square plot, the width of both sides. | 0..1 | Yes |
+length                    | Length (largest dimension) of a rectangle plot or length of a linear plot. | 0..1 | Yes |
+orientation               | Orientation of the main axis of the plot (e.g. in degrees from North). For quadrat plots the axis closer to the N-S axis should be given. | 0..1 | No |
+bandWidth                 | Distance from the linear plot axis. This distance delimits the surface included for measurements.  | 0..1 | Yes |
+path                      | Set of points conforming the path in a linear plot (i.e. a transect) | 0..1 | No |
+outerBoundary             | Absolute or relative coordinates defining the outline of a polygon. | 0..1 | No |
+innerBoundary               | Coordinates defining any inner boundary of a polygon | 0..1 | No |
 
 
 
 ### Element *plotObservation*
 
-An element *plotObservation* is used to group all observations made on a single plot and during a single date-time period. While the **Veg-X standard** allows globally unique identifiers for *plotObservation* elements to be stored, the **VegX package** uses its own set of IDs for internal consistency. From the user's perspective, plot observations are uniquely identified by the plot's name and *obsStartDate*. 
+An element *plotObservation* is used to group all observations made on a single plot and during a single date-time period. While the **Veg-X standard** allows globally unique identifiers for *plotObservation* elements to be stored, the **VegX package** uses its own set of IDs for internal consistency. From the user's perspective, plot observations are uniquely identified by the plot's name (and its unique identifier, if present) and *obsStartDate*. 
 
 While the schema allows multiple references to *project* elements, the VegX package only enables a single reference to a *project* element to be specified (sub-element *projectID*). Similarly, the package allows only one party to be specified, among those involved in the plot survey (sub-element *observationPartyID*).
 
@@ -217,56 +213,196 @@ The identity of an organism (or a set of organisms) occurring within the dataset
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 originalOrganismNameID    | A link, by ID, to an organism name (e.g. normally a taxon name, but not necessarily including the authority, or even field names, morphospecies, ...) that the author of the dataset originally used to refer to an organism observed within the plot. The taxon names used as label the organism identity should not contain spelling errors, but they may not be the accepted name according to current nomenclature codes.       | 1 | Yes |
-originalIdentificationReferencePublicationID  | A link, by ID, to the publication (e.g. flora manual) used as reference to identify organisms by the author of the data set, or stated by a third party. Ideally, this publication should include definitions of taxon concepts.
 originalIdentificationPartyID   | A link to a party involved in the original organism identification (normally the author of the data set), by ID. | 0..n | No |
 originalIdentificationNote   | Additional comments or explanations pertaining to the original identification of the organism. | 0..n | No |
-originalIdentificationConcept | The taxon concept originally associated to the organism identity. This may have been specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
 voucher                   | Herbarium accession number for any archived voucher specimens. | 0..n | No |
+originalIdentificationConcept | The taxon concept originally associated to the organism identity. This may have been specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location. | 0..n | Partial |
 preferredTaxonNomenclature | The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. The sub-element *preferredTaxonNameID* points to an organism name that is the accepted name according to the current nomenclature. | 0..1 | Partial |
-
-#### Naming organisms when displaying observations
 
 When displaying organism observations, the VegX package uses a field called **organismIdentityName** to name organisms with the following rules:
 
 + If *preferredTaxonNomenclature* has NOT been defined then *organismIdentityName* is equal to the *originalOrganismName* (via *originalOrganismNameID*).
 + If *preferredTaxonNomenclature* has been defined then *organismIdentityName* is equal to the *preferredTaxonName* (via *preferredTaxonNameID*).
 
-#### Merging rules
+#### Sub-element *originalIdentificationConcept*
 
-Users of the VegX package should be aware that **organism identities are by default kept separate** when merging Veg-X objects. If the user chooses to merge identities, the decision to actually merge two given organism identities is complex, depending on both nomenclature and taxon concepts. Let '1' and '2' be two organism identities being compared. If original taxon concepts (i.e. element *originalIdentificationConcept*) are missing for both of them, the following table explains decision according to nomenclature and, in case of merging, the nomenclature of the resulting identity (asterisk indicates that a warning will be raised by the merging function):
+Stores the taxon concept originally associated to the organism identity. This may have been specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location.
 
-Case | Orig.1 | Pref.1 | Orig.2 | Pref.2 | Merge | Orig.Res. | Pref.Res. |
----- | ------ | ------ | ------ | ------ | ----- | --------- | --------- |
-  1  |    X   |    -   |    Y   |    -   |  No   |     -     |     -     |
-  2  |    X   |    -   |    X   |    -   |  Yes  |     X     |     -     |
-  3  |    X   |    Y   |    X   |    -   |  No*  |     -     |     -     |
-  4  |    X   |    Y   |    Y   |    -   |  Yes  |     -     |     Y     |
-  5  |    X   |    Y   |    X   |    Z   |  No*  |     -     |     -     |
-  6  |    X   |    Y   |    V   |    Z   |  No   |     -     |     -     |
-  7  |    X   |    Y   |    Z   |    Y   |  Yes  |     -     |     Y     |
-  8  |    X   |    Y   |    X   |    Y   |  Yes  |     X     |     Y     |
-  9  |    -   |    X   |    -   |    Y   |  No   |     -     |     -     |
-  10 |    -   |    X   |    -   |    X   |  Yes  |     -     |     X     |
-  11 |    X   |    -   |    -   |    X   |  Yes  |     -     |     X     |
-  12 |    X   |    -   |    -   |    Y   |  No   |     -     |     -     |
-   
-In the more general case where original taxon concepts may have been specified for identity '1', identity '2' or both, the following table explains the decision to merge or not those organism identities, depending on the value of their taxon concepts and whether merging is possible according to nomenclature (asterisk indicates that a warning will be raised by the merging function):
-
-Case | Nom. Merge? | Tax.Con.1 | Tax.Con.2 | Merge | Tax.Con. Res. |
----- | ----------- | --------- | ----------|------ | ------------- |
-  1  |     No      |      -    |     -     |  No   |      -        |
-  2  |     No      |      X    |     -     |  No   |      -        |
-  3  |     No      |      X    |     Y     |  No   |      -        |
-  4  |     No      |      X    |     X     |  No*  |      -        |
-  5  |     Yes     |      -    |     -     |  Yes  |      -        |
-  6  |     Yes     |      X    |     -     |  Yes  |      -        |
-  7  |     Yes     |      X    |     Y     |  No*  |      -        |
-  8  |     Yes     |      X    |     X     |  Yes  |      X        |
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+taxonConceptID            | A link to the taxon concept stated by the author, or as asserted by a third party based on information such as the date of the observation, geographic location, etc. | 1 | Yes |
+conceptAssertionDate      | Date of the taxon concept assertion. Recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | Yes |
+conceptAssertionPartyID   | A link, by ID, to a party involved in the assertion of the original taxon concept. | 0..n | Partial |
+conceptAssertionNote      | Additional comments or explanations pertaining to the assertion of the original taxon concept. | 0..n | No |
 
 
-#### Adding observations to VegX objects that have identities defined
 
-The general workflow when working with the VegX package is: (1) Create a new VegX document; (2) Add plot data and plot observations; (3) perform nomenclature corrections; (4) Merge documents. However, it could happen that user's attempt to add observations to a VegX object that already contains identities, possibly with nomenclatural revisions and associated taxon concepts. When adding organism observations to VegX objects, the add function assumes that the name supplied is an *originalOrganismName* and it applies the same rules explained to determine whether they refer to the same identity and, if not, then a new organism identity will be created. For example, even if there is a match between the supplied name and the original organism name of an existing identity, a new identity will be created if the original taxon concept has been asserted for the existing one, because there is no way to check that the two organisms involved have indeed the same identity. If existing entity does not have an original taxon concept, then the decision to create or not new organism identities will follow the nomenclature rules of the table above. 
+#### Sub-element *preferredTaxonNomenclature*
+
+Stores the interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. 
+
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+preferredTaxonNameID      | A link to a scientific taxon name (i.e. an organism name whose attribute 'taxonName' is true) accepted to label the organism identity appropriately, as stated by the author of the data set or a third party responsible for its nomenclature.| 1 | Yes |
+interpretationDate        | Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | Yes |
+interpretationSource      | A string describing the source for the last nomenclature interpretation applied to this organism identity (i.e. the Plant List). | 0..1 | Yes |
+interpretationCitationID  | A link to the publication where nomenclature interpretation is described. | 0..1 | Yes |
+interpretationPartyID     | A link to a party who undertook the nomenclarure revision. | 0..n | Partial |
+interpretationSource      | Additional comments or explanations pertaining to the nomenclature interpretation. | 0..n | Np |
+
+
+### Element *stratum*
+
+The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method. Strata that are defined from limits in a quantitative measurement, like height, the user of the Veg-X standard can use the method pointed by *methodID* to describe the quantitative attribute associated to the stratum definition (e.g. height in m). From the package user's perspective, strata are uniquely identified by the name of the stratum definition method and the *stratumName*.
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+stratumName                | Name associated with this stratum and which identifies it. | 1 | Yes |
+methodID                   | A reference to a specific method used to define this stratum. | 0..1 | Yes |
+definition                 | A longer description of the stratum definition. | 0..1 | Yes |
+order                      | An indication of a position in an ordered sequence of strata.  | 0..1 | Yes |
+lowerLimit | Lower limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
+upperLimit | Upper limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
+
+### Element *stratumObservation*
+
+A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the package user's perspective, stratum observations are uniquely identified by the name of the stratum definition method, the stratum name and the plot observation.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+stratumID                | A reference to a specific stratum by ID. | 1 | Yes |
+plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
+lowerLimitMeasurement    | A measurement of the lower limit (i.e. height) of the stratum.  | 0..1 | Yes |
+upperLimitMeasurement    | A measurement of the upper limit (i.e. height) of the stratum.  | 0..1 | Yes |
+stratumMeasurement       | A measurement (e.g. plant cover, or individual count) made in the stratum. | 0..n | Yes |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
+observationNote      | Additional comments or explanations regarding this observation.   | 0..n | No |
+
+### Element *aggregateOrganismObservation*
+
+An *aggregateOrganismObservation* is an observation applying to all occurrences of an organism (e.g. a taxon). An *aggregateOrganismObservation* contains a reference to a single *plotObservation* and a link to a *organismIdentityID*, which can be linked to all the taxon identification information. Optionally, it may also link to a *stratumObservation*. It may contain one of several sub-elements *aggregateMeasurement*, each of them being an assessment of the overall occurrence of an organism in a Plot (e.g. number of stems, percentage cover, total biomass, basal area). If there is no instance of *aggregateMeasurement*, then the taxon is understood to be simply present.  From package user's perspective, aggregate organism observations are uniquely identified by plot observation and organism identity, and by the stratum observation when defined.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotObservationID                   | A link to a specific plot observation by ID. | 1 | Yes |
+organismIdentityID       | A link to a specific organism identity by ID. | 1 | Yes |
+aggregateOrganismMeasurement     | A measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.  | 0..n | Yes |
+heightMeasurement        | Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | Yes |
+stratumObservationID     | A link to a specific stratumObservation by ID. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | Yes |
+observationGroupingID    | A link to a specific observation grouping by ID.   | 0..n | No |
+observationNote      | Additional comments or explanations regarding this observation.   | 0..n | No |
+
+
+
+### Element *individualOrganism*
+
+An element *individualOrganism* represents an organism recorded during one or more observation events and identified through an identification label (e.g. tree tag number). In Veg-X documents, individual organisms may or may not have been given a taxon name (i.e. a link via sub-element *organismIdentityID*), and the standard allows specifying the relative position of individuals within the plot to which they belong, as well as to specify related individuals. From the perspective of the **VegX package** user, individual organisms are identified by plot identity (i.e. name and unique identifier if defined) and the label of the individual organism.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotID                   | A reference to a specific plot by the plot ID.	 | 1 | Yes |
+individualOrganismLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | 1 | Yes |
+organismIdentityID  | A reference to a specific organismIdentity by ID. | 0..1 | Yes |
+birthDate | Date of birth recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | No |
+relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | 0..n | No |
+relativePlotPosition | Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan. | 0..1 | No |
+individualOrganismNote | For specifying additional comments or explanations pertaining to the individual organism. | 0..n | No |
+
+
+### Element *individualOrganismObservation*
+
+An element *individualOrganismObservation* is an observation applying to one occurrence of an organism (or part of an organism). It is a container for measurements made on the organism (e.g. diameter, height, crown dimensions, biomass, growth form, number of stems). An *individualOrganismObservation* contains a reference to a unique *plotObservation* and to an *individualOrganism*. Optionally, the *individualOrganismObservation* may link to a *stratumObservation*. Regarding measurements, the schema includes specific subelements to store the measurement of plant height and stem diameter, the latter including or not a measurement of distance from the ground at which diameter was measured. Other measurements such as growth form, canopy dimensions, health status... can be included in sub-elements *individualOrganismMeasurement* (for simple measurements) or *individualOrganismMultipleMeasurement* for multiple (tuple) measurements. 
+
+From the package user's perspective, individual organism observations are uniquely identified by plot observation and the label of the individual organism. 
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotObservationID        | A reference to a specific plotObservation by ID. | 1 | Yes |
+individualOrganismID     | A reference to a specific individualOrganism by ID. | 1 | Yes |
+stratumObservationID     | A reference to a specific stratum observation that this individual was measured in on the plot. |0..1 | Yes |
+heightMeasurement     | Measurement of the maximum height reached by the observed individual. | 0..1 | Yes |
+diameterMeasurement     | Diameter of the stem without explicit measurement of base distance (may be defined in the measurement method definition) | 0..1 | Yes |
+diameterBaseDistanceMeasurement     | A container for diameter measurements at a given distance along the stem from the ground. | 0..1 | No |
+individualOrganismMeasurement | A measurement applying to the observed individual. This includes qualitative, ordinal or quantitative assessments of form, health, dimensions of components, ...  | 0..n | Yes |
+individualOrganismMultipleMeasurement | A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  | 0..n | No |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
+observationNote      | Additional comments or explanations regarding this observation.   | 0..n | No |
+
+### Element *siteObservation*
+
+A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity (i.e. the site) to which all measurements refer. There is no specific variable to identify uniquely site observations, but they are uniquely identified by their related plot observation. Abiotic (i.e. soil, climate or water body) measurements are a special kind of measurements within the Veg-X schema, in the sense that: (1) they can have IDs and can thus be related to each other: (2) and they can have relative coordinates of the measurement within the plot, in the same way as individuals.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
+soilMeasurement           | A measurement of a soil attribute (soil chemistry, soil texture, structure, ...). |  0..n | Yes
+climateMeasurement        | A measurement of a climate attribute. | 0..n | Yes |
+waterBodyMeasurement        | A measurement of an attributes of a water body within the plot (e.g. water level, not for soil water, which should be included in soilMeasurement). | 0..n | Yes |
+soilType | A specific soil type, applying to this plot during the plot observation. | 0..n | Yes |
+humusType | A specific humus type, applying to this plot during the plot observation. | 0..n | Yes |
+climateType | A specific climate type, applying to this plot during the plot observation. | 0..n | Yes |
+hydrologicRegimeType | Reflection of frequency and duration of water level variations, applying to this plot during the plot observation. | 0..n | Yes |
+legalProtection | Legal protection status of the plot during the plot observation. Recommended that this is from a closed list of legal protection status types. | 0..1 | No |
+landuse        | A specific land use type, for example pasture, applying to this plot during the plot observation. | 0..n | No |
+habitat        | A specific habitat type, applying to this plot during the plot observation. | 0..n | No |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
+observationNote      | Additional comments or explanations regarding this observation.   | 0..n | No |
+
+
+### Element *surfaceTypes*
+
+The definition of surface types, not the observation of cover on them.  From the package user's perspective, surface types are uniquely identified by the name of their definition method the surface type name.
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+surfaceName                | Name associated with this surface type and which identifies it. | 1 | Yes |
+methodID                   | A reference to a specific method used to define this surface type. | 0..1 | Yes |
+definition                 | A longer description of the surface type definition. | 0..1 | Yes |
+
+
+### Element *surfaceCoverObservation*
+
+A *surfaceCoverObservation* is a single cover measurement applying to a surface type in a single plot during a single date-time period. From the package user's perspective, surface cover observations are uniquely identified by surface type and plot observation.
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+surfaceTypeID              | A reference to a specific surface type by ID. | 1 | Yes |
+plotObservationID          | A reference to a specific plotObservation by ID. | 1 | Yes |
+coverMeasurement           | The cover measurement, usually in percent cover of the surface when projected to the ground. | 1 | Yes |
+
+
+
+### Element *observationGrouping*
+
+A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the schema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a plotObservation).
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+name                       | The unique name of a specific grouping entity that is subsequently referenced by specific observations. | 1 | No |
+type                   | The grouping entity type. For example, grouping of individual organism observations for the purposes of describing a physical relationship. Recommended that a closed-list is developed and used. | 1 | No |
+
+
+
+
+
+## Details of resource elements
+
+
+### Element *party*
+
+A *party* element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties are uniquely identified by the party name, which is either an *individualName*, *organizationName* or *positionName*.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+individualName            | The full name of the person being described.  | 0..1 | Yes |
+organizationName          | The full name of the organization being described. | 0..1 | Yes |
+positionName              | The name of the title or position associated with the resource.  | 0..1 | Yes |
+address                   | The full address information for a given responsible party entry. | 1..n | Yes |
+phone                   | Information about the contact's telephone.  | 0..1 | Yes |
+electronicMailAddress                   | The email address of the contact. | 0..1 | Yes |
+onlineURL                   | A link to associated online information, usually a web site. | 0..1 | Yes |
+
 
 ### Element *literatureCitation*
 
@@ -314,131 +450,19 @@ precision | The smallest place value to which the measurement is expressed (eg, 
 lowerLimit | Potential lower limit of the measurement | 0..1 | Yes |
 upperLimit | Potential upper limit of the measurement | 0..1 | Yes |
 
-### Element *stratum*
 
-The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method. Strata that are defined from limits in a quantitative measurement, like height, the user of the Veg-X standard can use the method pointed by *methodID* to describe the quantitative attribute associated to the stratum definition (e.g. height in m). From the perspective of the **VegX package** user, strata are uniquely identified by *stratumName*.
+### Element *organismName*
 
-Sub-element (quantitative) | Description                                        |  #  |  R  |
--------------------------- | -------------------------------------------------- | --- | --- |
-stratumName                | Name associated with this stratum and which identifies it. | 1 | Yes |
-methodID                   | A reference to a specific method used to define this stratum. | 0..1 | Yes |
-definition                 | A longer description of the stratum definition. | 0..1 | Yes |
-order                      | An indication of a position in an ordered sequence of strata.  | 0..1 | Yes |
-lowerLimit | Lower limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
-upperLimit | Upper limit of the stratum in some known dimension (e.g. height) defined in the attribute of the method pointed to by 'methodID'. | 0..1 | Yes |
+An element *organismName* is simply a string with the name an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false.
 
-### Element *stratumObservation*
-
-A *stratumObservation* is a specific observation applying to a stratum in a single plot during a single date-time period. Each stratum observation may be referenced by observations of taxa or individuals within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. In addition, the *stratumObservation* may contain measurements of the lower and upper vertical limits of the stratum (if those are not fixed by the stratum definition) and an assessment of plant abundance like cover or number of individuals. A *stratumObservation* always contains a reference to a *plotObservation*, where contextual information lies (plot, project, parties, date-time period). It also contains a reference to a *stratum*, which contains its definition. From the perspective of the **VegX package** user, stratum observations are identified by *methodID* (i.e. method name) and *stratumID* (i.e., stratum name) and *plotObservationID* (i.e. plot name and observation start date).
-
-Sub-element               | Description                                        |  #  |  R  |
+Attribute               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
-stratumID                | A reference to a specific stratum by ID. | 1 | Yes |
-plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
-lowerLimitMeasurement    | A measurement of the lower limit (i.e. height) of the stratum.  | 0..1 | Yes |
-upperLimitMeasurement    | A measurement of the upper limit (i.e. height) of the stratum.  | 0..1 | Yes |
-stratumMeasurement       | A measurement (e.g. plant cover, or individual count) made in the stratum. | 0..n | Yes |
-observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
+taxonName               | A flag to identify that the organism name is a taxon name (i.e. a name according to a nomenclature code) | 1 | Yes |
 
-### Element *aggregateOrganismObservation*
-
-An *aggregateOrganismObservation* is an observation applying to all occurrences of an organism (e.g. a taxon). An *aggregateOrganismObservation* contains a reference to a single *plotObservation* and a link to a *organismIdentityID*, which can be linked to all the taxon identification information. Optionally, it may also link to a *stratumObservation*. It may contain one of several sub-elements *aggregateMeasurement*, each of them being an assessment of the overall occurrence of an organism in a Plot (e.g. number of stems, percentage cover, total biomass, basal area). If there is no instance of *aggregateMeasurement*, then the taxon is understood to be simply present.  From the perspective of the **VegX package** user, aggregate organism observations are uniquely identified by *plotObservationID* (i.e. plot name and observation start date) and *organismIdentityID* (i.e. by a taxon name) and by *stratumObservationID* (i.e. stratum name) when defined.
-
-Sub-element               | Description                                        |  #  |  R  |
-------------------------- | -------------------------------------------------- | --- | --- |
-plotID                   | A reference to a specific plot by ID. | 1 | Yes |
-organismIdentityID  | A reference to a specific organismIdentity representing a taxon occurrence by ID. | 1 | Yes |
-aggregateOrganismMeasurement     | A measurement for a aggregate organism value (e.g. plant cover of a taxon). Values can be further defined uppervalue, accuracy etc. Many measurements (e.g. counts, cover, basal area...) can be added to the same aggregate organism observation.  | 0..n | Yes |
-stratumObservationID     | A reference to a specific stratumObservation by ID. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | Yes |
-heightMeasurement        | Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements included in this aggregateOrganismObservation. | 0..1 | Yes |
-observationGroupingID    | A reference to a specific observation grouping by ID.   | 0..n | No |
-
-
-
-### Element *individualOrganism*
-
-An element *individualOrganism* represents an organism recorded during one or more observation events and identified through an identification label (e.g. tree tag number). In Veg-X documents, individual organisms may or may not have been given a taxon name (i.e. a link via sub-element *organismIdentityID*), and the standard allows specifying the relative position of individuals within the plot to which they belong, as well as to specify related individuals. From the perspective of the **VegX package** user, individual organisms are identified by *plotID* (i.e. plot name) and *individualOrganismLabel* (i.e. a tag number or string).
-
-Sub-element               | Description                                        |  #  |  R  |
-------------------------- | -------------------------------------------------- | --- | --- |
-plotID                   | A reference to a specific plot by the plot ID.	 | 1 | Yes |
-individualOrganismLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | 1 | Yes |
-organismIdentityID  | A reference to a specific organismIdentity by ID. | 0..1 | Yes |
-birthDate | Date of birth recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | No |
-relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | 0..n | No |
-relativePosition | Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan. | 0..1 | No |
-
-
-### Element *individualOrganismObservation*
-
-An element *individualOrganismObservation* is an observation applying to one occurrence of an organism (or part of an organism). It is a container for measurements made on the organism (e.g. diameter, height, crown dimensions, biomass, growth form, number of stems). An *individualOrganismObservation* contains a reference to a unique *plotObservation* and to an *individualOrganism*. Optionally, the *individualOrganismObservation* may link to a *stratumObservation*. Regarding measurements, the schema includes specific subelements to store the measurement of plant height and stem diameter, the latter including or not a measurement of distance from the ground at which diameter was measured. Other measurements such as growth form, canopy dimensions, health status... can be included in sub-elements *individualOrganismMeasurement* (for simple measurements) or *individualOrganismMultipleMeasurement* for multiple (tuple) measurements. From the perspective of the **VegX package** user, individual organism observations are uniquely identified by *plotObservationID* (i.e. plot name and observation start date) and *individualOrganismID* (i.e. the plot name and an identification label). 
-
-Sub-element               | Description                                        |  #  |  R  |
-------------------------- | -------------------------------------------------- | --- | --- |
-plotObservationID        | A reference to a specific plotObservation by ID. | 1 | Yes |
-individualOrganismID     | A reference to a specific individualOrganism by ID. | 1 | Yes |
-stratumObservationID     | A reference to a specific stratum observation that this individual was measured in on the plot. |0..1 | Yes |
-heightMeasurement     | Measurement of the maximum height reached by the observed individual. | 0..1 | Yes |
-diameterMeasurement     | Diameter of the stem without explicit measurement of base distance (may be defined in the measurement method definition) | 0..1 | Yes |
-diameterBaseDistanceMeasurement     | A container for diameter measurements at a given distance along the stem from the ground. | 0..1 | No |
-individualOrganismMeasurement | A measurement applying to the observed individual. This includes qualitative, ordinal or quantitative assessments of form, health, dimensions of components, ...  | 0..n | Yes |
-individualOrganismMultipleMeasurement | A n-tuple of a related measurements (e.g. paired data such as length, width and height to calculate volume). The definition of the relationship type is left open to the user, but is intended to allow specifying a set of measurements that have to be considered together.  | 0..n | No |
-observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
-
-### Element *siteObservation*
-
-A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity (i.e. the site) to which all measurements refer. There is no specific variable to identify uniquely site observations, but they are uniquely identified by their related *plotObservationID* (i.e. the combination of plot name and observation start date). Abiotic (i.e. soil, climate or water mass) measurements are a special kind of measurements within the Veg-X schema, in the sense that: (1) they can have IDs and can thus be related to each other: (2) and they can have relative coordinates of the measurement within the plot, in the same way as individuals.
-
-Sub-element               | Description                                        |  #  |  R  |
-------------------------- | -------------------------------------------------- | --- | --- |
-plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
-soilMeasurement           | A measurement of a soil attribute (soil chemistry, soil texture, structure, ...). |  0..n | Yes
-climateMeasurement        | A measurement of a climate attribute. | 0..n | Yes |
-waterMassMeasurement        | A measurement of an attributes of a water mass within the plot (e.g. water level, not for soil water, which should be included in soilMeasurement). | 0..n | Yes |
-soilType | A specific soil type, applying to this plot during the plot observation. | 0..n | Yes |
-humusType | A specific humus type, applying to this plot during the plot observation. | 0..n | Yes |
-climateType | A specific climate type, applying to this plot during the plot observation. | 0..n | Yes |
-hydrologicRegimeType | Reflection of frequency and duration of water level variations, applying to this plot during the plot observation. | 0..n | Yes |
-legalProtection | Legal protection status of the plot during the plot observation. Recommended that this is from a closed list of legal protection status types. | 0..1 | No |
-landuse        | A specific land use type, for example pasture, applying to this plot during the plot observation. | 0..n | No |
-habitat        | A specific habitat type, applying to this plot during the plot observation. | 0..n | No |
-observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
-
-
-### Element *surfaceTypes*
-
-The definition of surface types, not the observation of cover on them.  From the perspective of the **VegX package** user, surface types are uniquely identified by *methodID* (i.e. method name) and *surfaceName*.
-
-Sub-element (quantitative) | Description                                        |  #  |  R  |
--------------------------- | -------------------------------------------------- | --- | --- |
-surfaceName                | Name associated with this surface type and which identifies it. | 1 | Yes |
-methodID                   | A reference to a specific method used to define this surface type. | 0..1 | Yes |
-definition                 | A longer description of the surface type definition. | 0..1 | Yes |
-
-
-### Element *surfaceCoverObservation*
-
-A *surfaceCoverObservation* is a single cover measurement applying to a surface type in a single plot during a single date-time period. From the perspective of the **VegX package** user, surface cover observations are uniquely identified by *surfaceTypeID* (i.e. surface name) and *plotObservationID* (i.e. plot name and observation start date).
-
-Sub-element (quantitative) | Description                                        |  #  |  R  |
--------------------------- | -------------------------------------------------- | --- | --- |
-surfaceTypeID              | A reference to a specific surface type by ID. | 1 | Yes |
-plotObservationID          | A reference to a specific plotObservation by ID. | 1 | Yes |
-coverMeasurement           | The cover measurement, usually in percent cover of the surface when projected to the ground. | 1 | Yes |
-
-
-
-### Element *observationGrouping*
-
-A specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. For example, records that represent revisits to the same area for monitoring purposes can be linked together through this entity. Note that some specific groupings are already defined in the schema and therefore they should not be repeated (e.g. the grouping of observations made on a specific plot during a specific time is a plotObservation).
-
-Sub-element (quantitative) | Description                                        |  #  |  R  |
--------------------------- | -------------------------------------------------- | --- | --- |
-name                       | The unique name of a specific grouping entity that is subsequently referenced by specific observations. | 1 | Yes |
-type                   | The grouping entity type. For example, grouping of individual organism observations for the purposes of describing a physical relationship. Recommended that a closed-list is developed and used. | 1 | Yes |
 
 ## References
 
 + Franz NM & Peet RK (2009). Towards a language for mapping relationships among taxonomic concepts. *Systematics and Biodiversity* 7: 5-20.
 + Jones MB, Schildhauer MP, Reichman OJ & Bowers S (2006). The new bioinformatics: integrating ecological data from the gene to the biosphere. *Annual Review of Ecology, Evolution and Systematics* 37: 519-544.
 + Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data. *Journal of Vegetation Science* 22: 598-609.
+

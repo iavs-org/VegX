@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Community Edition 15.1.17.7979 (https://www.liquid-technologies.com)-->
+<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/organism-2.0.0" targetNamespace="http://iavs.org/vegX/organism-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:complexType name="IndividualOrganismType">
@@ -56,9 +56,9 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="individualOrganismNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the IndividualOrganismType.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the individual organism.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
@@ -144,17 +144,17 @@
                         </xsd:element>
                         <xsd:element name="conceptAssertionDate" type="xsd:date" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                                <xsd:documentation xml:lang="en">Date of the taxon concept assertion. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="conceptAssertionPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
-                                <xsd:documentation>A party involved in the identification of the original taxon concept.</xsd:documentation>
+                                <xsd:documentation>A link, by ID, to a party involved in the assertion of the original taxon concept.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="conceptAssertionNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
-                                <xsd:documentation>Additional comments or explanations pertaining to the original identification of the taxon concept.</xsd:documentation>
+                                <xsd:documentation>Additional comments or explanations pertaining to the assertion of the original taxon concept.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>

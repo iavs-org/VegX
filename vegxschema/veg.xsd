@@ -98,7 +98,11 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="surfaceCover" type="plot:SurfaceType" minOccurs="1" maxOccurs="unbounded" />
+                            <xsd:element name="surfaceType" type="plot:SurfaceTypeType" minOccurs="1" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation>The definition of a surface type, not the observation of cover on them.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -164,7 +168,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="communityConcept" xmlns:q1="http://iavs.org/vegX/community-2.0.0" type="q1:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:element xmlns:q1="http://iavs.org/vegX/community-2.0.0" name="communityConcept" type="q1:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="EN">A name and some kind of definition of a community type, preferably a community name as used in a reference.v</xsd:documentation>
                                 </xsd:annotation>
@@ -178,7 +182,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q6="http://iavs.org/vegX/organismobservation-2.0.0" name="communityDetermination" xmlns:q2="http://iavs.org/vegX/community-2.0.0" type="q2:CommunityDeterminationType" maxOccurs="unbounded">
+                            <xsd:element xmlns:q2="http://iavs.org/vegX/community-2.0.0" xmlns:q6="http://iavs.org/vegX/organismobservation-2.0.0" name="communityDetermination" type="q2:CommunityDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">An identification applying one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
                                 </xsd:annotation>

@@ -313,14 +313,14 @@ Methods used could be for example the use of global navigation satellite systems
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="shape" type="xsd:string" minOccurs="0" maxOccurs="1">
-                            <xsd:annotation>
-                                <xsd:documentation>Textual description of the plot's shape (e.g., linear, rectangle, polygon, circle)</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
                         <xsd:element name="area" type="misc:MeasurementType" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">Total area of the plot. Usually recorded in square meters.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="shape" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Plot's shape: linear, rectangle, polygon or circle.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="plotOrigin" minOccurs="0">
@@ -544,9 +544,9 @@ Methods used could be for example the use of global navigation satellite systems
         <xsd:attribute name="system" type="misc:SystemType" use="optional" />
         <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
     </xsd:complexType>
-    <xsd:complexType name="SurfaceType">
+    <xsd:complexType name="SurfaceTypeType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method.  </xsd:documentation>
+            <xsd:documentation xml:lang="en">The definition of a surface type, not the observation of cover on them.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="surfaceName" type="xsd:string">
