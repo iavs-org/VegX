@@ -27,7 +27,9 @@ or to all original organism names listed in \code{x}.}
 
 \item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
-\item{verbose}{A boolean flag to indicate console output of the data integration process.}
+\item{missing.values}{A character vector of values that should be considered as missing data (see details).}
+
+\item{verbose}{A boolean flag to indicate console output of the concept identification process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}.

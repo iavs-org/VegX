@@ -263,11 +263,15 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
           if("assertionPartyID" %in% names(oic)) res[i, "assertionParty"] = trimString(x@parties[[oic$assertionPartyID]]$name)
         }
         if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
-          pnID = x@organismIdentities[[i]]$preferredTaxonNomenclature$preferredTaxonNameID
+          ptn = x@organismIdentities[[i]]$preferredTaxonNomenclature
           if(IDs) {
-            res[i, "preferredTaxonNameID"] = pnID
+            res[i, "preferredTaxonNameID"] = ptn$preferredTaxonNameID
           }
-          res[i, "preferredTaxonName"] = x@organismNames[[pnID]]$name
+          res[i, "preferredTaxonName"] = x@organismNames[[ptn$preferredTaxonNameID]]$name
+          if("interpretationDate" %in% names(ptn)) res[i, "interpretationDate"] = as.character(ptn$interpretationDate)
+          if("interpretationSource" %in% names(ptn)) res[i, "interpretationSource"] = trimString(ptn$interpretationSource)
+          if("interpretationCitationID" %in% names(ptn)) res[i, "interpretationCitation"] = trimString(x@literatureCitations[[ptn$interpretationCitationID]]$citationString)
+          if("interpretationPartyID" %in% names(ptn)) res[i, "interpretationParty"] = trimString(x@parties[[ptn$interpretationPartyID]]$name)
         }
       }
     }

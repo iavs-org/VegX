@@ -188,6 +188,10 @@ readVegXML<-function(file, verbose = TRUE) {
     if("preferredTaxonNomenclature" %in% n)  {
       ptn = x[["preferredTaxonNomenclature"]]
       orgId$preferredTaxonNomenclature = list(preferredTaxonNameID = xmlValue(ptn[["preferredTaxonNameID"]]))
+      if("interpretationDate" %in% names(ptn)) orgId$preferredTaxonNomenclature$interpretationDate = as.Date(xmlValue(ptn[["interpretationDate"]]), format = "%Y-%m-%d")
+      if("interpretationPartyID" %in% names(ptn)) orgId$preferredTaxonNomenclature$interpretationPartyID = xmlValue(ptn[["interpretationPartyID"]])
+      if("interpretationSource" %in% names(ptn)) orgId$preferredTaxonNomenclature$interpretationSource = xmlValue(ptn[["interpretationSource"]])
+      if("interpretationCitationID" %in% names(ptn)) orgId$preferredTaxonNomenclature$interpretationCitationID = xmlValue(ptn[["interpretationCitationID"]])
     }
     return(orgId)
   }

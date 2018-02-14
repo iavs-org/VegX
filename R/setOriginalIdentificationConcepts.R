@@ -15,7 +15,8 @@
 #' @param citationStringAll A string with the bibliographic citation to be applied to all organism identities of the VegX object (using the original organism names as taxon names),
 #' or to all original organism names listed in \code{x}.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
-#' @param verbose A boolean flag to indicate console output of the data integration process.
+#' @param missing.values A character vector of values that should be considered as missing data (see details).
+#' @param verbose A boolean flag to indicate console output of the concept identification process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export

@@ -9,10 +9,12 @@
 #'    \item{\code{originalOrganismName} - A string with the original name given by the author of the data set (required).}
 #'    \item{\code{preferredTaxonName} - A string with the preferred taxon name forming the taxon (required).}
 #'    \item{\code{interpretationSource} - A string describing the source for the last nomenclature interpretation applied to this organism identity (i.e. the Plant List). (optional).}
-#'    \item{\code{interpretationCitation} - A string of the publication where nomenclature interpretation is described. (optional).}
+#'    \item{\code{interpretationCitation} - A string of the publication where nomenclature interpretation is explained (optional).}
 #'    \item{\code{interpretationDate} - Date of taxon nomenclature interpretation (see \code{date.format}) (optional).}
-#'    \item{\code{interpretationParty} - Name of the party that undertook nomenclature revision (optional).}
+#'    \item{\code{interpretationParty} - Name of the party that undertook nomenclature interpretation (optional).}
 #'  }
+#' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
+#' @param missing.values A character vector of values that should be considered as missing data (see details).
 #' @param verbose A boolean flag to indicate console output of the nomenclatural change process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -58,6 +60,7 @@
 #' # Inspect the modified organism identities
 #' head(showElementTable(y, "organismIdentity"))
 setPreferredTaxonNomenclature<-function(target, x, mapping,
+                                        date.format = "%Y-%m-%d",
                                         missing.values = c(NA, ""),
                                         verbose = TRUE) {
 
