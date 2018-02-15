@@ -258,7 +258,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
             res[i, "taxonConceptID"] = tcID
           }
           res[i, "taxonConcept"] = paste(x@organismNames[[x@taxonConcepts[[tcID]]$organismNameID]]$name, "sec.",
-                                         trimString(x@literatureCitations[[x@taxonConcepts[[tcID]]$citationID]]$citationString))
+                                         trimString(x@literatureCitations[[x@taxonConcepts[[tcID]]$accordingToCitationID]]$citationString))
           if("assertionDate" %in% names(oic)) res[i, "assertionDate"] = as.character(oic$assertionDate)
           if("assertionPartyID" %in% names(oic)) res[i, "assertionParty"] = trimString(x@parties[[oic$assertionPartyID]]$name)
         }
