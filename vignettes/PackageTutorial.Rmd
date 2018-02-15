@@ -1,5 +1,5 @@
 ---
-title: "Tutorial of the VegX R package"
+title: "How to use the VegX R package"
 author: "IAVS Ecoinformatics Working Group"
 date: "`r Sys.Date()`"
 output: 
@@ -31,7 +31,7 @@ We envisage two different kinds of users of the VegX package:
     + Provide information about the research project and contact information.
     + Write Veg-X XML files or other supported export formats.
 
-* **Vegetation data integrators**: These are people interested in gathering data from different sources, for the sake of compiling a new vegetation plot data base or conducting analyses based on integrated data sets.
+* **Vegetation data integrators**: These are people interested in gathering data from different sources, for the sake of compiling a new vegetation plot data base or conducting analyses based on integrated data sets. The functions most interesting to data integrators are:
     + Load Veg-X XML files.
     + Merge several Veg-X objects from different sources.
     + Assess the degree of compatibility of the different source data.
@@ -102,7 +102,6 @@ mapping = list(projectTitle = "Project", plotName = "Plot", subPlotName = "Subpl
 Once the mapping is defined, we can import the data using ``addPlotObservations()``:
 
 ```{r add plot obs}
-# Adds information about projects, plots and plot observations (no measurements yet)
 moki_vegx = addPlotObservations(moki_vegx, moki_site, mapping = mapping)
 ```
 The console output of the add function informs us of the steps that took place and the modifications of our Veg-X R object (note that we could store the result in a different object instead of replacing ``moki_vegx``). 25 plots were identified, all belonging to the same research project, and one plot observation was read for each plot. If we again call the ``summary`` function we will see a change in the number of data elements:
@@ -576,7 +575,7 @@ comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx)
 ```
 Plots were all kept separately because ``allowMergePlots = FALSE`` by default. However, in this case the plots had all different names and unique identifiers, so even if we had set ``allowMergePlots = TRUE``, they would have been all kept separately. The objects to be merged had shared methods, so the function identifies them as equal and avoids repetitions. The decisions to merge (i.e. pool) information of other elements can be interpreted similarly. A special case concerns *organismName* vs. *organismIdentity*. Note that some organism names were merged, but identities were not. While merging equal names is always safe, merging identities should be done with extreme caution, because two data sets may have employed the same taxon name but with different taxon concepts. Therefore, by default ``mergeVegX()`` does not merge organism identities. If we want to specify that identities can be merged (when considered equal) we can set parameter ``allowMergeOrganismIdentities = TRUE``:
 ```{r merge two documents identities}
-comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, allowMergeOrganismIdentities = TRUE)
+# comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, allowMergeOrganismIdentities = TRUE)
 ```
 In this second output, there are the number of merges in *organismName* than *organismIdentity*, as the equal names have been forced to mean equal identity. 
 
