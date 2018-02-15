@@ -227,7 +227,7 @@
   if(length(target@taxonConcepts)==0) return(list(id="1", new = TRUE))
   for(i in 1:length(target@taxonConcepts)) {
     on  = target@organismNames[[target@taxonConcepts[[i]]$organismNameID]]$name
-    cs = target@literatureCitations[[target@taxonConcepts[[i]]$citationID]]$citationString
+    cs = target@literatureCitations[[target@taxonConcepts[[i]]$accordingToCitationID]]$citationString
     if((on==organismName) && (cs==citationString)) {
       return(list(id = names(target@taxonConcepts)[i], new = FALSE))
     }
@@ -413,8 +413,8 @@
   if("organismNameID" %in% names(taxonConcept)) {
     taxonConcept$organismNameID = onIDmap[[taxonConcept$organismNameID]]
   }
-  if("citationID" %in% names(taxonConcept)) {
-    taxonConcept$citationID = litIDmap[[taxonConcept$citationID]]
+  if("accordingToCitationID" %in% names(taxonConcept)) {
+    taxonConcept$accordingToCitationID = litIDmap[[taxonConcept$accordingToCitationID]]
   }
   return(taxonConcept)
 }

@@ -15,7 +15,7 @@ vignette: >
 
 A primary technical impediment to large-scale sharing of vegetation data is the lack of a recognized international exchange standard for linking the panoply of tools and database implementations that exist among various organizations and individuals participating in vegetation research. In the absence of an exchange standard, the need for multiple, ad hoc mappings among databases and applications discourages merging of data and slows development of new analytical tools (Fig. 1a). By contrast, widespread use of a common exchange standard would avoid the need to repeatedly map data for synthetic projects by requiring only a single mapping between a given database or tool and the standard (Fig. 1b), thus facilitating data exchange and analysis. Application of an international exchange standard for vegetation data would form a critical part of the necessary infrastructure to allow these data to be combined for synthetic analysis at local and global scales.
 
-![Fig. 1. Schematic diagram showing (a) problem: multiple tools and databases and (b) solution: sharing tools through a common standard.](DataExchange.png) 
+![**Fig. 1**. Schematic diagram showing (a) problem: multiple tools and databases and (b) solution: sharing tools through a common standard.](DataExchange.png) 
 
 ## Overview of the Veg-X standard
 
@@ -59,11 +59,11 @@ In 2017, the *Ecoinformatics Working Group* of the **International Association f
 The development of **VegX R package** has been conducted in parallel to an extensive revision of Veg-X, which has led to the deployment of **version 2.0** of the exchange standard.  Moreover, the package does not currently include all the main elements and sub-elements of Veg-X (see next section). This was a practical decision to enable a usable tool to be developed to meet the purpose described above and not be overly complex for users. Future versions of the package may allow more elements of the standard to be used while accounting for backward compatibility with Veg-X files conforming to version 2.0 or later versions.
 
 
-## Structure and main elements of Veg-X (ver. 2.0)
+## Data structure of Veg-X (ver. 2.0)
 
 Veg-X has a non-hierarchical data structure. Different data elements relate to each other via identifiers in a flexible way. The following figure illustrates the relationships between the main elements of Veg-X. 
 
-![Fig. 2. Main VegX elements and their logical relationships. Arrows indicate that an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element. Observations are in tinted boxes. ](LogicalStructure.png) 
+![**Fig. 2**. Main VegX elements and their logical relationships. Arrows indicate that an identifier of the origin element is referenced in the destination element. Accompanying numbers indicate the number of instances of the origin element that are allowed to be referenced in the destination element. Observations are in tinted boxes. ](LogicalStructure.png) 
 
 
 The following table provides the brief descriptions of the main elements of Veg-X (column 'R' indicates whether the sub-elements are currently implemented in the **VegX R package**):
@@ -80,17 +80,15 @@ aggregatedOrganismObservation  | An observation applying to all occurrences of a
 stratumObservation             | A specific observation applying to a stratum in a single plot during a single date-time period. Each stratum measurement may be referenced by observations of taxa within a plot. For example, abundance estimates of a taxa on a plot within a specific stratum. | Yes |
 stratum                        | The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. | Yes |
 siteObservation             | A container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. | Yes |
-surfaceTypes | The definition of surface types, not the observation of cover on them.  | Yes |
+surfaceType | The definition of a surface type, not the observation of cover on it.  | Yes |
 surfaceCoverObservation | A single cover measurement applying to a surface type in a single plot during a single date-time period. | Yes |
-communityObservation | TO BE DONE | Yes |
-taxonConcept                   | Representation of a taxon concept. Each taxon concept follows tcs:taxonConcept and may be referenced in taxonDetermination allowing a name usage concept (author name) to be determined or asserted as a specific published taxonomic name/concept. | No |
-taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. | No |
-communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. | No |
-communityDetermination | An identification applying one or more CommunityConcepts to a plotObservation by a party.| No |
+communityObservation | A container for measurements that apply to the entire plant community and made on a single plot during a single date-time period.  | Yes |
+taxonDetermination             | A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. This typically allows for an organism identity to be linked to a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. | No |
+communityDetermination | An identification applying one or more community concepts to a plot observation by a party.| No |
 observationGrouping | An specific grouping of observation records, of any kind, that are grouped in the data management system owing to some common characteristic. | No |
 
 
-Additional resource elements of the Veg-X schema are used to provide information about people, methods and bibliographic references:
+Additional resource elements of the Veg-X schema are used to provide information about people, methods, bibliographic references, organism names and concepts:
 
 Resource element               | Description                                     |  R |
 ------------------------------ | ----------------------------------------------- | --- |
@@ -99,13 +97,15 @@ attribute                      | A specific definition of a measured property. A
 method                         | A specific method definition followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). | Yes |
 protocol                       | A specific grouping of methods related by common action. A protocol may have many method or steps.| No |
 literatureCitation             | Provides overview information about the literature, including citation string and DOI. | Yes |
-organismName                   | The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false. | No |
-
-
-In the following sections we detail the sub-elements of each main element and each resource element in the **Veg-X standard**, along with some instructions on how the standard should be used in practice.  The **VegX package** maintains unique IDs for all main elements, for internal consistency. However, these IDs are largely hidden from the user (but you will see ID references in the descriptions below). From each element described, we indicate the combination of fields that uniquely identify them and are used to guide element merge. In the tables describing sub-elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional and can occur only once; '0..n' means they are optional and can occur many times; '1..n' means they must occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No'/'Partial') indicates whether the sub-elements are currently implemented in the **VegX R package** ('Partial' indicates an implementation that is not complete).
+organismName                   | The name of an organism used in the data set. This will normally be a nomenclatural unit of any rank (order, family, genus, species, subspecies, etc.). If it is a formal scientific name (not necessarily including authority) then the attribute 'taxonName' should be set to true. However, the organism name can be a morphospecies, a field name... cases in which the attribute 'taxonName' should be set to false. | Yes |
+taxonConcept                   | Representation of a taxon concept (i.e., an organism name and the organism description given by an author in a publication). A taxon concept may be referenced in an organism identity as the original concept used by the author of the data set, or it can be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept by third parties after re-examination. | Yes |
+communityConcept | A name and some kind of definition of a community type, preferably a community name as used in a reference. | No |
 
 
 ## Details of the main Veg-X elements
+
+In the following sections we detail the sub-elements of all **main elements** (except *communityDetermination* and *taxonDetermination*) in the **Veg-X standard**, along with some instructions on how the standard should be used.  The **VegX package** maintains unique IDs for all main elements, for internal consistency. However, these IDs are largely hidden from the user (but you will see ID references in the descriptions below). From each element described, we indicate the combination of fields that uniquely identify them and are used to guide element merge. In the tables describing sub-elements, we use column '**#**' to indicate the number of times they can (or must) occur to have a valid Veg-X document ('1' means they occur one and are required; '0..1' means they are optional and can occur only once; '0..n' means they are optional and can occur many times; '1..n' means they must occur at least once, but can occur many times). As before, column '**R**' ('Yes'/'No'/'Partial') indicates whether the sub-elements are currently implemented in the **VegX R package** ('Partial' indicates an implementation that is not complete).
+
 
 ### Element *project*
 
@@ -140,7 +140,7 @@ placementNote | Additional comments or explanations regarding plot placement. | 
 location | Information regarding the placement of the plot on earth's surface. | 0..1 | Partial |
 geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as the plot origin for location. | 0..1 | Partial |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
-parentRock | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
+parentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
 
 Sub-elements *location* and *geometry* are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe their sub-elements in some detail.
 
@@ -252,6 +252,7 @@ interpretationPartyID     | A link to a party who undertook the nomenclarure rev
 interpretationSource      | Additional comments or explanations pertaining to the nomenclature interpretation. | 0..n | Np |
 
 
+
 ### Element *stratum*
 
 The definition of a stratum, not the observation of a stratum. An individual stratum usually belongs to a ordered list that together are the set of strata definitions in use within a specific dataset. This set of strata will normally have been defined according to the same method, but individual stratum may also be assigned a method. Strata that are defined from limits in a quantitative measurement, like height, the user of the Veg-X standard can use the method pointed by *methodID* to describe the quantitative attribute associated to the stratum definition (e.g. height in m). From the package user's perspective, strata are uniquely identified by the name of the stratum definition method and the *stratumName*.
@@ -329,6 +330,20 @@ individualOrganismMultipleMeasurement | A n-tuple of a related measurements (e.g
 observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
 observationNote      | Additional comments or explanations regarding this observation.   | 0..n | No |
 
+
+### Element *communityObservation*
+
+A *communityObservation* is a container for all measurements that apply to the entire plant community and are made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity to which measurements refer. There is no specific variable to identify uniquely community observations, but they are uniquely identified by their related plot observation. 
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+plotObservationID        | A reference to a specific plotObservation. | 1 | Yes |
+communityMeasurement        | A measurement (e.g. number of individuals, basal area) applying to the whole plant community or forest stand. | 0..n | Yes |
+successionalType |Description of the assumed successional status of the plot. This description is of necessity highly subjective.  | 0..n | No |
+observationGroupingID | A reference to a specific observation grouping by ID.   | 0..n | No |
+observationNote      | Additional comments or explanations regarding this observation.   | 0..n | No |
+
+
 ### Element *siteObservation*
 
 A *siteObservation* is a container for all the site (i.e. soil, climate, landuse, habitat, ...) measurements made on a single plot during a single date-time period. Unlike other observation elements, it relates to *plotObservation* in a one-to-one relationship. The reason is because, unlike other entities, there is a single entity (i.e. the site) to which all measurements refer. There is no specific variable to identify uniquely site observations, but they are uniquely identified by their related plot observation. Abiotic (i.e. soil, climate or water body) measurements are a special kind of measurements within the Veg-X schema, in the sense that: (1) they can have IDs and can thus be related to each other: (2) and they can have relative coordinates of the measurement within the plot, in the same way as individuals.
@@ -367,8 +382,8 @@ A *surfaceCoverObservation* is a single cover measurement applying to a surface 
 
 Sub-element (quantitative) | Description                                        |  #  |  R  |
 -------------------------- | -------------------------------------------------- | --- | --- |
-surfaceTypeID              | A reference to a specific surface type by ID. | 1 | Yes |
-plotObservationID          | A reference to a specific plotObservation by ID. | 1 | Yes |
+plotObservationID          | A link to a specific plotObservation by ID. | 1 | Yes |
+surfaceTypeID              | A link to a specific surface type by ID. | 1 | Yes |
 coverMeasurement           | The cover measurement, usually in percent cover of the surface when projected to the ground. | 1 | Yes |
 
 
@@ -388,6 +403,7 @@ type                   | The grouping entity type. For example, grouping of indi
 
 ## Details of resource elements
 
+In the following sections we detail the sub-elements of all **resource elements** (except *protocol* and *communityConcept*) in the **Veg-X standard**. From each element described, we indicate the combination of fields that uniquely identify them and are used to guide element merge.
 
 ### Element *party*
 
@@ -405,6 +421,8 @@ onlineURL                   | A link to associated online information, usually a
 
 
 ### Element *literatureCitation*
+
+An element *literatureCitation* provides information about a literature reference, including citation string and DOI.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -458,6 +476,17 @@ An element *organismName* is simply a string with the name an organism used in t
 Attribute               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 taxonName               | A flag to identify that the organism name is a taxon name (i.e. a name according to a nomenclature code) | 1 | Yes |
+
+
+### Element *taxonConcept*
+
+The representation of a taxon concept (i.e., an organism name and the organism description given by an author in a publication). A taxon concept may be referenced in an organism identity as the original concept used by the author of the data set, or it can be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept by third parties after re-examination. Taxon concepts are uniquely determined by the organism (normally a taxon) name and a bibliographic citation.
+
+Sub-element (quantitative) | Description                                        |  #  |  R  |
+-------------------------- | -------------------------------------------------- | --- | --- |
+organismNameID             | A link to a specific organism name by ID.  | 1 | Yes |
+accordingToCitationID     | A link to a bibliographic reference by ID where the taxon concept is described.  | 1 | Yes |
+
 
 
 ## References

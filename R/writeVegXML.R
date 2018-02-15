@@ -153,7 +153,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
                          attrs = c("id"=names(x@organismNames)[i]),
                          parent = txcpts)
       if("organismNameID" %in% names(x@taxonConcepts[[i]])) newXMLNode("organismNameID", x@taxonConcepts[[i]]$organismNameID, parent=txcpt)
-      if("citationID" %in% names(x@taxonConcepts[[i]])) newXMLNode("citationID", x@taxonConcepts[[i]]$citationID, parent=txcpt)
+      if("accordingToCitationID" %in% names(x@taxonConcepts[[i]])) newXMLNode("accordingToCitationID", x@taxonConcepts[[i]]$accordingToCitationID, parent=txcpt)
     }
     if(verbose) cat(paste0(" ", length(x@taxonConcepts), " taxon concept(s) added to XML tree.\n"))
   }

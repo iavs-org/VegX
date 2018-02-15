@@ -16,6 +16,9 @@
             <xsd:element name="rank" type="xsd:string" minOccurs="0" />
             <xsd:element name="commonName" type="xsd:string" minOccurs="0" />
         </xs:sequence>
+        <xs:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="id" type="ns0:IDType" use="required" />
+        <xs:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="system" type="ns0:SystemType" use="optional" />
+        <xs:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="scope" default="document" type="ns0:ScopeType" use="optional" />
     </xs:complexType>
     <xs:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CommunityDeterminationType">
         <xsd:annotation>

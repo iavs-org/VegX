@@ -164,7 +164,7 @@ readVegXML<-function(file, verbose = TRUE) {
     txCpt = list()
     n = names(x)
     if("organismNameID" %in% n)  txCpt$organismNameID = xmlValue(x[["organismNameID"]])
-    if("citationID" %in% n)  txCpt$citationID = xmlValue(x[["citationID"]])
+    if("accordingToCitationID" %in% n)  txCpt$accordingToCitationID = xmlValue(x[["accordingToCitationID"]])
     return(txCpt)
   }
   if("taxonConcepts" %in% vegnames) {

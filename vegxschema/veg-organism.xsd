@@ -85,13 +85,16 @@
         </xsd:simpleContent>
     </xsd:complexType>
     <xsd:complexType name="TaxonConceptType">
+        <xsd:annotation>
+            <xsd:documentation>Representation of a taxon concept (i.e., an organism name and the organism description given by an author in a publication). A taxon concept may be referenced in an organism identity as the original concept used by the author of the data set, or it can be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept by third parties after re-examination.</xsd:documentation>
+        </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="organismNameID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>A link to a specific organism name by ID. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="accordingToReferenceID" type="xsd:string">
+            <xsd:element name="accordingToCitationID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>A link to a bibliographic reference by ID where the taxon concept is described. </xsd:documentation>
                 </xsd:annotation>
@@ -206,8 +209,7 @@
     </xsd:complexType>
     <xsd:complexType name="TaxonDeterminationType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts to an IndividualOrganismObservation or AggregateTaxonObservation by a Party. May be used to add additional taxon determinations or annotations by users of the dataset beyond the original author.</xsd:documentation>
-            <xsd:documentation xml:lang="de" />
+            <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an organism identity, to be linked to a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="organismIdentityID" type="xsd:string">

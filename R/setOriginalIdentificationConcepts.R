@@ -56,7 +56,7 @@ setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
         tcID = ntcid$id
         if(ntcid$new) {
           target@taxonConcepts[[tcID]] = list("organismNameID" = onID,
-                                              "citationID" = ncitid$id)
+                                              "accordingToCitationID" = ncitid$id)
         }
         target@organismIdentities[[i]]$originalIdentificationConcept$taxonConceptID = tcID
       }
@@ -140,7 +140,7 @@ setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
           ntcid = .newTaxonConceptIDByNameCitation(target, conceptName, conceptCitation) # Get the new taxon concept ID (internal code)
           tcID = ntcid$id
           if(ntcid$new) {
-            target@taxonConcepts[[tcID]] = list("organismNameID" = tnID, "citationID" = citID)
+            target@taxonConcepts[[tcID]] = list("organismNameID" = tnID, "accordingToCitationID" = citID)
           }
           
           #assertionParty

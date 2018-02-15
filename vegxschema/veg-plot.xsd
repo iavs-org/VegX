@@ -484,7 +484,7 @@ Methods used could be for example the use of global navigation satellite systems
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="parentRock" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="parentMaterial" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. </xsd:documentation>
                 </xsd:annotation>
