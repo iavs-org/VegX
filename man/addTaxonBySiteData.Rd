@@ -2,21 +2,21 @@
 % Please edit documentation in R/addTaxonBySiteData.R
 \name{addTaxonBySiteData}
 \alias{addTaxonBySiteData}
-\title{Add a taxon-by-site table}
+\title{Add a taxon by site table}
 \usage{
-addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
-  obsDates = Sys.Date(), absence.values = c(NA, 0), verbose = TRUE)
+addTaxonBySiteData(target, x, abundanceMethod, obsDates = Sys.Date(),
+  isTaxon = TRUE, absence.values = c(NA, 0), verbose = TRUE)
 }
 \arguments{
-\item{target}{The object of class \code{\linkS4class{VegX}} to be modified}
+\item{target}{The object of class \code{\linkS4class{VegX}} to be modified.}
 
-\item{x}{A site-by-species releve table}
-
-\item{projectTitle}{A character string to identify the project title, which can be the same as one of the currently defined in \code{target}.}
+\item{x}{A taxon by site (plot) table (with plots in rows and taxa in columns) and with plant abundance values.}
 
 \item{abundanceMethod}{A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
 
-\item{obsDates}{A vector of \code{\link{Date}} objects with plot observation dates.}
+\item{obsDates}{A \code{\link{Date}} or a vector of \code{\link{Date}} objects with plot observation dates.}
+
+\item{isTaxon}{A boolean flag (or vector) to indicate which organism names are taxa.}
 
 \item{absence.values}{A vector of values to be interpreted as missing plant information.}
 
@@ -26,12 +26,7 @@ addTaxonBySiteData(target, x, projectTitle, abundanceMethod,
 A modified object of class \code{\linkS4class{VegX}}
 }
 \description{
-Adds the aggregate organism observations of a taxon-by-site table to an existing VegX object.
-Data can be added to an existing project or a new project can be defined within the VegX object,
-depending on the input project title.
-Vegetation plots and taxon names can be the same as those already existing in the target VegX.
-Subplots cannot be defined with this function, but observations can be referred to them if they exist.
-New/old plot observations are distinguished by observation date.
+Adds the aggregate organism observations of a taxon by site table to an existing VegX object.
 }
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},

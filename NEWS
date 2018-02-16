@@ -8,5 +8,6 @@ _Version 0.6.4, February 2018.
 1. New function 'addCommunityObservations()' added.
 2. New predefined measurement method: basal area.
 3. showElementTable() modified to display community observations.
+4. Update function 'addTaxonBySiteData'.
 
 
