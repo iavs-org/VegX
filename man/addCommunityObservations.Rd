@@ -38,6 +38,23 @@ Missing value policy:
   \item{Missing measurements are simply not added to the Veg-X document.}
 }
 }
+\examples{
+data(Mokihinui)
+
+# Simulate measurement of basal area
+moki_site$BA = pmax(0, rnorm(nrow(moki_site), 10, 5))
+
+# Define mapping
+mapping = list(plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", basal_area = "BA")
+
+# Define measurement method for basal area
+baMeth = predefinedMeasurementMethod("Basal area")
+
+x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
+                        methods = c(basal_area = baMeth))
+
+}
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }

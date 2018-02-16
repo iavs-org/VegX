@@ -14,8 +14,9 @@ predefinedMeasurementMethod(name)
  \item{\code{"Plot dimension/m"}: Plot dimension (radius, length, width) measured in meters.}
  \item{\code{"Plot dimension/cm"}: Plot dimension (radius, length, width) measured in centimeters.}
  \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
- \item{\code{"Plant counts"}: Number of individuals in the plot.}
+ \item{\code{"Plant counts"}: Number of plant individuals.}
  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
+ \item{\code{"Basal area/m2·ha-1"}: Basal area in square meters per hectare.}
  \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
  \item{\code{"Stratum height/cm"}: Stratum height in cm above the ground.}
  \item{\code{"Plant height/m"}: Plant height in meters above the ground.}

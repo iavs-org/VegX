@@ -25,6 +25,22 @@
 #'
 #' @family add functions
 #'
+#' @examples 
+#' data(Mokihinui)
+#' 
+#' # Simulate measurement of basal area
+#' moki_site$BA = pmax(0, rnorm(nrow(moki_site), 10, 5))
+#' 
+#' # Define mapping
+#' mapping = list(plotName = "Plot", subPlotName = "Subplot",
+#'                obsStartDate = "PlotObsStartDate", basal_area = "BA")
+#'
+#' # Define measurement method for basal area
+#' baMeth = predefinedMeasurementMethod("Basal area")
+#' 
+#' x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
+#'                         methods = c(basal_area = baMeth))
+#' 
 addCommunityObservations<-function(target, x,
                               mapping,
                               methods = list(),
