@@ -14,7 +14,7 @@ showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE,
  'party', 'plotObservation', 'organismIdentity',
 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
-'siteObservation', 'method', 'attribute', 'literatureCitation'.}
+'communityObservation', 'siteObservation', 'method', 'attribute', 'literatureCitation'.}
 
 \item{IDs}{A boolean flag to indicate whether internal identifiers should be included in the output.}
 

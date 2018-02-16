@@ -7,7 +7,7 @@
 #'  'party', 'plotObservation', 'organismIdentity',
 #' 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 #' 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
-#' 'siteObservation', 'method', 'attribute', 'literatureCitation'.
+#' 'communityObservation', 'siteObservation', 'method', 'attribute', 'literatureCitation'.
 #' @param IDs A boolean flag to indicate whether internal identifiers should be included in the output.
 #' @param subjects A boolean flag to indicate whether method subjects should be included in the output.
 #' @param max.nchar Maximum number of characters in strings
@@ -64,6 +64,7 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
   element = match.arg(element, c("project", "party", "plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",
+                                 "communityObservation",
                                  "surfaceType", "surfaceCoverObservation",
                                  "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
@@ -655,6 +656,47 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
               }
               strVal = paste0("str_", names(measurements)[j],"_value")
               res[i, strVal] = measurements[[j]]$value
+            }
+          }
+        }
+      }
+    }
+  }
+  else if(element=="communityObservation") {
+    if(IDs){
+      res = data.frame(plotObservationID = rep(NA, length(x@communityObservations)),
+                       plotName = rep(NA, length(x@communityObservations)),
+                       obsStartDate = rep(NA, length(x@communityObservations)),
+                       row.names = names(x@communityObservations))
+    } else {
+      res = data.frame(plotName = rep(NA, length(x@communityObservations)),
+                       obsStartDate = rep(NA, length(x@communityObservations)),
+                       row.names = names(x@communityObservations))
+    }
+    if(length(x@communityObservations)>0){
+      for(i in 1:length(x@communityObservations)){
+        if(IDs) {
+          res[i, "plotObservationID"] = x@communityObservations[[i]]$plotObservationID
+        }
+        res[i, "plotName"] = x@plots[[x@plotObservations[[x@communityObservations[[i]]$plotObservationID]]$plotID]]$plotName
+        res[i, "obsStartDate"] = as.character(x@plotObservations[[x@communityObservations[[i]]$plotObservationID]]$obsStartDate)
+        if("communityMeasurements" %in% names(x@communityObservations[[i]])) {
+          measurements = x@communityObservations[[i]]$communityMeasurements
+          if(length(measurements)>0) {
+            for(j in 1:length(measurements)) {
+              attID = measurements[[j]]$attributeID
+              commAttID = paste0("comm_", names(measurements)[j],"_attID")
+              if(IDs) {
+                res[i, commAttID] = measurements[[j]]$attributeID
+              }
+              commMethod = paste0("comm_", names(measurements)[j],"_method")
+              res[i, commMethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
+              if(subjects) {
+                commSubject = paste0("comm_", names(measurements)[j],"_subject")
+                res[i, commSubject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
+              }
+              commVal = paste0("comm_", names(measurements)[j],"_value")
+              res[i, commVal] = measurements[[j]]$value
             }
           }
         }
