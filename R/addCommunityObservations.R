@@ -40,7 +40,9 @@
 #' 
 #' x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
 #'                         methods = c(basal_area = baMeth))
-#' 
+#'                         
+#' # Inspect the result
+#' head(showElementTable(x, "communityObservation"))
 addCommunityObservations<-function(target, x,
                               mapping,
                               methods = list(),

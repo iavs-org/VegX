@@ -53,7 +53,9 @@ baMeth = predefinedMeasurementMethod("Basal area")
 
 x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
                         methods = c(basal_area = baMeth))
-
+                        
+# Inspect the result
+head(showElementTable(x, "communityObservation"))
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

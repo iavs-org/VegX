@@ -463,6 +463,46 @@ Note that no new strata definitions are added, as they were already included whe
 head(showElementTable(moki_vegx, "stratumObservation"), 3)
 ```
 
+### Community observations
+
+Veg-X includes into elements *communityObservation* all biotic observations and measurements that are naturally defined at the plant community (or vegetation stand) level, such as basal area, species richness or stand age. Since our example source data sets did not include any of such measurements, we start by adding a column ``BA`` with simulated basal area values in the ``moki_site`` data frame using a Normal distribution:
+
+```{r simulate comm obs moki}
+moki_site$BA = pmax(0, rnorm(nrow(moki_site), 10, 5))
+```
+
+Adding community observations requires, as usual, a mapping where in addition to mapping plots and surveys we can specify mappings for measurements defined at the community level:
+
+```{r mapping comm obs moki}
+# Define mapping
+mapping = list(plotName = "Plot", subPlotName = "Subplot",
+               obsStartDate = "PlotObsStartDate", basal_area = "BA")
+# Define measurement method for basal area
+baMeth = predefinedMeasurementMethod("Basal area")
+```
+
+Of course, for each measurement we will need to provide a method that describes the measured subject, units, etc. Function ``addCommunityObservations()`` is used to add community observations to a VegX object:
+```{r add comm obs moki}
+# Add basal area measurements to the VegX object
+moki_vegx = addCommunityObservations(moki_vegx, moki_site, mapping = mapping,
+                        methods = c(basal_area = baMeth))
+# Inspect the result
+head(showElementTable(moki_vegx, "communityObservation"),3)
+```
+
+### Site observations
+
+Veg-X includes into elements *siteObservation* all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column ``pH`` with constant values in the ``moki_site`` data frame. The function that allows adding site observations is ``addSiteObservations()`` and the following code should be self-explanatory by now:
+```{r add site obs moki}
+mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")
+pHMeth = predefinedMeasurementMethod("pH")
+moki_vegx = addSiteObservations(moki_vegx, moki_site,
+                         plotObservationMapping = mapping,
+                         soilMeasurementMapping = list(pH = "pH"),
+                         soilMeasurementMethods = list(pH = pHMeth))
+head(showElementTable(moki_vegx, "siteObservation"))
+```
+
 ### Surface cover observations
 
 Surface cover observations are measurements of the percentage of the plot's surface that is covered (i.e. when projected onto the ground) by different surface types, such as rocks, bare soil, vegetation, etc. Veg-X allows defining surface types as *surfaceType* elements, and storing  cover values for them in *surfaceCoverObservation* elements. We use the **Mt Fyffe forest** data set to illustrate how this kind of observations are added to a Veg-X document. First we inspect table ``mtfyffe_groundcover`` and define a mapping:
@@ -510,18 +550,6 @@ taki_vegx = addSurfaceCoverObservations(taki_vegx, taki_groundcover, mapping,
 ```
 
 
-### Site observations
-Veg-X includes into elements *siteObservation* all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column ``pH`` with constant values in the ``moki_site`` data frame. The function that allows adding site observations is ``addSiteObservations()`` and the following code should be self-explanatory by now:
-```{r add site obs moki}
-mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")
-pHMeth = predefinedMeasurementMethod("pH")
-moki_vegx = addSiteObservations(moki_vegx, moki_site,
-                         plotObservationMapping = mapping,
-                         soilMeasurementMapping = list(pH = "pH"),
-                         soilMeasurementMethods = list(pH = pHMeth))
-head(showElementTable(moki_vegx, "siteObservation"))
-```
-
 ## Combining and harmonizing Veg-X documents
 
 One of the purposes of importing data into Veg-X, is the possibility to combine and harmonize documents from different sources. In this section we illustrate how documents should be merged, and some functions that can be used to harmonize their contents.
@@ -547,7 +575,7 @@ We could use function ``addPlotObservations()`` to define unique identifiers bec
 moki_vegx = fillUniqueIdentifiers(target = moki_vegx, element = "plot")
 head(showElementTable(moki_vegx, "plot"),3)
 ```
-A UUID (Universal Unique Identifier) is a 128-bit number used to uniquely identify some object or entity. When generated according to the standard methods, UUIDs are for practical purposes unique, without depending for their uniqueness on a central registration authority or coordination between the parties generating them, unlike most other numbering schemes. While the probability that a UUID will be duplicated is not zero, it is close enough to zero to be negligible. If we are interested in merging different documents it is important to ensure that unique identifiers are defined for plots. Function ``fillUniqueIdentifiers()`` generates UUIDs by calling function ``UUIDgenerate()`` from the R package ``uuid``.
+A UUID (Universal Unique Identifier) is a 128-bit number used to uniquely identify some object or entity. When generated according to the standard methods, UUIDs are for practical purposes unique, without depending for their uniqueness on a central registration authority or coordination between the parties generating them, unlike most other numbering schemes. While the probability that a UUID will be duplicated is not zero, it is close enough to zero to be negligible. If we are interested in merging different documents it is important to ensure that unique identifiers are defined for plots. Function ``fillUniqueIdentifiers()`` generates UUIDs by calling function ``UUIDgenerate()`` from the **R package uuid**.
 
 As we did for Mokihinui VegX object, we generate universally unique identifiers for the other two VegX objects:
 ```{r generate unique identifiers mtfyffe, taki}
