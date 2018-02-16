@@ -35,6 +35,7 @@ New/old plot observations are distinguished by observation date.
 }
 \seealso{
 Other add functions: \code{\link{addAggregateOrganismObservations}},
+  \code{\link{addCommunityObservations}},
   \code{\link{addIndividualOrganismObservations}},
   \code{\link{addPlotGeometries}},
   \code{\link{addPlotLocations}},
