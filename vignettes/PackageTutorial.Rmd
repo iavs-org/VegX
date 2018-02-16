@@ -84,6 +84,14 @@ In the following sections we will progressively add content to the VegX objects.
 
 ## Adding plot and survey data to Veg-X documents
 
+| Function        |  Description                                                    |
+| --------------- | --------------------------------------------------------------- |
+| ``addPlotObservation()`` | Adds plot observation records to a VegX object from a data table where rows are plot observations. |
+| ``addPlotLocations()`` | Adds/replaces static plot location information (spatial coordinates, elevation, place names, ...) to plot elements of a VegX object. |
+| ``addPlotGeometries()`` | Adds/replaces static plot geometry information (plot shape, dimensions, ...) to plot elements of a VegX object. |
+| ``addSiteCharacteristics()`` | Adds/replaces static site characteristics (topography, geology, ...) to plot elements of a VegX object. |
+| ``fillProjectInformation()`` | Fills the information for a given research project. |
+
 ### Project, plot and observation dates
 In this subsection we show how to introduce information about plot names and survey dates. We start with the **Mokinihui forest data set**, by inspecting the data in the data frame ``moki_site``:
 ```{r inspect data}
@@ -280,6 +288,15 @@ taki_vegx = addSiteCharacteristics(taki_vegx, taki_site, mapping = sitemapping,
 ## Adding observation data
 
 In the beginning of the previous section we specified plot observation dates for the plots of our examples, using function ``addPlotObservation()``. While this function defines survey events for plots, it does not add any observation or measurement made on plot visits. In this section we show how to add such information.
+
+| Function        |  Description                                                    |
+| --------------- | --------------------------------------------------------------- |
+| ``addIndividualOrganismObservations()`` | Adds individual organism observation records (e.g. tree diameters or heights) to a VegX object. |
+| ``addAggregateOrganismObservations()`` | Adds aggregate organism observation records (e.g. % cover of a particular taxon) to a VegX object. |
+| ``addStratumObservations()`` | Adds stratum observation records (e.g. % cover of plants in the tree layer) to a VegX object. |
+| ``addCommunityObservations()`` | Adds community observation records (e.g. stand age or total basal area) to a VegX object. |
+| ``addSiteObservations()`` | Adds site observation records (e.g. abiotic measurements such as pH) to a VegX object. |
+| ``addSurfaceCoverObservations()`` | Adds surface cover observation records (e.g. percent of ground covered by bare soil or rocks) to a VegX object. |
 
 ### Individual organism observations
 First we focus on observations made on individual organisms (e.g. diameter values measured on individual trees). Since individual organisms can be labelled and re-measured in different plot surveys, Veg-X uses the element *individualOrganism* to keep track of the organism itself. Then, different elements *individualOrganismObservations* can be used to contain measurements made on the individual organism each time there was an observation of the plot (i.e. each time the plot was revisited). The individual organism (e.g. a particular tree) is uniquely identified using the plot name and an organism label (i.e. a tag on the specimen). Thus, the same label can be repeated in different plots without causing data integrity problems. Individual organisms and their observations are added to Veg-X using the function ``addIndividualOrganismObservations()``. We first show how it works using the data frame ``moki_dia``, which contains diameter measurements for trees in the **Mokihinui forest** data set:
