@@ -1,6 +1,0 @@
-exportPattern("^[[:alpha:]]+")
-exportClasses(VegX, 
-              VegXMethodDefinition,
-              VegXStrataDefinition,
-              VegXSurfaceTypeDefinition)
-importFrom("sp", "SpatialPoints", "spTransform", "CRS")

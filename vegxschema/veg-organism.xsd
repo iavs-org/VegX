@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/organism-2.0.0" targetNamespace="http://iavs.org/vegX/organism-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:complexType name="IndividualOrganismType">
@@ -56,9 +55,9 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
-            <xsd:element name="note" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="individualOrganismNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the IndividualOrganismType.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the individual organism.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
@@ -85,13 +84,16 @@
         </xsd:simpleContent>
     </xsd:complexType>
     <xsd:complexType name="TaxonConceptType">
+        <xsd:annotation>
+            <xsd:documentation>Representation of a taxon concept (i.e., an organism name and the organism description given by an author in a publication). A taxon concept may be referenced in an organism identity as the original concept used by the author of the data set, or it can be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept by third parties after re-examination.</xsd:documentation>
+        </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="organismNameID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>A link to a specific organism name by ID. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="accordingToReferenceID" type="xsd:string">
+            <xsd:element name="accordingToCitationID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>A link to a bibliographic reference by ID where the taxon concept is described. </xsd:documentation>
                 </xsd:annotation>
@@ -131,9 +133,9 @@
                     <xsd:documentation xml:lang="en">Herbarium accession number for any archived voucher specimens</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="originalConceptIdentification" minOccurs="0" maxOccurs="1">
+            <xsd:element name="originalIdentificationConcept" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Information of the taxon concept originally associated to the organism identity. This information may be specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location.</xsd:documentation>
+                    <xsd:documentation>A container of the taxon concept (i.e. taxon name + reference explaining the concept) originally associated to the organism identity. The taxon concept may have been specified by the author of the data set, or it may be asserted by a third party based on information such as date of observation or geographic location.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
@@ -142,19 +144,19 @@
                                 <xsd:documentation>A link to the taxon concept stated by the author, or as asserted by a third party based on information such as the date of the observation, geographic location, etc.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="conceptIdentificationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                        <xsd:element name="conceptAssertionDate" type="xsd:date" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
+                                <xsd:documentation xml:lang="en">Date of the taxon concept assertion. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="conceptIdentificationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="conceptAssertionPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
-                                <xsd:documentation>A party involved in the identification of the original taxon concept.</xsd:documentation>
+                                <xsd:documentation>A link, by ID, to a party involved in the assertion of the original taxon concept.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element name="conceptIdenfiticationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="conceptAssertionNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
-                                <xsd:documentation>Additional comments or explanations pertaining to the original identification of the taxon concept.</xsd:documentation>
+                                <xsd:documentation>Additional comments or explanations pertaining to the assertion of the original taxon concept.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>
@@ -162,7 +164,7 @@
             </xsd:element>
             <xsd:element name="preferredTaxonNomenclature" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party.</xsd:documentation>
+                    <xsd:documentation>The interpretation of the nomenclature that should be applied to organism identity, made after the observation event by the author of the data set or a third party. The sub-element preferredTaxonNameID points to an organism name that is the accepted name according to the current nomenclature.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
@@ -206,8 +208,7 @@
     </xsd:complexType>
     <xsd:complexType name="TaxonDeterminationType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts to an IndividualOrganismObservation or AggregateTaxonObservation by a Party. May be used to add additional taxon determinations or annotations by users of the dataset beyond the original author.</xsd:documentation>
-            <xsd:documentation xml:lang="de" />
+            <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an organism identity, to be linked to a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="organismIdentityID" type="xsd:string">

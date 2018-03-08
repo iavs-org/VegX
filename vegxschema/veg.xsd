@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.0" xmlns:plot="http://iavs.org/vegX/plot-2.0.0" xmlns:org="http://iavs.org/vegX/organism-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.0" />
     <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.0" />
@@ -98,7 +97,11 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="surfaceCover" type="plot:SurfaceType" minOccurs="1" maxOccurs="unbounded" />
+                            <xsd:element name="surfaceType" type="plot:SurfaceTypeType" minOccurs="1" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation>The definition of a surface type, not the observation of cover on them.</xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
@@ -124,7 +127,7 @@
                         <xsd:sequence>
                             <xsd:element xmlns:q2="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonConcept" type="org:TaxonConceptType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation>Representation of a Taxon Concept. Various types of concept can be represented, including a reference to the GUID of an existing Concept. Each taxon concept may be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept.</xsd:documentation>
+                                    <xsd:documentation>Representation of a taxon concept (i.e., an organism name and the organism description given by an author in a publication). A taxon concept may be referenced in an organism identity as the original concept used by the author of the data set, or it can be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept by third parties after re-examination.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -138,7 +141,7 @@
                         <xsd:sequence>
                             <xsd:element xmlns:q3="http://iavs.org/vegX/organismobservation-2.0.0" name="taxonDetermination" type="org:TaxonDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an author usage concept, i.e. a name string used by the author in this dataset, to be linked to either a published nomenclatural name (taxon name) or a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion. An identification applying one or more TaxonConcepts or taxon names to an IndividualOrganismObservation or AggregateTaxonObservation by a Party.</xsd:documentation>
+                                    <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an organism identity, to be linked to a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -164,7 +167,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="communityConcept" xmlns:q1="http://iavs.org/vegX/community-2.0.0" type="q1:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:element xmlns:q1="http://iavs.org/vegX/community-2.0.0" name="communityConcept" type="q1:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="EN">A name and some kind of definition of a community type, preferably a community name as used in a reference.v</xsd:documentation>
                                 </xsd:annotation>
@@ -178,7 +181,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q6="http://iavs.org/vegX/organismobservation-2.0.0" name="communityDetermination" xmlns:q2="http://iavs.org/vegX/community-2.0.0" type="q2:CommunityDeterminationType" maxOccurs="unbounded">
+                            <xsd:element xmlns:q2="http://iavs.org/vegX/community-2.0.0" xmlns:q6="http://iavs.org/vegX/organismobservation-2.0.0" name="communityDetermination" type="q2:CommunityDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">An identification applying one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
                                 </xsd:annotation>
@@ -285,9 +288,16 @@
                     </xsd:complexType>
                 </xsd:element>
                 <xsd:element name="communityObservations" minOccurs="0" maxOccurs="1">
+                    <xsd:annotation>
+                        <xsd:documentation>A container for community observations</xsd:documentation>
+                    </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element name="communityObservation" type="obs:CommunityObservationType" minOccurs="1" maxOccurs="unbounded" />
+                            <xsd:element name="communityObservation" type="obs:CommunityObservationType" minOccurs="1" maxOccurs="unbounded">
+                                <xsd:annotation>
+                                    <xsd:documentation>A container for measurements that apply to the entire plant community and made on a single plot during a single date-time period. </xsd:documentation>
+                                </xsd:annotation>
+                            </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>

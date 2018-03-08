@@ -1,5 +1,4 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xs:schema xmlns:ns0="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/community-2.0.0" targetNamespace="http://iavs.org/vegX/community-2.0.0" xmlns:xs="http://www.w3.org/2001/XMLSchema">
     <xs:import xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xs:complexType name="CommunityConceptType">
@@ -9,13 +8,16 @@
         <xs:sequence xmlns:xsd="http://www.w3.org/2001/XMLSchema">
             <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A textual label for a community type. A community type is an abstract grouping of organisms that tend to co-occur on the landscape due to shared ecological requirements or preferences. May be designated by syntaxon or physiognomic types.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A textual label for a community type. A community type describes an abstract grouping of organisms that tend to co-occur on the landscape due to shared ecological requirements or preferences. May be designated by syntaxon or physiognomic types.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="citationID" type="xsd:string" minOccurs="0" />
             <xsd:element name="rank" type="xsd:string" minOccurs="0" />
             <xsd:element name="commonName" type="xsd:string" minOccurs="0" />
         </xs:sequence>
+        <xs:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="id" type="ns0:IDType" use="required" />
+        <xs:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="system" type="ns0:SystemType" use="optional" />
+        <xs:attribute xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="scope" default="document" type="ns0:ScopeType" use="optional" />
     </xs:complexType>
     <xs:complexType xmlns:xsd="http://www.w3.org/2001/XMLSchema" name="CommunityDeterminationType">
         <xsd:annotation>
@@ -34,12 +36,7 @@
             </xsd:element>
             <xsd:element name="determinationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation source="NVS" xml:lang="en">
-The start date of this specific community determination. Recorded in ISO 8601 date format: yyyy-mm-dd.
-					</xsd:documentation>
-                    <xsd:documentation xml:lang="de">
-						Optionales Datumsfeld bei Erfassung über längeren Zeitraum
-					</xsd:documentation>
+                    <xsd:documentation source="NVS" xml:lang="en">The start date of this specific community determination. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="determinationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
