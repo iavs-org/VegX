@@ -8,7 +8,7 @@
         <xsd:sequence>
             <xsd:element name="plotID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID.			</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="obsStartDate" type="xsd:date">
@@ -517,7 +517,7 @@
             </xsd:element>
             <xsd:element name="surfaceCover" type="misc:MeasurementType">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Percent of surface covered for different surface categories, e.g. green foliage, litter, water, exposed bedrock, bare soil, gravel etc.			</xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Percent of surface covered for different surface categories, e.g. green foliage, litter, water, exposed bedrock, bare soil, gravel etc.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>

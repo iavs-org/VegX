@@ -114,8 +114,7 @@
         <xsd:sequence>
             <xsd:element name="originalOrganismNameID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A link, by ID, to an organism name (e.g. normally a taxon name, but not necessarily including the authority, or even field names, morphospecies, ...) that the author of the dataset originally used to refer to an organism observed within the plot. The taxon names used as label the organism identity should not contain spelling errors, but they may not be the accepted name according to current nomenclature codes.
-</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link, by ID, to an organism name (e.g. normally a taxon name, but not necessarily including the authority, or even field names, morphospecies, ...) that the author of the dataset originally used to refer to an organism observed within the plot. The taxon names used as label the organism identity should not contain spelling errors, but they may not be the accepted name according to current nomenclature codes.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="originalIdentificationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
