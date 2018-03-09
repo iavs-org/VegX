@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.0" targetNamespace="http://iavs.org/vegX/misc-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IDType">
         <xs:annotation>
@@ -45,8 +44,7 @@
     </xsd:complexType>
     <xsd:complexType name="partyType">
         <xsd:annotation>
-            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party.
-eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
+            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party. eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:choice xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="unbounded">
@@ -387,8 +385,7 @@ eml://ecoinformatics.org/party-2.0.1</xsd:documentation>
                         </xsd:element>
                         <xsd:element name="precision" type="xsd:decimal" minOccurs="0" maxOccurs="1">
                             <xsd:annotation>
-                                <xsd:documentation source="http://mdk12.org/instruction/curriculum/mathematics/glossary.shtml" xml:lang="en">The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01).
-</xsd:documentation>
+                                <xsd:documentation source="http://mdk12.org/instruction/curriculum/mathematics/glossary.shtml" xml:lang="en">The smallest place value to which the measurement is expressed (eg, if pi is represented as 3.14, then its precision is .01).</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="lowerLimit" type="xsd:decimal" minOccurs="0" maxOccurs="1">

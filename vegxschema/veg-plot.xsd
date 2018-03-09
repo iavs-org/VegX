@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/plot-2.0.0" targetNamespace="http://iavs.org/vegX/plot-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:complexType name="relatedPlotType">
@@ -473,7 +472,6 @@ Methods used could be for example the use of global navigation satellite systems
                         <xsd:element name="slope" type="misc:MeasurementType" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation xml:lang="en">Representative inclination of slope in degrees.</xsd:documentation>
-                                <xsd:documentation xml:lang="de">Neigung in Grad</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="landform" type="xsd:string" minOccurs="0">

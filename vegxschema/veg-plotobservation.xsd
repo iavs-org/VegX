@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns="http://iavs.org/vegX/plotobservation-2.0.0" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:complexType name="PlotObservationType">
@@ -9,7 +8,7 @@
         <xsd:sequence>
             <xsd:element name="plotID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID.			</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plot by the plot ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="obsStartDate" type="xsd:date">
@@ -44,8 +43,7 @@
             </xsd:element>
             <xsd:element name="previousPlotObservationID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A link to a previous plot observation, by ID. Not normally necessary as observations can be ordered via obsStartDate.
-</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link to a previous plot observation, by ID. Not normally necessary as observations can be ordered via obsStartDate.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
@@ -59,7 +57,7 @@
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="licenceName" type="xsd:string">
+                        <xsd:element name="licenseName" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>License name like Public Domain, BY, BY-NC, BY-NC-SA, all rights reserved</xsd:documentation>
                             </xsd:annotation>
@@ -178,8 +176,6 @@
     <xsd:complexType name="IndividualOrganismObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An observation applying to one occurrence of an organism (or part of an organism). </xsd:documentation>
-            <xsd:documentation xml:lang="de" />
-            <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
@@ -276,8 +272,6 @@
     <xsd:complexType name="AggregateOrganismObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An observation applying to all occurrences of an organism based on an aggregation factor. </xsd:documentation>
-            <xsd:documentation xml:lang="de" />
-            <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
@@ -325,8 +319,6 @@
     <xsd:complexType name="StratumObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A container for observations applying to a stratum.</xsd:documentation>
-            <xsd:documentation xml:lang="de" />
-            <xsd:appinfo />
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="stratumID" type="xsd:string">
@@ -513,7 +505,7 @@
     </xsd:complexType>
     <xsd:complexType name="SurfaceCoverObservationType">
         <xsd:sequence>
-            <xsd:element name="plotObservatioID" type="xsd:string">
+            <xsd:element name="plotObservationID" type="xsd:string">
                 <xsd:annotation>
                     <xsd:documentation>A link to a specific plotObservation by ID.</xsd:documentation>
                 </xsd:annotation>
@@ -525,7 +517,7 @@
             </xsd:element>
             <xsd:element name="surfaceCover" type="misc:MeasurementType">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Percent of surface covered for different surface categories, e.g. green foliage, litter, water, exposed bedrock, bare soil, gravel etc.			</xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Percent of surface covered for different surface categories, e.g. green foliage, litter, water, exposed bedrock, bare soil, gravel etc.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>

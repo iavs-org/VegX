@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<!--Created with Liquid Studio 2017 - Developer Bundle Edition (Trial) 15.1.17.7979 (https://www.liquid-technologies.com)-->
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.0" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.0" xmlns:plot="http://iavs.org/vegX/plot-2.0.0" xmlns:org="http://iavs.org/vegX/organism-2.0.0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.0" />
     <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.0" />
