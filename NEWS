@@ -4,6 +4,9 @@
 
 __Version history__
 
+_Version 0.6.5, March 2018.
+1. Bug correction readVegXML/writeVegXML 'taxon' to 'taxonName'.
+
 _Version 0.6.4, February 2018.
 1. New function 'addCommunityObservations()' added.
 2. New predefined measurement method: basal area.
