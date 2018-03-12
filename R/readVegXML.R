@@ -150,7 +150,7 @@ readVegXML<-function(file, verbose = TRUE) {
   .readOrganismName.2.0.0 = function(x) {
     orgName = list()
     orgName$name = xmlValue(x)
-    orgName$taxon = as.logical(xmlAttrs(x)[["taxon"]])
+    orgName$taxon = as.logical(xmlAttrs(x)[["taxonName"]])
     return(orgName)
   }
   if("organismNames" %in% vegnames) {

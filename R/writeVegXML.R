@@ -140,7 +140,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
     for(i in 1:length(x@organismNames)){
       orgnm = newXMLNode("organismName", x@organismNames[[i]]$name,
                        attrs = c("id"=names(x@organismNames)[i],
-                                 "taxon" = x@organismNames[[i]]$taxon),
+                                 "taxonName" = x@organismNames[[i]]$taxon),
                        parent = orgnms)
     }
     if(verbose) cat(paste0(" ", length(x@organismNames), " organism name(s) added to XML tree.\n"))
