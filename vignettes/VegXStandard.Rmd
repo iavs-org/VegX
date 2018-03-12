@@ -13,7 +13,6 @@ vignette: >
 
 ## Why a vegetation data exchange standard?
 
-
 A primary technical impediment to large-scale sharing of vegetation data is the lack of a recognized international exchange standard for linking the panoply of tools and database implementations that exist among various organizations and individuals participating in vegetation research. In the absence of an exchange standard, the need for multiple, ad hoc mappings among databases and applications discourages merging of data and slows development of new analytical tools (Fig. 1a). By contrast, widespread use of a common exchange standard would avoid the need to repeatedly map data for synthetic projects by requiring only a single mapping between a given database or tool and the standard (Fig. 1b), thus facilitating data exchange and analysis. Application of an international exchange standard for vegetation data would form a critical part of the necessary infrastructure to allow these data to be combined for synthetic analysis at local and global scales.
 
 ![**Fig. 1**. Schematic diagram showing (a) problem: multiple tools and databases and (b) solution: sharing tools through a common standard.](DataExchange.png) 
