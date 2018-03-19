@@ -9,7 +9,7 @@
 #' @param heightBreaks A numeric vector with height limits between strata (of length equal to the number of strata plus one).
 #' @param heightUnit A string to identify height units.
 #' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
-#' @param strataDefinitions
+#' @param strataDefinitions A character vector with strata definitions
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #' @export

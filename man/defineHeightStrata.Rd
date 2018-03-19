@@ -25,7 +25,7 @@ defineHeightStrata(name = "Strata by height",
 
 \item{strataNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
 
-\item{strataDefinitions}{}
+\item{strataDefinitions}{A character vector with strata definitions}
 }
 \value{
 An object of class \code{\linkS4class{VegXStrataDefinition}}

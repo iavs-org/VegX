@@ -1,0 +1,7 @@
+pandoc: 2.0.2
+pkgdown: 0.1.0.9000
+pkgdown_sha: 9fcc3acd70db8ea9ccb2d55efe7cd573eecbbb4b
+articles:
+  PackageTutorial: PackageTutorial.html
+  VegXStandard: VegXStandard.html
+
