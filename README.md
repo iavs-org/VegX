@@ -23,6 +23,24 @@ individual organisms and plots, and enables the connection between the
 entity observed and the taxonomic concept associated with that
 observation to be maintained.
 
+### Detailed documentation of Veg-X
+
+Please read article [The Veg-X exchange
+standard](https://miquelcaceres.github.io/VegX/articles/VegXStandard.html)
+to know mode about the standard.
+
+### XML schema
+
+Veg-X is written as an **XML schema**, which is a definition of
+user-defined tags to structure textual information in order to create
+self-describing datasets. XML (Extensible Markup Language) is an open
+standard, and XML files are both machine and human-readable (they are
+stored in plain-text ASCII format). Visit folder
+[vegxschema](https://github.com/miquelcaceres/VegX/tree/master/vegxschema)
+to see the XML schema representation of the standard. This schema should
+be used to evaluate whether a given Veg-X XML document conforms to
+schema definitions.
+
 ## An R package to use the Veg-X standard
 
 A barrier to the use of a standard like Veg-X is its complexity. To make
@@ -36,11 +54,19 @@ has been designed for this purpose. It contains functions to import,
 integrate, harmonize and export vegetation data using the Veg-X
 standard.
 
-### Installation
+### Package installation
+
+The VegX R package can be installed from GitHub as follows:
 
 ``` r
 devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)
 ```
+
+### User manual
+
+Please refer to [How to use the VegX
+package](https://miquelcaceres.github.io/VegX/articles/PackageTutorial.html)
+to learn how to use the VegX package.
 
 ## References
 
