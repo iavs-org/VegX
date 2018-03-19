@@ -83,11 +83,6 @@
                                     <xsd:documentation xml:lang="en">The specific definition of a stratum referred to by observations in the dataset. A stratum usually belongs to a ordered list that together are the set of strata definitions in use in a specific dataset. It contains the stratum name (e.g. tree layer) as well as an identification code. It may also contain an indication of a position in an ordered sequence of strata.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
-                            <xsd:element name="methodID" type="xsd:string" minOccurs="0">
-                                <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A reference to a specific method applied in comon to all the strata described for a dataset. The individual method is defined within the element veg:methods which is a container for all methods within the dataset.</xsd:documentation>
-                                </xsd:annotation>
-                            </xsd:element>
                         </xsd:sequence>
                     </xsd:complexType>
                 </xsd:element>
