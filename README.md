@@ -23,10 +23,18 @@ individual organisms and plots, and enables the connection between the
 entity observed and the taxonomic concept associated with that
 observation to be maintained.
 
-## R package to use the Veg-X standard
+## An R package to use the Veg-X standard
 
-Functions to import, integrate, harmonize and export vegetation data
-using the VegX standard (ver. 2.0.0)
+A barrier to the use of a standard like Veg-X is its complexity. To make
+the exchange schema of Veg-X usable by the wider community requires the
+development of informatics tools for mapping data from different input
+formats (e.g. relevé tables from different databases, forest inventory
+data or stem-mapped forest plots) into Veg-X, mechanisms to create
+unique identifiers to allow source datasets to be combined, and tools to
+export data for data analysis and visualisation. The **VegX R package**
+has been designed for this purpose. It contains functions to import,
+integrate, harmonize and export vegetation data using the Veg-X
+standard.
 
 ### Installation
 

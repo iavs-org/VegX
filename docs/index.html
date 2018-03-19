@@ -72,11 +72,33 @@
     
     
 <div class="contents">
-<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">knitr<span class="op">::</span>opts_chunk<span class="op">$</span><span class="kw">set</span>(<span class="dt">collapse =</span> <span class="ot">TRUE</span>, <span class="dt">comment =</span> <span class="st">"#&gt;"</span>, <span class="dt">fig.path=</span> <span class="st">"README-"</span>)</div></code></pre>
-<div id="github-documents" class="section level2">
+<div id="introduction" class="section level2">
 <h2 class="hasAnchor">
-<a href="#github-documents" class="anchor"></a>GitHub Documents</h2>
-<p>This is an R Markdown format used for publishing markdown documents to GitHub. When you click the <strong>Knit</strong> button all R code chunks are run and a markdown file (.md) suitable for publishing to GitHub is generated.</p>
+<a href="#introduction" class="anchor"></a>Introduction</h2>
+<p>A primary technical impediment to large-scale sharing of vegetation data is the lack of a recognized international exchange standard for linking the panoply of tools and database implementations that exist among various organizations and individuals participating in vegetation research.</p>
+</div>
+<div id="the-veg-x-exchange-standard" class="section level2">
+<h2 class="hasAnchor">
+<a href="#the-veg-x-exchange-standard" class="anchor"></a>The Veg-X exchange standard</h2>
+<p>The <strong>Veg-X exchange standard</strong> for plot-based vegetation data (Wiser et al. 2011) is intended to be used to share and merge vegetation-plot data of different kinds. Veg-X allows for observations of vegetation at both individual plant and aggregated observation levels. It ensures that observations are fixed to physical sample plots at specific points in space and time, and makes a distinction between the entity of interest (e.g. an individual tree) and the observational act (i.e. a measurement). The standard supports repeated measurements of both individual organisms and plots, and enables the connection between the entity observed and the taxonomic concept associated with that observation to be maintained.</p>
+</div>
+<div id="an-r-package-to-use-the-veg-x-standard" class="section level2">
+<h2 class="hasAnchor">
+<a href="#an-r-package-to-use-the-veg-x-standard" class="anchor"></a>An R package to use the Veg-X standard</h2>
+<p>A barrier to the use of a standard like Veg-X is its complexity. To make the exchange schema of Veg-X usable by the wider community requires the development of informatics tools for mapping data from different input formats (e.g. relevé tables from different databases, forest inventory data or stem-mapped forest plots) into Veg-X, mechanisms to create unique identifiers to allow source datasets to be combined, and tools to export data for data analysis and visualisation. The <strong>VegX R package</strong> has been designed for this purpose. It contains functions to import, integrate, harmonize and export vegetation data using the Veg-X standard.</p>
+<div id="package-installation" class="section level3">
+<h3 class="hasAnchor">
+<a href="#package-installation" class="anchor"></a>Package installation</h3>
+<p>The VegX R package can be installed from GitHub as follows:</p>
+<pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">devtools<span class="op">::</span><span class="kw"><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">install_github</a></span>(<span class="st">"miquelcaceres/VegX"</span>, <span class="dt">build_vignettes=</span><span class="ot">TRUE</span>)</div></code></pre>
+</div>
+</div>
+<div id="references" class="section level2">
+<h2 class="hasAnchor">
+<a href="#references" class="anchor"></a>References</h2>
+<ul>
+<li>Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B &amp; Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data. <em>Journal of Vegetation Science</em> 22: 598-609.</li>
+</ul>
 </div>
 </div>
   </div>
