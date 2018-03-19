@@ -514,12 +514,12 @@ Methods used could be for example the use of global navigation satellite systems
             </xsd:element>
             <xsd:element name="methodID" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific method used to define this stratum.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A link, by ID, to a specific method used to define this stratum (e.g. Tiers according to Allen (1992)). The same method should be referred to by all stratum elements that share a common stratum definition approach. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="definition" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">A longer description of the stratum definition.</xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">The verbal description of the stratum definition (e.g. "Trees between 2 and 5 m height").</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="order" type="xsd:integer" minOccurs="0">
