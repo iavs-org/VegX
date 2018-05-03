@@ -40,7 +40,28 @@ devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)
 
 Please refer to [How to use the VegX package](https://miquelcaceres.github.io/VegX/articles/PackageTutorial.html) to learn how to use the VegX package.
 
+
+### Acknowledgements
+
+Developments endorsed and funded by the International [Association for Vegetation Science](http://iavs.org/)
+
+**Veg-X standard development**:
+
+* Miquel De Cáceres
+* Sebastian Schmidtlein
+* Susan K. Wiser
+* Nick Spencer
+* Robert K. Peet
+* Martin Kleikamp
+* Brad Boyle
+
+**VegX R package development**:
+
+* Miquel De Cáceres
+
+
+
 ## References
 
-+ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data. *Journal of Vegetation Science* 22: 598-609.
++ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data. *Journal of Vegetation Science* 22: 598-609. https://doi.org/10.1111/j.1654-1103.2010.01245.x
 
