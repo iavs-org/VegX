@@ -11,7 +11,7 @@
 #'  \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
 #'  \item{\code{"Plant counts"}: Number of plant individuals.}
 #'  \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
-#'  \item{\code{"Basal area/m2·ha-1"}: Basal area in square meters per hectare.}
+#'  \item{\code{"Basal area/m2*ha-1"}: Basal area in square meters per hectare.}
 #'  \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
 #'  \item{\code{"Stratum height/cm"}: Stratum height in cm above the ground.}
 #'  \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
@@ -38,7 +38,7 @@ predefinedMeasurementMethod<-function(name) {
 
   name = match.arg(name, c("Plot area/m2", "Plot area/cm2","Plot dimension/m","Plot dimension/cm",
                            "Plant cover/%", "Plant counts", "Plant frequency/%",
-                           "Basal area/m2·ha-1", 
+                           "Basal area/m2*ha-1", 
                            "Stratum height/m", "Stratum height/cm",
                            "Plant height/m", "Plant height/cm", "DBH/cm",
                            "Surface cover/%",
@@ -99,11 +99,11 @@ predefinedMeasurementMethod<-function(name) {
                                          lowerLimit = 0,
                                          upperLimit = 100))
   }
-  else if (name=="Basal area/m2·ha-1") {
-    return(defineQuantitativeScaleMethod(name = "Basal area/m2·ha-1",
+  else if (name=="Basal area/m2*ha-1") {
+    return(defineQuantitativeScaleMethod(name = "Basal area/m2*ha-1",
                                          description = "Basal area in square meters per hectare",
                                          subject = "basal area",
-                                         unit = "m2·ha-1",
+                                         unit = "m2*ha-1",
                                          lowerLimit = 0,
                                          upperLimit = Inf))
   }

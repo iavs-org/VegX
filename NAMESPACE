@@ -4,4 +4,8 @@ exportClasses(VegX,
               VegXStrataDefinition,
               VegXSurfaceTypeDefinition)
 importFrom("uuid", "UUIDgenerate")
+importFrom("methods","new")
+importFrom("XML", "newXMLDoc", "newXMLNode",
+           "xmlTreeParse", "xmlValue", "xmlAttrs",
+           "saveXML", "xmlApply", "xmlRoot")
 importFrom("sp", "SpatialPoints", "spTransform", "CRS")

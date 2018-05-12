@@ -9,9 +9,12 @@
 #'  \item moki_site Site characteristics of plots/subplots (25 records x 41 variables)
 #'  \item moki_tcv Observations of cover of taxon categories, grouped by vegetation strata (582 records x 30 variables)
 #'  \item moki_dia Observations made on individual trees (643 records x 30 variables)
+#'  \item moki_str Observations of the cover of surface types (35 records x 20 variables)
+#'  \item moki_lookup Lookup table to translate species names
 #' }
 #'
 #' @name mokihinui
+#' @aliases moki_loc moki_site moki_tcv moki_dia moki_lookup moki_str
 #' @docType data
 #' @author New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
 #' @keywords data
@@ -34,9 +37,12 @@ NULL
 #'  \item mtfyffe_dia Observations made on individual trees (880 records x 31 variables)
 #'  \item mtfyffe_disturbance Observations of disturbance events on plots (9 records x 10 variables)
 #'  \item mtfyffe_groundcover Observations of ground cover on plots (50 records x 12 variables)
+#'  \item mtfyffe_lookup Lookup table to translate species names
+#'
 #' }
 #'
 #' @name mtfyffe
+#' @aliases mtfyffe_loc mtfyffe_site mtfyffe_counts mtfyffe_dia mtfyffe_disturbance mtfyffe_groundcover mtfyffe_lookup
 #' @docType data
 #' @author New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
 #' @keywords data
@@ -57,9 +63,11 @@ NULL
 #'  \item taki_freq Observations of frequency of taxon categories (543 records x 30 variables)
 #'  \item taki_disturbance Observations of disturbance events on plots (9 records x 10 variables)
 #'  \item taki_groundcover Observations of ground cover on plots (50 records x 12 variables)
+#'  \item taki_lookup Lookup table to translate species names
 #' }
 #'
 #' @name takitimu
+#' @aliases taki_loc taki_site taki_freq taki_disturbance taki_groundcover taki_lookup
 #' @docType data
 #' @author New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
 #' @keywords data

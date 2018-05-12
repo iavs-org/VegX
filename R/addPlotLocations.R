@@ -219,7 +219,7 @@ addPlotLocations<-function(target, x,
     if(("placeName" %in% names(mapping)) || ("placeType" %in% names(mapping))) {
       #Add 'places' element if necessary
       if(!("places" %in% names(target@plots[[plotID]]$location))) target@plots[[plotID]]$location$places = list()
-      newloc = paste0(location, length(target@plots[[plotID]]$location$places)+1)
+      newloc = length(target@plots[[plotID]]$location$places)+1
       target@plots[[plotID]]$location$places[[newloc]] = list()
     }
 

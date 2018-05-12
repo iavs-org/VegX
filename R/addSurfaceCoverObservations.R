@@ -181,7 +181,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
       for(i in 1:length(surfDefMethod@attributes)) {
         attid = .nextAttributeID(target)
         target@attributes[[attid]] = surfDefMethod@attributes[[i]]
-        target@attributes[[attid]]$methodID = strmethodID
+        target@attributes[[attid]]$methodID = smethodID
       }
     }
     # add surface types (beware of new surface types)
@@ -203,8 +203,8 @@ addSurfaceCoverObservations<-function(target, x, mapping,
   }
   else { #Read surface type IDs from selected method
     if(verbose) cat(paste0(" Surface type definition '", surfaceTypeDefinition@name,"' already included.\n"))
-    surfaceIDs = .getSurfaceTypeIDsByMethodID(target,strmethodID)
-    surfaceNames = .getSurfaceTypeNamesByMethodID(target,strmethodID)
+    surfaceIDs = .getSurfaceTypeIDsByMethodID(target,smethodID)
+    surfaceNames = .getSurfaceTypeNamesByMethodID(target,smethodID)
   }
 
   orinplots = length(target@plots)
