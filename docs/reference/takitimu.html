@@ -25,12 +25,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Takitimu example dataset for Veg-X — takitimu" />
 
 <meta property="og:description" content="Alpine grassland data from 5 plots from the southern South Island (New Zealand). 
 The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; 
 iii) groundcover; iv) disturbance. The data set includes five data frames:" />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -53,8 +58,12 @@ iii) groundcover; iv) disturbance. The data set includes five data frames:" />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -86,6 +95,7 @@ iii) groundcover; iv) disturbance. The data set includes five data frames:" />
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -93,18 +103,21 @@ iii) groundcover; iv) disturbance. The data set includes five data frames:" />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Takitimu example dataset for Veg-X</h1>
     
+    <div class="hidden name"><code>takitimu.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Alpine grassland data from 5 plots from the southern South Island (New Zealand). 
 The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; 
 iii) groundcover; iv) disturbance. The data set includes five data frames:</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -115,6 +128,7 @@ iii) groundcover; iv) disturbance. The data set includes five data frames:</p>
 <li><p>taki_freq Observations of frequency of taxon categories (543 records x 30 variables)</p></li>
 <li><p>taki_disturbance Observations of disturbance events on plots (9 records x 10 variables)</p></li>
 <li><p>taki_groundcover Observations of ground cover on plots (50 records x 12 variables)</p></li>
+<li><p>taki_lookup Lookup table to translate species names</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -150,6 +164,8 @@ New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresea
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

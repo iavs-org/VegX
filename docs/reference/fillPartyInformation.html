@@ -25,10 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Fills the information for a given party — fillPartyInformation" />
 
 <meta property="og:description" content="Fills the information for a given party" />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -84,6 +93,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -91,21 +101,24 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Fills the information for a given party</h1>
     
+    <div class="hidden name"><code>fillPartyInformation.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Fills the information for a given party</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>fillPartyInformation</span>(<span class='no'>target</span>, <span class='no'>name</span>, <span class='kw'>type</span> <span class='kw'>=</span> <span class='st'>"individual"</span>, <span class='kw'>address</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>phone</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>electronicMailAddress</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>onlineURL</span> <span class='kw'>=</span> <span class='st'>""</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -117,12 +130,16 @@
       <td><p>A string with the full name of the person/organization/position being described.</p></td>
     </tr>
     <tr>
-      <th>address</th>
+      <th>type</th>
       <td><p>A string that identifies the party type: "individual", "organization" or "position".</p></td>
     </tr>
     <tr>
+      <th>address</th>
+      <td><p>A string with the party postal address.</p></td>
+    </tr>
+    <tr>
       <th>phone</th>
-      <td><p>A string summarizing the aims and findings of the project.</p></td>
+      <td><p>A string with the contact phone number.</p></td>
     </tr>
     <tr>
       <th>electronicMailAddress</th>
@@ -144,8 +161,8 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other fill functions: <code><a href='fillProjectInformation.html'>fillProjectInformation</a></code>,
-  <code><a href='fillUniqueIdentifiers.html'>fillUniqueIdentifiers</a></code></p>
+    <div class='dont-index'><p>Other fill functions: <code><a href='fillProjectInformation.html'>fillProjectInformation</a></code>,
+  <code><a href='fillUniqueIdentifiers.html'>fillUniqueIdentifiers</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -180,6 +197,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

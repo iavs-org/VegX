@@ -25,10 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Ordinal scale method definition — defineOrdinalScaleMethod" />
 
 <meta property="og:description" content="A general function to define a method for measurements in an ordinal scale of a given subject." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -84,6 +93,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -91,22 +101,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Ordinal scale method definition</h1>
     
+    <div class="hidden name"><code>defineOrdinalScaleMethod.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>A general function to define a method for measurements in an ordinal scale of a given subject.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>defineOrdinalScaleMethod</span>(<span class='no'>name</span>, <span class='no'>description</span>, <span class='no'>subject</span>, <span class='no'>codes</span>,
   <span class='kw'>citationString</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>DOI</span> <span class='kw'>=</span> <span class='st'>""</span>, <span class='kw'>quantifiableCodes</span> <span class='kw'>=</span> <span class='fu'>character</span>(<span class='fl'>0</span>),
   <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>midPoints</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>definitions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -159,9 +172,9 @@ using class limits (if supplied in <code>breaks</code>).</p></td>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other define measurement functions: <code><a href='defineQualitativeScaleMethod.html'>defineQualitativeScaleMethod</a></code>,
+    <div class='dont-index'><p>Other define measurement functions: <code><a href='defineQualitativeScaleMethod.html'>defineQualitativeScaleMethod</a></code>,
   <code><a href='defineQuantitativeScaleMethod.html'>defineQuantitativeScaleMethod</a></code>,
-  <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code></p>
+  <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -561,6 +574,8 @@ using class limits (if supplied in <code>breaks</code>).</p></td>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

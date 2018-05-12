@@ -25,10 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Stratum definition by height — defineHeightStrata" />
 
 <meta property="og:description" content="Height-based strata definition" />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -84,6 +93,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -91,16 +101,19 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Stratum definition by height</h1>
     
+    <div class="hidden name"><code>defineHeightStrata.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Height-based strata definition</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>defineHeightStrata</span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Strata by height"</span>,
   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Vegetation strata defined by height in m"</span>,
@@ -108,7 +121,7 @@
   <span class='kw'>heightUnit</span> <span class='kw'>=</span> <span class='st'>"m"</span>, <span class='kw'>strataNames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"s1"</span>, <span class='st'>"s2"</span>, <span class='st'>"s3"</span>),
   <span class='kw'>strataDefinitions</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -137,7 +150,7 @@
     </tr>
     <tr>
       <th>strataNames</th>
-      <td><p>A numeric vector of stratum codes (of length equal to the number of strata).</p></td>
+      <td><p>A character vector of stratum codes (of length equal to the number of strata).</p></td>
     </tr>
     <tr>
       <th>strataDefinitions</th>
@@ -151,8 +164,8 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other define strata functions: <code><a href='defineCategoricalStrata.html'>defineCategoricalStrata</a></code>,
-  <code><a href='defineMixedStrata.html'>defineMixedStrata</a></code></p>
+    <div class='dont-index'><p>Other define strata functions: <code><a href='defineCategoricalStrata.html'>defineCategoricalStrata</a></code>,
+  <code><a href='defineMixedStrata.html'>defineMixedStrata</a></code></p></div>
     
 
   </div>
@@ -180,6 +193,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

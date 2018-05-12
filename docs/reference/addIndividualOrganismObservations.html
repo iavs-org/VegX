@@ -25,10 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Add individual organism observation records — addIndividualOrganismObservations" />
 
 <meta property="og:description" content="Adds individual organism observation records to a VegX object from a data frame where rows are individual observations." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -84,6 +93,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -91,22 +101,25 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Add individual organism observation records</h1>
     
+    <div class="hidden name"><code>addIndividualOrganismObservations.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Adds individual organism observation records to a VegX object from a data frame where rows are individual observations.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>addIndividualOrganismObservations</span>(<span class='no'>target</span>, <span class='no'>x</span>, <span class='no'>mapping</span>, <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(),
   <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>date.format</span> <span class='kw'>=</span> <span class='st'>"%Y-%m-%d"</span>,
   <span class='kw'>missing.values</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='st'>"0"</span>, <span class='st'>""</span>), <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -141,6 +154,10 @@
       <td><p>An object of class <code><a href='VegXStrataDefinition-class.html'>VegXStrataDefinition</a></code> indicating the definition of strata.</p></td>
     </tr>
     <tr>
+      <th>date.format</th>
+      <td><p>A character string specifying the input format of dates (see <code>as.Date</code>).</p></td>
+    </tr>
+    <tr>
       <th>missing.values</th>
       <td><p>A character vector of values that should be considered as missing observations/measurements.</p></td>
     </tr>
@@ -172,7 +189,7 @@ and others that are not taxa. Missing value policy:</p><ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other add functions: <code><a href='addAggregateOrganismObservations.html'>addAggregateOrganismObservations</a></code>,
+    <div class='dont-index'><p>Other add functions: <code><a href='addAggregateOrganismObservations.html'>addAggregateOrganismObservations</a></code>,
   <code><a href='addCommunityObservations.html'>addCommunityObservations</a></code>,
   <code><a href='addPlotGeometries.html'>addPlotGeometries</a></code>,
   <code><a href='addPlotLocations.html'>addPlotLocations</a></code>,
@@ -181,7 +198,7 @@ and others that are not taxa. Missing value policy:</p><ul>
   <code><a href='addSiteObservations.html'>addSiteObservations</a></code>,
   <code><a href='addStratumObservations.html'>addStratumObservations</a></code>,
   <code><a href='addSurfaceCoverObservations.html'>addSurfaceCoverObservations</a></code>,
-  <code><a href='addTaxonBySiteData.html'>addTaxonBySiteData</a></code></p>
+  <code><a href='addTaxonBySiteData.html'>addTaxonBySiteData</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -286,6 +303,8 @@ and others that are not taxa. Missing value policy:</p><ul>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

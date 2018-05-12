@@ -25,11 +25,16 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Transform ordinal scale — transformOrdinalScale" />
 
 <meta property="og:description" content="Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
 appropriate for the midpoint values of the ordinal classes." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,8 +57,12 @@ appropriate for the midpoint values of the ordinal classes." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -85,6 +94,7 @@ appropriate for the midpoint values of the ordinal classes." />
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -92,22 +102,25 @@ appropriate for the midpoint values of the ordinal classes." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Transform ordinal scale</h1>
     
+    <div class="hidden name"><code>transformOrdinalScale.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
 appropriate for the midpoint values of the ordinal classes.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>transformOrdinalScale</span>(<span class='no'>target</span>, <span class='no'>method</span>, <span class='no'>newMethod</span>, <span class='kw'>replaceValues</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>,
   <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -149,7 +162,7 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other transform functions: <code><a href='transformQuantitativeScale.html'>transformQuantitativeScale</a></code></p>
+    <div class='dont-index'><p>Other transform functions: <code><a href='transformQuantitativeScale.html'>transformQuantitativeScale</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -175,25 +188,43 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
                <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
                <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
                <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addAggregateOrganismObservations.html'>addAggregateOrganismObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_tcv</span>, <span class='st'>"Mokihinui"</span>,
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addAggregateOrganismObservations.html'>addAggregateOrganismObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_tcv</span>,
                <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>taxmapping</span>,
                <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
                <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Category.
 #&gt;  Measurement method 'Recce cover scale' added for 'cover'.
 #&gt;  Stratum definition method 'Recce strata' added.
-#&gt;  7 new stratum definitions added.</div><div class='output co'>#&gt; <span class='error'>Error in paste(plotID, as.character(obsStartDate)): object 'obsStartDate' not found</span></div><div class='input'>
+#&gt;  7 new stratum definitions added.
+#&gt;  5 plot(s) parsed, 5 new added.
+#&gt;  5 plot observation(s) parsed, 5 new added.
+#&gt;  148 organism names(s) parsed, 148 new added.
+#&gt;  148 organism identitie(s) parsed, 148 new added.
+#&gt;  33 stratum observation(s) parsed, 33 new added.
+#&gt;  582 record(s) parsed, 582 new aggregate organism observation(s) added.</div><div class='input'>
 <span class='co'>#Add stratum observations with ordinal cover scale</span>
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>, <span class='kw'>stratumName</span> <span class='kw'>=</span> <span class='st'>"Tier"</span>,
                <span class='kw'>cover</span> <span class='kw'>=</span> <span class='st'>"CoverClass"</span>)
 
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addStratumObservations.html'>addStratumObservations</a></span>(<span class='no'>x</span>, <span class='no'>moki_str</span>, <span class='st'>"Mokihinui"</span>,
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addStratumObservations.html'>addStratumObservations</a></span>(<span class='no'>x</span>, <span class='no'>moki_str</span>,
                         <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
                         <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
-                        <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt; <span class='error'>Error in addStratumObservations(x, moki_str, "Mokihinui", mapping = mapping,     methods = list(cover = coverscale), stratumDefinition = strataDef): object 'x' not found</span></div><div class='input'>
+                        <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 stratum measurement variables found.
+#&gt;  Measurement method 'Recce cover scale' for 'cover' already included.
+#&gt;  Stratum definition 'Recce strata' already included.
+#&gt;  5 plot(s) parsed, 0 new added.
+#&gt;  5 plot observation(s) parsed, 0 new added.
+#&gt;  35 record(s) parsed, 2 new stratum observation(s) added.
+#&gt;  7 measurement(s) with missing value(s) not added.</div><div class='input'>
 
 <span class='co'># Transform from "Recce cover scale" to "Plant cover/%"</span>
 <span class='no'>percentScale</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Plant cover/%"</span>)
-<span class='no'>y</span> <span class='kw'>=</span> <span class='fu'>transformOrdinalScale</span>(<span class='no'>x</span>, <span class='st'>"Recce cover scale"</span>, <span class='no'>percentScale</span>)</div><div class='output co'>#&gt; <span class='error'>Error in transformOrdinalScale(x, "Recce cover scale", percentScale): object 'x' not found</span></div><div class='input'>
+<span class='no'>y</span> <span class='kw'>=</span> <span class='fu'>transformOrdinalScale</span>(<span class='no'>x</span>, <span class='st'>"Recce cover scale"</span>, <span class='no'>percentScale</span>)</div><div class='output co'>#&gt;  Target method: 'Recce cover scale'
+#&gt;  Number of attributes: 7
+#&gt;  Number of quantifiable attributes with midpoints: 6
+#&gt;  Limits of the new attribute: [0, 100]
+#&gt;  Measurement method 'Plant cover/%' added.
+#&gt;  531 transformation(s) were applied on aggregate organism observations.
+#&gt;  28 transformation(s) were applied on stratum observations.</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -224,6 +255,8 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>
