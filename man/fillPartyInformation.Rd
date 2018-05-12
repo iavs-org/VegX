@@ -12,9 +12,11 @@ fillPartyInformation(target, name, type = "individual", address = "",
 
 \item{name}{A string with the full name of the person/organization/position being described.}
 
-\item{address}{A string that identifies the party type: "individual", "organization" or "position".}
+\item{type}{A string that identifies the party type: "individual", "organization" or "position".}
 
-\item{phone}{A string summarizing the aims and findings of the project.}
+\item{address}{A string with the party postal address.}
+
+\item{phone}{A string with the contact phone number.}
 
 \item{electronicMailAddress}{A string with information about funding agencies.}
 

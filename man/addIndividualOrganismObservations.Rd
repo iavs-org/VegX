@@ -31,6 +31,8 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
+\item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
+
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}

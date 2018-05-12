@@ -7,7 +7,7 @@
 #' @param method An integer (index) or a name of the original quantitative scale method.
 #' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
 #' or an object of class \code{\linkS4class{VegXMethodDefinition}}.
-#' @param fun A function used to transform numeric values.
+#' @param FUN A function used to transform numeric values.
 #' @param replaceValues A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 #' For some measurements transformations will not be possible if replacement is not forced using this flag.
 #' @param verbose A boolean flag to indicate console output of the data transformation process.
@@ -40,7 +40,7 @@
 #'                    heightStrataNames = paste0("Tier ",1:6),
 #'                    categoryStrataNames = "Tier 7",
 #'                    categoryStrataDefinition = "Epiphytes")
-#' x = addStratumObservations(newVegX(), moki_str, "Mokihinui",
+#' x = addStratumObservations(newVegX(), moki_str,
 #'                    mapping = mapping,
 #'                    methods = list(lowerLimitMeasurement = heightMethod1,
 #'                                        upperLimitMeasurement = heightMethod1),

@@ -23,7 +23,7 @@ defineHeightStrata(name = "Strata by height",
 
 \item{heightUnit}{A string to identify height units.}
 
-\item{strataNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
+\item{strataNames}{A character vector of stratum codes (of length equal to the number of strata).}
 
 \item{strataDefinitions}{A character vector with strata definitions}
 }
