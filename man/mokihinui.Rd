@@ -3,6 +3,12 @@
 \docType{data}
 \name{mokihinui}
 \alias{mokihinui}
+\alias{moki_loc}
+\alias{moki_site}
+\alias{moki_tcv}
+\alias{moki_dia}
+\alias{moki_lookup}
+\alias{moki_str}
 \title{Mokihinui example dataset for Veg-X}
 \description{
 Forest and riparian data from 5 plots (with four sub-plots each) from the west coast of South Island (New Zealand).  
@@ -15,6 +21,8 @@ The data set includes four data frames:
  \item moki_site Site characteristics of plots/subplots (25 records x 41 variables)
  \item moki_tcv Observations of cover of taxon categories, grouped by vegetation strata (582 records x 30 variables)
  \item moki_dia Observations made on individual trees (643 records x 30 variables)
+ \item moki_str Observations of the cover of surface types (35 records x 20 variables)
+ \item moki_lookup Lookup table to translate species names
 }
 }
 \references{

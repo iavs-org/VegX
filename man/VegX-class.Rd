@@ -8,6 +8,11 @@
 \usage{
 \S4method{summary}{VegX}(object, ...)
 }
+\arguments{
+\item{object}{Veg-X object to be summarized}
+
+\item{...}{Additional parameters (for compatibility)}
+}
 \description{
 Implements the minimum subset of Veg-X elements needed for importing and combining vegetation data in this package.
 Only main elements of Veg-X are included here as lists (sub-elements are not specified in the class definition).

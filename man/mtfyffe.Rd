@@ -3,6 +3,13 @@
 \docType{data}
 \name{mtfyffe}
 \alias{mtfyffe}
+\alias{mtfyffe_loc}
+\alias{mtfyffe_site}
+\alias{mtfyffe_counts}
+\alias{mtfyffe_dia}
+\alias{mtfyffe_disturbance}
+\alias{mtfyffe_groundcover}
+\alias{mtfyffe_lookup}
 \title{Mt Fyffe example dataset for Veg-X}
 \description{
 Forest data from five permanent plots from the east coast of South Island (New Zealand).  
@@ -20,6 +27,8 @@ Two full measurements of the permanent plots are provided. The data set includes
  \item mtfyffe_dia Observations made on individual trees (880 records x 31 variables)
  \item mtfyffe_disturbance Observations of disturbance events on plots (9 records x 10 variables)
  \item mtfyffe_groundcover Observations of ground cover on plots (50 records x 12 variables)
+ \item mtfyffe_lookup Lookup table to translate species names
+
 }
 }
 \references{

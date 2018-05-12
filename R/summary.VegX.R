@@ -1,6 +1,8 @@
 #' @describeIn VegX
 #'
 #' Generates a summary of the Veg-X object (i.e., the number of elements of each type).
+#' @param object Veg-X object to be summarized
+#' @param ... Additional parameters (for compatibility)
 #'
 setMethod("summary", signature=c("VegX"), definition = function(object, ...) {
   cat(paste0("================================================================\n"))

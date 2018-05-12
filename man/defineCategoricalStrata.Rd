@@ -17,7 +17,9 @@ defineCategoricalStrata(name = "Strata by categories",
 
 \item{DOI}{A string with the DOI of a resource describing the method.}
 
-\item{strataNames}{A numeric vector of stratum codes (of length equal to the number of strata).}
+\item{strataNames}{A character vector of stratum codes (of length equal to the number of strata).}
+
+\item{strataDefinitions}{A character vector with stratum definitions}
 }
 \value{
 An object of class \code{\linkS4class{VegXStrataDefinition}}

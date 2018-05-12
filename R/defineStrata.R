@@ -8,7 +8,7 @@
 #' @param DOI A string with the DOI of a resource describing the method.
 #' @param heightBreaks A numeric vector with height limits between strata (of length equal to the number of strata plus one).
 #' @param heightUnit A string to identify height units.
-#' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
+#' @param strataNames A character vector of stratum codes (of length equal to the number of strata).
 #' @param strataDefinitions A character vector with strata definitions
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
@@ -58,7 +58,8 @@ defineHeightStrata<-function(name = "Strata by height",
 #' @param description A string describing how strata are defined.
 #' @param citationString A string with the bibliographic reference for the method.
 #' @param DOI A string with the DOI of a resource describing the method.
-#' @param strataNames A numeric vector of stratum codes (of length equal to the number of strata).
+#' @param strataNames A character vector of stratum codes (of length equal to the number of strata).
+#' @param strataDefinitions A character vector with stratum definitions
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #' @family define strata functions

@@ -3,6 +3,12 @@
 \docType{data}
 \name{takitimu}
 \alias{takitimu}
+\alias{taki_loc}
+\alias{taki_site}
+\alias{taki_freq}
+\alias{taki_disturbance}
+\alias{taki_groundcover}
+\alias{taki_lookup}
 \title{Takitimu example dataset for Veg-X}
 \description{
 Alpine grassland data from 5 plots from the southern South Island (New Zealand). 
@@ -16,6 +22,7 @@ iii) groundcover; iv) disturbance. The data set includes five data frames:
  \item taki_freq Observations of frequency of taxon categories (543 records x 30 variables)
  \item taki_disturbance Observations of disturbance events on plots (9 records x 10 variables)
  \item taki_groundcover Observations of ground cover on plots (50 records x 12 variables)
+ \item taki_lookup Lookup table to translate species names
 }
 }
 \references{

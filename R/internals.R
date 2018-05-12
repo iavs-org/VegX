@@ -377,6 +377,21 @@
   return(stVec)
 }
 
+# Returns surafce names corresponding to the input method
+.getSurfaceTypeNamesByMethodID<-function(target, methodID) {
+  sVec = character(0)
+  if(length(target@surfaceTypes)>0) {
+    cnt = 1
+    for(i in 1:length(target@surfaceTypes)) {
+      if(target@surfaceTypes[[i]]$methodID==methodID) {
+        sVec[cnt] = target@surfaceTypes[[i]]$surfaceName
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(sVec)
+}
+
 .getNumberOfSubPlots<-function(target) {
   cnt = 0
    if(length(target@plots)>0) {
@@ -815,7 +830,7 @@
   for(n in npool) {
     if((n %in% n1) && (n %in% n2)) {
       if(scobs1[[n]]!=scobs2[[n]]) stop(paste0("Surface cover observations have different data for '", n, "'. Cannot merge."))
-      res[[n]] = strobs1[[n]]
+      res[[n]] = scobs1[[n]]
     } else if(n %in% n1) {
       res[[n]] = scobs1[[n]]
     } else if(n %in% n2) {
