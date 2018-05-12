@@ -25,11 +25,16 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Transform quantitative scale — transformQuantitativeScale" />
 
 <meta property="og:description" content="Transforms all the values in a VegX object made using a quantitative scale into another quantitative scale
 following a given transformation function." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -52,8 +57,12 @@ following a given transformation function." />
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -85,6 +94,7 @@ following a given transformation function." />
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -92,22 +102,25 @@ following a given transformation function." />
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Transform quantitative scale</h1>
     
+    <div class="hidden name"><code>transformQuantitativeScale.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Transforms all the values in a VegX object made using a quantitative scale into another quantitative scale
 following a given transformation function.</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>transformQuantitativeScale</span>(<span class='no'>target</span>, <span class='no'>method</span>, <span class='no'>newMethod</span>, <span class='no'>FUN</span>,
   <span class='kw'>replaceValues</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>, <span class='kw'>verbose</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -124,6 +137,10 @@ following a given transformation function.</p>
 or an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>.</p></td>
     </tr>
     <tr>
+      <th>FUN</th>
+      <td><p>A function used to transform numeric values.</p></td>
+    </tr>
+    <tr>
       <th>replaceValues</th>
       <td><p>A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 For some measurements transformations will not be possible if replacement is not forced using this flag.</p></td>
@@ -131,10 +148,6 @@ For some measurements transformations will not be possible if replacement is not
     <tr>
       <th>verbose</th>
       <td><p>A boolean flag to indicate console output of the data transformation process.</p></td>
-    </tr>
-    <tr>
-      <th>fun</th>
-      <td><p>A function used to transform numeric values.</p></td>
     </tr>
     </table>
     
@@ -153,7 +166,7 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other transform functions: <code><a href='transformOrdinalScale.html'>transformOrdinalScale</a></code></p>
+    <div class='dont-index'><p>Other transform functions: <code><a href='transformOrdinalScale.html'>transformOrdinalScale</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -170,7 +183,7 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
                    <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
                    <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
                    <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addStratumObservations.html'>addStratumObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_str</span>, <span class='st'>"Mokihinui"</span>,
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addStratumObservations.html'>addStratumObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_str</span>,
                    <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
                    <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod1</span>,
                                        <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod1</span>),
@@ -178,15 +191,163 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
 #&gt;  Measurement method 'Stratum height/m' added for 'lowerLimitMeasurement'.
 #&gt;  Measurement method 'Stratum height/m' for 'upperLimitMeasurement' already included.
 #&gt;  Stratum definition method 'Recce strata' added.
-#&gt;  7 new stratum definitions added.</div><div class='output co'>#&gt; <span class='error'>Error in paste(plotID, obsStartDate): object 'obsStartDate' not found</span></div><div class='input'>
+#&gt;  7 new stratum definitions added.
+#&gt;  5 plot(s) parsed, 5 new added.
+#&gt;  5 plot observation(s) parsed, 5 new added.
+#&gt;  35 record(s) parsed, 35 new stratum observation(s) added.</div><div class='input'>
 <span class='co'># Examine stratum heights</span>
-<span class='fu'><a href='showElementTable.html'>showElementTable</a></span>(<span class='no'>x</span>, <span class='st'>"stratumObservation"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in showElementTable(x, "stratumObservation"): object 'x' not found</span></div><div class='input'>
+<span class='fu'><a href='showElementTable.html'>showElementTable</a></span>(<span class='no'>x</span>, <span class='st'>"stratumObservation"</span>)</div><div class='output co'>#&gt;    plotName obsStartDate stratumName lowerLimit_method lowerLimit_value
+#&gt; 1    LGM38h   2011-02-20      Tier 1  Stratum height/m             25.0
+#&gt; 2    LGM38h   2011-02-20      Tier 2  Stratum height/m             12.0
+#&gt; 3    LGM38h   2011-02-20      Tier 3  Stratum height/m              5.0
+#&gt; 4    LGM38h   2011-02-20      Tier 4  Stratum height/m              2.0
+#&gt; 5    LGM38h   2011-02-20      Tier 5  Stratum height/m              0.3
+#&gt; 6    LGM45h   2011-02-11      Tier 1  Stratum height/m             25.0
+#&gt; 7    LGM45h   2011-02-11      Tier 2  Stratum height/m             12.0
+#&gt; 8    LGM45h   2011-02-11      Tier 3  Stratum height/m              5.0
+#&gt; 9    LGM45h   2011-02-11      Tier 4  Stratum height/m              2.0
+#&gt; 10   LGM45h   2011-02-11      Tier 5  Stratum height/m              0.3
+#&gt; 11   LGM45h   2011-02-11      Tier 6  Stratum height/m              0.0
+#&gt; 12   LGM45h   2011-02-11      Tier 7  Stratum height/m              0.0
+#&gt; 13   LGM38h   2011-02-20      Tier 6  Stratum height/m              0.0
+#&gt; 14   LGM38h   2011-02-20      Tier 7  Stratum height/m              0.0
+#&gt; 15   LGM08r   2011-02-17      Tier 1  Stratum height/m             25.0
+#&gt; 16   LGM08r   2011-02-17      Tier 2  Stratum height/m             12.0
+#&gt; 17   LGM08r   2011-02-17      Tier 3  Stratum height/m              5.0
+#&gt; 18   LGM08r   2011-02-17      Tier 4  Stratum height/m              2.0
+#&gt; 19   LGM08r   2011-02-17      Tier 5  Stratum height/m              0.3
+#&gt; 20   LGM08r   2011-02-17      Tier 6  Stratum height/m              0.0
+#&gt; 21   LGM08r   2011-02-17      Tier 7  Stratum height/m              0.0
+#&gt; 22   LGM43h   2011-02-13      Tier 1  Stratum height/m             25.0
+#&gt; 23   LGM43h   2011-02-13      Tier 2  Stratum height/m             12.0
+#&gt; 24   LGM43h   2011-02-13      Tier 3  Stratum height/m              5.0
+#&gt; 25   LGM43h   2011-02-13      Tier 4  Stratum height/m              2.0
+#&gt; 26   LGM43h   2011-02-13      Tier 5  Stratum height/m              0.3
+#&gt; 27   LGM43h   2011-02-13      Tier 6  Stratum height/m              0.0
+#&gt; 28   LGM43h   2011-02-13      Tier 7  Stratum height/m              0.0
+#&gt; 29   LGM16l   2011-02-15      Tier 1  Stratum height/m             25.0
+#&gt; 30   LGM16l   2011-02-15      Tier 2  Stratum height/m             12.0
+#&gt; 31   LGM16l   2011-02-15      Tier 3  Stratum height/m              5.0
+#&gt; 32   LGM16l   2011-02-15      Tier 4  Stratum height/m              2.0
+#&gt; 33   LGM16l   2011-02-15      Tier 5  Stratum height/m              0.3
+#&gt; 34   LGM16l   2011-02-15      Tier 6  Stratum height/m              0.0
+#&gt; 35   LGM16l   2011-02-15      Tier 7  Stratum height/m              0.0
+#&gt;    upperLimit_method upperLimit_value
+#&gt; 1   Stratum height/m             50.0
+#&gt; 2   Stratum height/m             25.0
+#&gt; 3   Stratum height/m             12.0
+#&gt; 4   Stratum height/m              5.0
+#&gt; 5   Stratum height/m              2.0
+#&gt; 6   Stratum height/m             50.0
+#&gt; 7   Stratum height/m             25.0
+#&gt; 8   Stratum height/m             12.0
+#&gt; 9   Stratum height/m              5.0
+#&gt; 10  Stratum height/m              2.0
+#&gt; 11  Stratum height/m              0.3
+#&gt; 12  Stratum height/m              0.0
+#&gt; 13  Stratum height/m              0.3
+#&gt; 14  Stratum height/m              0.0
+#&gt; 15  Stratum height/m             50.0
+#&gt; 16  Stratum height/m             25.0
+#&gt; 17  Stratum height/m             12.0
+#&gt; 18  Stratum height/m              5.0
+#&gt; 19  Stratum height/m              2.0
+#&gt; 20  Stratum height/m              0.3
+#&gt; 21  Stratum height/m              0.0
+#&gt; 22  Stratum height/m             50.0
+#&gt; 23  Stratum height/m             25.0
+#&gt; 24  Stratum height/m             12.0
+#&gt; 25  Stratum height/m              5.0
+#&gt; 26  Stratum height/m              2.0
+#&gt; 27  Stratum height/m              0.3
+#&gt; 28  Stratum height/m              0.0
+#&gt; 29  Stratum height/m             50.0
+#&gt; 30  Stratum height/m             25.0
+#&gt; 31  Stratum height/m             12.0
+#&gt; 32  Stratum height/m              5.0
+#&gt; 33  Stratum height/m              2.0
+#&gt; 34  Stratum height/m              0.3
+#&gt; 35  Stratum height/m              0.0</div><div class='input'>
 <span class='co'># Transform stratum heights from m to cm by multiplying values by 10</span>
 <span class='co'># ('replaceValues' needs to be set to TRUE to force replacement)</span>
 <span class='no'>heightMethod2</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Stratum height/cm"</span>)
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fu'>transformQuantitativeScale</span>(<span class='no'>x</span>, <span class='st'>"Stratum height/m"</span>, <span class='no'>heightMethod2</span>,
-                               <span class='kw'>function</span>(<span class='no'>x</span>){<span class='fu'>return</span>(<span class='no'>x</span>*<span class='fl'>10</span>)}, <span class='kw'>replaceValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in transformQuantitativeScale(x, "Stratum height/m", heightMethod2,     function(x) {        return(x * 10)    }, replaceValues = TRUE): object 'x' not found</span></div><div class='input'><span class='co'># Examine new stratum heights</span>
-<span class='fu'><a href='showElementTable.html'>showElementTable</a></span>(<span class='no'>y</span>, <span class='st'>"stratumObservation"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in showElementTable(y, "stratumObservation"): object 'y' not found</span></div><div class='input'>
+                               <span class='kw'>function</span>(<span class='no'>x</span>){<span class='fu'>return</span>(<span class='no'>x</span>*<span class='fl'>10</span>)}, <span class='kw'>replaceValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  Target method: 'Stratum height/m'
+#&gt;  Number of quantitative attributes: 1
+#&gt;  Measurement method 'Stratum height/cm' added.
+#&gt;  70 transformation(s) were applied on stratum observations.</div><div class='input'><span class='co'># Examine new stratum heights</span>
+<span class='fu'><a href='showElementTable.html'>showElementTable</a></span>(<span class='no'>y</span>, <span class='st'>"stratumObservation"</span>)</div><div class='output co'>#&gt;    plotName obsStartDate stratumName lowerLimit_method lowerLimit_value
+#&gt; 1    LGM38h   2011-02-20      Tier 1 Stratum height/cm              250
+#&gt; 2    LGM38h   2011-02-20      Tier 2 Stratum height/cm              120
+#&gt; 3    LGM38h   2011-02-20      Tier 3 Stratum height/cm               50
+#&gt; 4    LGM38h   2011-02-20      Tier 4 Stratum height/cm               20
+#&gt; 5    LGM38h   2011-02-20      Tier 5 Stratum height/cm                3
+#&gt; 6    LGM45h   2011-02-11      Tier 1 Stratum height/cm              250
+#&gt; 7    LGM45h   2011-02-11      Tier 2 Stratum height/cm              120
+#&gt; 8    LGM45h   2011-02-11      Tier 3 Stratum height/cm               50
+#&gt; 9    LGM45h   2011-02-11      Tier 4 Stratum height/cm               20
+#&gt; 10   LGM45h   2011-02-11      Tier 5 Stratum height/cm                3
+#&gt; 11   LGM45h   2011-02-11      Tier 6 Stratum height/cm                0
+#&gt; 12   LGM45h   2011-02-11      Tier 7 Stratum height/cm                0
+#&gt; 13   LGM38h   2011-02-20      Tier 6 Stratum height/cm                0
+#&gt; 14   LGM38h   2011-02-20      Tier 7 Stratum height/cm                0
+#&gt; 15   LGM08r   2011-02-17      Tier 1 Stratum height/cm              250
+#&gt; 16   LGM08r   2011-02-17      Tier 2 Stratum height/cm              120
+#&gt; 17   LGM08r   2011-02-17      Tier 3 Stratum height/cm               50
+#&gt; 18   LGM08r   2011-02-17      Tier 4 Stratum height/cm               20
+#&gt; 19   LGM08r   2011-02-17      Tier 5 Stratum height/cm                3
+#&gt; 20   LGM08r   2011-02-17      Tier 6 Stratum height/cm                0
+#&gt; 21   LGM08r   2011-02-17      Tier 7 Stratum height/cm                0
+#&gt; 22   LGM43h   2011-02-13      Tier 1 Stratum height/cm              250
+#&gt; 23   LGM43h   2011-02-13      Tier 2 Stratum height/cm              120
+#&gt; 24   LGM43h   2011-02-13      Tier 3 Stratum height/cm               50
+#&gt; 25   LGM43h   2011-02-13      Tier 4 Stratum height/cm               20
+#&gt; 26   LGM43h   2011-02-13      Tier 5 Stratum height/cm                3
+#&gt; 27   LGM43h   2011-02-13      Tier 6 Stratum height/cm                0
+#&gt; 28   LGM43h   2011-02-13      Tier 7 Stratum height/cm                0
+#&gt; 29   LGM16l   2011-02-15      Tier 1 Stratum height/cm              250
+#&gt; 30   LGM16l   2011-02-15      Tier 2 Stratum height/cm              120
+#&gt; 31   LGM16l   2011-02-15      Tier 3 Stratum height/cm               50
+#&gt; 32   LGM16l   2011-02-15      Tier 4 Stratum height/cm               20
+#&gt; 33   LGM16l   2011-02-15      Tier 5 Stratum height/cm                3
+#&gt; 34   LGM16l   2011-02-15      Tier 6 Stratum height/cm                0
+#&gt; 35   LGM16l   2011-02-15      Tier 7 Stratum height/cm                0
+#&gt;    upperLimit_method upperLimit_value
+#&gt; 1  Stratum height/cm              500
+#&gt; 2  Stratum height/cm              250
+#&gt; 3  Stratum height/cm              120
+#&gt; 4  Stratum height/cm               50
+#&gt; 5  Stratum height/cm               20
+#&gt; 6  Stratum height/cm              500
+#&gt; 7  Stratum height/cm              250
+#&gt; 8  Stratum height/cm              120
+#&gt; 9  Stratum height/cm               50
+#&gt; 10 Stratum height/cm               20
+#&gt; 11 Stratum height/cm                3
+#&gt; 12 Stratum height/cm                0
+#&gt; 13 Stratum height/cm                3
+#&gt; 14 Stratum height/cm                0
+#&gt; 15 Stratum height/cm              500
+#&gt; 16 Stratum height/cm              250
+#&gt; 17 Stratum height/cm              120
+#&gt; 18 Stratum height/cm               50
+#&gt; 19 Stratum height/cm               20
+#&gt; 20 Stratum height/cm                3
+#&gt; 21 Stratum height/cm                0
+#&gt; 22 Stratum height/cm              500
+#&gt; 23 Stratum height/cm              250
+#&gt; 24 Stratum height/cm              120
+#&gt; 25 Stratum height/cm               50
+#&gt; 26 Stratum height/cm               20
+#&gt; 27 Stratum height/cm                3
+#&gt; 28 Stratum height/cm                0
+#&gt; 29 Stratum height/cm              500
+#&gt; 30 Stratum height/cm              250
+#&gt; 31 Stratum height/cm              120
+#&gt; 32 Stratum height/cm               50
+#&gt; 33 Stratum height/cm               20
+#&gt; 34 Stratum height/cm                3
+#&gt; 35 Stratum height/cm                0</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
@@ -217,6 +378,8 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

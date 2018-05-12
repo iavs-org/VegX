@@ -25,10 +25,15 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Generates unique identifiers — fillUniqueIdentifiers" />
 
 <meta property="og:description" content="Generates unique identifiers for plot elements or plot observation elements" />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -51,8 +56,12 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -84,6 +93,7 @@
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -91,20 +101,23 @@
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generates unique identifiers</h1>
     
+    <div class="hidden name"><code>fillUniqueIdentifiers.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Generates unique identifiers for plot elements or plot observation elements</p>
     
+    </div>
 
     <pre class="usage"><span class='fu'>fillUniqueIdentifiers</span>(<span class='no'>target</span>, <span class='kw'>element</span> <span class='kw'>=</span> <span class='st'>"plot"</span>, <span class='kw'>replace.existing</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
     
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a> Arguments</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
@@ -131,8 +144,8 @@
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p>Other fill functions: <code><a href='fillPartyInformation.html'>fillPartyInformation</a></code>,
-  <code><a href='fillProjectInformation.html'>fillProjectInformation</a></code></p>
+    <div class='dont-index'><p>Other fill functions: <code><a href='fillPartyInformation.html'>fillPartyInformation</a></code>,
+  <code><a href='fillProjectInformation.html'>fillProjectInformation</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -177,31 +190,31 @@
 
 <span class='co'># Examine the result</span>
 <span class='fu'><a href='showElementTable.html'>showElementTable</a></span>(<span class='no'>y</span>, <span class='st'>"plot"</span>)</div><div class='output co'>#&gt;     plotName                 plotUniqueIdentifier relatedPlotName
-#&gt; 1     LGM08r ddc5cdc0-4ea4-11e8-9892-93d86ac73c61            &lt;NA&gt;
-#&gt; 2  LGM08r_1Q ddc5cdc1-4ea4-11e8-9892-93d86ac73c61          LGM08r
-#&gt; 3  LGM08r_2Q ddc5f4da-4ea4-11e8-9892-93d86ac73c61          LGM08r
-#&gt; 4  LGM08r_3Q ddc5f4db-4ea4-11e8-9892-93d86ac73c61          LGM08r
-#&gt; 5  LGM08r_4Q ddc5f4dc-4ea4-11e8-9892-93d86ac73c61          LGM08r
-#&gt; 6     LGM16l ddc5f4dd-4ea4-11e8-9892-93d86ac73c61            &lt;NA&gt;
-#&gt; 7  LGM16l_1Q ddc5f4de-4ea4-11e8-9892-93d86ac73c61          LGM16l
-#&gt; 8  LGM16l_2Q ddc5f4df-4ea4-11e8-9892-93d86ac73c61          LGM16l
-#&gt; 9  LGM16l_3Q ddc5f4e0-4ea4-11e8-9892-93d86ac73c61          LGM16l
-#&gt; 10 LGM16l_4Q ddc5f4e1-4ea4-11e8-9892-93d86ac73c61          LGM16l
-#&gt; 11    LGM38h ddc5f4e2-4ea4-11e8-9892-93d86ac73c61            &lt;NA&gt;
-#&gt; 12 LGM38h_1Q ddc5f4e3-4ea4-11e8-9892-93d86ac73c61          LGM38h
-#&gt; 13 LGM38h_2Q ddc5f4e4-4ea4-11e8-9892-93d86ac73c61          LGM38h
-#&gt; 14 LGM38h_3Q ddc61bfe-4ea4-11e8-9892-93d86ac73c61          LGM38h
-#&gt; 15 LGM38h_4Q ddc61bff-4ea4-11e8-9892-93d86ac73c61          LGM38h
-#&gt; 16    LGM45h ddc61c00-4ea4-11e8-9892-93d86ac73c61            &lt;NA&gt;
-#&gt; 17 LGM45h_2Q ddc61c01-4ea4-11e8-9892-93d86ac73c61          LGM45h
-#&gt; 18 LGM45h_3Q ddc61c02-4ea4-11e8-9892-93d86ac73c61          LGM45h
-#&gt; 19 LGM45h_4Q ddc61c03-4ea4-11e8-9892-93d86ac73c61          LGM45h
-#&gt; 20    LGM43h ddc61c04-4ea4-11e8-9892-93d86ac73c61            &lt;NA&gt;
-#&gt; 21 LGM43h_1Q ddc61c05-4ea4-11e8-9892-93d86ac73c61          LGM43h
-#&gt; 22 LGM43h_2Q ddc61c06-4ea4-11e8-9892-93d86ac73c61          LGM43h
-#&gt; 23 LGM43h_3Q ddc61c07-4ea4-11e8-9892-93d86ac73c61          LGM43h
-#&gt; 24 LGM43h_4Q ddc61c08-4ea4-11e8-9892-93d86ac73c61          LGM43h
-#&gt; 25 LGM45h_1Q ddc6432c-4ea4-11e8-9892-93d86ac73c61          LGM45h
+#&gt; 1     LGM08r fdf32aef-3f0f-401f-ad09-a12a0996e054            &lt;NA&gt;
+#&gt; 2  LGM08r_1Q 9ba38ad8-e46a-44de-b941-22181bb633af          LGM08r
+#&gt; 3  LGM08r_2Q e17d370b-ce6f-42a6-9ac4-a63cd19cd518          LGM08r
+#&gt; 4  LGM08r_3Q 810de1c9-9e62-4fbb-8a4d-3cf9c569de1c          LGM08r
+#&gt; 5  LGM08r_4Q c4e3ee25-7a45-469b-b262-4f81061bbb0c          LGM08r
+#&gt; 6     LGM16l 0f69f1f0-b06a-41bf-8852-bf10df3259b9            &lt;NA&gt;
+#&gt; 7  LGM16l_1Q 37e6967f-8b5a-4303-96ab-da5abd3eba65          LGM16l
+#&gt; 8  LGM16l_2Q 917d3c6c-b2e3-40c6-b562-dc628bb07824          LGM16l
+#&gt; 9  LGM16l_3Q f3c84060-dbd7-46b4-8bf1-55f3ca4ac228          LGM16l
+#&gt; 10 LGM16l_4Q 9e10340e-64b8-497c-9ee1-37ccac4ae363          LGM16l
+#&gt; 11    LGM38h c1e664f4-ec91-4659-9447-f41863d0ef7c            &lt;NA&gt;
+#&gt; 12 LGM38h_1Q 00ed279a-61bf-4053-b192-46e536345db6          LGM38h
+#&gt; 13 LGM38h_2Q 39ae8e32-d784-448d-ab34-05fa586786e6          LGM38h
+#&gt; 14 LGM38h_3Q fb274afb-2252-4373-89d5-678bc4c836d0          LGM38h
+#&gt; 15 LGM38h_4Q c94a23f6-88d2-4ba7-a9c6-cf33181d28e0          LGM38h
+#&gt; 16    LGM45h de910148-609a-4277-8ebb-4aed7a4d9435            &lt;NA&gt;
+#&gt; 17 LGM45h_2Q 48d7a750-2164-4baf-9606-629f8b72eb5c          LGM45h
+#&gt; 18 LGM45h_3Q 889b6ab7-c0d3-407d-801f-fa3b67a661d8          LGM45h
+#&gt; 19 LGM45h_4Q 7b6d347e-b0c5-42f0-afe8-daa3a572d083          LGM45h
+#&gt; 20    LGM43h 48103da4-00c4-4d51-8f26-613e68a92ed9            &lt;NA&gt;
+#&gt; 21 LGM43h_1Q fbbf1f96-1141-43c6-ba42-9fd0506498eb          LGM43h
+#&gt; 22 LGM43h_2Q 8dd5fd2f-4bb5-49d3-98aa-19c5982a4f69          LGM43h
+#&gt; 23 LGM43h_3Q ed54828a-fc13-4d88-b96a-fd7f2dacfef2          LGM43h
+#&gt; 24 LGM43h_4Q 4259b696-0580-4ef1-a53e-34d08d73f882          LGM43h
+#&gt; 25 LGM45h_1Q f20ea171-74bf-48fd-b377-ef9571a95c12          LGM45h
 #&gt;    plotRelationship
 #&gt; 1              &lt;NA&gt;
 #&gt; 2           subplot
@@ -258,6 +271,8 @@
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

@@ -25,6 +25,9 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="Mt Fyffe example dataset for Veg-X — mtfyffe" />
 
 <meta property="og:description" content="Forest data from five permanent plots from the east coast of South Island (New Zealand).  
@@ -34,6 +37,8 @@ iv) counts of saplings within subplots that fully partition the permanent plot;
 and v) counts of seedlings within height strata within subplots that sample the permanent plot.  
 Two full measurements of the permanent plots are provided. The data set includes six data frames:" />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -56,8 +61,12 @@ Two full measurements of the permanent plots are provided. The data set includes
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -89,6 +98,7 @@ Two full measurements of the permanent plots are provided. The data set includes
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -96,13 +106,15 @@ Two full measurements of the permanent plots are provided. The data set includes
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Mt Fyffe example dataset for Veg-X</h1>
     
+    <div class="hidden name"><code>mtfyffe.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Forest data from five permanent plots from the east coast of South Island (New Zealand).  
 The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; 
@@ -111,6 +123,7 @@ iv) counts of saplings within subplots that fully partition the permanent plot;
 and v) counts of seedlings within height strata within subplots that sample the permanent plot.  
 Two full measurements of the permanent plots are provided. The data set includes six data frames:</p>
     
+    </div>
 
         
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -122,6 +135,7 @@ Two full measurements of the permanent plots are provided. The data set includes
 <li><p>mtfyffe_dia Observations made on individual trees (880 records x 31 variables)</p></li>
 <li><p>mtfyffe_disturbance Observations of disturbance events on plots (9 records x 10 variables)</p></li>
 <li><p>mtfyffe_groundcover Observations of ground cover on plots (50 records x 12 variables)</p></li>
+<li><p>mtfyffe_lookup Lookup table to translate species names</p></li>
 </ul>
     
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
@@ -157,6 +171,8 @@ New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresea
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>

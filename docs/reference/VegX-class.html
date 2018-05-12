@@ -25,12 +25,17 @@
 <link href="../pkgdown.css" rel="stylesheet">
 <script src="../jquery.sticky-kit.min.js"></script>
 <script src="../pkgdown.js"></script>
+
+
+
 <meta property="og:title" content="S4 class for Veg-X documents — VegX-class" />
 
 <meta property="og:description" content="Implements the minimum subset of Veg-X elements needed for importing and combining vegetation data in this package.
 Only main elements of Veg-X are included here as lists (sub-elements are not specified in the class definition).
 Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented." />
 <meta name="twitter:card" content="summary" />
+
+
 <!-- mathjax -->
 <script src='https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML'></script>
 
@@ -53,8 +58,12 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="../index.html">VegX</a>
+      <span class="navbar-brand">
+        <a class="navbar-link" href="../index.html">VegX</a>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.6</span>
+      </span>
     </div>
+
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
         <li>
@@ -86,6 +95,7 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
       <ul class="nav navbar-nav navbar-right">
         
       </ul>
+      
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
@@ -93,22 +103,38 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
       
       </header>
 
-      <div class="row">
+<div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>S4 class for Veg-X documents</h1>
     
+    <div class="hidden name"><code>VegX-class.Rd</code></div>
     </div>
 
+    <div class="ref-description">
     
     <p>Implements the minimum subset of Veg-X elements needed for importing and combining vegetation data in this package.
 Only main elements of Veg-X are included here as lists (sub-elements are not specified in the class definition).
 Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityDetermination') are not yet implemented.</p>
     
+    </div>
 
     <pre class="usage"><span class='co'># S4 method for VegX</span>
 <span class='fu'>summary</span>(<span class='no'>object</span>, <span class='no'>...</span>)</pre>
-        
+    
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>object</th>
+      <td><p>Veg-X object to be summarized</p></td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td><p>Additional parameters (for compatibility)</p></td>
+    </tr>
+    </table>
+    
     <h2 class="hasAnchor" id="methods-by-generic-"><a class="anchor" href="#methods-by-generic-"></a>Methods (by generic)</h2>
 
     <ul>
@@ -147,7 +173,7 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <p><code><a href='newVegX.html'>newVegX</a></code>, <code><a href='showElementTable.html'>showElementTable</a></code></p>
+    <div class='dont-index'><p><code><a href='newVegX.html'>newVegX</a></code>, <code><a href='showElementTable.html'>showElementTable</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
@@ -189,6 +215,7 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
+      <li><a href="#arguments">Arguments</a></li>
       
       <li><a href="#methods-by-generic-">Methods (by generic)</a></li>
 
@@ -215,6 +242,8 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
 
       </footer>
    </div>
+
+  
 
   </body>
 </html>
