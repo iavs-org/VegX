@@ -99,7 +99,7 @@ addPlotGeometries<-function(target, x,
     subPlotNames = as.character(x[[mapping[["subPlotName"]]]])
   }
   shapeFlag = ("shape" %in% names(mapping))
-  if(subPlotFlag) {
+  if(shapeFlag) {
     shapes = as.character(x[[mapping[["shape"]]]])
   }
 
