@@ -5,8 +5,8 @@
 \title{Add surface cover observation records}
 \usage{
 addSurfaceCoverObservations(target, x, mapping, coverMethod,
-  surfaceTypeDefinition, date.format = "\%Y-\%m-\%d", missing.values = c(NA,
-  ""), verbose = TRUE)
+  surfaceTypeDefinition, date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -105,3 +105,4 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addStratumObservations}},
   \code{\link{addTaxonBySiteData}}
 }
+\concept{add functions}

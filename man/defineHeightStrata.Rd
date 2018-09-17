@@ -37,3 +37,4 @@ Height-based strata definition
 Other define strata functions: \code{\link{defineCategoricalStrata}},
   \code{\link{defineMixedStrata}}
 }
+\concept{define strata functions}

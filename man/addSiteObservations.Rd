@@ -6,9 +6,10 @@
 \usage{
 addSiteObservations(target, x, plotObservationMapping,
   soilMeasurementMapping = list(), climateMeasurementMapping = list(),
-  waterBodyMeasurementMapping = list(), soilMeasurementMethods = list(),
-  climateMeasurementMethods = list(), waterBodyMeasurementMethods = list(),
-  date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""), verbose = TRUE)
+  waterBodyMeasurementMapping = list(),
+  soilMeasurementMethods = list(), climateMeasurementMethods = list(),
+  waterBodyMeasurementMethods = list(), date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -91,3 +92,4 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }
+\concept{add functions}

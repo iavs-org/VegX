@@ -52,3 +52,4 @@ strataDef = defineMixedStrata(name = "Recce strata",
 Other define strata functions: \code{\link{defineCategoricalStrata}},
   \code{\link{defineHeightStrata}}
 }
+\concept{define strata functions}

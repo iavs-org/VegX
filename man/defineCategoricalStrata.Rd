@@ -6,7 +6,8 @@
 \usage{
 defineCategoricalStrata(name = "Strata by categories",
   description = "Vegetation categorical strata", citationString = "",
-  DOI = "", strataNames = c("s1", "s2", "s3"), strataDefinitions = NULL)
+  DOI = "", strataNames = c("s1", "s2", "s3"),
+  strataDefinitions = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -31,3 +32,4 @@ Strata definition by simple category
 Other define strata functions: \code{\link{defineHeightStrata}},
   \code{\link{defineMixedStrata}}
 }
+\concept{define strata functions}

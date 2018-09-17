@@ -40,3 +40,4 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addStratumObservations}},
   \code{\link{addSurfaceCoverObservations}}
 }
+\concept{add functions}

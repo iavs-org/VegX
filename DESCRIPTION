@@ -10,6 +10,6 @@ License: GPL (>= 2)
 Encoding: UTF-8
 Imports: sp, uuid, XML, methods
 LazyData: true
-RoxygenNote: 6.0.1
+RoxygenNote: 6.1.0
 Suggests: knitr, rmarkdown
 VignetteBuilder: knitr

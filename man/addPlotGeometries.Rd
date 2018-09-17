@@ -80,3 +80,4 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }
+\concept{add functions}

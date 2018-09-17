@@ -43,3 +43,4 @@ Other define measurement functions: \code{\link{defineOrdinalScaleMethod}},
   \code{\link{defineQuantitativeScaleMethod}},
   \code{\link{predefinedMeasurementMethod}}
 }
+\concept{define measurement functions}

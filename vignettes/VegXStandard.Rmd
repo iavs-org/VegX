@@ -308,6 +308,7 @@ organismIdentityID  | A reference to a specific organismIdentity by ID. | 0..1 |
 birthDate | Date of birth recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | No |
 relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | 0..n | No |
 relativePlotPosition | Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan. | 0..1 | No |
+absolutePosition | Information regarding the location of an organism on the earth's surface. This position is assumed to be constant in time during the organism lifespan. | 0..1 | No |
 individualOrganismNote | For specifying additional comments or explanations pertaining to the individual organism. | 0..n | No |
 
 

@@ -5,7 +5,8 @@
 \title{Add stratum observation records}
 \usage{
 addStratumObservations(target, x, mapping, methods, stratumDefinition,
-  date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""), verbose = TRUE)
+  date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""),
+  verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -60,7 +61,7 @@ mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
-                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation â€“ Field protocols. Landcare Research, Lincoln.",
                    codes = c("P","1","2","3", "4", "5", "6"),
                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
                    breaks = c(0, 1, 5, 25, 50, 75, 100),
@@ -73,7 +74,7 @@ heightMethod = predefinedMeasurementMethod("Stratum height/m")
 # Define strata
 strataDef = defineMixedStrata(name = "Recce strata",
                               description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation â€“ Field protocols. Landcare Research, Lincoln.",
                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
@@ -105,3 +106,4 @@ Other add functions: \code{\link{addAggregateOrganismObservations}},
   \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }
+\concept{add functions}

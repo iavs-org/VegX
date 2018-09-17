@@ -65,7 +65,7 @@ mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
-                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation â€“ Field protocols. Landcare Research, Lincoln.",
                    codes = c("P","1","2","3", "4", "5", "6"),
                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
                    breaks = c(0, 1, 5, 25, 50, 75, 100),
@@ -75,7 +75,7 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 # Define strata
 strataDef = defineMixedStrata(name = "Recce strata",
                               description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation â€“ Field protocols. Landcare Research, Lincoln.",
                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
@@ -131,3 +131,4 @@ Other add functions: \code{\link{addCommunityObservations}},
   \code{\link{addSurfaceCoverObservations}},
   \code{\link{addTaxonBySiteData}}
 }
+\concept{add functions}

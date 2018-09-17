@@ -4,9 +4,9 @@
 \alias{setOriginalIdentificationConcepts}
 \title{Sets original identification taxon concepts}
 \usage{
-setOriginalIdentificationConcepts(target, citationStringAll = "", x = NULL,
-  mapping = list(), date.format = "\%Y-\%m-\%d", missing.values = c(NA,
-  ""), verbose = TRUE)
+setOriginalIdentificationConcepts(target, citationStringAll = "",
+  x = NULL, mapping = list(), date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, ""), verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -49,7 +49,7 @@ mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
-                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation â€“ Field protocols. Landcare Research, Lincoln.",
                    codes = c("P","1","2","3", "4", "5", "6"),
                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
                    breaks = c(0, 1, 5, 25, 50, 75, 100),
@@ -57,7 +57,7 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
 strataDef = defineMixedStrata(name = "Recce strata",
                               description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation â€“ Field protocols. Landcare Research, Lincoln.",
                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                               heightStrataNames = paste0("Tier ",1:6),
                               categoryStrataNames = "Tier 7",
@@ -80,3 +80,4 @@ Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X -
 \seealso{
 Other organism identity functions: \code{\link{setPreferredTaxonNomenclature}}
 }
+\concept{organism identity functions}

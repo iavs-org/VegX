@@ -45,3 +45,4 @@ Other define measurement functions: \code{\link{defineOrdinalScaleMethod}},
   \code{\link{defineQualitativeScaleMethod}},
   \code{\link{defineQuantitativeScaleMethod}}
 }
+\concept{define measurement functions}
