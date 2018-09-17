@@ -55,6 +55,135 @@
                     </xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
+            <xsd:element name="absolutePlotPosition" minOccurs="0" maxOccurs="1">
+                <xsd:annotation>
+                    <xsd:documentation>Information regarding the location of an organism on the earth's surface</xsd:documentation>
+                </xsd:annotation>
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="horizontalCoordinates" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>Horizontal location of an item on the Earth's surface. To avoid ambiguity there should be only one coordinate pair for an individuum per measurement. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="coordinates">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value specifying easting or longitude of a point</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="valueX" type="xsd:string" />
+                                                <xsd:element name="valueY" type="xsd:string" />
+                                                <xsd:element name="attributeID" type="xsd:string">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Specifying units and methods. Typical units are: Decimal degrees like 12.993343 S, or -12.993343 or UTM coordinates like 11N 345567. Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="spatialReference" type="xsd:string">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Reference system for the coordinates. Ideally a Proj.4 string or EPSG code (see http://spatialreference.org/). Could also be an unambiguous name like 'NAD27(CGQ77) / UTM zone 21N' instead of EPSG:2035. The spatial reference typically used by satellite navigation systems today is EPSG:4326.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="locationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Measure or estimate of accuracy for the coordinates</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="locationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>The date when the coordinates have been assessed or measured. This allows for multiple measurements.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="locationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+                                    <xsd:element name="locationSources" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Optionally, maps, gazetteers or other resources used to georeference the locality. The content of this concept is meant to be specific enough to allow anyone in the future to use the same resource to georeference the same locality. Example: "USGS 1:24000 Florence Montana Quad".</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="locationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="verticalCoordinates" minOccurs="0" maxOccurs="unbounded">
+                            <xsd:annotation>
+                                <xsd:documentation>Elevation of the item in respect to some vertical datum (such as the mean sea level or an ellipsoid).</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="elevation">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value specifying the elevation of the item in respect to some vertical datum (such as the mean sea level or an elliposid).</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="value" type="xsd:decimal">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Elevation in meters</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="attributeID" type="xsd:string">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Specifying units and methods. Typically the measures are in meters and relate to the mean sea level or to base heights of an ellipsoid of the Earth. Typical methods are barometric measurements or the interpretation of a map (element elevationSources).</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="elevationSources" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Maps or other resources used to determin the elevation.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="elevationAccuracy" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Measure or estimate of accuracy for the elevation</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="elevationInPlot" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Point of reference in the plot. This could be the uppermost or lowest point or an average or the plot origin as specified in geometry.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="elevationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>The date when the elevation has been assessed or measured. This allows for multiple measurements.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="elevationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Party who took the measurement or assessed the value</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="elevationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Any notes relating to this elevation value</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="markers" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about markers (like tags) that help locating the organism.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="authorLocation" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation xml:lang="en">Descriptive note about the original location described by author.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="locationNarrative" type="xsd:string" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation source="VegBank" xml:lang="en">Text description that provides information useful for relocation.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                    </xsd:sequence>
+                </xsd:complexType>
+            </xsd:element>			
             <xsd:element name="individualOrganismNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">For specifying additional comments or explanations pertaining to the individual organism.</xsd:documentation>
