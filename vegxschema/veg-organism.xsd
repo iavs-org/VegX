@@ -37,22 +37,121 @@
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="relativeX" type="xsd:decimal">
+                        <xsd:element name="relativeX" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related item position in m. The user will enter the relative position of related item with respect to the plot origin (in meters) with the x-axis defined by the plot azimuth. </xsd:documentation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The X-coordinate of the related item position in m. The user will enter the relative position of related item with respect to the plot origin. </xsd:documentation>
                             </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the distance from the plot origin</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Specifying units and methods</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
                         </xsd:element>
-                        <xsd:element name="relativeY" type="xsd:decimal">
+                        <xsd:element name="relativeY" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot origin (in meters) with the y-axis defined by the plot azimuth. </xsd:documentation>
+                                <xsd:documentation source="VegBank" xml:lang="en">The Y-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot origin. </xsd:documentation>
                             </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the distance from the plot origin</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Specifying units and methods</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
                         </xsd:element>
-                        <xsd:element name="relativeZ" type="xsd:decimal" minOccurs="0">
+                        <xsd:element name="relativeZ" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">The Z-coordinate of the relatedSpatialItem position in m. The user will enter the relative position of relatedSpatialItems with respect to the plot elevation (in meters). </xsd:documentation>
+                                <xsd:documentation xml:lang="en">The Z-coordinate of the relatedSpatialItem position. The user will enter the relative position of relatedSpatialItems with respect to the elevation at the plot origin. </xsd:documentation>
                             </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the distance from the plot origin</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Specifying units and methods</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
                         </xsd:element>
-                    </xsd:sequence>
+                        <xsd:element name="quadrant" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM)</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the quadrant</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Division details like orientation of the quadrants</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="distanceFromOrigin" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Distance from the plot origin</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the distance from the plot origin</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Specifying units and methods</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="angleFromOrigin" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>Angle relative to the plot origin</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the angle relative to the plot origin</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Specifying methods such as orientation</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+					</xsd:sequence>
                 </xsd:complexType>
             </xsd:element>
             <xsd:element name="absolutePosition" minOccurs="0" maxOccurs="1">
