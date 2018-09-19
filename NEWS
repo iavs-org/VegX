@@ -6,7 +6,7 @@ __Version history__
 
 _Version 0.6.7, July 2018.
 1. Bug correction in 'addPlotGeometries' (reported by F. Jansen)
-2. New element 'absolutePosition' added to element 'individualOrganism' of VegX schema.
+2. Redefinition of schema elements for individual organisms (mainly location)
 
 _Version 0.6.6, May 2018.
 1. Cleaning for CRAN (check).

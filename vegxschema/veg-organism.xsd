@@ -3,7 +3,7 @@
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.0" />
     <xsd:complexType name="IndividualOrganismType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
+            <xsd:documentation xml:lang="en">An identified organism recorded during one or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotID" type="xsd:string">
@@ -28,35 +28,40 @@
             </xsd:element>
             <xsd:element name="relatedIndividual" type="misc:relatedItemType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">An individual organism may be related or connected in some way to other individuals. For example fused stems, epiphytic relationships or paired observations. Spatial relationships should be specified in 'location'.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="location" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Information regarding the location of an organism on the earth's surface (absolute or relative to the plot origin or relativ to a relatedIndividual</xsd:documentation>
+                    <xsd:documentation>Information regarding the location of an organism on the earth's surface (absolute or relative to the plot origin or relative to a related individual (in this case 'relatedIndividual' should be specified).</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="horizontalCoordinates" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="horizontalLocation" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
-                                <xsd:documentation>Horizontal location of an item on the Earth's surface (absolue or relative to a plot origin or relatedIndividual). To avoid ambiguity there should be only one coordinate pair for an individuum per measurement. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
+                                <xsd:documentation>Horizontal location of an item on the Earth's surface (absolute or relative to a reference point such as the plot origin or a related individual). To avoid ambiguity there should be only one coordinate pair for an individual. However, there may be multiple measurements by different parties or at different times that can be accommodated in the scheme.</xsd:documentation>
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:sequence>
-                                    <xsd:element name="coordinates">
+                                    <xsd:element name="xyCoordinates">
                                         <xsd:annotation>
-                                            <xsd:documentation>Values specifying the coordinates of an item along with information about units and methods</xsd:documentation>
+                                            <xsd:documentation>Values specifying the XY coordinates of an item along with information about units and methods</xsd:documentation>
                                         </xsd:annotation>
                                         <xsd:complexType>
                                             <xsd:sequence>
                                                 <xsd:element name="valueX" type="xsd:string">
                                                     <xsd:annotation>
-                                                        <xsd:documentation>Value for X coordinates (absolute or in relation to plot origin or relatedIndividuum)</xsd:documentation>
+                                                        <xsd:documentation>Value for X coordinates (absolute or in relation to plot origin or related individual)</xsd:documentation>
                                                     </xsd:annotation>
                                                 </xsd:element>
                                                 <xsd:element name="valueY" type="xsd:string">
                                                     <xsd:annotation>
-                                                        <xsd:documentation>Value for Y coordinates (absolute or in relation to plot origin or relatedIndividuum)</xsd:documentation>
+                                                        <xsd:documentation>Value for Y coordinates (absolute or in relation to plot origin or related individual)</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="relatedIndividualID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation xml:lang="en">A reference to a spatially related individual to be used as reference point if coordinates are relative to this individual. This would be the item identifier elsewhere in the schema in most cases.</xsd:documentation>
                                                     </xsd:annotation>
                                                 </xsd:element>
                                                 <xsd:element name="attributeID" type="xsd:string">
@@ -77,6 +82,82 @@
                                             </xsd:sequence>
                                         </xsd:complexType>
                                     </xsd:element>
+                                    <xsd:element name="polarCoordinates">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Values specifying the polar coordinates relative to a reference point (normally the plot origin but could be a related individual) along with information about units and methods</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="direction" minOccurs="0">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Direction of the item as seen from a reference point(normally the plot origin)</xsd:documentation>
+                                                    </xsd:annotation>
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>Value for the direction, typically expressed as an angle relative to north</xsd:documentation>
+                                                                </xsd:annotation>
+                                                            </xsd:element>
+                                                            <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>Specifying units and methods</xsd:documentation>
+                                                                </xsd:annotation>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="distance" minOccurs="0">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Distance from a reference point (normally the plot origin)</xsd:documentation>
+                                                    </xsd:annotation>
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="value" type="xsd:decimal" minOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>Value for the distance</xsd:documentation>
+                                                                </xsd:annotation>
+                                                            </xsd:element>
+                                                            <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                                                <xsd:annotation>
+                                                                    <xsd:documentation>Specifying units and methods</xsd:documentation>
+                                                                </xsd:annotation>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="relatedIndividualID" type="xsd:string" minOccurs="0" maxOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation xml:lang="en">A reference to a spatially related individual to be used as reference point if polar coordinates are relative to this individual. This would be the item identifier elsewhere in the schema in most cases.</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                    <xsd:element name="markers" type="xsd:string" minOccurs="0" maxOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Information about markers (like tags) that help locating the organism.</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="quadrant" minOccurs="0">
+                                        <xsd:annotation>
+                                            <xsd:documentation>One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM)</xsd:documentation>
+                                        </xsd:annotation>
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="value" type="xsd:string" minOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Value for the quadrant</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                                <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                                    <xsd:annotation>
+                                                        <xsd:documentation>Division details like orientation of the quadrants</xsd:documentation>
+                                                    </xsd:annotation>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>                                    
                                     <xsd:element name="locationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
                                         <xsd:annotation>
                                             <xsd:documentation>The date when the coordinates have been assessed or measured. This allows for multiple measurements.</xsd:documentation>
@@ -92,7 +173,7 @@
                                 </xsd:sequence>
                             </xsd:complexType>
                         </xsd:element>
-                        <xsd:element name="verticalCoordinates" minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="verticalLocation" minOccurs="0" maxOccurs="unbounded">
                             <xsd:annotation>
                                 <xsd:documentation>Elevation of the item in respect to some vertical datum (such as the mean sea level or an ellipsoid) or in relation to the plot origin or to a relatedIndividual.</xsd:documentation>
                             </xsd:annotation>
@@ -145,78 +226,6 @@
                                     <xsd:element name="elevationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                                         <xsd:annotation>
                                             <xsd:documentation>Any notes relating to this elevation value</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                        <xsd:element name="markers" type="xsd:string" minOccurs="0" maxOccurs="1">
-                            <xsd:annotation>
-                                <xsd:documentation>Information about markers (like tags) that help locating the organism.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="authorLocation" type="xsd:string" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Descriptive note about the original location described by author.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="locationNarrative" type="xsd:string" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation source="VegBank" xml:lang="en">Text description that provides information useful for relocation.</xsd:documentation>
-                            </xsd:annotation>
-                        </xsd:element>
-                        <xsd:element name="quadrant" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation>One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM)</xsd:documentation>
-                            </xsd:annotation>
-                            <xsd:complexType>
-                                <xsd:sequence>
-                                    <xsd:element name="value" type="xsd:string" minOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Value for the quadrant</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Division details like orientation of the quadrants</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                        <xsd:element name="directionFromPlotOrigin" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation>Direction of the item as seen from the plot origin</xsd:documentation>
-                            </xsd:annotation>
-                            <xsd:complexType>
-                                <xsd:sequence>
-                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Value for the direction, typically expressed as an angle relative to north</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Specifying units and methods</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                </xsd:sequence>
-                            </xsd:complexType>
-                        </xsd:element>
-                        <xsd:element name="distanceFromOrigin" minOccurs="0">
-                            <xsd:annotation>
-                                <xsd:documentation>Distance from the plot origin</xsd:documentation>
-                            </xsd:annotation>
-                            <xsd:complexType>
-                                <xsd:sequence>
-                                    <xsd:element name="value" type="xsd:decimal" minOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Value for the distance from the plot origin</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Specifying units and methods</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                 </xsd:sequence>

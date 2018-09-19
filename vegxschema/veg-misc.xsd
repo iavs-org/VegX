@@ -171,7 +171,7 @@
     </xsd:complexType>
     <xsd:complexType name="relatedItemType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals or paired observations. </xsd:documentation>
+            <xsd:documentation xml:lang="en">An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or paired observations. </xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="relatedItemID" type="xsd:string">
@@ -181,12 +181,7 @@
             </xsd:element>
             <xsd:element name="itemRelationship" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">The type of relationship e.g. relationships such as fused stems, epiphytic, forked stems, epicormic stems, mapped individuals. </xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
-            <xsd:element name="relativeSpatialCoordinate" type="relativeSpatialCoordinateType" minOccurs="0">
-                <xsd:annotation>
-                    <xsd:documentation>Two related items may have their relative positions described in geometric space using the relative position with respect to the point of origin for a referenced plot or each other.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">The type of relationship e.g. relationships such as fused stems, epiphytic, forked stems, epicormic stems. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
