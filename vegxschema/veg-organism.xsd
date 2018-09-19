@@ -133,31 +133,7 @@
                                                 </xsd:element>
                                             </xsd:sequence>
                                         </xsd:complexType>
-                                    </xsd:element>
-                                    <xsd:element name="markers" type="xsd:string" minOccurs="0" maxOccurs="1">
-                                        <xsd:annotation>
-                                            <xsd:documentation>Information about markers (like tags) that help locating the organism.</xsd:documentation>
-                                        </xsd:annotation>
-                                    </xsd:element>
-                                    <xsd:element name="quadrant" minOccurs="0">
-                                        <xsd:annotation>
-                                            <xsd:documentation>One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM)</xsd:documentation>
-                                        </xsd:annotation>
-                                        <xsd:complexType>
-                                            <xsd:sequence>
-                                                <xsd:element name="value" type="xsd:string" minOccurs="1">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Value for the quadrant</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                                <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
-                                                    <xsd:annotation>
-                                                        <xsd:documentation>Division details like orientation of the quadrants</xsd:documentation>
-                                                    </xsd:annotation>
-                                                </xsd:element>
-                                            </xsd:sequence>
-                                        </xsd:complexType>
-                                    </xsd:element>                                    
+                                    </xsd:element>                               
                                     <xsd:element name="locationDate" type="xsd:date" minOccurs="0" maxOccurs="1">
                                         <xsd:annotation>
                                             <xsd:documentation>The date when the coordinates have been assessed or measured. This allows for multiple measurements.</xsd:documentation>
@@ -226,6 +202,30 @@
                                     <xsd:element name="elevationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded">
                                         <xsd:annotation>
                                             <xsd:documentation>Any notes relating to this elevation value</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="markers" type="xsd:string" minOccurs="0" maxOccurs="1">
+                            <xsd:annotation>
+                                <xsd:documentation>Information about markers (like tags) that help locating the organism.</xsd:documentation>
+                            </xsd:annotation>
+                        </xsd:element>
+                        <xsd:element name="quadrant" minOccurs="0">
+                            <xsd:annotation>
+                                <xsd:documentation>One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM)</xsd:documentation>
+                            </xsd:annotation>
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="value" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Value for the quadrant</xsd:documentation>
+                                        </xsd:annotation>
+                                    </xsd:element>
+                                    <xsd:element name="attributeID" type="xsd:string" minOccurs="1">
+                                        <xsd:annotation>
+                                            <xsd:documentation>Division details like orientation of the quadrants</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                 </xsd:sequence>
