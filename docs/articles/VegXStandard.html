@@ -75,7 +75,7 @@
       <h1>The Veg-X exchange standard</h1>
                         <h4 class="author">IAVS Ecoinformatics Working Group</h4>
             
-            <h4 class="date">2018-09-17</h4>
+            <h4 class="date">2018-09-20</h4>
       
       
       <div class="hidden name"><code>VegXStandard.Rmd</code></div>
@@ -367,8 +367,8 @@
 <h3 class="hasAnchor">
 <a href="#element-plot" class="anchor"></a>Element <em>plot</em>
 </h3>
-<p>A <em>plot</em> is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</p>
-<p>The element <em>plot</em> records the properties of the vegetation plot that are independent of time. The <strong>Veg-X standard</strong> allows storing globally unique identifiers for <em>plot</em> elements, but the <strong>VegX package</strong> uses its own set of IDs for internal consistency. From the perspective of the provider of a single data set, plots can be uniquely identified by their sub-element <em>plotName</em>. However, when merging data sets <em>plotUniqueIdentifier</em> from different sources, helps distinguishing plots that may have the same name but come from different sampled areas. Even though the standard allows different kinds of spatial relationships between plots to be specified, the R package only enables parent-child relationships to be specified.</p>
+<p>A <em>plot</em> is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of relationship.</p>
+<p>The element <em>plot</em> records the properties of the vegetation plot that are independent of time. The <strong>Veg-X standard</strong> allows storing globally unique identifiers for <em>plot</em> elements, but the <strong>VegX package</strong> uses its own set of IDs for internal consistency. From the perspective of the provider of a single data set, plots can be uniquely identified by their sub-element <em>plotName</em>. However, when merging data sets <em>plotUniqueIdentifier</em> from different sources, helps distinguishing plots that may have the same name but come from different sampled areas. Even though the standard allows different kinds of spatial relationships between plots to be specified, currently the R package only enables parent-child relationships to be specified.</p>
 <table class="table">
 <colgroup>
 <col width="30%">
@@ -421,7 +421,7 @@
 </tr>
 <tr class="odd">
 <td>location</td>
-<td>Information regarding the placement of the plot on earth’s surface.</td>
+<td>Information regarding the location of the plot on earth’s surface.</td>
 <td>0..1</td>
 <td>Partial</td>
 </tr>
@@ -445,12 +445,12 @@
 </tr>
 </tbody>
 </table>
-<p>Sub-elements <em>location</em> and <em>geometry</em> are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe their sub-elements in some detail.</p>
+<p>Sub-elements <em>location</em> and <em>geometry</em> are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe these child elements in some detail.</p>
 <div id="sub-element-location" class="section level4">
 <h4 class="hasAnchor">
 <a href="#sub-element-location" class="anchor"></a>Sub-element <em>location</em>
 </h4>
-<p>Sub-elements <em>horizontalCoordinates</em> are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the <strong>VegX R package</strong> follows this rule. However, the Veg-X schema can accomodate multiple measurements made by different parties or at different times. The same applies to <em>verticalCoordinates</em>, <em>locationInWaterBody</em> and <em>gridPosition</em> (the later two not included in the package).</p>
+<p><em>Location</em> stores information regarding the location of a plot on the earth surface. Child elements <em>horizontalCoordinates</em> are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the <strong>VegX R package</strong> follows this rule. However, the Veg-X schema can accomodate multiple coordinate measurements made by different parties or at different times. The same applies to <em>verticalCoordinates</em>, <em>locationInWaterBody</em> and <em>gridPosition</em> (the later two not covered in the R package).</p>
 <table class="table">
 <colgroup>
 <col width="30%">
@@ -467,7 +467,7 @@
 <tbody>
 <tr class="odd">
 <td>horizontalCoordinates</td>
-<td>Horizontal location of a plot on the Earth’s surface (i.e. x-y coordinates in a spatial reference system).</td>
+<td>Horizontal coordinates of a plot on the Earth’s surface (i.e. x-y coordinates in a spatial reference system).</td>
 <td>0..n</td>
 <td>Partial</td>
 </tr>
@@ -1128,23 +1128,17 @@
 </tr>
 <tr class="odd">
 <td>relatedIndividual</td>
-<td>An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals.</td>
+<td>An item may be related or connected in some way to other items. For example fused stems or epiphytic relationships.</td>
 <td>0..n</td>
 <td>No</td>
 </tr>
 <tr class="even">
-<td>relativePlotPosition</td>
-<td>Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan.</td>
+<td>location</td>
+<td>Information regarding the location of an organism on the earth’s surface, either absolute or relative to the plot origin or to a related individual.</td>
 <td>0..1</td>
 <td>No</td>
 </tr>
 <tr class="odd">
-<td>absolutePosition</td>
-<td>Information regarding the location of an organism on the earth’s surface. This position is assumed to be constant in time during the organism lifespan.</td>
-<td>0..1</td>
-<td>No</td>
-</tr>
-<tr class="even">
 <td>individualOrganismNote</td>
 <td>For specifying additional comments or explanations pertaining to the individual organism.</td>
 <td>0..n</td>
@@ -1152,6 +1146,53 @@
 </tr>
 </tbody>
 </table>
+<p>While <em>relatedIndividual</em> is used to link to other organisms in an arbitrary relationship (e.g. epiphytes or fused stems), quantitative spatial relationships should be specified in <em>location</em>, as discussed below.</p>
+<div id="sub-element-location-1" class="section level4">
+<h4 class="hasAnchor">
+<a href="#sub-element-location-1" class="anchor"></a>Sub-element <em>location</em>
+</h4>
+<p>The <em>location</em> of an organism is assumed to be constant in time during the organism lifespan. Sub-elements <em>horizontalLocation</em> are used to store x-y (or polar) coordinates of organism, either absolute or in relation to the plot origin or a related organism. To avoid ambiguity there should be only one coordinate pair for an organism. However, the Veg-X schema can accomodate multiple measurements made by different parties or at different times. The R package does not yet support <em>location</em> elements for organisms.</p>
+<table class="table">
+<colgroup>
+<col width="30%">
+<col width="60%">
+<col width="4%">
+<col width="4%">
+</colgroup>
+<thead><tr class="header">
+<th>Sub-element</th>
+<th>Description</th>
+<th>#</th>
+<th>R</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td>horizontalLocation</td>
+<td>Horizontal location of an organism on the Earth’s surface (absolute or relative to a reference point such as the plot origin or a related individual).</td>
+<td>0..n</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>verticalLocation</td>
+<td>Elevation of the item in respect to some vertical datum (such as the mean sea level or an ellipsoid) or in relation to the plot origin or to a relatedIndividual.</td>
+<td>0..n</td>
+<td>No</td>
+</tr>
+<tr class="odd">
+<td>markers</td>
+<td>Information about markers (like tags) that help locating the organism.</td>
+<td>0..1</td>
+<td>No</td>
+</tr>
+<tr class="even">
+<td>quadrant</td>
+<td>One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM)</td>
+<td>0..n</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 <div id="element-individualorganismobservation" class="section level3">
 <h3 class="hasAnchor">
