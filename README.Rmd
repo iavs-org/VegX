@@ -22,7 +22,7 @@ Please read article [The Veg-X exchange standard](https://miquelcaceres.github.i
 
 ### XML schema
 
-Veg-X is written as an **XML schema**, which is a definition of user-defined tags to structure textual information in order to create self-describing datasets. XML (Extensible Markup Language) is an open standard, and XML files are both machine and human-readable (they are stored in plain-text ASCII format). Visit folder [vegxschema](https://github.com/miquelcaceres/VegX/tree/master/vegxschema) to see the XML schema representation of the standard. This schema should be used to evaluate whether a given Veg-X XML document conforms to schema definitions.
+Veg-X is written as an **XML schema**, which is a definition of user-defined tags to structure textual information in order to create self-describing datasets. XML (Extensible Markup Language) is an open standard, and XML files are both machine and human-readable (they are stored in plain-text ASCII format). Visit folder [vegxschema](https://github.com/miquelcaceres/VegX/tree/master/vegxschema) to see the XML schema representation of the standard. This schema should be used to evaluate whether a given Veg-X XML document conforms to the definitions and data structure of the standard.
 
 ## An R package to use the Veg-X standard
 
@@ -43,7 +43,7 @@ Please refer to [How to use the VegX package](https://miquelcaceres.github.io/Ve
 
 ### Acknowledgements
 
-Developments endorsed and funded by the International [Association for Vegetation Science](http://iavs.org/)
+Developments endorsed and funded by the [International Association for Vegetation Science](http://iavs.org/)
 
 **Veg-X standard development**:
 
