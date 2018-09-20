@@ -38,8 +38,8 @@ standard, and XML files are both machine and human-readable (they are
 stored in plain-text ASCII format). Visit folder
 [vegxschema](https://github.com/miquelcaceres/VegX/tree/master/vegxschema)
 to see the XML schema representation of the standard. This schema should
-be used to evaluate whether a given Veg-X XML document conforms to
-schema definitions.
+be used to evaluate whether a given Veg-X XML document conforms to the
+definitions and data structure of the standard.
 
 ## An R package to use the Veg-X standard
 
@@ -70,7 +70,7 @@ to learn how to use the VegX package.
 
 ### Acknowledgements
 
-Developments endorsed and funded by the International [Association for
+Developments endorsed and funded by the [International Association for
 Vegetation Science](http://iavs.org/)
 
 **Veg-X standard development**:
