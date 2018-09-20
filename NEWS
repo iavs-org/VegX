@@ -7,6 +7,7 @@ __Version history__
 _Version 0.6.7, July 2018.
 1. Bug correction in 'addPlotGeometries' (reported by F. Jansen)
 2. Redefinition of schema elements for individual organisms (mainly location)
+3. VegX schema version changed to '2.0.1'
 
 _Version 0.6.6, May 2018.
 1. Cleaning for CRAN (check).

@@ -1,7 +1,7 @@
 #' Write VegX XML file
 #'
 #' Assembles and writes an XML file on the disk
-#' following the Veg-X XML schema standard (ver 2.0.0)
+#' following the Veg-X XML schema standard (ver 2.0.1)
 #'
 #' @param x an object of class \code{\linkS4class{VegX}}
 #' @param file the file name to be written

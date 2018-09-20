@@ -125,9 +125,9 @@ documentCitationID        | A link, by ID, to the citation of a document describ
 
 ### Element *plot*
 
-A *plot* is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links. 
+A *plot* is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of relationship. 
 
-The element *plot* records the properties of the vegetation plot that are independent of time. The **Veg-X standard** allows storing globally unique identifiers for *plot* elements, but the **VegX package** uses its own set of IDs for internal consistency. From the perspective of the provider of a single data set, plots can be uniquely identified by their sub-element *plotName*. However, when merging data sets *plotUniqueIdentifier* from different sources, helps distinguishing plots that may have the same name but come from different sampled areas. Even though the standard allows  different kinds of spatial relationships between plots to be specified, the R package only enables  parent-child relationships to be specified.
+The element *plot* records the properties of the vegetation plot that are independent of time. The **Veg-X standard** allows storing globally unique identifiers for *plot* elements, but the **VegX package** uses its own set of IDs for internal consistency. From the perspective of the provider of a single data set, plots can be uniquely identified by their sub-element *plotName*. However, when merging data sets *plotUniqueIdentifier* from different sources, helps distinguishing plots that may have the same name but come from different sampled areas. Even though the standard allows different kinds of spatial relationships between plots to be specified, currently the R package only enables parent-child relationships to be specified.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
@@ -137,20 +137,20 @@ relatedPlot              | A plot may be related spatially to other plots in ord
 placementMethod | Strategy followed when placing this particular plot. Useful for example if different sampling strategies have been followed within one project. | 0..1 | No |
 placementPartyID | A link to a party that participated in the establishment of the plot, by ID. | 0..n | Yes |
 placementNote | Additional comments or explanations regarding plot placement. | 0..n | No |
-location | Information regarding the placement of the plot on earth's surface. | 0..1 | Partial |
+location | Information regarding the location of the plot on earth's surface. | 0..1 | Partial |
 geometry | Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as the plot origin for location. | 0..1 | Partial |
 topography | Information regarding the shape and features of the surface on which the plot was placed (e.g. aspect, slope, ...). | 0..1 | Yes |
 parentMaterial | Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. | 0..n | No |
 
-Sub-elements *location* and *geometry* are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe their sub-elements in some detail.
+Sub-elements *location* and *geometry* are specially important, as they contain the description of plot location and shape, respectively. For this reason we describe these child elements in some detail.
 
 #### Sub-element *location*
 
-Sub-elements *horizontalCoordinates* are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the **VegX R package** follows this rule. However, the Veg-X schema can accomodate multiple measurements made by different parties or at different times. The same applies to *verticalCoordinates*, *locationInWaterBody* and *gridPosition* (the later two not included in the package).
+*Location* stores information regarding the location of a plot on the earth surface. Child elements *horizontalCoordinates* are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the **VegX R package** follows this rule. However, the Veg-X schema can accomodate multiple coordinate measurements made by different parties or at different times. The same applies to *verticalCoordinates*, *locationInWaterBody* and *gridPosition* (the later two not covered in the R package).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
-horizontalCoordinates     | Horizontal location of a plot on the Earth's surface (i.e. x-y coordinates in a spatial reference system).| 0..n | Partial |
+horizontalCoordinates     | Horizontal coordinates of a plot on the Earth's surface (i.e. x-y coordinates in a spatial reference system).| 0..n | Partial |
 verticalCoordinates | Elevation of the plot in respect to some vertical datum (such as the mean sea level or an elliposid). | 0..n | Partial |
 markers | Information about markers (like magnetic markers or wooden pegs) that help locating the plot. There should also be a description about where in the plot the markers are found (for example in the corners or in the centre). | 0..1 | No |
 locationInWaterBody | Location in respect to a water surface or shoreline. | 0..n | No |
@@ -306,10 +306,22 @@ plotID                   | A reference to a specific plot by the plot ID.	 | 1 |
 individualOrganismLabel      | A label that is associated with an individual (e.g. a numerical tree tag). | 1 | Yes |
 organismIdentityID  | A reference to a specific organismIdentity by ID. | 0..1 | Yes |
 birthDate | Date of birth recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | No |
-relatedIndividual | An item may be related or connected in some way to other items. For example fused stems, epiphytic relationships or mapped individuals. | 0..n | No |
-relativePlotPosition | Position, relative to the plot origin, of the organism within the plot. This position is assumed to be constant in time during the organism lifespan. | 0..1 | No |
-absolutePosition | Information regarding the location of an organism on the earth's surface. This position is assumed to be constant in time during the organism lifespan. | 0..1 | No |
+relatedIndividual | An item may be related or connected in some way to other items. For example fused stems or epiphytic relationships. | 0..n | No |
+location | Information regarding the location of an organism on the earth's surface, either absolute or relative to the plot origin or to a related individual. | 0..1 | No |
 individualOrganismNote | For specifying additional comments or explanations pertaining to the individual organism. | 0..n | No |
+
+While *relatedIndividual* is used to link to other organisms in an arbitrary relationship (e.g. epiphytes or fused stems), quantitative spatial relationships should be specified in *location*, as discussed below.
+
+#### Sub-element *location*
+
+The *location* of an organism is assumed to be constant in time during the organism lifespan. Sub-elements *horizontalLocation* are used to store x-y (or polar) coordinates of organism, either absolute or in relation to the plot origin or a related organism. To avoid ambiguity there should be only one coordinate pair for an organism. However, the Veg-X schema can accomodate multiple measurements made by different parties or at different times. The R package does not yet support *location* elements for organisms.
+
+Sub-element               | Description                                        |  #  |  R  |
+------------------------- | -------------------------------------------------- | --- | --- |
+horizontalLocation     | Horizontal location of an organism on the Earth's surface (absolute or relative to a reference point such as the plot origin or a related individual). | 0..n | No |
+verticalLocation     | Elevation of the item in respect to some vertical datum (such as the mean sea level or an ellipsoid) or in relation to the plot origin or to a relatedIndividual. | 0..n | No |
+markers | Information about markers (like tags) that help locating the organism. | 0..1 | No |
+quadrant | One out of four quadrats such as those used in Point-Centred Quarter Method (PCQM) | 0..n | No |
 
 
 ### Element *individualOrganismObservation*

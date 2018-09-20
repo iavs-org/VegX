@@ -7,7 +7,7 @@
 readVegXML(file, verbose = TRUE)
 }
 \arguments{
-\item{file}{the filename of an XML file following the Veg-X standard (ver. 2.0.0)}
+\item{file}{the filename of an XML file following the Veg-X standard (ver. 2.0.1)}
 
 \item{verbose}{A boolean flag to indicate console output of the reading process.}
 }

@@ -5,7 +5,7 @@ Version: 0.6.7
 Authors@R: c(
 	person('Miquel', 'De Caceres', role=c('aut','cre'),
 	email='miquelcaceres@gmail.com'))
-Description: Functions to import, integrate, harmonize and export vegetation data using the VegX standard (ver. 2.0.0).
+Description: Functions to import, integrate, harmonize and export vegetation data using the VegX standard (ver. 2.0.1).
 License: GPL (>= 2)
 Encoding: UTF-8
 Imports: sp, uuid, XML, methods
