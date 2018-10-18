@@ -8,6 +8,7 @@
 #' Additional optional mappings are: 'subPlotName'.
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the community measurements listed in \code{mapping}. List names should be the same as subject measurement variables.
+#' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -35,11 +36,9 @@
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot",
 #'                obsStartDate = "PlotObsStartDate", basal_area = "BA")
 #'
-#' # Define measurement method for basal area
-#' baMeth = predefinedMeasurementMethod("Basal area")
 #' 
 #' x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
-#'                         methods = c(basal_area = baMeth))
+#'                         methods = list(basal_area = "Basal area/m2*ha-1"))
 #'                         
 #' # Inspect the result
 #' head(showElementTable(x, "communityObservation"))
@@ -89,6 +88,11 @@ addCommunityObservations<-function(target, x,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
+    if(class(method)=="character") {
+      method = predefinedMeasurementMethod(method)
+      methods[[m]] = method
+    }
+    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

@@ -15,7 +15,8 @@
 #'    \item{\code{heightMeasurement} - Optional height at which the aggregated observation was made, e.g. in meters. It applies to all aggregate measurements (optional).}
 #'    \item{\code{...} - User defined names used to map aggregate organism measurements, such as percent cover (optional).}
 #'  }
-#' @param methods A list measurement methods for \code{heightMeasurement} and all the user defined aggregate organism measurements (each method is an object of class \code{\linkS4class{VegXMethodDefinition}}).
+#' @param methods A list with measurement methods for \code{heightMeasurement} and all the user defined aggregate organism measurements (each method is an object of class \code{\linkS4class{VegXMethodDefinition}}).
+#' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -70,7 +71,7 @@
 #' # Create new Veg-X document with aggregate organism observations
 #' x = addAggregateOrganismObservations(newVegX(), moki_tcv,
 #'                         mapping = mapping,
-#'                         methods = c(cover=coverscale),
+#'                         methods = list(cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
 #' # Inspect the result
@@ -81,14 +82,13 @@
 #' data(mtfyffe)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
 #'                taxonName = "NVSSpeciesName", stratumName = "Tier", counts = "Value")
-#' countscale = predefinedMeasurementMethod("Plant counts")
 #' strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
 #'                                description = "Seedling/sapling stratum definition",
 #'                                heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
 #'                                strataNames = as.character(1:6),
 #'                                strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", "76-105 cm", "106-135 cm", "> 135 cm"))
 #' x = addAggregateOrganismObservations(newVegX(), mtfyffe_counts, mapping,
-#'                                      methods = c(counts=countscale),
+#'                                      methods = list(counts="Plant counts"),
 #'                                      stratumDefinition = strataDef)
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 #'
@@ -96,9 +96,8 @@
 #' data(takitimu)
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
 #'                taxonName = "NVSSpeciesName", freq = "Value")
-#' freqscale = predefinedMeasurementMethod("Plant frequency/%")
 #' x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
-#'                                      methods = c(freq=freqscale))
+#'                                      methods = list(freq="Plant frequency/%"))
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 #'
 addAggregateOrganismObservations<-function(target, x,
@@ -178,6 +177,11 @@ addAggregateOrganismObservations<-function(target, x,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
+    if(class(method)=="character") {
+      method = predefinedMeasurementMethod(method)
+      methods[[m]] = method
+    }
+    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

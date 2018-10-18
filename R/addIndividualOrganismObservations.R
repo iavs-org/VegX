@@ -18,6 +18,7 @@
 #'    \item{\code{...} - User defined names used to map additional individual organism measurements (optional).}
 #'  }
 #' @param methods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
+#' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -51,13 +52,10 @@
 #'                taxonName = "NVSSpeciesName", individualOrganismLabel = "Identifier",
 #'                diameterMeasurement = "Diameter")
 #'
-#' # Define diameter measurement method
-#' diamMeth = predefinedMeasurementMethod("DBH/cm")
-#'
 #'
 #' # Create new Veg-X document with individual organism observations
 #' x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
-#'                                       methods = c(diameterMeasurement = diamMeth),
+#'                                       methods = list(diameterMeasurement = "DBH/cm"),
 #'                                       missing.values = c(NA, "(Unknown)", "0",""))
 #'
 #' # Inspect the result
@@ -70,7 +68,7 @@
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
 #'                taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 #' x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
-#'                                       methods = c(diameterMeasurement = diamMeth),
+#'                                       methods = list(diameterMeasurement = "DBH/cm"),
 #'                                       missing.values = c(NA, "(Unknown)", "0",""))
 #' head(showElementTable(x, "individualOrganismObservation"))
 #'
@@ -155,6 +153,11 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
+    if(class(method)=="character") {
+      method = predefinedMeasurementMethod(method)
+      methods[[m]] = method
+    }
+    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

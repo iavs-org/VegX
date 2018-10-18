@@ -82,6 +82,9 @@ addTaxonBySiteData <-function(target,
   }
 
   #methods/attributes (WARNING: method match should be made by attributes?)
+  if(class(abundanceMethod)=="character") {
+    abundanceMethod = predefinedMeasurementMethod(abundanceMethod)
+  }
   nmtid = .newMethodIDByName(target,abundanceMethod@name)
   methodID = nmtid$id
   if(nmtid$new) {

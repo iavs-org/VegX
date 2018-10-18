@@ -33,6 +33,7 @@ This parameter is needed if \code{toWGS84 = TRUE}.}
 \item{toWGS84}{A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".}
 
 \item{methods}{A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
+Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.}
 
 \item{missing.values}{A character vector of values that should be considered as missing data.}
@@ -68,9 +69,8 @@ showElementTable(x, "plot")
 
 # Add 'elevation' from another table (moki_site). This implies considering subplots.
 mapping = list(plotName = "Plot", subPlotName = "Subplot", elevation = "Altitude")
-elevMethod = predefinedMeasurementMethod("Elevation/m")
 x = addPlotLocations(x, moki_site, mapping, 
-                     methods = c(elevation = elevMethod))
+                     methods = list(elevation = "Elevation/m"))
                      
 # Summary of the updated Veg-X document
 showElementTable(x, "plot")

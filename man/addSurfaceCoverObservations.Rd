@@ -22,7 +22,8 @@ addSurfaceCoverObservations(target, x, mapping, coverMethod,
   \item{\code{coverMeasurement} - Surface cover values (required).}
 }}
 
-\item{coverMethod}{A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).}
+\item{coverMethod}{A method definition for surface cover measurements (an object of class \code{\linkS4class{VegXMethodDefinition}}).
+Alternatively, the method can be specified using a string if a predefined method exists (see \code{\link{predefinedMeasurementMethod}}).}
 
 \item{surfaceTypeDefinition}{An object of class \code{\linkS4class{VegXSurfaceTypeDefinition}} indicating the definition of surface types.}
 

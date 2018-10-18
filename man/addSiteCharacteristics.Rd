@@ -24,7 +24,9 @@ addSiteCharacteristics(target, x, mapping, measurementMethods = list(),
 
 \item{measurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 for each of the site variables stated in \code{mapping}. List names should be the same as the names of site variables
-(e.g. \code{list(aspect = aspectMeth)} to specify the use of method \code{aspectMeth} for aspect measurements).}
+(e.g. \code{list(aspect = aspectMeth)} to specify the use of method \code{aspectMeth} for aspect measurements). Alternatively,
+methods can be specified using strings if a predefined method exists (e.g. \code{list(aspect = "Aspect/degrees")}), 
+see \code{\link{predefinedMeasurementMethod}}.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
@@ -52,13 +54,11 @@ data(mokihinui)
 sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
                    slope = "PlotSlope", aspect = "PlotAspect")
 
-# Define site methods
-slopeDeg = predefinedMeasurementMethod("Slope/degrees")
-aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
 
 # Create new Veg-X document with site characteristics
 x = addSiteCharacteristics(newVegX(), moki_site, mapping = sitemapping,
-                           measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+                           measurementMethods = list(slope = "Slope/degrees", 
+                                                     aspect = "Aspect/degrees"))
 
 # Inspect the result
 showElementTable(x, "plot")

@@ -27,7 +27,8 @@ addIndividualOrganismObservations(target, x, mapping, methods = list(),
   \item{\code{...} - User defined names used to map additional individual organism measurements (optional).}
 }}
 
-\item{methods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.}
+\item{methods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in \code{mapping}.
+Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
@@ -65,13 +66,10 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotO
                taxonName = "NVSSpeciesName", individualOrganismLabel = "Identifier",
                diameterMeasurement = "Diameter")
 
-# Define diameter measurement method
-diamMeth = predefinedMeasurementMethod("DBH/cm")
-
 
 # Create new Veg-X document with individual organism observations
 x = addIndividualOrganismObservations(newVegX(), mtfyffe_dia, mapping,
-                                      methods = c(diameterMeasurement = diamMeth),
+                                      methods = list(diameterMeasurement = "DBH/cm"),
                                       missing.values = c(NA, "(Unknown)", "0",""))
 
 # Inspect the result
@@ -84,7 +82,7 @@ data(mokihinui)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 x = addIndividualOrganismObservations(newVegX(), moki_dia, mapping = mapping,
-                                      methods = c(diameterMeasurement = diamMeth),
+                                      methods = list(diameterMeasurement = "DBH/cm"),
                                       missing.values = c(NA, "(Unknown)", "0",""))
 head(showElementTable(x, "individualOrganismObservation"))
 

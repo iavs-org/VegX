@@ -25,7 +25,8 @@ addAggregateOrganismObservations(target, x, mapping, methods = list(),
   \item{\code{...} - User defined names used to map aggregate organism measurements, such as percent cover (optional).}
 }}
 
-\item{methods}{A list measurement methods for \code{heightMeasurement} and all the user defined aggregate organism measurements (each method is an object of class \code{\linkS4class{VegXMethodDefinition}}).}
+\item{methods}{A list with measurement methods for \code{heightMeasurement} and all the user defined aggregate organism measurements (each method is an object of class \code{\linkS4class{VegXMethodDefinition}}).
+Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).}
 
 \item{stratumDefinition}{An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.}
 
@@ -84,7 +85,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
 # Create new Veg-X document with aggregate organism observations
 x = addAggregateOrganismObservations(newVegX(), moki_tcv,
                         mapping = mapping,
-                        methods = c(cover=coverscale),
+                        methods = list(cover=coverscale),
                         stratumDefinition = strataDef)
 
 # Inspect the result
@@ -95,14 +96,13 @@ head(showElementTable(x, "aggregateOrganismObservation"))
 data(mtfyffe)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                taxonName = "NVSSpeciesName", stratumName = "Tier", counts = "Value")
-countscale = predefinedMeasurementMethod("Plant counts")
 strataDef = defineHeightStrata(name = "Standard seedling/sapling strata",
                                description = "Seedling/sapling stratum definition",
                                heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
                                strataNames = as.character(1:6),
                                strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", "76-105 cm", "106-135 cm", "> 135 cm"))
 x = addAggregateOrganismObservations(newVegX(), mtfyffe_counts, mapping,
-                                     methods = c(counts=countscale),
+                                     methods = list(counts="Plant counts"),
                                      stratumDefinition = strataDef)
 head(showElementTable(x, "aggregateOrganismObservation"))
 
@@ -110,9 +110,8 @@ head(showElementTable(x, "aggregateOrganismObservation"))
 data(takitimu)
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                taxonName = "NVSSpeciesName", freq = "Value")
-freqscale = predefinedMeasurementMethod("Plant frequency/\%")
 x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
-                                     methods = c(freq=freqscale))
+                                     methods = list(freq="Plant frequency/\%"))
 head(showElementTable(x, "aggregateOrganismObservation"))
 
 }

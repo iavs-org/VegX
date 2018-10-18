@@ -13,7 +13,8 @@
 #'    \item{\code{lowerLimitMeasurement},  \code{upperLimitMeasurement}- Lower and upper limits, respectively, of strata (e.g. height limits in m).}
 #'    \item{\code{...} - User defined names used to map stratum measurements, such as percent cover (optional).}
 #'  }
-#' @param methods A list measurement methods for \code{lowerLimitMeasurement}, \code{upperLimitMeasurement} and other stratum measurements (each one is object of class \code{\linkS4class{VegXMethodDefinition}}).
+#' @param methods A list measurement methods for \code{lowerLimitMeasurement}, \code{upperLimitMeasurement} and other stratum measurements (each one is object of class \code{\linkS4class{VegXMethodDefinition}}). 
+#' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' @param stratumDefinition An object of class \code{\linkS4class{VegXStrataDefinition}} indicating the definition of strata.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
@@ -54,8 +55,6 @@
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
 #'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
 #'
-#' # Define height measurement methods
-#' heightMethod = predefinedMeasurementMethod("Stratum height/m")
 #'
 #' # Define strata
 #' strataDef = defineMixedStrata(name = "Recce strata",
@@ -68,8 +67,8 @@
 #'
 #' # Create new Veg-X document with stratum observations
 #' x = addStratumObservations(newVegX(), moki_str, mapping = mapping,
-#'                         methods = list(lowerLimitMeasurement = heightMethod,
-#'                                        upperLimitMeasurement = heightMethod,
+#'                         methods = list(lowerLimitMeasurement = "Stratum height/m",
+#'                                        upperLimitMeasurement = "Stratum height/m",
 #'                                        cover=coverscale),
 #'                         stratumDefinition = strataDef)
 #'
@@ -142,6 +141,11 @@ addStratumObservations<-function(target, x, mapping,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
+    if(class(method)=="character") {
+      method = predefinedMeasurementMethod(method)
+      methods[[m]] = method
+    }
+    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

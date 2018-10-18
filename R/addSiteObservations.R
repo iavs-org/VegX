@@ -11,11 +11,17 @@
 #' @param waterBodyMeasurementMapping A list with element names equal to water body measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
-#' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements).
+#' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements). Alternatively,
+#' methods can be specified using strings if predefined methods exist (e.g. \code{list(pH = "pH/0-14")}), 
+#' see \code{\link{predefinedMeasurementMethod}}.
 #' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables.
+#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables. Alternatively,
+#' methods can be specified using strings if predefined methods exist, 
+#' see \code{\link{predefinedMeasurementMethod}}.
 #' @param waterBodyMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water body subject measurement variables.
+#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water body subject measurement variables. Alternatively,
+#' methods can be specified using strings if predefined methods exist, 
+#' see \code{\link{predefinedMeasurementMethod}}.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -40,16 +46,14 @@
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot",
 #'                obsStartDate = "PlotObsStartDate")
-#' soilmapping = list(pH = "pH")
-#'
-#' # Define pH method
-#' pHMeth = predefinedMeasurementMethod("pH")
+#' # the element name refers to the subject and the string to the variable name              
+#' soilmapping = list(pH = "pH") 
 #'
 #' # Create new Veg-X document with site observations
 #' x = addSiteObservations(newVegX(), moki_site,
 #'                         plotObservationMapping = mapping,
 #'                         soilMeasurementMapping = soilmapping,
-#'                         soilMeasurementMethods = list(pH = pHMeth))
+#'                         soilMeasurementMethods = list(pH = "pH/0-14"))
 #' # Examine results
 #' summary(x)
 #' head(showElementTable(x, "siteObservation"))
@@ -167,6 +171,11 @@ addSiteObservations<-function(target, x,
   measurementMethods = c(soilMeasurementMethods, climateMeasurementMethods, waterBodyMeasurementMethods)
   for(m in names(measurementMethods)) {
     method = measurementMethods[[m]]
+    if(class(method)=="character") {
+      method = predefinedMeasurementMethod(method)
+      measurementMethods[[m]] = method
+    }
+    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

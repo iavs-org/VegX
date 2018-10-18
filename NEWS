@@ -4,6 +4,9 @@
 
 __Version history__
 
+_Version 0.6.8, July 2018.
+1. Specify predefined methods using strings only
+
 _Version 0.6.7, July 2018.
 1. Bug correction in 'addPlotGeometries' (reported by F. Jansen)
 2. Redefinition of schema elements for individual organisms (mainly location)

@@ -23,7 +23,7 @@ predefinedMeasurementMethod(name)
  \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
  \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}
  \item{\code{"Surface cover/\%"}: Surface covered by a surface type as percentage of ground covered by the projection.}
- \item{\code{"pH"}: pH scale from 0 to 14.}
+ \item{\code{"pH/0-14"}: pH scale from 0 to 14.}
  \item{\code{"Slope/degrees"}: Slope measured using degrees.}
  \item{\code{"Aspect/degrees"}: Aspect measured using degrees from North.}
  \item{\code{"Elevation/m"}: Elevation measured using meters above sea level.}

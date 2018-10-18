@@ -20,6 +20,7 @@
 #' @param reset.places Whether the 'places' vector should be reset before adding new place names.
 #' @param toWGS84 A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".
 #' @param methods A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
+#' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.
 #' @param missing.values A character vector of values that should be considered as missing data.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -53,9 +54,8 @@
 #' 
 #' # Add 'elevation' from another table (moki_site). This implies considering subplots.
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", elevation = "Altitude")
-#' elevMethod = predefinedMeasurementMethod("Elevation/m")
 #' x = addPlotLocations(x, moki_site, mapping, 
-#'                      methods = c(elevation = elevMethod))
+#'                      methods = list(elevation = "Elevation/m"))
 #'                      
 #' # Summary of the updated Veg-X document
 #' showElementTable(x, "plot")
@@ -125,6 +125,11 @@ addPlotLocations<-function(target, x,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
+    if(class(method)=="character") {
+      method = predefinedMeasurementMethod(method)
+      methods[[m]] = method
+    }
+    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID
