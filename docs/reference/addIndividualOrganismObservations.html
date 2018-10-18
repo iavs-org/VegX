@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -150,7 +150,8 @@
     </tr>
     <tr>
       <th>methods</th>
-      <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in <code>mapping</code>.</p></td>
+      <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> indicating the definition of 'diameterMeasurement', 'heightMeasurement' and any additional individual organism measurement defined in <code>mapping</code>.
+Alternatively, methods can be specified using strings if predefined methods exist (see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>).</p></td>
     </tr>
     <tr>
       <th>stratumDefinition</th>
@@ -214,13 +215,10 @@ and others that are not taxa. Missing value policy:</p><ul>
                <span class='kw'>taxonName</span> <span class='kw'>=</span> <span class='st'>"NVSSpeciesName"</span>, <span class='kw'>individualOrganismLabel</span> <span class='kw'>=</span> <span class='st'>"Identifier"</span>,
                <span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='st'>"Diameter"</span>)
 
-<span class='co'># Define diameter measurement method</span>
-<span class='no'>diamMeth</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"DBH/cm"</span>)
-
 
 <span class='co'># Create new Veg-X document with individual organism observations</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addIndividualOrganismObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>mtfyffe_dia</span>, <span class='no'>mapping</span>,
-                                      <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='no'>diamMeth</span>),
+                                      <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='st'>"DBH/cm"</span>),
                                       <span class='kw'>missing.values</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='st'>"(Unknown)"</span>, <span class='st'>"0"</span>,<span class='st'>""</span>))</div><div class='output co'>#&gt;  Measurement method 'DBH/cm' added for 'diameterMeasurement'.
 #&gt;  67 plot(s) parsed, 67 new added.
 #&gt;  117 plot observation(s) parsed, 117 new added.
@@ -252,7 +250,7 @@ and others that are not taxa. Missing value policy:</p><ul>
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>, <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>,
                <span class='kw'>taxonName</span> <span class='kw'>=</span> <span class='st'>"NVSSpeciesName"</span>, <span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='st'>"Diameter"</span>)
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addIndividualOrganismObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_dia</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                                      <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='no'>diamMeth</span>),
+                                      <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='st'>"DBH/cm"</span>),
                                       <span class='kw'>missing.values</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>NA</span>, <span class='st'>"(Unknown)"</span>, <span class='st'>"0"</span>,<span class='st'>""</span>))</div><div class='output co'>#&gt;  Measurement method 'DBH/cm' added for 'diameterMeasurement'.
 #&gt;  23 plot(s) parsed, 23 new added.
 #&gt;  18 plot observation(s) parsed, 18 new added.

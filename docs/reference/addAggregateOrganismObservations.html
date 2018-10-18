@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -148,7 +148,8 @@
     </tr>
     <tr>
       <th>methods</th>
-      <td><p>A list measurement methods for <code>heightMeasurement</code> and all the user defined aggregate organism measurements (each method is an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>).</p></td>
+      <td><p>A list with measurement methods for <code>heightMeasurement</code> and all the user defined aggregate organism measurements (each method is an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>).
+Alternatively, methods can be specified using strings if predefined methods exist (see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>).</p></td>
     </tr>
     <tr>
       <th>stratumDefinition</th>
@@ -233,7 +234,7 @@ and others that are not taxa. Missing value policy:</p><ul>
 <span class='co'># Create new Veg-X document with aggregate organism observations</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addAggregateOrganismObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_tcv</span>,
                         <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
+                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
                         <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Category.
 #&gt;  Measurement method 'Recce cover scale' added for 'cover'.
 #&gt;  Stratum definition method 'Recce strata' added.
@@ -264,14 +265,13 @@ and others that are not taxa. Missing value policy:</p><ul>
 <span class='fu'>data</span>(<span class='no'>mtfyffe</span>)
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>, <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>,
                <span class='kw'>taxonName</span> <span class='kw'>=</span> <span class='st'>"NVSSpeciesName"</span>, <span class='kw'>stratumName</span> <span class='kw'>=</span> <span class='st'>"Tier"</span>, <span class='kw'>counts</span> <span class='kw'>=</span> <span class='st'>"Value"</span>)
-<span class='no'>countscale</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Plant counts"</span>)
 <span class='no'>strataDef</span> <span class='kw'>=</span> <span class='fu'><a href='defineHeightStrata.html'>defineHeightStrata</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Standard seedling/sapling strata"</span>,
                                <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Seedling/sapling stratum definition"</span>,
                                <span class='kw'>heightBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>15</span>, <span class='fl'>45</span>, <span class='fl'>75</span>, <span class='fl'>105</span>, <span class='fl'>135</span>, <span class='fl'>200</span>),
                                <span class='kw'>strataNames</span> <span class='kw'>=</span> <span class='fu'>as.character</span>(<span class='fl'>1</span>:<span class='fl'>6</span>),
                                <span class='kw'>strataDefinitions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"0-15 cm"</span>, <span class='st'>"16-45 cm"</span>, <span class='st'>"46-75 cm"</span>, <span class='st'>"76-105 cm"</span>, <span class='st'>"106-135 cm"</span>, <span class='st'>"&gt; 135 cm"</span>))
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addAggregateOrganismObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>mtfyffe_counts</span>, <span class='no'>mapping</span>,
-                                     <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>counts</span><span class='kw'>=</span><span class='no'>countscale</span>),
+                                     <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>counts</span><span class='kw'>=</span><span class='st'>"Plant counts"</span>),
                                      <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Value.
 #&gt;  Measurement method 'Individual counts' added for 'counts'.
 #&gt;  Stratum definition method 'Standard seedling/sapling strata' added.
@@ -299,9 +299,8 @@ and others that are not taxa. Missing value policy:</p><ul>
 <span class='fu'>data</span>(<span class='no'>takitimu</span>)
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>, <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>,
                <span class='kw'>taxonName</span> <span class='kw'>=</span> <span class='st'>"NVSSpeciesName"</span>, <span class='kw'>freq</span> <span class='kw'>=</span> <span class='st'>"Value"</span>)
-<span class='no'>freqscale</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Plant frequency/%"</span>)
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addAggregateOrganismObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>taki_freq</span>, <span class='no'>mapping</span>,
-                                     <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>freq</span><span class='kw'>=</span><span class='no'>freqscale</span>))</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Value.
+                                     <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>freq</span><span class='kw'>=</span><span class='st'>"Plant frequency/%"</span>))</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Value.
 #&gt;  Measurement method 'Plant frequency/%' added for 'freq'.
 #&gt;  5 plot(s) parsed, 5 new added.
 #&gt;  5 plot observation(s) parsed, 5 new added.

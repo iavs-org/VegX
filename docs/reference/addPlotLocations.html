@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -161,6 +161,7 @@ This parameter is needed if <code>toWGS84 = TRUE</code>.</p></td>
     <tr>
       <th>methods</th>
       <td><p>A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>). 
+Alternatively, methods can be specified using strings if predefined methods exist (see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>).
 For example, <code>methods = c(xy = method1, elevation = method2)</code>. Measurement method for coordinates is not required, but that for 'elevation' is.</p></td>
     </tr>
     <tr>
@@ -222,9 +223,8 @@ For example, <code>methods = c(xy = method1, elevation = method2)</code>. Measur
 #&gt; 5   LGM16l 172.0729 -41.5283 +proj=longlat +datum=WGS84</div><div class='input'>
 <span class='co'># Add 'elevation' from another table (moki_site). This implies considering subplots.</span>
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>, <span class='kw'>elevation</span> <span class='kw'>=</span> <span class='st'>"Altitude"</span>)
-<span class='no'>elevMethod</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Elevation/m"</span>)
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addPlotLocations</span>(<span class='no'>x</span>, <span class='no'>moki_site</span>, <span class='no'>mapping</span>,
-                     <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>elevation</span> <span class='kw'>=</span> <span class='no'>elevMethod</span>))</div><div class='output co'>#&gt;  Measurement method 'Elevation/m' added for 'elevation'.
+                     <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>elevation</span> <span class='kw'>=</span> <span class='st'>"Elevation/m"</span>))</div><div class='output co'>#&gt;  Measurement method 'Elevation/m' added for 'elevation'.
 #&gt;  25 plot(s) parsed, 20 new plot(s) added.
 #&gt;  25 record(s) parsed.
 #&gt;  20 record(s) with missing value(s) not added.</div><div class='input'>

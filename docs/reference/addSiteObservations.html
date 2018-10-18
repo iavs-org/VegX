@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -157,17 +157,23 @@ Additional optional mappings are: 'subPlotName'.</p></td>
       <th>soilMeasurementMethods</th>
       <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> with the measurement method
 for each of the soil variables stated in <code>soilMeasurementMapping</code>. List names should be the same as soil subject measurement variables
-(e.g. <code>list(pH = pHmeth)</code> to specify the use of method '<code>pHmeth</code>' for pH measurements).</p></td>
+(e.g. <code>list(pH = pHmeth)</code> to specify the use of method '<code>pHmeth</code>' for pH measurements). Alternatively,
+methods can be specified using strings if predefined methods exist (e.g. <code>list(pH = "pH/0-14")</code>), 
+see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>.</p></td>
     </tr>
     <tr>
       <th>climateMeasurementMethods</th>
       <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> with the measurement method
-for each of the soil variables stated in <code>soilMeasurementMapping</code>. List names should be the same as climate subject measurement variables.</p></td>
+for each of the soil variables stated in <code>soilMeasurementMapping</code>. List names should be the same as climate subject measurement variables. Alternatively,
+methods can be specified using strings if predefined methods exist, 
+see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>.</p></td>
     </tr>
     <tr>
       <th>waterBodyMeasurementMethods</th>
       <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> with the measurement method
-for each of the soil variables stated in <code>soilMeasurementMapping</code>. List names should be the same as water body subject measurement variables.</p></td>
+for each of the soil variables stated in <code>soilMeasurementMapping</code>. List names should be the same as water body subject measurement variables. Alternatively,
+methods can be specified using strings if predefined methods exist, 
+see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>.</p></td>
     </tr>
     <tr>
       <th>date.format</th>
@@ -220,16 +226,14 @@ for each of the soil variables stated in <code>soilMeasurementMapping</code>. Li
 <span class='co'># Define mapping</span>
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>,
                <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>)
+<span class='co'># the element name refers to the subject and the string to the variable name              </span>
 <span class='no'>soilmapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>pH</span> <span class='kw'>=</span> <span class='st'>"pH"</span>)
-
-<span class='co'># Define pH method</span>
-<span class='no'>pHMeth</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"pH"</span>)
 
 <span class='co'># Create new Veg-X document with site observations</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addSiteObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_site</span>,
                         <span class='kw'>plotObservationMapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
                         <span class='kw'>soilMeasurementMapping</span> <span class='kw'>=</span> <span class='no'>soilmapping</span>,
-                        <span class='kw'>soilMeasurementMethods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>pH</span> <span class='kw'>=</span> <span class='no'>pHMeth</span>))</div><div class='output co'>#&gt;  Measurement method 'pH' added for 'pH'.
+                        <span class='kw'>soilMeasurementMethods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>pH</span> <span class='kw'>=</span> <span class='st'>"pH/0-14"</span>))</div><div class='output co'>#&gt;  Measurement method 'pH/0-14' added for 'pH'.
 #&gt;  25 plot(s) parsed, 25 new plot(s) added.
 #&gt;  25 plot observation(s) parsed, 25 new plot observation(s) added.
 #&gt;  25 record(s) parsed, 25 new site observation(s) added.</div><div class='input'><span class='co'># Examine results</span>
@@ -258,7 +262,7 @@ for each of the soil variables stated in <code>soilMeasurementMapping</code>. Li
 #&gt;    Literature citations: 0
 #&gt; 
 #&gt;    Methods: 1
-#&gt;       1. pH [pH / 1 quantitative atts.]
+#&gt;       1. pH/0-14 [pH / 1 quantitative atts.]
 #&gt; 
 #&gt;    Plot observations: 25  [in parent plots: 5 in sub-plots: 20]
 #&gt; 
@@ -275,12 +279,12 @@ for each of the soil variables stated in <code>soilMeasurementMapping</code>. Li
 #&gt;    Surface cover observations: 0
 #&gt; 
 #&gt; ================================================================</div><div class='input'><span class='fu'>head</span>(<span class='fu'><a href='showElementTable.html'>showElementTable</a></span>(<span class='no'>x</span>, <span class='st'>"siteObservation"</span>))</div><div class='output co'>#&gt;    plotName obsStartDate soil_1_method soil_1_value
-#&gt; 1    LGM08r   2011-02-17            pH            7
-#&gt; 2 LGM08r_1Q   2011-02-17            pH            7
-#&gt; 3 LGM08r_2Q   2011-02-17            pH            7
-#&gt; 4 LGM08r_3Q   2011-02-17            pH            7
-#&gt; 5 LGM08r_4Q   2011-02-17            pH            7
-#&gt; 6    LGM16l   2011-02-15            pH            7</div><div class='input'>
+#&gt; 1    LGM08r   2011-02-17       pH/0-14            7
+#&gt; 2 LGM08r_1Q   2011-02-17       pH/0-14            7
+#&gt; 3 LGM08r_2Q   2011-02-17       pH/0-14            7
+#&gt; 4 LGM08r_3Q   2011-02-17       pH/0-14            7
+#&gt; 5 LGM08r_4Q   2011-02-17       pH/0-14            7
+#&gt; 6    LGM16l   2011-02-15       pH/0-14            7</div><div class='input'>
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">

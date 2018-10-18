@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -146,7 +146,8 @@
     </tr>
     <tr>
       <th>methods</th>
-      <td><p>A list measurement methods for <code>lowerLimitMeasurement</code>, <code>upperLimitMeasurement</code> and other stratum measurements (each one is object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>).</p></td>
+      <td><p>A list measurement methods for <code>lowerLimitMeasurement</code>, <code>upperLimitMeasurement</code> and other stratum measurements (each one is object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>). 
+Alternatively, methods can be specified using strings if predefined methods exist (see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>).</p></td>
     </tr>
     <tr>
       <th>stratumDefinition</th>
@@ -217,8 +218,6 @@
                    <span class='kw'>midPoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.5</span>, <span class='fl'>15</span>, <span class='fl'>37.5</span>, <span class='fl'>62.5</span>, <span class='fl'>87.5</span>),
                    <span class='kw'>definitions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Presence"</span>, <span class='st'>"&lt;1%"</span>, <span class='st'>"1-5%"</span>,<span class='st'>"6-25%"</span>, <span class='st'>"26-50%"</span>, <span class='st'>"51-75%"</span>, <span class='st'>"76-100%"</span>))
 
-<span class='co'># Define height measurement methods</span>
-<span class='no'>heightMethod</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Stratum height/m"</span>)
 
 <span class='co'># Define strata</span>
 <span class='no'>strataDef</span> <span class='kw'>=</span> <span class='fu'><a href='defineMixedStrata.html'>defineMixedStrata</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Recce strata"</span>,
@@ -231,8 +230,8 @@
 
 <span class='co'># Create new Veg-X document with stratum observations</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addStratumObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_str</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod</span>,
-                                       <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod</span>,
+                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='st'>"Stratum height/m"</span>,
+                                       <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='st'>"Stratum height/m"</span>,
                                        <span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
                         <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 stratum measurement variables found.
 #&gt;  Measurement method 'Stratum height/m' added for 'lowerLimitMeasurement'.

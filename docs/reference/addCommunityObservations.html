@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -141,7 +141,8 @@ Additional optional mappings are: 'subPlotName'.</p></td>
     <tr>
       <th>methods</th>
       <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> with the measurement method
-for each of the community measurements listed in <code>mapping</code>. List names should be the same as subject measurement variables.</p></td>
+for each of the community measurements listed in <code>mapping</code>. List names should be the same as subject measurement variables.
+Alternatively, methods can be specified using strings if predefined methods exist (see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>).</p></td>
     </tr>
     <tr>
       <th>date.format</th>
@@ -196,11 +197,9 @@ for each of the community measurements listed in <code>mapping</code>. List name
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>,
                <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>, <span class='kw'>basal_area</span> <span class='kw'>=</span> <span class='st'>"BA"</span>)
 
-<span class='co'># Define measurement method for basal area</span>
-<span class='no'>baMeth</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Basal area"</span>)
 
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addCommunityObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_site</span>, <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>basal_area</span> <span class='kw'>=</span> <span class='no'>baMeth</span>))</div><div class='output co'>#&gt;  Measurement method 'Basal area/m2*ha-1' added for 'basal_area'.
+                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>basal_area</span> <span class='kw'>=</span> <span class='st'>"Basal area/m2*ha-1"</span>))</div><div class='output co'>#&gt;  Measurement method 'Basal area/m2*ha-1' added for 'basal_area'.
 #&gt;  25 plot(s) parsed, 25 new plot(s) added.
 #&gt;  25 plot observation(s) parsed, 25 new plot observation(s) added.
 #&gt;  25 record(s) parsed, 25 new community observation(s) added.</div><div class='input'>

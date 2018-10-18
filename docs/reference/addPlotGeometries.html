@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.7</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
       </span>
     </div>
 
@@ -148,7 +148,8 @@
     </tr>
     <tr>
       <th>methods</th>
-      <td><p>A list measurement methods for plot geometry measurements (each being an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>).</p></td>
+      <td><p>A list measurement methods for plot geometry measurements (each being an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code>).
+Alternatively, methods can be specified using strings if predefined methods exist (see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>).</p></td>
     </tr>
     <tr>
       <th>missing.values</th>
@@ -200,12 +201,11 @@
                <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"PlotRectangleLength01"</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='st'>"PlotRectangleLength02"</span>)
 
 <span class='co'># Define methods</span>
-<span class='no'>areaMethod</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Plot area/m2"</span>)
-<span class='no'>dimensionMethod</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Plot dimension/m"</span>)
+<span class='no'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>area</span> <span class='kw'>=</span> <span class='st'>"Plot area/m2"</span>,
+               <span class='kw'>width</span> <span class='kw'>=</span> <span class='st'>"Plot dimension/m"</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='st'>"Plot dimension/m"</span>)
 
 <span class='co'># Create new Veg-X document with plot locations</span>
-<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addPlotGeometries</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_site</span>, <span class='no'>mapping</span>,
-                      <span class='fu'>list</span>(<span class='kw'>area</span> <span class='kw'>=</span> <span class='no'>areaMethod</span>, <span class='kw'>width</span> <span class='kw'>=</span> <span class='no'>dimensionMethod</span>, <span class='kw'>length</span> <span class='kw'>=</span> <span class='no'>dimensionMethod</span>))</div><div class='output co'>#&gt;  Measurement method 'Plot area/m2' added for 'area'.
+<span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addPlotGeometries</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_site</span>, <span class='no'>mapping</span>, <span class='no'>methods</span>)</div><div class='output co'>#&gt;  Measurement method 'Plot area/m2' added for 'area'.
 #&gt;  Measurement method 'Plot dimension/m' added for 'width'.
 #&gt;  Measurement method 'Plot dimension/m' for 'length' already included.
 #&gt;  25 plot(s) parsed, 25 new plot(s) added.
