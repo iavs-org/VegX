@@ -198,7 +198,7 @@ Plot elevation is added to Veg-X documents using ``addPlotLocations()`` as befor
 ```{r add plot elev moki}
 mapping = list(plotName = "Plot", elevation = "Altitude")
 moki_vegx = addPlotLocations(moki_vegx, moki_site, mapping, 
-                             methods = c(elevation = elevMethod))
+                             methods = list(elevation = elevMethod))
 ```
 Only the parent plots have elevation data (i.e., the records of sub-plots are missing). If we inspect again the *plot* elements of our document we find that elevation data has been added to plot coordinates:
 ```{r inspect plot elev res moki}
@@ -209,8 +209,9 @@ Analogous calls to ``addPlotLocations()`` can be made to fill elevation data for
 mtfyffe_vegx = addPlotLocations(mtfyffe_vegx, mtfyffe_site, mapping,
                                 methods = c(elevation = elevMethod))
 taki_vegx = addPlotLocations(taki_vegx, taki_site, mapping, 
-                             methods = c(elevation = elevMethod))
+                             methods = list(elevation = "Elevation/m"))
 ```
+Note that in this case we specified the method for elevation using a string directly. This avoids having to call function ``predefinedMeasurementMethod()``.
 
 ### Plot geometry
 
@@ -225,21 +226,17 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot",
                area = "PlotArea", shape = "Shape",
                length = "PlotRectangleLength01", width = "PlotRectangleLength02")
 ```
-Like **elevation**, plot area and plot dimensions are **measurements** so we need to define them. After checking the units used in ``moki_site`` we define methods for plot area and plot dimensions, again using function ``predefinedMeasurementMethod()``:
-```{r define geom methods}
-areaMethod = predefinedMeasurementMethod("Plot area/m2")
-dimensionMethod = predefinedMeasurementMethod("Plot dimension/m")
-```
+Like **elevation**, plot area and plot dimensions are **measurements** so we need to define them. 
 We are now ready to import plot geometry using ``addPlotGeometries()``, where we specify both the mapping and the list of methods corresponding to the Veg-X element names of the mapping (i.e. ``area``, ``length`` and ``width`` for rectangular plots):
 ```{r add plot geom moki}
 moki_vegx = addPlotGeometries(moki_vegx, moki_site, mapping,
-              list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
+              list(area = "Plot area/m2", width = "Plot dimension/m", length = "Plot dimension/m"))
 head(showElementTable(moki_vegx, "plot"),3)
 ```
 Like before, no new plots were added, as previous call functions had already defined them. In the call to ``showElementTable()`` we have now the plot geometry added to the plot location and plot/subplot relationships. Importing plot geometry for the **Takitimu grassland data** set is analogous: 
 ```{r add plot geom taki}
 taki_vegx = addPlotGeometries(taki_vegx, taki_site, mapping,
-              list(area = areaMethod, width = dimensionMethod, length = dimensionMethod))
+              list(area = "Plot area/m2", width = "Plot dimension/m", length = "Plot dimension/m"))
 head(showElementTable(taki_vegx, "plot"))
 ```
 In the case of **Mt Fyffe forest data set**, shape is missing for many of plots. Other plots are circular but *radius* is not defined in the ``mtfyffe_site`` data frame. 
@@ -253,7 +250,7 @@ Hence, we define the following mapping, and a call ``addPlotGeometries()`` produ
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                area = "PlotArea", shape = "Shape")
 mtfyffe_vegx = addPlotGeometries(mtfyffe_vegx, mtfyffe_site, mapping,
-                                 list(area = areaMethod))
+                                 list(area = "Plot area/m2"))
 head(showElementTable(mtfyffe_vegx, "plot"), 3)
 ```
 
@@ -264,15 +261,10 @@ sitemapping = list(plotName = "Plot", subPlotName = "Subplot",
                    slope = "PlotSlope", aspect = "PlotAspect")
 
 ```
-Since slope and aspect are again **measurements**, we also need to provide methods for them. After checking the units in the source data we define the following methods:
-```{r methods site topo moki}
-slopeDeg = predefinedMeasurementMethod("Slope/degrees")
-aspectDeg = predefinedMeasurementMethod("Aspect/degrees")
-```
-and we are ready to import the data:
+Since slope and aspect are again **measurements**, we also need to provide methods for them. After checking the units in the source data we are ready to import the data:
 ```{r add site topo moki}
 moki_vegx = addSiteCharacteristics(moki_vegx, moki_site, mapping = sitemapping,
-                measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+                measurementMethods = list(slope = "Slope/degrees", aspect = "Aspect/degrees"))
 
 head(showElementTable(moki_vegx, "plot"), 3)
 ```
@@ -280,9 +272,9 @@ Again, no new plots are added, and missing values correspond to subplots. When c
 
 ```{r add site topo mtfyffe}
 mtfyffe_vegx = addSiteCharacteristics(mtfyffe_vegx, mtfyffe_site, mapping = sitemapping,
-                measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+                measurementMethods = list(slope = "Slope/degrees", aspect = "Aspect/degrees"))
 taki_vegx = addSiteCharacteristics(taki_vegx, taki_site, mapping = sitemapping,
-                measurementMethods = list(slope = slopeDeg, aspect = aspectDeg))
+                measurementMethods = list(slope = "Slope/degrees", aspect = "Aspect/degrees"))
 ```
 
 ## Adding observation data
@@ -309,11 +301,10 @@ Note that there is a column called ``Identifier`` but no data in it. Fortunately
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 ```
-If no mapping is provided for *individualOrganismLabel*, function ``addIndividualOrganismObservations()`` will assume that each record corresponds to a different organism. To define the identity of organisms we can use mapping for either ``organismName`` or ``taxonName``. The first option is used to specify names that are not taxa (e.g. "tree #1", "tree #2", or morphospecies), while the second option explicitly identifies names as taxa. After defining a method for diameter measurements (diameter at breast height in cm), the call to the function produces the following output:
+If no mapping is provided for *individualOrganismLabel*, function ``addIndividualOrganismObservations()`` will assume that each record corresponds to a different organism. To define the identity of organisms we can use mapping for either ``organismName`` or ``taxonName``. The first option is used to specify names that are not taxa (e.g. "tree #1", "tree #2", or morphospecies), while the second option explicitly identifies names as taxa. The call to the function produces the following output:
 ```{r add ind obs moki}
-diamMeth = predefinedMeasurementMethod("DBH/cm")
 moki_vegx = addIndividualOrganismObservations(moki_vegx, moki_dia, mapping = mapping,
-                                      methods = c(diameterMeasurement = diamMeth))
+                                      methods = list(diameterMeasurement = "DBH/cm"))
 ```
 where we see that the number of individual organisms is equal to the number of observations. We can inspect the added individual organism observations using:
 ```{r results ind obs moki}
@@ -337,7 +328,7 @@ Since the diameter measurement method is the same as before, we can directly run
 ```{r add ind obs mtfyffe}
 mtfyffe_vegx = addIndividualOrganismObservations(mtfyffe_vegx, mtfyffe_dia, 
                                   mapping = mapping,
-                                  methods = c(diameterMeasurement = diamMeth))
+                                  methods = list(diameterMeasurement = "DBH/cm"))
 
 head(showElementTable(mtfyffe_vegx, "individualOrganismObservation"), 3)
 ```
@@ -383,7 +374,7 @@ moki_strataDef = defineMixedStrata(name = "Recce strata",
 Having the mapping, the cover scale and the stratum definition we can proceed to import species cover values by strata using function ``addAggregateOrganismObservations()``:
 ```{r add taxon obs moki}
 moki_vegx = addAggregateOrganismObservations(moki_vegx, moki_tcv, mapping,
-                        methods = c(cover=coverscale),
+                        methods = list(cover=coverscale),
                         stratumDefinition = moki_strataDef)
 ```
 Note that the both the stratum definition and the cover scale contain *methods* that are added to the Veg-X document. The strata themselves are also added to the document (i.e. *stratum* elements). Other elements that are added are organism identities (i.e. taxon names), stratum observations (because species were observed while focusing on particular strata) and, finally, aggregate organism observation themselves. Less organism names and organism names have been added than those parsed, because the Veg-X document already contained some from individual organism observations. We can inspect the newly added taxon cover observations using:
@@ -412,7 +403,7 @@ mtfyffe_strataDef = defineHeightStrata(name = "Standard seedling/sapling strata"
 Now, we are ready to import the data:
 ```{r add taxon obs mtfyffe}
 mtfyffe_vegx = addAggregateOrganismObservations(mtfyffe_vegx, mtfyffe_counts, mapping,
-                        methods = c(counts=countscale),
+                        methods = list(counts=countscale),
                         stratumDefinition = mtfyffe_strataDef)
 head(showElementTable(mtfyffe_vegx, "aggregateOrganismObservation"),3)
 ```
@@ -425,9 +416,8 @@ mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 ```
 Hence, we define the new measurement scale and call again ``addAggregateOrganismObservations()``:
 ```{r freq scale def}
-freqscale = predefinedMeasurementMethod("Plant frequency/%")
 taki_vegx = addAggregateOrganismObservations(taki_vegx, taki_freq, mapping,
-                        methods = c(freq=freqscale))
+                        methods = list(freq="Plant frequency/%"))
 head(showElementTable(taki_vegx, "aggregateOrganismObservation"), 3)
 ```
 As expected, no stratum definition nor stratum observations are added to the Veg-X document, but we still see the addition of organism names, organism identities and aggregate organism observations.
@@ -477,15 +467,13 @@ Adding community observations requires, as usual, a mapping where in addition to
 # Define mapping
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                obsStartDate = "PlotObsStartDate", basal_area = "BA")
-# Define measurement method for basal area
-baMeth = predefinedMeasurementMethod("Basal area")
 ```
 
 Of course, for each measurement we will need to provide a method that describes the measured subject, units, etc. Function ``addCommunityObservations()`` is used to add community observations to a VegX object:
 ```{r add comm obs moki}
 # Add basal area measurements to the VegX object
 moki_vegx = addCommunityObservations(moki_vegx, moki_site, mapping = mapping,
-                        methods = c(basal_area = baMeth))
+                        methods = list(basal_area = "Basal area"))
 # Inspect the result
 head(showElementTable(moki_vegx, "communityObservation"),3)
 ```
@@ -495,11 +483,10 @@ head(showElementTable(moki_vegx, "communityObservation"),3)
 Veg-X includes into elements *siteObservation* all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column ``pH`` with constant values in the ``moki_site`` data frame. The function that allows adding site observations is ``addSiteObservations()`` and the following code should be self-explanatory by now:
 ```{r add site obs moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")
-pHMeth = predefinedMeasurementMethod("pH")
 moki_vegx = addSiteObservations(moki_vegx, moki_site,
                          plotObservationMapping = mapping,
                          soilMeasurementMapping = list(pH = "pH"),
-                         soilMeasurementMethods = list(pH = pHMeth))
+                         soilMeasurementMethods = list(pH = "pH/0-14"))
 head(showElementTable(moki_vegx, "siteObservation"))
 ```
 
