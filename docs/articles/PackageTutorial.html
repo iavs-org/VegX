@@ -75,7 +75,7 @@
       <h1>How to use the VegX R package</h1>
                         <h4 class="author">IAVS Ecoinformatics Working Group</h4>
             
-            <h4 class="date">2018-10-18</h4>
+            <h4 class="date">2018-10-19</h4>
       
       
       <div class="hidden name"><code>PackageTutorial.Rmd</code></div>
@@ -1113,7 +1113,7 @@
 <pre class="sourceCode r" id="cb110"><code class="sourceCode r"><div class="sourceLine" id="cb110-1" data-line-number="1">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">subPlotName =</span> <span class="st">"Subplot"</span>, <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>, </div>
 <div class="sourceLine" id="cb110-2" data-line-number="2">               <span class="dt">taxonName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">stratumName =</span> <span class="st">"Tier"</span>, <span class="dt">counts =</span> <span class="st">"Value"</span>)</div></code></pre>
 <p>Analogously to the previous case, we need to specify a measurement method for counts, and in this case we can use function <code><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod()</a></code>:</p>
-<pre class="sourceCode r" id="cb111"><code class="sourceCode r"><div class="sourceLine" id="cb111-1" data-line-number="1">countscale =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Plant counts"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb111"><code class="sourceCode r"><div class="sourceLine" id="cb111-1" data-line-number="1">countscale =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Individual plant counts"</span>)</div></code></pre>
 <p>Then we also need to provide the strata definition, which is different from that of the previous data set. Here all strata are defined by height, so we can use a function called <code><a href="../reference/defineHeightStrata.html">defineHeightStrata()</a></code>:</p>
 <pre class="sourceCode r" id="cb112"><code class="sourceCode r"><div class="sourceLine" id="cb112-1" data-line-number="1">mtfyffe_strataDef =<span class="st"> </span><span class="kw"><a href="../reference/defineHeightStrata.html">defineHeightStrata</a></span>(<span class="dt">name =</span> <span class="st">"Standard seedling/sapling strata"</span>,</div>
 <div class="sourceLine" id="cb112-2" data-line-number="2">                              <span class="dt">description =</span> <span class="st">"Seedling/sapling stratum definition"</span>,</div>
@@ -1126,7 +1126,7 @@
 <div class="sourceLine" id="cb113-2" data-line-number="2">                        <span class="dt">methods =</span> <span class="kw">list</span>(<span class="dt">counts=</span>countscale),</div>
 <div class="sourceLine" id="cb113-3" data-line-number="3">                        <span class="dt">stratumDefinition =</span> mtfyffe_strataDef)</div></code></pre>
 <pre><code>##  1 additional aggregate organism measurements found: Value.
-##  Measurement method 'Individual counts' added for 'counts'.
+##  Measurement method 'Individual plant counts' added for 'counts'.
 ##  Stratum definition method 'Standard seedling/sapling strata' added.
 ##  6 new stratum definitions added.
 ##  131 plot(s) parsed, 0 new added.
@@ -1137,10 +1137,10 @@
 ##  533 record(s) parsed, 533 new aggregate organism observation(s) added.</code></pre>
 <pre class="sourceCode r" id="cb115"><code class="sourceCode r"><div class="sourceLine" id="cb115-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(mtfyffe_vegx, <span class="st">"aggregateOrganismObservation"</span>),<span class="dv">3</span>)</div></code></pre>
-<pre><code>##   plotName obsStartDate     organismIdentityName      agg_1_method
-## 1   12 1_E   1980-02-07   Pseudowintera colorata Individual counts
-## 2   12 1_E   1980-02-07          Rubus cissoides Individual counts
-## 3   12 1_M   1980-02-07 Pseudopanax crassifolius Individual counts
+<pre><code>##   plotName obsStartDate     organismIdentityName            agg_1_method
+## 1   12 1_E   1980-02-07   Pseudowintera colorata Individual plant counts
+## 2   12 1_E   1980-02-07          Rubus cissoides Individual plant counts
+## 3   12 1_M   1980-02-07 Pseudopanax crassifolius Individual plant counts
 ##   agg_1_value stratumName
 ## 1           1        &lt;NA&gt;
 ## 2           1        &lt;NA&gt;
@@ -1269,18 +1269,18 @@
 <p>Of course, for each measurement we will need to provide a method that describes the measured subject, units, etc. Function <code><a href="../reference/addCommunityObservations.html">addCommunityObservations()</a></code> is used to add community observations to a VegX object:</p>
 <pre class="sourceCode r" id="cb133"><code class="sourceCode r"><div class="sourceLine" id="cb133-1" data-line-number="1"><span class="co"># Add basal area measurements to the VegX object</span></div>
 <div class="sourceLine" id="cb133-2" data-line-number="2">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addCommunityObservations.html">addCommunityObservations</a></span>(moki_vegx, moki_site, <span class="dt">mapping =</span> mapping,</div>
-<div class="sourceLine" id="cb133-3" data-line-number="3">                        <span class="dt">methods =</span> <span class="kw">list</span>(<span class="dt">basal_area =</span> <span class="st">"Basal area"</span>))</div></code></pre>
-<pre><code>##  Measurement method 'Basal area/m2*ha-1' added for 'basal_area'.
+<div class="sourceLine" id="cb133-3" data-line-number="3">                        <span class="dt">methods =</span> <span class="kw">list</span>(<span class="dt">basal_area =</span> <span class="st">"basal area"</span>))</div></code></pre>
+<pre><code>##  Measurement method 'basal area' added for 'basal_area'.
 ##  25 plot(s) parsed, 0 new plot(s) added.
 ##  25 plot observation(s) parsed, 0 new plot observation(s) added.
 ##  25 record(s) parsed, 25 new community observation(s) added.</code></pre>
 <pre class="sourceCode r" id="cb135"><code class="sourceCode r"><div class="sourceLine" id="cb135-1" data-line-number="1"><span class="co"># Inspect the result</span></div>
 <div class="sourceLine" id="cb135-2" data-line-number="2">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"communityObservation"</span>),<span class="dv">3</span>)</div></code></pre>
-<pre><code>##    plotName obsStartDate      comm_1_method comm_1_value
-## 1    LGM08r   2011-02-17 Basal area/m2*ha-1     7.032822
-## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1     9.791568
-## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1     7.574712</code></pre>
+<pre><code>##    plotName obsStartDate comm_1_method comm_1_value
+## 1    LGM08r   2011-02-17    basal area    18.267253
+## 2 LGM08r_1Q   2011-02-17    basal area     6.072803
+## 3 LGM08r_2Q   2011-02-17    basal area    14.341690</code></pre>
 </div>
 <div id="site-observations" class="section level3">
 <h3 class="hasAnchor">
@@ -1432,9 +1432,9 @@
 <div class="sourceLine" id="cb162-2" data-line-number="2">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"plot"</span>),<span class="dv">3</span>)</div></code></pre>
 <pre><code>##    plotName                 plotUniqueIdentifier     shape
-## 1    LGM08r 676d7dde-d2b2-11e8-91c5-c551f5c20064 rectangle
-## 2 LGM08r_1Q 676d7ddf-d2b2-11e8-91c5-c551f5c20064 rectangle
-## 3 LGM08r_2Q 676d7de0-d2b2-11e8-91c5-c551f5c20064 rectangle
+## 1    LGM08r a282c960-d37f-11e8-9805-0558cea55a56 rectangle
+## 2 LGM08r_1Q a282c961-d37f-11e8-9805-0558cea55a56 rectangle
+## 3 LGM08r_2Q a282c962-d37f-11e8-9805-0558cea55a56 rectangle
 ##      length_method length_value     width_method width_value   coordX
 ## 1 Plot dimension/m           20 Plot dimension/m          20 172.1407
 ## 2 Plot dimension/m           10 Plot dimension/m          10       NA

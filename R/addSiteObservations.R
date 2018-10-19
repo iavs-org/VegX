@@ -24,6 +24,7 @@
 #' see \code{\link{predefinedMeasurementMethod}}.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
+#' @param fill.methods A flag to indicate that missing methods should be filled with dummy ones. This allows storing any environmental data, but without appropriate metadata.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -94,6 +95,7 @@ addSiteObservations<-function(target, x,
                               waterBodyMeasurementMethods = list(),
                               date.format = "%Y-%m-%d",
                               missing.values = c(NA,""),
+                              fill.methods = FALSE,
                               verbose = TRUE) {
 
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
@@ -116,6 +118,8 @@ addSiteObservations<-function(target, x,
   climateVariables = c()
   waterBodyVariables = c()
   
+  countDummyMethods = 0
+  
   plotObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName")
   siteValues = list()
   for(i in 1:length(plotObservationMapping)) {
@@ -123,25 +127,59 @@ addSiteObservations<-function(target, x,
   }
   if(length(soilMeasurementMapping)>0) {
     for(i in 1:length(soilMeasurementMapping)) {
-      if(!(names(soilMeasurementMapping)[i] %in% names(soilMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(soilMeasurementMapping)[i], "'."))
       soilVariables = c(soilVariables, names(soilMeasurementMapping)[i])
       siteValues[[names(soilMeasurementMapping)[i]]] = as.character(x[[soilMeasurementMapping[[i]]]])
+      if(!(names(soilMeasurementMapping)[i] %in% names(soilMeasurementMethods))) {
+        if(!fill.methods)  stop(paste0("Measurement method should be provided corresponding to mapping '", names(soilMeasurementMapping)[i], "' (alternatively, set 'fill.methods = TRUE')."))
+        else {
+          varname = names(soilMeasurementMapping)[i]
+          values = x[[soilMeasurementMapping[[i]]]]
+          warning(paste0("Measurement missing for mapping '", varname, "'."))
+          countDummyMethods = countDummyMethods +1 
+          varclass = class(values)
+          newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
+          soilMeasurementMethods[varname] = newMethod
+        }
+      }
     }
   }
   if(length(climateMeasurementMapping)>0) {
     for(i in 1:length(climateMeasurementMapping)) {
-      if(!(names(climateMeasurementMapping)[i] %in% names(climateMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(climateMeasurementMapping)[i], "'."))
       climateVariables = c(climateVariables, names(climateMeasurementMethods)[i])
       siteValues[[names(climateMeasurementMapping)[i]]] = as.character(x[[climateMeasurementMapping[[i]]]])
+      if(!(names(climateMeasurementMapping)[i] %in% names(climateMeasurementMethods))) {
+        if(!fill.methods)  stop(paste0("Measurement method should be provided corresponding to mapping '", names(climateMeasurementMapping)[i], "' (alternatively, set 'fill.methods = TRUE')."))
+        else {
+          varname = names(climateMeasurementMapping)[i]
+          values = x[[climateMeasurementMapping[[i]]]]
+          warning(paste0("Measurement missing for mapping '", varname, "'."))
+          countDummyMethods = countDummyMethods +1 
+          varclass = class(values)
+          newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
+          climateMeasurementMethods[varname] = newMethod
+        }
+      }
     }
   }
   if(length(waterBodyMeasurementMapping)>0) {
     for(i in 1:length(waterBodyMeasurementMapping)) {
-      if(!(names(waterBodyMeasurementMapping)[i] %in% names(waterBodyMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(waterBodyMeasurementMapping)[i], "'."))
       waterBodyVariables = c(waterBodyVariables, names(waterBodyMeasurementMapping)[i])
       siteValues[[names(waterBodyMeasurementMapping)[i]]] = as.character(x[[waterBodyMeasurementMapping[[i]]]])
+      if(!(names(waterBodyMeasurementMapping)[i] %in% names(waterBodyMeasurementMethods))) {
+        if(!fill.methods)  stop(paste0("Measurement method should be provided corresponding to mapping '", names(waterBodyMeasurementMapping)[i], "' (alternatively, set 'fill.methods = TRUE')."))
+        else {
+          varname = names(waterBodyMeasurementMapping)[i]
+          values = x[[waterBodyMeasurementMapping[[i]]]]
+          warning(paste0("Measurement missing for mapping '", varname, "'."))
+          countDummyMethods = countDummyMethods +1 
+          varclass = class(values)
+          newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
+          waterBodyMeasurementMethods[varname] = newMethod
+        }
+      }
     }
   }
+  
   #Check columns exist
   for(i in 1:length(plotObservationMapping)) {
     if(!(plotObservationMapping[i] %in% names(x))) stop(paste0("Variable '", plotObservationMapping[i],"' not found in column names. Revise mapping or data."))

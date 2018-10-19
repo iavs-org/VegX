@@ -9,7 +9,7 @@ addSiteObservations(target, x, plotObservationMapping,
   waterBodyMeasurementMapping = list(),
   soilMeasurementMethods = list(), climateMeasurementMethods = list(),
   waterBodyMeasurementMethods = list(), date.format = "\%Y-\%m-\%d",
-  missing.values = c(NA, ""), verbose = TRUE)
+  missing.values = c(NA, ""), fill.methods = FALSE, verbose = TRUE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -44,6 +44,8 @@ see \code{\link{predefinedMeasurementMethod}}.}
 \item{date.format}{A character string specifying the input format of dates (see \code{\link{as.Date}}).}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
+
+\item{fill.methods}{A flag to indicate that missing methods should be filled with dummy ones. This allows storing any environmental data, but without appropriate metadata.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }

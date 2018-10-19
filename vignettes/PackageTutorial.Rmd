@@ -389,7 +389,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotO
 ```
 Analogously to the previous case, we need to specify a measurement method for counts, and in this case we can use function ``predefinedMeasurementMethod()``:
 ```{r count scale def}
-countscale = predefinedMeasurementMethod("Plant counts")
+countscale = predefinedMeasurementMethod("Individual plant counts")
 ```
 Then we also need to provide the strata definition, which is different from that of the previous data set. Here all strata are defined by height, so we can use a function called ``defineHeightStrata()``:
 ```{r mtfyffe strata def}
@@ -473,7 +473,7 @@ Of course, for each measurement we will need to provide a method that describes 
 ```{r add comm obs moki}
 # Add basal area measurements to the VegX object
 moki_vegx = addCommunityObservations(moki_vegx, moki_site, mapping = mapping,
-                        methods = list(basal_area = "Basal area"))
+                        methods = list(basal_area = "basal area"))
 # Inspect the result
 head(showElementTable(moki_vegx, "communityObservation"),3)
 ```

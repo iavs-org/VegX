@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Predefined measurement methods — predefinedMeasurementMethod • VegX</title>
+<title>List of predefined quantitative methods — quantitative_methods • VegX</title>
 
 <!-- jquery -->
 <script src="https://code.jquery.com/jquery-3.1.0.min.js" integrity="sha384-nrOSfDHtoPMzJHjVTdCopGqIqeYETSXhZDFyniQ8ZHcVy08QesyHcnOUpMpqnmWq" crossorigin="anonymous"></script>
@@ -30,9 +30,11 @@
 
 
 
-<meta property="og:title" content="Predefined measurement methods — predefinedMeasurementMethod" />
+<meta property="og:title" content="List of predefined quantitative methods — quantitative_methods" />
 
-<meta property="og:description" content="Creates a measurement method for Veg-X documents from a set of predefined options" />
+<meta property="og:description" content="This data frame contains the definition of predefined quantitative methods available for Veg-X. 
+These are used by calling function predefinedMeasurementMethod or directly by their name. 
+When a string refers to a subject, the default method for that subject is used." />
 <meta name="twitter:card" content="summary" />
 
 
@@ -107,43 +109,43 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Predefined measurement methods</h1>
+    <h1>List of predefined quantitative methods</h1>
     
-    <div class="hidden name"><code>predefinedMeasurementMethod.Rd</code></div>
+    <div class="hidden name"><code>quantitative_methods.Rd</code></div>
     </div>
 
     <div class="ref-description">
     
-    <p>Creates a measurement method for Veg-X documents from a set of predefined options</p>
+    <p>This data frame contains the definition of predefined quantitative methods available for Veg-X. 
+These are used by calling function <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code> or directly by their name. 
+When a string refers to a subject, the default method for that subject is used.</p>
     
     </div>
 
-    <pre class="usage"><span class='fu'>predefinedMeasurementMethod</span>(<span class='no'>name</span>)</pre>
-    
-    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
-    <table class="ref-arguments">
-    <colgroup><col class="name" /><col class="desc" /></colgroup>
-    <tr>
-      <th>name</th>
-      <td><p>A string with the desired measurement method or a subject (in this case, the default method is returned). 
-The list of available predefined methods and subjects is found in <code><a href='quantitative_methods.html'>quantitative_methods</a></code>.</p></td>
-    </tr>
-    </table>
-    
-    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+        
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>an object of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code></p>
+    <ul>
+<li><p>subject The description of an attribute class for comparative purposes.</p></li>
+<li><p>name The name of the measurement method (normally includes units)</p></li>
+<li><p>description Short description of the measurement method (subject and units)</p></li>
+<li><p>unit Measurement units</p></li>
+<li><p>lowerLimit Lower limit of the quantitative scale, if defined</p></li>
+<li><p>upperLimit Upper limit of the quantitative scale, if defined</p></li>
+</ul>
     
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>Other define measurement functions: <code><a href='defineOrdinalScaleMethod.html'>defineOrdinalScaleMethod</a></code>,
-  <code><a href='defineQualitativeScaleMethod.html'>defineQualitativeScaleMethod</a></code>,
-  <code><a href='defineQuantitativeScaleMethod.html'>defineQuantitativeScaleMethod</a></code></p></div>
+    <div class='dont-index'><p><code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>, <code><a href='defineQuantitativeScaleMethod.html'>defineQuantitativeScaleMethod</a></code></p></div>
     
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># Create a method for plant percent cover</span>
-<span class='fu'>predefinedMeasurementMethod</span>(<span class='st'>"Plant cover/%"</span>)</div><div class='output co'>#&gt; An object of class "VegXMethodDefinition"
+    <pre class="examples"><div class='input'>
+<span class='co'># To explore available methods</span>
+<span class='fu'>data</span>(<span class='st'>"quantitative_methods"</span>)
+
+<span class='co'>#To use one of them within Veg-X</span>
+<span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Plant cover/%"</span>)</div><div class='output co'>#&gt; An object of class "VegXMethodDefinition"
 #&gt; Slot "name":
 #&gt; [1] "Plant cover/%"
 #&gt; 
@@ -177,20 +179,22 @@ The list of available predefined methods and subjects is found in <code><a href=
 #&gt; [1] 100
 #&gt; 
 #&gt; 
-#&gt; </div><div class='input'>
-</div></pre>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="sidebar">
     <h2>Contents</h2>
     <ul class="nav nav-pills nav-stacked">
-      <li><a href="#arguments">Arguments</a></li>
       
-      <li><a href="#value">Value</a></li>
+      <li><a href="#details">Details</a></li>
 
       <li><a href="#see-also">See also</a></li>
       
       <li><a href="#examples">Examples</a></li>
     </ul>
+
+    <h2>Author</h2>
+    
+Veg-X team.
 
   </div>
 </div>
