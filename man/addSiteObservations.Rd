@@ -54,6 +54,31 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds site observation records to a VegX object from a data table where rows are plot observations.
 }
 \details{
+The subjects currently recognized for soil observations are:
+\itemize{
+ \item{\code{pH}: Soil pH.}
+ \item{\code{texture}: Soil texture class.}
+}
+The subjects currently recognized for climate observations are:
+\itemize{
+ \item{\code{climate MAT}: Mean annual temperature.}
+ \item{\code{climate TWM}: Temperature of the warmest month.}
+ \item{\code{climate TCM}: Temperature of the coldest month.}
+ \item{\code{climate MDR}: Mean diurnal range.}
+ \item{\code{climate MAP}: Mean annual precipitation.}
+ \item{\code{climate MAP}: Mean annual precipitation.}
+ \item{\code{climate PDM}: Precipitation of the driest month.}
+ \item{\code{climate PWM}: Precipitation of the wettest month.}
+}
+
+The subjects currently recognized for water body observations are:
+\itemize{
+ \item{\code{salinity}: Salinity of the water body.}
+}
+ 
+Please contact Veg-X developers to ask for additional subjects if you think they are rellevant for exchanging vegetation plot data. 
+Controlling the vocabulary of subjects and the units used in measurements is the only way to ensure compatibility of environmental data between data sets.
+
 Missing value policy:
 \itemize{
   \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}

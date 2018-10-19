@@ -29,7 +29,33 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #' @export
 #'
-#' @details Missing value policy:
+#' @details 
+#' The subjects currently recognized for soil observations are:
+#' \itemize{
+#'  \item{\code{pH}: Soil pH.}
+#'  \item{\code{texture}: Soil texture class.}
+#' }
+#' The subjects currently recognized for climate observations are:
+#' \itemize{
+#'  \item{\code{climate MAT}: Mean annual temperature.}
+#'  \item{\code{climate TWM}: Temperature of the warmest month.}
+#'  \item{\code{climate TCM}: Temperature of the coldest month.}
+#'  \item{\code{climate MDR}: Mean diurnal range.}
+#'  \item{\code{climate MAP}: Mean annual precipitation.}
+#'  \item{\code{climate MAP}: Mean annual precipitation.}
+#'  \item{\code{climate PDM}: Precipitation of the driest month.}
+#'  \item{\code{climate PWM}: Precipitation of the wettest month.}
+#' }
+#' 
+#' The subjects currently recognized for water body observations are:
+#' \itemize{
+#'  \item{\code{salinity}: Salinity of the water body.}
+#' }
+#'  
+#' Please contact Veg-X developers to ask for additional subjects if you think they are rellevant for exchanging vegetation plot data. 
+#' Controlling the vocabulary of subjects and the units used in measurements is the only way to ensure compatibility of environmental data between data sets.
+#' 
+#' Missing value policy:
 #' \itemize{
 #'   \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.}
 #'   \item{Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.}
@@ -77,12 +103,19 @@ addSiteObservations<-function(target, x,
 
 
   # Get recognized site subjects
-  soilVariables = c('pH')
+  soilSubjects = c('pH', 'texture')
+  climateSubjects = c('climate MAT', 'climate TWM', 'climate TCM', 'climate MDR', 
+                       'climate MAP', 'climate PDM', 'climate PWM')
+  waterBodySubjects = c('salinity')
+  subjects = c(soilSubjects, climateSubjects, waterBodySubjects)
+  
+  
+  
+  #check mappings
+  soilVariables = c()
   climateVariables = c()
   waterBodyVariables = c()
-
-  #check mappings
-  siteVariables = c(soilVariables, climateVariables, waterBodyVariables)
+  
   plotObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName")
   siteValues = list()
   for(i in 1:length(plotObservationMapping)) {
@@ -90,22 +123,22 @@ addSiteObservations<-function(target, x,
   }
   if(length(soilMeasurementMapping)>0) {
     for(i in 1:length(soilMeasurementMapping)) {
-      if(!(names(soilMeasurementMapping)[i] %in% soilVariables)) stop(paste0("Mapping for '", names(soilMeasurementMapping)[i], "' cannot be defined."))
       if(!(names(soilMeasurementMapping)[i] %in% names(soilMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(soilMeasurementMapping)[i], "'."))
+      soilVariables = c(soilVariables, names(soilMeasurementMapping)[i])
       siteValues[[names(soilMeasurementMapping)[i]]] = as.character(x[[soilMeasurementMapping[[i]]]])
     }
   }
   if(length(climateMeasurementMapping)>0) {
     for(i in 1:length(climateMeasurementMapping)) {
-      if(!(names(climateMeasurementMapping)[i] %in% climateVariables)) stop(paste0("Mapping for '", names(climateMeasurementMapping)[i], "' cannot be defined."))
       if(!(names(climateMeasurementMapping)[i] %in% names(climateMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(climateMeasurementMapping)[i], "'."))
+      climateVariables = c(climateVariables, names(climateMeasurementMethods)[i])
       siteValues[[names(climateMeasurementMapping)[i]]] = as.character(x[[climateMeasurementMapping[[i]]]])
     }
   }
   if(length(waterBodyMeasurementMapping)>0) {
     for(i in 1:length(waterBodyMeasurementMapping)) {
-      if(!(names(waterBodyMeasurementMapping)[i] %in% waterBodyVariables)) stop(paste0("Mapping for '", names(waterBodyMeasurementMapping)[i], "' cannot be defined."))
       if(!(names(waterBodyMeasurementMapping)[i] %in% names(waterBodyMeasurementMethods))) stop(paste0("Measurement method should be provided corresponding to mapping '", names(waterBodyMeasurementMapping)[i], "'."))
+      waterBodyVariables = c(waterBodyVariables, names(waterBodyMeasurementMapping)[i])
       siteValues[[names(waterBodyMeasurementMapping)[i]]] = as.character(x[[waterBodyMeasurementMapping[[i]]]])
     }
   }
@@ -146,19 +179,16 @@ addSiteObservations<-function(target, x,
   #check methods for site variables
   if(length(soilMeasurementMethods)>0) {
     for(i in 1:length(soilMeasurementMethods)) {
-      if(!(names(soilMeasurementMethods)[i] %in% soilVariables)) stop(paste0("Method for '", names(soilMeasurementMethods)[i], "' cannot be applied."))
       if(!(names(soilMeasurementMethods)[i] %in% names(soilMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(soilMeasurementMethods)[i], "'."))
     }
   }
   if(length(climateMeasurementMethods)>0) {
     for(i in 1:length(climateMeasurementMethods)) {
-      if(!(names(climateMeasurementMethods)[i] %in% climateVariables)) stop(paste0("Method for '", names(climateMeasurementMethods)[i], "' cannot be applied."))
       if(!(names(climateMeasurementMethods)[i] %in% names(climateMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(climateMeasurementMethods)[i], "'."))
     }
   }
   if(length(waterBodyMeasurementMethods)>0) {
     for(i in 1:length(waterBodyMeasurementMethods)) {
-      if(!(names(waterBodyMeasurementMethods)[i] %in% waterBodyVariables)) stop(paste0("Method for '", names(waterBodyMeasurementMethods)[i], "' cannot be applied."))
       if(!(names(waterBodyMeasurementMethods)[i] %in% names(waterBodyMeasurementMapping))) stop(paste0("Mapping should be defined corresponding to measurement method '", names(waterBodyMeasurementMethods)[i], "'."))
     }
   }
@@ -176,6 +206,7 @@ addSiteObservations<-function(target, x,
       measurementMethods[[m]] = method
     }
     else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    if(!(method@subject %in% subjects)) warning(paste0("Method for '", method@name, "' not found among defined subjects."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID
