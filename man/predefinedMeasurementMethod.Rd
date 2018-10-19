@@ -7,27 +7,8 @@
 predefinedMeasurementMethod(name)
 }
 \arguments{
-\item{name}{A string with the desired measurement method. Current accepted options are:
-\itemize{
- \item{\code{"Plot area/m2"}: Plot area measured in squared meters.}
- \item{\code{"Plot area/cm2"}: Plot area measured in squared centimeters.}
- \item{\code{"Plot dimension/m"}: Plot dimension (radius, length, width) measured in meters.}
- \item{\code{"Plot dimension/cm"}: Plot dimension (radius, length, width) measured in centimeters.}
- \item{\code{"Plant cover/\%"}: Plant cover as percentage of ground covered by the projection.}
- \item{\code{"Plant counts"}: Number of plant individuals.}
- \item{\code{"Plant frequency/\%"}: Frequency of occurrence in fixed subunits of the plot.}
- \item{\code{"Basal area/m2*ha-1"}: Basal area in square meters per hectare.}
- \item{\code{"Stratum height/m"}: Stratum height in meters above the ground.}
- \item{\code{"Stratum height/cm"}: Stratum height in cm above the ground.}
- \item{\code{"Plant height/m"}: Plant height in meters above the ground.}
- \item{\code{"Plant height/cm"}: Plant height in cm above the ground.}
- \item{\code{"DBH/cm"}: Diameter at breast height, in cm.}
- \item{\code{"Surface cover/\%"}: Surface covered by a surface type as percentage of ground covered by the projection.}
- \item{\code{"pH/0-14"}: pH scale from 0 to 14.}
- \item{\code{"Slope/degrees"}: Slope measured using degrees.}
- \item{\code{"Aspect/degrees"}: Aspect measured using degrees from North.}
- \item{\code{"Elevation/m"}: Elevation measured using meters above sea level.}
-}}
+\item{name}{A string with the desired measurement method or a subject (in this case, the default method is returned). 
+The list of available predefined methods and subjects is found in \code{\link{quantitative_methods}}.}
 }
 \value{
 an object of class \code{\linkS4class{VegXMethodDefinition}}

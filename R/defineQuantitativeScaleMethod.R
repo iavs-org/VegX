@@ -28,6 +28,8 @@ defineQuantitativeScaleMethod<-function(name, description, subject, unit,
                                         citationString = "", DOI = "",
                                         lowerLimit = -Inf,
                                         upperLimit = Inf) {
+  if(is.na(lowerLimit)) lowerLimit = -Inf
+  if(is.na(upperLimit)) upperLimit = Inf
   attributes = list(
     list(type="quantitative",
          unit = unit,
