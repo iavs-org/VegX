@@ -8,6 +8,7 @@ Authors@R: c(
 Description: Functions to import, integrate, harmonize and export vegetation data using the VegX standard (ver. 2.0.1).
 License: GPL (>= 2)
 Encoding: UTF-8
+Depends: R (>= 2.10)
 Imports: sp, uuid, XML, methods
 LazyData: true
 RoxygenNote: 6.1.0

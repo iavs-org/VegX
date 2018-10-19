@@ -118,8 +118,7 @@ addSiteObservations<-function(target, x,
   climateVariables = c()
   waterBodyVariables = c()
   
-  countDummyMethods = 0
-  
+
   plotObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName")
   siteValues = list()
   for(i in 1:length(plotObservationMapping)) {
@@ -134,8 +133,7 @@ addSiteObservations<-function(target, x,
         else {
           varname = names(soilMeasurementMapping)[i]
           values = x[[soilMeasurementMapping[[i]]]]
-          warning(paste0("Measurement missing for mapping '", varname, "'."))
-          countDummyMethods = countDummyMethods +1 
+          warning(paste0("Dummy measurement method defined for '", varname, "'."))
           varclass = class(values)
           newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
           soilMeasurementMethods[varname] = newMethod
@@ -152,8 +150,7 @@ addSiteObservations<-function(target, x,
         else {
           varname = names(climateMeasurementMapping)[i]
           values = x[[climateMeasurementMapping[[i]]]]
-          warning(paste0("Measurement missing for mapping '", varname, "'."))
-          countDummyMethods = countDummyMethods +1 
+          warning(paste0("Dummy measurement method defined for '", varname, "'."))
           varclass = class(values)
           newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
           climateMeasurementMethods[varname] = newMethod
@@ -170,8 +167,7 @@ addSiteObservations<-function(target, x,
         else {
           varname = names(waterBodyMeasurementMapping)[i]
           values = x[[waterBodyMeasurementMapping[[i]]]]
-          warning(paste0("Measurement missing for mapping '", varname, "'."))
-          countDummyMethods = countDummyMethods +1 
+          warning(paste0("Dummy measurement method defined for '", varname, "'."))
           varclass = class(values)
           newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
           waterBodyMeasurementMethods[varname] = newMethod
