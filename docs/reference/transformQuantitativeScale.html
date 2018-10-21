@@ -176,21 +176,25 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
     <pre class="examples"><div class='input'><span class='fu'>data</span>(<span class='no'>mokihinui</span>)
 
 <span class='co'># Create initial Veg-X document with stratum heights in meters</span>
-<span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>, <span class='kw'>stratumName</span> <span class='kw'>=</span> <span class='st'>"Tier"</span>,
-               <span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='st'>"TierLower"</span>, <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='st'>"TierUpper"</span>)
+<span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>,
+               <span class='kw'>stratumName</span> <span class='kw'>=</span> <span class='st'>"Tier"</span>,
+               <span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='st'>"TierLower"</span>,
+               <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='st'>"TierUpper"</span>)
 <span class='no'>heightMethod1</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Stratum height/m"</span>)
 <span class='no'>strataDef</span> <span class='kw'>=</span> <span class='fu'><a href='defineMixedStrata.html'>defineMixedStrata</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Recce strata"</span>,
-                   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Standard Recce stratum definition"</span>,
-                   <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln."</span>,
-                   <span class='kw'>heightStrataBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.3</span>,<span class='fl'>2.0</span>,<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>25</span>, <span class='fl'>50</span>),
-                   <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
-                   <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
-                   <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
+               <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Standard Recce stratum definition"</span>,
+               <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) 
+                   The Recce method for describing New Zealand vegetation – 
+                   Field protocols. Landcare Research, Lincoln."</span>,
+               <span class='kw'>heightStrataBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.3</span>,<span class='fl'>2.0</span>,<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>25</span>, <span class='fl'>50</span>),
+               <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
+               <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
+               <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addStratumObservations.html'>addStratumObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_str</span>,
-                   <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                   <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod1</span>,
-                                       <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod1</span>),
-                   <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  0 stratum measurement variables found.
+               <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
+               <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>lowerLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod1</span>,
+                              <span class='kw'>upperLimitMeasurement</span> <span class='kw'>=</span> <span class='no'>heightMethod1</span>),
+               <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  0 stratum measurement variables found.
 #&gt;  Measurement method 'Stratum height/m' added for 'lowerLimitMeasurement'.
 #&gt;  Measurement method 'Stratum height/m' for 'upperLimitMeasurement' already included.
 #&gt;  Stratum definition method 'Recce strata' added.
@@ -275,7 +279,8 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul>
 <span class='co'># ('replaceValues' needs to be set to TRUE to force replacement)</span>
 <span class='no'>heightMethod2</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"Stratum height/cm"</span>)
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fu'>transformQuantitativeScale</span>(<span class='no'>x</span>, <span class='st'>"Stratum height/m"</span>, <span class='no'>heightMethod2</span>,
-                               <span class='kw'>function</span>(<span class='no'>x</span>){<span class='fu'>return</span>(<span class='no'>x</span>*<span class='fl'>10</span>)}, <span class='kw'>replaceValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  Target method: 'Stratum height/m'
+                               <span class='kw'>function</span>(<span class='no'>x</span>){<span class='fu'>return</span>(<span class='no'>x</span>*<span class='fl'>10</span>)},
+                               <span class='kw'>replaceValues</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  Target method: 'Stratum height/m'
 #&gt;  Number of quantitative attributes: 1
 #&gt;  Measurement method 'Stratum height/cm' added.
 #&gt;  70 transformation(s) were applied on stratum observations.</div><div class='input'><span class='co'># Examine new stratum heights</span>

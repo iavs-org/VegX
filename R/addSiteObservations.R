@@ -6,20 +6,19 @@
 #' @param x A data frame where each row corresponds to one plot observation. Columns can be varied.
 #' @param plotObservationMapping A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 #' Additional optional mappings are: 'subPlotName'.
-#' @param soilMeasurementMapping A list with element names equal to soil measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' @param climateMeasurementMapping A list with element names equal to climate measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
-#' @param waterBodyMeasurementMapping A list with element names equal to water body measurement subjects, used to specify the mapping of data columns (specified using strings for column names) onto these variables.
+#' @param soilMeasurementMapping A named list used to specify the mapping of data columns to soil variables (e.g. soil1 = "pH" to map variable "pH" of the data frame into a first soil variable). List names should be the same as in \code{soilMeasurementMethods}.
+#' @param climateMeasurementMapping A named list used to specify the mapping of data columns to climate variables. List names should be the same as in \code{climateMeasurementMethods}.
+#' @param waterBodyMeasurementMapping A named list used to specify the mapping of data columns to water body variables. List names should be the same as in \code{waterBodyMeasurementMethods}.
 #' @param soilMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as soil subject measurement variables
-#' (e.g. \code{list(pH = pHmeth)} to specify the use of method '\code{pHmeth}' for pH measurements). Alternatively,
-#' methods can be specified using strings if predefined methods exist (e.g. \code{list(pH = "pH/0-14")}), 
+#' for each of the element names stated in \code{soilMeasurementMapping} (e.g. \code{list(soil1 = pHmeth)} to specify the use of method '\code{pHmeth}' for soil1). 
+#' Alternatively, methods can be specified using strings if predefined methods exist (e.g. \code{list(soil1 = "pH/0-14")} to use the predefined method "pH/0-14"), 
 #' see \code{\link{predefinedMeasurementMethod}}.
 #' @param climateMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as climate subject measurement variables. Alternatively,
+#' for each of the element names stated in \code{climateMeasurementMapping}. List names should be the same as climate subject measurement variables. Alternatively,
 #' methods can be specified using strings if predefined methods exist, 
 #' see \code{\link{predefinedMeasurementMethod}}.
 #' @param waterBodyMeasurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-#' for each of the soil variables stated in \code{soilMeasurementMapping}. List names should be the same as water body subject measurement variables. Alternatively,
+#' for each of the element names stated in \code{waterBodyMeasurementMapping}. List names should be the same as water body subject measurement variables. Alternatively,
 #' methods can be specified using strings if predefined methods exist, 
 #' see \code{\link{predefinedMeasurementMethod}}.
 #' @param date.format A character string specifying the input format of dates (see \code{\link{as.Date}}).
@@ -30,12 +29,14 @@
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #'
 #' @details 
-#' The subjects currently recognized for soil observations are:
+#' When defining methods, the users should preferably name subjects using the same strings as in predefined methods,
+#' because this facilitates merging datasets where the same entities have been measured. 
+#' The subjects currently recognized in predefined methods for soil observations are:
 #' \itemize{
 #'  \item{\code{pH}: Soil pH.}
 #'  \item{\code{texture}: Soil texture class.}
 #' }
-#' The subjects currently recognized for climate observations are:
+#' For climate observations are:
 #' \itemize{
 #'  \item{\code{climate MAT}: Mean annual temperature.}
 #'  \item{\code{climate TWM}: Temperature of the warmest month.}
@@ -46,14 +47,11 @@
 #'  \item{\code{climate PDM}: Precipitation of the driest month.}
 #'  \item{\code{climate PWM}: Precipitation of the wettest month.}
 #' }
-#' 
-#' The subjects currently recognized for water body observations are:
+#' And for water body observations are:
 #' \itemize{
 #'  \item{\code{salinity}: Salinity of the water body.}
 #' }
-#'  
 #' Please contact Veg-X developers to ask for additional subjects if you think they are rellevant for exchanging vegetation plot data. 
-#' Controlling the vocabulary of subjects and the units used in measurements is the only way to ensure compatibility of environmental data between data sets.
 #' 
 #' Missing value policy:
 #' \itemize{
@@ -73,16 +71,17 @@
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot",
 #'                obsStartDate = "PlotObsStartDate")
 #' # the element name refers to the subject and the string to the variable name              
-#' soilmapping = list(pH = "pH") 
+#' soilmapping = list(soil1 = "pH") 
 #'
 #' # Create new Veg-X document with site observations
+#' # Uses predefined measurement method "pH/0-14"
 #' x = addSiteObservations(newVegX(), moki_site,
 #'                         plotObservationMapping = mapping,
 #'                         soilMeasurementMapping = soilmapping,
-#'                         soilMeasurementMethods = list(pH = "pH/0-14"))
+#'                         soilMeasurementMethods = list(soil1 = "pH/0-14"))
 #' # Examine results
 #' summary(x)
-#' head(showElementTable(x, "siteObservation"))
+#' head(showElementTable(x, "siteObservation", subject=TRUE))
 #'
 addSiteObservations<-function(target, x,
                               plotObservationMapping,
@@ -102,14 +101,6 @@ addSiteObservations<-function(target, x,
   nrecords = nrow(x)
   nmissing = 0
 
-
-  # Get recognized site subjects
-  soilSubjects = c('pH', 'texture')
-  climateSubjects = c('climate MAT', 'climate TWM', 'climate TCM', 'climate MDR', 
-                       'climate MAP', 'climate PDM', 'climate PWM')
-  waterBodySubjects = c('salinity')
-  subjects = c(soilSubjects, climateSubjects, waterBodySubjects)
-  
   
   
   #check mappings
@@ -239,7 +230,6 @@ addSiteObservations<-function(target, x,
       measurementMethods[[m]] = method
     }
     else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
-    # if(!(method@subject %in% subjects)) warning(paste0("Method for '", method@name, "' not found among defined subjects."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

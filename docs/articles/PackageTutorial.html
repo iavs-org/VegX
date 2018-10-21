@@ -75,7 +75,7 @@
       <h1>How to use the VegX R package</h1>
                         <h4 class="author">IAVS Ecoinformatics Working Group</h4>
             
-            <h4 class="date">2018-10-20</h4>
+            <h4 class="date">2018-10-21</h4>
       
       
       <div class="hidden name"><code>PackageTutorial.Rmd</code></div>
@@ -122,7 +122,7 @@
 <div id="installing-the-package-and-loading-source-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-the-package-and-loading-source-data" class="anchor"></a>Installing the package and loading source data</h2>
-<p>The <strong>VegX package</strong> is currently distributed from <a href="https://github.com">GitHub</a>. To install it, you should have package <code>devtools</code> installed and use the following command: <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)</a></code>. Assuming that the package is already installed you begin by loading it, which results in the required package <em>XML</em> also being loaded:</p>
+<p>The <strong>VegX package</strong> is currently distributed from <a href="https://github.com">GitHub</a>. To install it, you should have package <code>devtools</code> installed and use the following command: <code><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)</a></code>. Assuming that the package is already installed you begin by loading it, which results in the required package <em>XML</em> also being loaded:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(VegX)</code></pre></div>
 <p>User’s of the VegX package are expected to know how import their source data into R, either using a database connection or by reading files in diverse formats (e.g. txt, csv, xlsx, …). For the examples of this manual, we will use three data sets that were extracted from the <a href="https://nvs.landcareresearch.co.nz/">New Zealand National Vegetation Survey (NVS) Databank</a>. These are subsets of the original datasets prepared for demonstration purposes only.</p>
 <ul>
@@ -1227,27 +1227,27 @@ mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Add basal area measurements to the VegX object</span>
 moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addCommunityObservations.html">addCommunityObservations</a></span>(moki_vegx, moki_site, <span class="dt">mapping =</span> mapping,
                         <span class="dt">methods =</span> <span class="kw">list</span>(<span class="dt">basal_area =</span> <span class="st">"basal area"</span>))</code></pre></div>
-<pre><code>##  Measurement method 'basal area' added for 'basal_area'.
+<pre><code>##  Measurement method 'Basal area/m2*ha-1' added for 'basal_area'.
 ##  25 plot(s) parsed, 0 new plot(s) added.
 ##  25 plot observation(s) parsed, 0 new plot observation(s) added.
 ##  25 record(s) parsed, 25 new community observation(s) added.</code></pre>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Inspect the result</span>
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"communityObservation"</span>),<span class="dv">3</span>)</code></pre></div>
-<pre><code>##    plotName obsStartDate comm_1_method comm_1_value
-## 1    LGM08r   2011-02-17    basal area    12.291310
-## 2 LGM08r_1Q   2011-02-17    basal area     7.575782
-## 3 LGM08r_2Q   2011-02-17    basal area    12.068803</code></pre>
+<pre><code>##    plotName obsStartDate      comm_1_method comm_1_value
+## 1    LGM08r   2011-02-17 Basal area/m2*ha-1     12.83621
+## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1     10.71079
+## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1      0.00000</code></pre>
 </div>
 <div id="site-observations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#site-observations" class="anchor"></a>Site observations</h3>
-<p>Veg-X includes into elements <em>siteObservation</em> all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column <code>pH</code> with constant values in the <code>moki_site</code> data frame. The function that allows adding site observations is <code><a href="../reference/addSiteObservations.html">addSiteObservations()</a></code> and the following code should be self-explanatory by now:</p>
+<p>Veg-X includes into elements <em>siteObservation</em> all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column <code>pH</code> with constant values in the <code>moki_site</code> data frame. The function that allows adding site observations is <code><a href="../reference/addSiteObservations.html">addSiteObservations()</a></code> and the following code should be rather self-explanatory by now:</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">subPlotName =</span> <span class="st">"Subplot"</span>, <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>)
 moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addSiteObservations.html">addSiteObservations</a></span>(moki_vegx, moki_site,
                          <span class="dt">plotObservationMapping =</span> mapping,
-                         <span class="dt">soilMeasurementMapping =</span> <span class="kw">list</span>(<span class="dt">pH =</span> <span class="st">"pH"</span>),
-                         <span class="dt">soilMeasurementMethods =</span> <span class="kw">list</span>(<span class="dt">pH =</span> <span class="st">"pH/0-14"</span>))</code></pre></div>
-<pre><code>##  Measurement method 'pH/0-14' added for 'pH'.
+                         <span class="dt">soilMeasurementMapping =</span> <span class="kw">list</span>(<span class="dt">soil1 =</span> <span class="st">"pH"</span>),
+                         <span class="dt">soilMeasurementMethods =</span> <span class="kw">list</span>(<span class="dt">soil1 =</span> <span class="st">"pH/0-14"</span>))</code></pre></div>
+<pre><code>##  Measurement method 'pH/0-14' added for 'soil1'.
 ##  25 plot(s) parsed, 0 new plot(s) added.
 ##  25 plot observation(s) parsed, 0 new plot observation(s) added.
 ##  25 record(s) parsed, 25 new site observation(s) added.</code></pre>
@@ -1379,9 +1379,9 @@ vegx_ids =<span class="st"> </span><span class="kw"><a href="../reference/addPlo
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> moki_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"plot"</span>),<span class="dv">3</span>)</code></pre></div>
 <pre><code>##    plotName                 plotUniqueIdentifier     shape
-## 1    LGM08r be7eb995-0dc7-435a-abfc-d8ba13f6deea rectangle
-## 2 LGM08r_1Q d6e52512-86f5-472f-af1d-d27d7203cf21 rectangle
-## 3 LGM08r_2Q b0fc79c7-669b-4462-a8fe-1a8330eb5f21 rectangle
+## 1    LGM08r 047ef54b-064d-4809-b28d-d5549dcf1073 rectangle
+## 2 LGM08r_1Q 98833172-6eb4-4ef9-827f-aa9aec264ced rectangle
+## 3 LGM08r_2Q c8279a1e-2b9c-488e-a6e0-093d25611e52 rectangle
 ##      length_method length_value     width_method width_value   coordX
 ## 1 Plot dimension/m           20 Plot dimension/m          20 172.1407
 ## 2 Plot dimension/m           10 Plot dimension/m          10       NA

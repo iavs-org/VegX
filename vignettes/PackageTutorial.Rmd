@@ -480,13 +480,13 @@ head(showElementTable(moki_vegx, "communityObservation"),3)
 
 ### Site observations
 
-Veg-X includes into elements *siteObservation* all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column ``pH`` with constant values in the ``moki_site`` data frame. The function that allows adding site observations is ``addSiteObservations()`` and the following code should be self-explanatory by now:
+Veg-X includes into elements *siteObservation* all observations and measurements that do not refer to vegetation itself, i.e. abiotic measurements, soil type classifications, etc. Since our example source data sets did not include any of such measurements, we created a column ``pH`` with constant values in the ``moki_site`` data frame. The function that allows adding site observations is ``addSiteObservations()`` and the following code should be rather self-explanatory by now:
 ```{r add site obs moki}
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")
 moki_vegx = addSiteObservations(moki_vegx, moki_site,
                          plotObservationMapping = mapping,
-                         soilMeasurementMapping = list(pH = "pH"),
-                         soilMeasurementMethods = list(pH = "pH/0-14"))
+                         soilMeasurementMapping = list(soil1 = "pH"),
+                         soilMeasurementMethods = list(soil1 = "pH/0-14"))
 head(showElementTable(moki_vegx, "siteObservation"))
 ```
 
