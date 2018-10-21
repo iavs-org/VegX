@@ -44,7 +44,7 @@ see \code{\link{predefinedMeasurementMethod}}.}
 
 \item{missing.values}{A character vector of values that should be considered as missing observations/measurements.}
 
-\item{fill.methods}{A flag to indicate that missing methods should be filled with dummy ones. This allows storing any environmental data, but without appropriate metadata.}
+\item{fill.methods}{A flag to indicate that missing methods should be filled with dummy ones. This allows easily storing any environmental data, but without appropriate metadata.}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
@@ -55,29 +55,14 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds site observation records to a VegX object from a data table where rows are plot observations.
 }
 \details{
-When defining methods, the users should preferably name subjects using the same strings as in predefined methods,
+Unlike in other functions, here the element names of mappings are only used to find the corresponding method. The measured subject (e.g. pH, salinity or mean annual temperature) is taken from the method definition. 
+There is one exception to this rule: users can use \code{fill.methods = TRUE} to skip defining methods for all environmental variables. In this case, the 
+function will define dummy measurement methods, taking the element name of the mapping list as subject. For example, if
+\code{soilMeasurementMapping = list(pHvar = "pH")} and no method is provided for pHvar in \code{soilMeasurementMethods}, the function will create
+a dummy measurement method called 'pHvar'. Although this possibility is given to ease import, users are encouraged to define
+site measurement methods or to use predefined ones. When defining measurement methods, users should preferably name subjects using the same strings as in predefined methods,
 because this facilitates merging datasets where the same entities have been measured. 
-The subjects currently recognized in predefined methods for soil observations are:
-\itemize{
- \item{\code{pH}: Soil pH.}
- \item{\code{texture}: Soil texture class.}
-}
-For climate observations are:
-\itemize{
- \item{\code{climate MAT}: Mean annual temperature.}
- \item{\code{climate TWM}: Temperature of the warmest month.}
- \item{\code{climate TCM}: Temperature of the coldest month.}
- \item{\code{climate MDR}: Mean diurnal range.}
- \item{\code{climate MAP}: Mean annual precipitation.}
- \item{\code{climate MAP}: Mean annual precipitation.}
- \item{\code{climate PDM}: Precipitation of the driest month.}
- \item{\code{climate PWM}: Precipitation of the wettest month.}
-}
-And for water body observations are:
-\itemize{
- \item{\code{salinity}: Salinity of the water body.}
-}
-Please contact Veg-X developers to ask for additional subjects if you think they are rellevant for exchanging vegetation plot data. 
+Please contact Veg-X developers to ask for additional predefined measurement methods if you think they are rellevant for exchanging vegetation plot data. 
 
 Missing value policy:
 \itemize{

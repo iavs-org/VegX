@@ -184,7 +184,7 @@ see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod
     </tr>
     <tr>
       <th>fill.methods</th>
-      <td><p>A flag to indicate that missing methods should be filled with dummy ones. This allows storing any environmental data, but without appropriate metadata.</p></td>
+      <td><p>A flag to indicate that missing methods should be filled with dummy ones. This allows easily storing any environmental data, but without appropriate metadata.</p></td>
     </tr>
     <tr>
       <th>verbose</th>
@@ -198,23 +198,14 @@ see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod
     
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>When defining methods, the users should preferably name subjects using the same strings as in predefined methods,
+    <p>Unlike in other functions, here the element names of mappings are only used to find the corresponding method. The measured subject (e.g. pH, salinity or mean annual temperature) is taken from the method definition. 
+There is one exception to this rule: users can use <code>fill.methods = TRUE</code> to skip defining methods for all environmental variables. In this case, the 
+function will define dummy measurement methods, taking the element name of the mapping list as subject. For example, if
+<code>soilMeasurementMapping = list(pHvar = "pH")</code> and no method is provided for pHvar in <code>soilMeasurementMethods</code>, the function will create
+a dummy measurement method called 'pHvar'. Although this possibility is given to ease import, users are encouraged to define
+site measurement methods or to use predefined ones. When defining measurement methods, users should preferably name subjects using the same strings as in predefined methods,
 because this facilitates merging datasets where the same entities have been measured. 
-The subjects currently recognized in predefined methods for soil observations are:</p><ul>
-<li><p><code>pH</code>: Soil pH.</p></li>
-<li><p><code>texture</code>: Soil texture class.</p></li>
-</ul><p>For climate observations are:</p><ul>
-<li><p><code>climate MAT</code>: Mean annual temperature.</p></li>
-<li><p><code>climate TWM</code>: Temperature of the warmest month.</p></li>
-<li><p><code>climate TCM</code>: Temperature of the coldest month.</p></li>
-<li><p><code>climate MDR</code>: Mean diurnal range.</p></li>
-<li><p><code>climate MAP</code>: Mean annual precipitation.</p></li>
-<li><p><code>climate MAP</code>: Mean annual precipitation.</p></li>
-<li><p><code>climate PDM</code>: Precipitation of the driest month.</p></li>
-<li><p><code>climate PWM</code>: Precipitation of the wettest month.</p></li>
-</ul><p>And for water body observations are:</p><ul>
-<li><p><code>salinity</code>: Salinity of the water body.</p></li>
-</ul><p>Please contact Veg-X developers to ask for additional subjects if you think they are rellevant for exchanging vegetation plot data.</p>
+Please contact Veg-X developers to ask for additional predefined measurement methods if you think they are rellevant for exchanging vegetation plot data.</p>
 <p>Missing value policy:</p><ul>
 <li><p>Missing 'plotName' or 'obsStartDate' values are interpreted as if the previous non-missing value has to be used to define plot observation.</p></li>
 <li><p>Missing 'subPlotName' values are interpreted in that observation refers to the parent plotName.</p></li>
