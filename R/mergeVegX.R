@@ -10,7 +10,6 @@
 #' @param verbose A flag to indicate console output of the data integration process.
 #'
 #' @return An object of class \code{\linkS4class{VegX}} with the pooled data
-#' @export
 #'
 #' @details Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 #' \itemize{

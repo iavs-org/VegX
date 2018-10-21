@@ -20,7 +20,6 @@
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
-#' @export
 #'
 #' @details Named elements in \code{mapping} other than those used by this function will be ignored. Missing value policy:
 #'  \itemize{

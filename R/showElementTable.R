@@ -13,7 +13,6 @@
 #' @param max.nchar Maximum number of characters in strings
 #'
 #' @return a data frame
-#' @export
 #'
 #' @examples
 #' data(mokihinui)
@@ -721,23 +720,27 @@ showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, m
         }
         res[i, "plotName"] = x@plots[[x@plotObservations[[x@siteObservations[[i]]$plotObservationID]]$plotID]]$plotName
         res[i, "obsStartDate"] = as.character(x@plotObservations[[x@siteObservations[[i]]$plotObservationID]]$obsStartDate)
-        for(mesType in c("soilMeasurements", "climateMeasurements", "waterBodyMeasurements")) {
+        mesTypes = c("soilMeasurements", "climateMeasurements", "waterBodyMeasurements")
+        nameTypes = c("soil","climate", "water")
+        for(s in 1:3) {
+          mesType = mesTypes[s]
+          nameType =nameTypes[s]
           if(mesType %in% names(x@siteObservations[[i]])) {
             measurements = x@siteObservations[[i]][[mesType]]
             for(j in 1:length(measurements)) {
               attID = measurements[[j]]$attributeID
-              soilAttID = paste0("soil", names(measurements)[j],"_attributeID")
+              siteAttID = paste0(nameType, names(measurements)[j],"_attributeID")
               if(IDs) {
-                res[i, soilAttID] = measurements[[j]]$attributeID
+                res[i, siteAttID] = measurements[[j]]$attributeID
               }
-              soilMethod = paste0("soil_", names(measurements)[j],"_method")
-              res[i, soilMethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
+              sitemethod = paste0(nameType,"_", names(measurements)[j],"_method")
+              res[i, sitemethod] = x@methods[[x@attributes[[attID]]$methodID]]$name
               if(subjects) {
-                soilSubject = paste0("soil_", names(measurements)[j],"_subject")
-               res[i, soilSubject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
+               subject = paste0(nameType,"_", names(measurements)[j],"_subject")
+               res[i, subject] = x@methods[[x@attributes[[attID]]$methodID]]$subject
               }
-              soilVal = paste0("soil_", names(measurements)[j],"_value")
-              res[i, soilVal] = measurements[[j]]$value
+              val = paste0(nameType,"_", names(measurements)[j],"_value")
+              res[i, val] = measurements[[j]]$value
             }
           }
         }

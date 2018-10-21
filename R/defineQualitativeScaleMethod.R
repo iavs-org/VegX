@@ -11,7 +11,6 @@
 #' @param definitions A character vector of class definitions.
 #'
 #' @return an object of class \code{\linkS4class{VegXMethodDefinition}}
-#' @export
 #'
 #' @family define measurement functions
 #'

@@ -11,7 +11,6 @@
 #' @param verbose A flag to indicate console output of the data integration process.
 #'
 #' @return A modified object of class \code{\linkS4class{VegX}}
-#' @export
 #'
 #' @family add functions
 #'

@@ -12,7 +12,6 @@
 #' @param upperLimit The upper limit of the quantitative scale, if defined.
 #'
 #' @return an object of class \code{\linkS4class{VegXMethodDefinition}}
-#' @export
 #'
 #' @family define measurement functions
 #'

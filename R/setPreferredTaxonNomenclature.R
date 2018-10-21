@@ -18,7 +18,6 @@
 #' @param verbose A boolean flag to indicate console output of the nomenclatural change process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
-#' @export
 #'
 #' @family organism identity functions
 #'

@@ -4,7 +4,6 @@
 #'
 #'
 #' @return An empty object of class \code{\linkS4class{VegX}}.
-#' @export
 #'
 #' @examples
 #'

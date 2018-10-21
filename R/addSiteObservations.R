@@ -28,7 +28,6 @@
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
-#' @export
 #'
 #' @details 
 #' The subjects currently recognized for soil observations are:
@@ -136,14 +135,14 @@ addSiteObservations<-function(target, x,
           warning(paste0("Dummy measurement method defined for '", varname, "'."))
           varclass = class(values)
           newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
-          soilMeasurementMethods[varname] = newMethod
+          soilMeasurementMethods[[varname]] = newMethod
         }
       }
     }
   }
   if(length(climateMeasurementMapping)>0) {
     for(i in 1:length(climateMeasurementMapping)) {
-      climateVariables = c(climateVariables, names(climateMeasurementMethods)[i])
+      climateVariables = c(climateVariables, names(climateMeasurementMapping)[i])
       siteValues[[names(climateMeasurementMapping)[i]]] = as.character(x[[climateMeasurementMapping[[i]]]])
       if(!(names(climateMeasurementMapping)[i] %in% names(climateMeasurementMethods))) {
         if(!fill.methods)  stop(paste0("Measurement method should be provided corresponding to mapping '", names(climateMeasurementMapping)[i], "' (alternatively, set 'fill.methods = TRUE')."))
@@ -153,7 +152,7 @@ addSiteObservations<-function(target, x,
           warning(paste0("Dummy measurement method defined for '", varname, "'."))
           varclass = class(values)
           newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
-          climateMeasurementMethods[varname] = newMethod
+          climateMeasurementMethods[[varname]] = newMethod
         }
       }
     }
@@ -170,7 +169,7 @@ addSiteObservations<-function(target, x,
           warning(paste0("Dummy measurement method defined for '", varname, "'."))
           varclass = class(values)
           newMethod = defineQuantitativeScaleMethod(varname, description = "unknown", subject=varname, unit="unknown")
-          waterBodyMeasurementMethods[varname] = newMethod
+          waterBodyMeasurementMethods[[varname]] = newMethod
         }
       }
     }
@@ -240,7 +239,7 @@ addSiteObservations<-function(target, x,
       measurementMethods[[m]] = method
     }
     else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
-    if(!(method@subject %in% subjects)) warning(paste0("Method for '", method@name, "' not found among defined subjects."))
+    # if(!(method@subject %in% subjects)) warning(paste0("Method for '", method@name, "' not found among defined subjects."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

@@ -7,7 +7,6 @@
 #' @param replace.existing A boolean flag to indicate whether newly generated identifiers should replace existing identifiers.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
-#' @export
 #'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'

@@ -3,8 +3,6 @@
 #' @slot method An object of class \code{\linkS4class{VegXMethodDefinition}}.
 #' @slot surfaceTypes A list of surface types.
 #'
-#' @export
-#'
 #' @examples
 #' showClass("VegXSurfaceTypeDefinition")
 #'

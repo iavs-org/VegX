@@ -53,7 +53,8 @@ Missing value policy:
 data(mokihinui)
 
 # Define mapping
-mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName = "Tier",
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+               stratumName = "Tier",
                lowerLimitMeasurement = "TierLower", upperLimitMeasurement = "TierUpper",
                cover = "CoverClass")
 
@@ -62,22 +63,27 @@ mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", stratumName
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
-                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+                   citation = "Hurst, JM and Allen, RB. (2007) 
+                     The Recce method for describing New Zealand vegetation – 
+                     Field protocols. Landcare Research, Lincoln.",
                    codes = c("P","1","2","3", "4", "5", "6"),
                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
                    breaks = c(0, 1, 5, 25, 50, 75, 100),
                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-                   definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
+                   definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", 
+                                   "51-75\%", "76-100\%"))
 
 
 # Define strata
 strataDef = defineMixedStrata(name = "Recce strata",
-                              description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-                              heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7",
-                              categoryStrataDefinition = "Epiphytes")
+                   description = "Standard Recce stratum definition",
+                   citation = "Hurst, JM and Allen, RB. (2007) 
+                       The Recce method for describing New Zealand vegetation – 
+                       Field protocols. Landcare Research, Lincoln.",
+                   heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                   heightStrataNames = paste0("Tier ",1:6),
+                   categoryStrataNames = "Tier 7",
+                   categoryStrataDefinition = "Epiphytes")
 
 # Create new Veg-X document with stratum observations
 x = addStratumObservations(newVegX(), moki_str, mapping = mapping,

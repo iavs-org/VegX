@@ -7,7 +7,6 @@
 #'
 #'
 #' @return an object of class \code{\linkS4class{VegXMethodDefinition}}
-#' @export
 #'
 #' @family define measurement functions
 #'
@@ -26,7 +25,7 @@ predefinedMeasurementMethod<-function(name) {
     l = s[which(quantitative_methods$default[s]=="Yes")]
   } 
   if(l!=-1) {
-    m = defineQuantitativeScaleMethod(name = name,
+    m = defineQuantitativeScaleMethod(name = quantitative_methods$name[l],
                                       description = quantitative_methods$description[l],
                                       subject = quantitative_methods$subject[l],
                                       unit = quantitative_methods$unit[l],

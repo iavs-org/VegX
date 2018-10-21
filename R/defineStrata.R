@@ -12,7 +12,6 @@
 #' @param strataDefinitions A character vector with strata definitions
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
-#' @export
 #'
 #' @family define strata functions
 #'
@@ -106,7 +105,6 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #' @param order A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
-#' @export
 #'
 #' @family define strata functions
 #'
