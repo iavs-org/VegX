@@ -47,7 +47,7 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
                    citation = "Hurst, JM and Allen, RB. (2007) 
-                       The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                       The Recce method for describing New Zealand vegetation – Field protocols. 
                        Landcare Research, Lincoln.",
                    codes = c("P","1","2","3", "4", "5", "6"),
                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
@@ -58,7 +58,7 @@ coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 strataDef = defineMixedStrata(name = "Recce strata",
                    description = "Standard Recce stratum definition",
                    citation = "Hurst, JM and Allen, RB. (2007) 
-                     The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                     The Recce method for describing New Zealand vegetation – Field protocols. 
                      Landcare Research, Lincoln.",
                    heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                    heightStrataNames = paste0("Tier ",1:6),
