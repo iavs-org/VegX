@@ -185,24 +185,29 @@ entities between the two data sets to be merged and hence are simply copied to t
               <span class='kw'>taxonName</span> <span class='kw'>=</span> <span class='st'>"NVSSpeciesName"</span>,
               <span class='kw'>stratumName</span> <span class='kw'>=</span> <span class='st'>"Tier"</span>, <span class='kw'>cover</span> <span class='kw'>=</span> <span class='st'>"Category"</span>)
 <span class='no'>coverscale</span> <span class='kw'>=</span> <span class='fu'><a href='defineOrdinalScaleMethod.html'>defineOrdinalScaleMethod</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Recce cover scale"</span>,
-                   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Recce recording method by Hurst/Allen"</span>,
-                   <span class='kw'>subject</span> <span class='kw'>=</span> <span class='st'>"plant cover"</span>,
-                   <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln."</span>,
-                   <span class='kw'>codes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"P"</span>,<span class='st'>"1"</span>,<span class='st'>"2"</span>,<span class='st'>"3"</span>, <span class='st'>"4"</span>, <span class='st'>"5"</span>, <span class='st'>"6"</span>),
-                   <span class='kw'>quantifiableCodes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"1"</span>,<span class='st'>"2"</span>,<span class='st'>"3"</span>, <span class='st'>"4"</span>, <span class='st'>"5"</span>, <span class='st'>"6"</span>),
-                   <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>25</span>, <span class='fl'>50</span>, <span class='fl'>75</span>, <span class='fl'>100</span>),
-                   <span class='kw'>midPoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.5</span>, <span class='fl'>15</span>, <span class='fl'>37.5</span>, <span class='fl'>62.5</span>, <span class='fl'>87.5</span>),
-                   <span class='kw'>definitions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Presence"</span>, <span class='st'>"&lt;1%"</span>, <span class='st'>"1-5%"</span>,<span class='st'>"6-25%"</span>, <span class='st'>"26-50%"</span>, <span class='st'>"51-75%"</span>, <span class='st'>"76-100%"</span>))
+               <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Recce recording method by Hurst/Allen"</span>,
+               <span class='kw'>subject</span> <span class='kw'>=</span> <span class='st'>"plant cover"</span>,
+               <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) 
+                   The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                   Landcare Research, Lincoln."</span>,
+               <span class='kw'>codes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"P"</span>,<span class='st'>"1"</span>,<span class='st'>"2"</span>,<span class='st'>"3"</span>, <span class='st'>"4"</span>, <span class='st'>"5"</span>, <span class='st'>"6"</span>),
+               <span class='kw'>quantifiableCodes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"1"</span>,<span class='st'>"2"</span>,<span class='st'>"3"</span>, <span class='st'>"4"</span>, <span class='st'>"5"</span>, <span class='st'>"6"</span>),
+               <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>25</span>, <span class='fl'>50</span>, <span class='fl'>75</span>, <span class='fl'>100</span>),
+               <span class='kw'>midPoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.5</span>, <span class='fl'>15</span>, <span class='fl'>37.5</span>, <span class='fl'>62.5</span>, <span class='fl'>87.5</span>),
+               <span class='kw'>definitions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Presence"</span>, <span class='st'>"&lt;1%"</span>, <span class='st'>"1-5%"</span>,<span class='st'>"6-25%"</span>, <span class='st'>"26-50%"</span>,
+                                   <span class='st'>"51-75%"</span>, <span class='st'>"76-100%"</span>))
 <span class='no'>strataDef</span> <span class='kw'>=</span> <span class='fu'><a href='defineMixedStrata.html'>defineMixedStrata</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Recce strata"</span>,
-                   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Standard Recce stratum definition"</span>,
-                   <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln."</span>,
-                   <span class='kw'>heightStrataBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.3</span>,<span class='fl'>2.0</span>,<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>25</span>, <span class='fl'>50</span>),
-                   <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
-                   <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
-                   <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
+               <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Standard Recce stratum definition"</span>,
+               <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) 
+                 The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                 Landcare Research, Lincoln."</span>,
+               <span class='kw'>heightStrataBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.3</span>,<span class='fl'>2.0</span>,<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>25</span>, <span class='fl'>50</span>),
+               <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
+               <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
+               <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addAggregateOrganismObservations.html'>addAggregateOrganismObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_tcv</span>, <span class='no'>taxmapping</span>,
-                   <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
-                   <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Category.
+               <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
+               <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Category.
 #&gt;  Measurement method 'Recce cover scale' added for 'cover'.
 #&gt;  Stratum definition method 'Recce strata' added.
 #&gt;  7 new stratum definitions added.
@@ -217,7 +222,7 @@ entities between the two data sets to be merged and hence are simply copied to t
                    <span class='kw'>taxonName</span> <span class='kw'>=</span> <span class='st'>"NVSSpeciesName"</span>, <span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='st'>"Diameter"</span>)
 <span class='no'>diamMeth</span> <span class='kw'>=</span> <span class='fu'><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></span>(<span class='st'>"DBH/cm"</span>)
 <span class='no'>y</span> <span class='kw'>=</span> <span class='fu'><a href='addIndividualOrganismObservations.html'>addIndividualOrganismObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_dia</span>, <span class='no'>treemapping</span>,
-                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='no'>diamMeth</span>))</div><div class='output co'>#&gt;  Measurement method 'DBH/cm' added for 'diameterMeasurement'.
+                   <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>diameterMeasurement</span> <span class='kw'>=</span> <span class='no'>diamMeth</span>))</div><div class='output co'>#&gt;  Measurement method 'DBH/cm' added for 'diameterMeasurement'.
 #&gt;  23 plot(s) parsed, 23 new added.
 #&gt;  18 plot observation(s) parsed, 18 new added.
 #&gt;  28 organism names(s) parsed, 28 new added.
@@ -229,7 +234,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class='co'># organism identities that have the same name separated. This default behaviour</span>
 <span class='co'># is set assuming that 'x' and 'y' come from different data sources.</span>
 <span class='no'>z1</span> <span class='kw'>=</span> <span class='fu'>mergeVegX</span>(<span class='no'>x</span>,<span class='no'>y</span>)</div><div class='output co'>#&gt;  Final number of party(ies): 0. Data pooled for 0 party(ies).
-#&gt;  Final number of literature citations: 1. Data pooled for 0 citation(s).
+#&gt;  Final number of literature citations: 2. Data pooled for 0 citation(s).
 #&gt;  Final number of methods: 3. Data pooled for 0 method(s).
 #&gt;  Final number of attributes: 9.
 #&gt;  Final number of strata: 7. Data pooled for 0 strata.
@@ -275,7 +280,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 #&gt; 
 #&gt;    Parties: 0
 #&gt; 
-#&gt;    Literature citations: 1
+#&gt;    Literature citations: 2
 #&gt; 
 #&gt;    Methods: 3
 #&gt;       1. Recce cover scale [plant cover / 7 ordinal atts.]
@@ -299,10 +304,11 @@ entities between the two data sets to be merged and hence are simply copied to t
 #&gt; ================================================================</div><div class='input'>
 <span class='co'># Merge 'x' and 'y' while allowing plots of the same name to be merged</span>
 <span class='co'># and organism identities that have the same name to be merged. This configuration</span>
-<span class='co'># should be used when merging two VegX objects that come from the same data source (i.e. Mokihinui data)</span>
+<span class='co'># should be used when merging two VegX objects that come from the same data source </span>
+<span class='co'># (i.e. Mokihinui data)</span>
 <span class='no'>z2</span> <span class='kw'>=</span> <span class='fu'>mergeVegX</span>(<span class='no'>x</span>,<span class='no'>y</span>, <span class='kw'>allowMergePlots</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
                <span class='kw'>allowMergeOrganismIdentities</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>)</div><div class='output co'>#&gt;  Final number of party(ies): 0. Data pooled for 0 party(ies).
-#&gt;  Final number of literature citations: 1. Data pooled for 0 citation(s).
+#&gt;  Final number of literature citations: 2. Data pooled for 0 citation(s).
 #&gt;  Final number of methods: 3. Data pooled for 0 method(s).
 #&gt;  Final number of attributes: 9.
 #&gt;  Final number of strata: 7. Data pooled for 0 strata.
@@ -348,7 +354,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 #&gt; 
 #&gt;    Parties: 0
 #&gt; 
-#&gt;    Literature citations: 1
+#&gt;    Literature citations: 2
 #&gt; 
 #&gt;    Methods: 3
 #&gt;       1. Recce cover scale [plant cover / 7 ordinal atts.]

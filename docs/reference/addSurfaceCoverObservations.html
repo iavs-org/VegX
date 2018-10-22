@@ -232,8 +232,8 @@ Alternatively, the method can be specified using a string if a predefined method
 
 <span class='co'># Define surface types from the data</span>
 <span class='fu'>unique</span>(<span class='no'>mtfyffe_groundcover</span>$<span class='no'>PlotGroundCover</span>)</div><div class='output co'>#&gt; [1] "Vegetation"   "Moss"         "Litter"       "Exposed Soil" "Rock"        </div><div class='input'><span class='no'>surfaceTypes</span> <span class='kw'>=</span> <span class='fu'><a href='defineSurfaceTypes.html'>defineSurfaceTypes</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Default surface types"</span>,
-                                  <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Five surface categories"</span>,
-                                  <span class='kw'>surfaceNames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Vegetation"</span>, <span class='st'>"Moss"</span>, <span class='st'>"Litter"</span>, <span class='st'>"Exposed Soil"</span>, <span class='st'>"Rock"</span>))
+                  <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Five surface categories"</span>,
+                  <span class='kw'>surfaceNames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Vegetation"</span>, <span class='st'>"Moss"</span>, <span class='st'>"Litter"</span>, <span class='st'>"Exposed Soil"</span>, <span class='st'>"Rock"</span>))
 
 <span class='co'># Create new Veg-X document with surface cover observations</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addSurfaceCoverObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>mtfyffe_groundcover</span>, <span class='no'>mapping</span>,
@@ -277,8 +277,8 @@ Alternatively, the method can be specified using a string if a predefined method
 #&gt; 33       781853         1153875   1153875       500       1968-02-07</div><div class='input'>
 <span class='fu'>unique</span>(<span class='no'>taki_groundcover</span>$<span class='no'>PlotGroundCover</span>)</div><div class='output co'>#&gt; [1] "Litter"           "Rock"             "Vegetation"       "Erosion Pavement"
 #&gt; [5] "Soil"            </div><div class='input'><span class='no'>surfaceTypes</span> <span class='kw'>=</span> <span class='fu'><a href='defineSurfaceTypes.html'>defineSurfaceTypes</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Default surface types"</span>,
-                              <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Five surface categories"</span>,
-                              <span class='kw'>surfaceNames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Vegetation"</span>, <span class='st'>"Soil"</span>, <span class='st'>"Erosion Pavement"</span>, <span class='st'>"Litter"</span>,<span class='st'>"Rock"</span>))
+                  <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Five surface categories"</span>,
+                  <span class='kw'>surfaceNames</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Vegetation"</span>, <span class='st'>"Soil"</span>, <span class='st'>"Erosion Pavement"</span>, <span class='st'>"Litter"</span>,<span class='st'>"Rock"</span>))
 
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addSurfaceCoverObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>taki_groundcover</span>, <span class='no'>mapping</span>,
                                 <span class='no'>coverMethod</span>, <span class='no'>surfaceTypes</span>)</div><div class='output co'>#&gt;  Measurement method 'Surface cover/%' added for 'coverMeasurement'.

@@ -187,23 +187,28 @@ or to all original organism names listed in <code>x</code>.</p></td>
 <span class='no'>coverscale</span> <span class='kw'>=</span> <span class='fu'><a href='defineOrdinalScaleMethod.html'>defineOrdinalScaleMethod</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Recce cover scale"</span>,
                    <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Recce recording method by Hurst/Allen"</span>,
                    <span class='kw'>subject</span> <span class='kw'>=</span> <span class='st'>"plant cover"</span>,
-                   <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln."</span>,
+                   <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) 
+                        The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                        Landcare Research, Lincoln."</span>,
                    <span class='kw'>codes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"P"</span>,<span class='st'>"1"</span>,<span class='st'>"2"</span>,<span class='st'>"3"</span>, <span class='st'>"4"</span>, <span class='st'>"5"</span>, <span class='st'>"6"</span>),
                    <span class='kw'>quantifiableCodes</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"1"</span>,<span class='st'>"2"</span>,<span class='st'>"3"</span>, <span class='st'>"4"</span>, <span class='st'>"5"</span>, <span class='st'>"6"</span>),
                    <span class='kw'>breaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>1</span>, <span class='fl'>5</span>, <span class='fl'>25</span>, <span class='fl'>50</span>, <span class='fl'>75</span>, <span class='fl'>100</span>),
                    <span class='kw'>midPoints</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0.05</span>, <span class='fl'>0.5</span>, <span class='fl'>15</span>, <span class='fl'>37.5</span>, <span class='fl'>62.5</span>, <span class='fl'>87.5</span>),
-                   <span class='kw'>definitions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Presence"</span>, <span class='st'>"&lt;1%"</span>, <span class='st'>"1-5%"</span>,<span class='st'>"6-25%"</span>, <span class='st'>"26-50%"</span>, <span class='st'>"51-75%"</span>, <span class='st'>"76-100%"</span>))
+                   <span class='kw'>definitions</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='st'>"Presence"</span>, <span class='st'>"&lt;1%"</span>, <span class='st'>"1-5%"</span>,<span class='st'>"6-25%"</span>, <span class='st'>"26-50%"</span>,
+                                  <span class='st'>"51-75%"</span>, <span class='st'>"76-100%"</span>))
 <span class='no'>strataDef</span> <span class='kw'>=</span> <span class='fu'><a href='defineMixedStrata.html'>defineMixedStrata</a></span>(<span class='kw'>name</span> <span class='kw'>=</span> <span class='st'>"Recce strata"</span>,
-                              <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Standard Recce stratum definition"</span>,
-                              <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln."</span>,
-                              <span class='kw'>heightStrataBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.3</span>,<span class='fl'>2.0</span>,<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>25</span>, <span class='fl'>50</span>),
-                              <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
-                              <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
-                              <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
+                   <span class='kw'>description</span> <span class='kw'>=</span> <span class='st'>"Standard Recce stratum definition"</span>,
+                   <span class='kw'>citation</span> <span class='kw'>=</span> <span class='st'>"Hurst, JM and Allen, RB. (2007) 
+                      The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                      Landcare Research, Lincoln."</span>,
+                   <span class='kw'>heightStrataBreaks</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='fl'>0</span>, <span class='fl'>0.3</span>,<span class='fl'>2.0</span>,<span class='fl'>5</span>, <span class='fl'>12</span>, <span class='fl'>25</span>, <span class='fl'>50</span>),
+                   <span class='kw'>heightStrataNames</span> <span class='kw'>=</span> <span class='fu'>paste0</span>(<span class='st'>"Tier "</span>,<span class='fl'>1</span>:<span class='fl'>6</span>),
+                   <span class='kw'>categoryStrataNames</span> <span class='kw'>=</span> <span class='st'>"Tier 7"</span>,
+                   <span class='kw'>categoryStrataDefinition</span> <span class='kw'>=</span> <span class='st'>"Epiphytes"</span>)
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'><a href='addAggregateOrganismObservations.html'>addAggregateOrganismObservations</a></span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_tcv</span>,
-                        <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                        <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
-                        <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Category.
+                   <span class='kw'>mapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
+                   <span class='kw'>methods</span> <span class='kw'>=</span> <span class='fu'>c</span>(<span class='kw'>cover</span><span class='kw'>=</span><span class='no'>coverscale</span>),
+                   <span class='kw'>stratumDefinition</span> <span class='kw'>=</span> <span class='no'>strataDef</span>)</div><div class='output co'>#&gt;  1 additional aggregate organism measurements found: Category.
 #&gt;  Measurement method 'Recce cover scale' added for 'cover'.
 #&gt;  Stratum definition method 'Recce strata' added.
 #&gt;  7 new stratum definitions added.
