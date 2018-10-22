@@ -1,0 +1,9 @@
+^docs$
+^_pkgdown\.yml$
+^.*\.Rproj$
+^\.Rproj\.user$
+^README\.Rmd$
+^data-raw$
+^vegxschema$
+^wetland_Test.R$
+^xx.xml$
