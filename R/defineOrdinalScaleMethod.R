@@ -39,12 +39,15 @@
 #' defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
 #'                    subject = "plant cover",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
+#'                    citation = "Hurst, JM and Allen, RB. (2007) 
+#'                         The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                         Landcare Research, Lincoln.",
 #'                    codes = c("P","1","2","3", "4", "5", "6"),
 #'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
 #'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", "51-75%", "76-100%"))
+#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", 
+#'                                    "51-75%", "76-100%"))
 #'
 defineOrdinalScaleMethod<-function(name, description, subject, codes,
                              citationString = "",

@@ -16,12 +16,12 @@
 #' @family define strata functions
 #'
 defineHeightStrata<-function(name = "Strata by height",
-                             description = "Vegetation strata defined by height in m",
-                             citationString = "", DOI = "",
-                             heightBreaks = c(0,1,3,5),
-                             heightUnit = "m",
-                             strataNames = c("s1", "s2", "s3"),
-                             strataDefinitions = NULL) {
+                      description = "Vegetation strata defined by height in m",
+                      citationString = "", DOI = "",
+                      heightBreaks = c(0,1,3,5),
+                      heightUnit = "m",
+                      strataNames = c("s1", "s2", "s3"),
+                      strataDefinitions = NULL) {
   attributes = list(
     list(type="quantitative",
          unit = heightUnit,
@@ -110,21 +110,24 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #'
 #' @examples
 #' strataDef = defineMixedStrata(name = "Recce strata",
-#'                               description = "Standard Recce stratum definition",
-#'                               citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-#'                               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-#'                               heightStrataNames = paste0("Tier ",1:6),
-#'                               categoryStrataNames = "Tier 7")
+#'                  description = "Standard Recce stratum definition",
+#'                  citation = "Hurst, JM and Allen, RB. (2007) 
+#'                      The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                      Landcare Research, Lincoln.",
+#'                  heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+#'                  heightStrataNames = paste0("Tier ",1:6),
+#'                  categoryStrataNames = "Tier 7")
 defineMixedStrata<-function(name = "Strata by height or category",
-                            description = "Vegetation strata defined by height in m and other strata defined by category",
-                            citationString = "", DOI = "",
-                            heightStrataBreaks = c(0,1,3,5),
-                            heightStrataUnit = "m",
-                            heightStrataNames = c("s1", "s2", "s3"),
-                            categoryStrataNames = "s4",
-                            heightStrataDefinitions = NULL,
-                            categoryStrataDefinitions = NULL,
-                            order = NULL) {
+                      description = paste0("Vegetation strata defined by height in m", 
+                                     " and other strata by category"),
+                      citationString = "", DOI = "",
+                      heightStrataBreaks = c(0,1,3,5),
+                      heightStrataUnit = "m",
+                      heightStrataNames = c("s1", "s2", "s3"),
+                      categoryStrataNames = "s4",
+                      heightStrataDefinitions = NULL,
+                      categoryStrataDefinitions = NULL,
+                      order = NULL) {
   attributes = list(
     list(type="quantitative",
          unit = heightStrataUnit,

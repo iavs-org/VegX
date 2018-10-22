@@ -57,31 +57,36 @@ taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
               taxonName = "NVSSpeciesName",
               stratumName = "Tier", cover = "Category")
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
-                   description = "Recce recording method by Hurst/Allen",
-                   subject = "plant cover",
-                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                   codes = c("P","1","2","3", "4", "5", "6"),
-                   quantifiableCodes = c("1","2","3", "4", "5", "6"),
-                   breaks = c(0, 1, 5, 25, 50, 75, 100),
-                   midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-                   definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", "51-75\%", "76-100\%"))
+               description = "Recce recording method by Hurst/Allen",
+               subject = "plant cover",
+               citation = "Hurst, JM and Allen, RB. (2007) 
+                   The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                   Landcare Research, Lincoln.",
+               codes = c("P","1","2","3", "4", "5", "6"),
+               quantifiableCodes = c("1","2","3", "4", "5", "6"),
+               breaks = c(0, 1, 5, 25, 50, 75, 100),
+               midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
+               definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", 
+                                   "51-75\%", "76-100\%"))
 strataDef = defineMixedStrata(name = "Recce strata",
-                   description = "Standard Recce stratum definition",
-                   citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                   heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-                   heightStrataNames = paste0("Tier ",1:6),
-                   categoryStrataNames = "Tier 7",
-                   categoryStrataDefinition = "Epiphytes")
+               description = "Standard Recce stratum definition",
+               citation = "Hurst, JM and Allen, RB. (2007) 
+                 The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                 Landcare Research, Lincoln.",
+               heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+               heightStrataNames = paste0("Tier ",1:6),
+               categoryStrataNames = "Tier 7",
+               categoryStrataDefinition = "Epiphytes")
 x = addAggregateOrganismObservations(newVegX(), moki_tcv, taxmapping,
-                   methods = c(cover=coverscale),
-                   stratumDefinition = strataDef)
+               methods = c(cover=coverscale),
+               stratumDefinition = strataDef)
 
 # Create document 'y' with tree observations
 treemapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate",
                    taxonName = "NVSSpeciesName", diameterMeasurement = "Diameter")
 diamMeth = predefinedMeasurementMethod("DBH/cm")
 y = addIndividualOrganismObservations(newVegX(), moki_dia, treemapping,
-                        methods = c(diameterMeasurement = diamMeth))
+                   methods = c(diameterMeasurement = diamMeth))
 
 # Merge 'x' and 'y' while keeping plots of the same name separate and
 # organism identities that have the same name separated. This default behaviour
@@ -91,7 +96,8 @@ summary(z1)
 
 # Merge 'x' and 'y' while allowing plots of the same name to be merged
 # and organism identities that have the same name to be merged. This configuration
-# should be used when merging two VegX objects that come from the same data source (i.e. Mokihinui data)
+# should be used when merging two VegX objects that come from the same data source 
+# (i.e. Mokihinui data)
 z2 = mergeVegX(x,y, allowMergePlots = TRUE,
                allowMergeOrganismIdentities = TRUE)
 summary(z2)

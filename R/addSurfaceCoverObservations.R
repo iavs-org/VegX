@@ -49,8 +49,8 @@
 #' # Define surface types from the data
 #' unique(mtfyffe_groundcover$PlotGroundCover)
 #' surfaceTypes = defineSurfaceTypes(name = "Default surface types",
-#'                                   description = "Five surface categories",
-#'                                   surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
+#'                   description = "Five surface categories",
+#'                   surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
 #'
 #' # Create new Veg-X document with surface cover observations
 #' x = addSurfaceCoverObservations(newVegX(), mtfyffe_groundcover, mapping,
@@ -66,8 +66,8 @@
 #'
 #' unique(taki_groundcover$PlotGroundCover)
 #' surfaceTypes = defineSurfaceTypes(name = "Default surface types",
-#'                               description = "Five surface categories",
-#'                               surfaceNames = c("Vegetation", "Soil", "Erosion Pavement", "Litter","Rock"))
+#'                   description = "Five surface categories",
+#'                   surfaceNames = c("Vegetation", "Soil", "Erosion Pavement", "Litter","Rock"))
 #'
 #' x = addSurfaceCoverObservations(newVegX(), taki_groundcover, mapping,
 #'                                 coverMethod, surfaceTypes)

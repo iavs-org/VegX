@@ -5,11 +5,12 @@
 \title{Mixed stratum definiton}
 \usage{
 defineMixedStrata(name = "Strata by height or category",
-  description = "Vegetation strata defined by height in m and other strata defined by category",
-  citationString = "", DOI = "", heightStrataBreaks = c(0, 1, 3, 5),
-  heightStrataUnit = "m", heightStrataNames = c("s1", "s2", "s3"),
-  categoryStrataNames = "s4", heightStrataDefinitions = NULL,
-  categoryStrataDefinitions = NULL, order = NULL)
+  description = paste0("Vegetation strata defined by height in m",
+  " and other strata by category"), citationString = "", DOI = "",
+  heightStrataBreaks = c(0, 1, 3, 5), heightStrataUnit = "m",
+  heightStrataNames = c("s1", "s2", "s3"), categoryStrataNames = "s4",
+  heightStrataDefinitions = NULL, categoryStrataDefinitions = NULL,
+  order = NULL)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -42,11 +43,13 @@ Define some strata by height and other by category
 }
 \examples{
 strataDef = defineMixedStrata(name = "Recce strata",
-                              description = "Standard Recce stratum definition",
-                              citation = "Hurst, JM and Allen, RB. (2007) The Recce method for describing New Zealand vegetation – Field protocols. Landcare Research, Lincoln.",
-                              heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
-                              heightStrataNames = paste0("Tier ",1:6),
-                              categoryStrataNames = "Tier 7")
+                 description = "Standard Recce stratum definition",
+                 citation = "Hurst, JM and Allen, RB. (2007) 
+                     The Recce method for describing New Zealand vegetation – Field protocols. 
+                     Landcare Research, Lincoln.",
+                 heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
+                 heightStrataNames = paste0("Tier ",1:6),
+                 categoryStrataNames = "Tier 7")
 }
 \seealso{
 Other define strata functions: \code{\link{defineCategoricalStrata}},
