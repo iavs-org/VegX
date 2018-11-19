@@ -58,7 +58,7 @@ defineOrdinalScaleMethod(name = "Recce cover scale",
                    description = "Recce recording method by Hurst/Allen",
                    subject = "plant cover",
                    citation = "Hurst, JM and Allen, RB. (2007) 
-                        The Recce method for describing New Zealand vegetation â€“ Field protocols. 
+                        The Recce method for describing New Zealand vegetation – Field protocols. 
                         Landcare Research, Lincoln.",
                    codes = c("P","1","2","3", "4", "5", "6"),
                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
