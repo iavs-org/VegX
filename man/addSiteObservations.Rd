@@ -19,15 +19,15 @@ addSiteObservations(target, x, plotObservationMapping,
 \item{plotObservationMapping}{A list with element names 'plotName', 'obsStartDate', used to specify the mapping of data columns (specified using strings for column names) onto these variables.
 Additional optional mappings are: 'subPlotName'.}
 
-\item{soilMeasurementMapping}{A named list used to specify the mapping of data columns to soil variables (e.g. soil1 = "pH" to map variable "pH" of the data frame into a first soil variable). List names should be the same as in \code{soilMeasurementMethods}.}
+\item{soilMeasurementMapping}{A named list used to specify the mapping of data columns to soil variables (e.g. a = "pH" to map variable "pH" of the data frame). List names should be the same as in \code{soilMeasurementMethods}.}
 
 \item{climateMeasurementMapping}{A named list used to specify the mapping of data columns to climate variables. List names should be the same as in \code{climateMeasurementMethods}.}
 
 \item{waterBodyMeasurementMapping}{A named list used to specify the mapping of data columns to water body variables. List names should be the same as in \code{waterBodyMeasurementMethods}.}
 
 \item{soilMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
-for each of the element names stated in \code{soilMeasurementMapping} (e.g. \code{list(soil1 = pHmeth)} to specify the use of method '\code{pHmeth}' for soil1). 
-Alternatively, methods can be specified using strings if predefined methods exist (e.g. \code{list(soil1 = "pH/0-14")} to use the predefined method "pH/0-14"), 
+for each of the element names stated in \code{soilMeasurementMapping} (e.g. \code{list(a = pHmeth)} to specify the use of method '\code{pHmeth}' for soil1). 
+Alternatively, methods can be specified using strings if predefined methods exist (e.g. \code{list(a = "pH/0-14")} to use the predefined method "pH/0-14"), 
 see \code{\link{predefinedMeasurementMethod}}.}
 
 \item{climateMeasurementMethods}{A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
@@ -78,15 +78,13 @@ data(mokihinui)
 # Define mapping
 mapping = list(plotName = "Plot", subPlotName = "Subplot",
                obsStartDate = "PlotObsStartDate")
-# the element name refers to the subject and the string to the variable name              
-soilmapping = list(soil1 = "pH") 
 
 # Create new Veg-X document with site observations
 # Uses predefined measurement method "pH/0-14"
 x = addSiteObservations(newVegX(), moki_site,
                         plotObservationMapping = mapping,
-                        soilMeasurementMapping = soilmapping,
-                        soilMeasurementMethods = list(soil1 = "pH/0-14"))
+                        soilMeasurementMapping = list(a = "pH") ,
+                        soilMeasurementMethods = list(a = "pH/0-14"))
 # Examine results
 summary(x)
 head(showElementTable(x, "siteObservation", subject=TRUE))

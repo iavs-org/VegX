@@ -61,7 +61,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.9</span>
       </span>
     </div>
 
@@ -143,7 +143,7 @@ Additional optional mappings are: 'subPlotName'.</p></td>
     </tr>
     <tr>
       <th>soilMeasurementMapping</th>
-      <td><p>A named list used to specify the mapping of data columns to soil variables (e.g. soil1 = "pH" to map variable "pH" of the data frame into a first soil variable). List names should be the same as in <code>soilMeasurementMethods</code>.</p></td>
+      <td><p>A named list used to specify the mapping of data columns to soil variables (e.g. a = "pH" to map variable "pH" of the data frame). List names should be the same as in <code>soilMeasurementMethods</code>.</p></td>
     </tr>
     <tr>
       <th>climateMeasurementMapping</th>
@@ -156,8 +156,8 @@ Additional optional mappings are: 'subPlotName'.</p></td>
     <tr>
       <th>soilMeasurementMethods</th>
       <td><p>A named list of objects of class <code><a href='VegXMethodDefinition-class.html'>VegXMethodDefinition</a></code> with the measurement method
-for each of the element names stated in <code>soilMeasurementMapping</code> (e.g. <code>list(soil1 = pHmeth)</code> to specify the use of method '<code>pHmeth</code>' for soil1). 
-Alternatively, methods can be specified using strings if predefined methods exist (e.g. <code>list(soil1 = "pH/0-14")</code> to use the predefined method "pH/0-14"), 
+for each of the element names stated in <code>soilMeasurementMapping</code> (e.g. <code>list(a = pHmeth)</code> to specify the use of method '<code>pHmeth</code>' for soil1). 
+Alternatively, methods can be specified using strings if predefined methods exist (e.g. <code>list(a = "pH/0-14")</code> to use the predefined method "pH/0-14"), 
 see <code><a href='predefinedMeasurementMethod.html'>predefinedMeasurementMethod</a></code>.</p></td>
     </tr>
     <tr>
@@ -237,15 +237,13 @@ Please contact Veg-X developers to ask for additional predefined measurement met
 <span class='co'># Define mapping</span>
 <span class='no'>mapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>plotName</span> <span class='kw'>=</span> <span class='st'>"Plot"</span>, <span class='kw'>subPlotName</span> <span class='kw'>=</span> <span class='st'>"Subplot"</span>,
                <span class='kw'>obsStartDate</span> <span class='kw'>=</span> <span class='st'>"PlotObsStartDate"</span>)
-<span class='co'># the element name refers to the subject and the string to the variable name              </span>
-<span class='no'>soilmapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>soil1</span> <span class='kw'>=</span> <span class='st'>"pH"</span>)
 
 <span class='co'># Create new Veg-X document with site observations</span>
 <span class='co'># Uses predefined measurement method "pH/0-14"</span>
 <span class='no'>x</span> <span class='kw'>=</span> <span class='fu'>addSiteObservations</span>(<span class='fu'><a href='newVegX.html'>newVegX</a></span>(), <span class='no'>moki_site</span>,
                         <span class='kw'>plotObservationMapping</span> <span class='kw'>=</span> <span class='no'>mapping</span>,
-                        <span class='kw'>soilMeasurementMapping</span> <span class='kw'>=</span> <span class='no'>soilmapping</span>,
-                        <span class='kw'>soilMeasurementMethods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>soil1</span> <span class='kw'>=</span> <span class='st'>"pH/0-14"</span>))</div><div class='output co'>#&gt;  Measurement method 'pH/0-14' added for 'soil1'.
+                        <span class='kw'>soilMeasurementMapping</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"pH"</span>) ,
+                        <span class='kw'>soilMeasurementMethods</span> <span class='kw'>=</span> <span class='fu'>list</span>(<span class='kw'>a</span> <span class='kw'>=</span> <span class='st'>"pH/0-14"</span>))</div><div class='output co'>#&gt;  Measurement method 'pH/0-14' added for 'a'.
 #&gt;  25 plot(s) parsed, 25 new plot(s) added.
 #&gt;  25 plot observation(s) parsed, 25 new plot observation(s) added.
 #&gt;  25 record(s) parsed, 25 new site observation(s) added.</div><div class='input'><span class='co'># Examine results</span>

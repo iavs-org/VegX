@@ -4,6 +4,9 @@
 
 __Version history__
 
+_Version 0.6.9, November 2018.
+1. Update documentation of 'addSiteObservations'
+
 _Version 0.6.8, July 2018.
 1. Specify predefined methods using strings only
 2. Table with predefined methods

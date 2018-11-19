@@ -485,10 +485,24 @@ Veg-X includes into elements *siteObservation* all observations and measurements
 mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotObsStartDate")
 moki_vegx = addSiteObservations(moki_vegx, moki_site,
                          plotObservationMapping = mapping,
-                         soilMeasurementMapping = list(soil1 = "pH"),
-                         soilMeasurementMethods = list(soil1 = "pH/0-14"))
+                         soilMeasurementMapping = list(a = "pH"),
+                         soilMeasurementMethods = list(a = "pH/0-14"))
+```
+
+In contrast with other ``add...`` functions, 'a' is only used here in the context of of the ``addSiteObservations()`` function (i.e., there will be no variable called 'a' in the Veg-X document). When displaying site observations, columns ``soil_1_*``, ``soil_2_*`` only indicate the numbering of soil variables:
+
+```{r}
 head(showElementTable(moki_vegx, "siteObservation"))
 ```
+
+It is important to distinguish the subject of a method from the method itself. For example, subject would be pH measurement of upper soil solution, whereas a particular methods for this subject would be the measurement in water or measurement in 0.01 mol CaCl. In the former example we added variable 'pH' of the input data to the VegX document and defined the measurement method as ``pH/0-14``, which simply specifies the measurement of pH (the subject) onto a 0-14 scale. Let's look at its definition:
+
+```{r}
+predefinedMeasurementMethod("pH/0-14")
+```
+
+
+
 
 ### Surface cover observations
 

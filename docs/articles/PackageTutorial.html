@@ -29,7 +29,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">VegX</a>
-        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.8</span>
+        <span class="label label-default" data-toggle="tooltip" data-placement="bottom" title="Released package">0.6.9</span>
       </span>
     </div>
 
@@ -75,7 +75,7 @@
       <h1>How to use the VegX R package</h1>
                         <h4 class="author">IAVS Ecoinformatics Working Group</h4>
             
-            <h4 class="date">2018-10-22</h4>
+            <h4 class="date">2018-11-19</h4>
       
       
       <div class="hidden name"><code>PackageTutorial.Rmd</code></div>
@@ -122,7 +122,7 @@
 <div id="installing-the-package-and-loading-source-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installing-the-package-and-loading-source-data" class="anchor"></a>Installing the package and loading source data</h2>
-<p>The <strong>VegX package</strong> is currently distributed from <a href="https://github.com">GitHub</a>. To install it, you should have package <code>devtools</code> installed and use the following command: <code><a href="http://www.rdocumentation.org/packages/devtools/topics/install_github">devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)</a></code>. Assuming that the package is already installed you begin by loading it, which results in the required package <em>XML</em> also being loaded:</p>
+<p>The <strong>VegX package</strong> is currently distributed from <a href="https://github.com">GitHub</a>. To install it, you should have package <code>devtools</code> installed and use the following command: <code><a href="http://www.rdocumentation.org/packages/devtools/topics/reexports">devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)</a></code>. Assuming that the package is already installed you begin by loading it, which results in the required package <em>XML</em> also being loaded:</p>
 <pre class="sourceCode r" id="cb1"><code class="sourceCode r"><div class="sourceLine" id="cb1-1" data-line-number="1">
 <span class="kw">library</span>(VegX)</div></code></pre>
 <p>User’s of the VegX package are expected to know how import their source data into R, either using a database connection or by reading files in diverse formats (e.g. txt, csv, xlsx, …). For the examples of this manual, we will use three data sets that were extracted from the <a href="https://nvs.landcareresearch.co.nz/">New Zealand National Vegetation Survey (NVS) Databank</a>. These are subsets of the original datasets prepared for demonstration purposes only.</p>
@@ -1278,9 +1278,9 @@
 <div class="sourceLine" id="cb135-2" data-line-number="2">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"communityObservation"</span>),<span class="dv">3</span>)</div></code></pre>
 <pre><code>##    plotName obsStartDate      comm_1_method comm_1_value
-## 1    LGM08r   2011-02-17 Basal area/m2*ha-1     5.329490
-## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1     8.262058
-## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1    11.511985</code></pre>
+## 1    LGM08r   2011-02-17 Basal area/m2*ha-1    10.776507
+## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1     9.168888
+## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1     9.549116</code></pre>
 </div>
 <div id="site-observations" class="section level3">
 <h3 class="hasAnchor">
@@ -1289,12 +1289,13 @@
 <pre class="sourceCode r" id="cb137"><code class="sourceCode r"><div class="sourceLine" id="cb137-1" data-line-number="1">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">subPlotName =</span> <span class="st">"Subplot"</span>, <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>)</div>
 <div class="sourceLine" id="cb137-2" data-line-number="2">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addSiteObservations.html">addSiteObservations</a></span>(moki_vegx, moki_site,</div>
 <div class="sourceLine" id="cb137-3" data-line-number="3">                         <span class="dt">plotObservationMapping =</span> mapping,</div>
-<div class="sourceLine" id="cb137-4" data-line-number="4">                         <span class="dt">soilMeasurementMapping =</span> <span class="kw">list</span>(<span class="dt">soil1 =</span> <span class="st">"pH"</span>),</div>
-<div class="sourceLine" id="cb137-5" data-line-number="5">                         <span class="dt">soilMeasurementMethods =</span> <span class="kw">list</span>(<span class="dt">soil1 =</span> <span class="st">"pH/0-14"</span>))</div></code></pre>
-<pre><code>##  Measurement method 'pH/0-14' added for 'soil1'.
+<div class="sourceLine" id="cb137-4" data-line-number="4">                         <span class="dt">soilMeasurementMapping =</span> <span class="kw">list</span>(<span class="dt">a =</span> <span class="st">"pH"</span>),</div>
+<div class="sourceLine" id="cb137-5" data-line-number="5">                         <span class="dt">soilMeasurementMethods =</span> <span class="kw">list</span>(<span class="dt">a =</span> <span class="st">"pH/0-14"</span>))</div></code></pre>
+<pre><code>##  Measurement method 'pH/0-14' added for 'a'.
 ##  25 plot(s) parsed, 0 new plot(s) added.
 ##  25 plot observation(s) parsed, 0 new plot observation(s) added.
 ##  25 record(s) parsed, 25 new site observation(s) added.</code></pre>
+<p>In contrast with other <code>add...</code> functions, ‘a’ is only used here in the context of of the <code><a href="../reference/addSiteObservations.html">addSiteObservations()</a></code> function (i.e., there will be no variable called ‘a’ in the Veg-X document). When displaying site observations, columns <code>soil_1_*</code>, <code>soil_2_*</code> only indicate the numbering of soil variables:</p>
 <pre class="sourceCode r" id="cb139"><code class="sourceCode r"><div class="sourceLine" id="cb139-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"siteObservation"</span>))</div></code></pre>
 <pre><code>##    plotName obsStartDate soil_1_method soil_1_value
@@ -1304,12 +1305,47 @@
 ## 4 LGM08r_3Q   2011-02-17       pH/0-14            7
 ## 5 LGM08r_4Q   2011-02-17       pH/0-14            7
 ## 6    LGM16l   2011-02-15       pH/0-14            7</code></pre>
+<p>It is important to distinguish the subject of a method from the method itself. For example, subject would be pH measurement of upper soil solution, whereas a particular methods for this subject would be the measurement in water or measurement in 0.01 mol CaCl. In the former example we added variable ‘pH’ of the input data to the VegX document and defined the measurement method as <code>pH/0-14</code>, which simply specifies the measurement of pH (the subject) onto a 0-14 scale. Let’s look at its definition:</p>
+<pre class="sourceCode r" id="cb141"><code class="sourceCode r"><div class="sourceLine" id="cb141-1" data-line-number="1">
+<span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"pH/0-14"</span>)</div></code></pre>
+<pre><code>## An object of class "VegXMethodDefinition"
+## Slot "name":
+## [1] "pH/0-14"
+## 
+## Slot "description":
+## [1] "pH scale from 0 to 14"
+## 
+## Slot "citationString":
+## [1] ""
+## 
+## Slot "DOI":
+## [1] ""
+## 
+## Slot "subject":
+## [1] "pH"
+## 
+## Slot "attributeType":
+## [1] "quantitative"
+## 
+## Slot "attributes":
+## $`1`
+## $`1`$type
+## [1] "quantitative"
+## 
+## $`1`$unit
+## [1] NA
+## 
+## $`1`$lowerLimit
+## [1] 0
+## 
+## $`1`$upperLimit
+## [1] 14</code></pre>
 </div>
 <div id="surface-cover-observations" class="section level3">
 <h3 class="hasAnchor">
 <a href="#surface-cover-observations" class="anchor"></a>Surface cover observations</h3>
 <p>Surface cover observations are measurements of the percentage of the plot’s surface that is covered (i.e. when projected onto the ground) by different surface types, such as rocks, bare soil, vegetation, etc. Veg-X allows defining surface types as <em>surfaceType</em> elements, and storing cover values for them in <em>surfaceCoverObservation</em> elements. We use the <strong>Mt Fyffe forest</strong> data set to illustrate how this kind of observations are added to a Veg-X document. First we inspect table <code>mtfyffe_groundcover</code> and define a mapping:</p>
-<pre class="sourceCode r" id="cb141"><code class="sourceCode r"><div class="sourceLine" id="cb141-1" data-line-number="1">
+<pre class="sourceCode r" id="cb143"><code class="sourceCode r"><div class="sourceLine" id="cb143-1" data-line-number="1">
 <span class="kw">head</span>(mtfyffe_groundcover, <span class="dv">3</span>)</div></code></pre>
 <pre><code>##    PlotGroundCoverID Plot Subplot                  Project PlotGroundCover
 ## 14              6157  6 4      NA FYFFE, MOUNT FOREST 1980      Vegetation
@@ -1323,29 +1359,29 @@
 ## 14           52241     52241       867       1980-02-07
 ## 17           52221     52221       867       1980-02-07
 ## 21           52261     52261       867       1980-02-07</code></pre>
-<pre class="sourceCode r" id="cb143"><code class="sourceCode r"><div class="sourceLine" id="cb143-1" data-line-number="1">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>,</div>
-<div class="sourceLine" id="cb143-2" data-line-number="2">               <span class="dt">surfaceName =</span> <span class="st">"PlotGroundCover"</span>, <span class="dt">coverMeasurement =</span> <span class="st">"Value"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb145"><code class="sourceCode r"><div class="sourceLine" id="cb145-1" data-line-number="1">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>,</div>
+<div class="sourceLine" id="cb145-2" data-line-number="2">               <span class="dt">surfaceName =</span> <span class="st">"PlotGroundCover"</span>, <span class="dt">coverMeasurement =</span> <span class="st">"Value"</span>)</div></code></pre>
 <p>In this case, cover values are specified as percent cover of ground surface, so we need to define an appropriate method:</p>
-<pre class="sourceCode r" id="cb144"><code class="sourceCode r"><div class="sourceLine" id="cb144-1" data-line-number="1">coverMethod =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Surface cover/%"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb146"><code class="sourceCode r"><div class="sourceLine" id="cb146-1" data-line-number="1">coverMethod =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Surface cover/%"</span>)</div></code></pre>
 <p>We inspect the surface types used in the data set and call function <code><a href="../reference/defineSurfaceTypes.html">defineSurfaceTypes()</a></code> as we have done previously for strata:</p>
-<pre class="sourceCode r" id="cb145"><code class="sourceCode r"><div class="sourceLine" id="cb145-1" data-line-number="1">
+<pre class="sourceCode r" id="cb147"><code class="sourceCode r"><div class="sourceLine" id="cb147-1" data-line-number="1">
 <span class="kw">unique</span>(mtfyffe_groundcover<span class="op">$</span>PlotGroundCover)</div></code></pre>
 <pre><code>## [1] "Vegetation"   "Moss"         "Litter"       "Exposed Soil"
 ## [5] "Rock"</code></pre>
-<pre class="sourceCode r" id="cb147"><code class="sourceCode r"><div class="sourceLine" id="cb147-1" data-line-number="1">surfaceTypes =<span class="st"> </span><span class="kw"><a href="../reference/defineSurfaceTypes.html">defineSurfaceTypes</a></span>(<span class="dt">name =</span> <span class="st">"Default surface types"</span>,</div>
-<div class="sourceLine" id="cb147-2" data-line-number="2">                     <span class="dt">description =</span> <span class="st">"Five surface categories"</span>,</div>
-<div class="sourceLine" id="cb147-3" data-line-number="3">                     <span class="dt">surfaceNames =</span> <span class="kw">c</span>(<span class="st">"Vegetation"</span>, <span class="st">"Moss"</span>, <span class="st">"Litter"</span>, <span class="st">"Exposed Soil"</span>, </div>
-<div class="sourceLine" id="cb147-4" data-line-number="4">                                      <span class="st">"Rock"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb149"><code class="sourceCode r"><div class="sourceLine" id="cb149-1" data-line-number="1">surfaceTypes =<span class="st"> </span><span class="kw"><a href="../reference/defineSurfaceTypes.html">defineSurfaceTypes</a></span>(<span class="dt">name =</span> <span class="st">"Default surface types"</span>,</div>
+<div class="sourceLine" id="cb149-2" data-line-number="2">                     <span class="dt">description =</span> <span class="st">"Five surface categories"</span>,</div>
+<div class="sourceLine" id="cb149-3" data-line-number="3">                     <span class="dt">surfaceNames =</span> <span class="kw">c</span>(<span class="st">"Vegetation"</span>, <span class="st">"Moss"</span>, <span class="st">"Litter"</span>, <span class="st">"Exposed Soil"</span>, </div>
+<div class="sourceLine" id="cb149-4" data-line-number="4">                                      <span class="st">"Rock"</span>))</div></code></pre>
 <p>We can now import surface cover observations using function <code><a href="../reference/addSurfaceCoverObservations.html">addSurfaceCoverObservations()</a></code>:</p>
-<pre class="sourceCode r" id="cb148"><code class="sourceCode r"><div class="sourceLine" id="cb148-1" data-line-number="1">mtfyffe_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addSurfaceCoverObservations.html">addSurfaceCoverObservations</a></span>(mtfyffe_vegx, mtfyffe_groundcover, mapping,</div>
-<div class="sourceLine" id="cb148-2" data-line-number="2">                                coverMethod, surfaceTypes)</div></code></pre>
+<pre class="sourceCode r" id="cb150"><code class="sourceCode r"><div class="sourceLine" id="cb150-1" data-line-number="1">mtfyffe_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addSurfaceCoverObservations.html">addSurfaceCoverObservations</a></span>(mtfyffe_vegx, mtfyffe_groundcover, mapping,</div>
+<div class="sourceLine" id="cb150-2" data-line-number="2">                                coverMethod, surfaceTypes)</div></code></pre>
 <pre><code>##  Measurement method 'Surface cover/%' added for 'coverMeasurement'.
 ##  Surface type definition method 'Default surface types' added.
 ##  5 new surface type definitions added.
 ##  4 plot(s) parsed, 0 new added.
 ##  8 plot observation(s) parsed, 0 new added.
 ##  40 record(s) parsed, 40 new surface cover observation(s) added.</code></pre>
-<pre class="sourceCode r" id="cb150"><code class="sourceCode r"><div class="sourceLine" id="cb150-1" data-line-number="1">
+<pre class="sourceCode r" id="cb152"><code class="sourceCode r"><div class="sourceLine" id="cb152-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(mtfyffe_vegx, <span class="st">"surfaceCoverObservation"</span>, <span class="dv">3</span>))</div></code></pre>
 <pre><code>##   plotObservationID plotName obsStartDate surfaceTypeID surfaceName
 ## 1                 1      6 4   1980-02-07             1  Vegetation
@@ -1363,7 +1399,7 @@
 ## 6           8 Surface cover/%          20</code></pre>
 <p>Analogously to the case of strata, the function added surface type definitions to the Veg-X document, in addition to adding the cover values, themselves.</p>
 <p>The <strong>Takitimu grassland</strong> data set also includes surface cover observations, although the surface types are slightly different:</p>
-<pre class="sourceCode r" id="cb152"><code class="sourceCode r"><div class="sourceLine" id="cb152-1" data-line-number="1">
+<pre class="sourceCode r" id="cb154"><code class="sourceCode r"><div class="sourceLine" id="cb154-1" data-line-number="1">
 <span class="kw">head</span>(taki_groundcover, <span class="dv">3</span>)</div></code></pre>
 <pre><code>##    PlotGroundCoverID            Plot Subplot                      Project
 ## 26            396242 R3 1 (R3 1_TRA)      NA TAKITIMU GRASSLAND 1968-1969
@@ -1377,18 +1413,18 @@
 ## 26    25       781860         1153882   1153882       500       1968-02-07
 ## 27    25       781860         1153882   1153882       500       1968-02-07
 ## 28    25       781860         1153882   1153882       500       1968-02-07</code></pre>
-<pre class="sourceCode r" id="cb154"><code class="sourceCode r"><div class="sourceLine" id="cb154-1" data-line-number="1">
+<pre class="sourceCode r" id="cb156"><code class="sourceCode r"><div class="sourceLine" id="cb156-1" data-line-number="1">
 <span class="kw">unique</span>(taki_groundcover<span class="op">$</span>PlotGroundCover)</div></code></pre>
 <pre><code>## [1] "Litter"           "Rock"             "Vegetation"      
 ## [4] "Erosion Pavement" "Soil"</code></pre>
 <p>Therefore, we must define a new set of surface types before calling function <code><a href="../reference/addSurfaceCoverObservations.html">addSurfaceCoverObservations()</a></code>:</p>
-<pre class="sourceCode r" id="cb156"><code class="sourceCode r"><div class="sourceLine" id="cb156-1" data-line-number="1">surfaceTypes =<span class="st"> </span><span class="kw"><a href="../reference/defineSurfaceTypes.html">defineSurfaceTypes</a></span>(<span class="dt">name =</span> <span class="st">"Default surface types"</span>,</div>
-<div class="sourceLine" id="cb156-2" data-line-number="2">                     <span class="dt">description =</span> <span class="st">"Five surface categories"</span>,</div>
-<div class="sourceLine" id="cb156-3" data-line-number="3">                     <span class="dt">surfaceNames =</span> <span class="kw">c</span>(<span class="st">"Vegetation"</span>, <span class="st">"Soil"</span>, <span class="st">"Erosion Pavement"</span>, <span class="st">"Litter"</span>,</div>
-<div class="sourceLine" id="cb156-4" data-line-number="4">                                      <span class="st">"Rock"</span>))</div>
-<div class="sourceLine" id="cb156-5" data-line-number="5"></div>
-<div class="sourceLine" id="cb156-6" data-line-number="6">taki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addSurfaceCoverObservations.html">addSurfaceCoverObservations</a></span>(taki_vegx, taki_groundcover, mapping,</div>
-<div class="sourceLine" id="cb156-7" data-line-number="7">                                coverMethod, surfaceTypes)</div></code></pre>
+<pre class="sourceCode r" id="cb158"><code class="sourceCode r"><div class="sourceLine" id="cb158-1" data-line-number="1">surfaceTypes =<span class="st"> </span><span class="kw"><a href="../reference/defineSurfaceTypes.html">defineSurfaceTypes</a></span>(<span class="dt">name =</span> <span class="st">"Default surface types"</span>,</div>
+<div class="sourceLine" id="cb158-2" data-line-number="2">                     <span class="dt">description =</span> <span class="st">"Five surface categories"</span>,</div>
+<div class="sourceLine" id="cb158-3" data-line-number="3">                     <span class="dt">surfaceNames =</span> <span class="kw">c</span>(<span class="st">"Vegetation"</span>, <span class="st">"Soil"</span>, <span class="st">"Erosion Pavement"</span>, <span class="st">"Litter"</span>,</div>
+<div class="sourceLine" id="cb158-4" data-line-number="4">                                      <span class="st">"Rock"</span>))</div>
+<div class="sourceLine" id="cb158-5" data-line-number="5"></div>
+<div class="sourceLine" id="cb158-6" data-line-number="6">taki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/addSurfaceCoverObservations.html">addSurfaceCoverObservations</a></span>(taki_vegx, taki_groundcover, mapping,</div>
+<div class="sourceLine" id="cb158-7" data-line-number="7">                                coverMethod, surfaceTypes)</div></code></pre>
 <pre><code>##  Measurement method 'Surface cover/%' added for 'coverMeasurement'.
 ##  Surface type definition method 'Default surface types' added.
 ##  5 new surface type definitions added.
@@ -1406,18 +1442,18 @@
 <a href="#adding-unique-identifiers" class="anchor"></a>Adding unique identifiers</h3>
 <p>When combining VegX objects from different sources it is important to pay attention to plot names, because plots from two different sources may have been given the same name while in fact they correspond to different sampled areas. To combine two vegetation sources while avoiding confusion in plot identity one should use <strong>plot unique identifiers</strong>, i.e. sub-element <em>plotUniqueIdentifier</em> of <em>plot</em>. When populating a Veg-X object from a single source data set, unique identifiers are not normally available nor needed, and the functions that add observations to the object will only look at <em>plotName</em> to identifying plots uniquely. However, when merging VegX objects unique identifiers should be defined, and two plots should be considered to be the same only if both their plot name and unique identifier have the same values in both plots. While less critical than plot unique identifiers, the Veg-X standard also allows unique identifiers for plot observations, via the sub-element <em>plotObservationUniqueIdentifier</em> of <em>plotObservation</em>.</p>
 <p>The VegX package provides two ways to supply unique identifiers. The function <code><a href="../reference/addPlotObservations.html">addPlotObservations()</a></code> allows specifying mappings for both <em>plotUniqueIdentifier</em> and <em>plotObservationUniqueIdentifier</em>:</p>
-<pre class="sourceCode r" id="cb158"><code class="sourceCode r"><div class="sourceLine" id="cb158-1" data-line-number="1">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">projectTitle =</span> <span class="st">"Project"</span>, <span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">subPlotName =</span> <span class="st">"Subplot"</span>,</div>
-<div class="sourceLine" id="cb158-2" data-line-number="2">               <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>, <span class="dt">obsEndDate =</span> <span class="st">"PlotObsStopDate"</span>,</div>
-<div class="sourceLine" id="cb158-3" data-line-number="3">               <span class="dt">plotUniqueIdentifier =</span> <span class="st">"PlotID"</span>, <span class="dt">plotObservationUniqueIdentifier =</span> <span class="st">"PlotObsID"</span>)</div>
-<div class="sourceLine" id="cb158-4" data-line-number="4">vegx_ids =<span class="st"> </span><span class="kw"><a href="../reference/addPlotObservations.html">addPlotObservations</a></span>(<span class="kw"><a href="../reference/newVegX.html">newVegX</a></span>(), moki_site, <span class="dt">mapping =</span> mapping, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</div>
-<div class="sourceLine" id="cb158-5" data-line-number="5"></div>
-<div class="sourceLine" id="cb158-6" data-line-number="6">
+<pre class="sourceCode r" id="cb160"><code class="sourceCode r"><div class="sourceLine" id="cb160-1" data-line-number="1">mapping =<span class="st"> </span><span class="kw">list</span>(<span class="dt">projectTitle =</span> <span class="st">"Project"</span>, <span class="dt">plotName =</span> <span class="st">"Plot"</span>, <span class="dt">subPlotName =</span> <span class="st">"Subplot"</span>,</div>
+<div class="sourceLine" id="cb160-2" data-line-number="2">               <span class="dt">obsStartDate =</span> <span class="st">"PlotObsStartDate"</span>, <span class="dt">obsEndDate =</span> <span class="st">"PlotObsStopDate"</span>,</div>
+<div class="sourceLine" id="cb160-3" data-line-number="3">               <span class="dt">plotUniqueIdentifier =</span> <span class="st">"PlotID"</span>, <span class="dt">plotObservationUniqueIdentifier =</span> <span class="st">"PlotObsID"</span>)</div>
+<div class="sourceLine" id="cb160-4" data-line-number="4">vegx_ids =<span class="st"> </span><span class="kw"><a href="../reference/addPlotObservations.html">addPlotObservations</a></span>(<span class="kw"><a href="../reference/newVegX.html">newVegX</a></span>(), moki_site, <span class="dt">mapping =</span> mapping, <span class="dt">verbose =</span> <span class="ot">FALSE</span>)</div>
+<div class="sourceLine" id="cb160-5" data-line-number="5"></div>
+<div class="sourceLine" id="cb160-6" data-line-number="6">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(vegx_ids, <span class="st">"plot"</span>), <span class="dv">3</span>)</div></code></pre>
 <pre><code>##    plotName plotUniqueIdentifier relatedPlotName plotRelationship
 ## 1    LGM08r               789033            &lt;NA&gt;             &lt;NA&gt;
 ## 2 LGM08r_1Q               789034          LGM08r          subplot
 ## 3 LGM08r_2Q               789035          LGM08r          subplot</code></pre>
-<pre class="sourceCode r" id="cb160"><code class="sourceCode r"><div class="sourceLine" id="cb160-1" data-line-number="1">
+<pre class="sourceCode r" id="cb162"><code class="sourceCode r"><div class="sourceLine" id="cb162-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(vegx_ids, <span class="st">"plotObservation"</span>), <span class="dv">3</span>)</div></code></pre>
 <pre><code>##    plotName obsStartDate obsEndDate plotObservationUniqueIdentifier
 ## 1    LGM08r   2011-02-17 2011-02-17                         1161630
@@ -1428,13 +1464,13 @@
 ## 2 MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 2011
 ## 3 MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 2011</code></pre>
 <p>We could use function <code><a href="../reference/addPlotObservations.html">addPlotObservations()</a></code> to define unique identifiers because these were available from our source data. Note however, that IDs coming from NVS are only unique within the context of this data bank. In cases the source data does not include unique identifiers or those available may not be unique in all situations, one can generate <strong>universally unique identifiers</strong> (or replace the current identifiers) using function <code><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers()</a></code>:</p>
-<pre class="sourceCode r" id="cb162"><code class="sourceCode r"><div class="sourceLine" id="cb162-1" data-line-number="1">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> moki_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)</div>
-<div class="sourceLine" id="cb162-2" data-line-number="2">
+<pre class="sourceCode r" id="cb164"><code class="sourceCode r"><div class="sourceLine" id="cb164-1" data-line-number="1">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> moki_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)</div>
+<div class="sourceLine" id="cb164-2" data-line-number="2">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"plot"</span>),<span class="dv">3</span>)</div></code></pre>
 <pre><code>##    plotName                 plotUniqueIdentifier     shape
-## 1    LGM08r 18458520-d5d3-11e8-b082-837074108bda rectangle
-## 2 LGM08r_1Q 18458521-d5d3-11e8-b082-837074108bda rectangle
-## 3 LGM08r_2Q 18458522-d5d3-11e8-b082-837074108bda rectangle
+## 1    LGM08r 8ec138f0-ebdd-11e8-8631-31c6076ea957 rectangle
+## 2 LGM08r_1Q 8ec39a00-ebdd-11e8-8631-31c6076ea957 rectangle
+## 3 LGM08r_2Q 8ec39a01-ebdd-11e8-8631-31c6076ea957 rectangle
 ##      length_method length_value     width_method width_value   coordX
 ## 1 Plot dimension/m           20 Plot dimension/m          20 172.1407
 ## 2 Plot dimension/m           10 Plot dimension/m          10       NA
@@ -1453,13 +1489,13 @@
 ## 3          subplot</code></pre>
 <p>A UUID (Universal Unique Identifier) is a 128-bit number used to uniquely identify some object or entity. When generated according to the standard methods, UUIDs are for practical purposes unique, without depending for their uniqueness on a central registration authority or coordination between the parties generating them, unlike most other numbering schemes. While the probability that a UUID will be duplicated is not zero, it is close enough to zero to be negligible. If we are interested in merging different documents it is important to ensure that unique identifiers are defined for plots. Function <code><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers()</a></code> generates UUIDs by calling function <code>UUIDgenerate()</code> from the <strong>R package uuid</strong>.</p>
 <p>As we did for Mokihinui VegX object, we generate universally unique identifiers for the other two VegX objects:</p>
-<pre class="sourceCode r" id="cb164"><code class="sourceCode r"><div class="sourceLine" id="cb164-1" data-line-number="1">mtfyffe_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> mtfyffe_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)</div>
-<div class="sourceLine" id="cb164-2" data-line-number="2">taki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> taki_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb166"><code class="sourceCode r"><div class="sourceLine" id="cb166-1" data-line-number="1">mtfyffe_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> mtfyffe_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)</div>
+<div class="sourceLine" id="cb166-2" data-line-number="2">taki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span>(<span class="dt">target =</span> taki_vegx, <span class="dt">element =</span> <span class="st">"plot"</span>)</div></code></pre>
 </div>
 <div id="updating-taxon-nomenclature" class="section level3">
 <h3 class="hasAnchor">
 <a href="#updating-taxon-nomenclature" class="anchor"></a>Updating taxon nomenclature</h3>
-<pre class="sourceCode r" id="cb165"><code class="sourceCode r"><div class="sourceLine" id="cb165-1" data-line-number="1">
+<pre class="sourceCode r" id="cb167"><code class="sourceCode r"><div class="sourceLine" id="cb167-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"organismIdentity"</span>),<span class="dv">10</span>)</div></code></pre>
 <pre><code>##                identityName     originalOrganismName taxon
 ## 1       Weinmannia racemosa      Weinmannia racemosa  TRUE
@@ -1472,13 +1508,13 @@
 ## 8           Coprosma lucida          Coprosma lucida  TRUE
 ## 9      Melicytus ramiflorus     Melicytus ramiflorus  TRUE
 ## 10         Myrsine salicina         Myrsine salicina  TRUE</code></pre>
-<pre class="sourceCode r" id="cb167"><code class="sourceCode r"><div class="sourceLine" id="cb167-1" data-line-number="1">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/setPreferredTaxonNomenclature.html">setPreferredTaxonNomenclature</a></span>(moki_vegx, moki_lookup,</div>
-<div class="sourceLine" id="cb167-2" data-line-number="2">                   <span class="kw">c</span>(<span class="dt">originalOrganismName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">preferredTaxonName =</span> <span class="st">"PreferredSpeciesName"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb169"><code class="sourceCode r"><div class="sourceLine" id="cb169-1" data-line-number="1">moki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/setPreferredTaxonNomenclature.html">setPreferredTaxonNomenclature</a></span>(moki_vegx, moki_lookup,</div>
+<div class="sourceLine" id="cb169-2" data-line-number="2">                   <span class="kw">c</span>(<span class="dt">originalOrganismName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">preferredTaxonName =</span> <span class="st">"PreferredSpeciesName"</span>))</div></code></pre>
 <pre><code>##  Preferred taxon name was set on 149 organism identities.
 ##  Preferred taxon name is now different than original organism name on 22 organism identities.
 ##  21 new organism name(s) added.</code></pre>
-<pre class="sourceCode r" id="cb169"><code class="sourceCode r"><div class="sourceLine" id="cb169-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"organismIdentity"</span>)</div>
-<div class="sourceLine" id="cb169-2" data-line-number="2">a[<span class="kw">which</span>(a<span class="op">$</span>identityName<span class="op">!=</span><span class="st"> </span>a<span class="op">$</span>originalOrganismName),]</div></code></pre>
+<pre class="sourceCode r" id="cb171"><code class="sourceCode r"><div class="sourceLine" id="cb171-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(moki_vegx, <span class="st">"organismIdentity"</span>)</div>
+<div class="sourceLine" id="cb171-2" data-line-number="2">a[<span class="kw">which</span>(a<span class="op">$</span>identityName<span class="op">!=</span><span class="st"> </span>a<span class="op">$</span>originalOrganismName),]</div></code></pre>
 <pre><code>##                    identityName     originalOrganismName taxon
 ## 13             Fuscospora fusca         Nothofagus fusca  TRUE
 ## 15          Fuscospora truncata      Nothofagus truncata  TRUE
@@ -1525,13 +1561,13 @@
 ## 113  Notogrammitis heterophylla
 ## 127       Austroderia richardii
 ## 136             Coprosma dumosa</code></pre>
-<pre class="sourceCode r" id="cb171"><code class="sourceCode r"><div class="sourceLine" id="cb171-1" data-line-number="1">mtfyffe_vegx =<span class="st"> </span><span class="kw"><a href="../reference/setPreferredTaxonNomenclature.html">setPreferredTaxonNomenclature</a></span>(mtfyffe_vegx, mtfyffe_lookup,</div>
-<div class="sourceLine" id="cb171-2" data-line-number="2">                   <span class="kw">c</span>(<span class="dt">originalOrganismName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">preferredTaxonName =</span> <span class="st">"PreferredSpeciesName"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb173"><code class="sourceCode r"><div class="sourceLine" id="cb173-1" data-line-number="1">mtfyffe_vegx =<span class="st"> </span><span class="kw"><a href="../reference/setPreferredTaxonNomenclature.html">setPreferredTaxonNomenclature</a></span>(mtfyffe_vegx, mtfyffe_lookup,</div>
+<div class="sourceLine" id="cb173-2" data-line-number="2">                   <span class="kw">c</span>(<span class="dt">originalOrganismName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">preferredTaxonName =</span> <span class="st">"PreferredSpeciesName"</span>))</div></code></pre>
 <pre><code>##  Preferred taxon name was set on 59 organism identities.
 ##  Preferred taxon name is now different than original organism name on 13 organism identities.
 ##  9 new organism name(s) added.</code></pre>
-<pre class="sourceCode r" id="cb173"><code class="sourceCode r"><div class="sourceLine" id="cb173-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(mtfyffe_vegx, <span class="st">"organismIdentity"</span>)</div>
-<div class="sourceLine" id="cb173-2" data-line-number="2">a[<span class="kw">which</span>(a<span class="op">$</span>identityName<span class="op">!=</span><span class="st"> </span>a<span class="op">$</span>originalOrganismName),]</div></code></pre>
+<pre class="sourceCode r" id="cb175"><code class="sourceCode r"><div class="sourceLine" id="cb175-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(mtfyffe_vegx, <span class="st">"organismIdentity"</span>)</div>
+<div class="sourceLine" id="cb175-2" data-line-number="2">a[<span class="kw">which</span>(a<span class="op">$</span>identityName<span class="op">!=</span><span class="st"> </span>a<span class="op">$</span>originalOrganismName),]</div></code></pre>
 <pre><code>##                 identityName       originalOrganismName taxon
 ## 6            Coprosma dumosa         Coprosma tayloriae  TRUE
 ## 9       Coprosma grandifolia         Coprosma australis  TRUE
@@ -1560,13 +1596,13 @@
 ## 48 Polystichum neozelandicum
 ## 49              Carex healyi
 ## 58     Veronica brachysiphon</code></pre>
-<pre class="sourceCode r" id="cb175"><code class="sourceCode r"><div class="sourceLine" id="cb175-1" data-line-number="1">taki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/setPreferredTaxonNomenclature.html">setPreferredTaxonNomenclature</a></span>(taki_vegx, taki_lookup,</div>
-<div class="sourceLine" id="cb175-2" data-line-number="2">                   <span class="kw">c</span>(<span class="dt">originalOrganismName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">preferredTaxonName =</span> <span class="st">"PreferredSpeciesName"</span>))</div></code></pre>
+<pre class="sourceCode r" id="cb177"><code class="sourceCode r"><div class="sourceLine" id="cb177-1" data-line-number="1">taki_vegx =<span class="st"> </span><span class="kw"><a href="../reference/setPreferredTaxonNomenclature.html">setPreferredTaxonNomenclature</a></span>(taki_vegx, taki_lookup,</div>
+<div class="sourceLine" id="cb177-2" data-line-number="2">                   <span class="kw">c</span>(<span class="dt">originalOrganismName =</span> <span class="st">"NVSSpeciesName"</span>, <span class="dt">preferredTaxonName =</span> <span class="st">"PreferredSpeciesName"</span>))</div></code></pre>
 <pre><code>##  Preferred taxon name was set on 38 organism identities.
 ##  Preferred taxon name is now different than original organism name on 5 organism identities.
 ##  5 new organism name(s) added.</code></pre>
-<pre class="sourceCode r" id="cb177"><code class="sourceCode r"><div class="sourceLine" id="cb177-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(taki_vegx, <span class="st">"organismIdentity"</span>)</div>
-<div class="sourceLine" id="cb177-2" data-line-number="2">a[<span class="kw">which</span>(a<span class="op">$</span>identityName<span class="op">!=</span><span class="st"> </span>a<span class="op">$</span>originalOrganismName),]</div></code></pre>
+<pre class="sourceCode r" id="cb179"><code class="sourceCode r"><div class="sourceLine" id="cb179-1" data-line-number="1">a =<span class="st"> </span><span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(taki_vegx, <span class="st">"organismIdentity"</span>)</div>
+<div class="sourceLine" id="cb179-2" data-line-number="2">a[<span class="kw">which</span>(a<span class="op">$</span>identityName<span class="op">!=</span><span class="st"> </span>a<span class="op">$</span>originalOrganismName),]</div></code></pre>
 <pre><code>##               identityName    originalOrganismName taxon
 ## 9   Veronica lycopodioides      Hebe lycopodioides  TRUE
 ## 14 Rytidosperma setifolium Notodanthonia setifolia  TRUE
@@ -1584,7 +1620,7 @@
 <h3 class="hasAnchor">
 <a href="#merging-two-veg-x-documents" class="anchor"></a>Merging two Veg-X documents</h3>
 <p>Function <code><a href="../reference/mergeVegX.html">mergeVegX()</a></code> is used to merge two Veg-X documents into a single one. This function puts all the input elements into the same containers and, whenever elements are considered to be the same, they are merged. Each element kind has its own way to determine when two instances refer to the same entity. For example, two plots will be considered to be equal if they have the same plot name and, if defined, they have the same <em>plotUniqueIdentifier</em>. By default, however, plots and organism identities are not merged. This is a security measure to avoid plots with the same name but from different sources to be identified as equal. A call to <code><a href="../reference/mergeVegX.html">mergeVegX()</a></code> to merge the <code>mtfyffe_vegx</code> and <code>taki_vegx</code> VegX objects produces the following output:</p>
-<pre class="sourceCode r" id="cb179"><code class="sourceCode r"><div class="sourceLine" id="cb179-1" data-line-number="1">comb_vegx =<span class="st"> </span><span class="kw"><a href="../reference/mergeVegX.html">mergeVegX</a></span>(moki_vegx, mtfyffe_vegx)</div></code></pre>
+<pre class="sourceCode r" id="cb181"><code class="sourceCode r"><div class="sourceLine" id="cb181-1" data-line-number="1">comb_vegx =<span class="st"> </span><span class="kw"><a href="../reference/mergeVegX.html">mergeVegX</a></span>(moki_vegx, mtfyffe_vegx)</div></code></pre>
 <pre><code>##  Final number of party(ies): 1. Data pooled for 0 party(ies).
 ##  Final number of literature citations: 1. Data pooled for 0 citation(s).
 ##  Final number of methods: 15. Data pooled for 5 method(s).
@@ -1605,7 +1641,7 @@
 ##  Final number of community observations: 25. Data pooled for 0 community observation(s).
 ##  Final number of surface cover observations: 40. Data pooled for 0 surface cover observation(s).</code></pre>
 <p>Plots were all kept separately because <code>allowMergePlots = FALSE</code> by default. However, in this case the plots had all different names and unique identifiers, so even if we had set <code>allowMergePlots = TRUE</code>, they would have been all kept separately. The objects to be merged had shared methods, so the function identifies them as equal and avoids repetitions. The decisions to merge (i.e. pool) information of other elements can be interpreted similarly. A special case concerns <em>organismName</em> vs. <em>organismIdentity</em>. Note that some organism names were merged, but identities were not. While merging equal names is always safe, merging identities should be done with extreme caution, because two data sets may have employed the same taxon name but with different taxon concepts. Therefore, by default <code><a href="../reference/mergeVegX.html">mergeVegX()</a></code> does not merge organism identities. If we want to specify that identities can be merged (when considered equal) we can set parameter <code>allowMergeOrganismIdentities = TRUE</code>:</p>
-<pre class="sourceCode r" id="cb181"><code class="sourceCode r"><div class="sourceLine" id="cb181-1" data-line-number="1"><span class="co"># comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, allowMergeOrganismIdentities = TRUE)</span></div></code></pre>
+<pre class="sourceCode r" id="cb183"><code class="sourceCode r"><div class="sourceLine" id="cb183-1" data-line-number="1"><span class="co"># comb_vegx = mergeVegX(moki_vegx, mtfyffe_vegx, allowMergeOrganismIdentities = TRUE)</span></div></code></pre>
 <p>In this second output, there are the number of merges in <em>organismName</em> than <em>organismIdentity</em>, as the equal names have been forced to mean equal identity.</p>
 <p>Note that function <code><a href="../reference/mergeVegX.html">mergeVegX()</a></code> can also be used to merge two documents that refer to the same data source, i.e. if one has imported different parts of the same source data into different Veg-X objects. In this case the user should specify <code>allowMergePlots = TRUE</code>.</p>
 <div id="merging-rules" class="section level4">
@@ -1833,14 +1869,14 @@
 <div id="transforming-quantitative-scales" class="section level3">
 <h3 class="hasAnchor">
 <a href="#transforming-quantitative-scales" class="anchor"></a>Transforming quantitative scales</h3>
-<pre class="sourceCode r" id="cb182"><code class="sourceCode r"><div class="sourceLine" id="cb182-1" data-line-number="1">heightMethod2 =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Stratum height/cm"</span>)</div>
-<div class="sourceLine" id="cb182-2" data-line-number="2">trans_vegx =<span class="st"> </span><span class="kw"><a href="../reference/transformQuantitativeScale.html">transformQuantitativeScale</a></span>(comb_vegx, <span class="st">"Stratum height/m"</span>, heightMethod2,</div>
-<div class="sourceLine" id="cb182-3" data-line-number="3">                               <span class="cf">function</span>(x){<span class="kw">return</span>(x<span class="op">*</span><span class="dv">10</span>)}, <span class="dt">replaceValues =</span> <span class="ot">TRUE</span>)</div></code></pre>
+<pre class="sourceCode r" id="cb184"><code class="sourceCode r"><div class="sourceLine" id="cb184-1" data-line-number="1">heightMethod2 =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Stratum height/cm"</span>)</div>
+<div class="sourceLine" id="cb184-2" data-line-number="2">trans_vegx =<span class="st"> </span><span class="kw"><a href="../reference/transformQuantitativeScale.html">transformQuantitativeScale</a></span>(comb_vegx, <span class="st">"Stratum height/m"</span>, heightMethod2,</div>
+<div class="sourceLine" id="cb184-3" data-line-number="3">                               <span class="cf">function</span>(x){<span class="kw">return</span>(x<span class="op">*</span><span class="dv">10</span>)}, <span class="dt">replaceValues =</span> <span class="ot">TRUE</span>)</div></code></pre>
 <pre><code>##  Target method: 'Stratum height/m'
 ##  Number of quantitative attributes: 1
 ##  Measurement method 'Stratum height/cm' added.
 ##  70 transformation(s) were applied on stratum observations.</code></pre>
-<pre class="sourceCode r" id="cb184"><code class="sourceCode r"><div class="sourceLine" id="cb184-1" data-line-number="1">
+<pre class="sourceCode r" id="cb186"><code class="sourceCode r"><div class="sourceLine" id="cb186-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(trans_vegx, <span class="st">"stratumObservation"</span>),<span class="dv">3</span>)</div></code></pre>
 <pre><code>##   plotName obsStartDate stratumName lowerLimit_method lowerLimit_value
 ## 1   LGM38h   2011-02-20      Tier 1 Stratum height/cm              250
@@ -1854,8 +1890,8 @@
 <div id="transforming-ordinal-scales" class="section level3">
 <h3 class="hasAnchor">
 <a href="#transforming-ordinal-scales" class="anchor"></a>Transforming ordinal scales</h3>
-<pre class="sourceCode r" id="cb186"><code class="sourceCode r"><div class="sourceLine" id="cb186-1" data-line-number="1">percentScale =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Plant cover/%"</span>)</div>
-<div class="sourceLine" id="cb186-2" data-line-number="2">trans_vegx =<span class="st"> </span><span class="kw"><a href="../reference/transformOrdinalScale.html">transformOrdinalScale</a></span>(comb_vegx, <span class="st">"Recce cover scale"</span>, percentScale)</div></code></pre>
+<pre class="sourceCode r" id="cb188"><code class="sourceCode r"><div class="sourceLine" id="cb188-1" data-line-number="1">percentScale =<span class="st"> </span><span class="kw"><a href="../reference/predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span>(<span class="st">"Plant cover/%"</span>)</div>
+<div class="sourceLine" id="cb188-2" data-line-number="2">trans_vegx =<span class="st"> </span><span class="kw"><a href="../reference/transformOrdinalScale.html">transformOrdinalScale</a></span>(comb_vegx, <span class="st">"Recce cover scale"</span>, percentScale)</div></code></pre>
 <pre><code>##  Target method: 'Recce cover scale'
 ##  Number of attributes: 7
 ##  Number of quantifiable attributes with midpoints: 6
@@ -1863,7 +1899,7 @@
 ##  Measurement method 'Plant cover/%' added.
 ##  531 transformation(s) were applied on aggregate organism observations.
 ##  28 transformation(s) were applied on stratum observations.</code></pre>
-<pre class="sourceCode r" id="cb188"><code class="sourceCode r"><div class="sourceLine" id="cb188-1" data-line-number="1">
+<pre class="sourceCode r" id="cb190"><code class="sourceCode r"><div class="sourceLine" id="cb190-1" data-line-number="1">
 <span class="kw">head</span>(<span class="kw"><a href="../reference/showElementTable.html">showElementTable</a></span>(trans_vegx, <span class="st">"stratumObservation"</span>),<span class="dv">3</span>)</div></code></pre>
 <pre><code>##   plotName obsStartDate stratumName lowerLimit_method lowerLimit_value
 ## 1   LGM38h   2011-02-20      Tier 1  Stratum height/m               25

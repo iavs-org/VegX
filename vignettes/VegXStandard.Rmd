@@ -444,7 +444,7 @@ citationDOI | A string indicating the DOI that points to the resource. | 0..1 | 
 
 ### Element *method*
 
-An element *method* provides the definition of a specific method followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). From the perspective of the **VegX package** user, methods are identified uniquely through their element *name*. An important sub-element of a *method* is its *subject*, which contains the description of an attribute class to which the method applies, and is used for combining values which may be initially obtained using different methods. All attributes pointing to a given *method* are assumed to apply to the same *subject*. 
+An element *method* provides the definition of a specific method followed in the creation of the dataset (e.g. the measurement of pH, the estimation of plant abundance or the definition of strata). From the perspective of the **VegX package** user, methods are identified uniquely through their element *name*. An important sub-element of a *method* is its *subject*, which contains the description of an attribute class to which the method applies, and is used for combining values which may be initially obtained using different methods. For example, subject would be pH measurement of upper soil solution, whereas a particular methods for this subject would be the measurement in water or measurement in 0.01 mol CaCl. All attributes pointing to a given *method* are assumed to apply to the same *subject*. 
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
