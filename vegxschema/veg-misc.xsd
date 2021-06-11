@@ -201,11 +201,18 @@
                     <xsd:documentation source="VegBank" xml:lang="en">The value of the user-defined variable.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="methodID" type="xsd:string">
-                <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific method used to measure the user defined type. The individual method is defined within the element veg:method which is a container for all methods within the dataset.</xsd:documentation>
-                </xsd:annotation>
-            </xsd:element>
+            <xsd:choice>
+                <xsd:element name="methodID" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">A reference to a specific method used to measure the user defined type. The individual method is defined within the element veg:method which is a container for all methods within the dataset.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="attributeID" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation>Allows a measurement value to be qualified (type, units, method, etc.).</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+            </xsd:choice>
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="complexUserDefinedType">
@@ -213,7 +220,7 @@
             <xsd:documentation xml:lang="en">Complex user-defined information types. This provides a means to extend the schema to accommodate related information that is more complex than can be accommodated with the simpleUserDefinedType.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:any minOccurs="0" />
+            <xsd:any minOccurs="0" maxOccurs="unbounded" processContents="skip" />
         </xsd:sequence>
     </xsd:complexType>
     <xsd:complexType name="partyWithRoleType">
