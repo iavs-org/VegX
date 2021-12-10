@@ -20,7 +20,7 @@ writeVegXML<-function(x, file, verbose = TRUE) {
 
   # Top XML node
   doc = newXMLDoc()
-  top = newXMLNode(name = "VegX",
+  top = newXMLNode(name = "vegX",
                    namespaceDefinitions = c(veg="http://iavs.org/vegx/veg-2.0.0",
                                             plot="http://iavs.org/vegx/veg-plot-2.0.0",
                                             plotobs="http://iavs.org/vegx/veg-plotobservation-2.0.0",

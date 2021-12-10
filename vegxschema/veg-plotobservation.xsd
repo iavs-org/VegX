@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns="http://iavs.org/vegX/plotobservation-2.0.1" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://iavs.org/vegX/plotobservation-2.0.1" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.1" />
     <xsd:complexType name="PlotObservationType">
         <xsd:annotation>

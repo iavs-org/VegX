@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns="http://iavs.org/vegX/organism-2.0.1" targetNamespace="http://iavs.org/vegX/organism-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://iavs.org/vegX/organism-2.0.1" targetNamespace="http://iavs.org/vegX/organism-2.0.1" xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.1" />
     <xsd:complexType name="IndividualOrganismType">
         <xsd:annotation>
@@ -399,12 +399,12 @@
                     <xsd:documentation xml:lang="en">The determination date for the organism or taxon observation. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:q2="http://www.bfn.de/misc-1.0.1" name="determinationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="determinationPartyID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>The party that made the determination that applies to this dataset. This is not the same as the authorship of the asserted relationship. See accordingTo.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:q1="http://www.bfn.de/misc-1.0.1" name="determinationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
+            <xsd:element name="determinationNote" type="misc:noteType" minOccurs="0" maxOccurs="unbounded" />
             <xsd:element name="taxonRelationshipAssertion" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">A specific taxonomic or nomenclatural assertion record.</xsd:documentation>
@@ -440,7 +440,7 @@
                                 <xsd:documentation>Indicates the degree of confidence of the interpreter(s) in the interpretation made. This can reflect the level of familiarity with the classification or the sufficiency of information about the plot (e.g., High, Moderate, Low). </xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element xmlns:q3="http://www.tdwg.org/schemas/tcs/1.01" name="accordingTo" type="xsd:string" minOccurs="0">
+                        <xsd:element name="accordingTo" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation>Information about the authorship of the asserted relationship. </xsd:documentation>
                             </xsd:annotation>

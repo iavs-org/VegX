@@ -1,5 +1,5 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.1" xmlns:plot="http://iavs.org/vegX/plot-2.0.1" xmlns:org="http://iavs.org/vegX/organism-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.1" xmlns:plot="http://iavs.org/vegX/plot-2.0.1" xmlns:org="http://iavs.org/vegX/organism-2.0.1" xmlns:comm="http://iavs.org/vegX/community-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.1" />
     <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.1" />
     <xsd:import schemaLocation="veg-organism.xsd" namespace="http://iavs.org/vegX/organism-2.0.1" />
@@ -7,11 +7,7 @@
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.1" />
     <xsd:include schemaLocation="veg-userdefined.xsd" />
     <xsd:annotation>
-        <xsd:documentation>			
-            W3C-Schema Proposal for an International Exchange Standard for Vegetation Data.
-              Author: IAVS Ecoinformatics Working Group
-              Version: 2.0.1
-    </xsd:documentation>
+        <xsd:documentation>W3C-Schema Proposal for an International Exchange Standard for Vegetation Data. Author: IAVS Ecoinformatics Working Group Version: 2.0.1</xsd:documentation>
     </xsd:annotation>
     <xsd:element name="vegX">
         <xsd:complexType>
@@ -120,7 +116,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q2="http://iavs.org/vegX/organismobservation-2.0.1" name="taxonConcept" type="org:TaxonConceptType" maxOccurs="unbounded">
+                            <xsd:element name="taxonConcept" type="org:TaxonConceptType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation>Representation of a taxon concept (i.e., an organism name and the organism description given by an author in a publication). A taxon concept may be referenced in an organism identity as the original concept used by the author of the data set, or it can be referenced in taxonDetermination allowing an organism identity to be mapped to a taxonomic concept by third parties after re-examination.</xsd:documentation>
                                 </xsd:annotation>
@@ -134,7 +130,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q3="http://iavs.org/vegX/organismobservation-2.0.1" name="taxonDetermination" type="org:TaxonDeterminationType" maxOccurs="unbounded">
+                            <xsd:element name="taxonDetermination" type="org:TaxonDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">A specific relationship or assertion between two name concepts which are not part of the original definition of either of these concepts; possibly by a third party. Within vegX this typically allows for an organism identity, to be linked to a specific taxa treatment (taxon concept), according to a third party. Similar to a tcs TaxonRelationshipAssertion.</xsd:documentation>
                                 </xsd:annotation>
@@ -148,7 +144,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q4="http://iavs.org/vegX/organismobservation-2.0.1" name="organismIdentity" type="org:OrganismIdentityType" maxOccurs="unbounded">
+                            <xsd:element name="organismIdentity" type="org:OrganismIdentityType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation>The identity of an organism (or a set of organisms) occurring within the dataset. </xsd:documentation>
                                 </xsd:annotation>
@@ -162,7 +158,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q1="http://iavs.org/vegX/community-2.0.1" name="communityConcept" type="q1:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
+                            <xsd:element name="communityConcept" type="comm:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="EN">A name and some kind of definition of a community type, preferably a community name as used in a reference.v</xsd:documentation>
                                 </xsd:annotation>
@@ -176,7 +172,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q2="http://iavs.org/vegX/community-2.0.1" xmlns:q6="http://iavs.org/vegX/organismobservation-2.0.1" name="communityDetermination" type="q2:CommunityDeterminationType" maxOccurs="unbounded">
+                            <xsd:element name="communityDetermination" type="comm:CommunityDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">An identification applying one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
                                 </xsd:annotation>
@@ -218,7 +214,7 @@
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
-                            <xsd:element xmlns:q5="http://iavs.org/vegX/organismobservation-2.0.1" name="individualOrganism" type="org:IndividualOrganismType" maxOccurs="unbounded">
+                            <xsd:element name="individualOrganism" type="org:IndividualOrganismType" maxOccurs="unbounded">
                                 <xsd:annotation>
                                     <xsd:documentation xml:lang="en">An identified organism recorded during 1 or more individual organism observation events. Individuals may have an identification label (e.g. tree tag number).</xsd:documentation>
                                 </xsd:annotation>
@@ -352,7 +348,7 @@
                 </xsd:annotation>
             </xsd:attribute>
             <xsd:attribute name="system" type="misc:SystemType" use="optional" />
-            <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional" />
+            <xsd:attribute name="scope" default="document" type="misc:ScopeType" use="optional"/>
         </xsd:complexType>
     </xsd:element>
 </xsd:schema>
