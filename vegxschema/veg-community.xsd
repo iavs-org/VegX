@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<xs:schema xmlns:ns0="http://iavs.org/vegX/misc-2.0.1" xmlns="http://iavs.org/vegX/community-2.0.1" targetNamespace="http://iavs.org/vegX/community-2.0.1" xmlns:xs="http://www.w3.org/2001/XMLSchema">
-    <xs:import xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.1" />
+<xs:schema xmlns:ns0="http://iavs.org/vegX/misc-2.0.2" xmlns="http://iavs.org/vegX/community-2.0.2" targetNamespace="http://iavs.org/vegX/community-2.0.2" xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <xs:import xmlns:xsd="http://www.w3.org/2001/XMLSchema" schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.2" />
     <xs:complexType name="CommunityConceptType">
         <xs:annotation>
             <xs:documentation>A name and some kind of definition of a community type, preferably a community name as used in a reference.</xs:documentation>

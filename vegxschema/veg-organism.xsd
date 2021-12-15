@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.1" xmlns="http://iavs.org/vegX/organism-2.0.1" targetNamespace="http://iavs.org/vegX/organism-2.0.1" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.1" />
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.2" xmlns="http://iavs.org/vegX/organism-2.0.2" targetNamespace="http://iavs.org/vegX/organism-2.0.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.2" />
     <xsd:complexType name="IndividualOrganismType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An identified organism recorded during one or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
@@ -394,7 +394,7 @@
                     <xsd:documentation>A reference to a specific taxonNameUsageConcept through the NameUsageConcept id attribute. The individual NameUsageConcept is defined within the element veg:datasetNameUsageConcepts which is a container for all name usage concepts within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="determinationDate" type="xsd:date">
+            <xsd:element name="determinationDate" type="xsd:date" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">The determination date for the organism or taxon observation. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
                 </xsd:annotation>
@@ -417,9 +417,9 @@
                             </xsd:annotation>
                             <xsd:complexType>
                                 <xsd:choice>
-                                    <xsd:element name="taxonNameID" type="xsd:string">
+                                    <xsd:element name="organismNameID" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>A reference to a specific Taxon Name. The name is defined within the element veg:taxonName which is a container for all Taxon Names within a dataset.</xsd:documentation>
+                                            <xsd:documentation>A reference to a specific Taxon Name. The name is defined within the element veg:organismName which is a container for all Taxon Names within a dataset.</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                     <xsd:element name="taxonConceptID" type="xsd:string">
