@@ -4,6 +4,10 @@
 
 __Version history__
 
+_Version 0.6.10, Dec 2021.
+1. Minor schema modifications in 'TaxonDetermination'
+2. Changed repository location to 'iavs-org'
+
 _Version 0.6.10, June 2021.
 1. Update of schema veg-misc.xsd: simpleUserDefinedType has now a choice between attribute or methodID (suggested by Sebastian Schmidtlein).
 

@@ -26,8 +26,8 @@ observation to be maintained.
 ### Detailed documentation of Veg-X
 
 Please read article [The Veg-X exchange
-standard](https://miquelcaceres.github.io/VegX/articles/VegXStandard.html)
-to know mode about the standard.
+standard](https://iavs-org.github.io/VegX/articles/VegXStandard.html) to
+know mode about the standard.
 
 ### XML schema
 
@@ -36,9 +36,9 @@ user-defined tags to structure textual information in order to create
 self-describing datasets. XML (Extensible Markup Language) is an open
 standard, and XML files are both machine and human-readable (they are
 stored in plain-text ASCII format). Visit folder
-[vegxschema](https://github.com/miquelcaceres/VegX/tree/master/vegxschema)
-to see the XML schema representation of the standard. This schema should
-be used to evaluate whether a given Veg-X XML document conforms to the
+[vegxschema](https://github.com/iavs-org/VegX/tree/master/vegxschema) to
+see the XML schema representation of the standard. This schema should be
+used to evaluate whether a given Veg-X XML document conforms to the
 definitions and data structure of the standard.
 
 ## An R package to use the Veg-X standard
@@ -59,13 +59,13 @@ standard.
 The VegX R package can be installed from GitHub as follows:
 
 ``` r
-devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)
+devtools::install_github("iavs-org/VegX", build_vignettes=TRUE)
 ```
 
 ### User manual
 
 Please refer to [How to use the VegX
-package](https://miquelcaceres.github.io/VegX/articles/PackageTutorial.html)
+package](https://iavs-org.github.io/VegX/articles/PackageTutorial.html)
 to learn how to use the VegX package.
 
 ### Acknowledgements
@@ -75,21 +75,21 @@ Vegetation Science](http://iavs.org/)
 
 **Veg-X standard development**:
 
-  - Miquel De Cáceres
-  - Sebastian Schmidtlein
-  - Susan K. Wiser
-  - Nick Spencer
-  - Robert K. Peet
-  - Martin Kleikamp
-  - Brad Boyle
+-   Miquel De Cáceres
+-   Sebastian Schmidtlein
+-   Susan K. Wiser
+-   Nick Spencer
+-   Robert K. Peet
+-   Martin Kleikamp
+-   Brad Boyle
 
 **VegX R package development**:
 
-  - Miquel De Cáceres
+-   Miquel De Cáceres
 
 ## References
 
-  - Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK
+-   Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK
     (2011). Veg-X - an exchange standard for plot-based vegetation data.
     *Journal of Vegetation Science* 22: 598-609.
     <https://doi.org/10.1111/j.1654-1103.2010.01245.x>
