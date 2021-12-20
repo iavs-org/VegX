@@ -22,7 +22,9 @@
 #' @param methods A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
 #' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.
-#' @param missing.values A character vector of values that should be considered as missing data.
+#' @param missing.values A character vector of values that should be considered as missing data (but see the following).
+#' @param missing.coords A character vector of values that should be considered as missing coordinates (introduced to allow separate treatment).
+#' @param missing.elevation A character vector of values that should be considered as missing elevation (introduced to allow separate treatment).
 #' @param verbose A boolean flag to indicate console output of the data integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
@@ -66,6 +68,8 @@ addPlotLocations<-function(target, x,
                            toWGS84 = FALSE,
                            methods = list(),
                            missing.values = c(NA,""),
+                           missing.coords = c(NA, 0, ""),
+                           missing.elevation = c(NA, 0, ""),
                            verbose = TRUE) {
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
@@ -247,7 +251,7 @@ addPlotLocations<-function(target, x,
       attIDs = methodAttIDs[[m]]
       codes = methodCodes[[m]]
       value = as.character(locValues[[m]][i])
-      if(!(value %in% as.character(missing.values))) {
+      if(!(value %in% as.character(missing.elevation))) {
         if(method@attributeType== "quantitative") {
           value = as.numeric(value)
           if(value> method@attributes[[1]]$upperLimit) {
@@ -278,6 +282,14 @@ addPlotLocations<-function(target, x,
         attIDs = methodAttIDs[[m]]
         codes = methodCodes[[m]]
       }
+           
+      if(locValues[["x"]][i] %in% missing.coords) {
+        locValues[["x"]][i] <- NA
+        }
+      if(locValues[["y"]][i] %in% missing.coords) {
+        locValues[["y"]][i] <- NA
+        }       
+      
       x = as.numeric(locValues[["x"]][i])
       y = as.numeric(locValues[["y"]][i])
       if((!is.na(x)) && (!is.na(y))) {
