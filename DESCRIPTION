@@ -8,7 +8,7 @@ Authors@R: c(
 	email='miquelcaceres@gmail.com'),
 	person('Sebastian', 'Schmidtlein', role = c('aut')),
 	person('Christian', 'König', role = c('aut')))
-Description: Functions to import, integrate, harmonize and export vegetation data using the VegX standard (ver. 2.0.1).
+Description: Functions to import, integrate, harmonize and export vegetation data using the VegX standard [Wiser et al. (2011) <doi:10.1111/j.1654-1103.2010.01245.x>].
 License: GPL (>= 2)
 Encoding: UTF-8
 Depends: R (>= 2.10)
