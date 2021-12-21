@@ -42,7 +42,7 @@ We envisage two different kinds of users of the VegX package:
 
 ## Installing the package and loading source data
 
-The **VegX package** is currently distributed from [GitHub](https://github.com). To install it, you should have package ``devtools`` installed and use the following command: ``devtools::install_github("miquelcaceres/VegX", build_vignettes=TRUE)``. Assuming that the package is already installed you begin by loading it, which results in the required package *XML* also being loaded:
+The **VegX package** is currently distributed from [GitHub](https://github.com). To install it, you should have package ``devtools`` installed and use the following command: ``devtools::install_github("iavs-org/VegX", build_vignettes=TRUE)``. Assuming that the package is already installed you begin by loading it, which results in the required package *XML* also being loaded:
 ```{r load VegX}
 library(VegX)
 ```
