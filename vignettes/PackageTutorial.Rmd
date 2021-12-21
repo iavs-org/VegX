@@ -6,7 +6,7 @@ output:
   rmarkdown::html_vignette:
     toc: TRUE
 vignette: >
-  %\VignetteIndexEntry{VegX package tutorial}
+  %\VignetteIndexEntry{How to use the VegX R package}
   %\VignetteEngine{knitr::rmarkdown}
   \usepackage[utf8]{inputenc}
 ---

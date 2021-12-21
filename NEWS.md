@@ -13,7 +13,7 @@
 # Version 0.6.10
 - Update of schema veg-misc.xsd: simpleUserDefinedType has now a choice between attribute or methodID (suggested by Sebastian Schmidtlein).
 
-# Version 0.6.9, November 2018.
+# Version 0.6.9
 - Update documentation of 'addSiteObservations'
 
 # Version 0.6.8
