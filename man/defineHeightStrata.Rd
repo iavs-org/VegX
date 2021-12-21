@@ -4,11 +4,16 @@
 \alias{defineHeightStrata}
 \title{Stratum definition by height}
 \usage{
-defineHeightStrata(name = "Strata by height",
+defineHeightStrata(
+  name = "Strata by height",
   description = "Vegetation strata defined by height in m",
-  citationString = "", DOI = "", heightBreaks = c(0, 1, 3, 5),
-  heightUnit = "m", strataNames = c("s1", "s2", "s3"),
-  strataDefinitions = NULL)
+  citationString = "",
+  DOI = "",
+  heightBreaks = c(0, 1, 3, 5),
+  heightUnit = "m",
+  strataNames = c("s1", "s2", "s3"),
+  strataDefinitions = NULL
+)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -34,7 +39,8 @@ An object of class \code{\linkS4class{VegXStrataDefinition}}
 Height-based strata definition
 }
 \seealso{
-Other define strata functions: \code{\link{defineCategoricalStrata}},
-  \code{\link{defineMixedStrata}}
+Other define strata functions: 
+\code{\link{defineCategoricalStrata}()},
+\code{\link{defineMixedStrata}()}
 }
 \concept{define strata functions}

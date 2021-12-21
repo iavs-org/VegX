@@ -4,8 +4,14 @@
 \alias{addPlotGeometries}
 \title{Adds/replaces plot geometry information}
 \usage{
-addPlotGeometries(target, x, mapping, methods = list(),
-  missing.values = c(NA, ""), verbose = TRUE)
+addPlotGeometries(
+  target,
+  x,
+  mapping,
+  methods = list(),
+  missing.values = c(NA, ""),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -69,15 +75,16 @@ showElementTable(x, "plot")
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other add functions: \code{\link{addAggregateOrganismObservations}},
-  \code{\link{addCommunityObservations}},
-  \code{\link{addIndividualOrganismObservations}},
-  \code{\link{addPlotLocations}},
-  \code{\link{addPlotObservations}},
-  \code{\link{addSiteCharacteristics}},
-  \code{\link{addSiteObservations}},
-  \code{\link{addStratumObservations}},
-  \code{\link{addSurfaceCoverObservations}},
-  \code{\link{addTaxonBySiteData}}
+Other add functions: 
+\code{\link{addAggregateOrganismObservations}()},
+\code{\link{addCommunityObservations}()},
+\code{\link{addIndividualOrganismObservations}()},
+\code{\link{addPlotLocations}()},
+\code{\link{addPlotObservations}()},
+\code{\link{addSiteCharacteristics}()},
+\code{\link{addSiteObservations}()},
+\code{\link{addStratumObservations}()},
+\code{\link{addSurfaceCoverObservations}()},
+\code{\link{addTaxonBySiteData}()}
 }
 \concept{add functions}

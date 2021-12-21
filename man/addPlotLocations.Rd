@@ -4,9 +4,19 @@
 \alias{addPlotLocations}
 \title{Adds/replaces plot location information}
 \usage{
-addPlotLocations(target, x, mapping, proj4string = NULL,
-  reset.places = FALSE, toWGS84 = FALSE, methods = list(),
-  missing.values = c(NA, ""), verbose = TRUE)
+addPlotLocations(
+  target,
+  x,
+  mapping,
+  proj4string = NULL,
+  reset.places = FALSE,
+  toWGS84 = FALSE,
+  methods = list(),
+  missing.values = c(NA, ""),
+  missing.coords = c(NA, 0, ""),
+  missing.elevation = c(NA, 0, ""),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -36,7 +46,11 @@ This parameter is needed if \code{toWGS84 = TRUE}.}
 Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.}
 
-\item{missing.values}{A character vector of values that should be considered as missing data.}
+\item{missing.values}{A character vector of values that should be considered as missing data (but see the following).}
+
+\item{missing.coords}{A character vector of values that should be considered as missing coordinates (introduced to allow separate treatment).}
+
+\item{missing.elevation}{A character vector of values that should be considered as missing elevation (introduced to allow separate treatment).}
 
 \item{verbose}{A boolean flag to indicate console output of the data integration process.}
 }
@@ -80,15 +94,16 @@ showElementTable(x, "plot")
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other add functions: \code{\link{addAggregateOrganismObservations}},
-  \code{\link{addCommunityObservations}},
-  \code{\link{addIndividualOrganismObservations}},
-  \code{\link{addPlotGeometries}},
-  \code{\link{addPlotObservations}},
-  \code{\link{addSiteCharacteristics}},
-  \code{\link{addSiteObservations}},
-  \code{\link{addStratumObservations}},
-  \code{\link{addSurfaceCoverObservations}},
-  \code{\link{addTaxonBySiteData}}
+Other add functions: 
+\code{\link{addAggregateOrganismObservations}()},
+\code{\link{addCommunityObservations}()},
+\code{\link{addIndividualOrganismObservations}()},
+\code{\link{addPlotGeometries}()},
+\code{\link{addPlotObservations}()},
+\code{\link{addSiteCharacteristics}()},
+\code{\link{addSiteObservations}()},
+\code{\link{addStratumObservations}()},
+\code{\link{addSurfaceCoverObservations}()},
+\code{\link{addTaxonBySiteData}()}
 }
 \concept{add functions}

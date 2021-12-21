@@ -4,9 +4,14 @@
 \alias{setPreferredTaxonNomenclature}
 \title{Sets preferred taxon nomenclature}
 \usage{
-setPreferredTaxonNomenclature(target, x, mapping,
-  date.format = "\%Y-\%m-\%d", missing.values = c(NA, ""),
-  verbose = TRUE)
+setPreferredTaxonNomenclature(
+  target,
+  x,
+  mapping,
+  date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, ""),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -79,6 +84,7 @@ y = setPreferredTaxonNomenclature(x, moki_lookup,
 head(showElementTable(y, "organismIdentity"))
 }
 \seealso{
-Other organism identity functions: \code{\link{setOriginalIdentificationConcepts}}
+Other organism identity functions: 
+\code{\link{setOriginalIdentificationConcepts}()}
 }
 \concept{organism identity functions}

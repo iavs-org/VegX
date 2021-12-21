@@ -4,10 +4,18 @@
 \alias{fillProjectInformation}
 \title{Fills the information for a given research project}
 \usage{
-fillProjectInformation(target, title, personnel = list(),
-  abstract = "", funding = "", studyAreaDescription = "",
-  designDescription = "", citationString = "", DOI = "",
-  verbose = TRUE)
+fillProjectInformation(
+  target,
+  title,
+  personnel = list(),
+  abstract = "",
+  funding = "",
+  studyAreaDescription = "",
+  designDescription = "",
+  citationString = "",
+  DOI = "",
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -51,7 +59,8 @@ x = fillProjectInformation(newVegX(), "MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 20
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other fill functions: \code{\link{fillPartyInformation}},
-  \code{\link{fillUniqueIdentifiers}}
+Other fill functions: 
+\code{\link{fillPartyInformation}()},
+\code{\link{fillUniqueIdentifiers}()}
 }
 \concept{fill functions}

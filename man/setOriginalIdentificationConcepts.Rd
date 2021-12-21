@@ -4,9 +4,15 @@
 \alias{setOriginalIdentificationConcepts}
 \title{Sets original identification taxon concepts}
 \usage{
-setOriginalIdentificationConcepts(target, citationStringAll = "",
-  x = NULL, mapping = list(), date.format = "\%Y-\%m-\%d",
-  missing.values = c(NA, ""), verbose = TRUE)
+setOriginalIdentificationConcepts(
+  target,
+  citationStringAll = "",
+  x = NULL,
+  mapping = list(),
+  date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, ""),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -83,6 +89,7 @@ head(showElementTable(y, "organismIdentity"))
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other organism identity functions: \code{\link{setPreferredTaxonNomenclature}}
+Other organism identity functions: 
+\code{\link{setPreferredTaxonNomenclature}()}
 }
 \concept{organism identity functions}

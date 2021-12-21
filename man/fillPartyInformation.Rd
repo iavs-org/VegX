@@ -4,8 +4,15 @@
 \alias{fillPartyInformation}
 \title{Fills the information for a given party}
 \usage{
-fillPartyInformation(target, name, type = "individual", address = "",
-  phone = "", electronicMailAddress = "", onlineURL = "")
+fillPartyInformation(
+  target,
+  name,
+  type = "individual",
+  address = "",
+  phone = "",
+  electronicMailAddress = "",
+  onlineURL = ""
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -37,7 +44,8 @@ x = fillPartyInformation(newVegX(), name = "Susan K. Wiser")
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other fill functions: \code{\link{fillProjectInformation}},
-  \code{\link{fillUniqueIdentifiers}}
+Other fill functions: 
+\code{\link{fillProjectInformation}()},
+\code{\link{fillUniqueIdentifiers}()}
 }
 \concept{fill functions}

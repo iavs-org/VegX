@@ -4,13 +4,20 @@
 \alias{defineMixedStrata}
 \title{Mixed stratum definiton}
 \usage{
-defineMixedStrata(name = "Strata by height or category",
+defineMixedStrata(
+  name = "Strata by height or category",
   description = paste0("Vegetation strata defined by height in m",
-  " and other strata by category"), citationString = "", DOI = "",
-  heightStrataBreaks = c(0, 1, 3, 5), heightStrataUnit = "m",
-  heightStrataNames = c("s1", "s2", "s3"), categoryStrataNames = "s4",
-  heightStrataDefinitions = NULL, categoryStrataDefinitions = NULL,
-  order = NULL)
+    " and other strata by category"),
+  citationString = "",
+  DOI = "",
+  heightStrataBreaks = c(0, 1, 3, 5),
+  heightStrataUnit = "m",
+  heightStrataNames = c("s1", "s2", "s3"),
+  categoryStrataNames = "s4",
+  heightStrataDefinitions = NULL,
+  categoryStrataDefinitions = NULL,
+  order = NULL
+)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -52,7 +59,8 @@ strataDef = defineMixedStrata(name = "Recce strata",
                  categoryStrataNames = "Tier 7")
 }
 \seealso{
-Other define strata functions: \code{\link{defineCategoricalStrata}},
-  \code{\link{defineHeightStrata}}
+Other define strata functions: 
+\code{\link{defineCategoricalStrata}()},
+\code{\link{defineHeightStrata}()}
 }
 \concept{define strata functions}

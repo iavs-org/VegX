@@ -4,9 +4,16 @@
 \alias{addAggregateOrganismObservations}
 \title{Add aggregate organism observation records}
 \usage{
-addAggregateOrganismObservations(target, x, mapping, methods = list(),
-  stratumDefinition = NULL, date.format = "\%Y-\%m-\%d",
-  missing.values = c(NA, "0", ""), verbose = TRUE)
+addAggregateOrganismObservations(
+  target,
+  x,
+  mapping,
+  methods = list(),
+  stratumDefinition = NULL,
+  date.format = "\%Y-\%m-\%d",
+  missing.values = c(NA, "0", ""),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -125,15 +132,16 @@ head(showElementTable(x, "aggregateOrganismObservation"))
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other add functions: \code{\link{addCommunityObservations}},
-  \code{\link{addIndividualOrganismObservations}},
-  \code{\link{addPlotGeometries}},
-  \code{\link{addPlotLocations}},
-  \code{\link{addPlotObservations}},
-  \code{\link{addSiteCharacteristics}},
-  \code{\link{addSiteObservations}},
-  \code{\link{addStratumObservations}},
-  \code{\link{addSurfaceCoverObservations}},
-  \code{\link{addTaxonBySiteData}}
+Other add functions: 
+\code{\link{addCommunityObservations}()},
+\code{\link{addIndividualOrganismObservations}()},
+\code{\link{addPlotGeometries}()},
+\code{\link{addPlotLocations}()},
+\code{\link{addPlotObservations}()},
+\code{\link{addSiteCharacteristics}()},
+\code{\link{addSiteObservations}()},
+\code{\link{addStratumObservations}()},
+\code{\link{addSurfaceCoverObservations}()},
+\code{\link{addTaxonBySiteData}()}
 }
 \concept{add functions}

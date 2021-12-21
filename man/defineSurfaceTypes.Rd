@@ -4,8 +4,14 @@
 \alias{defineSurfaceTypes}
 \title{Surface type definition}
 \usage{
-defineSurfaceTypes(name, description, surfaceNames, definitions = NULL,
-  citationString = "", DOI = "")
+defineSurfaceTypes(
+  name,
+  description,
+  surfaceNames,
+  definitions = NULL,
+  citationString = "",
+  DOI = ""
+)
 }
 \arguments{
 \item{name}{A string to identify the surface type definition.}

@@ -4,8 +4,14 @@
 \alias{transformQuantitativeScale}
 \title{Transform quantitative scale}
 \usage{
-transformQuantitativeScale(target, method, newMethod, FUN,
-  replaceValues = FALSE, verbose = TRUE)
+transformQuantitativeScale(
+  target,
+  method,
+  newMethod,
+  FUN,
+  replaceValues = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -77,6 +83,7 @@ showElementTable(y, "stratumObservation")
 
 }
 \seealso{
-Other transform functions: \code{\link{transformOrdinalScale}}
+Other transform functions: 
+\code{\link{transformOrdinalScale}()}
 }
 \concept{transform functions}

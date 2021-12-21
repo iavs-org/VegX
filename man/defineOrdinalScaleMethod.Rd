@@ -4,9 +4,18 @@
 \alias{defineOrdinalScaleMethod}
 \title{Ordinal scale method definition}
 \usage{
-defineOrdinalScaleMethod(name, description, subject, codes,
-  citationString = "", DOI = "", quantifiableCodes = character(0),
-  breaks = NULL, midPoints = NULL, definitions = NULL)
+defineOrdinalScaleMethod(
+  name,
+  description,
+  subject,
+  codes,
+  citationString = "",
+  DOI = "",
+  quantifiableCodes = character(0),
+  breaks = NULL,
+  midPoints = NULL,
+  definitions = NULL
+)
 }
 \arguments{
 \item{name}{String with the name of the method.}
@@ -69,8 +78,9 @@ defineOrdinalScaleMethod(name = "Recce cover scale",
 
 }
 \seealso{
-Other define measurement functions: \code{\link{defineQualitativeScaleMethod}},
-  \code{\link{defineQuantitativeScaleMethod}},
-  \code{\link{predefinedMeasurementMethod}}
+Other define measurement functions: 
+\code{\link{defineQualitativeScaleMethod}()},
+\code{\link{defineQuantitativeScaleMethod}()},
+\code{\link{predefinedMeasurementMethod}()}
 }
 \concept{define measurement functions}
