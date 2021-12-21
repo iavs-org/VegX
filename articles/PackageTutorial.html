@@ -59,7 +59,7 @@
 
       
 
-      </header><div class="row">
+      </header><script src="PackageTutorial_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>How to use the VegX R package</h1>
@@ -114,7 +114,7 @@
 </h2>
 <p>The <strong>VegX package</strong> is currently distributed from <a href="https://github.com" class="external-link">GitHub</a>. To install it, you should have package <code>devtools</code> installed and use the following command: <code>devtools::install_github("iavs-org/VegX", build_vignettes=TRUE)</code>. Assuming that the package is already installed you begin by loading it, which results in the required package <em>XML</em> also being loaded:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">VegX</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://iavs-org.github.io/VegX/">VegX</a></span><span class="op">)</span></code></pre></div>
 <p>User’s of the VegX package are expected to know how import their source data into R, either using a database connection or by reading files in diverse formats (e.g. txt, csv, xlsx, …). For the examples of this manual, we will use three data sets that were extracted from the <a href="https://nvs.landcareresearch.co.nz/" class="external-link">New Zealand National Vegetation Survey (NVS) Databank</a>. These are subsets of the original datasets prepared for demonstration purposes only.</p>
 <ul>
 <li>
@@ -1282,9 +1282,9 @@
 <code class="sourceCode R"><span class="co"># Inspect the result</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">moki_vegx</span>, <span class="st">"communityObservation"</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##    plotName obsStartDate      comm_1_method comm_1_value</span>
-<span class="co">## 1    LGM08r   2011-02-17 Basal area/m2*ha-1    17.685423</span>
-<span class="co">## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1     9.860977</span>
-<span class="co">## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1     4.803981</span></code></pre>
+<span class="co">## 1    LGM08r   2011-02-17 Basal area/m2*ha-1     16.86472</span>
+<span class="co">## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1      0.00000</span>
+<span class="co">## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1      7.85279</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="site-observations">Site observations<a class="anchor" aria-label="anchor" href="#site-observations"></a>
@@ -1477,9 +1477,9 @@
 <code class="sourceCode R"><span class="va">moki_vegx</span> <span class="op">=</span> <span class="fu"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span><span class="op">(</span>target <span class="op">=</span> <span class="va">moki_vegx</span>, element <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">moki_vegx</span>, <span class="st">"plot"</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##    plotName                 plotUniqueIdentifier  area_method area_value</span>
-<span class="co">## 1    LGM08r a5a3eb35-26f5-47f2-bdb3-56cca571230f Plot area/m2        400</span>
-<span class="co">## 2 LGM08r_1Q 3cf625ef-2d1a-42c9-9c22-defaf8fbd9d8 Plot area/m2        100</span>
-<span class="co">## 3 LGM08r_2Q 929bbab3-3f50-4c44-9029-4806e0b28ad7 Plot area/m2        100</span>
+<span class="co">## 1    LGM08r 9eabcd30-232e-4b90-b0b3-c6181aebf31b Plot area/m2        400</span>
+<span class="co">## 2 LGM08r_1Q 724cf218-06e1-428f-bedf-75ce01107bec Plot area/m2        100</span>
+<span class="co">## 3 LGM08r_2Q 290b527e-eca9-4bcf-bd06-25aab1131cf6 Plot area/m2        100</span>
 <span class="co">##       shape    length_method length_value     width_method width_value   coordX</span>
 <span class="co">## 1 rectangle Plot dimension/m           20 Plot dimension/m          20 172.1407</span>
 <span class="co">## 2 rectangle Plot dimension/m           10 Plot dimension/m          10       NA</span>
