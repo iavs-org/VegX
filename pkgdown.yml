@@ -4,7 +4,7 @@ pkgdown_sha: ~
 articles:
   PackageTutorial: PackageTutorial.html
   VegXStandard: VegXStandard.html
-last_built: 2021-12-21T18:48Z
+last_built: 2021-12-21T18:49Z
 urls:
   reference: https://iavs-org.github.io/VegX/reference
   article: https://iavs-org.github.io/VegX/articles
