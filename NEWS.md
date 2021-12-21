@@ -4,7 +4,7 @@
 
 # Version 0.6.12
 - Minor changes in 'addPlotGeometries'
-- Minor modifications in VegXSchema
+- Minor modifications in VegX schema (ver. 2.0.3)
 
 # Version 0.6.10
 - Minor schema modifications in 'TaxonDetermination'
