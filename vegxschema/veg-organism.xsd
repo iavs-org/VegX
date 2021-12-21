@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.2" xmlns="http://iavs.org/vegX/organism-2.0.2" targetNamespace="http://iavs.org/vegX/organism-2.0.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.2" />
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.3" xmlns="http://iavs.org/vegX/organism-2.0.3" targetNamespace="http://iavs.org/vegX/organism-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.3" />
     <xsd:complexType name="IndividualOrganismType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An identified organism recorded during one or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
@@ -16,9 +16,9 @@
                     <xsd:documentation xml:lang="en">A label that is associated with an individual (e.g. a numerical tree tag)</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="taxonNameUsageConceptID" type="xsd:string" minOccurs="0" maxOccurs="1">
+            <xsd:element name="organismIdentityID" type="xsd:string" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific datasetNameUsageConcept representing a taxon occurrence. </xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific organismIdentity representing a taxon occurrence. </xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="birthDate" type="xsd:date" minOccurs="0">
@@ -346,7 +346,7 @@
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
-                        <xsd:element name="preferredTaxonNameID" type="xsd:string">
+                        <xsd:element name="preferredOrganismNameID" type="xsd:string">
                             <xsd:annotation>
                                 <xsd:documentation>A link to a scientific taxon name (i.e. an organism name whose attribute 'taxonName' is true) accepted to label the organism identity appropriately, as stated by the author of the data set or a third party responsible for its nomenclature.</xsd:documentation>
                             </xsd:annotation>
@@ -440,7 +440,7 @@
                                 <xsd:documentation>Indicates the degree of confidence of the interpreter(s) in the interpretation made. This can reflect the level of familiarity with the classification or the sufficiency of information about the plot (e.g., High, Moderate, Low). </xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
-                        <xsd:element xmlns:q3="http://www.tdwg.org/schemas/tcs/1.01" name="accordingTo" type="xsd:string" minOccurs="0">
+                        <xsd:element name="accordingTo" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
                                 <xsd:documentation>Information about the authorship of the asserted relationship. </xsd:documentation>
                             </xsd:annotation>

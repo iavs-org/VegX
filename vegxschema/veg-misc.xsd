@@ -1,25 +1,25 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.2" targetNamespace="http://iavs.org/vegX/misc-2.0.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="IDType">
-        <xs:annotation>
-            <xs:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xs:documentation>
-        </xs:annotation>
-        <xs:list itemType="xs:string" />
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.3" targetNamespace="http://iavs.org/vegX/misc-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:simpleType name="IDType">
+        <xsd:annotation>
+            <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:list itemType="xsd:string" />
     </xsd:simpleType>
-    <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="SystemType">
-        <xs:annotation>
-            <xs:documentation>Identifier System</xs:documentation>
-        </xs:annotation>
-        <xs:list itemType="xs:string" />
+    <xsd:simpleType name="SystemType">
+        <xsd:annotation>
+            <xsd:documentation>Identifier System</xsd:documentation>
+        </xsd:annotation>
+        <xsd:list itemType="xsd:string" />
     </xsd:simpleType>
-    <xsd:simpleType xmlns:xs="http://www.w3.org/2001/XMLSchema" name="ScopeType">
-        <xs:annotation>
-            <xs:documentation>The scope of the identifier.</xs:documentation>
-        </xs:annotation>
-        <xs:restriction base="xs:string">
-            <xs:enumeration value="system" />
-            <xs:enumeration value="document" />
-        </xs:restriction>
+    <xsd:simpleType name="ScopeType">
+        <xsd:annotation>
+            <xsd:documentation>The scope of the identifier.</xsd:documentation>
+        </xsd:annotation>
+        <xsd:restriction base="xsd:string">
+            <xsd:enumeration value="system" />
+            <xsd:enumeration value="document" />
+        </xsd:restriction>
     </xsd:simpleType>
     <xsd:complexType name="literatureCitationType">
         <xsd:sequence>
@@ -44,45 +44,45 @@
     </xsd:complexType>
     <xsd:complexType name="partyType">
         <xsd:annotation>
-            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party. eml://ecoinformatics.org/party-2.0.2</xsd:documentation>
+            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party. eml://ecoinformatics.org/party-2.0.3</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-            <xsd:choice xmlns:xs="http://www.w3.org/2001/XMLSchema" maxOccurs="unbounded">
-                <xs:element name="individualName" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation xml:lang="en">The full name of the person being described</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="organizationName" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation xml:lang="en">The full name of the organization being described</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
-                <xs:element name="positionName" type="xs:string">
-                    <xs:annotation>
-                        <xs:documentation xml:lang="en">The name of the title or position associated with the resource.</xs:documentation>
-                    </xs:annotation>
-                </xs:element>
+            <xsd:choice maxOccurs="unbounded">
+                <xsd:element name="individualName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">The full name of the person being described</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="organizationName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">The full name of the organization being described</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
+                <xsd:element name="positionName" type="xsd:string">
+                    <xsd:annotation>
+                        <xsd:documentation xml:lang="en">The name of the title or position associated with the resource.</xsd:documentation>
+                    </xsd:annotation>
+                </xsd:element>
             </xsd:choice>
-            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="address" type="xs:string" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">The full address information for a given responsible party entry.</xs:documentation>
-                </xs:annotation>
+            <xsd:element name="address" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The full address information for a given responsible party entry.</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="phone" type="xs:string" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">Information about the contact's telephone.</xs:documentation>
-                </xs:annotation>
+            <xsd:element name="phone" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">Information about the contact's telephone.</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="electronicMailAddress" type="xs:string" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">The email address of the contact.</xs:documentation>
-                </xs:annotation>
+            <xsd:element name="electronicMailAddress" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">The email address of the contact.</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:xs="http://www.w3.org/2001/XMLSchema" name="onlineURL" type="xs:anyURI" minOccurs="0" maxOccurs="unbounded">
-                <xs:annotation>
-                    <xs:documentation xml:lang="en">A link to associated online information, usually a web site.</xs:documentation>
-                </xs:annotation>
+            <xsd:element name="onlineURL" type="xsd:anyURI" minOccurs="0" maxOccurs="unbounded">
+                <xsd:annotation>
+                    <xsd:documentation xml:lang="en">A link to associated online information, usually a web site.</xsd:documentation>
+                </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
         <xsd:attribute name="id" type="IDType" use="required">

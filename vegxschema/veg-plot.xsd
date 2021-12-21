@@ -1,6 +1,6 @@
-<?xml version="1.0" encoding="iso-8859-1"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.2" xmlns="http://iavs.org/vegX/plot-2.0.2" targetNamespace="http://iavs.org/vegX/plot-2.0.2" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.2" />
+<?xml version="1.0" encoding="utf-8"?>
+<xsd:schema xmlns="http://iavs.org/vegX/plot-2.0.3" targetNamespace="http://iavs.org/vegX/plot-2.0.3" xmlns:misc="http://iavs.org/vegX/misc-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.3" />
     <xsd:complexType name="relatedPlotType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">A plot or observation may be related spatially to another plot in order to express parent-child, sub-plot or contiguity. The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.The plot related or connect to in geometric space with the related plot identified and the nature of the relationship to be define. For example subplots, contiguous plots along transects etc. Normally this would be for parent-child (or sub-plot) relationships. A standard convention should be used with preference for the child entity to point back to its parent.</xsd:documentation>
@@ -41,7 +41,7 @@
                     <xsd:documentation xml:lang="en">Plot identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element xmlns:q1="http://iavs.org/vegX/misc-2.0.2" name="relatedPlot" type="relatedPlotType" minOccurs="0" maxOccurs="unbounded">
+            <xsd:element name="relatedPlot" type="relatedPlotType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
                     <xsd:documentation>A plot may be related spatially to other plots in order to express parent-child, sub-plot or contiguity. </xsd:documentation>
                 </xsd:annotation>
@@ -83,12 +83,7 @@
                                                 <xsd:element name="valueY" type="xsd:string" />
                                                 <xsd:element name="attributeID" type="xsd:string">
                                                     <xsd:annotation>
-                                                        <xsd:documentation>Specifying units and methods. Typical units are: 
-Decimal degrees like 12.993343 S, or -12.993343 or
-UTM coordinates like 11N 345567
-Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
-
-</xsd:documentation>
+                                                        <xsd:documentation>Specifying units and methods. Typical units are: Decimal degrees like 12.993343 S, or -12.993343 or UTM coordinates like 11N 345567 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy </xsd:documentation>
                                                     </xsd:annotation>
                                                 </xsd:element>
                                                 <xsd:element name="spatialReference" type="xsd:string">
@@ -375,12 +370,7 @@ Methods used could be for example the use of global navigation satellite systems
                                     <xsd:element name="coordinates" type="plotCoordinatesType" />
                                     <xsd:element name="attributeID" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>Specifying units and methods. Typical units are: 
-Decimal degrees like 12.993343 S, or -12.993343 or
-UTM coordinates like 11N 345567
-Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
-
-</xsd:documentation>
+                                            <xsd:documentation>Specifying units and methods. Typical units are: Decimal degrees like 12.993343 S, or -12.993343 or UTM coordinates like 11N 345567 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                     <xsd:element name="spatialReference" type="xsd:string">
@@ -405,12 +395,7 @@ Methods used could be for example the use of global navigation satellite systems
                                     <xsd:element name="coordinates" type="plotCoordinatesType" />
                                     <xsd:element name="attributeID" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>Specifying units and methods. Typical units are: 
-Decimal degrees like 12.993343 S, or -12.993343 or
-UTM coordinates like 11N 345567
-Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
-
-</xsd:documentation>
+                                            <xsd:documentation>Specifying units and methods. Typical units are: Decimal degrees like 12.993343 S, or -12.993343 or UTM coordinates like 11N 345567 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                     <xsd:element name="spatialReference" type="xsd:string">
@@ -435,11 +420,7 @@ Methods used could be for example the use of global navigation satellite systems
                                     <xsd:element name="coordinates" type="plotCoordinatesType" />
                                     <xsd:element name="attributeID" type="xsd:string">
                                         <xsd:annotation>
-                                            <xsd:documentation>Specifying units and methods. Typical units are: 
-Decimal degrees like 12.993343 S, or -12.993343 or
-UTM coordinates like 11N 345567
-Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy
-</xsd:documentation>
+                                            <xsd:documentation>Specifying units and methods. Typical units are: Decimal degrees like 12.993343 S, or -12.993343 or UTM coordinates like 11N 345567 Methods used could be for example the use of global navigation satellite systems or an estimate based on a map. Note that there is a designated field for the accuracy</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
                                     <xsd:element name="spatialReference" type="xsd:string">
