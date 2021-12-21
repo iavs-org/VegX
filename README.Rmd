@@ -49,6 +49,7 @@ Developments endorsed and funded by the [International Association for Vegetatio
 
 * Miquel De Cáceres
 * Sebastian Schmidtlein
+* Christian König
 * Susan K. Wiser
 * Nick Spencer
 * Robert K. Peet
@@ -58,6 +59,8 @@ Developments endorsed and funded by the [International Association for Vegetatio
 **VegX R package development**:
 
 * Miquel De Cáceres
+* Sebastian Schmidtlein
+* Christian König
 
 
 

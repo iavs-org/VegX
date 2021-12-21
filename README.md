@@ -77,6 +77,7 @@ Vegetation Science](http://iavs.org/)
 
 -   Miquel De Cáceres
 -   Sebastian Schmidtlein
+-   Christian König
 -   Susan K. Wiser
 -   Nick Spencer
 -   Robert K. Peet
@@ -86,6 +87,8 @@ Vegetation Science](http://iavs.org/)
 **VegX R package development**:
 
 -   Miquel De Cáceres
+-   Sebastian Schmidtlein
+-   Christian König
 
 ## References
 

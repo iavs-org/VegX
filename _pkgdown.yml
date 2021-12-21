@@ -1,4 +1,28 @@
 url: https://iavs-org.github.io/VegX/
-template:
-  bootstrap: 5
+
+reference:
+- title: Add VegX elements
+  desc:  Adds/replaces information a VegX object
+  contents:
+  - starts_with("add")
+
+- title: Vegetation strata
+  desc:  Defines vegetation strata
+  contents:
+  - VegXStrataDefinition-class
+  - defineMixedStrata
+  - defineHeightStrata
+  - defineCategoricalStrata
+
+- title: Surface types
+  desc:  Defines surface types
+  contents:
+  - VegXSurfaceTypeDefinition-class
+  - defineSurfaceTypes
+
+- title: I/O
+  desc:  Read/write VegX documents
+  contents:
+  - readVegXML
+  - writeVegXML
 
