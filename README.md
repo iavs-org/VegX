@@ -1,6 +1,11 @@
 VegX
 ================
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/iavs-org/VegX/workflows/R-CMD-check/badge.svg)](https://github.com/iavs-org/VegX/actions)
+<!-- badges: end -->
+
 ## Introduction
 
 A primary technical impediment to large-scale sharing of vegetation data
