@@ -25,19 +25,9 @@
       <ul class="nav navbar-nav"><li>
   <a href="../reference/index.html">Reference</a>
 </li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-    Articles
-     
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/PackageTutorial.html">How to use the VegX R package</a>
-    </li>
-    <li>
-      <a href="../articles/VegXStandard.html">The Veg-X exchange standard</a>
-    </li>
-  </ul></li>
+<li>
+  <a href="../articles/index.html">Articles</a>
+</li>
 <li>
   <a href="../news/index.html">Changelog</a>
 </li>
@@ -135,31 +125,31 @@
 <span class="r-in"><span class="co"># Examine the result</span></span>
 <span class="r-in"><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"plot"</span><span class="op">)</span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     plotName                 plotUniqueIdentifier relatedPlotName</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     LGM08r 7e1d8615-5fb8-429a-9ff2-b25f63d1aa28            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LGM08r_1Q 9d5b7d4e-d8e1-4f17-aa88-3ad4420130da          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LGM08r_2Q 6cd5d35e-3125-4b53-bb1b-34ad816a28e0          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LGM08r_3Q abef60c1-40c4-419c-bac2-a1002f1ebdb7          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LGM08r_4Q feeaf470-e276-41ef-a027-c41f5efc8000          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     LGM16l cd2aa100-896a-4fea-9577-11b3ac9ac31f            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  LGM16l_1Q d35c13b0-2317-4db2-98ff-6aad4234a9cb          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  LGM16l_2Q 2715867c-b962-4ef4-bc2f-fbbdda0a9aa9          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  LGM16l_3Q 52c88c8e-751c-4d71-8a3d-484afcc6fb98          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 LGM16l_4Q f88524b2-37cc-4e56-a467-05036af46768          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11    LGM38h 54e035bc-e3c7-4433-a57f-da235702ff3d            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 LGM38h_1Q 2a63aecc-9092-4677-990d-ffd7f30a2fb5          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 LGM38h_2Q b0cf83ca-dbe0-4b78-8fe4-703335d9f093          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 LGM38h_3Q ec59143c-015d-436c-88df-c0b4e3b82e6b          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 LGM38h_4Q 05579391-3057-46f6-99fa-dba382d0d2c0          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16    LGM45h fb459503-09e6-42e6-bf01-68aa577b2637            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 LGM45h_2Q b30f0a74-c957-4874-b33f-f16ba67009d8          LGM45h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 LGM45h_3Q 419e0ba9-1a7d-4142-91c7-b1c04a36cf31          LGM45h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 LGM45h_4Q 60ac1f47-c744-4ff1-af36-e32d0eb18dde          LGM45h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20    LGM43h 445bbc07-d98d-4ab2-8346-2ad20945efe4            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 LGM43h_1Q b98415ed-b77e-4bf7-a294-1e37d5d0c461          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 LGM43h_2Q 5690c416-d665-4888-a4ed-459cb8e8e114          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 LGM43h_3Q ea84ef3d-bbd4-4956-a883-7ac6f94cf99d          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 LGM43h_4Q 0ae4bcb6-88af-4f53-a796-04d31f87015d          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 LGM45h_1Q 3a31d971-a362-468a-8c8c-2de350d36501          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     LGM08r b09b1f02-ca4a-494e-b928-196673c2196a            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LGM08r_1Q 2b24ab8c-1f17-421e-b1e3-be64768fa8dc          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LGM08r_2Q 82202100-ecdf-4d4b-b868-5d98f2cb87f2          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LGM08r_3Q fbaf63e0-cd70-4291-a430-3de1a0229863          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LGM08r_4Q 1d5e6ea5-e48c-4d5d-83b8-6b9960916444          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     LGM16l 4a6ac9ad-7d33-4467-b9dc-285e98fca56b            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  LGM16l_1Q 6b795666-2680-437f-9b0d-cb5388b70480          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  LGM16l_2Q b5424f03-0ae8-42c6-8c73-631cc8247d23          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  LGM16l_3Q 2394aa13-ad9a-4e8a-80e3-839d8a596148          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 LGM16l_4Q 73d5c28e-ad87-40dd-80dc-9b326987d4ce          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    LGM38h 258e6aa5-d526-4e8c-ae10-5929b012a2cf            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 LGM38h_1Q 659c3048-4949-40cd-b902-3e596e12989f          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 LGM38h_2Q 30eb34d5-9757-4113-8ae8-3c825a350535          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 LGM38h_3Q 4d7c6165-464b-49af-85cd-4fdd776b47af          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 LGM38h_4Q 4d1ccb3f-ee7a-4434-bb2b-8d184099ef4b          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16    LGM45h b82b6ddb-a2a1-4452-a6dc-ef672a5729fd            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 LGM45h_2Q 7ede0229-6e06-457a-833a-1397071f0c7a          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 LGM45h_3Q ecb541eb-b6bb-42e0-b525-29e4e33c43bf          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 LGM45h_4Q e4a132fd-6fc2-4a55-80bd-af7418dec81b          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20    LGM43h 1f258573-7b7b-400d-9c24-a536d31d4724            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 LGM43h_1Q 5b0b896d-b18b-4918-a4cd-b7ab90640a93          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 LGM43h_2Q bcca36d2-e204-443b-b649-ad29f2a26bcf          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 LGM43h_3Q 24fb4e3f-253b-4793-b6e4-a2014fed7c32          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 LGM43h_4Q 6501da09-eeb9-4e0c-85e6-68998656bdb6          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 LGM45h_1Q 956c7b06-ddb6-46d0-bde6-4aa1227dd8e0          LGM45h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    plotRelationship</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1              &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           subplot</span>
