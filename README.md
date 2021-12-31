@@ -1,6 +1,11 @@
 VegX
 ================
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/iavs-org/VegX/workflows/R-CMD-check/badge.svg)](https://github.com/iavs-org/VegX/actions)
+<!-- badges: end -->
+
 ## Introduction
 
 A primary technical impediment to large-scale sharing of vegetation data
@@ -77,6 +82,7 @@ Vegetation Science](http://iavs.org/)
 
 -   Miquel De Cáceres
 -   Sebastian Schmidtlein
+-   Christian König
 -   Susan K. Wiser
 -   Nick Spencer
 -   Robert K. Peet
@@ -86,6 +92,8 @@ Vegetation Science](http://iavs.org/)
 **VegX R package development**:
 
 -   Miquel De Cáceres
+-   Sebastian Schmidtlein
+-   Christian König
 
 ## References
 

@@ -8,6 +8,10 @@ output: github_document
 knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.path = "README-")
 ```
 
+<!-- badges: start -->
+[![R-CMD-check](https://github.com/iavs-org/VegX/workflows/R-CMD-check/badge.svg)](https://github.com/iavs-org/VegX/actions)
+<!-- badges: end -->
+
 ## Introduction
 
 A primary technical impediment to large-scale sharing of vegetation data is the lack of a recognized international exchange standard for linking the panoply of tools and database implementations that exist among various organizations and individuals participating in vegetation research. 
@@ -49,6 +53,7 @@ Developments endorsed and funded by the [International Association for Vegetatio
 
 * Miquel De Cáceres
 * Sebastian Schmidtlein
+* Christian König
 * Susan K. Wiser
 * Nick Spencer
 * Robert K. Peet
@@ -58,6 +63,8 @@ Developments endorsed and funded by the [International Association for Vegetatio
 **VegX R package development**:
 
 * Miquel De Cáceres
+* Sebastian Schmidtlein
+* Christian König
 
 
 

@@ -1,4 +1,69 @@
 url: https://iavs-org.github.io/VegX/
-template:
-  bootstrap: 5
 
+articles:
+- title: VegX schema
+  contents:
+    - starts_with("VegX")
+- title: VegX R package
+  contents:
+    - starts_with("Package")
+
+reference:
+- title: VegX documents
+  desc:  Creates/reads/writes a VegX object or merges objects
+  contents:
+  - VegX-class
+  - newVegX
+  - mergeVegX
+  - readVegXML
+  - writeVegXML
+
+- title: Main VegX elements
+  desc:  Adds/replaces/shows element information a VegX object
+  contents:
+  - starts_with("add")
+  - showElementTable
+
+- title: Fill resource elements
+  desc:  Fill resource data (project, parties, unique identifiers) in a VegX object
+  contents:
+  - starts_with("fill")
+
+- title: Vegetation strata
+  desc:  Defines vegetation strata
+  contents:
+  - VegXStrataDefinition-class
+  - defineMixedStrata
+  - defineHeightStrata
+  - defineCategoricalStrata
+
+- title: Surface types
+  desc:  Defines surface types
+  contents:
+  - VegXSurfaceTypeDefinition-class
+  - defineSurfaceTypes
+
+- title: Measurements
+  desc:  Defines measurement scales and applies transformations
+  contents:
+  - VegXMethodDefinition-class
+  - defineOrdinalScaleMethod
+  - defineQualitativeScaleMethod
+  - defineQuantitativeScaleMethod
+  - predefinedMeasurementMethod
+  - transformOrdinalScale
+  - transformQuantitativeScale
+  - quantitative_methods
+
+- title: Taxon nomenclature
+  desc:  Initial or preferred taxon nomenclature
+  contents:
+  - setPreferredTaxonNomenclature
+  - setOriginalIdentificationConcepts
+
+- title: Example data
+  desc:  Example data sets
+  contents:
+  - starts_with("moki")
+  - starts_with("mtfyffe")
+  - starts_with("taki")
