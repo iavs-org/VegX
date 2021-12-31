@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.3" xmlns="http://iavs.org/vegX/organism-2.0.3" targetNamespace="http://iavs.org/vegX/organism-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.3" />
     <xsd:complexType name="IndividualOrganismType">
