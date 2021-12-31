@@ -4,8 +4,13 @@
 \alias{mergeVegX}
 \title{Merge Veg-X documents}
 \usage{
-mergeVegX(x, y, allowMergePlots = FALSE,
-  allowMergeOrganismIdentities = FALSE, verbose = TRUE)
+mergeVegX(
+  x,
+  y,
+  allowMergePlots = FALSE,
+  allowMergeOrganismIdentities = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged.}

@@ -4,8 +4,7 @@
 \alias{fillUniqueIdentifiers}
 \title{Generates unique identifiers}
 \usage{
-fillUniqueIdentifiers(target, element = "plot",
-  replace.existing = FALSE)
+fillUniqueIdentifiers(target, element = "plot", replace.existing = FALSE)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified}
@@ -43,7 +42,8 @@ showElementTable(y, "plot")
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
-Other fill functions: \code{\link{fillPartyInformation}},
-  \code{\link{fillProjectInformation}}
+Other fill functions: 
+\code{\link{fillPartyInformation}()},
+\code{\link{fillProjectInformation}()}
 }
 \concept{fill functions}

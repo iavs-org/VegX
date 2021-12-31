@@ -4,8 +4,13 @@
 \alias{showElementTable}
 \title{Coerces VegX elements into a data frame}
 \usage{
-showElementTable(x, element = "plot", IDs = FALSE, subjects = FALSE,
-  max.nchar = 30)
+showElementTable(
+  x,
+  element = "plot",
+  IDs = FALSE,
+  subjects = FALSE,
+  max.nchar = 30
+)
 }
 \arguments{
 \item{x}{An object of class \code{\linkS4class{VegX}}}

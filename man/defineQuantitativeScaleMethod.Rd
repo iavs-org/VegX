@@ -4,9 +4,16 @@
 \alias{defineQuantitativeScaleMethod}
 \title{Quantitative scale method definition}
 \usage{
-defineQuantitativeScaleMethod(name, description, subject, unit,
-  citationString = "", DOI = "", lowerLimit = -Inf,
-  upperLimit = Inf)
+defineQuantitativeScaleMethod(
+  name,
+  description,
+  subject,
+  unit,
+  citationString = "",
+  DOI = "",
+  lowerLimit = -Inf,
+  upperLimit = Inf
+)
 }
 \arguments{
 \item{name}{String with the name of the method.}
@@ -41,8 +48,9 @@ defineQuantitativeScaleMethod(name = "Percent cover",
 
 }
 \seealso{
-Other define measurement functions: \code{\link{defineOrdinalScaleMethod}},
-  \code{\link{defineQualitativeScaleMethod}},
-  \code{\link{predefinedMeasurementMethod}}
+Other define measurement functions: 
+\code{\link{defineOrdinalScaleMethod}()},
+\code{\link{defineQualitativeScaleMethod}()},
+\code{\link{predefinedMeasurementMethod}()}
 }
 \concept{define measurement functions}

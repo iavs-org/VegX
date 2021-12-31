@@ -4,8 +4,15 @@
 \alias{addTaxonBySiteData}
 \title{Add a taxon by site table}
 \usage{
-addTaxonBySiteData(target, x, abundanceMethod, obsDates = Sys.Date(),
-  isTaxon = TRUE, absence.values = c(NA, 0), verbose = TRUE)
+addTaxonBySiteData(
+  target,
+  x,
+  abundanceMethod,
+  obsDates = Sys.Date(),
+  isTaxon = TRUE,
+  absence.values = c(NA, 0),
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The object of class \code{\linkS4class{VegX}} to be modified.}
@@ -29,15 +36,16 @@ A modified object of class \code{\linkS4class{VegX}}
 Adds the aggregate organism observations of a taxon by site table to an existing VegX object.
 }
 \seealso{
-Other add functions: \code{\link{addAggregateOrganismObservations}},
-  \code{\link{addCommunityObservations}},
-  \code{\link{addIndividualOrganismObservations}},
-  \code{\link{addPlotGeometries}},
-  \code{\link{addPlotLocations}},
-  \code{\link{addPlotObservations}},
-  \code{\link{addSiteCharacteristics}},
-  \code{\link{addSiteObservations}},
-  \code{\link{addStratumObservations}},
-  \code{\link{addSurfaceCoverObservations}}
+Other add functions: 
+\code{\link{addAggregateOrganismObservations}()},
+\code{\link{addCommunityObservations}()},
+\code{\link{addIndividualOrganismObservations}()},
+\code{\link{addPlotGeometries}()},
+\code{\link{addPlotLocations}()},
+\code{\link{addPlotObservations}()},
+\code{\link{addSiteCharacteristics}()},
+\code{\link{addSiteObservations}()},
+\code{\link{addStratumObservations}()},
+\code{\link{addSurfaceCoverObservations}()}
 }
 \concept{add functions}

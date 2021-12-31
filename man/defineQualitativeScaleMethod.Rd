@@ -4,8 +4,15 @@
 \alias{defineQualitativeScaleMethod}
 \title{Qualitative scale method definition}
 \usage{
-defineQualitativeScaleMethod(name, description, subject, codes,
-  citationString = "", DOI = "", definitions = NULL)
+defineQualitativeScaleMethod(
+  name,
+  description,
+  subject,
+  codes,
+  citationString = "",
+  DOI = "",
+  definitions = NULL
+)
 }
 \arguments{
 \item{name}{String with the name of the method.}
@@ -39,8 +46,9 @@ defineQualitativeScaleMethod("scale1", "Description for scale1", "subject1",
 
 }
 \seealso{
-Other define measurement functions: \code{\link{defineOrdinalScaleMethod}},
-  \code{\link{defineQuantitativeScaleMethod}},
-  \code{\link{predefinedMeasurementMethod}}
+Other define measurement functions: 
+\code{\link{defineOrdinalScaleMethod}()},
+\code{\link{defineQuantitativeScaleMethod}()},
+\code{\link{predefinedMeasurementMethod}()}
 }
 \concept{define measurement functions}

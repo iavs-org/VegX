@@ -4,10 +4,14 @@
 \alias{defineCategoricalStrata}
 \title{Strata definition by simple category}
 \usage{
-defineCategoricalStrata(name = "Strata by categories",
-  description = "Vegetation categorical strata", citationString = "",
-  DOI = "", strataNames = c("s1", "s2", "s3"),
-  strataDefinitions = NULL)
+defineCategoricalStrata(
+  name = "Strata by categories",
+  description = "Vegetation categorical strata",
+  citationString = "",
+  DOI = "",
+  strataNames = c("s1", "s2", "s3"),
+  strataDefinitions = NULL
+)
 }
 \arguments{
 \item{name}{A string to identify the stratum definition.}
@@ -29,7 +33,8 @@ An object of class \code{\linkS4class{VegXStrataDefinition}}
 Strata definition by simple category
 }
 \seealso{
-Other define strata functions: \code{\link{defineHeightStrata}},
-  \code{\link{defineMixedStrata}}
+Other define strata functions: 
+\code{\link{defineHeightStrata}()},
+\code{\link{defineMixedStrata}()}
 }
 \concept{define strata functions}

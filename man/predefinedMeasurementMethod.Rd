@@ -22,8 +22,9 @@ predefinedMeasurementMethod("Plant cover/\%")
 
 }
 \seealso{
-Other define measurement functions: \code{\link{defineOrdinalScaleMethod}},
-  \code{\link{defineQualitativeScaleMethod}},
-  \code{\link{defineQuantitativeScaleMethod}}
+Other define measurement functions: 
+\code{\link{defineOrdinalScaleMethod}()},
+\code{\link{defineQualitativeScaleMethod}()},
+\code{\link{defineQuantitativeScaleMethod}()}
 }
 \concept{define measurement functions}

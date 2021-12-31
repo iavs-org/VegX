@@ -4,8 +4,13 @@
 \alias{transformOrdinalScale}
 \title{Transform ordinal scale}
 \usage{
-transformOrdinalScale(target, method, newMethod, replaceValues = FALSE,
-  verbose = TRUE)
+transformOrdinalScale(
+  target,
+  method,
+  newMethod,
+  replaceValues = FALSE,
+  verbose = TRUE
+)
 }
 \arguments{
 \item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
@@ -88,6 +93,7 @@ y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 
 }
 \seealso{
-Other transform functions: \code{\link{transformQuantitativeScale}}
+Other transform functions: 
+\code{\link{transformQuantitativeScale}()}
 }
 \concept{transform functions}
