@@ -65,7 +65,7 @@
       <h1 data-toc-skip>How to use the VegX R package</h1>
                         <h4 data-toc-skip class="author">IAVS Ecoinformatics Working Group</h4>
             
-            <h4 data-toc-skip class="date">2021-12-21</h4>
+            <h4 data-toc-skip class="date">2022-01-01</h4>
       
       
       <div class="hidden name"><code>PackageTutorial.Rmd</code></div>
@@ -1282,9 +1282,9 @@
 <code class="sourceCode R"><span class="co"># Inspect the result</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">moki_vegx</span>, <span class="st">"communityObservation"</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##    plotName obsStartDate      comm_1_method comm_1_value</span>
-<span class="co">## 1    LGM08r   2011-02-17 Basal area/m2*ha-1  14.14502992</span>
-<span class="co">## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1   0.09027221</span>
-<span class="co">## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1   7.07516773</span></code></pre>
+<span class="co">## 1    LGM08r   2011-02-17 Basal area/m2*ha-1     3.529112</span>
+<span class="co">## 2 LGM08r_1Q   2011-02-17 Basal area/m2*ha-1    13.370096</span>
+<span class="co">## 3 LGM08r_2Q   2011-02-17 Basal area/m2*ha-1    10.088596</span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="site-observations">Site observations<a class="anchor" aria-label="anchor" href="#site-observations"></a>
@@ -1477,9 +1477,9 @@
 <code class="sourceCode R"><span class="va">moki_vegx</span> <span class="op">=</span> <span class="fu"><a href="../reference/fillUniqueIdentifiers.html">fillUniqueIdentifiers</a></span><span class="op">(</span>target <span class="op">=</span> <span class="va">moki_vegx</span>, element <span class="op">=</span> <span class="st">"plot"</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="../reference/showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">moki_vegx</span>, <span class="st">"plot"</span><span class="op">)</span>,<span class="fl">3</span><span class="op">)</span></code></pre></div>
 <pre><code><span class="co">##    plotName                 plotUniqueIdentifier  area_method area_value</span>
-<span class="co">## 1    LGM08r 7caa5c4c-eaf0-4841-b4c5-8bb655f5caf8 Plot area/m2        400</span>
-<span class="co">## 2 LGM08r_1Q 9ecd1a40-4a59-49a7-8bbc-6218178dffcc Plot area/m2        100</span>
-<span class="co">## 3 LGM08r_2Q 4ea214ea-fc99-46cd-95a0-3145ea7d59e1 Plot area/m2        100</span>
+<span class="co">## 1    LGM08r b1febd20-fc39-4682-8341-416dd8f83c4b Plot area/m2        400</span>
+<span class="co">## 2 LGM08r_1Q 3b642025-cdce-4c21-bb45-e495ba5ae040 Plot area/m2        100</span>
+<span class="co">## 3 LGM08r_2Q 9317053a-4436-461b-98c8-55809dbdff8d Plot area/m2        100</span>
 <span class="co">##       shape    length_method length_value     width_method width_value   coordX</span>
 <span class="co">## 1 rectangle Plot dimension/m           20 Plot dimension/m          20 172.1407</span>
 <span class="co">## 2 rectangle Plot dimension/m           10 Plot dimension/m          10       NA</span>
