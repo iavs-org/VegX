@@ -228,6 +228,8 @@
   for(i in 1:length(target@taxonConcepts)) {
     on  = target@organismNames[[target@taxonConcepts[[i]]$organismNameID]]$name
     cs = target@literatureCitations[[target@taxonConcepts[[i]]$accordingToCitationID]]$citationString
+    if(length(organismName)>1) stop("Organism name has length > 1.\n")
+
     if((on==organismName) && (cs==citationString)) {
       return(list(id = names(target@taxonConcepts)[i], new = FALSE))
     }
