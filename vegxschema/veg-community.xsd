@@ -1,14 +1,14 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns="http://iavs.org/vegX/community-2.0.3" targetNamespace="http://iavs.org/vegX/community-2.0.3" xmlns:misc="http://iavs.org/vegX/misc-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.3" />
+<xsd:schema xmlns="http://iavs.org/vegX/community-2.0.4" targetNamespace="http://iavs.org/vegX/community-2.0.4" xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
     <xsd:complexType name="CommunityConceptType">
         <xsd:annotation>
-            <xsd:documentation>A name and some kind of definition of a community type, preferably a community name as used in a reference.</xsd:documentation>
+            <xsd:documentation>>A name of a plant community type, preferably together with a reference that helps to define the type.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A textual label for a community type. A community type is an abstract grouping of organisms that tend to co-occur on the landscape due to shared ecological requirements or preferences. May be designated by syntaxon or physiognomic types.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A textual label for a community type. Community types represent recurring assemblages of plant species. They may be designated by syntaxa or physiognomic types.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="citationID" type="xsd:string" minOccurs="0" />
@@ -21,7 +21,7 @@
     </xsd:complexType>
     <xsd:complexType name="CommunityDeterminationType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">An identification applying one or more community concepts to a PlotObservation. </xsd:documentation>
+            <xsd:documentation xml:lang="en">An application of one or more communityConcepts to a plotObservation.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
