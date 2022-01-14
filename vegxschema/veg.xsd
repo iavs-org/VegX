@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.3" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.3" xmlns:plot="http://iavs.org/vegX/plot-2.0.3" xmlns:org="http://iavs.org/vegX/organism-2.0.3" xmlns:comm="http://iavs.org/vegX/community-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.3" />
-    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.3" />
-    <xsd:import schemaLocation="veg-organism.xsd" namespace="http://iavs.org/vegX/organism-2.0.3" />
-    <xsd:import schemaLocation="veg-community.xsd" namespace="http://iavs.org/vegX/community-2.0.3" />
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.3" />
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.4" xmlns:plot="http://iavs.org/vegX/plot-2.0.4" xmlns:org="http://iavs.org/vegX/organism-2.0.4" xmlns:comm="http://iavs.org/vegX/community-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.4" />
+    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.4" />
+    <xsd:import schemaLocation="veg-organism.xsd" namespace="http://iavs.org/vegX/organism-2.0.4" />
+    <xsd:import schemaLocation="veg-community.xsd" namespace="http://iavs.org/vegX/community-2.0.4" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
     <xsd:include schemaLocation="veg-userdefined.xsd" />
     <xsd:annotation>
         <xsd:documentation>			
@@ -158,13 +158,13 @@
                 </xsd:element>
                 <xsd:element name="communityConcepts" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                        <xsd:documentation>A container for community concepts</xsd:documentation>
+                        <xsd:documentation>A container for community concepts, i.e. names of plant community types and preferably references that help to define the types.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="communityConcept" type="comm:CommunityConceptType" minOccurs="1" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="EN">A name and some kind of definition of a community type, preferably a community name as used in a reference.v</xsd:documentation>
+                                    <xsd:documentation xml:lang="EN">A name of a plant community type, preferably together with a reference that helps to define the type.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -178,7 +178,7 @@
                         <xsd:sequence>
                             <xsd:element name="communityDetermination" type="comm:CommunityDeterminationType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">An identification applying one or more CommunityConcepts to a PlotObservation by a Party.</xsd:documentation>
+                                    <xsd:documentation xml:lang="en">An application of one or more communityConcepts to a plotObservation.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -284,13 +284,13 @@
                 </xsd:element>
                 <xsd:element name="communityObservations" minOccurs="0" maxOccurs="1">
                     <xsd:annotation>
-                        <xsd:documentation>A container for community observations</xsd:documentation>
+                        <xsd:documentation>A container for measurements applying to entire plant communities, such as successional stage or Leaf Area Index.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="communityObservation" type="obs:CommunityObservationType" minOccurs="1" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation>A container for measurements that apply to the entire plant community and made on a single plot during a single date-time period. </xsd:documentation>
+                                    <xsd:documentation>A container for measurements applying to an entire plant community, such as successional stage or Leaf Area Index. Made on a single plot during a single date-time period.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

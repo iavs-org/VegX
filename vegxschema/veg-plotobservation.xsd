@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns="http://iavs.org/vegX/plotobservation-2.0.3" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.3" xmlns:misc="http://iavs.org/vegX/misc-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.3" />
+<xsd:schema xmlns="http://iavs.org/vegX/plotobservation-2.0.4" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.4" xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
     <xsd:complexType name="PlotObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped.</xsd:documentation>
@@ -365,22 +365,22 @@
     </xsd:complexType>
     <xsd:complexType name="CommunityObservationType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A container for measurements that apply to the entire plant community and made on a single plot during a single date-time period. </xsd:documentation>
+            <xsd:documentation xml:lang="en">A container for measurements applying to an entire plant community, such as successional stage or Leaf Area Index. Made on a single plot during a single date-time period.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotObservationID" type="xsd:string">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation.  The individual plotObservation is defined within the element veg:plotObservation which is a container for all the plotObservations within the dataset.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific plotObservation. The individual plotObservation is defined within the element veg:plotObservation, which is a container for all the plotObservations within the dataset.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="communityMeasurement" type="misc:MeasurementType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A measurement (e.g. number of individuals, basal area) applying to the whole plant community or forest stand.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A measurement such as total basal area or Leaf Area Index, applying to an entire plant community or stand.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="successionalType" type="misc:ClassType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Description of the assumed successional status of the plot. This description is of necessity highly subjective. 					</xsd:documentation>
+                    <xsd:documentation xml:lang="en" source="VegBank">Description of the assumed successional status of the plot.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationGroupingID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
@@ -395,12 +395,12 @@
             </xsd:element>
             <xsd:element name="simpleUserDefined" type="misc:simpleUserDefinedType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Simple user-defined information types, relevant to the abioticObservation stored as a name-value pair. </xsd:documentation>
+                    <xsd:documentation xml:lang="en">Simple user-defined information types, relevant to the communityObservation stored as a name-value pair.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="complexUserDefined" type="misc:complexUserDefinedType" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Complex user-defined information types that pertain to the abioticObservation.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Complex user-defined information types that pertain to the communityObservation.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
         </xsd:sequence>
