@@ -1,10 +1,10 @@
 pandoc: 2.7.3
-pkgdown: 2.0.1
+pkgdown: 2.0.2
 pkgdown_sha: ~
 articles:
   PackageTutorial: PackageTutorial.html
   VegXStandard: VegXStandard.html
-last_built: 2022-01-05T08:20Z
+last_built: 2022-01-14T12:57Z
 urls:
   reference: https://iavs-org.github.io/VegX/reference
   article: https://iavs-org.github.io/VegX/articles
