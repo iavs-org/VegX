@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.3" targetNamespace="http://iavs.org/vegX/misc-2.0.3" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns="http://iavs.org/vegX/misc-2.0.4" targetNamespace="http://iavs.org/vegX/misc-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
     <xsd:simpleType name="IDType">
         <xsd:annotation>
             <xsd:documentation>Unique identifier (key) of the element.  It can be unique locally to the data set for a given data element type (e.g., plots) or a GUID in which case it can be resolved to a location on the internet where the record is stored. This identifier is used elsewhere in a dataset instance to reference this specific element when it is referred to in a repeatable way by other part of the schema. For example, a single plot entity may be the basis for numerous measurements of different types (e.g., plot observation and aggregated organism observation). Therefore the plot entity is stored in a single location within schema and referenced by this identifier rather than repeating this information throughout the dataset instance. The identifier may have a specific system and scope.</xsd:documentation>
@@ -44,7 +44,7 @@
     </xsd:complexType>
     <xsd:complexType name="partyType">
         <xsd:annotation>
-            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party. eml://ecoinformatics.org/party-2.0.3</xsd:documentation>
+            <xsd:documentation>A party element describes a responsible party (person, organization or a position), and is typically used to name the originator of a resource or metadata document. Parties have been designed as a simplification of EML elements party. eml://ecoinformatics.org/party-2.0.4</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:choice maxOccurs="unbounded">
