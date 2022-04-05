@@ -3,7 +3,7 @@
     <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
     <xsd:complexType name="CommunityConceptType">
         <xsd:annotation>
-            <xsd:documentation>>A name of a plant community type, preferably together with a reference that helps to define the type.</xsd:documentation>
+            <xsd:documentation>A name of a plant community type, preferably together with a reference that helps to define the type.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
