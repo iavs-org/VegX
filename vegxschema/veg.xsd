@@ -200,13 +200,13 @@
                 </xsd:element>
                 <xsd:element name="plots" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for a sampling locations (plots).</xsd:documentation>
+                        <xsd:documentation>A container for sampling locations (plots).</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="plot" type="plot:PlotType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A plot is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</xsd:documentation>
+                                    <xsd:documentation xml:lang="en">A plot is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties, like the position, are assumed to be constant on time scales commonly used for direct observations. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of spatial links. A point within the plot may be used as reference for relative coordinates.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>
@@ -228,13 +228,13 @@
                 </xsd:element>
                 <xsd:element name="plotObservations" minOccurs="0">
                     <xsd:annotation>
-                        <xsd:documentation>A container for a specific type of observation grouping that groups observations taken on a single plot and during a single date-time period.</xsd:documentation>
+                        <xsd:documentation>A container for groupings of observations taken on single plots and during single date-time periods.</xsd:documentation>
                     </xsd:annotation>
                     <xsd:complexType>
                         <xsd:sequence>
                             <xsd:element name="plotObservation" type="obs:PlotObservationType" maxOccurs="unbounded">
                                 <xsd:annotation>
-                                    <xsd:documentation xml:lang="en">A specific observation grouping that groups observations taken on a single plot and during a single date-time period.</xsd:documentation>
+                                    <xsd:documentation xml:lang="en">A grouping of observations taken on a single plot and during a single date-time period.</xsd:documentation>
                                 </xsd:annotation>
                             </xsd:element>
                         </xsd:sequence>

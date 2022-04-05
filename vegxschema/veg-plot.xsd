@@ -28,7 +28,7 @@
     </xsd:simpleType>
     <xsd:complexType name="PlotType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A plot is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties are assumed to be constant over time. A point within the plot may be used as center for relative coordinates, which are required to be Cartesian. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of links.</xsd:documentation>
+            <xsd:documentation xml:lang="en">A plot is a sampling location, represented as one or more points, lines, polygons, or volumes, and is the basis for experimentation or measurement. Its properties, like the position, are assumed to be constant on time scales commonly used for direct observations. Plots may have no explicit bounds, and may refer to an area of inference. A plot may be related to other plots in order to express parent-child, contiguity, or other type of spatial links. A point within the plot may be used as reference for relative coordinates.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="plotName" type="xsd:string">
@@ -38,7 +38,7 @@
             </xsd:element>
             <xsd:element name="plotUniqueIdentifier" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Plot identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Plot identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="relatedPlot" type="relatedPlotType" minOccurs="0" maxOccurs="unbounded">
@@ -256,7 +256,7 @@
                                             <xsd:documentation>Label of the grid cell</xsd:documentation>
                                         </xsd:annotation>
                                     </xsd:element>
-                                    <xsd:element name="gridCellQuadrant" type="xsd:string">
+                                    <xsd:element name="gridCellQuadrant" type="xsd:string" minOccurs="0">
                                         <xsd:annotation>
                                             <xsd:documentation>Quadrant of a grid cell</xsd:documentation>
                                         </xsd:annotation>
@@ -266,7 +266,7 @@
                         </xsd:element>
                         <xsd:element name="authorLocation" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation xml:lang="en">Descriptive note about the original location described by author.</xsd:documentation>
+                                <xsd:documentation xml:lang="en">Descriptive note about the location described by the original author.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="locationNarrative" type="xsd:string" minOccurs="0">
@@ -303,7 +303,7 @@
             </xsd:element>
             <xsd:element name="geometry" minOccurs="0" maxOccurs="1">
                 <xsd:annotation>
-                    <xsd:documentation>Information regarding the geometry of the plot (area, shape, dimensions, coordinates, ...) as well as the point within the plot that serves as plot origin for location.</xsd:documentation>
+                    <xsd:documentation>Information regarding the geometry of the plot (area, shape, dimensions, ...) as well as the point within the plot that serves as plot origin for location.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
