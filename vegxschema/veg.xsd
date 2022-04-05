@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.4" xmlns:plot="http://iavs.org/vegX/plot-2.0.4" xmlns:org="http://iavs.org/vegX/organism-2.0.4" xmlns:comm="http://iavs.org/vegX/community-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.4" />
-    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.4" />
-    <xsd:import schemaLocation="veg-organism.xsd" namespace="http://iavs.org/vegX/organism-2.0.4" />
-    <xsd:import schemaLocation="veg-community.xsd" namespace="http://iavs.org/vegX/community-2.0.4" />
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.5" xmlns:obs="http://iavs.org/vegX/plotobservation-2.0.5" xmlns:plot="http://iavs.org/vegX/plot-2.0.5" xmlns:org="http://iavs.org/vegX/organism-2.0.5" xmlns:comm="http://iavs.org/vegX/community-2.0.5" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-plot.xsd" namespace="http://iavs.org/vegX/plot-2.0.5" />
+    <xsd:import schemaLocation="veg-plotobservation.xsd" namespace="http://iavs.org/vegX/plotobservation-2.0.5" />
+    <xsd:import schemaLocation="veg-organism.xsd" namespace="http://iavs.org/vegX/organism-2.0.5" />
+    <xsd:import schemaLocation="veg-community.xsd" namespace="http://iavs.org/vegX/community-2.0.5" />
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.5" />
     <xsd:include schemaLocation="veg-userdefined.xsd" />
     <xsd:annotation>
         <xsd:documentation>			

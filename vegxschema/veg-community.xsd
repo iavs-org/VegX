@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns="http://iavs.org/vegX/community-2.0.4" targetNamespace="http://iavs.org/vegX/community-2.0.4" xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
+<xsd:schema xmlns="http://iavs.org/vegX/community-2.0.5" targetNamespace="http://iavs.org/vegX/community-2.0.5" xmlns:misc="http://iavs.org/vegX/misc-2.0.5" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.5" />
     <xsd:complexType name="CommunityConceptType">
         <xsd:annotation>
             <xsd:documentation>A name of a plant community type, preferably together with a reference that helps to define the type.</xsd:documentation>
