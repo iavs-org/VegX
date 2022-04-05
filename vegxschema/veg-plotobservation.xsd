@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns="http://iavs.org/vegX/plotobservation-2.0.4" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.4" xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
+<xsd:schema xmlns="http://iavs.org/vegX/plotobservation-2.0.5" targetNamespace="http://iavs.org/vegX/plotobservation-2.0.5" xmlns:misc="http://iavs.org/vegX/misc-2.0.5" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.5" />
     <xsd:complexType name="PlotObservationType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">Observations made on a single plot and during a single date-time period. This allows all time dependent parameters to be grouped.</xsd:documentation>

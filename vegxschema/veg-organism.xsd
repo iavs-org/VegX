@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.4" xmlns="http://iavs.org/vegX/organism-2.0.4" targetNamespace="http://iavs.org/vegX/organism-2.0.4" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.4" />
+<xsd:schema xmlns:misc="http://iavs.org/vegX/misc-2.0.5" xmlns="http://iavs.org/vegX/organism-2.0.5" targetNamespace="http://iavs.org/vegX/organism-2.0.5" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import schemaLocation="veg-misc.xsd" namespace="http://iavs.org/vegX/misc-2.0.5" />
     <xsd:complexType name="IndividualOrganismType">
         <xsd:annotation>
             <xsd:documentation xml:lang="en">An identified organism recorded during one or more individual organism observation events. The individual may have an identification label (e.g. tree tag number).</xsd:documentation>
