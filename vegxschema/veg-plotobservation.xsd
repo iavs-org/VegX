@@ -23,12 +23,12 @@
             </xsd:element>
             <xsd:element name="plotObservationUniqueIdentifier" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">Plot observation identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).  See http://www.tdwg.org/activities/online-services/lsid-authority-ids/.	</xsd:documentation>
+                    <xsd:documentation xml:lang="en">Plot observation identifier that is unique across the dataset and derived from the data source, and preferably globally unique.  A GUID (globally unique identifier) would be ideal for this purpose, such as LSID (Life Science Identifier).</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="projectID" type="xsd:string" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation xml:lang="en">A reference to a specific 'project' by ID.</xsd:documentation>
+                    <xsd:documentation xml:lang="en">A reference to a specific project by ID.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="communityObservationID" type="xsd:string" minOccurs="0" maxOccurs="1">
@@ -77,23 +77,23 @@
             </xsd:element>
             <xsd:element name="taxonomicQuality" minOccurs="0" maxOccurs="unbounded">
                 <xsd:annotation>
-                    <xsd:documentation>Subjective assessment of the taxonomic quality on the plot.</xsd:documentation>
+                    <xsd:documentation>Assessment of the taxonomic quality or coverage of the plot observation.</xsd:documentation>
                 </xsd:annotation>
                 <xsd:complexType>
                     <xsd:sequence>
                         <xsd:element name="qualityAssessment" type="xsd:string">
                             <xsd:annotation>
-                                <xsd:documentation>Subjective assessment of the taxonomic quality on the plot (e.g., Highest, High, High but incomplete, Moderate, Moderate and incomplete, Low, Very incomplete, absent). 		</xsd:documentation>
+                                <xsd:documentation>Assessment of the taxonomic quality or coverage of the plot observation (e.g., Highest, High, High but incomplete, Moderate, Moderate and incomplete, Low, Very incomplete, Not covered).</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="assessmentType" type="xsd:string">
                             <xsd:annotation>
-                                <xsd:documentation>Type that is being assessed, e.g. bryophytes or lichens.</xsd:documentation>
+                                <xsd:documentation>Taxon that is being assessed, e.g. bryophytes or lichens.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                         <xsd:element name="qualityAssessmentMethodID" type="xsd:string" minOccurs="0">
                             <xsd:annotation>
-                                <xsd:documentation>A reference to a specific method used to assess taxonomic quality. Defined within the element veg:method which is a container for all methods within the dataset.	</xsd:documentation>
+                                <xsd:documentation>A reference to a specific method used to assess taxonomic quality. Defined within the element veg:method which is a container for all methods within the dataset.</xsd:documentation>
                             </xsd:annotation>
                         </xsd:element>
                     </xsd:sequence>
@@ -101,7 +101,7 @@
             </xsd:element>
             <xsd:element name="observationNarrative" type="xsd:string" minOccurs="0">
                 <xsd:annotation>
-                    <xsd:documentation source="VegBank" xml:lang="en">Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations. 				</xsd:documentation>
+                    <xsd:documentation source="VegBank" xml:lang="en">Additional unstructured observations useful for understanding the ecological attributes and significance of the plot observations.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
             <xsd:element name="observationConditions" minOccurs="0">

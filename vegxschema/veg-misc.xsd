@@ -250,7 +250,7 @@
                     <xsd:documentation xml:lang="en">The text of the additional comments or explanations.</xsd:documentation>
                 </xsd:annotation>
             </xsd:element>
-            <xsd:element name="date" type="xsd:date">
+            <xsd:element name="date" type="xsd:date" minOccurs="0">
                 <xsd:annotation>
                     <xsd:documentation xml:lang="en">The date on which the note was stored in the database. Recorded in ISO 8601 date format: yyyy-mm-dd.</xsd:documentation>
                 </xsd:annotation>
@@ -474,7 +474,7 @@
     </xsd:complexType>
     <xsd:complexType name="MethodType">
         <xsd:annotation>
-            <xsd:documentation xml:lang="en">A method followed in the creation of the dataset or measurement of a parameter. May link to a protocol and literature reference.A protocol may have many method or steps.</xsd:documentation>
+            <xsd:documentation xml:lang="en">A method followed in the creation of the dataset or measurement of a parameter. May link to a protocol and literature reference. A protocol may have many method or steps.</xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
             <xsd:element name="name" type="xsd:string">
