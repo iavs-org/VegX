@@ -935,3 +935,72 @@
   }
   return(res)
 }
+
+# Title: Argument Verification Using Partial or Fuzzy Matching
+#
+# Description These function adapts the base function `match.arg()`, so that
+#   matching can be case insesitive and performed using partial or fuzzy
+#   matching.
+#
+# @param arg a character
+# @param choices a character vector of candidate values
+# @param several.ok logical specifying if arg should be allowed to have more
+#   than one element.
+# @param ignore.case logical specifying if matching should be case sensitive?
+# @param method character specifying the type of matching desired: 'partial' or 'fuzzy'.
+# @param max.distance Maximum distance allowed for fuzzy matching. Expressed
+#   either as integer, or as a fraction of the pattern length times the maximal
+#   transformation cost.
+#   
+#
+.matchArgExtended <- function (arg, choices, 
+                                several.ok = FALSE, ignore.case = FALSE,
+                                method = "partial", max.distance = 0.1) {
+  
+  if (missing(choices)) {
+    formal.args <- formals(sys.function(sysP <- sys.parent()))
+    choices <- eval(formal.args[[as.character(substitute(arg))]], 
+                    envir = sys.frame(sysP))
+  }
+  
+  if (is.null(arg)) {
+    return(NA_character_)
+    # return(choices[1L])
+  } else {
+    if (!is.character(arg)) 
+      stop("'arg' must be NULL or a character vector")
+  }  
+  
+  if (ignore.case) {
+    choices.orig <- choices
+    choices <- tolower(choices)
+    arg.orig <- arg
+    arg <- tolower(arg)
+  } else {
+    choices.orig <- choices
+    arg.orig <- arg
+  }
+  
+  if (!several.ok) {
+    if (identical(arg, choices)) 
+      return(arg.orig[1L])
+    if (length(arg) > 1L) 
+      stop("'arg' must be of length 1")
+  } else {
+    if (length(arg) == 0L) 
+      stop("'arg' must be of length >= 1")
+  }  
+  
+  if (method == "partial")
+    i <- pmatch(arg, choices, nomatch = 0L, duplicates.ok = TRUE)
+  if (method == "fuzzy")
+    i <- agrep(arg, choices, max.distance = max.distance)
+  
+  if (all(i == 0L)) 
+    stop(gettextf("'arg' should be one of %s", 
+                  paste(dQuote(choices), collapse = ", ")), domain = NA)
+  i <- i[i > 0L]
+  if (!several.ok && length(i) > 1) 
+    stop("there is more than one match in 'match.arg'")
+  choices.orig[i]
+}
