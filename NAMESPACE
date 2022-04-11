@@ -1,11 +1,14 @@
 exportPattern("^[[:alpha:]]+")
-exportClasses(VegX, 
+exportClasses(VegX,
               VegXMethodDefinition,
               VegXStrataDefinition,
               VegXSurfaceTypeDefinition)
 importFrom("uuid", "UUIDgenerate")
 importFrom("methods","new")
+importFrom("curl", "nslookup")
 importFrom("XML", "newXMLDoc", "newXMLNode",
            "xmlTreeParse", "xmlValue", "xmlAttrs",
            "saveXML", "xmlApply", "xmlRoot")
+importFrom("xml2", "download_xml", "read_xml",
+           "xml_children", "xml_child", "xml_text", "xml_validate", "xml_attr")
 importFrom("sp", "SpatialPoints", "spTransform", "CRS")

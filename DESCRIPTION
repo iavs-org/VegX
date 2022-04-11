@@ -1,18 +1,19 @@
 Package: VegX
 Type: Package
 Title: Vegetation data in Veg-X
-Version: 0.6.12
-Date: 2021-12-21
+Version: 0.7.0
+Date: 2022-04-11
 Authors@R: c(
 	person('Miquel', 'De Cáceres', role=c('aut','cre'),
 	email='miquelcaceres@gmail.com'),
 	person('Sebastian', 'Schmidtlein', role = c('aut')),
-	person('Christian', 'König', role = c('aut')))
+	person('Christian', 'König', role = c('aut')),
+	person('Renato Augusto Ferreira', 'de Lima', role = c('aut')))
 Description: Functions to import, integrate, harmonize and export vegetation data using the VegX standard [Wiser et al. (2011) <doi:10.1111/j.1654-1103.2010.01245.x>].
 License: GPL (>= 2)
 Encoding: UTF-8
 Depends: R (>= 2.10)
-Imports: sp, uuid, XML, methods
+Imports: sp, uuid, XML, methods, curl, xml2
 LazyData: true
 RoxygenNote: 7.1.2
 Suggests: knitr, rmarkdown
