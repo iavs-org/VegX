@@ -10,3 +10,6 @@
 .Rproj.user
 # R Environment Variables ----
 .Renviron
+# User-specific files ----
+data-raw/
+.secrets

@@ -9,3 +9,4 @@
 ^xx.xml$
 ^pkgdown$
 ^\.github$
+^\.secrets$
