@@ -8,6 +8,9 @@
 #'
 #' @author Sebastian Schmidtlein
 #'
+#' @importFrom curl nslookup
+#' @importFrom xml2 read_xml xml_children xml_child xml_text xml_validate xml_attr
+#' 
 #' @examples
 #' \dontrun{
 #' # Load source data
@@ -151,7 +154,7 @@ validateVegX <- function(file) {
     downloadVegXschema(tempdir())
 
     # Read data
-    schema <- read_xml(file.path(tempdir(),"veg.xsd"))             # as xml document
+    schema <- read_xml(file.path(tempdir(),"veg.xsd"))  # as xml document
     doc <- read_xml(file)                     # as xml document
 
     # Report

@@ -12,6 +12,8 @@
 #'
 #' @family fill functions
 #'
+#' @importFrom uuid UUIDgenerate
+
 #' @examples
 #' # Load source data
 #' data(mokihinui)

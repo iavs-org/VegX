@@ -16,12 +16,12 @@ supporting_info
 \description{
 A named list of different objects used to support the process of mapping the
 names of fields and methods into the internal standard required by the
-__VegX__ function `prepareMapping()` (see the function help for other
+*VegX* function `prepareMapping()` (see the function help for other
 details). 
 
 Only the networks or databases that agreed to provide the equivalencies of
 their datasets to the standards required are included here. If you want to
-provide a map or method to be included as a default map within __VegX__,
+provide a map or method to be included as a default map within *VegX*,
 please let us know \href{https://github.com/iavs-org/VegX/issues}{here}.
 }
 \details{
@@ -36,13 +36,13 @@ reference for all fields included in the internal standard.}
 present in the internal file containig the standard used for mapping.}
 
 \item{`available_projects`: the list of selected networks or databases with
-predefined mapping currently available in __VegX__.}
+predefined mapping currently available in *VegX*.}
 
 \item{`predefined_map`: a data frame containing the predefined mapping
 itself.}
 
 \item{`available_methods`: a vector of predefined method names that are
-currently available in __VegX__.}
+currently available in *VegX*.}
 
 }
 }

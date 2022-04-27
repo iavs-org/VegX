@@ -1,19 +1,29 @@
 #' Fills the information for a given research project
 #'
-#' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
-#' @param title A string with the title of the project. It can match one of the existing project or a new one will be defined.
-#' @param personnel A named list where element names are roles and values are party names (e.g. \code{list(contributor = "John Smith")}).
+#' @param target The initial object of class \code{\linkS4class{VegX}} to be
+#'   modified.
+#' @param title A string with the title of the project. It can match one of the
+#'   existing project or a new one will be defined.
+#' @param personnel A named list where element names are roles and values are
+#'   party names (e.g. \code{list(contributor = "John Smith")}).
 #' @param abstract A string summarizing the aims and findings of the project.
 #' @param funding A string with information about funding agencies.
-#' @param studyAreaDescription A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..
-#' @param designDescription A string describing the overall plot placement design.
-#' @param citationString A string of the bibliographic reference of a document describing the project.
-#' @param DOI  A string with the DOI the resource related to \code{citationString}.
-#' @param verbose A boolean flag to indicate console output of the data integration process.
+#' @param studyAreaDescription A string describing the physical area associated
+#'   with the research project, potentially including coverage, climate,
+#'   geology, disturbances, etc..
+#' @param designDescription A string describing the overall plot placement
+#'   design.
+#' @param citationString A string of the bibliographic reference of a document
+#'   describing the project.
+#' @param DOI  A string with the DOI the resource related to
+#'   \code{citationString}.
+#' @param verbose A boolean flag to indicate console output of the data
+#'   integration process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #'
-#' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+#' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK
+#'   (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family fill functions
 #'

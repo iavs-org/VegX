@@ -39,6 +39,9 @@
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
+#' 
+#' @importFrom sp SpatialPoints spTransform CRS
+
 #'
 #' @examples
 #' data(mokihinui)

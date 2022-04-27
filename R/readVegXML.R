@@ -4,6 +4,8 @@
 #' @param verbose A boolean flag to indicate console output of the reading process.
 #'
 #' @return An object of class \code{\linkS4class{VegX}}
+#' 
+#' @importFrom XML xmlTreeParse xmlValue xmlAttrs xmlApply xmlRoot
 #'
 readVegXML<-function(file, verbose = TRUE) {
   target = newVegX()

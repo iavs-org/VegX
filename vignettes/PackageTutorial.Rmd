@@ -98,7 +98,7 @@ In this subsection we show how to introduce information about plot names and sur
 head(moki_site, 3)
 
 ```
-The data frame has many columns, encompasing both plot shape, site characteirstics, experimental treamtments, etc. The most important columns to parse in the beginning are ``Plot``, ``Subplot`` and ``PlotObsStartDate``, because these specify the space and time context of the vegetation observations. Other columns specify identifiers (IDs), but these are specific to the source data base. As Veg-X documents have their own internal IDs, it is not necessary to import the source identifiers. 
+The data frame has many columns, encompassing both plot shape, site characteristics, experimental treatments, etc. The most important columns to parse in the beginning are ``Plot``, ``Subplot`` and ``PlotObsStartDate``, because these specify the space and time context of the vegetation observations. Other columns specify identifiers (IDs), but these are specific to the source data base. As Veg-X documents have their own internal IDs, it is not necessary to import the source identifiers. 
 
 To import data into Veg-X documents, we almost always need a **mapping** *between the names of elements in the Veg-X standard and the names of columns in the data table used as input*. For example, in the following code we define that column ``"Project"`` in the source data table contains the information about the *projectTitle* in Veg-X, column ``"Plot"`` contains the information about the *plotName*  element, and so on:
 
@@ -182,7 +182,7 @@ When calling ``showElementTable()`` for plot elements we are showing the plot/su
 ```{r add plot loc mtfyffe}
 mtfyffe_vegx = addPlotLocations(mtfyffe_vegx, mtfyffe_loc, mapping)
 ```
-In this example, 8 records were parsed, but coordinates are availble for four plots only. Coordinate records are duplicated in ``mtfyffe_loc``, because they are provided independently for each survey. The function ``addPlotLocations()`` will only keep the most recently read location records of each plot. Finally, we parse plot coordinates for the **Takikimu grassland data set**, realizing that they are missing for three of the plots.
+In this example, 8 records were parsed, but coordinates are available for four plots only. Coordinate records are duplicated in ``mtfyffe_loc``, because they are provided independently for each survey. The function ``addPlotLocations()`` will only keep the most recently read location records of each plot. Finally, we parse plot coordinates for the **Takikimu grassland data set**, realizing that they are missing for three of the plots.
 
 ```{r add plot loc taki}
 taki_vegx = addPlotLocations(taki_vegx, taki_loc, mapping)

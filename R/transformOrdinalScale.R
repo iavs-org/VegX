@@ -1,26 +1,37 @@
 #' Transform ordinal scale
 #'
-#' Transforms all the values in a VegX object made using an ordinal scale into a quantitative scale
-#' appropriate for the midpoint values of the ordinal classes.
+#' Transforms all the values in a VegX object made using an ordinal scale into a
+#' quantitative scale appropriate for the midpoint values of the ordinal
+#' classes.
 #'
-#' @param target The initial object of class \code{\linkS4class{VegX}} to be modified.
+#' @param target The initial object of class \code{\linkS4class{VegX}} to be
+#'   modified.
 #' @param method An integer (index) or a name of an ordinal scale method.
-#' @param newMethod An integer (index) or a name of a quantitative method existing in the initial object,
-#' or an object of class \code{\linkS4class{VegXMethodDefinition}}.
-#' @param replaceValues A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
-#' For some measurements transformations will not be possible if replacement is not forced using this flag.
-#' @param verbose A boolean flag to indicate console output of the data transformation process.
+#' @param newMethod An integer (index) or a name of a quantitative method
+#'   existing in the initial object, or an object of class
+#'   \code{\linkS4class{VegXMethodDefinition}}.
+#' @param replaceValues A boolean flag to indicate that values in the new scale
+#'   should replace the old ones, instead of defining new measurements. For some
+#'   measurements transformations will not be possible if replacement is not
+#'   forced using this flag.
+#' @param verbose A boolean flag to indicate console output of the data
+#'   transformation process.
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #'
-#' @details The function will normally create new measurements without destroying the original ones, unless replacement is forced by setting \code{replaceValues = TRUE}.
-#' Veg-X only allows a single measurement per observations of some kinds:
+#' @details The function will normally create new measurements without
+#'   destroying the original ones, unless replacement is forced by setting
+#'   \code{replaceValues = TRUE}. Veg-X only allows a single measurement per
+#'   observations of some kinds:
 #' \itemize{
-#'   \item{"diameterMeasurement" and "heightMeasurement" of indvidual organism observations.}
+#'   \item{"diameterMeasurement" and "heightMeasurement" of individual organism
+#'   observations.}
 #'   \item{"heightMeasurement" of aggregate organism observations.}
-#'   \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum observations.}
+#'   \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum
+#'   observations.}
 #' }
-#' In these cases, scale transformations are not possible if \code{replaceValues = FALSE}.
+#' In these cases, scale transformations are not possible if \code{replaceValues
+#' = FALSE}.
 #'
 #' @family transform functions
 #'
@@ -73,7 +84,7 @@
 #' percentScale = predefinedMeasurementMethod("Plant cover/%")
 #' y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 #'
-transformOrdinalScale<-function(target, method, newMethod, replaceValues = FALSE, verbose = TRUE) {
+transformOrdinalScale < -function(target, method, newMethod, replaceValues = FALSE, verbose = TRUE) {
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   if(length(target@methods)==0) stop("VegX object has no methods")
   methodID = NULL

@@ -1,4 +1,4 @@
-#' Donwload VegX schema
+#' Download VegX schema
 #'
 #' Downloads VegX schema, storing files in the indicated folder
 #'
@@ -7,13 +7,16 @@
 #' @export
 #'
 #' @author Sebastian Schmidtlein
+#' 
+#' @importFrom curl nslookup
+#' @importFrom xml2 download_xml
 #'
 #' @examples
 #' \dontrun{
 #' #Downloads schema to the current folder
 #' downloadVegXschema()
 #' }
-downloadVegXschema<-function(folder = getwd()) {
+downloadVegXschema <- function(folder = getwd()) {
 
   # If required, set directory for storing the schema
   wd <- getwd()
@@ -36,7 +39,7 @@ downloadVegXschema<-function(folder = getwd()) {
     download_xml(url = "https://raw.githubusercontent.com/iavs-org/vegx-standard/master/veg-plot.xsd")
     download_xml(url = "https://raw.githubusercontent.com/iavs-org/vegx-standard/master/veg-plotobservation.xsd")
     download_xml(url = "https://raw.githubusercontent.com/iavs-org/vegx-standard/master/veg-userdefined.xsd")
-
+    
   } else {
     cat("No connection")
   }

@@ -117,7 +117,7 @@ title                 | Title of the project.  | 1..n | Yes |
 personnel                 | Contact and role information for people involved in the research project. | 1..n | Yes |
 abstract                  | A brief description of the aims and findings of the project.  | 0..1 | Yes |
 funding                   | Funding information. | 0..1 | Yes |
-studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc. | 0..1 | Yes |
+studyAreaDescription      | Description of the physical area associated with the research project, potentially including coverage, climate, geology, disturbances, etc. | 0..1 | Yes |
 designDescription         | Description of the design of the research project (specially overall plot placement). | 0..1 | Yes |
 relatedProjectID          | A link to another project, by ID.                 | 0..n | No  |
 documentCitationID        | A link, by ID, to the citation of a document describing the project.                 | 0..n | Yes  |
@@ -146,12 +146,12 @@ Sub-elements *location* and *geometry* are specially important, as they contain 
 
 #### Sub-element *location*
 
-*Location* stores information regarding the location of a plot on the earth surface. Child elements *horizontalCoordinates* are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the **VegX R package** follows this rule. However, the Veg-X schema can accomodate multiple coordinate measurements made by different parties or at different times. The same applies to *verticalCoordinates*, *locationInWaterBody* and *gridPosition* (the later two not covered in the R package).
+*Location* stores information regarding the location of a plot on the earth surface. Child elements *horizontalCoordinates* are used to store x-y coordinates in a spatial reference system. To avoid ambiguity there should be only one coordinate pair for a plot, and the implementation of the **VegX R package** follows this rule. However, the Veg-X schema can accommodate multiple coordinate measurements made by different parties or at different times. The same applies to *verticalCoordinates*, *locationInWaterBody* and *gridPosition* (the later two not covered in the R package).
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |
 horizontalCoordinates     | Horizontal coordinates of a plot on the Earth's surface (i.e. x-y coordinates in a spatial reference system).| 0..n | Partial |
-verticalCoordinates | Elevation of the plot in respect to some vertical datum (such as the mean sea level or an elliposid). | 0..n | Partial |
+verticalCoordinates | Elevation of the plot in respect to some vertical datum (such as the mean sea level or an ellipsoid). | 0..n | Partial |
 markers | Information about markers (like magnetic markers or wooden pegs) that help locating the plot. There should also be a description about where in the plot the markers are found (for example in the corners or in the centre). | 0..1 | No |
 locationInWaterBody | Location in respect to a water surface or shoreline. | 0..n | No |
 gridPosition | Position in a grid such as used for floristic surveys. | 0..n | No |
@@ -248,7 +248,7 @@ preferredTaxonNameID      | A link to a scientific taxon name (i.e. an organism 
 interpretationDate        | Date for the last nomenclature revision applied to this organism identity. Recorded in ISO 8601 date format: yyyy-mm-dd. | 0..1 | Yes |
 interpretationSource      | A string describing the source for the last nomenclature interpretation applied to this organism identity (i.e. the Plant List). | 0..1 | Yes |
 interpretationCitationID  | A link to the publication where nomenclature interpretation is described. | 0..1 | Yes |
-interpretationPartyID     | A link to a party who undertook the nomenclarure revision. | 0..n | Partial |
+interpretationPartyID     | A link to a party who undertook the nomenclature revision. | 0..n | Partial |
 interpretationSource      | Additional comments or explanations pertaining to the nomenclature interpretation. | 0..n | Np |
 
 
@@ -314,7 +314,7 @@ While *relatedIndividual* is used to link to other organisms in an arbitrary rel
 
 #### Sub-element *location*
 
-The *location* of an organism is assumed to be constant in time during the organism lifespan. Sub-elements *horizontalLocation* are used to store x-y (or polar) coordinates of organism, either absolute or in relation to the plot origin or a related organism. To avoid ambiguity there should be only one coordinate pair for an organism. However, the Veg-X schema can accomodate multiple measurements made by different parties or at different times. The R package does not yet support *location* elements for organisms.
+The *location* of an organism is assumed to be constant in time during the organism lifespan. Sub-elements *horizontalLocation* are used to store x-y (or polar) coordinates of organism, either absolute or in relation to the plot origin or a related organism. To avoid ambiguity there should be only one coordinate pair for an organism. However, the Veg-X schema can accommodate multiple measurements made by different parties or at different times. The R package does not yet support *location* elements for organisms.
 
 Sub-element               | Description                                        |  #  |  R  |
 ------------------------- | -------------------------------------------------- | --- | --- |

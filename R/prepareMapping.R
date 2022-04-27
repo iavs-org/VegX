@@ -9,7 +9,7 @@
 #'   the to standard field and method names (see details).
 #' @param user.map a named list. The user-defined mapping of the dataset to
 #'   standard field and method names (see details).
-#' @param user.column a character. The name of the colunm in
+#' @param user.column a character. The name of the column in
 #'   \code{equivalencies} containing the mapping. Defaults to 'YourFieldNames'.
 #'
 #' @return A named list, with named vectors as elements.
@@ -37,7 +37,7 @@
 #'   }
 #'   
 #'   If the user chose for Option 2, than the use should also provide the name
-#'   of the colunm containing the mapping. If the name of the column is not
+#'   of the column containing the mapping. If the name of the column is not
 #'   present in the input data frame, the function assumes the 4th column to be
 #'   the one containing the mapping. If even the 4th column is not different
 #'   from the predefined fields of the internal standard, then the function uses
