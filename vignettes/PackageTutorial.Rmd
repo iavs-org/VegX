@@ -389,7 +389,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot", obsStartDate = "PlotO
 ```
 Analogously to the previous case, we need to specify a measurement method for counts, and in this case we can use function ``predefinedMeasurementMethod()``:
 ```{r count scale def}
-countscale = predefinedMeasurementMethod("Individual plant counts")
+countscale = predefinedMeasurementMethod("Plant count/individuals")
 ```
 Then we also need to provide the strata definition, which is different from that of the previous data set. Here all strata are defined by height, so we can use a function called ``defineHeightStrata()``:
 ```{r mtfyffe strata def}
