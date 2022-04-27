@@ -938,7 +938,7 @@
 
 # Title: Argument Verification Using Partial or Fuzzy Matching
 #
-# Description These function adapts the base function `match.arg()`, so that
+# Description: These function adapts the base function `match.arg()`, so that
 #   matching can be case insesitive and performed using partial or fuzzy
 #   matching.
 #
@@ -1003,4 +1003,32 @@
   if (!several.ok && length(i) > 1) 
     stop("there is more than one match in 'match.arg'")
   choices.orig[i]
+}
+
+# Complete and re-order a map in respect to a reference map
+.mapToReference <- function(map = NULL, ref = NULL) {
+  
+  if (is.null(map))
+    stop("The map object must be provided")
+  
+  if (is.null(ref))
+    ref <- supporting_info$reference_map
+  
+  tables.ref <- names(ref)
+  tables.map <- names(map)
+  which.common <- which(tables.ref %in% tables.map)
+  
+  ref.new <- ref
+  j <- 1
+  for (i in which.common) {
+    ref.i <- ref[[i]]
+    map.i <- map[[j]] 
+    ref.i.new <- c(map.i, ref.i[which(!names(ref.i) %in% names(map.i))])
+    ref.i.new <- 
+      ref.i.new[match(names(ref.i), names(ref.i.new), nomatch = 0)] 
+    ref.new[[i]] <- ref.i.new
+    j <- j + 1
+  }
+  
+  return(ref.new)
 }
