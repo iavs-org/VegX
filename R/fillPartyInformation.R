@@ -18,6 +18,7 @@
 #'
 #' x = fillPartyInformation(newVegX(), name = "Susan K. Wiser")
 #'
+#' @export
 fillPartyInformation<-function(target, name, type = "individual",
                                address = "", phone = "",
                                electronicMailAddress = "",

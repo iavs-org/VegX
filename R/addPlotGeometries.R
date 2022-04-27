@@ -51,7 +51,8 @@
 #'
 #' # Inspect results
 #' showElementTable(x, "plot")
-#'
+#' 
+#' @export
 addPlotGeometries<-function(target, x,
                             mapping,
                             methods = list(),

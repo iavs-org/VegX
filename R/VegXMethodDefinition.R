@@ -14,6 +14,8 @@
 #' @examples
 #' showClass("VegXMethodDefinition")
 #'
+#' @exportClass VegXMethodDefinition
+#' 
 setClass("VegXMethodDefinition",slots=c(
                          name = "character",
                          description="character",

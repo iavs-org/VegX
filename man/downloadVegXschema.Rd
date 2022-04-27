@@ -2,7 +2,7 @@
 % Please edit documentation in R/downloadVegXschema.R
 \name{downloadVegXschema}
 \alias{downloadVegXschema}
-\title{Donwload VegX schema}
+\title{Download VegX schema}
 \usage{
 downloadVegXschema(folder = getwd())
 }

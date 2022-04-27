@@ -11,24 +11,28 @@
 \alias{taki_lookup}
 \title{Takitimu example dataset for Veg-X}
 \description{
-Alpine grassland data from 5 plots from the southern South Island (New Zealand). 
-The data comprises i) site information from each plot; ii) frequency values for plant taxa based on observations within subplots along transects; 
-iii) groundcover; iv) disturbance. The data set includes five data frames:
+Alpine grassland data from 5 plots from the southern South Island (New
+Zealand). The data comprises i) site information from each plot; ii)
+frequency values for plant taxa based on observations within subplots along
+transects; iii) groundcover; iv) disturbance. The data set includes five data
+frames:
 }
 \details{
-\itemize{
- \item taki_loc Location of vegetation plots (10 records x 25 variables)
- \item taki_site Site characteristics of plots/subplots (325 records x 29 variables)
- \item taki_freq Observations of frequency of taxon categories (543 records x 30 variables)
- \item taki_disturbance Observations of disturbance events on plots (9 records x 10 variables)
- \item taki_groundcover Observations of ground cover on plots (50 records x 12 variables)
- \item taki_lookup Lookup table to translate species names
-}
+\itemize{ \item taki_loc Location of vegetation plots (10 records x 25
+variables) \item taki_site Site characteristics of plots/subplots (325
+records x 29 variables) \item taki_freq Observations of frequency of taxon
+categories (543 records x 30 variables) \item taki_disturbance Observations
+of disturbance events on plots (9 records x 10 variables) \item
+taki_groundcover Observations of ground cover on plots (50 records x 12
+variables) \item taki_lookup Lookup table to translate species names }
 }
 \references{
-Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing biodiversity information:  development of the National Vegetation Survey Databank.  New Zealand Journal of Ecology 25(2): 1-17.
+Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing
+  biodiversity information:  development of the National Vegetation Survey
+  Databank.  New Zealand Journal of Ecology 25(2): 1-17.
 }
 \author{
-New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
+New Zealand National Vegetation Survey (NVS) Databank
+  (https://nvs.landcareresearch.co.nz/).
 }
 \keyword{data}

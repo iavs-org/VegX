@@ -14,34 +14,44 @@ transformQuantitativeScale(
 )
 }
 \arguments{
-\item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
+\item{target}{The initial object of class \code{\linkS4class{VegX}} to be
+modified.}
 
-\item{method}{An integer (index) or a name of the original quantitative scale method.}
+\item{method}{An integer (index) or a name of the original quantitative scale
+method.}
 
-\item{newMethod}{An integer (index) or a name of a quantitative method existing in the initial object,
-or an object of class \code{\linkS4class{VegXMethodDefinition}}.}
+\item{newMethod}{An integer (index) or a name of a quantitative method
+existing in the initial object, or an object of class
+\code{\linkS4class{VegXMethodDefinition}}.}
 
 \item{FUN}{A function used to transform numeric values.}
 
-\item{replaceValues}{A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
-For some measurements transformations will not be possible if replacement is not forced using this flag.}
+\item{replaceValues}{A boolean flag to indicate that values in the new scale
+should replace the old ones, instead of defining new measurements. For some
+measurements transformations will not be possible if replacement is not
+forced using this flag.}
 
-\item{verbose}{A boolean flag to indicate console output of the data transformation process.}
+\item{verbose}{A boolean flag to indicate console output of the data
+transformation process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}.
 }
 \description{
-Transforms all the values in a VegX object made using a quantitative scale into another quantitative scale
-following a given transformation function.
+Transforms all the values in a VegX object made using a quantitative scale
+into another quantitative scale following a given transformation function.
 }
 \details{
-The function will normally create new measurements without destroying the original ones, unless replacement is forced by setting \code{replaceValues = TRUE}.
-Veg-X only allows a single measurement per observations of some kinds:
+The function will normally create new measurements without
+  destroying the original ones, unless replacement is forced by setting
+  \code{replaceValues = TRUE}. Veg-X only allows a single measurement per
+  observations of some kinds:
 \itemize{
-  \item{"diameterMeasurement" and "heightMeasurement" of indvidual organism observations.}
+  \item{"diameterMeasurement" and "heightMeasurement" of individual organism
+  observations.}
   \item{"heightMeasurement" of aggregate organism observations.}
-  \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum observations.}
+  \item{"lowerLimitMeasurement" and "upperLimitMeasurement" of stratum
+  observations.}
 }
 In these cases, scale transformations are not possible if \code{replaceValues = FALSE}.
 }

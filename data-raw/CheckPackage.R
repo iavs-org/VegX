@@ -75,7 +75,7 @@
 # # CHECKS, TESTS AND SPELLING ----------------------------------------------
 # 
 # #Checking
-# devtools::run_examples()
+devtools::run_examples()
 # devtools::check()
 # 
 # #Testing
@@ -84,9 +84,9 @@
 # devtools::test()
 # 
 # #Spelling
-# # spelling::update_wordlist(pkg = ".", vignettes = FALSE, confirm = TRUE)
-# # spelling::get_wordlist(pkg = ".")
-# # toto <- spelling::spell_check_package(vignettes = FALSE)
+# spelling::update_wordlist(pkg = ".", vignettes = FALSE, confirm = TRUE)
+# spelling::get_wordlist(pkg = ".")
+# toto <- spelling::spell_check_package(vignettes = FALSE)
 # toto <- spelling::spell_check_package(vignettes = TRUE)
 # 
 # #Checking by word
@@ -98,6 +98,7 @@
 #               "indvidual", "landcareresearch", "nomenclatural",
 #               "accomodate", "availble", "characteirstics", "depeding",
 #               "elliposid", "encompasing", "nomenclarure", "distrubances")
+# palavras <- c("Mokihinui")
 # toto2 <- toto$found[match(palavras, toto$word)]
 # names(toto2) <- palavras
 # toto2

@@ -37,5 +37,5 @@ Surface type definition
 defineSurfaceTypes(name = "Default Surface types",
                    description = "Five simple surface categories",
                    surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
-
+                   
 }

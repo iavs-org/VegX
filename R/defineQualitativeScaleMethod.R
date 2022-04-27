@@ -20,9 +20,9 @@
 #' defineQualitativeScaleMethod("scale1", "Description for scale1", "subject1",
 #'                              codes = c("A", "B", "C"))
 #'
+#' @importFrom methods new
 #'
-#'
-#'
+#' @export
 defineQualitativeScaleMethod<-function(name, description, subject, codes,
                              citationString = "", DOI = "",
                              definitions = NULL) {
@@ -39,7 +39,7 @@ defineQualitativeScaleMethod<-function(name, description, subject, codes,
   }
 
   names(attributes) = 1:ncodes
-  return(new("VegXMethodDefinition",
+  return(methods::new("VegXMethodDefinition",
              name = name,
              description = description,
              citationString = citationString,

@@ -10,3 +10,5 @@
 ^pkgdown$
 ^\.github$
 ^\.secrets$
+^doc$
+^Meta$

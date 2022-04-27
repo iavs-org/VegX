@@ -23,12 +23,6 @@ The main elements contained in this list of methods are:
  
 }
 }
-\examples{
-
-# To explore available methods
-names(ordinal_methods)
-
-}
 \seealso{
 \code{\link{defineOrdinalScaleMethod}}
 }

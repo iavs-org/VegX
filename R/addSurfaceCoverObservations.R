@@ -74,6 +74,7 @@
 #'
 #' head(showElementTable(x, "surfaceCoverObservation"))
 #'
+#' @export
 addSurfaceCoverObservations<-function(target, x, mapping,
                                       coverMethod, surfaceTypeDefinition,
                                       date.format = "%Y-%m-%d",

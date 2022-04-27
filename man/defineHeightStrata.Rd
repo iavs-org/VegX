@@ -20,15 +20,18 @@ defineHeightStrata(
 
 \item{description}{A string describing how strata are defined.}
 
-\item{citationString}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the
+method.}
 
 \item{DOI}{A string with the DOI of a resource describing the method.}
 
-\item{heightBreaks}{A numeric vector with height limits between strata (of length equal to the number of strata plus one).}
+\item{heightBreaks}{A numeric vector with height limits between strata (of
+length equal to the number of strata plus one).}
 
 \item{heightUnit}{A string to identify height units.}
 
-\item{strataNames}{A character vector of stratum codes (of length equal to the number of strata).}
+\item{strataNames}{A character vector of stratum codes (of length equal to
+the number of strata).}
 
 \item{strataDefinitions}{A character vector with strata definitions}
 }

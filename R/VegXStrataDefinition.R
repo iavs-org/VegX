@@ -8,6 +8,8 @@
 #' @examples
 #' showClass("VegXStrataDefinition")
 #'
+#' @exportClass VegXStrataDefinition
+#' 
 setClass("VegXStrataDefinition",slots=c(
   method = "VegXMethodDefinition",
   strata = "list"))

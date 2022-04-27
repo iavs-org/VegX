@@ -1,4 +1,3 @@
-
 #' Surface type definition
 #'
 #' @param name A string to identify the surface type definition.
@@ -15,12 +14,15 @@
 #' defineSurfaceTypes(name = "Default Surface types",
 #'                    description = "Five simple surface categories",
 #'                    surfaceNames = c("Vegetation", "Moss", "Litter", "Exposed Soil", "Rock"))
+#'                    
+#' @importFrom methods new
 #'
+#' @export
 defineSurfaceTypes<-function(name, description,
                              surfaceNames,
                              definitions = NULL,
                              citationString = "", DOI = "") {
-  defMethod = new("VegXMethodDefinition",
+  defMethod = methods::new("VegXMethodDefinition",
                   name = name,
                   description = description,
                   citationString = citationString,
@@ -34,7 +36,7 @@ defineSurfaceTypes<-function(name, description,
     surfaceTypes[[as.character(i)]] = list(surfaceNames = surfaceNames[i])
     if(!is.null(definitions)) surfaceTypes[[as.character(i)]]$definition = definitions[i]
   }
-  return(new("VegXSurfaceTypeDefinition",
+  return(methods::new("VegXSurfaceTypeDefinition",
              method = defMethod,
              surfaceTypes = surfaceTypes))
 }

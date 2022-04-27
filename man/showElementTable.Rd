@@ -82,4 +82,5 @@ showElementTable(x, "literatureCitation")
 
 # show aggregate organism observations (only some of them)
 head(showElementTable(x, "aggregateOrganismObservation"))
+
 }

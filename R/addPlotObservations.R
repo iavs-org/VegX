@@ -54,7 +54,8 @@
 #'
 #' showElementTable(x, "plot")
 #' showElementTable(x, "plotObservation")
-
+#' 
+#' @export
 addPlotObservations<-function(target, x,
                               mapping,
                               missing.values = c(NA,""),

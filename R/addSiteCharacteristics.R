@@ -50,7 +50,8 @@
 #'
 #' # Inspect the result
 #' showElementTable(x, "plot")
-#'
+#' 
+#' @export
 addSiteCharacteristics<-function(target, x,
                                  mapping,
                                  measurementMethods = list(),

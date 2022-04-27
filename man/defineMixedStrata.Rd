@@ -2,7 +2,7 @@
 % Please edit documentation in R/defineStrata.R
 \name{defineMixedStrata}
 \alias{defineMixedStrata}
-\title{Mixed stratum definiton}
+\title{Mixed stratum definition}
 \usage{
 defineMixedStrata(
   name = "Strata by height or category",
@@ -24,23 +24,30 @@ defineMixedStrata(
 
 \item{description}{A string describing how strata are defined.}
 
-\item{citationString}{A string with the bibliographic reference for the method.}
+\item{citationString}{A string with the bibliographic reference for the
+method.}
 
 \item{DOI}{A string with the DOI of a resource describing the method.}
 
-\item{heightStrataBreaks}{A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).}
+\item{heightStrataBreaks}{A numeric vector with height limits between height
+strata (of length equal to the number of height strata plus one).}
 
 \item{heightStrataUnit}{A string to identify height units.}
 
-\item{heightStrataNames}{A numeric vector of stratum codes (of length equal to the number of height strata).}
+\item{heightStrataNames}{A numeric vector of stratum codes (of length equal
+to the number of height strata).}
 
-\item{categoryStrataNames}{A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).}
+\item{categoryStrataNames}{A numeric vector of categorical stratum codes (of
+length equal to the number of categorical strata).}
 
-\item{heightStrataDefinitions}{A character vector with height strata definitions}
+\item{heightStrataDefinitions}{A character vector with height strata
+definitions}
 
-\item{categoryStrataDefinitions}{A character vector with category strata definitions}
+\item{categoryStrataDefinitions}{A character vector with category strata
+definitions}
 
-\item{order}{A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).}
+\item{order}{A numeric vector to specify order strata (indices starting from
+height strata and continuing with category strata).}
 }
 \value{
 An object of class \code{\linkS4class{VegXStrataDefinition}}
@@ -57,6 +64,7 @@ strataDef = defineMixedStrata(name = "Recce strata",
                  heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                  heightStrataNames = paste0("Tier ",1:6),
                  categoryStrataNames = "Tier 7")
+
 }
 \seealso{
 Other define strata functions: 

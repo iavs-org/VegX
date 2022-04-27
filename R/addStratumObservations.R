@@ -80,6 +80,7 @@
 #' # Examine results
 #' head(showElementTable(x, "stratumObservation"))
 #'
+#' @export
 addStratumObservations<-function(target, x, mapping,
                                  methods,
                                  stratumDefinition,

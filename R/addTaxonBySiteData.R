@@ -14,6 +14,7 @@
 #'
 #' @family add functions
 #'
+#' @export
 addTaxonBySiteData <-function(target,
                               x,
                               abundanceMethod,

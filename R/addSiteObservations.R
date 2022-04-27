@@ -101,6 +101,7 @@
 #' summary(x)
 #' head(showElementTable(x, "siteObservation", subject=TRUE))
 #'
+#' @export
 addSiteObservations<-function(target, x,
                               plotObservationMapping,
                               soilMeasurementMapping = list(),

@@ -1032,3 +1032,17 @@
   
   return(ref.new)
 }
+
+# Title: Set Names for an Object
+#
+# Description: This function is a copy of the stats function `setNames()`.
+#
+# @param object character or vector
+# @param names a character vector of names to assign to the object
+#   
+#
+.setNames <- function (object = names, names) 
+{
+  names(object) <- names
+  object
+}

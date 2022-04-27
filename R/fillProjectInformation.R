@@ -37,6 +37,7 @@
 #'                             " and (b) Karamea catchment."),
 #'            studyAreaDescription = "Mokihinui and Karamea catchments. Forest riparian habitat.")
 #'
+#' @export
 fillProjectInformation<-function(target, title,
                                  personnel = list(),
                                  abstract = "", funding = "",

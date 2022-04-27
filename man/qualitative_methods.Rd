@@ -19,12 +19,6 @@ The main elements contained in this list of methods are:
  \item definition The definitions of the class codes of the qualitative variable
 }
 }
-\examples{
-
-# To explore available methods
-names(qualitative_methods)
-
-}
 \seealso{
 \code{\link{defineQualitativeScaleMethod}}
 }

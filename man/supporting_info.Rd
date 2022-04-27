@@ -33,7 +33,7 @@ The list of supporting objects is:
 reference for all fields included in the internal standard.}
 
 \item{`predefined_fields`: a vector of field names that are potentially
-present in the internal file containig the standard used for mapping.}
+present in the internal file containing the standard used for mapping.}
 
 \item{`available_projects`: the list of selected networks or databases with
 predefined mapping currently available in *VegX*.}

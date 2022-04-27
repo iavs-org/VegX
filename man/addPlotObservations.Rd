@@ -72,6 +72,7 @@ x = addPlotObservations(newVegX(), moki_site, mapping = mapping)
 
 showElementTable(x, "plot")
 showElementTable(x, "plotObservation")
+
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

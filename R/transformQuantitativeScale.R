@@ -71,6 +71,7 @@
 #' # Examine new stratum heights
 #' showElementTable(y, "stratumObservation")
 #'
+#' @export
 transformQuantitativeScale<-function(target, method, newMethod,
                                      FUN,
                                      replaceValues = FALSE, verbose = TRUE) {

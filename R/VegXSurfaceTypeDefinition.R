@@ -5,6 +5,8 @@
 #'
 #' @examples
 #' showClass("VegXSurfaceTypeDefinition")
+#' 
+#' @exportClass VegXSurfaceTypeDefinition
 #'
 setClass("VegXSurfaceTypeDefinition",slots=c(
   method = "VegXMethodDefinition",

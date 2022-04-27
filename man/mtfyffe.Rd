@@ -12,29 +12,35 @@
 \alias{mtfyffe_lookup}
 \title{Mt Fyffe example dataset for Veg-X}
 \description{
-Forest data from five permanent plots from the east coast of South Island (New Zealand).  
-The data comprises i) site information from each plot; ii) cover scores of taxa within height strata; 
-iii) dbh measurement of individual trees within subplots that fully partition the permanent plot; 
-iv) counts of saplings within subplots that fully partition the permanent plot; 
-and v) counts of seedlings within height strata within subplots that sample the permanent plot.  
-Two full measurements of the permanent plots are provided. The data set includes six data frames:
+Forest data from five permanent plots from the east coast of South Island
+(New Zealand). The data comprises i) site information from each plot; ii)
+cover scores of taxa within height strata; iii) dbh measurement of individual
+trees within subplots that fully partition the permanent plot; iv) counts of
+saplings within subplots that fully partition the permanent plot; and v)
+counts of seedlings within height strata within subplots that sample the
+permanent plot. Two full measurements of the permanent plots are provided.
+The data set includes six data frames:
 }
 \details{
-\itemize{
- \item mtfyffe_loc Location of vegetation plots (10 records x 25 variables)
- \item mtfyffe_site Site characteristics of plots/subplots (325 records x 29 variables)
- \item mtfyffe_counts Observations of counts of taxon categories, grouped by vegetation strata (543 records x 30 variables)
- \item mtfyffe_dia Observations made on individual trees (880 records x 31 variables)
- \item mtfyffe_disturbance Observations of disturbance events on plots (9 records x 10 variables)
- \item mtfyffe_groundcover Observations of ground cover on plots (50 records x 12 variables)
- \item mtfyffe_lookup Lookup table to translate species names
+\itemize{ \item mtfyffe_loc Location of vegetation plots (10 records x 25
+variables) \item mtfyffe_site Site characteristics of plots/subplots (325
+records x 29 variables) \item mtfyffe_counts Observations of counts of taxon
+categories, grouped by vegetation strata (543 records x 30 variables) \item
+mtfyffe_dia Observations made on individual trees (880 records x 31
+variables) \item mtfyffe_disturbance Observations of disturbance events on
+plots (9 records x 10 variables) \item mtfyffe_groundcover Observations of
+ground cover on plots (50 records x 12 variables) \item mtfyffe_lookup Lookup
+table to translate species names
 
 }
 }
 \references{
-Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing biodiversity information:  development of the National Vegetation Survey Databank.  New Zealand Journal of Ecology 25(2): 1-17.
+Wiser, S.K., P.J. Bellingham and L.E. Burrows.  2001.  Managing
+  biodiversity information:  development of the National Vegetation Survey
+  Databank.  New Zealand Journal of Ecology 25(2): 1-17.
 }
 \author{
-New Zealand National Vegetation Survey (NVS) Databank (https://nvs.landcareresearch.co.nz/).
+New Zealand National Vegetation Survey (NVS) Databank
+  (https://nvs.landcareresearch.co.nz/).
 }
 \keyword{data}

@@ -82,6 +82,7 @@ y = setPreferredTaxonNomenclature(x, moki_lookup,
 
 # Inspect the modified organism identities
 head(showElementTable(y, "organismIdentity"))
+
 }
 \seealso{
 Other organism identity functions: 

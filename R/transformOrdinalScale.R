@@ -84,7 +84,8 @@
 #' percentScale = predefinedMeasurementMethod("Plant cover/%")
 #' y = transformOrdinalScale(x, "Recce cover scale", percentScale)
 #'
-transformOrdinalScale < -function(target, method, newMethod, replaceValues = FALSE, verbose = TRUE) {
+#' @export
+transformOrdinalScale <- function(target, method, newMethod, replaceValues = FALSE, verbose = TRUE) {
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   if(length(target@methods)==0) stop("VegX object has no methods")
   methodID = NULL

@@ -90,6 +90,7 @@
 #'                allowMergeOrganismIdentities = TRUE)
 #' summary(z2)
 #'
+#' @export
 mergeVegX<-function(x, y, 
                     allowMergePlots = FALSE, 
                     allowMergeOrganismIdentities = FALSE, 

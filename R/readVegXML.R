@@ -7,6 +7,7 @@
 #' 
 #' @importFrom XML xmlTreeParse xmlValue xmlAttrs xmlApply xmlRoot
 #'
+#' @export
 readVegXML<-function(file, verbose = TRUE) {
   target = newVegX()
   veg=xmlRoot(xmlTreeParse(file, useInternalNodes = T))

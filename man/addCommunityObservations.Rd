@@ -47,7 +47,7 @@ Missing value policy:
 }
 }
 \examples{
-data(Mokihinui)
+data(mokihinui)
 
 # Simulate measurement of basal area
 moki_site$BA = pmax(0, rnorm(nrow(moki_site), 10, 5))
@@ -62,6 +62,7 @@ x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
                         
 # Inspect the result
 head(showElementTable(x, "communityObservation"))
+
 }
 \references{
 Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data

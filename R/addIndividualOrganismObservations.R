@@ -70,7 +70,8 @@
 #'                                       methods = list(diameterMeasurement = "DBH/cm"),
 #'                                       missing.values = c(NA, "(Unknown)", "0",""))
 #' head(showElementTable(x, "individualOrganismObservation"))
-#'
+#' 
+#' @export
 addIndividualOrganismObservations<-function(target, x, mapping,
                                             methods = list(),
                                             stratumDefinition = NULL,

@@ -93,7 +93,7 @@
 #'                strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", 
 #'                                      "76-105 cm", "106-135 cm", "> 135 cm"))
 #' x = addAggregateOrganismObservations(newVegX(), mtfyffe_counts, mapping,
-#'                methods = list(counts="Individual plant counts"),
+#'                methods = list(counts="Plant count/individuals"),
 #'                stratumDefinition = strataDef)
 #' head(showElementTable(x, "aggregateOrganismObservation"))
 #'
@@ -104,7 +104,8 @@
 #' x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
 #'                methods = list(freq="Plant frequency/%"))
 #' head(showElementTable(x, "aggregateOrganismObservation"))
-#'
+#' 
+#' @export
 addAggregateOrganismObservations<-function(target, x,
                                      mapping,
                                      methods = list(),

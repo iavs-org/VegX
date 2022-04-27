@@ -17,7 +17,10 @@
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #'
 #' @family define strata functions
-#'
+#' 
+#' @importFrom methods new
+#' 
+#' @export
 defineHeightStrata<-function(name = "Strata by height",
                       description = "Vegetation strata defined by height in m",
                       citationString = "", DOI = "",
@@ -32,7 +35,7 @@ defineHeightStrata<-function(name = "Strata by height",
          upperLimit = Inf)
   )
   names(attributes) = 1
-  defMethod = new("VegXMethodDefinition",
+  defMethod = methods::new("VegXMethodDefinition",
              name = name,
              description = description,
              citationString = citationString,
@@ -50,7 +53,7 @@ defineHeightStrata<-function(name = "Strata by height",
      if(!is.null(strataDefinitions)) 
        strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
-  return(new("VegXStrataDefinition",
+  return(methods::new("VegXStrataDefinition",
              method = defMethod,
              strata = strata))
 }
@@ -68,13 +71,16 @@ defineHeightStrata<-function(name = "Strata by height",
 #'
 #' @return An object of class \code{\linkS4class{VegXStrataDefinition}}
 #' @family define strata functions
-#'
+#' 
+#' @importFrom methods new
+#' 
+#' @export
 defineCategoricalStrata<-function(name = "Strata by categories",
                                   description = "Vegetation categorical strata",
                                   citationString = "", DOI = "",
                                   strataNames = c("s1", "s2", "s3"),
                                   strataDefinitions = NULL) {
-  defMethod = new("VegXMethodDefinition",
+  defMethod = methods::new("VegXMethodDefinition",
                   name = name,
                   description = description,
                   citationString = citationString,
@@ -90,7 +96,7 @@ defineCategoricalStrata<-function(name = "Strata by categories",
     if(!is.null(strataDefinitions)) 
       strata[[as.character(i)]]$definition = strataDefinitions[i]
   }
-  return(new("VegXStrataDefinition",
+  return(methods::new("VegXStrataDefinition",
              method = defMethod,
              strata = strata))
 }
@@ -131,6 +137,10 @@ defineCategoricalStrata<-function(name = "Strata by categories",
 #'                  heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
 #'                  heightStrataNames = paste0("Tier ",1:6),
 #'                  categoryStrataNames = "Tier 7")
+#' 
+#' @importFrom methods new
+#' 
+#' @export
 defineMixedStrata<-function(name = "Strata by height or category",
                       description = paste0("Vegetation strata defined by height in m", 
                                      " and other strata by category"),
@@ -149,7 +159,7 @@ defineMixedStrata<-function(name = "Strata by height or category",
          upperLimit = Inf)
   )
   names(attributes) = 1
-  defMethod = new("VegXMethodDefinition",
+  defMethod = methods::new("VegXMethodDefinition",
                   name = name,
                   description = description,
                   citationString = citationString,
@@ -175,7 +185,7 @@ defineMixedStrata<-function(name = "Strata by height or category",
                                            order = order[nhstr+i])
     if(!is.null(categoryStrataDefinitions)) strata[[as.character(nhstr+i)]]$definition = categoryStrataDefinitions[i]
   }
-  return(new("VegXStrataDefinition",
+  return(methods::new("VegXStrataDefinition",
              method = defMethod,
              strata = strata))
 }

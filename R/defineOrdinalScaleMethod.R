@@ -49,6 +49,9 @@
 #'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", 
 #'                                    "51-75%", "76-100%"))
 #'
+#' @importFrom methods new
+#'
+#' @export
 defineOrdinalScaleMethod<-function(name, description, subject, codes,
                              citationString = "",
                              DOI = "",
@@ -84,7 +87,7 @@ defineOrdinalScaleMethod<-function(name, description, subject, codes,
   }
 
   names(attributes) = 1:nvals
-  return(new("VegXMethodDefinition",
+  return(methods::new("VegXMethodDefinition",
              name = name,
              description = description,
              citationString = citationString,

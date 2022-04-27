@@ -63,6 +63,8 @@
 #'
 #' # Inspect the modified organism identities
 #' head(showElementTable(y, "organismIdentity"))
+#' 
+#' @export
 setPreferredTaxonNomenclature<-function(target, x, mapping,
                                         date.format = "%Y-%m-%d",
                                         missing.values = c(NA, ""),

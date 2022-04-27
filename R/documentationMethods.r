@@ -52,10 +52,6 @@ NULL
 #' @author Veg-X team.
 #' @keywords data
 #' @seealso \code{\link{defineQualitativeScaleMethod}}
-#' @examples
-#' 
-#' # To explore available methods
-#' names(qualitative_methods)
 #' 
 NULL
 
@@ -85,9 +81,5 @@ NULL
 #' @author Veg-X team.
 #' @keywords data
 #' @seealso \code{\link{defineOrdinalScaleMethod}}
-#' @examples
-#' 
-#' # To explore available methods
-#' names(ordinal_methods)
 #' 
 NULL

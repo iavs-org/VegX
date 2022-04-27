@@ -32,6 +32,8 @@
 #' @examples
 #' showClass("VegX")
 #'
+#' @exportClass VegX
+#' 
 setClass("VegX",slots=c(VegXVersion = "character",
                         parties = "list",
                         literatureCitations = "list",

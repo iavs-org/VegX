@@ -65,7 +65,8 @@
 #' y = setOriginalIdentificationConcepts(x, citationStringAll="Allen 1998")
 #'
 #' head(showElementTable(y, "organismIdentity"))
-
+#' 
+#' @export
 setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
                            x = NULL, mapping = list(),
                            date.format = "%Y-%m-%d",

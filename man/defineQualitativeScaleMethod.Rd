@@ -41,9 +41,6 @@ A general function to define a method for measurements of a given subject in a q
 defineQualitativeScaleMethod("scale1", "Description for scale1", "subject1",
                              codes = c("A", "B", "C"))
 
-
-
-
 }
 \seealso{
 Other define measurement functions: 

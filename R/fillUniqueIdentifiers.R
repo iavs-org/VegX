@@ -13,7 +13,7 @@
 #' @family fill functions
 #'
 #' @importFrom uuid UUIDgenerate
-
+#' 
 #' @examples
 #' # Load source data
 #' data(mokihinui)
@@ -32,6 +32,7 @@
 #' # Examine the result
 #' showElementTable(y, "plot")
 #' 
+#' @export
 fillUniqueIdentifiers<-function(target, element = "plot", replace.existing = FALSE) {
   if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   element = match.arg(element, c("plot", "plotObservation"))

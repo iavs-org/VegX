@@ -31,6 +31,10 @@ predefined_map <- predefined_map[!grepl("^TO|^DONT", predefined_map$Group) , ]
 predefined_map <- predefined_map[!is.na(predefined_map$Group) , ]
 predefined_map <- predefined_map[!is.na(predefined_map$Field) , ]
 
+
+#### CHECK HERE ####
+## SAVING THE DOWNLOADED FILES INTO THE DATA-RAW FOLDER
+
 ## Getting the list of available network/databases
 tmp <- colnames(predefined_map)
 predefined_fields <- c("Order", "FieldID", "Group", "Field", "Documentation", 
@@ -75,6 +79,8 @@ predefined.path <- "data-raw/files-raw/PredefinedMethods.xlsx"
 quantitative_methods <-
   as.data.frame(readxl::read_xlsx(predefined.path, sheet = "quantitative"),
                 stringsAsFactors = FALSE)
+quantitative_methods$lowerLimit <- as.numeric(quantitative_methods$lowerLimit)
+quantitative_methods$upperLimit <- as.numeric(quantitative_methods$upperLimit)
 
 # QUALITATIVE SCALE METHODS -----------------------------------------------
 qualitative_names <-
@@ -150,12 +156,16 @@ supporting_info <- append(supporting_info,
                           list(available_methods = available_methods))
 
 # SAVING THE SYSDATA -----------------------------------------------------
+#### CHECK HERE: SAVE ALL AS INTERNAL (R/sysdata.rda), EXTERNAL (data/file1.rda, data/file2.rda, etc) OR BOTH? ####
 usethis::use_data(supporting_info,
-                  quantitative_methods,
                   qualitative_methods,
                   ordinal_methods,
                   overwrite = TRUE,
                   internal = TRUE,
                   compress = "xz")
-rm(quantitative_methods)
+usethis::use_data(quantitative_methods,
+                  overwrite = TRUE,
+                  internal = FALSE,
+                  compress = "xz")
+rm(supporting_info, quantitative_methods, qualitative_methods, ordinal_methods)
 

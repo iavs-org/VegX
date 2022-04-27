@@ -23,6 +23,9 @@
 #'                               subject = "plant cover",
 #'                               lowerLimit = 0, upperLimit = 100)
 #'
+#' @importFrom methods new
+#'
+#' @export
 defineQuantitativeScaleMethod<-function(name, description, subject, unit,
                                         citationString = "", DOI = "",
                                         lowerLimit = -Inf,
@@ -36,7 +39,7 @@ defineQuantitativeScaleMethod<-function(name, description, subject, unit,
          upperLimit = upperLimit)
   )
   names(attributes) = 1
-  return(new("VegXMethodDefinition",
+  return(methods::new("VegXMethodDefinition",
              name = name,
              description = description,
              subject = subject,

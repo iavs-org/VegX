@@ -63,8 +63,14 @@
 #'
 #' # show aggregate organism observations (only some of them)
 #' head(showElementTable(x, "aggregateOrganismObservation"))
-showElementTable<-function(x, element = "plot", IDs = FALSE, subjects = FALSE, max.nchar = 30) {
-
+#' 
+#' @export
+showElementTable <- function(x,
+                             element = "plot",
+                             IDs = FALSE,
+                             subjects = FALSE,
+                             max.nchar = 30) {
+  
   element = match.arg(element, c("project", "party", "plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",

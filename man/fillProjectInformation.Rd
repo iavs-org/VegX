@@ -18,25 +18,34 @@ fillProjectInformation(
 )
 }
 \arguments{
-\item{target}{The initial object of class \code{\linkS4class{VegX}} to be modified.}
+\item{target}{The initial object of class \code{\linkS4class{VegX}} to be
+modified.}
 
-\item{title}{A string with the title of the project. It can match one of the existing project or a new one will be defined.}
+\item{title}{A string with the title of the project. It can match one of the
+existing project or a new one will be defined.}
 
-\item{personnel}{A named list where element names are roles and values are party names (e.g. \code{list(contributor = "John Smith")}).}
+\item{personnel}{A named list where element names are roles and values are
+party names (e.g. \code{list(contributor = "John Smith")}).}
 
 \item{abstract}{A string summarizing the aims and findings of the project.}
 
 \item{funding}{A string with information about funding agencies.}
 
-\item{studyAreaDescription}{A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..}
+\item{studyAreaDescription}{A string describing the physical area associated
+with the research project, potentially including coverage, climate,
+geology, disturbances, etc..}
 
-\item{designDescription}{A string describing the overall plot placement design.}
+\item{designDescription}{A string describing the overall plot placement
+design.}
 
-\item{citationString}{A string of the bibliographic reference of a document describing the project.}
+\item{citationString}{A string of the bibliographic reference of a document
+describing the project.}
 
-\item{DOI}{A string with the DOI the resource related to \code{citationString}.}
+\item{DOI}{A string with the DOI the resource related to
+\code{citationString}.}
 
-\item{verbose}{A boolean flag to indicate console output of the data integration process.}
+\item{verbose}{A boolean flag to indicate console output of the data
+integration process.}
 }
 \value{
 The modified object of class \code{\linkS4class{VegX}}.
@@ -56,7 +65,8 @@ x = fillProjectInformation(newVegX(), "MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 20
 
 }
 \references{
-Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
+Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK
+  (2011). Veg-X - an exchange standard for plot-based vegetation data
 }
 \seealso{
 Other fill functions: 

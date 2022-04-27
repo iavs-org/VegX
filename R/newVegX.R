@@ -10,6 +10,7 @@
 #' # Creates new Veg-X document
 #' newVegX()
 #'
+#' @export
 newVegX<-function() {
   return(new("VegX",
              VegXVersion = "2.0.0",

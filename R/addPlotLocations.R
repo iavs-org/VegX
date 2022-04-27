@@ -64,6 +64,7 @@
 #' # Summary of the updated Veg-X document
 #' showElementTable(x, "plot")
 #' 
+#' @export
 addPlotLocations<-function(target, x,
                            mapping,
                            proj4string = NULL,
