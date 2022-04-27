@@ -21,7 +21,7 @@ the to standard field and method names (see details).}
 \item{user.map}{a named list. The user-defined mapping of the dataset to
 standard field and method names (see details).}
 
-\item{user.column}{a character. The name of the colunm in
+\item{user.column}{a character. The name of the column in
 \code{equivalencies} containing the mapping. Defaults to 'YourFieldNames'.}
 }
 \value{
@@ -55,7 +55,7 @@ Users can map their dataset to the standard field names and methods
   }
   
   If the user chose for Option 2, than the use should also provide the name
-  of the colunm containing the mapping. If the name of the column is not
+  of the column containing the mapping. If the name of the column is not
   present in the input data frame, the function assumes the 4th column to be
   the one containing the mapping. If even the 4th column is not different
   from the predefined fields of the internal standard, then the function uses
@@ -83,5 +83,10 @@ Users can map their dataset to the standard field names and methods
                                   diameterMethod = "DBH/cm"))
  
  mapping <- prepareMapping(user.map = my_map)
-
+ 
 }
+\seealso{
+Other highlevel functions: 
+\code{\link{prepareInputData}()}
+}
+\concept{highlevel functions}

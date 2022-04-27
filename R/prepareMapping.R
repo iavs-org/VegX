@@ -65,6 +65,8 @@
 #'                                   diameterMethod = "DBH/cm"))
 #'  
 #'  mapping <- prepareMapping(user.map = my_map)
+#'  
+#' @family highlevel functions
 #'
 #' @export prepareMapping
 #'
@@ -120,7 +122,7 @@ prepareMapping <- function(project = NULL,
       # Defining the mapping for each type of table
       for (i in seq_len(length(tables))) {
         ids <- map$Group %in% tables[i]
-        mapping[[i]] <- setNames(map[[project]][ids], map[["Field"]][ids])
+        mapping[[i]] <- .setNames(map[[project]][ids], map[["Field"]][ids])
       }
       
       return(mapping)
@@ -166,17 +168,22 @@ prepareMapping <- function(project = NULL,
         #                                 map$Use %in% "optional"]
         # }
       } else {
-        user.column <- head(colnames(map)[!colnames(map) %in% cols], 1)
-        cols <- c("Group", "Field", "Use", user.col)
-        map <- map[ , match(cols, colnames(map), nomatch = 0)]
-        # if ("Use" %in% colnames(map)) {
-        #   miss.cols <- map$Field[is.na(map[[user.col]]) & 
-        #                             map$Use %in% "required"]
-        #   miss.cols.rec <- map$Field[is.na(map[[user.col]]) & 
-        #                                 map$Use %in% "recommended"]
-        #   miss.cols.opt <- map$Field[is.na(map[[user.col]]) & 
-        #                                 map$Use %in% "optional"]
-        # }
+        user.column <- colnames(map)[!colnames(map) %in% cols][1]
+        if (!is.na(user.column)) {
+          cols <- c("Group", "Field", "Use", user.col)
+          map <- map[ , match(cols, colnames(map), nomatch = 0)]
+          # if ("Use" %in% colnames(map)) {
+          #   miss.cols <- map$Field[is.na(map[[user.col]]) & 
+          #                             map$Use %in% "required"]
+          #   miss.cols.rec <- map$Field[is.na(map[[user.col]]) & 
+          #                                 map$Use %in% "recommended"]
+          #   miss.cols.opt <- map$Field[is.na(map[[user.col]]) & 
+          #                                 map$Use %in% "optional"]
+          # }
+          
+        } else {
+          stop("No other column found in `equivalencies` besides the predefined fields")    
+        }
       }
     }
 
@@ -196,7 +203,7 @@ prepareMapping <- function(project = NULL,
     # Defining the mapping for each type of table 
     for (i in seq_len(length(tables))) {
       ids <- map$Group %in% tables[i]
-      mapping[[i]] <- setNames(map[[user.column]][ids], map[["Field"]][ids])
+      mapping[[i]] <- .setNames(map[[user.column]][ids], map[["Field"]][ids])
     }
     
     return(mapping)
