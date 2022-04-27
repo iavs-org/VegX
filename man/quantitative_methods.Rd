@@ -5,11 +5,12 @@
 \alias{quantitative_methods}
 \title{List of predefined quantitative methods}
 \description{
-This data frame contains the definition of predefined quantitative methods available for Veg-X. 
-These are used by calling function \code{\link{predefinedMeasurementMethod}} or directly by their name. 
-When a string refers to a subject, the default method for that subject is used.
-}
-\details{
+This data frame contains the definition of predefined quantitative methods
+available for Veg-X. These are used by calling function
+\code{\link{predefinedMeasurementMethod}} or directly by their name. When a
+string refers to a subject, the default method for that subject is used.
+
+The main columns contained in this data frame are:
 \itemize{
  \item subject The description of an attribute class for comparative purposes.
  \item name The name of the measurement method (normally includes units)
