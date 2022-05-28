@@ -69,12 +69,12 @@ Users can map their dataset to the standard field names and methods
  my_map <- list(plot.info = c(plotName = "Plot",  
                              samplingEffort = "PlotArea", 
                              samplingEffortMethod = "Plot area/m2",
+                             plotLongitude = "Longitude", 
+                             plotLatitude = "Latitude",
+                             elevationSite = "Altitude",
+                             elevationSiteMethod = "Elevation/m",
                              censusDateStart = "PlotObsStartDate", 
                              censusDateStop = "PlotObsStopDate"),
-              plot.location = c(plotLongitude = "Longitude", 
-                                plotLatitude = "Latitude",
-                                elevationSite = "Altitude",
-                                elevationSiteMethod = "Elevation/m"),
               individual.data = c(plotNameSample = "Plot",
                                   obsStartDateSample = "PlotObsStartDate",
                                   fieldTag = "Identifier",
@@ -86,7 +86,8 @@ Users can map their dataset to the standard field names and methods
  
 }
 \seealso{
-Other highlevel functions: 
+Other high-level functions: 
+\code{\link{buildVegX}()},
 \code{\link{prepareInputData}()}
 }
-\concept{highlevel functions}
+\concept{high-level functions}

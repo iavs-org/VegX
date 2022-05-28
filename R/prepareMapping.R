@@ -51,12 +51,12 @@
 #'  my_map <- list(plot.info = c(plotName = "Plot",  
 #'                              samplingEffort = "PlotArea", 
 #'                              samplingEffortMethod = "Plot area/m2",
+#'                              plotLongitude = "Longitude", 
+#'                              plotLatitude = "Latitude",
+#'                              elevationSite = "Altitude",
+#'                              elevationSiteMethod = "Elevation/m",
 #'                              censusDateStart = "PlotObsStartDate", 
 #'                              censusDateStop = "PlotObsStopDate"),
-#'               plot.location = c(plotLongitude = "Longitude", 
-#'                                 plotLatitude = "Latitude",
-#'                                 elevationSite = "Altitude",
-#'                                 elevationSiteMethod = "Elevation/m"),
 #'               individual.data = c(plotNameSample = "Plot",
 #'                                   obsStartDateSample = "PlotObsStartDate",
 #'                                   fieldTag = "Identifier",
@@ -66,7 +66,7 @@
 #'  
 #'  mapping <- prepareMapping(user.map = my_map)
 #'  
-#' @family highlevel functions
+#' @family high-level functions
 #'
 #' @export prepareMapping
 #'
@@ -89,7 +89,7 @@ prepareMapping <- function(project = NULL,
                                      ignore.case = TRUE),  TRUE)
     if (class(project) == "try-error")
       project <- try(.matchArgExtended(project.orig, available_projects, 
-                                ignore.case = TRUE, method = "fuzzy"), TRUE)
+                                       ignore.case = TRUE, method = "fuzzy"), TRUE)
     
     if (class(project) == "try-error") {
       project <- NULL
@@ -139,7 +139,7 @@ prepareMapping <- function(project = NULL,
       stop("Input data frame is empty")
     
     map <- equivalencies
-
+    
     if (user.column %in% colnames(map)) {
       user.col <- user.column
       cols <- c("Group", "Field", "Use", user.col)
@@ -186,7 +186,7 @@ prepareMapping <- function(project = NULL,
         }
       }
     }
-
+    
     min.cols <- c("Group", "Field")
     if (!all(min.cols %in% colnames(map)))
       stop(gettextf("For mapping, the following columns are needed: %s", 
