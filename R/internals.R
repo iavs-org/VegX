@@ -279,7 +279,7 @@
   if(length(target@individualOrganisms)>0) {
     for(i in 1:length(target@individualOrganisms)) {
       if(target@individualOrganisms[[i]]$plotID==plotID) {
-          indCount = indCount + 1
+        indCount = indCount + 1
       }
     }
   }
@@ -396,14 +396,14 @@
 
 .getNumberOfSubPlots<-function(target) {
   cnt = 0
-   if(length(target@plots)>0) {
-     for(i in 1:length(target@plots)) {
-       if("parentPlotID" %in% names(target@plots[[i]])) {
-         cnt = cnt + 1
-       }
-     }
-   }
-   return(cnt)
+  if(length(target@plots)>0) {
+    for(i in 1:length(target@plots)) {
+      if("parentPlotID" %in% names(target@plots[[i]])) {
+        cnt = cnt + 1
+      }
+    }
+  }
+  return(cnt)
 }
 
 .getNumberOfPlotObservationsInSubPlots<-function(target) {
@@ -519,39 +519,39 @@
 }
 
 .applyMappingsToAggregateOrganismObservation <-function(aggObs, plotObsIDmap, oiIDmap, strObsIDmap, attIDmap) {
-    if("plotObservationID" %in% names(aggObs)) {
-      if(aggObs$plotObservationID!="") {
-        aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
-      }
-    } else {
-      aggObs$plotObservationID = ""
+  if("plotObservationID" %in% names(aggObs)) {
+    if(aggObs$plotObservationID!="") {
+      aggObs$plotObservationID = plotObsIDmap[[aggObs$plotObservationID]]
     }
-    if("organismIdentityID" %in% names(aggObs)) {
-      if(aggObs$organismIdentityID!="") {
-        aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
-      }
-    } else {
-      aggObs$organismIdentityID = ""
+  } else {
+    aggObs$plotObservationID = ""
+  }
+  if("organismIdentityID" %in% names(aggObs)) {
+    if(aggObs$organismIdentityID!="") {
+      aggObs$organismIdentityID = oiIDmap[[aggObs$organismIdentityID]]
     }
-    if("stratumObservationID" %in% names(aggObs)) {
-      if(aggObs$stratumObservationID!="") {
-        aggObs$stratumObservationID = strObsIDmap[[aggObs$stratumObservationID]]
-      }
-    } else {
-      aggObs$stratumObservationID = ""
+  } else {
+    aggObs$organismIdentityID = ""
+  }
+  if("stratumObservationID" %in% names(aggObs)) {
+    if(aggObs$stratumObservationID!="") {
+      aggObs$stratumObservationID = strObsIDmap[[aggObs$stratumObservationID]]
     }
-    for(n in names(aggObs)) {
-      # Update attribute codes
-      if(n %in% c("aggregateOrganismMeasurements")) {
-        for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
-          aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
-        }
-      }
-      else if(n %in% c("heightMeasurement")) {
-        aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
+  } else {
+    aggObs$stratumObservationID = ""
+  }
+  for(n in names(aggObs)) {
+    # Update attribute codes
+    if(n %in% c("aggregateOrganismMeasurements")) {
+      for(i in 1:length(aggObs[["aggregateOrganismMeasurements"]])) {
+        aggObs$aggregateOrganismMeasurements[[i]]$attributeID = attIDmap[[aggObs$aggregateOrganismMeasurements[[i]]$attributeID]]
       }
     }
-    return(aggObs)
+    else if(n %in% c("heightMeasurement")) {
+      aggObs[[n]]$attributeID = attIDmap[[aggObs[[n]]$attributeID]]
+    }
+  }
+  return(aggObs)
 }
 .applyMappingsToCommunityObservation<-function(commobs, plotObsIDmap, attIDmap) {
   commobs$plotObservationID = plotObsIDmap[[commobs$plotObservationID]]
@@ -746,22 +746,22 @@
 
 #Pools the information of two plots
 .mergePlots<-function(plot1, plot2, partyIDmap, attIDmap) {
-   n1 = names(plot1)
-   n2 = names(plot2)
-   plot2 = .applyMappingsToPlot(plot2, partyIDmap, attIDmap)
-   npool = unique(c(n1,n2))
-   res = list()
-   for(n in npool) {
-     if((n %in% n1) && (n %in% n2)) {
-       if(plot1[[n]]!=plot2[[n]]) stop(paste0("Plots have different data for '", n, "'. Cannot merge."))
-       res[[n]] = plot1[[n]]
-     } else if(n %in% n1) {
-       res[[n]] = plot1[[n]]
-     } else if(n %in% n2) {
-       res[[n]] = plot2[[n]]
-     }
-   }
-   return(res)
+  n1 = names(plot1)
+  n2 = names(plot2)
+  plot2 = .applyMappingsToPlot(plot2, partyIDmap, attIDmap)
+  npool = unique(c(n1,n2))
+  res = list()
+  for(n in npool) {
+    if((n %in% n1) && (n %in% n2)) {
+      if(plot1[[n]]!=plot2[[n]]) stop(paste0("Plots have different data for '", n, "'. Cannot merge."))
+      res[[n]] = plot1[[n]]
+    } else if(n %in% n1) {
+      res[[n]] = plot1[[n]]
+    } else if(n %in% n2) {
+      res[[n]] = plot2[[n]]
+    }
+  }
+  return(res)
 }
 
 #Pools the information of two plot observations
@@ -954,8 +954,8 @@
 #   
 #
 .matchArgExtended <- function (arg, choices, 
-                                several.ok = FALSE, ignore.case = FALSE,
-                                method = "partial", max.distance = 0.1) {
+                               several.ok = FALSE, ignore.case = FALSE,
+                               method = "partial", max.distance = 0.1) {
   
   if (missing(choices)) {
     formal.args <- formals(sys.function(sysP <- sys.parent()))
@@ -1045,4 +1045,65 @@
 {
   names(object) <- names
   object
+}
+
+# Title: Get Common Species Diversity Indices
+# Description: This function is an adaptation of the vegan function
+# `diversity()`.
+#
+# @param x vector of abundances
+# @param index the diversity index: "shannon", "simpson", "inv.simpson",
+#   "pielou"
+# @param groups a grouping factor (e.g. plot names)
+#
+.getSpeciesDiversity <- function (x, index = "shannon", groups = NULL) {
+  
+  if (!is.numeric(x)) 
+    stop("input data must be numeric")
+  
+  if (any(x < 0, na.rm = TRUE)) 
+    stop("input data must be non-negative")
+  
+  INDICES <- c("shannon", "pielou", "simpson", "inv.simpson", "unb.simpson")
+  index <- match.arg(index, INDICES)
+  # index <- .matchArgExtended(index, INDICES, method = "fuzzy")
+  
+  if (!is.null(groups)) {
+    group.sum <- aggregate(x, list(groups), sum, na.rm = TRUE)
+    names(group.sum) <- c("grupo", "Ntotal")
+    new.x <- cbind.data.frame(x, groups)
+    new.x <- merge(new.x, group.sum, 
+                   by.x = "groups", by.y = "grupo", all.x = TRUE, sort = FALSE)
+    new.x$ni <- new.x$x/new.x$Ntotal
+    new.x$pi1 <- (new.x$x * (new.x$x-1))/
+      (new.x$Ntotal * (new.x$Ntotal-1)) 
+  } else {
+    new.x <- cbind.data.frame(groups = "a", x = x, ni = x/sum(x), 
+                              pi1 = (x * (x-1))/(sum(x) * sum(x)-1))
+  }
+  
+  if (index == "shannon")
+    H <- aggregate(new.x$ni, list(new.x$groups), 
+                   function(x) - sum(x * log(x), na.rm = TRUE))$x
+  
+  if (index == "pielou") {
+    H <- aggregate(new.x$ni, list(new.x$groups), 
+                   function(x) - sum(x * log(x), na.rm = TRUE))$x
+    S <- aggregate(new.x$ni, list(new.x$groups), length)$x
+    H <- H/log(S)
+  }
+  
+  if (index == "simpson") 
+    H <- 1 - aggregate(new.x$ni, list(new.x$groups), 
+                       function(x) sum(x * x, na.rm = TRUE))$x
+  
+  if (index == "inv.simpson") 
+    H <- 1/aggregate(new.x$ni, list(new.x$groups), 
+                     function(x) sum(x * x, na.rm = TRUE))$x
+  
+  if (index == "unb.simpson") 
+    H <- 1 - aggregate(new.x$pi1, list(new.x$groups), 
+                       function(x) sum(x, na.rm = TRUE))$x
+  
+  return(H)
 }
