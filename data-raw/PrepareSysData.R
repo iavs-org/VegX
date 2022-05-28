@@ -38,7 +38,7 @@ predefined_map <- predefined_map[!is.na(predefined_map$Field) , ]
 ## Getting the list of available network/databases
 tmp <- colnames(predefined_map)
 predefined_fields <- c("Order", "FieldID", "Group", "Field", "Documentation", 
-                     "Type", "Example", "VegX_schema", "Status", "Use", "Notes")
+                       "Type", "Example", "VegX_schema", "Status", "Use", "Notes")
 tmp1 <- tmp[!tmp %in% predefined_fields]
 tmp2 <- predefined_map[, tmp1]
 tmp2 <- tmp2[, !apply(tmp2, 2, function(x) all(is.na(x)))]
@@ -54,7 +54,7 @@ numb.fields <- tmp[match(tables, names(tmp))]
 for (i in seq_len(length(tables))) {
   ids <- predefined_map$Group %in% tables[i]
   reference_map[[i]] <- setNames(rep(NA_character_, numb.fields[i]), 
-                           predefined_map[["Field"]][ids])
+                                 predefined_map[["Field"]][ids])
 }
 
 # Editting the objects map before saving
@@ -71,6 +71,19 @@ objects <- c("reference_map",
 supporting_info <- vector("list", length(objects))
 supporting_info <- lapply(objects, get)
 names(supporting_info) <- objects 
+
+# NETWORK INFORMATION ------------------------------------------------------
+link <- "https://docs.google.com/spreadsheets/d/1mqd2RzgQh6_6ytbVFUO3epUUtXxdcknmcue78SnF2ZU/edit#gid=1426544088"
+network_info <- as.data.frame(googlesheets4::read_sheet(link))
+
+network_info <- 
+  network_info[!apply(network_info[,-1], 1, function(x) all(is.na(x))), ]
+network_info <- 
+  network_info[, c(TRUE, !apply(network_info[,-1], 2, function(x) all(is.na(x))))]
+
+# NETWORK PEOPLE INFORMATION ------------------------------------------------
+link <- ""
+people_info <- as.data.frame(googlesheets4::read_sheet(link))
 
 
 # QUANTITATIVE SCALE METHODS -----------------------------------------------
@@ -156,10 +169,11 @@ supporting_info <- append(supporting_info,
                           list(available_methods = available_methods))
 
 # SAVING THE SYSDATA -----------------------------------------------------
-#### CHECK HERE: SAVE ALL AS INTERNAL (R/sysdata.rda), EXTERNAL (data/file1.rda, data/file2.rda, etc) OR BOTH? ####
+#### CHECK HERE: SAVE ALL AS INTERNAL (R/sysdata.rda), EXTERNAL (data/file1.rda, data/file2.rda, etc) OR BOTH? DOING BOTH NOW ####
 usethis::use_data(supporting_info,
                   qualitative_methods,
                   ordinal_methods,
+                  network_info,
                   overwrite = TRUE,
                   internal = TRUE,
                   compress = "xz")
@@ -167,5 +181,6 @@ usethis::use_data(quantitative_methods,
                   overwrite = TRUE,
                   internal = FALSE,
                   compress = "xz")
-rm(supporting_info, quantitative_methods, qualitative_methods, ordinal_methods)
+rm(supporting_info, quantitative_methods, qualitative_methods, ordinal_methods,
+   network_info)
 
