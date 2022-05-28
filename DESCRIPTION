@@ -13,9 +13,9 @@ Description: Functions to import, integrate, harmonize and export vegetation dat
 License: GPL (>= 2)
 Encoding: UTF-8
 Depends: R (>= 2.10)
-Imports: sp, uuid, XML, methods, curl, xml2, anytime
+Imports: sp, uuid, XML, methods, curl, xml2, anytime, plantR
 LazyData: true
 RoxygenNote: 7.1.2
-Suggests: knitr, rmarkdownm
+Suggests: knitr, rmarkdownm, stats
 VignetteBuilder: knitr
 URL: https://iavs-org.github.io/VegX/
