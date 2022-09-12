@@ -50,21 +50,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fillUniqueIdentifiers</span><span class="op">(</span><span class="va">target</span>, element <span class="op">=</span> <span class="st">"plot"</span>, replace.existing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fillUniqueIdentifiers</span><span class="op">(</span><span class="va">target</span>, element <span class="op">=</span> <span class="st">"plot"</span>, replace.existing <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>target</dt>
 <dd><p>The initial object of class <code><a href="VegX-class.html">VegX</a></code> to be modified</p></dd>
+
+
 <dt>element</dt>
 <dd><p>The Veg-X main element for which unique identifiers are needed: <code>"plot"</code> or <code>"plotObservation"</code>.</p></dd>
+
+
 <dt>replace.existing</dt>
 <dd><p>A boolean flag to indicate whether newly generated identifiers should replace existing identifiers.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
+    
+
+<p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -79,19 +86,19 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load source data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create a new Veg-X document with projects, plots and plot observations (no data)</span></span>
-<span class="r-in"><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>projectTitle <span class="op">=</span> <span class="st">"Project"</span>, plotName <span class="op">=</span> <span class="st">"Plot"</span>, subPlotName <span class="op">=</span> <span class="st">"Subplot"</span>,</span>
-<span class="r-in">               obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>, obsEndDate <span class="op">=</span> <span class="st">"PlotObsStopDate"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addPlotObservations.html">addPlotObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_site</span>, mapping <span class="op">=</span> <span class="va">mapping</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load source data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create a new Veg-X document with projects, plots and plot observations (no data)</span></span></span>
+<span class="r-in"><span><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>projectTitle <span class="op">=</span> <span class="st">"Project"</span>, plotName <span class="op">=</span> <span class="st">"Plot"</span>, subPlotName <span class="op">=</span> <span class="st">"Subplot"</span>,</span></span>
+<span class="r-in"><span>               obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>, obsEndDate <span class="op">=</span> <span class="st">"PlotObsStopDate"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addPlotObservations.html">addPlotObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_site</span>, mapping <span class="op">=</span> <span class="va">mapping</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1 project(s) parsed, 1 new project(s) added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  25 plot(s) parsed, 25 new plot(s) added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  25 plot observation(s) parsed, 25 new plot observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Examine the result</span></span>
-<span class="r-in"><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Examine the result</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     plotName relatedPlotName plotRelationship</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     LGM08r            &lt;NA&gt;             &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  LGM08r_1Q          LGM08r          subplot</span>
@@ -118,38 +125,38 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23 LGM43h_3Q          LGM43h          subplot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24 LGM43h_4Q          LGM43h          subplot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25 LGM45h_1Q          LGM45h          subplot</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Add unique identifiers</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">=</span> <span class="fu">fillUniqueIdentifiers</span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Examine the result</span></span>
-<span class="r-in"><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"plot"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Add unique identifiers</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">=</span> <span class="fu">fillUniqueIdentifiers</span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Examine the result</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     plotName                 plotUniqueIdentifier relatedPlotName</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 1     LGM08r 37a16af3-c654-4bdf-86b4-7df80ec39877            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LGM08r_1Q 0c400433-e9ee-4f72-9265-537a00dfdc6f          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LGM08r_2Q a22903f8-a78e-49c8-83ca-ec53ed0a2486          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LGM08r_3Q 5080e802-1649-4509-be48-6efe02fff8b2          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LGM08r_4Q 662658a6-133f-4c4f-b70c-3796b9d4ddc7          LGM08r</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 6     LGM16l 42725552-8259-40a1-a82c-4ad408ebdd90            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 7  LGM16l_1Q d9a6aec1-fbf2-4f4a-b3ca-d4d2e4744d60          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 8  LGM16l_2Q d102e2e1-3a2a-4403-b795-0e369ce9bdaf          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 9  LGM16l_3Q ad329687-2415-41b4-89a6-ed91ce6cb9f9          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 10 LGM16l_4Q 0a1f690f-cde5-4048-8b51-86a32b3ce93f          LGM16l</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 11    LGM38h 17038cd6-b35d-417b-bb50-ab62fc463c54            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 12 LGM38h_1Q 783f4405-19b8-45cf-bc32-39c2619889b1          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 13 LGM38h_2Q 9d2e1693-b6a3-4402-a8c3-8b311f99be4a          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 14 LGM38h_3Q 2afec759-b8a6-4762-ad0e-9334aee647b3          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 15 LGM38h_4Q 3cdc2a2c-e26a-46d2-ab33-c892484dec4e          LGM38h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 16    LGM45h 8b85b20b-c00e-486b-a9d9-0e83a0187af8            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 17 LGM45h_2Q 1cd6107e-ab7c-4c48-98d9-7c4acbdef747          LGM45h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 18 LGM45h_3Q 8c02158c-ef3d-4089-88dc-ee0ece74740c          LGM45h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 19 LGM45h_4Q c5777f57-71e3-43ee-8174-c35d07d5a26d          LGM45h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 20    LGM43h edcd642c-1d39-4f6f-a9ff-65b38c9f62fc            &lt;NA&gt;</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 21 LGM43h_1Q ed087110-749a-497a-840b-f315b7aa2340          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 22 LGM43h_2Q 91e55af2-1c90-43ce-99fd-2617b4860dd7          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 23 LGM43h_3Q b0a99cb2-7d6e-4a2a-a5c7-0862fc84f143          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 24 LGM43h_4Q bc8b7bfe-de56-4d18-86c1-d0b2b8a506e4          LGM43h</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> 25 LGM45h_1Q fc6d043b-d91c-490b-a768-e225a816fe76          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 1     LGM08r 2a818a76-2d50-4c03-a4a2-5e67683a42ad            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 2  LGM08r_1Q edd43f96-866c-4785-80ab-01d9ab19a592          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 3  LGM08r_2Q 47e7ae20-8a1f-43de-9c8e-8cc269e6c593          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 4  LGM08r_3Q cba7f343-e8d6-4dcc-a70d-c689e75c00b9          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 5  LGM08r_4Q a64c797c-b3db-46ea-a4e2-badd87df9c7c          LGM08r</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 6     LGM16l 157b249f-62cb-4bd8-9776-056ce6ef5cf9            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 7  LGM16l_1Q acd28f2f-87fc-4499-b012-0e22e4d3b485          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 8  LGM16l_2Q 694be016-f97c-440b-a51d-5582bf7eee31          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 9  LGM16l_3Q 3c06ed56-5d62-4c68-bd10-bfffdf912a68          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 10 LGM16l_4Q 78ad7fdb-041c-453f-b567-4aafc1955a8b          LGM16l</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 11    LGM38h 8571b91a-66dd-4738-a2f0-7d89a7c20dd9            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 12 LGM38h_1Q 029d47d4-7970-4dcc-b587-8fe533b717fb          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 13 LGM38h_2Q 819a01b1-2652-4601-93eb-2dc6b509b0d0          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 14 LGM38h_3Q da8bd086-9591-41b8-a0d9-81924a5bfa7d          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 15 LGM38h_4Q 119d8b71-4c2c-4222-9fcb-f311afef99a9          LGM38h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 16    LGM45h 6246e6a7-9fc6-411a-bbda-1c8b9be44206            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 17 LGM45h_2Q 846b50d2-b68b-438b-95bd-bd7e4dc29a27          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 18 LGM45h_3Q 59553558-3161-462f-b5a9-cbb1c4cc30c3          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 19 LGM45h_4Q 7b96821c-e9e6-4719-a5c8-994e93c2ee16          LGM45h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 20    LGM43h 4bfe8f19-e920-42b4-bb01-ff39fd97f24e            &lt;NA&gt;</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 21 LGM43h_1Q e4c9bae0-ebab-4ef1-b3a9-3b0561e411a5          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 22 LGM43h_2Q c5a45ac6-e0b4-41de-917c-ef9ffd72942e          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 23 LGM43h_3Q fe720229-a586-4baf-ba8c-7ca1131a6a0b          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 24 LGM43h_4Q 34bdbbbe-3f29-45f6-9f47-f91522e5c85a          LGM43h</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> 25 LGM45h_1Q 3aa9d075-842b-4c40-9d30-79545b0e9a31          LGM45h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    plotRelationship</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1              &lt;NA&gt;</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2           subplot</span>
@@ -176,7 +183,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23          subplot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24          subplot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25          subplot</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -191,7 +198,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

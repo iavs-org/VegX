@@ -50,70 +50,81 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">showElementTable</span><span class="op">(</span>
-  <span class="va">x</span>,
-  element <span class="op">=</span> <span class="st">"plot"</span>,
-  IDs <span class="op">=</span> <span class="cn">FALSE</span>,
-  subjects <span class="op">=</span> <span class="cn">FALSE</span>,
-  max.nchar <span class="op">=</span> <span class="fl">30</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">showElementTable</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  element <span class="op">=</span> <span class="st">"plot"</span>,</span>
+<span>  IDs <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  subjects <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  max.nchar <span class="op">=</span> <span class="fl">30</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x</dt>
 <dd><p>An object of class <code><a href="VegX-class.html">VegX</a></code></p></dd>
+
+
 <dt>element</dt>
 <dd><p>The name of the main element to be coerced: 'project', 'plot',
  'party', 'plotObservation', 'organismIdentity',
 'stratum', 'stratumObservation', 'surfaceType', 'surfaceCoverObservation',
 'aggregateOrganismObservation', 'individualOrganism', 'individualOrganismObservation',
 'communityObservation', 'siteObservation', 'method', 'attribute', 'literatureCitation'.</p></dd>
+
+
 <dt>IDs</dt>
 <dd><p>A boolean flag to indicate whether internal identifiers should be included in the output.</p></dd>
+
+
 <dt>subjects</dt>
 <dd><p>A boolean flag to indicate whether method subjects should be included in the output.</p></dd>
+
+
 <dt>max.nchar</dt>
 <dd><p>Maximum number of characters in strings</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>a data frame</p>
+    
+
+<p>a data frame</p>
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create document 'x' with aggregate organism observations</span></span>
-<span class="r-in"><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span>
-<span class="r-in">               taxonName <span class="op">=</span> <span class="st">"NVSSpeciesName"</span>,</span>
-<span class="r-in">               stratumName <span class="op">=</span> <span class="st">"Tier"</span>, cover <span class="op">=</span> <span class="st">"Category"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coverscale</span> <span class="op">=</span> <span class="fu"><a href="defineOrdinalScaleMethod.html">defineOrdinalScaleMethod</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce cover scale"</span>,</span>
-<span class="r-in">                   description <span class="op">=</span> <span class="st">"Recce recording method by Hurst/Allen"</span>,</span>
-<span class="r-in">                   subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span>
-<span class="r-in">                   citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                      The Recce method for describing New Zealand vegetation – Field protocols. </span>
-<span class="r-in">                      Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>,<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span>
-<span class="r-in">                   quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span>
-<span class="r-in">                   breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span class="r-in">                   midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">15</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span>,</span>
-<span class="r-in">                   definitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Presence"</span>, <span class="st">"&lt;1%"</span>, <span class="st">"1-5%"</span>,<span class="st">"6-25%"</span>, <span class="st">"26-50%"</span>, </span>
-<span class="r-in">                                   <span class="st">"51-75%"</span>, <span class="st">"76-100%"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">strataDef</span> <span class="op">=</span> <span class="fu"><a href="defineMixedStrata.html">defineMixedStrata</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span>
-<span class="r-in">                   description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span>
-<span class="r-in">                   citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                     The Recce method for describing New Zealand vegetation – Field protocols. </span>
-<span class="r-in">                     Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">                   heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span>
-<span class="r-in">                   heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span>
-<span class="r-in">                   categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span>,</span>
-<span class="r-in">                   categoryStrataDefinition <span class="op">=</span> <span class="st">"Epiphytes"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addAggregateOrganismObservations.html">addAggregateOrganismObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_tcv</span>,</span>
-<span class="r-in">                   mapping <span class="op">=</span> <span class="va">mapping</span>,</span>
-<span class="r-in">                   methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cover<span class="op">=</span><span class="va">coverscale</span><span class="op">)</span>,</span>
-<span class="r-in">                   stratumDefinition <span class="op">=</span> <span class="va">strataDef</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create document 'x' with aggregate organism observations</span></span></span>
+<span class="r-in"><span><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span></span>
+<span class="r-in"><span>               taxonName <span class="op">=</span> <span class="st">"NVSSpeciesName"</span>,</span></span>
+<span class="r-in"><span>               stratumName <span class="op">=</span> <span class="st">"Tier"</span>, cover <span class="op">=</span> <span class="st">"Category"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coverscale</span> <span class="op">=</span> <span class="fu"><a href="defineOrdinalScaleMethod.html">defineOrdinalScaleMethod</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce cover scale"</span>,</span></span>
+<span class="r-in"><span>                   description <span class="op">=</span> <span class="st">"Recce recording method by Hurst/Allen"</span>,</span></span>
+<span class="r-in"><span>                   subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span></span>
+<span class="r-in"><span>                   citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                      The Recce method for describing New Zealand vegetation – Field protocols. </span></span></span>
+<span class="r-in"><span><span class="st">                      Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>,<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">15</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   definitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Presence"</span>, <span class="st">"&lt;1%"</span>, <span class="st">"1-5%"</span>,<span class="st">"6-25%"</span>, <span class="st">"26-50%"</span>, </span></span>
+<span class="r-in"><span>                                   <span class="st">"51-75%"</span>, <span class="st">"76-100%"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">strataDef</span> <span class="op">=</span> <span class="fu"><a href="defineMixedStrata.html">defineMixedStrata</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span></span>
+<span class="r-in"><span>                   description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span></span>
+<span class="r-in"><span>                   citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                     The Recce method for describing New Zealand vegetation – Field protocols. </span></span></span>
+<span class="r-in"><span><span class="st">                     Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>                   heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span>,</span></span>
+<span class="r-in"><span>                   categoryStrataDefinition <span class="op">=</span> <span class="st">"Epiphytes"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addAggregateOrganismObservations.html">addAggregateOrganismObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_tcv</span>,</span></span>
+<span class="r-in"><span>                   mapping <span class="op">=</span> <span class="va">mapping</span>,</span></span>
+<span class="r-in"><span>                   methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cover<span class="op">=</span><span class="va">coverscale</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   stratumDefinition <span class="op">=</span> <span class="va">strataDef</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1 additional aggregate organism measurements found: Category.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Recce cover scale' added for 'cover'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Stratum definition method 'Recce strata' added.</span>
@@ -124,9 +135,9 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>  148 organism identitie(s) parsed, 148 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  33 stratum observation(s) parsed, 33 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  582 record(s) parsed, 582 new aggregate organism observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Summary</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Summary</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     Veg-X object (ver 2.0.0)                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
@@ -177,34 +188,34 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Surface cover observations: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show plot information</span></span>
-<span class="r-in"><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show plot information</span></span></span>
+<span class="r-in"><span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   plotName</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   LGM38h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   LGM43h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   LGM45h</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4   LGM08r</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   LGM16l</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show plot observation information</span></span>
-<span class="r-in"><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"plotObservation"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show plot observation information</span></span></span>
+<span class="r-in"><span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"plotObservation"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   plotName obsStartDate</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   LGM38h   2011-02-20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   LGM43h   2011-02-13</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 3   LGM45h   2011-02-11</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4   LGM08r   2011-02-17</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5   LGM16l   2011-02-15</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show methods, attributes, citations</span></span>
-<span class="r-in"><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"method"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show methods, attributes, citations</span></span></span>
+<span class="r-in"><span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"method"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                name                           description       subject</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Recce cover scale Recce recording method by Hurst/Allen   plant cover</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2      Recce strata     Standard Recce stratum definition stratum mixed</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   attributeType attributeNumber</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1       ordinal               7</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  quantitative               1</span>
-<span class="r-in"><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"attribute"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"attribute"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $quantitative</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     methodName methodSubject unit lowerLimit upperLimit</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 8 Recce strata stratum mixed    m          0        Inf</span>
@@ -230,13 +241,13 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $qualitative</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> data frame with 0 columns and 0 rows</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"literatureCitation"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"literatureCitation"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                   citationString DOI</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 Hurst, JM and Allen, RB. (2...  NA</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 Hurst, JM and Allen, RB. (2...  NA</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># show aggregate organism observations (only some of them)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"aggregateOrganismObservation"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># show aggregate organism observations (only some of them)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu">showElementTable</span><span class="op">(</span><span class="va">x</span>, <span class="st">"aggregateOrganismObservation"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   plotName obsStartDate  organismIdentityName stratumName      agg_1_method</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1   LGM38h   2011-02-20 Dacrydium cupressinum      Tier 1 Recce cover scale</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2   LGM38h   2011-02-20 Dacrydium cupressinum      Tier 2 Recce cover scale</span>
@@ -265,7 +276,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

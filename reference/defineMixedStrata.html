@@ -50,50 +50,75 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">defineMixedStrata</span><span class="op">(</span>
-  name <span class="op">=</span> <span class="st">"Strata by height or category"</span>,
-  description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Vegetation strata defined by height in m"</span>,
-    <span class="st">" and other strata by category"</span><span class="op">)</span>,
-  citationString <span class="op">=</span> <span class="st">""</span>,
-  DOI <span class="op">=</span> <span class="st">""</span>,
-  heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
-  heightStrataUnit <span class="op">=</span> <span class="st">"m"</span>,
-  heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span><span class="op">)</span>,
-  categoryStrataNames <span class="op">=</span> <span class="st">"s4"</span>,
-  heightStrataDefinitions <span class="op">=</span> <span class="cn">NULL</span>,
-  categoryStrataDefinitions <span class="op">=</span> <span class="cn">NULL</span>,
-  order <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">defineMixedStrata</span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="st">"Strata by height or category"</span>,</span>
+<span>  description <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Vegetation strata defined by height in m"</span>,</span>
+<span>    <span class="st">" and other strata by category"</span><span class="op">)</span>,</span>
+<span>  citationString <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  DOI <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  heightStrataUnit <span class="op">=</span> <span class="st">"m"</span>,</span>
+<span>  heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span><span class="op">)</span>,</span>
+<span>  categoryStrataNames <span class="op">=</span> <span class="st">"s4"</span>,</span>
+<span>  heightStrataDefinitions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  categoryStrataDefinitions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  order <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>A string to identify the stratum definition.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>A string describing how strata are defined.</p></dd>
+
+
 <dt>citationString</dt>
 <dd><p>A string with the bibliographic reference for the method.</p></dd>
+
+
 <dt>DOI</dt>
 <dd><p>A string with the DOI of a resource describing the method.</p></dd>
+
+
 <dt>heightStrataBreaks</dt>
 <dd><p>A numeric vector with height limits between height strata (of length equal to the number of height strata plus one).</p></dd>
+
+
 <dt>heightStrataUnit</dt>
 <dd><p>A string to identify height units.</p></dd>
+
+
 <dt>heightStrataNames</dt>
 <dd><p>A numeric vector of stratum codes (of length equal to the number of height strata).</p></dd>
+
+
 <dt>categoryStrataNames</dt>
 <dd><p>A numeric vector of categorical stratum codes (of length equal to the number of categorical strata).</p></dd>
+
+
 <dt>heightStrataDefinitions</dt>
 <dd><p>A character vector with height strata definitions</p></dd>
+
+
 <dt>categoryStrataDefinitions</dt>
 <dd><p>A character vector with category strata definitions</p></dd>
+
+
 <dt>order</dt>
 <dd><p>A numeric vector to specify order strata (indices starting from height strata and continuing with category strata).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class <code><a href="VegXStrataDefinition-class.html">VegXStrataDefinition</a></code></p>
+    
+
+<p>An object of class <code><a href="VegXStrataDefinition-class.html">VegXStrataDefinition</a></code></p>
+
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -104,14 +129,14 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="va">strataDef</span> <span class="op">=</span> <span class="fu">defineMixedStrata</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span>
-<span class="r-in">                 description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span>
-<span class="r-in">                 citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                     The Recce method for describing New Zealand vegetation – Field protocols. </span>
-<span class="r-in">                     Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">                 heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span>
-<span class="r-in">                 heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span>
-<span class="r-in">                 categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="va">strataDef</span> <span class="op">=</span> <span class="fu">defineMixedStrata</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span></span>
+<span class="r-in"><span>                 description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span></span>
+<span class="r-in"><span>                 citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                     The Recce method for describing New Zealand vegetation – Field protocols. </span></span></span>
+<span class="r-in"><span><span class="st">                     Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>                 heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                 heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                 categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span><span class="op">)</span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -126,7 +151,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

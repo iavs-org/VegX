@@ -52,36 +52,49 @@ following a given transformation function.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">transformQuantitativeScale</span><span class="op">(</span>
-  <span class="va">target</span>,
-  <span class="va">method</span>,
-  <span class="va">newMethod</span>,
-  <span class="va">FUN</span>,
-  replaceValues <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">transformQuantitativeScale</span><span class="op">(</span></span>
+<span>  <span class="va">target</span>,</span>
+<span>  <span class="va">method</span>,</span>
+<span>  <span class="va">newMethod</span>,</span>
+<span>  <span class="va">FUN</span>,</span>
+<span>  replaceValues <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>target</dt>
 <dd><p>The initial object of class <code><a href="VegX-class.html">VegX</a></code> to be modified.</p></dd>
+
+
 <dt>method</dt>
 <dd><p>An integer (index) or a name of the original quantitative scale method.</p></dd>
+
+
 <dt>newMethod</dt>
 <dd><p>An integer (index) or a name of a quantitative method existing in the initial object,
 or an object of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code>.</p></dd>
+
+
 <dt>FUN</dt>
 <dd><p>A function used to transform numeric values.</p></dd>
+
+
 <dt>replaceValues</dt>
 <dd><p>A boolean flag to indicate that values in the new scale should replace the old ones, instead of defining new measurements.
 For some measurements transformations will not be possible if replacement is not forced using this flag.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean flag to indicate console output of the data transformation process.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
+    
+
+<p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -99,28 +112,28 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul><l
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create initial Veg-X document with stratum heights in meters</span></span>
-<span class="r-in"><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>, </span>
-<span class="r-in">               stratumName <span class="op">=</span> <span class="st">"Tier"</span>,</span>
-<span class="r-in">               lowerLimitMeasurement <span class="op">=</span> <span class="st">"TierLower"</span>, </span>
-<span class="r-in">               upperLimitMeasurement <span class="op">=</span> <span class="st">"TierUpper"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">heightMethod1</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"Stratum height/m"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">strataDef</span> <span class="op">=</span> <span class="fu"><a href="defineMixedStrata.html">defineMixedStrata</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span>
-<span class="r-in">               description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span>
-<span class="r-in">               citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                   The Recce method for describing New Zealand vegetation – </span>
-<span class="r-in">                   Field protocols. Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">               heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span>
-<span class="r-in">               heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span>
-<span class="r-in">               categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span>,</span>
-<span class="r-in">               categoryStrataDefinition <span class="op">=</span> <span class="st">"Epiphytes"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addStratumObservations.html">addStratumObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_str</span>,</span>
-<span class="r-in">               mapping <span class="op">=</span> <span class="va">mapping</span>,</span>
-<span class="r-in">               methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lowerLimitMeasurement <span class="op">=</span> <span class="va">heightMethod1</span>,</span>
-<span class="r-in">                              upperLimitMeasurement <span class="op">=</span> <span class="va">heightMethod1</span><span class="op">)</span>,</span>
-<span class="r-in">               stratumDefinition <span class="op">=</span> <span class="va">strataDef</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create initial Veg-X document with stratum heights in meters</span></span></span>
+<span class="r-in"><span><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>, </span></span>
+<span class="r-in"><span>               stratumName <span class="op">=</span> <span class="st">"Tier"</span>,</span></span>
+<span class="r-in"><span>               lowerLimitMeasurement <span class="op">=</span> <span class="st">"TierLower"</span>, </span></span>
+<span class="r-in"><span>               upperLimitMeasurement <span class="op">=</span> <span class="st">"TierUpper"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">heightMethod1</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"Stratum height/m"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">strataDef</span> <span class="op">=</span> <span class="fu"><a href="defineMixedStrata.html">defineMixedStrata</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span></span>
+<span class="r-in"><span>               description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span></span>
+<span class="r-in"><span>               citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                   The Recce method for describing New Zealand vegetation – </span></span></span>
+<span class="r-in"><span><span class="st">                   Field protocols. Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>               heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span>,</span></span>
+<span class="r-in"><span>               categoryStrataDefinition <span class="op">=</span> <span class="st">"Epiphytes"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addStratumObservations.html">addStratumObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_str</span>,</span></span>
+<span class="r-in"><span>               mapping <span class="op">=</span> <span class="va">mapping</span>,</span></span>
+<span class="r-in"><span>               methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>lowerLimitMeasurement <span class="op">=</span> <span class="va">heightMethod1</span>,</span></span>
+<span class="r-in"><span>                              upperLimitMeasurement <span class="op">=</span> <span class="va">heightMethod1</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               stratumDefinition <span class="op">=</span> <span class="va">strataDef</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0 stratum measurement variables found.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Stratum height/m' added for 'lowerLimitMeasurement'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Stratum height/m' for 'upperLimitMeasurement' already included.</span>
@@ -129,9 +142,9 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul><l
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5 plot(s) parsed, 5 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5 plot observation(s) parsed, 5 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  35 record(s) parsed, 35 new stratum observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Examine stratum heights</span></span>
-<span class="r-in"><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"stratumObservation"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Examine stratum heights</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"stratumObservation"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    plotName obsStartDate stratumName lowerLimit_method lowerLimit_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    LGM38h   2011-02-20      Tier 1  Stratum height/m             25.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    LGM38h   2011-02-20      Tier 2  Stratum height/m             12.0</span>
@@ -204,19 +217,19 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul><l
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33  Stratum height/m              2.0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34  Stratum height/m              0.3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35  Stratum height/m              0.0</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Transform stratum heights from m to cm by multiplying values by 10</span></span>
-<span class="r-in"><span class="co"># ('replaceValues' needs to be set to TRUE to force replacement)</span></span>
-<span class="r-in"><span class="va">heightMethod2</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"Stratum height/cm"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">=</span> <span class="fu">transformQuantitativeScale</span><span class="op">(</span><span class="va">x</span>, <span class="st">"Stratum height/m"</span>, <span class="va">heightMethod2</span>,</span>
-<span class="r-in">                               <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">*</span><span class="fl">10</span><span class="op">)</span><span class="op">}</span>, </span>
-<span class="r-in">                               replaceValues <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Transform stratum heights from m to cm by multiplying values by 10</span></span></span>
+<span class="r-in"><span><span class="co"># ('replaceValues' needs to be set to TRUE to force replacement)</span></span></span>
+<span class="r-in"><span><span class="va">heightMethod2</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"Stratum height/cm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">=</span> <span class="fu">transformQuantitativeScale</span><span class="op">(</span><span class="va">x</span>, <span class="st">"Stratum height/m"</span>, <span class="va">heightMethod2</span>,</span></span>
+<span class="r-in"><span>                               <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="kw"><a href="https://rdrr.io/r/base/function.html" class="external-link">return</a></span><span class="op">(</span><span class="va">x</span><span class="op">*</span><span class="fl">10</span><span class="op">)</span><span class="op">}</span>, </span></span>
+<span class="r-in"><span>                               replaceValues <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Target method: 'Stratum height/m'</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Number of quantitative attributes: 1</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Stratum height/cm' added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  70 transformation(s) were applied on stratum observations.</span>
-<span class="r-in"><span class="co"># Examine new stratum heights</span></span>
-<span class="r-in"><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"stratumObservation"</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="co"># Examine new stratum heights</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">y</span>, <span class="st">"stratumObservation"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    plotName obsStartDate stratumName lowerLimit_method lowerLimit_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1    LGM38h   2011-02-20      Tier 1 Stratum height/cm              250</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2    LGM38h   2011-02-20      Tier 2 Stratum height/cm              120</span>
@@ -289,7 +302,7 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul><l
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33 Stratum height/cm               20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 34 Stratum height/cm                3</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 35 Stratum height/cm                0</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -304,7 +317,7 @@ Veg-X only allows a single measurement per observations of some kinds:</p><ul><l
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

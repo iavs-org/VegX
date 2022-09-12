@@ -50,42 +50,57 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">defineSurfaceTypes</span><span class="op">(</span>
-  <span class="va">name</span>,
-  <span class="va">description</span>,
-  <span class="va">surfaceNames</span>,
-  definitions <span class="op">=</span> <span class="cn">NULL</span>,
-  citationString <span class="op">=</span> <span class="st">""</span>,
-  DOI <span class="op">=</span> <span class="st">""</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">defineSurfaceTypes</span><span class="op">(</span></span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">description</span>,</span>
+<span>  <span class="va">surfaceNames</span>,</span>
+<span>  definitions <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  citationString <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  DOI <span class="op">=</span> <span class="st">""</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>A string to identify the surface type definition.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>A string describing how surface types are defined.</p></dd>
+
+
 <dt>surfaceNames</dt>
 <dd><p>A character vector of names for surface types.</p></dd>
+
+
 <dt>definitions</dt>
 <dd><p>A character vector of definition of surface types.</p></dd>
+
+
 <dt>citationString</dt>
 <dd><p>A string with the bibliographic reference for the method.</p></dd>
+
+
 <dt>DOI</dt>
 <dd><p>A string with the DOI of a resource describing the method.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an object of class <code><a href="VegXSurfaceTypeDefinition-class.html">VegXSurfaceTypeDefinition</a></code></p>
+    
+
+<p>an object of class <code><a href="VegXSurfaceTypeDefinition-class.html">VegXSurfaceTypeDefinition</a></code></p>
+
+
     </div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu">defineSurfaceTypes</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Default Surface types"</span>,</span>
-<span class="r-in">                   description <span class="op">=</span> <span class="st">"Five simple surface categories"</span>,</span>
-<span class="r-in">                   surfaceNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vegetation"</span>, <span class="st">"Moss"</span>, <span class="st">"Litter"</span>, <span class="st">"Exposed Soil"</span>, <span class="st">"Rock"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">defineSurfaceTypes</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Default Surface types"</span>,</span></span>
+<span class="r-in"><span>                   description <span class="op">=</span> <span class="st">"Five simple surface categories"</span>,</span></span>
+<span class="r-in"><span>                   surfaceNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vegetation"</span>, <span class="st">"Moss"</span>, <span class="st">"Litter"</span>, <span class="st">"Exposed Soil"</span>, <span class="st">"Rock"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class "VegXSurfaceTypeDefinition"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot "method":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class "VegXMethodDefinition"</span>
@@ -138,7 +153,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -153,7 +168,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

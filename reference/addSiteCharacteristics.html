@@ -50,22 +50,26 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">addSiteCharacteristics</span><span class="op">(</span>
-  <span class="va">target</span>,
-  <span class="va">x</span>,
-  <span class="va">mapping</span>,
-  measurementMethods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  missing.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">""</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">addSiteCharacteristics</span><span class="op">(</span></span>
+<span>  <span class="va">target</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">mapping</span>,</span>
+<span>  measurementMethods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  missing.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">""</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>target</dt>
 <dd><p>The initial object of class <code><a href="VegX-class.html">VegX</a></code> to be modified</p></dd>
+
+
 <dt>x</dt>
 <dd><p>A data frame where each row corresponds to one plot observation. Columns can be varied.</p></dd>
+
+
 <dt>mapping</dt>
 <dd><p>A named list whose elements are strings that correspond to column names in <code>x</code>. Names of the list should be:</p><ul><li><p><code>plotName</code> - A string identifying the vegetation plot within the data set (required).</p></li>
 <li><p><code>subPlotName</code> - A string identifying a subplot of the plot given by <code>plotName</code> (optional).</p></li>
@@ -74,20 +78,29 @@
 <li><p><code>landform</code> - Site land form (e.g. slope, ridge, saddle point; optional).</p></li>
 <li><p><code>parentMaterial</code> - Underlying geological material (generally bedrock or a superficial or drift deposit) in which soil horizons form. (optional).</p></li>
 </ul></dd>
+
+
 <dt>measurementMethods</dt>
 <dd><p>A named list of objects of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code> with the measurement method
 for each of the site variables stated in <code>mapping</code>. List names should be the same as the names of site variables
 (e.g. <code>list(aspect = aspectMeth)</code> to specify the use of method <code>aspectMeth</code> for aspect measurements). Alternatively,
 methods can be specified using strings if a predefined method exists (e.g. <code>list(aspect = "Aspect/degrees")</code>), 
 see <code><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></code>.</p></dd>
+
+
 <dt>missing.values</dt>
 <dd><p>A character vector of values that should be considered as missing observations/measurements.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean flag to indicate console output of the data integration process.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
+    
+
+<p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -116,26 +129,26 @@ see <code><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load source data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define mapping</span></span>
-<span class="r-in"><span class="va">sitemapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, subPlotName <span class="op">=</span> <span class="st">"Subplot"</span>,</span>
-<span class="r-in">                   slope <span class="op">=</span> <span class="st">"PlotSlope"</span>, aspect <span class="op">=</span> <span class="st">"PlotAspect"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create new Veg-X document with site characteristics</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu">addSiteCharacteristics</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_site</span>, mapping <span class="op">=</span> <span class="va">sitemapping</span>,</span>
-<span class="r-in">                           measurementMethods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="st">"Slope/degrees"</span>, </span>
-<span class="r-in">                                                     aspect <span class="op">=</span> <span class="st">"Aspect/degrees"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load source data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define mapping</span></span></span>
+<span class="r-in"><span><span class="va">sitemapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, subPlotName <span class="op">=</span> <span class="st">"Subplot"</span>,</span></span>
+<span class="r-in"><span>                   slope <span class="op">=</span> <span class="st">"PlotSlope"</span>, aspect <span class="op">=</span> <span class="st">"PlotAspect"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create new Veg-X document with site characteristics</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu">addSiteCharacteristics</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_site</span>, mapping <span class="op">=</span> <span class="va">sitemapping</span>,</span></span>
+<span class="r-in"><span>                           measurementMethods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>slope <span class="op">=</span> <span class="st">"Slope/degrees"</span>, </span></span>
+<span class="r-in"><span>                                                     aspect <span class="op">=</span> <span class="st">"Aspect/degrees"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Slope/degrees' added for 'slope'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Aspect/degrees' added for 'aspect'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  25 plot(s) parsed, 25 new plot(s) added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  25 record(s) parsed.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  40 measurement(s) with missing value(s) not added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Inspect the result</span></span>
-<span class="r-in"><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Inspect the result</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"plot"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     plotName  slope_method slope_value  aspect_method aspect_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1     LGM08r Slope/degrees          40 Aspect/degrees          360</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2  LGM08r_1Q          &lt;NA&gt;          NA           &lt;NA&gt;           NA</span>
@@ -188,7 +201,7 @@ see <code><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod
 <span class="r-out co"><span class="r-pr">#&gt;</span> 23          LGM43h          subplot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 24          LGM43h          subplot</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 25          LGM45h          subplot</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -203,7 +216,7 @@ see <code><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

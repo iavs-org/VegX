@@ -50,37 +50,54 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">defineQualitativeScaleMethod</span><span class="op">(</span>
-  <span class="va">name</span>,
-  <span class="va">description</span>,
-  <span class="va">subject</span>,
-  <span class="va">codes</span>,
-  citationString <span class="op">=</span> <span class="st">""</span>,
-  DOI <span class="op">=</span> <span class="st">""</span>,
-  definitions <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">defineQualitativeScaleMethod</span><span class="op">(</span></span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">description</span>,</span>
+<span>  <span class="va">subject</span>,</span>
+<span>  <span class="va">codes</span>,</span>
+<span>  citationString <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  DOI <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  definitions <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>String with the name of the method.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>String describing the method.</p></dd>
+
+
 <dt>subject</dt>
 <dd><p>A string to identify the subject.</p></dd>
+
+
 <dt>codes</dt>
 <dd><p>A character vector of class codes.</p></dd>
+
+
 <dt>citationString</dt>
 <dd><p>A string with the bibliographic reference for the method.</p></dd>
+
+
 <dt>DOI</dt>
 <dd><p>A string with the DOI the resource related to <code>citationString</code>.</p></dd>
+
+
 <dt>definitions</dt>
 <dd><p>A character vector of class definitions.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an object of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code></p>
+    
+
+<p>an object of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code></p>
+
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -92,10 +109,10 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co">#Qualitative scale with three levels</span></span>
-<span class="r-in"><span class="fu">defineQualitativeScaleMethod</span><span class="op">(</span><span class="st">"scale1"</span>, <span class="st">"Description for scale1"</span>, <span class="st">"subject1"</span>,</span>
-<span class="r-in">                             codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Qualitative scale with three levels</span></span></span>
+<span class="r-in"><span><span class="fu">defineQualitativeScaleMethod</span><span class="op">(</span><span class="st">"scale1"</span>, <span class="st">"Description for scale1"</span>, <span class="st">"subject1"</span>,</span></span>
+<span class="r-in"><span>                             codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"A"</span>, <span class="st">"B"</span>, <span class="st">"C"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class "VegXMethodDefinition"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot "name":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "scale1"</span>
@@ -141,10 +158,10 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -159,7 +176,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

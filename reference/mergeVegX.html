@@ -50,31 +50,40 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">mergeVegX</span><span class="op">(</span>
-  <span class="va">x</span>,
-  <span class="va">y</span>,
-  allowMergePlots <span class="op">=</span> <span class="cn">FALSE</span>,
-  allowMergeOrganismIdentities <span class="op">=</span> <span class="cn">FALSE</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">mergeVegX</span><span class="op">(</span></span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">y</span>,</span>
+<span>  allowMergePlots <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  allowMergeOrganismIdentities <span class="op">=</span> <span class="cn">FALSE</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>x, y</dt>
 <dd><p>The objects of class <code><a href="VegX-class.html">VegX</a></code> to be merged.</p></dd>
+
+
 <dt>allowMergePlots</dt>
 <dd><p>If <code>TRUE</code> plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier. 
 If <code>FALSE</code> plots are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).</p></dd>
+
+
 <dt>allowMergeOrganismIdentities</dt>
 <dd><p>If <code>TRUE</code>, allows organism identities sharing the same organismName to be merged. 
 If <code>FALSE</code> organism identities are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A flag to indicate console output of the data integration process.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class <code><a href="VegX-class.html">VegX</a></code> with the pooled data</p>
+    
+
+<p>An object of class <code><a href="VegX-class.html">VegX</a></code> with the pooled data</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -105,37 +114,37 @@ entities between the two data sets to be merged and hence are simply copied to t
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create document 'x' with aggregate taxon observations</span></span>
-<span class="r-in"><span class="va">taxmapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span>
-<span class="r-in">              taxonName <span class="op">=</span> <span class="st">"NVSSpeciesName"</span>,</span>
-<span class="r-in">              stratumName <span class="op">=</span> <span class="st">"Tier"</span>, cover <span class="op">=</span> <span class="st">"Category"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">coverscale</span> <span class="op">=</span> <span class="fu"><a href="defineOrdinalScaleMethod.html">defineOrdinalScaleMethod</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce cover scale"</span>,</span>
-<span class="r-in">               description <span class="op">=</span> <span class="st">"Recce recording method by Hurst/Allen"</span>,</span>
-<span class="r-in">               subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span>
-<span class="r-in">               citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                   The Recce method for describing New Zealand vegetation – Field protocols. </span>
-<span class="r-in">                   Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">               codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>,<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span>
-<span class="r-in">               quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span>
-<span class="r-in">               breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span class="r-in">               midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">15</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span>,</span>
-<span class="r-in">               definitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Presence"</span>, <span class="st">"&lt;1%"</span>, <span class="st">"1-5%"</span>,<span class="st">"6-25%"</span>, <span class="st">"26-50%"</span>, </span>
-<span class="r-in">                                   <span class="st">"51-75%"</span>, <span class="st">"76-100%"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">strataDef</span> <span class="op">=</span> <span class="fu"><a href="defineMixedStrata.html">defineMixedStrata</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span>
-<span class="r-in">               description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span>
-<span class="r-in">               citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                 The Recce method for describing New Zealand vegetation – Field protocols. </span>
-<span class="r-in">                 Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">               heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span>
-<span class="r-in">               heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span>
-<span class="r-in">               categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span>,</span>
-<span class="r-in">               categoryStrataDefinition <span class="op">=</span> <span class="st">"Epiphytes"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addAggregateOrganismObservations.html">addAggregateOrganismObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_tcv</span>, <span class="va">taxmapping</span>,</span>
-<span class="r-in">               methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cover<span class="op">=</span><span class="va">coverscale</span><span class="op">)</span>,</span>
-<span class="r-in">               stratumDefinition <span class="op">=</span> <span class="va">strataDef</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mokihinui</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create document 'x' with aggregate taxon observations</span></span></span>
+<span class="r-in"><span><span class="va">taxmapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span></span>
+<span class="r-in"><span>              taxonName <span class="op">=</span> <span class="st">"NVSSpeciesName"</span>,</span></span>
+<span class="r-in"><span>              stratumName <span class="op">=</span> <span class="st">"Tier"</span>, cover <span class="op">=</span> <span class="st">"Category"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">coverscale</span> <span class="op">=</span> <span class="fu"><a href="defineOrdinalScaleMethod.html">defineOrdinalScaleMethod</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce cover scale"</span>,</span></span>
+<span class="r-in"><span>               description <span class="op">=</span> <span class="st">"Recce recording method by Hurst/Allen"</span>,</span></span>
+<span class="r-in"><span>               subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span></span>
+<span class="r-in"><span>               citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                   The Recce method for describing New Zealand vegetation – Field protocols. </span></span></span>
+<span class="r-in"><span><span class="st">                   Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>               codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>,<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">15</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               definitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Presence"</span>, <span class="st">"&lt;1%"</span>, <span class="st">"1-5%"</span>,<span class="st">"6-25%"</span>, <span class="st">"26-50%"</span>, </span></span>
+<span class="r-in"><span>                                   <span class="st">"51-75%"</span>, <span class="st">"76-100%"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">strataDef</span> <span class="op">=</span> <span class="fu"><a href="defineMixedStrata.html">defineMixedStrata</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce strata"</span>,</span></span>
+<span class="r-in"><span>               description <span class="op">=</span> <span class="st">"Standard Recce stratum definition"</span>,</span></span>
+<span class="r-in"><span>               citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                 The Recce method for describing New Zealand vegetation – Field protocols. </span></span></span>
+<span class="r-in"><span><span class="st">                 Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>               heightStrataBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">0.3</span>,<span class="fl">2.0</span>,<span class="fl">5</span>, <span class="fl">12</span>, <span class="fl">25</span>, <span class="fl">50</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               heightStrataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"Tier "</span>,<span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               categoryStrataNames <span class="op">=</span> <span class="st">"Tier 7"</span>,</span></span>
+<span class="r-in"><span>               categoryStrataDefinition <span class="op">=</span> <span class="st">"Epiphytes"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu"><a href="addAggregateOrganismObservations.html">addAggregateOrganismObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_tcv</span>, <span class="va">taxmapping</span>,</span></span>
+<span class="r-in"><span>               methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>cover<span class="op">=</span><span class="va">coverscale</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>               stratumDefinition <span class="op">=</span> <span class="va">strataDef</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1 additional aggregate organism measurements found: Category.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Recce cover scale' added for 'cover'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Stratum definition method 'Recce strata' added.</span>
@@ -146,13 +155,13 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class="r-out co"><span class="r-pr">#&gt;</span>  148 organism identitie(s) parsed, 148 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  33 stratum observation(s) parsed, 33 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  582 record(s) parsed, 582 new aggregate organism observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create document 'y' with tree observations</span></span>
-<span class="r-in"><span class="va">treemapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, subPlotName <span class="op">=</span> <span class="st">"Subplot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span>
-<span class="r-in">                   taxonName <span class="op">=</span> <span class="st">"NVSSpeciesName"</span>, diameterMeasurement <span class="op">=</span> <span class="st">"Diameter"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">diamMeth</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"DBH/cm"</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">y</span> <span class="op">=</span> <span class="fu"><a href="addIndividualOrganismObservations.html">addIndividualOrganismObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_dia</span>, <span class="va">treemapping</span>,</span>
-<span class="r-in">                   methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>diameterMeasurement <span class="op">=</span> <span class="va">diamMeth</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create document 'y' with tree observations</span></span></span>
+<span class="r-in"><span><span class="va">treemapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, subPlotName <span class="op">=</span> <span class="st">"Subplot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span></span>
+<span class="r-in"><span>                   taxonName <span class="op">=</span> <span class="st">"NVSSpeciesName"</span>, diameterMeasurement <span class="op">=</span> <span class="st">"Diameter"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">diamMeth</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"DBH/cm"</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">y</span> <span class="op">=</span> <span class="fu"><a href="addIndividualOrganismObservations.html">addIndividualOrganismObservations</a></span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">moki_dia</span>, <span class="va">treemapping</span>,</span></span>
+<span class="r-in"><span>                   methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>diameterMeasurement <span class="op">=</span> <span class="va">diamMeth</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'DBH/cm' added for 'diameterMeasurement'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  23 plot(s) parsed, 23 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  18 plot observation(s) parsed, 18 new added.</span>
@@ -161,11 +170,11 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class="r-out co"><span class="r-pr">#&gt;</span>  28 organism identitie(s) parsed, 28 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  0 individual organism(s) parsed, 643 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  643 record(s) parsed, 643 new individual organism observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Merge 'x' and 'y' while keeping plots of the same name separate and</span></span>
-<span class="r-in"><span class="co"># organism identities that have the same name separated. This default behaviour</span></span>
-<span class="r-in"><span class="co"># is set assuming that 'x' and 'y' come from different data sources.</span></span>
-<span class="r-in"><span class="va">z1</span> <span class="op">=</span> <span class="fu">mergeVegX</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Merge 'x' and 'y' while keeping plots of the same name separate and</span></span></span>
+<span class="r-in"><span><span class="co"># organism identities that have the same name separated. This default behaviour</span></span></span>
+<span class="r-in"><span><span class="co"># is set assuming that 'x' and 'y' come from different data sources.</span></span></span>
+<span class="r-in"><span><span class="va">z1</span> <span class="op">=</span> <span class="fu">mergeVegX</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of party(ies): 0. Data pooled for 0 party(ies).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of literature citations: 2. Data pooled for 0 citation(s).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of methods: 3. Data pooled for 0 method(s).</span>
@@ -185,7 +194,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of site observations: 0. Data pooled for 0 site observation(s).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of community observations: 0. Data pooled for 0 community observation(s).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of surface cover observations: 0. Data pooled for 0 surface cover observation(s).</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">z1</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">z1</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     Veg-X object (ver 2.0.0)                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
@@ -237,13 +246,13 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Surface cover observations: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Merge 'x' and 'y' while allowing plots of the same name to be merged</span></span>
-<span class="r-in"><span class="co"># and organism identities that have the same name to be merged. This configuration</span></span>
-<span class="r-in"><span class="co"># should be used when merging two VegX objects that come from the same data source </span></span>
-<span class="r-in"><span class="co"># (i.e. Mokihinui data)</span></span>
-<span class="r-in"><span class="va">z2</span> <span class="op">=</span> <span class="fu">mergeVegX</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>, allowMergePlots <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span class="r-in">               allowMergeOrganismIdentities <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Merge 'x' and 'y' while allowing plots of the same name to be merged</span></span></span>
+<span class="r-in"><span><span class="co"># and organism identities that have the same name to be merged. This configuration</span></span></span>
+<span class="r-in"><span><span class="co"># should be used when merging two VegX objects that come from the same data source </span></span></span>
+<span class="r-in"><span><span class="co"># (i.e. Mokihinui data)</span></span></span>
+<span class="r-in"><span><span class="va">z2</span> <span class="op">=</span> <span class="fu">mergeVegX</span><span class="op">(</span><span class="va">x</span>,<span class="va">y</span>, allowMergePlots <span class="op">=</span> <span class="cn">TRUE</span>,</span></span>
+<span class="r-in"><span>               allowMergeOrganismIdentities <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of party(ies): 0. Data pooled for 0 party(ies).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of literature citations: 2. Data pooled for 0 citation(s).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of methods: 3. Data pooled for 0 method(s).</span>
@@ -263,7 +272,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of site observations: 0. Data pooled for 0 site observation(s).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of community observations: 0. Data pooled for 0 community observation(s).</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Final number of surface cover observations: 0. Data pooled for 0 surface cover observation(s).</span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">z2</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">z2</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>                     Veg-X object (ver 2.0.0)                   </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ----------------------------------------------------------------</span>
@@ -315,7 +324,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 <span class="r-out co"><span class="r-pr">#&gt;</span>    Surface cover observations: 0</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> ================================================================</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -330,7 +339,7 @@ entities between the two data sets to be merged and hence are simply copied to t
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

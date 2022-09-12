@@ -50,48 +50,71 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span>
-  <span class="va">name</span>,
-  <span class="va">description</span>,
-  <span class="va">subject</span>,
-  <span class="va">codes</span>,
-  citationString <span class="op">=</span> <span class="st">""</span>,
-  DOI <span class="op">=</span> <span class="st">""</span>,
-  quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,
-  breaks <span class="op">=</span> <span class="cn">NULL</span>,
-  midPoints <span class="op">=</span> <span class="cn">NULL</span>,
-  definitions <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span></span>
+<span>  <span class="va">name</span>,</span>
+<span>  <span class="va">description</span>,</span>
+<span>  <span class="va">subject</span>,</span>
+<span>  <span class="va">codes</span>,</span>
+<span>  citationString <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  DOI <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="fl">0</span><span class="op">)</span>,</span>
+<span>  breaks <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  midPoints <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  definitions <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>String with the name of the method.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>String describing the method.</p></dd>
+
+
 <dt>subject</dt>
 <dd><p>A string to identify the subject (e.g. 'plant cover').</p></dd>
+
+
 <dt>codes</dt>
 <dd><p>A character vector of ordinal class codes.</p></dd>
+
+
 <dt>citationString</dt>
 <dd><p>A string with the bibliographic reference for the method.</p></dd>
+
+
 <dt>DOI</dt>
 <dd><p>A string with the DOI the resource related to <code>citationString</code>.</p></dd>
+
+
 <dt>quantifiableCodes</dt>
 <dd><p>A string vector with the subset of <code>codes</code> that have correspondence in a quantitative scale. These codes
 can be transformed to midPoints (if supplied in <code>midPoints</code>) and, correspondingly, codes in the quantitative scale can be transformed to ordinal codes
 using class limits (if supplied in <code>breaks</code>).</p></dd>
+
+
 <dt>breaks</dt>
 <dd><p>A vector of break points (for ordinal scales with class limits)</p></dd>
+
+
 <dt>midPoints</dt>
 <dd><p>A vector of class midpoints (for ordinal scales that can be translated into quantitative values)</p></dd>
+
+
 <dt>definitions</dt>
 <dd><p>A character vector of class definitions.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>an object of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code></p>
+    
+
+<p>an object of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code></p>
+
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -103,10 +126,10 @@ using class limits (if supplied in <code>breaks</code>).</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="co">#Ordinal scale with three levels</span></span>
-<span class="r-in"><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span><span class="st">"scale1"</span>, <span class="st">"Description for scale1"</span>, <span class="st">"subject1"</span>,</span>
-<span class="r-in">                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span>,<span class="st">"third"</span><span class="op">)</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Ordinal scale with three levels</span></span></span>
+<span class="r-in"><span><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span><span class="st">"scale1"</span>, <span class="st">"Description for scale1"</span>, <span class="st">"subject1"</span>,</span></span>
+<span class="r-in"><span>                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"first"</span>, <span class="st">"second"</span>,<span class="st">"third"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class "VegXMethodDefinition"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot "name":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "scale1"</span>
@@ -161,15 +184,15 @@ using class limits (if supplied in <code>breaks</code>).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#Braun-Blanquet plant cover scale with five levels that can be translated to cover codes</span></span>
-<span class="r-in"><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Braun-Blanquet"</span>,</span>
-<span class="r-in">                   description <span class="op">=</span> <span class="st">"Five-level Braun-Blanquet cover scale"</span>,</span>
-<span class="r-in">                   subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span>
-<span class="r-in">                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                   quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span>
-<span class="r-in">                   breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span>,<span class="fl">25</span>,<span class="fl">50</span>,<span class="fl">75</span>,<span class="fl">100</span><span class="op">)</span>,</span>
-<span class="r-in">                   midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>,<span class="fl">17.5</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Braun-Blanquet plant cover scale with five levels that can be translated to cover codes</span></span></span>
+<span class="r-in"><span><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Braun-Blanquet"</span>,</span></span>
+<span class="r-in"><span>                   description <span class="op">=</span> <span class="st">"Five-level Braun-Blanquet cover scale"</span>,</span></span>
+<span class="r-in"><span>                   subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span></span>
+<span class="r-in"><span>                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">as.character</a></span><span class="op">(</span><span class="fl">1</span><span class="op">:</span><span class="fl">5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>,<span class="fl">5</span>,<span class="fl">25</span>,<span class="fl">50</span>,<span class="fl">75</span>,<span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2.5</span>,<span class="fl">17.5</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class "VegXMethodDefinition"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot "name":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Braun-Blanquet"</span>
@@ -291,21 +314,21 @@ using class limits (if supplied in <code>breaks</code>).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co">#Ordinal plant cover scale with seven levels where six can be translated to a quantitative scale</span></span>
-<span class="r-in"><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce cover scale"</span>,</span>
-<span class="r-in">                   description <span class="op">=</span> <span class="st">"Recce recording method by Hurst/Allen"</span>,</span>
-<span class="r-in">                   subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span>
-<span class="r-in">                   citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span>
-<span class="r-in">                        The Recce method for describing New Zealand vegetation – Field protocols. </span>
-<span class="r-in">                        Landcare Research, Lincoln."</span>,</span>
-<span class="r-in">                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>,<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span>
-<span class="r-in">                   quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span>
-<span class="r-in">                   breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span>,</span>
-<span class="r-in">                   midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">15</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span>,</span>
-<span class="r-in">                   definitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Presence"</span>, <span class="st">"&lt;1%"</span>, <span class="st">"1-5%"</span>,<span class="st">"6-25%"</span>, <span class="st">"26-50%"</span>, </span>
-<span class="r-in">                                   <span class="st">"51-75%"</span>, <span class="st">"76-100%"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co">#Ordinal plant cover scale with seven levels where six can be translated to a quantitative scale</span></span></span>
+<span class="r-in"><span><span class="fu">defineOrdinalScaleMethod</span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Recce cover scale"</span>,</span></span>
+<span class="r-in"><span>                   description <span class="op">=</span> <span class="st">"Recce recording method by Hurst/Allen"</span>,</span></span>
+<span class="r-in"><span>                   subject <span class="op">=</span> <span class="st">"plant cover"</span>,</span></span>
+<span class="r-in"><span>                   citation <span class="op">=</span> <span class="st">"Hurst, JM and Allen, RB. (2007) </span></span></span>
+<span class="r-in"><span><span class="st">                        The Recce method for describing New Zealand vegetation – Field protocols. </span></span></span>
+<span class="r-in"><span><span class="st">                        Landcare Research, Lincoln."</span>,</span></span>
+<span class="r-in"><span>                   codes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"P"</span>,<span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   quantifiableCodes <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"1"</span>,<span class="st">"2"</span>,<span class="st">"3"</span>, <span class="st">"4"</span>, <span class="st">"5"</span>, <span class="st">"6"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   breaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">5</span>, <span class="fl">25</span>, <span class="fl">50</span>, <span class="fl">75</span>, <span class="fl">100</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   midPoints <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0.05</span>, <span class="fl">0.5</span>, <span class="fl">15</span>, <span class="fl">37.5</span>, <span class="fl">62.5</span>, <span class="fl">87.5</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>                   definitions <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Presence"</span>, <span class="st">"&lt;1%"</span>, <span class="st">"1-5%"</span>,<span class="st">"6-25%"</span>, <span class="st">"26-50%"</span>, </span></span>
+<span class="r-in"><span>                                   <span class="st">"51-75%"</span>, <span class="st">"76-100%"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> An object of class "VegXMethodDefinition"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> Slot "name":</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Recce cover scale"</span>
@@ -479,7 +502,7 @@ using class limits (if supplied in <code>breaks</code>).</p></dd>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -494,7 +517,7 @@ using class limits (if supplied in <code>breaks</code>).</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

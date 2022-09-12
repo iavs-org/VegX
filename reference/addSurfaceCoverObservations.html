@@ -50,24 +50,28 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">addSurfaceCoverObservations</span><span class="op">(</span>
-  <span class="va">target</span>,
-  <span class="va">x</span>,
-  <span class="va">mapping</span>,
-  <span class="va">coverMethod</span>,
-  <span class="va">surfaceTypeDefinition</span>,
-  date.format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,
-  missing.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">""</span><span class="op">)</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">addSurfaceCoverObservations</span><span class="op">(</span></span>
+<span>  <span class="va">target</span>,</span>
+<span>  <span class="va">x</span>,</span>
+<span>  <span class="va">mapping</span>,</span>
+<span>  <span class="va">coverMethod</span>,</span>
+<span>  <span class="va">surfaceTypeDefinition</span>,</span>
+<span>  date.format <span class="op">=</span> <span class="st">"%Y-%m-%d"</span>,</span>
+<span>  missing.values <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="cn">NA</span>, <span class="st">""</span><span class="op">)</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>target</dt>
 <dd><p>The initial object of class <code><a href="VegX-class.html">VegX</a></code> to be modified</p></dd>
+
+
 <dt>x</dt>
 <dd><p>A data frame where each row corresponds to one surface cover observation (e.g. bare rock percent cover). Columns can be varied.</p></dd>
+
+
 <dt>mapping</dt>
 <dd><p>A named list whose elements are strings that correspond to column names in <code>x</code>. Names of the list should be:</p><ul><li><p><code>plotName</code> - A string identifying the vegetation plot within the data set (required).</p></li>
 <li><p><code>subPlotName</code> - A string identifying a subplot of the plot given by <code>plotName</code> (optional).</p></li>
@@ -75,21 +79,34 @@
 <li><p><code>surfaceName</code> - The string of the name of a surface type (see <code>surfaceTypeDefinition</code>; required).</p></li>
 <li><p><code>coverMeasurement</code> - Surface cover values (required).</p></li>
 </ul></dd>
+
+
 <dt>coverMethod</dt>
 <dd><p>A method definition for surface cover measurements (an object of class <code><a href="VegXMethodDefinition-class.html">VegXMethodDefinition</a></code>).
 Alternatively, the method can be specified using a string if a predefined method exists (see <code><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></code>).</p></dd>
+
+
 <dt>surfaceTypeDefinition</dt>
 <dd><p>An object of class <code><a href="VegXSurfaceTypeDefinition-class.html">VegXSurfaceTypeDefinition</a></code> indicating the definition of surface types.</p></dd>
+
+
 <dt>date.format</dt>
 <dd><p>A character string specifying the input format of dates (see <code><a href="https://rdrr.io/r/base/as.Date.html" class="external-link">as.Date</a></code>).</p></dd>
+
+
 <dt>missing.values</dt>
 <dd><p>A character vector of values that should be considered as missing observations/measurements.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean flag to indicate console output of the data integration process.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
+    
+
+<p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
     </div>
     <div id="details">
     <h2>Details</h2>
@@ -118,11 +135,11 @@ Alternatively, the method can be specified using a string if a predefined method
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># Load source data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtfyffe</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Examine surface cover data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtfyffe_groundcover</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># Load source data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">mtfyffe</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Examine surface cover data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">mtfyffe_groundcover</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>     PlotGroundCoverID Plot Subplot                  Project PlotGroundCover</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 14               6157  6 4      NA FYFFE, MOUNT FOREST 1980      Vegetation</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 17               4176 17 3      NA FYFFE, MOUNT FOREST 1980      Vegetation</span>
@@ -144,34 +161,34 @@ Alternatively, the method can be specified using a string if a predefined method
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32            52256     52256       867       1980-02-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 90            52241     52241       867       1980-02-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 101           52261     52261       867       1980-02-07</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define mapping</span></span>
-<span class="r-in"><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span>
-<span class="r-in">               surfaceName <span class="op">=</span> <span class="st">"PlotGroundCover"</span>, coverMeasurement <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Get cover measurement method from predefined list</span></span>
-<span class="r-in"><span class="va">coverMethod</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"Surface cover/%"</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Define surface types from the data</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">mtfyffe_groundcover</span><span class="op">$</span><span class="va">PlotGroundCover</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define mapping</span></span></span>
+<span class="r-in"><span><span class="va">mapping</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span>plotName <span class="op">=</span> <span class="st">"Plot"</span>, obsStartDate <span class="op">=</span> <span class="st">"PlotObsStartDate"</span>,</span></span>
+<span class="r-in"><span>               surfaceName <span class="op">=</span> <span class="st">"PlotGroundCover"</span>, coverMeasurement <span class="op">=</span> <span class="st">"Value"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Get cover measurement method from predefined list</span></span></span>
+<span class="r-in"><span><span class="va">coverMethod</span> <span class="op">=</span> <span class="fu"><a href="predefinedMeasurementMethod.html">predefinedMeasurementMethod</a></span><span class="op">(</span><span class="st">"Surface cover/%"</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Define surface types from the data</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">mtfyffe_groundcover</span><span class="op">$</span><span class="va">PlotGroundCover</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Vegetation"   "Moss"         "Litter"       "Exposed Soil" "Rock"        </span>
-<span class="r-in"><span class="va">surfaceTypes</span> <span class="op">=</span> <span class="fu"><a href="defineSurfaceTypes.html">defineSurfaceTypes</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Default surface types"</span>,</span>
-<span class="r-in">                  description <span class="op">=</span> <span class="st">"Five surface categories"</span>,</span>
-<span class="r-in">                  surfaceNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vegetation"</span>, <span class="st">"Moss"</span>, <span class="st">"Litter"</span>, <span class="st">"Exposed Soil"</span>, <span class="st">"Rock"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Create new Veg-X document with surface cover observations</span></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu">addSurfaceCoverObservations</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">mtfyffe_groundcover</span>, <span class="va">mapping</span>,</span>
-<span class="r-in">                                <span class="va">coverMethod</span>, <span class="va">surfaceTypes</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">surfaceTypes</span> <span class="op">=</span> <span class="fu"><a href="defineSurfaceTypes.html">defineSurfaceTypes</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Default surface types"</span>,</span></span>
+<span class="r-in"><span>                  description <span class="op">=</span> <span class="st">"Five surface categories"</span>,</span></span>
+<span class="r-in"><span>                  surfaceNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vegetation"</span>, <span class="st">"Moss"</span>, <span class="st">"Litter"</span>, <span class="st">"Exposed Soil"</span>, <span class="st">"Rock"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Create new Veg-X document with surface cover observations</span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu">addSurfaceCoverObservations</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">mtfyffe_groundcover</span>, <span class="va">mapping</span>,</span></span>
+<span class="r-in"><span>                                <span class="va">coverMethod</span>, <span class="va">surfaceTypes</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Surface cover/%' added for 'coverMeasurement'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Surface type definition method 'Default surface types' added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5 new surface type definitions added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  4 plot(s) parsed, 4 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  8 plot observation(s) parsed, 8 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  40 record(s) parsed, 40 new surface cover observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Examine results</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"surfaceCoverObservation"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Examine results</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"surfaceCoverObservation"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>   plotName obsStartDate surfaceName    cover_method cover_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1      6 4   1980-02-07  Vegetation Surface cover/%          20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2     17 3   1980-02-07  Vegetation Surface cover/%          20</span>
@@ -179,11 +196,11 @@ Alternatively, the method can be specified using a string if a predefined method
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4     12 1   1980-02-07  Vegetation Surface cover/%          20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5      6 4   1980-02-07        Moss Surface cover/%          20</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6     14 2   1980-02-07        Moss Surface cover/%          20</span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># Another example with different surface types</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">takitimu</span><span class="op">)</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">taki_groundcover</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># Another example with different surface types</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">takitimu</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">taki_groundcover</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>    PlotGroundCoverID            Plot Subplot                      Project</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 26            396242 R3 1 (R3 1_TRA)      NA TAKITIMU GRASSLAND 1968-1969</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 27            396243 R3 1 (R3 1_TRA)      NA TAKITIMU GRASSLAND 1968-1969</span>
@@ -205,24 +222,24 @@ Alternatively, the method can be specified using a string if a predefined method
 <span class="r-out co"><span class="r-pr">#&gt;</span> 31       781853         1153875   1153875       500       1968-02-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 32       781853         1153875   1153875       500       1968-02-07</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 33       781853         1153875   1153875       500       1968-02-07</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">taki_groundcover</span><span class="op">$</span><span class="va">PlotGroundCover</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">taki_groundcover</span><span class="op">$</span><span class="va">PlotGroundCover</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "Litter"           "Rock"             "Vegetation"       "Erosion Pavement"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [5] "Soil"            </span>
-<span class="r-in"><span class="va">surfaceTypes</span> <span class="op">=</span> <span class="fu"><a href="defineSurfaceTypes.html">defineSurfaceTypes</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Default surface types"</span>,</span>
-<span class="r-in">                  description <span class="op">=</span> <span class="st">"Five surface categories"</span>,</span>
-<span class="r-in">                  surfaceNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vegetation"</span>, <span class="st">"Soil"</span>, <span class="st">"Erosion Pavement"</span>, <span class="st">"Litter"</span>,<span class="st">"Rock"</span><span class="op">)</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu">addSurfaceCoverObservations</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">taki_groundcover</span>, <span class="va">mapping</span>,</span>
-<span class="r-in">                                <span class="va">coverMethod</span>, <span class="va">surfaceTypes</span><span class="op">)</span></span>
+<span class="r-in"><span><span class="va">surfaceTypes</span> <span class="op">=</span> <span class="fu"><a href="defineSurfaceTypes.html">defineSurfaceTypes</a></span><span class="op">(</span>name <span class="op">=</span> <span class="st">"Default surface types"</span>,</span></span>
+<span class="r-in"><span>                  description <span class="op">=</span> <span class="st">"Five surface categories"</span>,</span></span>
+<span class="r-in"><span>                  surfaceNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"Vegetation"</span>, <span class="st">"Soil"</span>, <span class="st">"Erosion Pavement"</span>, <span class="st">"Litter"</span>,<span class="st">"Rock"</span><span class="op">)</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu">addSurfaceCoverObservations</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="va">taki_groundcover</span>, <span class="va">mapping</span>,</span></span>
+<span class="r-in"><span>                                <span class="va">coverMethod</span>, <span class="va">surfaceTypes</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Measurement method 'Surface cover/%' added for 'coverMeasurement'.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  Surface type definition method 'Default surface types' added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5 new surface type definitions added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5 plot(s) parsed, 5 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  5 plot observation(s) parsed, 5 new added.</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  17 record(s) parsed, 17 new surface cover observation(s) added.</span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"surfaceCoverObservation"</span><span class="op">)</span><span class="op">)</span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="fu"><a href="showElementTable.html">showElementTable</a></span><span class="op">(</span><span class="va">x</span>, <span class="st">"surfaceCoverObservation"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>          plotName obsStartDate      surfaceName    cover_method cover_value</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 1 R3 1 (R3 1_TRA)   1968-02-07           Litter Surface cover/%          25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 2 R3 1 (R3 1_TRA)   1968-02-07             Rock Surface cover/%          25</span>
@@ -230,7 +247,7 @@ Alternatively, the method can be specified using a string if a predefined method
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4 R1 1 (R1 1_TRA)   1968-02-07 Erosion Pavement Surface cover/%          25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5 R1 1 (R1 1_TRA)   1968-02-07           Litter Surface cover/%          25</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 6 R1 1 (R1 1_TRA)   1968-02-07             Rock Surface cover/%          25</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -245,7 +262,7 @@ Alternatively, the method can be specified using a string if a predefined method
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

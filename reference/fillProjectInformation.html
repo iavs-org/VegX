@@ -50,46 +50,67 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">fillProjectInformation</span><span class="op">(</span>
-  <span class="va">target</span>,
-  <span class="va">title</span>,
-  personnel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,
-  abstract <span class="op">=</span> <span class="st">""</span>,
-  funding <span class="op">=</span> <span class="st">""</span>,
-  studyAreaDescription <span class="op">=</span> <span class="st">""</span>,
-  designDescription <span class="op">=</span> <span class="st">""</span>,
-  citationString <span class="op">=</span> <span class="st">""</span>,
-  DOI <span class="op">=</span> <span class="st">""</span>,
-  verbose <span class="op">=</span> <span class="cn">TRUE</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">fillProjectInformation</span><span class="op">(</span></span>
+<span>  <span class="va">target</span>,</span>
+<span>  <span class="va">title</span>,</span>
+<span>  personnel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span>,</span>
+<span>  abstract <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  funding <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  studyAreaDescription <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  designDescription <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  citationString <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  DOI <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  verbose <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>target</dt>
 <dd><p>The initial object of class <code><a href="VegX-class.html">VegX</a></code> to be modified.</p></dd>
+
+
 <dt>title</dt>
 <dd><p>A string with the title of the project. It can match one of the existing project or a new one will be defined.</p></dd>
+
+
 <dt>personnel</dt>
 <dd><p>A named list where element names are roles and values are party names (e.g. <code>list(contributor = "John Smith")</code>).</p></dd>
+
+
 <dt>abstract</dt>
 <dd><p>A string summarizing the aims and findings of the project.</p></dd>
+
+
 <dt>funding</dt>
 <dd><p>A string with information about funding agencies.</p></dd>
+
+
 <dt>studyAreaDescription</dt>
 <dd><p>A string describing the physical area associated with the research project, potentially including coverage, climate, geology, distrubances, etc..</p></dd>
+
+
 <dt>designDescription</dt>
 <dd><p>A string describing the overall plot placement design.</p></dd>
+
+
 <dt>citationString</dt>
 <dd><p>A string of the bibliographic reference of a document describing the project.</p></dd>
+
+
 <dt>DOI</dt>
 <dd><p>A string with the DOI the resource related to <code>citationString</code>.</p></dd>
+
+
 <dt>verbose</dt>
 <dd><p>A boolean flag to indicate console output of the data integration process.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
+    
+
+<p>The modified object of class <code><a href="VegX-class.html">VegX</a></code>.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -104,16 +125,16 @@
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="va">x</span> <span class="op">=</span> <span class="fu">fillProjectInformation</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 2011"</span>,</span>
-<span class="r-in">           personnel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>contributor <span class="op">=</span> <span class="st">"Susan K. Wiser"</span><span class="op">)</span>,</span>
-<span class="r-in">           abstract <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Characterise the forest and riparian vegetation"</span>,</span>
-<span class="r-in">                            <span class="st">" in the lower Mokihinui gorge, and compare this"</span>,</span>
-<span class="r-in">                            <span class="st">" with the vegetation in (a) North Branch gorge of Mokihinui"</span>,</span>
-<span class="r-in">                            <span class="st">" and (b) Karamea catchment."</span><span class="op">)</span>,</span>
-<span class="r-in">           studyAreaDescription <span class="op">=</span> <span class="st">"Mokihinui and Karamea catchments. Forest riparian habitat."</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="va">x</span> <span class="op">=</span> <span class="fu">fillProjectInformation</span><span class="op">(</span><span class="fu"><a href="newVegX.html">newVegX</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"MOKIHINUI HYDRO PROPOSAL - LOWER GORGE 2011"</span>,</span></span>
+<span class="r-in"><span>           personnel <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>contributor <span class="op">=</span> <span class="st">"Susan K. Wiser"</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           abstract <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste</a></span><span class="op">(</span><span class="st">"Characterise the forest and riparian vegetation"</span>,</span></span>
+<span class="r-in"><span>                            <span class="st">" in the lower Mokihinui gorge, and compare this"</span>,</span></span>
+<span class="r-in"><span>                            <span class="st">" with the vegetation in (a) North Branch gorge of Mokihinui"</span>,</span></span>
+<span class="r-in"><span>                            <span class="st">" and (b) Karamea catchment."</span><span class="op">)</span>,</span></span>
+<span class="r-in"><span>           studyAreaDescription <span class="op">=</span> <span class="st">"Mokihinui and Karamea catchments. Forest riparian habitat."</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>  1 new party(ies) added to the document as individuals.</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -128,7 +149,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

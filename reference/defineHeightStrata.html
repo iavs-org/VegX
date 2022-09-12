@@ -50,40 +50,59 @@
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">defineHeightStrata</span><span class="op">(</span>
-  name <span class="op">=</span> <span class="st">"Strata by height"</span>,
-  description <span class="op">=</span> <span class="st">"Vegetation strata defined by height in m"</span>,
-  citationString <span class="op">=</span> <span class="st">""</span>,
-  DOI <span class="op">=</span> <span class="st">""</span>,
-  heightBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,
-  heightUnit <span class="op">=</span> <span class="st">"m"</span>,
-  strataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span><span class="op">)</span>,
-  strataDefinitions <span class="op">=</span> <span class="cn">NULL</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">defineHeightStrata</span><span class="op">(</span></span>
+<span>  name <span class="op">=</span> <span class="st">"Strata by height"</span>,</span>
+<span>  description <span class="op">=</span> <span class="st">"Vegetation strata defined by height in m"</span>,</span>
+<span>  citationString <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  DOI <span class="op">=</span> <span class="st">""</span>,</span>
+<span>  heightBreaks <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, <span class="fl">3</span>, <span class="fl">5</span><span class="op">)</span>,</span>
+<span>  heightUnit <span class="op">=</span> <span class="st">"m"</span>,</span>
+<span>  strataNames <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"s1"</span>, <span class="st">"s2"</span>, <span class="st">"s3"</span><span class="op">)</span>,</span>
+<span>  strataDefinitions <span class="op">=</span> <span class="cn">NULL</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
     <h2>Arguments</h2>
     <dl><dt>name</dt>
 <dd><p>A string to identify the stratum definition.</p></dd>
+
+
 <dt>description</dt>
 <dd><p>A string describing how strata are defined.</p></dd>
+
+
 <dt>citationString</dt>
 <dd><p>A string with the bibliographic reference for the method.</p></dd>
+
+
 <dt>DOI</dt>
 <dd><p>A string with the DOI of a resource describing the method.</p></dd>
+
+
 <dt>heightBreaks</dt>
 <dd><p>A numeric vector with height limits between strata (of length equal to the number of strata plus one).</p></dd>
+
+
 <dt>heightUnit</dt>
 <dd><p>A string to identify height units.</p></dd>
+
+
 <dt>strataNames</dt>
 <dd><p>A character vector of stratum codes (of length equal to the number of strata).</p></dd>
+
+
 <dt>strataDefinitions</dt>
 <dd><p>A character vector with strata definitions</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>An object of class <code><a href="VegXStrataDefinition-class.html">VegXStrataDefinition</a></code></p>
+    
+
+<p>An object of class <code><a href="VegXStrataDefinition-class.html">VegXStrataDefinition</a></code></p>
+
+
     </div>
     <div id="see-also">
     <h2>See also</h2>
@@ -104,7 +123,7 @@
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>
