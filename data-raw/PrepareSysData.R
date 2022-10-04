@@ -21,8 +21,8 @@ options(gargle_oauth_cache = ".secrets")
 googlesheets4::gs4_auth()
 
 ## If successful, the previous step stores a token file. Check that a file that stores a token exists with:
-googlesheets4::gs4_auth(cache = ".secrets", 
-                        email = "raflima@usp.br")
+# googlesheets4::gs4_auth(cache = ".secrets", 
+#                         email = "raflima@usp.br")
 link <- "https://docs.google.com/spreadsheets/d/1GKRClW7DNeRLK-CBnHAkW0M191845mKuvNQEfPYAkGo/edit?usp=sharing"
 predefined_map <- as.data.frame(googlesheets4::read_sheet(link))
 
@@ -80,11 +80,7 @@ network_info <-
   network_info[!apply(network_info[,-1], 1, function(x) all(is.na(x))), ]
 network_info <- 
   network_info[, c(TRUE, !apply(network_info[,-1], 2, function(x) all(is.na(x))))]
-
-# NETWORK PEOPLE INFORMATION ------------------------------------------------
-link <- ""
-people_info <- as.data.frame(googlesheets4::read_sheet(link))
-
+network_info <- network_info[network_info$GroupCode %in% available_projects,]
 
 # QUANTITATIVE SCALE METHODS -----------------------------------------------
 # predefined.path <- "data-raw/PredefinedMethods.xlsx"
