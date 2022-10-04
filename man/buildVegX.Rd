@@ -6,17 +6,37 @@
 \usage{
 buildVegX(
   input.info = NULL,
-  fill.project = TRUE,
+  add.site = TRUE,
+  add.community = TRUE,
+  add.species = TRUE,
+  add.individual = TRUE,
+  add.project = TRUE,
   add.people = TRUE,
   add.citation = TRUE,
   proj.string = "+proj=longlat +datum=WGS84"
 )
 }
 \arguments{
-\item{input.info}{a list. The output of the VegX high-level function
+\item{input.info}{a named list. The output of the VegX high-level function
 function `prepareInputData()`.}
 
-\item{fill.project}{logical. Should the information about the project be
+\item{add.site}{logical. Should the information about the site
+characteristics (e.g. slope, aspect, parent material, soil, vegetation
+type) be added to the VegX object? Defaults to TRUE.}
+
+\item{add.community}{logical. Should the aggregated observations at the
+stand/community (e.g. density, total biomass) level be added to the VegX
+object? Defaults to TRUE.}
+
+\item{add.species}{logical. Should the aggregated observations at the
+species-level (e.g. number of individuals and biomass per species) be added
+to the VegX object? Defaults to TRUE.}
+
+\item{add.individual}{logical. Should the observations at the
+individual-level (e.g. stem diameter and height) information about the xxx
+be added to the VegX object? Defaults to TRUE.}
+
+\item{add.project}{logical. Should the information about the project be
 added to the VegX object? Defaults to TRUE.}
 
 \item{add.people}{logical. Should the information about the people involved
@@ -24,7 +44,7 @@ in the project be added to the VegX object? Defaults to TRUE.}
 
 \item{add.citation}{logical. Should the information about the literature
 associated with the vegetation data be added to the VegX object? Defaults
-to TRUE.}
+to TRUE. (Not implemented yet)}
 
 \item{proj.string}{a string with the projection attributes of the plot/site
 geographical coordinates to be passed to the function `addPlotLocations()`

@@ -2,15 +2,27 @@
 #' 
 #' @description This function ...
 #' 
-#' @param input.info a list. The output of the VegX high-level function
+#' @param input.info a named list. The output of the VegX high-level function
 #'   function `prepareInputData()`.
-#' @param fill.project logical. Should the information about the project be
+#' @param add.site logical. Should the information about the site
+#'   characteristics (e.g. slope, aspect, parent material, soil, vegetation
+#'   type) be added to the VegX object? Defaults to TRUE.
+#' @param add.community logical. Should the aggregated observations at the
+#'   stand/community (e.g. density, total biomass) level be added to the VegX
+#'   object? Defaults to TRUE.
+#' @param add.species logical. Should the aggregated observations at the
+#'   species-level (e.g. number of individuals and biomass per species) be added
+#'   to the VegX object? Defaults to TRUE.
+#' @param add.individual logical. Should the observations at the
+#'   individual-level (e.g. stem diameter and height) information about the xxx
+#'   be added to the VegX object? Defaults to TRUE.
+#' @param add.project logical. Should the information about the project be
 #'   added to the VegX object? Defaults to TRUE.
 #' @param add.people logical. Should the information about the people involved
 #'   in the project be added to the VegX object? Defaults to TRUE.
 #' @param add.citation logical. Should the information about the literature
 #'   associated with the vegetation data be added to the VegX object? Defaults
-#'   to TRUE.
+#'   to TRUE. (Not implemented yet)
 #' @param proj.string a string with the projection attributes of the plot/site
 #'   geographical coordinates to be passed to the function `addPlotLocations()`
 #'   (see `proj4string` of package `sp`).
@@ -30,18 +42,22 @@
 #' @export buildVegX
 #'
 buildVegX <- function(input.info = NULL,
-                     fill.project = TRUE,
-                     add.people = TRUE,
-                     add.citation = TRUE,
-                     proj.string = "+proj=longlat +datum=WGS84") {
+                      add.site = TRUE,
+                      add.community = TRUE,
+                      add.species = TRUE,
+                      add.individual = TRUE,
+                      add.project = TRUE,
+                      add.people = TRUE,
+                      add.citation = TRUE,
+                      proj.string = "+proj=longlat +datum=WGS84") {
   
   # Check the input info
   if (is.null(input.info))
     stop("Please provide the input information related to the vegetation data")
 
-  if (fill.project & is.null(input.info$data[["project.info"]])) {
-    fill.project <- FALSE
-    warning("No data frame with project information. Setting `fill.project` to FALSE",
+  if (add.project & is.null(input.info$data[["project.info"]])) {
+    add.project <- FALSE
+    warning("No data frame with project information. Setting `add.project` to FALSE",
             call. = FALSE)
   }
 
@@ -84,7 +100,7 @@ buildVegX <- function(input.info = NULL,
                               input.info$data$plot.obs, mapping = map)
   
   # Add project information ------------------------------------------------
-  if (fill.project) {
+  if (add.project) {
     if (!is.null(input.info$data$project.info)) {
       info <- input.info$data$project.info
       if (length(info) == 1 & names(info)[1] == "title") {
@@ -109,13 +125,17 @@ buildVegX <- function(input.info = NULL,
             pessoas <- NA_character_
           }
           
-          citacao <- info[, grepl("Reference", colnames(info))]
-          citacao <- citacao[, !is.na(citacao)]
-          
-          if (dim(citacao)[2] == 0) {
-            citacao <- NA_character_
+          if (add.citation) {
+            citacao <- info[, grepl("Reference", colnames(info))]
+            citacao <- citacao[, !is.na(citacao)]
+            
+            if (dim(citacao)[2] == 0) {
+              citacao <- NA_character_
+            } else {
+              citacao <- paste(citacao, collapse = " | ")
+            }
           } else {
-            citacao <- paste(citacao, collapse = " | ")
+            citacao <- NA_character_
           }
           
           if (is.na(pessoas)) {
@@ -155,7 +175,7 @@ buildVegX <- function(input.info = NULL,
         if (add.people) {
           if (!is.null(input.info$data$people.info)) {
             if ("names" %in% colnames(input.info$data$people.info)) {
-              pessoas <- list(input.info$data$people.info$names)
+              pessoas <- as.list(input.info$data$people.info$names)
               names(pessoas) <- input.info$data$people.info$roles
             } else {
               pessoas <- NA_character_
@@ -164,7 +184,7 @@ buildVegX <- function(input.info = NULL,
             pessoas <- NA_character_
           }
           
-          if (is.na(pessoas)) {
+          if (any(is.na(pessoas))) {
             message("Adding general project/network/database information:")
             vegx <- fillProjectInformation(vegx, 
                             title = project.title,
@@ -258,24 +278,33 @@ buildVegX <- function(input.info = NULL,
   if (any(all.places %in% names(locations))) {
     locations1 <- locations[names(locations) %in% all.places]
     plot.locations <-
-      input.info$data$plot.info[, c(input.info$essential.info[["plotName"]], locations1)]
+      input.info$data$plot.info[, c(input.info$essential.info[["plotName"]], 
+                                    locations1), drop = FALSE]
     names(plot.locations) <-
       c(input.info$essential.info[["plotName"]], names(locations1))
     plot.locations$placeName <- 
-      apply(plot.locations[ , rev(names(locations1))], 
+      apply(plot.locations[ , rev(names(locations1)), drop = FALSE], 
             1, paste, collapse = " | ")
     plot.locations$placeType <- 
       paste(rev(names(locations1)), collapse = " | ")
     levels.locations <- names(plot.locations)[names(plot.locations) %in%
                                                 c("country", "stateProvince", 
                                                   "municipality", "locality")] 
-    plot.locations$loc.check <- 
-      plantR::formatLoc(plot.locations, 
-                        loc.levels = levels.locations, scrap = TRUE)$loc.correct
-    map <- list(plotName = input.info$essential.info[["plotName"]], 
-                placeName = "placeName",
-                placeType = "placeType",
-                locationNarrative = "loc.check")
+    
+    loc.check <- try(plantR::formatLoc(plot.locations, 
+                          loc.levels = levels.locations, scrap = TRUE)$loc.correct,
+                  TRUE)
+    if (class(loc.check) == "try-error") {
+      map <- list(plotName = input.info$essential.info[["plotName"]], 
+                  placeName = "placeName",
+                  placeType = "placeType")
+    } else {
+      plot.locations$loc.check <- loc.check
+      map <- list(plotName = input.info$essential.info[["plotName"]], 
+                  placeName = "placeName",
+                  placeType = "placeType",
+                  locationNarrative = "loc.check")
+    }
     message("Adding plot place names:")
     vegx <- addPlotLocations(vegx, plot.locations, map)
   }
@@ -324,215 +353,253 @@ buildVegX <- function(input.info = NULL,
   }
   
   # Add invariant site characteristics -------------------------------------
-  map <- list(plotName = input.info$essential.info[["plotName"]])
-  methods.ls <- list()
-  # if (!is.na(input.info$mapping$plot.info[["subplotName"]]))
-  #   map <- c(map, subPlotName = input.info$mapping$plot.info[["subplotName"]])
-  map.names <- names(map)
-
-  methods <- c("slopeSiteMethod", "aspectSiteMethod", "landformMethod",
-               "parentMaterialMethod")
-  methods.eq <- c("slope", "aspect", "landform", "parentMaterial")
-  fields <- gsub("Method", "", methods)
-  
-  for (i in seq_along(fields)) {
-    field.i <- input.info$mapping$plot.info[[fields[i]]]
-    if (!is.na(field.i)) {
-      map.i <- list(field.i)
-      method.i <- list(input.info$mapping$plot.info[[methods[i]]])
-      names(map.i) <- names(method.i) <- methods.eq[i]
-      map <- c(map, map.i)
-      methods.ls <- c(methods.ls, method.i)    
-    }    
-  }  
-  
-  # Any qualitative/ordinal method?
-  replace_these <- !grepl("\\/", methods.ls)
-  if (any(replace_these)) {
-    rep.methods <- methods.ls[replace_these]
-    new.methods <- lapply(methods.ls[replace_these], 
-                           function(x) qualitative_methods[[x]])
-    not_qualitative <- unlist(lapply(new.methods, is.null))
-    if (any(not_qualitative))
-      new.methods[not_qualitative] <- lapply(methods.ls[replace_these], 
-                                             function(x) ordinal_methods[[x]])
-    methods.ls[replace_these] <- new.methods
-  }
-
-  if (any(!names(map) %in% map.names)) {
-    message("Adding invariant site characteristics:")
-    vegx <- 
-      addSiteCharacteristics(vegx, input.info$data$plot.info, map, methods.ls)
-  }  
-  
-  # Add aggregate organism observations ------------------------------------
-  if (!is.null(input.info$data$species.data)) {
-    map <- list(plotName = input.info$essential.info[["plotName.SpeciesData"]],
-                obsStartDate = input.info$essential.info[["censusDateStart"]],
-                organismName = input.info$essential.info[["organismName.SpeciesData"]])
-    methods.ls <- list()
-    if (!is.na(input.info$mapping$species.data[["subplotNameSample"]]))
-      map <- c(map, 
-               subPlotName = input.info$mapping$species.data[["subplotNameSample"]])
-    map.names <- names(map)
-    
-    #### CHECK HERE: WHERE TO STORE THE FOREST HEIGHT? ####
-
-    all.fields <- names(input.info$mapping$species.data)
-    methods <- all.fields[grepl("Method", all.fields)]
-    fields <- gsub("Method", "", methods)
-    
-    for (i in seq_len(length(fields))) {
-      field.i <- input.info$mapping$species.data[[fields[i]]]
-      if (!is.na(field.i)) {
-        map.i <- list(field.i)
-        method.i <- list(input.info$mapping$species.data[[methods[i]]])
-        names(map.i) <- names(method.i) <- fields[i]
-        map <- c(map, map.i)
-        methods.ls <- c(methods.ls, method.i)    
-      }    
-    }
-    
-    if (any(!names(map) %in% map.names)) {
-      message("Adding aggregate (i.e. species-level) measurements:")
-      vegx <- addAggregateOrganismObservations(vegx, 
-                                               input.info$data$species.data, map, methods.ls)
-    }
-  }
-  
-  # Add individual organism observations -----------------------------------
-  if (!is.null(input.info$data$individual.data)) {
-    map <- list(plotName = input.info$essential.info[["plotName.IndividualData"]],
-                obsStartDate = input.info$essential.info[["censusDateStart"]],
-                organismName = input.info$essential.info[["organismName.IndividualData"]])
-    methods.ls <- list()
-    if (!is.na(input.info$mapping$individual.data[["subplotNameSample"]]))
-      map <- c(map, subPlotName = 
-                 input.info$mapping$individual.data[["subplotNameSample"]])
-    if (!is.na(input.info$mapping$individual.data[["fieldTag"]]))
-      map <- c(map, individualOrganismLabel = 
-                 input.info$mapping$individual.data[["fieldTag"]])
-    map.names <- names(map)
-
-    all.fields <- names(input.info$mapping$individual.data)
-    methods <- all.fields[grepl("Method", all.fields)]
-    fields <- gsub("Method", "", methods)
-    
-    for (i in seq_len(length(fields))) {
-      field.i <- input.info$mapping$individual.data[[fields[i]]]
-      if (!is.na(field.i)) {
-        map.i <- list(field.i)
-        method.i <- list(input.info$mapping$individual.data[[methods[i]]])
-        names(map.i) <- names(method.i) <- fields[i]
-        map <- c(map, map.i)
-        methods.ls <- c(methods.ls, method.i)    
-      }    
-    }
-    
-    if (any(!names(map) %in% map.names)) {
-      message("Adding tree (i.e. individual-level) measurements:")
-      vegx <- addIndividualOrganismObservations(vegx, 
-                                               input.info$data$individual.data, 
-                                               map, methods.ls)
-    }
-  }
- 
-  
-  # Add community observations ---------------------------------------------
-  if (!is.null(input.info$data$community.data)) {
-    map <- list(plotName = input.info$essential.info[["plotName"]],
-                obsStartDate = input.info$essential.info[["censusDateStart"]])
+  if (add.site) {
+    map <- list(plotName = input.info$essential.info[["plotName"]])
     methods.ls <- list()
     # if (!is.na(input.info$mapping$plot.info[["subplotName"]]))
     #   map <- c(map, subPlotName = input.info$mapping$plot.info[["subplotName"]])
     map.names <- names(map)
     
-    all.fields <- names(input.info$mapping$community.data)
-    methods <- all.fields[grepl("Method", all.fields)]
+    methods <- c("slopeSiteMethod", "aspectSiteMethod", "landformMethod",
+                 "parentMaterialMethod")
+    methods.eq <- c("slope", "aspect", "landform", "parentMaterial")
     fields <- gsub("Method", "", methods)
-    #length(fields) == length(methods)
     
-    for (i in seq_len(length(fields))) {
-      field.i <- input.info$mapping$community.data[[fields[i]]]
+    for (i in seq_along(fields)) {
+      field.i <- input.info$mapping$plot.info[[fields[i]]]
       if (!is.na(field.i)) {
         map.i <- list(field.i)
-        method.i <- list(input.info$mapping$community.data[[methods[i]]])
-        names(map.i) <- names(method.i) <- fields[i]
+        method.i <- list(input.info$mapping$plot.info[[methods[i]]])
+        names(map.i) <- names(method.i) <- methods.eq[i]
         map <- c(map, map.i)
         methods.ls <- c(methods.ls, method.i)    
       }    
-    }
+    }  
     
     # Any qualitative/ordinal method?
-    replace_these <- !grepl("\\/", methods.ls)
-    if (any(replace_these)) {
-      rep.methods <- methods.ls[replace_these]
-      new.methods <- 
-        lapply(methods.ls[replace_these], function(x) qualitative_methods[[x]])
-      not_qualitative <- unlist(lapply(new.methods, is.null))
-      if (any(not_qualitative))
-        new.methods[not_qualitative] <- 
-        lapply(methods.ls[replace_these], function(x) ordinal_methods[[x]])
-      methods.ls[replace_these] <- new.methods
-    }
-    
+    methods.ls <- .getNonQuantitativeMethods(methods.ls)
+
     if (any(!names(map) %in% map.names)) {
-      message("Adding community (i.e. stand-level) measurements:")
+      message("Adding invariant site characteristics:")
       vegx <- 
-        addCommunityObservations(vegx, 
-                                 input.info$data$community.data, map, methods.ls)
-    }
-  }  
+        addSiteCharacteristics(vegx, input.info$data$plot.info, map, methods.ls)
+    }  
+  }
   
+  # Add aggregate organism observations ------------------------------------
+  if (add.species) {
+    if (!is.null(input.info$data$species.data)) {
+      map <- list(plotName = input.info$essential.info[["plotName.SpeciesData"]],
+                  obsStartDate = input.info$essential.info[["censusDateStart"]],
+                  organismName = input.info$essential.info[["organismName.SpeciesData"]])
+      methods.ls <- list()
+      
+      if (!is.na(input.info$mapping$species.data[["subplotNameSample"]]))
+        map <- c(map, 
+                 subPlotName = input.info$mapping$species.data[["subplotNameSample"]])
+      
+      if (!is.na(input.info$mapping$species.data[["stratumName"]])) {
+        map <- c(map, 
+                 stratumName = input.info$mapping$species.data[["stratumName"]])
+        strata.name <- input.info$mapping$species.data[["stratumNameMethod"]]
+        strataDef <- input.info$stratum.info[[strata.name]]
+      } else { strataDef <- NULL}
+      map.names <- names(map)
+      
+      #### CHECK HERE: WHERE TO STORE THE FOREST HEIGHT? ####
+      
+      # Adding methods
+      map.list <- .getMethods(input.info$mapping$species.data, map, methods.ls)
+      map <- map.list$map
+      methods.ls <- map.list$method.list
+        
+      if (any(!names(map) %in% map.names)) {
+        message("Adding aggregate (i.e. species-level) measurements:")
+        vegx <- addAggregateOrganismObservations(vegx, 
+                                                 input.info$data$species.data, 
+                                                 stratumDefinition = strataDef,
+                                                 map, methods.ls)
+      }
+    }
+  }
+  
+  # Add individual organism observations -----------------------------------
+  if (add.individual) {
+    if (!is.null(input.info$data$individual.data)) {
+      map <- list(plotName = input.info$essential.info[["plotName.IndividualData"]],
+                  obsStartDate = input.info$essential.info[["censusDateStart"]],
+                  organismName = input.info$essential.info[["organismName.IndividualData"]])
+      methods.ls <- list()
+      if (!is.na(input.info$mapping$individual.data[["subplotNameSample"]]))
+        map <- c(map, subPlotName = 
+                   input.info$mapping$individual.data[["subplotNameSample"]])
+      
+      if (!is.na(input.info$mapping$individual.data[["fieldTag"]]))
+        map <- c(map, individualOrganismLabel = 
+                   input.info$mapping$individual.data[["fieldTag"]])
+      
+      if (!is.na(input.info$mapping$individual.data[["stratumName"]])) {
+        map <- c(map, 
+                 stratumName = input.info$mapping$individual.data[["stratumName"]])
+        strata.name <- input.info$mapping$individual.data[["stratumNameMethod"]]
+        strataDef <- input.info$stratum.info[[strata.name]]
+      } else { strataDef <- NULL}
+      
+      map.names <- names(map)
+      
+      # Adding methods
+      map.list <- 
+        .getMethods(input.info$mapping$individual.data, map, methods.ls)
+      map <- map.list$map
+      methods.ls <- map.list$method.list
+      
+      # all.fields <- names(input.info$mapping$individual.data)
+      # methods <- all.fields[grepl("Method", all.fields)]
+      # fields <- gsub("Method", "", methods)
+      # 
+      # for (i in seq_len(length(fields))) {
+      #   field.i <- input.info$mapping$individual.data[[fields[i]]]
+      #   if (!is.na(field.i)) {
+      #     map.i <- list(field.i)
+      #     method.i <- list(input.info$mapping$individual.data[[methods[i]]])
+      #     names(map.i) <- names(method.i) <- fields[i]
+      #     map <- c(map, map.i)
+      #     methods.ls <- c(methods.ls, method.i)    
+      #   }    
+      # }
+      # 
+      # # Any qualitative/ordinal method?
+      # methods.ls <- .getNonQuantitativeMethods(methods.ls)
+
+      if (any(!names(map) %in% map.names)) {
+        message("Adding tree (i.e. individual-level) measurements:")
+        vegx <- addIndividualOrganismObservations(vegx, 
+                                                  input.info$data$individual.data, 
+                                                  stratumDefinition = strataDef,
+                                                  map, methods.ls)
+      }
+    }
+  }
+
+  # Add community observations ---------------------------------------------
+  if (add.community) {
+    if (!is.null(input.info$data$community.data)) {
+      map <- list(plotName = input.info$essential.info[["plotName"]],
+                  obsStartDate = input.info$essential.info[["censusDateStart"]])
+      methods.ls <- list()
+      
+      if (!is.na(input.info$mapping$community.data[["stratumName"]])) {
+        #### CHECK HERE: VegX currently does not allow for data per stratum in Community Observations
+        #### CODES BELOW SHOULD BE REMOVED ONCE FIXED
+        drop <- input.info$mapping$community.data[["stratumName"]]
+        drop <- "stratumName"
+        mapa <- as.character(unlist(map))
+        input.info$data$community.data <- 
+          .aggregateRows(input.info$data$community.data, mapa, drop)
+        
+        col.dados <- unique(colnames(input.info$data$community.data))
+        col.dados <- unique(c(col.dados, 
+                              names(input.info$mapping$community.data)[grepl(paste(col.dados, collapse = "|^"),
+                                                                             input.info$mapping$community.data,
+                                                                             perl = TRUE)]))
+        keep_cols <- paste(col.dados, collapse = "|^")
+        input.info$mapping$community.data <- 
+          input.info$mapping$community.data[grepl(keep_cols, input.info$mapping$community.data, perl = TRUE) | 
+                                              grepl(keep_cols, names(input.info$mapping$community.data), perl = TRUE)]
+      #   map <- c(map, 
+      #            stratumName = input.info$mapping$community.data[["stratumName"]])
+      #   strata.name <- input.info$mapping$community.data[["stratumNameMethod"]]
+      #   strataDef <- input.info$stratum.info[[strata.name]]
+      } else { strataDef <- NULL}
+      map.names <- names(map)
+      
+      # Adding methods
+      map.list <- .getMethods(input.info$mapping$community.data, map, methods.ls)
+      map <- map.list$map
+      methods.ls <- map.list$method.list
+      
+      # all.fields <- names(input.info$mapping$community.data)
+      # methods <- all.fields[grepl("Method", all.fields) & 
+      #                               !grepl("stratumName", all.fields)]
+      # fields <- gsub("Method", "", methods)
+      # #length(fields) == length(methods)
+      # 
+      # for (i in seq_len(length(fields))) {
+      #   field.i <- input.info$mapping$community.data[[fields[i]]]
+      #   if (!is.na(field.i)) {
+      #     map.i <- list(field.i)
+      #     method.i <- list(input.info$mapping$community.data[[methods[i]]])
+      #     names(map.i) <- names(method.i) <- fields[i]
+      #     map <- c(map, map.i)
+      #     methods.ls <- c(methods.ls, method.i)    
+      #   }    
+      # }
+      # 
+      # # Any qualitative/ordinal method?
+      # methods.ls <- .getNonQuantitativeMethods(methods.ls)
+
+      if (any(!names(map) %in% map.names)) {
+        message("Adding community (i.e. stand-level) measurements:")
+        vegx <- 
+          addCommunityObservations(vegx, input.info$data$community.data, 
+                                   #stratumDefinition = strataDef,
+                                   map, methods.ls)
+      }
+    }  
+  }
   
   # Add site observations --------------------------------------------------
-  if (!is.null(input.info$data$site.data)) {
-    map <- list(plotName = input.info$essential.info[["plotName"]],
-                obsStartDate = input.info$essential.info[["censusDateStart"]])
-    methods.ls <- list()
-    
-    # Soil measurements
-    soil.measures <- input.info$mapping$site.data[grepl("soilMeasurement", 
-                                                        names(input.info$mapping$site.data))]
-    if (any(!is.na(soil.measures))) {
-      all.fields <- soil.measures[!is.na(soil.measures)]
-      fields <- list(all.fields[!grepl("Method", names(all.fields))])
-      methods <- list(all.fields[grepl("Method", names(all.fields))])
-      names(fields) <- names(methods) <- letters[seq_len(length(fields))]
-      message("Adding soil measurements:")
-      vegx <- addSiteObservations(vegx, input.info$data$site.data, 
-                                  plotObservationMapping = map,
-                                  soilMeasurementMapping = fields,
-                                  soilMeasurementMethods = methods)
-    }
-    
-    #### CHECK HERE: do the same for climateMeasurements?  ####
-    
-    # Soil type
-    if (!is.na(input.info$mapping$site.data[["soilType"]])) {
-      message("Adding soil type:")
-      field <- list(soilType = input.info$mapping$site.data[["soilType"]])
-      method <- list(soilType = input.info$mapping$site.data[["soilTypeMethod"]])
-      method[["soilType"]] <- qualitative_methods[[unlist(method)]]
-      vegx <- addSiteObservations(vegx, input.info$data$site.data, 
-                                  plotObservationMapping = map,
-                                  soilMeasurementMapping = field,
-                                  soilMeasurementMethods = method)
-    }
-    
-    #### ADD HERE: vegetationType  ####
-
-    
+  if (add.site) {
+    if (!is.null(input.info$data$site.data)) {
+      map <- list(plotName = input.info$essential.info[["plotName"]],
+                  obsStartDate = input.info$essential.info[["censusDateStart"]])
+      methods.ls <- list()
+      
+      # Soil measurements
+      soil.measures <- input.info$mapping$site.data[grepl("soilMeasurement", 
+                                                          names(input.info$mapping$site.data))]
+      if (any(!is.na(soil.measures))) {
+        all.fields <- soil.measures[!is.na(soil.measures)]
+        fields <- list(all.fields[!grepl("Method", names(all.fields))])
+        methods <- list(all.fields[grepl("Method", names(all.fields))])
+        names(fields) <- names(methods) <- letters[seq_len(length(fields))]
+        message("Adding soil measurements:")
+        vegx <- addSiteObservations(vegx, input.info$data$site.data, 
+                                    plotObservationMapping = map,
+                                    soilMeasurementMapping = fields,
+                                    soilMeasurementMethods = methods)
+      }
+      
+      #### CHECK HERE: do the same for climateMeasurements?  ####
+      
+      # Soil type
+      if (!is.na(input.info$mapping$site.data[["soilType"]])) {
+        message("Adding soil type:")
+        field <- list(soilType = input.info$mapping$site.data[["soilType"]])
+        method <- list(soilType = input.info$mapping$site.data[["soilTypeMethod"]])
+        method[["soilType"]] <- qualitative_methods[[unlist(method)]]
+        vegx <- addSiteObservations(vegx, input.info$data$site.data, 
+                                    plotObservationMapping = map,
+                                    soilMeasurementMapping = field,
+                                    soilMeasurementMethods = method)
+      }
+      
+      #### ADD HERE: vegetationType  ####
+      
+      
+    }    
   }    
   
-  # Add stratum observations --------------------------------------------------
+  # Add stratum observations -----------------------------------------------
+  # if (add.stratum) {}
   ## TO BE IMPLEMENTED
   #### CHECK TUTORIAL ####
   
-  # Add surface cover observations --------------------------------------------------
+  # Add surface cover observations -----------------------------------------
+  # if (add.surface) {}
   ## TO BE IMPLEMENTED
   #### CHECK TUTORIAL ####
   
-  
+  # Returning the VegX object ----------------------------------------------
   return(vegx)  
 }
