@@ -19,8 +19,10 @@ prepareInputData(
   project.title = NULL,
   miss.fields = TRUE,
   fixed.date = Sys.Date(),
-  spp.names = c("organismNameMorpho", "organismNameOriginal", "organismName"),
-  summarise.data = TRUE
+  spp.names = c("organismNameOriginal", "organismNameMorpho", "organismName"),
+  summarise.data = TRUE,
+  profiles = NULL,
+  return.unmapped = FALSE
 )
 }
 \arguments{
@@ -89,15 +91,65 @@ species diversity indices. Defaults to the following order:
 \item{summarise.data}{logical. Should individual or species plot data be
 aggregated at higher levels of information (i.e. species and community
 levels)? Defaults to TRUE.}
+
+\item{profiles}{numerical vector. The plant diameter class limits to generate
+different data profiles for the individual data when aggregated at the
+species data.}
+
+\item{return.unmapped}{logical. Should the data contained in fileds not
+present in the map provided be saved with the output. Defaults to FALSE.}
 }
 \value{
-A list with ...
+A named list with the names of the fields essential for VegX
+  (`essential.info`), the updated mapping (`mapping`), the organized data
+  present in the mapping `data` and, if chosen, the as-provided data
+  not present in the mapping (`unmapped.data`).
 }
 \description{
-This function ...
+This function prepares, check and organize the available
+  information to ease the creation of VegX objects.
 }
 \details{
-This function
+Some fields, such as the the plot ID/name, sampling date and
+  organism names, are quite important for building the VegX objects. So, if
+  missing and if possible, they are created and added to the data. In
+  addition, if data at species and/or individual-level are provided, plot
+  ID/name need to be present across the provided tables.
+  
+  If not data is provided with the species and/or individual-level, the
+  function assumes that the data is single-census and add the sampling dates
+  as provided in the plot information/observation tables. If no sampling date
+  is provided, the function assumes by default the date when the data was
+  prepared. Users can provide a different date using the argument
+  `fixed.date`, preferably in the "YYYY-MM-DD" format.
+  
+  VegX only accepts complete organism names (e.g. Genus epiteth Author). If
+  organism name information is splitted into different columns (e.g. genus,
+  epiteth, infra-epiteth, author), those columns are used to generate full
+  organism names, if they were also provided in the mapping. This operation
+  is performed for original names, morpho-species or accepted names.
+  
+  If a given field containing a quantitative or qualitative
+  measurement/classification is present in the mapping and it has not an
+  associate method description, the field is dropped from the data and the
+  mapping with a warning. The field will still be stored in the output under
+  the element `unmapped.data` if the argument `return.unmapped` is set to
+  TRUE.
+  
+  If species and/or individual-level data is provided and mapped, the
+  function by default returns the aggregated data at the levels possible 
+  (i.e. species and/or community levels) and it include the corresponding
+  methods in the mapping. When individual-level data is provided, the
+  aggregated data at the species-level tipically contains the count of number
+  of individuals and the sum of their basal area per organism name. The
+  organism name selected to obtain these metrics is the first one from the
+  `spp.names` vectors which is also present in the data. If only
+  species-level data is provided, then only metrics at the stand/community
+  level are obtained. Currently those metrics are: the number of individuals
+  in the sample, the number of individuals, basal area and above-ground
+  biomass per hectare, the number of species in the sample (i.e. richness),
+  and the Shannon, Simpson and Pielou indices. These calculations can be
+  avoided by setting the argument `summarise.data` to FALSE.
 }
 \seealso{
 Other high-level functions: 
