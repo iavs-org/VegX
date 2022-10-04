@@ -1047,6 +1047,151 @@
   object
 }
 
+# Title: Set Non-Quantitative Methods
+#
+# Description: This function get and replace quantitative methods (which always
+# have the form 'method name/unit') by qualitative methods (categorical or
+# ordinal), whithin a list of methods. Used internally in function `buildVegX()`.
+#
+# @param x a named list
+#   
+#
+.getNonQuantitativeMethods <- function (x) 
+{
+  
+  if (!class(x) %in% "list")
+    stop("The input object 'x' must be a named list")
+  
+  replace_these <- !grepl("\\/", x)
+  
+  if (any(replace_these)) {
+    rep.methods <- x[replace_these]
+    new.methods <- lapply(x[replace_these], 
+                          function(x) qualitative_methods[[x]])
+    not_qualitative <- unlist(lapply(new.methods, is.null))
+    
+    if (any(not_qualitative))
+      new.methods[not_qualitative] <- lapply(x[replace_these], 
+                                             function(x) ordinal_methods[[x]])
+    
+    x[replace_these] <- new.methods
+    return(x)
+    
+  } else {
+    
+    return(x)
+    
+  }
+}
+# Title: Set Methods
+#
+# Description: This function set the methods (quantitative, qualitative or
+# ordinal). Used internally in function `buildVegX()`.
+#
+# @param x a named list
+#   
+#
+.getMethods <- function (equiv = NULL, mapa = NULL, lista = NULL) 
+{
+ 
+  all.fields <- names(equiv)
+  methods <- all.fields[grepl("Method", all.fields) & 
+                          !grepl("stratumName", all.fields)]
+  fields <- gsub("Method", "", methods)
+  
+  for (i in seq_len(length(fields))) {
+    field.i <- equiv[[fields[i]]]
+    if (!is.na(field.i)) {
+      map.i <- list(field.i)
+      method.i <- list(equiv[[methods[i]]])
+      names(map.i) <- names(method.i) <- fields[i]
+      mapa <- c(mapa, map.i)
+      lista <- c(lista, method.i)    
+    }    
+  }
+  
+  # Any qualitative/ordinal method?
+  lista <- .getNonQuantitativeMethods(lista)
+  
+  result <- list(map = mapa, method.list = lista)
+  return(result)
+}
+
+# Title: Get Data Profiles Based on Measurements
+#
+# Description: This function create a vector of profiles (size classes) to group
+# individuals before the calculation of species-level summaries. Used
+# internally in function `prepareInputData()`. 
+#
+# Details: Please make sure that the vector 'x' and the limits provided in
+# 'profile' are in the same measurement units
+#
+# @param x a vector of numbers
+# @param profile numerical. The desired size limits to build the profile
+# @param min.size numerical. The user-declared minimum cutoff size
+# @param unit character. The measurement unit of the vectors 'x' and 'profile'
+#
+.getProfile <- function (x, profile = NULL, min.size = NULL, unit = NULL,
+                         include.min = FALSE) 
+{
+  
+  if (!class(x) %in% c("numeric", "double", "integer"))
+    stop("The input object 'x' must be composed by numbers")
+
+  if (!is.null(min.size)) {
+    if (length(x) != length(min.size))
+      stop("The input object 'x' must be composed by numbers")
+  }
+  
+  minimos <- unique(min.size)
+  if (include.min) {
+    if (any(!minimos %in% profile))
+      profile <- unique(c(minimos, profile))
+    
+    if (min(profile, na.rm = TRUE) < min(minimos))
+      profile <- c(min(minimos), profile[ -which.min(profile)])
+  }
+  
+  profile <- sort(profile)
+  
+  interv <- as.factor(findInterval(x, profile))
+  
+  class.labels <- NULL
+  for (i in seq_along(profile)) {
+    label.i <- paste0(profile[i],"-", profile[i+1])
+    
+    if (grepl("-NA$", label.i))
+      label.i <- paste0(">=", gsub("-NA$", "", label.i))
+    
+    class.labels[i] <- label.i
+  }
+  
+  if (0 %in% levels(interv))
+    class.labels <- c(paste0("<", min(profile, na.rm = TRUE)), class.labels)
+
+  levels(interv) <- class.labels
+  interv <- as.character(interv)
+  
+  replace_these <- x < min.size & grepl("^<", interv, perl = TRUE)
+  if (any(replace_these)) {
+    interv[replace_these] <- class.labels[2]
+  }
+  
+  class.labels <- c(class.labels[1], paste0(">=", minimos),
+                    class.labels[-1])
+  defs <- paste(class.labels, unit)
+  strat.def <- list(`Diameter classes` = 
+    defineCategoricalStrata(name = "Diameter classes",
+                                 description = "User-defined diameter size classes",
+                                 citationString = "", DOI = "",
+                                 strataNames = class.labels,
+                                 strataDefinitions = defs))
+  
+  result <- list(classes = interv, definitions = strat.def)
+  
+  return(result)
+}
+
 # Title: Get Common Species Diversity Indices
 # Description: This function is an adaptation of the vegan function
 # `diversity()`.
@@ -1107,3 +1252,52 @@
   
   return(H)
 }
+
+# Title: Group Data Frame per Row
+#
+# @param dados a data frame
+# @param group the column names to be used for grouping
+# @param drop the column names that should be dropped from the result
+# 
+# 
+.aggregateRows <- function(dados, group, drop) {
+  
+  classes <- sapply(dados, class)
+  cols.to.sum <- names(dados)[classes %in% c("numeric", "double", "integer")]
+  cols.to.sum <- cols.to.sum[!grepl("ichness|iversity|hannon|impson|ielou", cols.to.sum)]
+  
+  cols.to.paste <- names(dados)[classes %in% c("character")]
+  cols.to.paste <- cols.to.paste[!cols.to.paste %in% c(group, drop)]
+  
+  group.by <- as.list(dados[group])
+  
+  if (length(cols.to.sum) > 0)
+    somatoria <- aggregate(dados[, cols.to.sum],
+                           by = as.list(dados[group]),
+                           sum, na.rm = TRUE)
+  
+  if (length(cols.to.paste) > 0)
+    colagem <- aggregate(dados[, cols.to.paste],
+                         by = as.list(dados[group]),
+                         function(x) unique(x))
+  
+  if (length(cols.to.sum) > 0) {
+    if (length(cols.to.paste) > 0) {
+      grouped.dados <- cbind.data.frame(somatoria, colagem)
+    } else {
+      grouped.dados <- somatoria
+    }
+    
+  } else {
+    if (length(cols.to.paste) > 0) {
+      grouped.dados <- colagem
+    } else {
+      grouped.dados <- dados
+    }
+  }
+  
+  grouped.dados <- grouped.dados[, !duplicated(colnames(grouped.dados))]
+  
+  return(grouped.dados)
+}
+
