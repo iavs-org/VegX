@@ -252,7 +252,7 @@ readVegXML<-function(file, verbose = TRUE) {
         if("coordinates" %in% names(hc)) {
           cc = hc[["coordinates"]]
           plot$location$horizontalCoordinates$coordinates$valueX = xmlValue(cc[["valueX"]])
-          plot$location$horizontalCoordinates$coordinates$valueY = xmlValue(cc[["valueX"]])
+          plot$location$horizontalCoordinates$coordinates$valueY = xmlValue(cc[["valueY"]])
           plot$location$horizontalCoordinates$coordinates$spatialReference = xmlValue(cc[["spatialReference"]])
           if("attributeID" %in% names(cc)) {
             plot$location$horizontalCoordinates$coordinates$attributeID = xmlValue(cc[["attributeID"]])
