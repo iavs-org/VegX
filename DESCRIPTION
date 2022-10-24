@@ -2,7 +2,7 @@ Package: VegX
 Type: Package
 Title: Vegetation data in Veg-X
 Version: 0.7.0
-Date: 2022-04-11
+Date: 2022-10-24
 Authors@R: c(
 	person('Miquel', 'De Cáceres', role=c('aut','cre'),
 	email='miquelcaceres@gmail.com'),
