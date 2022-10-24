@@ -1244,6 +1244,9 @@ prepareInputData <- function(plot.info = NULL,
   }
   
   # Detecting and storing unmapped fields ------------------------------
+  if (!exists("profile.strata"))
+    profile.strata <- NULL
+  
   if (return.unmapped) {
     miss.data <- list(plot.info = plot.info,
                       plot.obs = plot.obs, 
