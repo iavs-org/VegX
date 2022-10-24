@@ -30,7 +30,7 @@
 #'
 #' @family add functions
 #'
-#' @details The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names 
+#' @details The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names
 #' and others that are not taxa. Missing value policy:
 #' \itemize{
 #'   \item{Missing \code{plotName} or \code{obsStartDate} values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}
@@ -70,7 +70,7 @@
 #'                                       methods = list(diameterMeasurement = "DBH/cm"),
 #'                                       missing.values = c(NA, "(Unknown)", "0",""))
 #' head(showElementTable(x, "individualOrganismObservation"))
-#' 
+#'
 #' @export
 addIndividualOrganismObservations<-function(target, x, mapping,
                                             methods = list(),
@@ -78,7 +78,7 @@ addIndividualOrganismObservations<-function(target, x, mapping,
                                             date.format = "%Y-%m-%d",
                                             missing.values = c(NA, "0", ""),
                                             verbose = TRUE) {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -153,11 +153,11 @@ addIndividualOrganismObservations<-function(target, x, mapping,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       methods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

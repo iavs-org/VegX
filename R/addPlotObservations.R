@@ -54,14 +54,14 @@
 #'
 #' showElementTable(x, "plot")
 #' showElementTable(x, "plotObservation")
-#' 
+#'
 #' @export
 addPlotObservations<-function(target, x,
                               mapping,
                               missing.values = c(NA,""),
                               date.format = "%Y-%m-%d",
                               verbose = TRUE) {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -75,15 +75,15 @@ addPlotObservations<-function(target, x,
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
   if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function will be ignored."))
-  
+
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) {
       if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
     }
   }
-  
-  
+
+
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format =date.format)
 

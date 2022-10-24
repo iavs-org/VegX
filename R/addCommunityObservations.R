@@ -25,23 +25,23 @@
 #'
 #' @family add functions
 #'
-#' @examples 
+#' @examples
 #' data(mokihinui)
-#' 
+#'
 #' # Simulate measurement of basal area
 #' moki_site$BA = pmax(0, rnorm(nrow(moki_site), 10, 5))
-#' 
+#'
 #' # Define mapping
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot",
 #'                obsStartDate = "PlotObsStartDate", basal_area = "BA")
 #'
-#' 
+#'
 #' x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
 #'                         methods = list(basal_area = "Basal area/m2*ha-1"))
-#'                         
+#'
 #' # Inspect the result
 #' head(showElementTable(x, "communityObservation"))
-#' 
+#'
 #' @export
 addCommunityObservations<-function(target, x,
                               mapping,
@@ -50,7 +50,7 @@ addCommunityObservations<-function(target, x,
                               missing.values = c(NA,""),
                               verbose = TRUE) {
 
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -68,7 +68,7 @@ addCommunityObservations<-function(target, x,
   }
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format = date.format)
-  
+
   #Optional mappings
   subPlotFlag = ("subPlotName" %in% names(mapping))
   if(subPlotFlag) {
@@ -89,11 +89,11 @@ addCommunityObservations<-function(target, x,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       methods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID
@@ -213,7 +213,7 @@ addCommunityObservations<-function(target, x,
           }
           commObs$communityMeasurements[[mesID]] = list("attributeID" = attIDs[[1]],
                                                         "value" = value)
-        } 
+        }
         else {
           ind = which(codes==as.character(value))
           if(length(ind)==1) {
@@ -222,7 +222,7 @@ addCommunityObservations<-function(target, x,
           }
           else stop(paste0("Value '", value,"' for '", m, "' not found in measurement definition. Please revise classes or data."))
         }
-      } 
+      }
       else {
         nmissing = nmissing + 1
       }

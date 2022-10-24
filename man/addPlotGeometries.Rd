@@ -61,8 +61,8 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot",
                width = "PlotRectangleLength01", length = "PlotRectangleLength02")
 
 # Define methods
-methods = list(area = "Plot area/m2", 
-               width = "Plot dimension/m", length = "Plot dimension/m") 
+methods = list(area = "Plot area/m2",
+               width = "Plot dimension/m", length = "Plot dimension/m")
 
 # Create new Veg-X document with plot locations
 x = addPlotGeometries(newVegX(), moki_site, mapping, methods)

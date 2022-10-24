@@ -10,7 +10,7 @@
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @importFrom XML newXMLDoc newXMLNode saveXML
-#' 
+#'
 #' @examples
 #' \dontrun{
 #'   target = newVegX()
@@ -19,7 +19,7 @@
 #'
 #' @export
 writeVegXML <- function(x, file, verbose = TRUE) {
-  if(class(x)!="VegX") 
+  if(!inherits(x, "VegX"))
     stop("Wrong class for 'x'. Should be an object of class 'VegX'")
 
   # Top XML node
@@ -174,22 +174,22 @@ writeVegXML <- function(x, file, verbose = TRUE) {
          ocid = newXMLNode("originalIdentificationConcept", parent=oi)
          newXMLNode("taxonConceptID", x@organismIdentities[[i]]$originalIdentificationConcept$taxonConceptID,
                     parent=ocid)
-         if("assertionDate" %in% names(x@organismIdentities[[i]]$originalIdentificationConcept)) 
+         if("assertionDate" %in% names(x@organismIdentities[[i]]$originalIdentificationConcept))
            newXMLNode("assertionDate", as.character(x@organismIdentities[[i]]$originalIdentificationConcept$assertionDate), parent=ocid)
-         if("assertionPartyID" %in% names(x@organismIdentities[[i]]$originalIdentificationConcept)) 
+         if("assertionPartyID" %in% names(x@organismIdentities[[i]]$originalIdentificationConcept))
            newXMLNode("assertionPartyID", x@organismIdentities[[i]]$originalIdentificationConcept$assertionPartyID, parent=ocid)
       }
       if("preferredTaxonNomenclature" %in% names(x@organismIdentities[[i]])) {
         ptn = newXMLNode("preferredTaxonNomenclature", parent=oi)
         newXMLNode("preferredTaxonNameID", x@organismIdentities[[i]]$preferredTaxonNomenclature$preferredTaxonNameID,
                    parent=ptn)
-        if("interpretationDate" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature)) 
+        if("interpretationDate" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature))
           newXMLNode("interpretationDate", as.character(x@organismIdentities[[i]]$preferredTaxonNomenclature$interpretationDate), parent=ptn)
-        if("interpretationSource" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature)) 
+        if("interpretationSource" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature))
           newXMLNode("interpretationSource", x@organismIdentities[[i]]$preferredTaxonNomenclature$interpretationSource, parent=ptn)
-        if("interpretationCitationID" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature)) 
+        if("interpretationCitationID" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature))
           newXMLNode("interpretationCitationID", x@organismIdentities[[i]]$preferredTaxonNomenclature$interpretationCitationID, parent=ptn)
-        if("interpretationPartyID" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature)) 
+        if("interpretationPartyID" %in% names(x@organismIdentities[[i]]$preferredTaxonNomenclature))
           newXMLNode("interpretationPartyID", x@organismIdentities[[i]]$preferredTaxonNomenclature$interpretationPartyID, parent=ptn)
       }
     }

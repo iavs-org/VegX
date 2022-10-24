@@ -16,7 +16,7 @@
 #' @param measurementMethods A named list of objects of class \code{\linkS4class{VegXMethodDefinition}} with the measurement method
 #' for each of the site variables stated in \code{mapping}. List names should be the same as the names of site variables
 #' (e.g. \code{list(aspect = aspectMeth)} to specify the use of method \code{aspectMeth} for aspect measurements). Alternatively,
-#' methods can be specified using strings if a predefined method exists (e.g. \code{list(aspect = "Aspect/degrees")}), 
+#' methods can be specified using strings if a predefined method exists (e.g. \code{list(aspect = "Aspect/degrees")}),
 #' see \code{\link{predefinedMeasurementMethod}}.
 #' @param missing.values A character vector of values that should be considered as missing observations/measurements.
 #' @param verbose A boolean flag to indicate console output of the data integration process.
@@ -29,7 +29,7 @@
 #'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
 #'     \item{Missing measurements (e.g. \code{aspect}, \code{slope},...) are simply not added to the Veg-X document.}
 #'  }
-#'  
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
@@ -45,20 +45,20 @@
 #'
 #' # Create new Veg-X document with site characteristics
 #' x = addSiteCharacteristics(newVegX(), moki_site, mapping = sitemapping,
-#'                            measurementMethods = list(slope = "Slope/degrees", 
+#'                            measurementMethods = list(slope = "Slope/degrees",
 #'                                                      aspect = "Aspect/degrees"))
 #'
 #' # Inspect the result
 #' showElementTable(x, "plot")
-#' 
+#'
 #' @export
 addSiteCharacteristics<-function(target, x,
                                  mapping,
                                  measurementMethods = list(),
                                  missing.values = c(NA,""),
                                  verbose = TRUE) {
-  
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -67,18 +67,18 @@ addSiteCharacteristics<-function(target, x,
   #check mappings
   siteVariables = c("slope", "aspect", "landform", "parentMaterial")
   mappingsAvailable = c("plotName", "subPlotName", siteVariables)
-  
+
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
   if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function and will be ignored."))
-  
+
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) {
       if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
     }
   }
-  
+
   siteValues = list()
   for(i in 1:length(mapping)) {
     if(names(mapping)[i] %in% siteVariables) {
@@ -109,11 +109,11 @@ addSiteCharacteristics<-function(target, x,
   methodAttIDs = list()
   for(m in names(measurementMethods)) {
     method = measurementMethods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       measurementMethods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

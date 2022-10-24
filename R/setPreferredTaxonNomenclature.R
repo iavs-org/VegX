@@ -1,5 +1,5 @@
 #' Sets preferred taxon nomenclature
-#' 
+#'
 #' Sets (or resets) a preferred taxon nomenclature to the organism identities of a data set using a lookup table
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
@@ -32,19 +32,19 @@
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
 #'                    subject = "plant cover",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) 
-#'                        The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                    citation = "Hurst, JM and Allen, RB. (2007)
+#'                        The Recce method for describing New Zealand vegetation – Field protocols.
 #'                        Landcare Research, Lincoln.",
 #'                    codes = c("P","1","2","3", "4", "5", "6"),
 #'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
 #'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", 
+#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%",
 #'                                    "51-75%", "76-100%"))
 #' strataDef = defineMixedStrata(name = "Recce strata",
 #'                    description = "Standard Recce stratum definition",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) 
-#'                      The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                    citation = "Hurst, JM and Allen, RB. (2007)
+#'                      The Recce method for describing New Zealand vegetation – Field protocols.
 #'                      Landcare Research, Lincoln.",
 #'                    heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
 #'                    heightStrataNames = paste0("Tier ",1:6),
@@ -63,14 +63,14 @@
 #'
 #' # Inspect the modified organism identities
 #' head(showElementTable(y, "organismIdentity"))
-#' 
+#'
 #' @export
 setPreferredTaxonNomenclature<-function(target, x, mapping,
                                         date.format = "%Y-%m-%d",
                                         missing.values = c(NA, ""),
                                         verbose = TRUE) {
 
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
 
   if(!(("originalOrganismName" %in% names(mapping)) && ("preferredTaxonName" %in% names(mapping)))) {
     stop(paste0("Mapping should include 'originalOrganismName' and 'preferredTaxonName'."))
@@ -82,11 +82,11 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
 
   originalOrganismNames = as.character(x[[mapping[["originalOrganismName"]]]])
   preferredTaxonNames = as.character(x[[mapping[["preferredTaxonName"]]]])
-  
+
   interpretationSourceFlag = ("interpretationSource" %in% names(mapping))
   if(interpretationSourceFlag) {
     interpretationSources = as.character(x[[mapping[["interpretationSource"]]]])
-  } 
+  }
   interpretationDateFlag = ("interpretationDate" %in% names(mapping))
   if(interpretationDateFlag) {
     interpretationDates = as.Date(as.character(x[[mapping[["interpretationDate"]]]]), format =date.format)
@@ -99,7 +99,7 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
   if(interpretationPartyFlag) {
     interpretationParties = as.character(x[[mapping[["interpretationParty"]]]])
   }
-  
+
   if(length(target@organismIdentities)==0) stop(paste0("No organism identities in object 'target'."))
 
   nsetidentities = 0
@@ -122,7 +122,7 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
        if(nonid$id != orgId$originalOrganismNameID) ntransfidentities = ntransfidentities + 1
        if(!("preferredTaxonNomenclature" %in% names(orgId))) orgId$preferredTaxonNomenclature = list()
        orgId$preferredTaxonNomenclature$preferredTaxonNameID = nonid$id
-       
+
        if(interpretationSourceFlag) {
            if(!(interpretationSources[id] %in% missing.values)) {# If interpretation source is missing do not use
              orgId$preferredTaxonNomenclature$interpretationSource = interpretationSources[id]
@@ -152,8 +152,8 @@ setPreferredTaxonNomenclature<-function(target, x, mapping,
            orgId$preferredTaxonNomenclature$interpretationPartyID = partyID
          }
        }
-       
-       
+
+
        nsetidentities = nsetidentities + 1
      }
      target@organismIdentities[[i]] = orgId

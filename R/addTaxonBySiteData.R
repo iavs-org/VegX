@@ -5,7 +5,7 @@
 #' @param target The object of class \code{\linkS4class{VegX}} to be modified.
 #' @param x A taxon by site (plot) table (with plots in rows and taxa in columns) and with plant abundance values.
 #' @param abundanceMethod A measurement method for aggregate plant abundance (an object of class \code{\linkS4class{VegXMethodDefinition}}).
-#' @param obsDates A \code{\link{Date}} or a vector of \code{\link{Date}} objects with plot observation dates. 
+#' @param obsDates A \code{\link{Date}} or a vector of \code{\link{Date}} objects with plot observation dates.
 #' @param isTaxon A boolean flag (or vector) to indicate which organism names are taxa.
 #' @param absence.values A vector of values to be interpreted as missing plant information.
 #' @param verbose A flag to indicate console output of the data integration process.
@@ -18,13 +18,13 @@
 addTaxonBySiteData <-function(target,
                               x,
                               abundanceMethod,
-                              obsDates = Sys.Date(), 
+                              obsDates = Sys.Date(),
                               isTaxon = TRUE,
                               absence.values = c(NA, 0),
                               verbose = TRUE) {
 
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
-  
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+
   #plots
   orinplots = length(target@plots)
   nplot = nrow(x)
@@ -82,7 +82,7 @@ addTaxonBySiteData <-function(target,
   }
 
   #methods/attributes (WARNING: method match should be made by attributes?)
-  if(class(abundanceMethod)=="character") {
+  if(is.character(abundanceMethod)) {
     abundanceMethod = predefinedMeasurementMethod(abundanceMethod)
   }
   nmtid = .newMethodIDByName(target,abundanceMethod@name)
@@ -125,8 +125,8 @@ addTaxonBySiteData <-function(target,
   for(i in 1:nplot) {
     for(j in 1:noid) {
       if(!(as.character(x[i,j]) %in% absence.values)) {
-        naoID = .newAggregateOrganismObservationIDByOrganismIdentityID(target, 
-                                                                       plotObsIDs[i], 
+        naoID = .newAggregateOrganismObservationIDByOrganismIdentityID(target,
+                                                                       plotObsIDs[i],
                                                                        "", orgIDs[j])
         aggObsID = naoID$id
         if(naoID$new) {

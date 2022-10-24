@@ -951,26 +951,26 @@
 # @param max.distance Maximum distance allowed for fuzzy matching. Expressed
 #   either as integer, or as a fraction of the pattern length times the maximal
 #   transformation cost.
-#   
 #
-.matchArgExtended <- function (arg, choices, 
+#
+.matchArgExtended <- function (arg, choices,
                                several.ok = FALSE, ignore.case = FALSE,
                                method = "partial", max.distance = 0.1) {
-  
+
   if (missing(choices)) {
     formal.args <- formals(sys.function(sysP <- sys.parent()))
-    choices <- eval(formal.args[[as.character(substitute(arg))]], 
+    choices <- eval(formal.args[[as.character(substitute(arg))]],
                     envir = sys.frame(sysP))
   }
-  
+
   if (is.null(arg)) {
     return(NA_character_)
     # return(choices[1L])
   } else {
-    if (!is.character(arg)) 
+    if (!is.character(arg))
       stop("'arg' must be NULL or a character vector")
-  }  
-  
+  }
+
   if (ignore.case) {
     choices.orig <- choices
     choices <- tolower(choices)
@@ -980,56 +980,56 @@
     choices.orig <- choices
     arg.orig <- arg
   }
-  
+
   if (!several.ok) {
-    if (identical(arg, choices)) 
+    if (identical(arg, choices))
       return(arg.orig[1L])
-    if (length(arg) > 1L) 
+    if (length(arg) > 1L)
       stop("'arg' must be of length 1")
   } else {
-    if (length(arg) == 0L) 
+    if (length(arg) == 0L)
       stop("'arg' must be of length >= 1")
-  }  
-  
+  }
+
   if (method == "partial")
     i <- pmatch(arg, choices, nomatch = 0L, duplicates.ok = TRUE)
   if (method == "fuzzy")
     i <- agrep(arg, choices, max.distance = max.distance)
-  
-  if (all(i == 0L)) 
-    stop(gettextf("'arg' should be one of %s", 
+
+  if (all(i == 0L))
+    stop(gettextf("'arg' should be one of %s",
                   paste(dQuote(choices), collapse = ", ")), domain = NA)
   i <- i[i > 0L]
-  if (!several.ok && length(i) > 1) 
+  if (!several.ok && length(i) > 1)
     stop("there is more than one match in 'match.arg'")
   choices.orig[i]
 }
 
 # Complete and re-order a map in respect to a reference map
 .mapToReference <- function(map = NULL, ref = NULL) {
-  
+
   if (is.null(map))
     stop("The map object must be provided")
-  
+
   if (is.null(ref))
     ref <- supporting_info$reference_map
-  
+
   tables.ref <- names(ref)
   tables.map <- names(map)
   which.common <- which(tables.ref %in% tables.map)
-  
+
   ref.new <- ref
   j <- 1
   for (i in which.common) {
     ref.i <- ref[[i]]
-    map.i <- map[[j]] 
+    map.i <- map[[j]]
     ref.i.new <- c(map.i, ref.i[which(!names(ref.i) %in% names(map.i))])
-    ref.i.new <- 
-      ref.i.new[match(names(ref.i), names(ref.i.new), nomatch = 0)] 
+    ref.i.new <-
+      ref.i.new[match(names(ref.i), names(ref.i.new), nomatch = 0)]
     ref.new[[i]] <- ref.i.new
     j <- j + 1
   }
-  
+
   return(ref.new)
 }
 
@@ -1039,9 +1039,9 @@
 #
 # @param object character or vector
 # @param names a character vector of names to assign to the object
-#   
 #
-.setNames <- function (object = names, names) 
+#
+.setNames <- function (object = names, names)
 {
   names(object) <- names
   object
@@ -1054,33 +1054,33 @@
 # ordinal), whithin a list of methods. Used internally in function `buildVegX()`.
 #
 # @param x a named list
-#   
 #
-.getNonQuantitativeMethods <- function (x) 
+#
+.getNonQuantitativeMethods <- function (x)
 {
-  
-  if (!class(x) %in% "list")
+
+  if (!inherits(x, "list"))
     stop("The input object 'x' must be a named list")
-  
+
   replace_these <- !grepl("\\/", x)
-  
+
   if (any(replace_these)) {
     rep.methods <- x[replace_these]
-    new.methods <- lapply(x[replace_these], 
+    new.methods <- lapply(x[replace_these],
                           function(x) qualitative_methods[[x]])
     not_qualitative <- unlist(lapply(new.methods, is.null))
-    
+
     if (any(not_qualitative))
-      new.methods[not_qualitative] <- lapply(x[replace_these], 
+      new.methods[not_qualitative] <- lapply(x[replace_these],
                                              function(x) ordinal_methods[[x]])
-    
+
     x[replace_these] <- new.methods
     return(x)
-    
+
   } else {
-    
+
     return(x)
-    
+
   }
 }
 # Title: Set Methods
@@ -1089,16 +1089,16 @@
 # ordinal). Used internally in function `buildVegX()`.
 #
 # @param x a named list
-#   
 #
-.getMethods <- function (equiv = NULL, mapa = NULL, lista = NULL) 
+#
+.getMethods <- function (equiv = NULL, mapa = NULL, lista = NULL)
 {
- 
+
   all.fields <- names(equiv)
-  methods <- all.fields[grepl("Method", all.fields) & 
+  methods <- all.fields[grepl("Method", all.fields) &
                           !grepl("stratumName", all.fields)]
   fields <- gsub("Method", "", methods)
-  
+
   for (i in seq_len(length(fields))) {
     field.i <- equiv[[fields[i]]]
     if (!is.na(field.i)) {
@@ -1106,13 +1106,13 @@
       method.i <- list(equiv[[methods[i]]])
       names(map.i) <- names(method.i) <- fields[i]
       mapa <- c(mapa, map.i)
-      lista <- c(lista, method.i)    
-    }    
+      lista <- c(lista, method.i)
+    }
   }
-  
+
   # Any qualitative/ordinal method?
   lista <- .getNonQuantitativeMethods(lista)
-  
+
   result <- list(map = mapa, method.list = lista)
   return(result)
 }
@@ -1121,7 +1121,7 @@
 #
 # Description: This function create a vector of profiles (size classes) to group
 # individuals before the calculation of species-level summaries. Used
-# internally in function `prepareInputData()`. 
+# internally in function `prepareInputData()`.
 #
 # Details: Please make sure that the vector 'x' and the limits provided in
 # 'profile' are in the same measurement units
@@ -1132,9 +1132,9 @@
 # @param unit character. The measurement unit of the vectors 'x' and 'profile'
 #
 .getProfile <- function (x, profile = NULL, min.size = NULL, unit = NULL,
-                         include.min = FALSE) 
+                         include.min = FALSE)
 {
-  
+
   if (!class(x) %in% c("numeric", "double", "integer"))
     stop("The input object 'x' must be composed by numbers")
 
@@ -1142,53 +1142,53 @@
     if (length(x) != length(min.size))
       stop("The input object 'x' must be composed by numbers")
   }
-  
+
   minimos <- unique(min.size)
   if (include.min) {
     if (any(!minimos %in% profile))
       profile <- unique(c(minimos, profile))
-    
+
     if (min(profile, na.rm = TRUE) < min(minimos))
       profile <- c(min(minimos), profile[ -which.min(profile)])
   }
-  
+
   profile <- sort(profile)
-  
+
   interv <- as.factor(findInterval(x, profile))
-  
+
   class.labels <- NULL
   for (i in seq_along(profile)) {
     label.i <- paste0(profile[i],"-", profile[i+1])
-    
+
     if (grepl("-NA$", label.i))
       label.i <- paste0(">=", gsub("-NA$", "", label.i))
-    
+
     class.labels[i] <- label.i
   }
-  
+
   if (0 %in% levels(interv))
     class.labels <- c(paste0("<", min(profile, na.rm = TRUE)), class.labels)
 
   levels(interv) <- class.labels
   interv <- as.character(interv)
-  
+
   replace_these <- x < min.size & grepl("^<", interv, perl = TRUE)
   if (any(replace_these)) {
     interv[replace_these] <- class.labels[2]
   }
-  
+
   class.labels <- c(class.labels[1], paste0(">=", minimos),
                     class.labels[-1])
   defs <- paste(class.labels, unit)
-  strat.def <- list(`Diameter classes` = 
+  strat.def <- list(`Diameter classes` =
     defineCategoricalStrata(name = "Diameter classes",
                                  description = "User-defined diameter size classes",
                                  citationString = "", DOI = "",
                                  strataNames = class.labels,
                                  strataDefinitions = defs))
-  
+
   result <- list(classes = interv, definitions = strat.def)
-  
+
   return(result)
 }
 
@@ -1202,54 +1202,54 @@
 # @param groups a grouping factor (e.g. plot names)
 #
 .getSpeciesDiversity <- function (x, index = "shannon", groups = NULL) {
-  
-  if (!is.numeric(x)) 
+
+  if (!is.numeric(x))
     stop("input data must be numeric")
-  
-  if (any(x < 0, na.rm = TRUE)) 
+
+  if (any(x < 0, na.rm = TRUE))
     stop("input data must be non-negative")
-  
+
   INDICES <- c("shannon", "pielou", "simpson", "inv.simpson", "unb.simpson")
   index <- match.arg(index, INDICES)
   # index <- .matchArgExtended(index, INDICES, method = "fuzzy")
-  
+
   if (!is.null(groups)) {
     group.sum <- aggregate(x, list(groups), sum, na.rm = TRUE)
     names(group.sum) <- c("grupo", "Ntotal")
     new.x <- cbind.data.frame(x, groups)
-    new.x <- merge(new.x, group.sum, 
+    new.x <- merge(new.x, group.sum,
                    by.x = "groups", by.y = "grupo", all.x = TRUE, sort = FALSE)
     new.x$ni <- new.x$x/new.x$Ntotal
     new.x$pi1 <- (new.x$x * (new.x$x-1))/
-      (new.x$Ntotal * (new.x$Ntotal-1)) 
+      (new.x$Ntotal * (new.x$Ntotal-1))
   } else {
-    new.x <- cbind.data.frame(groups = "a", x = x, ni = x/sum(x), 
+    new.x <- cbind.data.frame(groups = "a", x = x, ni = x/sum(x),
                               pi1 = (x * (x-1))/(sum(x) * sum(x)-1))
   }
-  
+
   if (index == "shannon")
-    H <- aggregate(new.x$ni, list(new.x$groups), 
+    H <- aggregate(new.x$ni, list(new.x$groups),
                    function(x) - sum(x * log(x), na.rm = TRUE))$x
-  
+
   if (index == "pielou") {
-    H <- aggregate(new.x$ni, list(new.x$groups), 
+    H <- aggregate(new.x$ni, list(new.x$groups),
                    function(x) - sum(x * log(x), na.rm = TRUE))$x
     S <- aggregate(new.x$ni, list(new.x$groups), length)$x
     H <- H/log(S)
   }
-  
-  if (index == "simpson") 
-    H <- 1 - aggregate(new.x$ni, list(new.x$groups), 
+
+  if (index == "simpson")
+    H <- 1 - aggregate(new.x$ni, list(new.x$groups),
                        function(x) sum(x * x, na.rm = TRUE))$x
-  
-  if (index == "inv.simpson") 
-    H <- 1/aggregate(new.x$ni, list(new.x$groups), 
+
+  if (index == "inv.simpson")
+    H <- 1/aggregate(new.x$ni, list(new.x$groups),
                      function(x) sum(x * x, na.rm = TRUE))$x
-  
-  if (index == "unb.simpson") 
-    H <- 1 - aggregate(new.x$pi1, list(new.x$groups), 
+
+  if (index == "unb.simpson")
+    H <- 1 - aggregate(new.x$pi1, list(new.x$groups),
                        function(x) sum(x, na.rm = TRUE))$x
-  
+
   return(H)
 }
 
@@ -1258,36 +1258,36 @@
 # @param dados a data frame
 # @param group the column names to be used for grouping
 # @param drop the column names that should be dropped from the result
-# 
-# 
+#
+#
 .aggregateRows <- function(dados, group, drop) {
-  
+
   classes <- sapply(dados, class)
   cols.to.sum <- names(dados)[classes %in% c("numeric", "double", "integer")]
   cols.to.sum <- cols.to.sum[!grepl("ichness|iversity|hannon|impson|ielou", cols.to.sum)]
-  
+
   cols.to.paste <- names(dados)[classes %in% c("character")]
   cols.to.paste <- cols.to.paste[!cols.to.paste %in% c(group, drop)]
-  
+
   group.by <- as.list(dados[group])
-  
+
   if (length(cols.to.sum) > 0)
     somatoria <- aggregate(dados[, cols.to.sum],
                            by = as.list(dados[group]),
                            sum, na.rm = TRUE)
-  
+
   if (length(cols.to.paste) > 0)
     colagem <- aggregate(dados[, cols.to.paste],
                          by = as.list(dados[group]),
                          function(x) unique(x))
-  
+
   if (length(cols.to.sum) > 0) {
     if (length(cols.to.paste) > 0) {
       grouped.dados <- cbind.data.frame(somatoria, colagem)
     } else {
       grouped.dados <- somatoria
     }
-    
+
   } else {
     if (length(cols.to.paste) > 0) {
       grouped.dados <- colagem
@@ -1295,9 +1295,9 @@
       grouped.dados <- dados
     }
   }
-  
+
   grouped.dados <- grouped.dados[, !duplicated(colnames(grouped.dados))]
-  
+
   return(grouped.dados)
 }
 

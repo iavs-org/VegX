@@ -81,7 +81,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
                                       missing.values = c(NA, ""),
                                       verbose = TRUE) {
 
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   if(is.null(surfaceTypeDefinition)) stop("Surface type definition must be supplied to map cover observations.")
   if(is.null(coverMethod)) stop("Cover measurement method must be supplied to map cover observations.")
 
@@ -91,7 +91,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
 
   mappingsSCO = c("plotName", "obsStartDate", "subPlotName", "surfaceName")
   mappingsAvailable = c(mappingsSCO, "coverMeasurement")
-  
+
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
   if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function and will be ignored."))
@@ -102,7 +102,7 @@ addSurfaceCoverObservations<-function(target, x, mapping,
       if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
     }
   }
-  
+
   plotNames = as.character(x[[mapping[["plotName"]]]])
   obsStartDates = as.Date(as.character(x[[mapping[["obsStartDate"]]]]), format = date.format)
   surfaceNameData = as.character(x[[mapping[["surfaceName"]]]])
@@ -129,11 +129,11 @@ addSurfaceCoverObservations<-function(target, x, mapping,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       methods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

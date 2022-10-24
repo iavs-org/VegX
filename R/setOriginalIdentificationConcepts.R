@@ -65,14 +65,14 @@
 #' y = setOriginalIdentificationConcepts(x, citationStringAll="Allen 1998")
 #'
 #' head(showElementTable(y, "organismIdentity"))
-#' 
+#'
 #' @export
 setOriginalIdentificationConcepts<-function(target, citationStringAll = "",
                            x = NULL, mapping = list(),
                            date.format = "%Y-%m-%d",
                            missing.values = c(NA, ""),
                            verbose = TRUE) {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
 
   if(is.null(x) && citationStringAll!="") {
     #Adds literature citation

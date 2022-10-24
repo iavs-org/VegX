@@ -59,15 +59,15 @@ In these cases, scale transformations are not possible if \code{replaceValues = 
 data(mokihinui)
 
 # Create initial Veg-X document with stratum heights in meters
-mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate", 
+mapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
                stratumName = "Tier",
-               lowerLimitMeasurement = "TierLower", 
+               lowerLimitMeasurement = "TierLower",
                upperLimitMeasurement = "TierUpper")
 heightMethod1 = predefinedMeasurementMethod("Stratum height/m")
 strataDef = defineMixedStrata(name = "Recce strata",
                description = "Standard Recce stratum definition",
-               citation = "Hurst, JM and Allen, RB. (2007) 
-                   The Recce method for describing New Zealand vegetation – 
+               citation = "Hurst, JM and Allen, RB. (2007)
+                   The Recce method for describing New Zealand vegetation –
                    Field protocols. Landcare Research, Lincoln.",
                heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                heightStrataNames = paste0("Tier ",1:6),
@@ -86,7 +86,7 @@ showElementTable(x, "stratumObservation")
 # ('replaceValues' needs to be set to TRUE to force replacement)
 heightMethod2 = predefinedMeasurementMethod("Stratum height/cm")
 y = transformQuantitativeScale(x, "Stratum height/m", heightMethod2,
-                               function(x){return(x*10)}, 
+                               function(x){return(x*10)},
                                replaceValues = TRUE)
 # Examine new stratum heights
 showElementTable(y, "stratumObservation")

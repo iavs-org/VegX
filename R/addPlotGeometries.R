@@ -43,22 +43,22 @@
 #'                width = "PlotRectangleLength01", length = "PlotRectangleLength02")
 #'
 #' # Define methods
-#' methods = list(area = "Plot area/m2", 
-#'                width = "Plot dimension/m", length = "Plot dimension/m") 
-#' 
+#' methods = list(area = "Plot area/m2",
+#'                width = "Plot dimension/m", length = "Plot dimension/m")
+#'
 #' # Create new Veg-X document with plot locations
 #' x = addPlotGeometries(newVegX(), moki_site, mapping, methods)
 #'
 #' # Inspect results
 #' showElementTable(x, "plot")
-#' 
+#'
 #' @export
 addPlotGeometries<-function(target, x,
                             mapping,
                             methods = list(),
                             missing.values = c(NA,""),
                             verbose = TRUE) {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -66,22 +66,22 @@ addPlotGeometries<-function(target, x,
   circleVariables = c("radius")
   rectangleVariables = c("length", "width")
   lineVariables = c("length", "bandWidth")
-  
+
   geometryVariables = unique(c("area", circleVariables, rectangleVariables, lineVariables))
   mappingsAvailable = c("plotName", "subPlotName", "shape", geometryVariables)
   geometryValues = list()
-  
+
   #Check columns exist
   for(i in 1:length(mapping)) {
-    if(!(mapping[i] %in% names(x))) { 
+    if(!(mapping[i] %in% names(x))) {
       if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' not found in column names. Revise mapping or data."))
     }
   }
-  
+
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
   if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function will be ignored."))
-  
+
   #Read values
   plotNames = as.character(x[[mapping[["plotName"]]]])
   for(i in 1:length(mapping)) {
@@ -108,11 +108,11 @@ addPlotGeometries<-function(target, x,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       methods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID
@@ -187,7 +187,7 @@ addPlotGeometries<-function(target, x,
     }
     #Add 'geometry' element if necessary
     if(!("geometry" %in% names(target@plots[[plotID]]))) target@plots[[plotID]]$geometry = list()
-    
+
     # area measurements
     if("area" %in% names(mapping)) {
       m = "area"
@@ -319,7 +319,7 @@ addPlotGeometries<-function(target, x,
           }
         }
       }
-    }    
+    }
   }
   finnplots = length(target@plots)
   if(verbose) {

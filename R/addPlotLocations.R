@@ -15,11 +15,11 @@
 #'    \item{\code{placeName}, \code{placeType} - A string of a place name and place type (e.g. province, county, ...) (optional).}
 #' }
 #' Note that \code{placeName} and \code{placeType} will add new places to the list of places.
-#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. 
+#' @param proj4string A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
 #' This parameter is needed if \code{toWGS84 = TRUE}.
 #' @param reset.places Whether the 'places' vector should be reset before adding new place names.
 #' @param toWGS84 A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".
-#' @param methods A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
+#' @param methods A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}).
 #' Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 #' For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.
 #' @param missing.values A character vector of values that should be considered as missing data (but see the following).
@@ -35,11 +35,11 @@
 #'     \item{Missing \code{subPlotName} values are interpreted in that data refers to the parent plotName.}
 #'     \item{Missing measurements (e.g. \code{elevation}, \code{x}, \code{y}, ...) are simply not added to the Veg-X document.}
 #'  }
-#'  
+#'
 #' @references Wiser SK, Spencer N, De Caceres M, Kleikamp M, Boyle B & Peet RK (2011). Veg-X - an exchange standard for plot-based vegetation data
 #'
 #' @family add functions
-#' 
+#'
 #' @importFrom sp SpatialPoints spTransform CRS
 
 #'
@@ -55,15 +55,15 @@
 #'
 #' # Summary of the new Veg-X document
 #' showElementTable(x, "plot")
-#' 
+#'
 #' # Add 'elevation' from another table (moki_site). This implies considering subplots.
 #' mapping = list(plotName = "Plot", subPlotName = "Subplot", elevation = "Altitude")
-#' x = addPlotLocations(x, moki_site, mapping, 
+#' x = addPlotLocations(x, moki_site, mapping,
 #'                      methods = list(elevation = "Elevation/m"))
-#'                      
+#'
 #' # Summary of the updated Veg-X document
 #' showElementTable(x, "plot")
-#' 
+#'
 #' @export
 addPlotLocations<-function(target, x,
                            mapping,
@@ -75,7 +75,7 @@ addPlotLocations<-function(target, x,
                            missing.coords = c(NA, 0, ""),
                            missing.elevation = c(NA, 0, ""),
                            verbose = TRUE) {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -92,22 +92,22 @@ addPlotLocations<-function(target, x,
   #Warning for non-recognized mappings
   nonRecognizedMappings = names(mapping)[!(names(mapping) %in% mappingsAvailable)]
   if(length(nonRecognizedMappings)>0) warning(paste0("Mapping(s) for '",paste(nonRecognizedMappings, collapse = "', '"),"' is/are not recognized by the function and will be ignored."))
-  
+
   #Check columns exist
   for(i in 1:length(mapping)) {
     if(!(mapping[i] %in% names(x))) {
-      if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' for '", names(mapping)[i], "' not found in column names. Revise mapping or data.")) 
+      if(names(mapping)[i] %in% mappingsAvailable) stop(paste0("Variable '", mapping[i],"' for '", names(mapping)[i], "' not found in column names. Revise mapping or data."))
     }
   }
-  
+
   locValues = list()
   for(i in 1:length(mapping)) {
     if(names(mapping)[i] %in% allVariables) {
       locValues[[names(mapping)[i]]] = as.character(x[[mapping[[i]]]])
     }
   }
-  
-  
+
+
   plotNames = as.character(x[[mapping[["plotName"]]]])
 
   #Optional mappings
@@ -125,18 +125,18 @@ addPlotLocations<-function(target, x,
       stop("Cannot translate input coordinates to WGS84 if 'proj4string' is not specified.")
     }
   }
-  
+
   #add methods
   methodIDs = character(0)
   methodCodes = list()
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       methods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID
@@ -173,7 +173,7 @@ addPlotLocations<-function(target, x,
       if(verbose) cat(paste0(" Measurement method '", method@name,"' for '",m,"' already included.\n"))
     }
   }
-  
+
   orinplots = length(target@plots)
   orinparties = length(target@parties)
   parsedPlots = character(0)
@@ -275,7 +275,7 @@ addPlotLocations<-function(target, x,
       } else {
         nmissing = nmissing + 1
       }
-      
+
     }
     # Add coordinate variables (if required transform to latlong)
     if(("x" %in% names(mapping)) && ("y" %in% names(mapping))) {
@@ -286,14 +286,14 @@ addPlotLocations<-function(target, x,
         attIDs = methodAttIDs[[m]]
         codes = methodCodes[[m]]
       }
-           
+
       if(locValues[["x"]][i] %in% missing.coords) {
         locValues[["x"]][i] <- NA
         }
       if(locValues[["y"]][i] %in% missing.coords) {
         locValues[["y"]][i] <- NA
-        }       
-      
+        }
+
       x = as.numeric(locValues[["x"]][i])
       y = as.numeric(locValues[["y"]][i])
       if((!is.na(x)) && (!is.na(y))) {

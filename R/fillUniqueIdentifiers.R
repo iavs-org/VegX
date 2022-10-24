@@ -1,5 +1,5 @@
 #' Generates unique identifiers
-#' 
+#'
 #' Generates unique identifiers for plot elements or plot observation elements
 #'
 #' @param target The initial object of class \code{\linkS4class{VegX}} to be modified
@@ -13,7 +13,7 @@
 #' @family fill functions
 #'
 #' @importFrom uuid UUIDgenerate
-#' 
+#'
 #' @examples
 #' # Load source data
 #' data(mokihinui)
@@ -25,18 +25,18 @@
 #'
 #' # Examine the result
 #' showElementTable(x, "plot")
-#' 
+#'
 #' # Add unique identifiers
 #' y = fillUniqueIdentifiers(x, "plot")
-#' 
+#'
 #' # Examine the result
 #' showElementTable(y, "plot")
-#' 
+#'
 #' @export
 fillUniqueIdentifiers<-function(target, element = "plot", replace.existing = FALSE) {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target,"VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   element = match.arg(element, c("plot", "plotObservation"))
-  
+
   if(element=="plot") {
     if(length(target@plots)>0) {
       for(i in 1:length(target@plots)) {

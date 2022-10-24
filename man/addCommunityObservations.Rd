@@ -59,7 +59,7 @@ mapping = list(plotName = "Plot", subPlotName = "Subplot",
 
 x = addCommunityObservations(newVegX(), moki_site, mapping = mapping,
                         methods = list(basal_area = "Basal area/m2*ha-1"))
-                        
+
 # Inspect the result
 head(showElementTable(x, "communityObservation"))
 

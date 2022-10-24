@@ -35,14 +35,14 @@ addPlotLocations(
 }
 Note that \code{placeName} and \code{placeType} will add new places to the list of places.}
 
-\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied. 
+\item{proj4string}{A string with projection attributes (see \code{\link{proj4string}} of package \code{sp}) to be used when 'x' and 'y' are supplied.
 This parameter is needed if \code{toWGS84 = TRUE}.}
 
 \item{reset.places}{Whether the 'places' vector should be reset before adding new place names.}
 
 \item{toWGS84}{A boolean flag to indicate that coordinates should be transformed to "+proj=longlat +datum=WGS84".}
 
-\item{methods}{A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}). 
+\item{methods}{A named list with measurement methods for plot horizontal/vertical location measurements (each being an object of class \code{\linkS4class{VegXMethodDefinition}}).
 Alternatively, methods can be specified using strings if predefined methods exist (see \code{\link{predefinedMeasurementMethod}}).
 For example, \code{methods = c(xy = method1, elevation = method2)}. Measurement method for coordinates is not required, but that for 'elevation' is.}
 
@@ -83,9 +83,9 @@ showElementTable(x, "plot")
 
 # Add 'elevation' from another table (moki_site). This implies considering subplots.
 mapping = list(plotName = "Plot", subPlotName = "Subplot", elevation = "Altitude")
-x = addPlotLocations(x, moki_site, mapping, 
+x = addPlotLocations(x, moki_site, mapping,
                      methods = list(elevation = "Elevation/m"))
-                     
+
 # Summary of the updated Veg-X document
 showElementTable(x, "plot")
 

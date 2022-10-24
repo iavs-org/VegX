@@ -52,7 +52,7 @@
 #'
 #' @return The modified object of class \code{\linkS4class{VegX}}.
 #'
-#' @details 
+#' @details
 #' Unlike in other functions, here the element names of mappings are only used
 #' to find the corresponding method. The measured subject (e.g. pH, salinity or
 #' mean annual temperature) is taken from the method definition. There is one
@@ -69,7 +69,7 @@
 #' entities have been measured. Please contact Veg-X developers to ask for
 #' additional predefined measurement methods if you think they are relevant for
 #' exchanging vegetation plot data.
-#' 
+#'
 #' Missing value policy:
 #' \itemize{
 #'   \item{Missing 'plotName' or 'obsStartDate' values are interpreted as if the
@@ -115,19 +115,19 @@ addSiteObservations<-function(target, x,
                               fill.methods = FALSE,
                               verbose = TRUE) {
 
-  if(class(target)!="VegX") 
+  if(!inherits(target, "VegX"))
     stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
 
-  
-  
+
+
   #check mappings
   soilVariables = c()
   climateVariables = c()
   waterBodyVariables = c()
-  
+
 
   plotObservationMappingsAvailable = c("plotName", "obsStartDate", "subPlotName")
   siteValues = list()
@@ -185,7 +185,7 @@ addSiteObservations<-function(target, x,
       }
     }
   }
-  
+
   #Check columns exist
   for(i in 1:length(plotObservationMapping)) {
     if(!(plotObservationMapping[i] %in% names(x))) stop(paste0("Variable '", plotObservationMapping[i],"' not found in column names. Revise mapping or data."))
@@ -245,11 +245,11 @@ addSiteObservations<-function(target, x,
   measurementMethods = c(soilMeasurementMethods, climateMeasurementMethods, waterBodyMeasurementMethods)
   for(m in names(measurementMethods)) {
     method = measurementMethods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       measurementMethods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

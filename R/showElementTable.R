@@ -24,19 +24,19 @@
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
 #'                    subject = "plant cover",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) 
-#'                       The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                    citation = "Hurst, JM and Allen, RB. (2007)
+#'                       The Recce method for describing New Zealand vegetation – Field protocols.
 #'                       Landcare Research, Lincoln.",
 #'                    codes = c("P","1","2","3", "4", "5", "6"),
 #'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
 #'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%", 
+#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", "26-50%",
 #'                                    "51-75%", "76-100%"))
 #' strataDef = defineMixedStrata(name = "Recce strata",
 #'                    description = "Standard Recce stratum definition",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) 
-#'                      The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                    citation = "Hurst, JM and Allen, RB. (2007)
+#'                      The Recce method for describing New Zealand vegetation – Field protocols.
 #'                      Landcare Research, Lincoln.",
 #'                    heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
 #'                    heightStrataNames = paste0("Tier ",1:6),
@@ -63,14 +63,14 @@
 #'
 #' # show aggregate organism observations (only some of them)
 #' head(showElementTable(x, "aggregateOrganismObservation"))
-#' 
+#'
 #' @export
 showElementTable <- function(x,
                              element = "plot",
                              IDs = FALSE,
                              subjects = FALSE,
                              max.nchar = 30) {
-  
+
   element = match.arg(element, c("project", "party", "plot", "plotObservation",
                                  "organismName","taxonConcept","organismIdentity",
                                  "stratum", "stratumObservation",
@@ -79,7 +79,7 @@ showElementTable <- function(x,
                                  "aggregateOrganismObservation",
                                  "individualOrganism", "individualOrganismObservation", "siteObservation",
                                  "method", "attribute", "literatureCitation"))
-  if(class(x)!="VegX") stop("Wrong class for 'x'. Should be an object of class 'VegX'")
+  if(!inherits(x, "VegX")) stop("Wrong class for 'x'. Should be an object of class 'VegX'")
 
   res = NULL
   trimString<-function(s) {

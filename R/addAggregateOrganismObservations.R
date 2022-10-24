@@ -28,7 +28,7 @@
 #'
 #' @family add functions
 #'
-#' @details The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names 
+#' @details The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names
 #' and others that are not taxa. Missing value policy:
 #' \itemize{
 #'   \item{Missing \code{plotName} and \code{obsStartDate} values are interpreted as if the previous non-missing value has to be used to define aggregate organism observation.}
@@ -51,21 +51,21 @@
 #' coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
 #'                    description = "Recce recording method by Hurst/Allen",
 #'                    subject = "plant cover",
-#'                    citation = "Hurst, JM and Allen, RB. (2007) 
-#'                        The Recce method for describing New Zealand vegetation – 
+#'                    citation = "Hurst, JM and Allen, RB. (2007)
+#'                        The Recce method for describing New Zealand vegetation –
 #'                        Field protocols. Landcare Research, Lincoln.",
 #'                    codes = c("P","1","2","3", "4", "5", "6"),
 #'                    quantifiableCodes = c("1","2","3", "4", "5", "6"),
 #'                    breaks = c(0, 1, 5, 25, 50, 75, 100),
 #'                    midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-#'                    definitions = c("Presence", "<1%", "1-5%","6-25%", 
+#'                    definitions = c("Presence", "<1%", "1-5%","6-25%",
 #'                                    "26-50%", "51-75%", "76-100%"))
 #'
 #' # Define strata
 #' strataDef = defineMixedStrata(name = "Recce strata",
 #'                  description = "Standard Recce stratum definition",
-#'                  citation = "Hurst, JM and Allen, RB. (2007) 
-#'                    The Recce method for describing New Zealand vegetation – Field protocols. 
+#'                  citation = "Hurst, JM and Allen, RB. (2007)
+#'                    The Recce method for describing New Zealand vegetation – Field protocols.
 #'                    Landcare Research, Lincoln.",
 #'                  heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
 #'                  heightStrataNames = paste0("Tier ",1:6),
@@ -90,7 +90,7 @@
 #'                description = "Seedling/sapling stratum definition",
 #'                heightBreaks = c(0, 15, 45, 75, 105, 135, 200),
 #'                strataNames = as.character(1:6),
-#'                strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm", 
+#'                strataDefinitions = c("0-15 cm", "16-45 cm", "46-75 cm",
 #'                                      "76-105 cm", "106-135 cm", "> 135 cm"))
 #' x = addAggregateOrganismObservations(newVegX(), mtfyffe_counts, mapping,
 #'                methods = list(counts="Plant count/individuals"),
@@ -104,7 +104,7 @@
 #' x = addAggregateOrganismObservations(newVegX(), taki_freq, mapping,
 #'                methods = list(freq="Plant frequency/%"))
 #' head(showElementTable(x, "aggregateOrganismObservation"))
-#' 
+#'
 #' @export
 addAggregateOrganismObservations<-function(target, x,
                                      mapping,
@@ -114,7 +114,7 @@ addAggregateOrganismObservations<-function(target, x,
                                      missing.values = c(NA, "0", ""),
                                      verbose = TRUE) {
 
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+  if(!inherits(target,"VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
   x = as.data.frame(x)
   nrecords = nrow(x)
   nmissing = 0
@@ -183,11 +183,11 @@ addAggregateOrganismObservations<-function(target, x,
   methodAttIDs = list()
   for(m in names(methods)) {
     method = methods[[m]]
-    if(class(method)=="character") {
+    if(is.character(method)) {
       method = predefinedMeasurementMethod(method)
       methods[[m]] = method
     }
-    else if (class(method) != "VegXMethodDefinition") stop(paste("Wrong class for method: ",m ,"."))
+    else if (!inherits(method, "VegXMethodDefinition")) stop(paste("Wrong class for method: ",m ,"."))
     nmtid = .newMethodIDByName(target,method@name)
     methodID = nmtid$id
     methodIDs[[m]] = methodID

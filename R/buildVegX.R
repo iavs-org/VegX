@@ -294,7 +294,7 @@ buildVegX <- function(input.info = NULL,
     loc.check <- try(plantR::formatLoc(plot.locations,
                           loc.levels = levels.locations, scrap = TRUE)$loc.correct,
                   TRUE)
-    if (class(loc.check) == "try-error") {
+    if (inherits(loc.check, "try-error")) {
       map <- list(plotName = input.info$essential.info[["plotName"]],
                   placeName = "placeName",
                   placeType = "placeType")

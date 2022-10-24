@@ -52,7 +52,7 @@ The modified object of class \code{\linkS4class{VegX}}.
 Adds individual organism observation records to a VegX object from a data frame where rows are individual observations.
 }
 \details{
-The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names 
+The mapping should include either \code{organismName} or  \code{taxonName}, but can include both of them if the source data set contains both taxon names
 and others that are not taxa. Missing value policy:
 \itemize{
   \item{Missing \code{plotName} or \code{obsStartDate} values are interpreted as if the previous non-missing value has to be used to define individual organism observation.}

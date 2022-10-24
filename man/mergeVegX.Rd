@@ -15,10 +15,10 @@ mergeVegX(
 \arguments{
 \item{x, y}{The objects of class \code{\linkS4class{VegX}} to be merged.}
 
-\item{allowMergePlots}{If \code{TRUE} plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier. 
+\item{allowMergePlots}{If \code{TRUE} plots should be merged when sharing the same plotName and, if defined, plotUniqueIdentifier.
 If \code{FALSE} plots are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).}
 
-\item{allowMergeOrganismIdentities}{If \code{TRUE}, allows organism identities sharing the same organismName to be merged. 
+\item{allowMergeOrganismIdentities}{If \code{TRUE}, allows organism identities sharing the same organismName to be merged.
 If \code{FALSE} organism identities are never merged (i.e. the two VegX documents are considered as coming from different vegetation data sources).}
 
 \item{verbose}{A flag to indicate console output of the data integration process.}
@@ -33,7 +33,7 @@ Merges two Veg-X documents while considering that some of their entities may be 
 Some entities are attempted to be merged or are kept as separate entities depeding on their definition:
 \itemize{
   \item \code{projects} are merged when their element \code{title} has the same value.
-  \item \code{plots} are merged, if \code{allowMergePlots = TRUE}, when they have the same value for element \code{plotName} and, if defined, 
+  \item \code{plots} are merged, if \code{allowMergePlots = TRUE}, when they have the same value for element \code{plotName} and, if defined,
   \code{plotUniqueIdentifier} are also equal.
   \item \code{plotObservations} are merged when both their \code{plotID} and \code{obsStartDate} elements have the same value
   \item \code{organismIdentities} are merged if they share the same organismName and \code{allowMergeOrganismIdentities = TRUE} because
@@ -64,19 +64,19 @@ taxmapping = list(plotName = "Plot", obsStartDate = "PlotObsStartDate",
 coverscale = defineOrdinalScaleMethod(name = "Recce cover scale",
                description = "Recce recording method by Hurst/Allen",
                subject = "plant cover",
-               citation = "Hurst, JM and Allen, RB. (2007) 
-                   The Recce method for describing New Zealand vegetation – Field protocols. 
+               citation = "Hurst, JM and Allen, RB. (2007)
+                   The Recce method for describing New Zealand vegetation – Field protocols.
                    Landcare Research, Lincoln.",
                codes = c("P","1","2","3", "4", "5", "6"),
                quantifiableCodes = c("1","2","3", "4", "5", "6"),
                breaks = c(0, 1, 5, 25, 50, 75, 100),
                midPoints = c(0.05, 0.5, 15, 37.5, 62.5, 87.5),
-               definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%", 
+               definitions = c("Presence", "<1\%", "1-5\%","6-25\%", "26-50\%",
                                    "51-75\%", "76-100\%"))
 strataDef = defineMixedStrata(name = "Recce strata",
                description = "Standard Recce stratum definition",
-               citation = "Hurst, JM and Allen, RB. (2007) 
-                 The Recce method for describing New Zealand vegetation – Field protocols. 
+               citation = "Hurst, JM and Allen, RB. (2007)
+                 The Recce method for describing New Zealand vegetation – Field protocols.
                  Landcare Research, Lincoln.",
                heightStrataBreaks = c(0, 0.3,2.0,5, 12, 25, 50),
                heightStrataNames = paste0("Tier ",1:6),
@@ -101,7 +101,7 @@ summary(z1)
 
 # Merge 'x' and 'y' while allowing plots of the same name to be merged
 # and organism identities that have the same name to be merged. This configuration
-# should be used when merging two VegX objects that come from the same data source 
+# should be used when merging two VegX objects that come from the same data source
 # (i.e. Mokihinui data)
 z2 = mergeVegX(x,y, allowMergePlots = TRUE,
                allowMergeOrganismIdentities = TRUE)

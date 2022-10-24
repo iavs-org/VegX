@@ -23,8 +23,8 @@ fillPartyInformation<-function(target, name, type = "individual",
                                address = "", phone = "",
                                electronicMailAddress = "",
                                onlineURL = "") {
-  if(class(target)!="VegX") stop("Wrong class for 'target'. Should be an object of class 'VegX'")
-  
+  if(!inherits(target, "VegX")) stop("Wrong class for 'target'. Should be an object of class 'VegX'")
+
   nprid = .newPartyIDByName(target, name) # Get the new project ID (internal code)
   partyID = nprid$id
   if(nprid$new) party = list(name = name, partyType = "individual")
