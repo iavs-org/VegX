@@ -63,9 +63,9 @@ Developments endorsed and funded by the [International Association for Vegetatio
 **VegX R package development**:
 
 * Miquel De Cáceres
+* Renato Augusto Ferreira de Lima
 * Sebastian Schmidtlein
 * Christian König
-
 
 
 ## References

@@ -2,6 +2,9 @@
  NEWS for R Package "VegX"
 -------------------------------
 
+# Version 0.7.0
+- New functions 'prepareMapping', 'prepareInputData' and 'buildVegX' by Renato Augusto Ferreira de Lima
+
 # Version 0.6.12
 - Minor changes in 'addPlotGeometries'
 - Minor modifications in VegX schema (ver. 2.0.3)

@@ -92,6 +92,7 @@ Vegetation Science](http://iavs.org/)
 **VegX R package development**:
 
 -   Miquel De Cáceres
+-   Renato Augusto Ferreira de Lima
 -   Sebastian Schmidtlein
 -   Christian König
 
