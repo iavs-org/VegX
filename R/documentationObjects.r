@@ -1,19 +1,19 @@
-#' Objects to Support Data Mapping 
-#' 
-#' @description 
+#' Objects to Support Data Mapping
+#'
+#' @description
 #' A named list of different objects used to support the process of mapping the
 #' names of fields and methods into the internal standard required by the
 #' *VegX* function `prepareMapping()` (see the function help for other
-#' details). 
-#' 
+#' details).
+#'
 #' Only the networks or databases that agreed to provide the equivalencies of
 #' their datasets to the standards required are included here. If you want to
 #' provide a map or method to be included as a default map within *VegX*,
 #' please let us know \href{https://github.com/iavs-org/VegX/issues}{here}.
-#' 
-#' @details 
+#'
+#' @details
 #' The list of supporting objects is:
-#' 
+#'
 #' \itemize{
 #'
 #' \item{`reference_map`: a named list of empty vectors which works as a
@@ -32,11 +32,11 @@
 #' currently available in *VegX*.}
 #'
 #' }
-#' 
+#'
 #' @name supporting_info
 #' @docType data
 #' @keywords data
 #' @format A Named List
 #' @source \url{INCLUDELINKHERE}
-"supporting_info"
+NULL
 

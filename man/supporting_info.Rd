@@ -10,14 +10,11 @@ A Named List
 \source{
 \url{INCLUDELINKHERE}
 }
-\usage{
-supporting_info
-}
 \description{
 A named list of different objects used to support the process of mapping the
 names of fields and methods into the internal standard required by the
 *VegX* function `prepareMapping()` (see the function help for other
-details). 
+details).
 
 Only the networks or databases that agreed to provide the equivalencies of
 their datasets to the standards required are included here. If you want to

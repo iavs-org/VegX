@@ -20,9 +20,9 @@ Other main Veg-X elements ('taxonDetermination', 'communityConcept', 'communityD
 }
 \section{Methods (by generic)}{
 \itemize{
-\item \code{summary}: Generates a summary of the Veg-X object (i.e., the number of elements of each type).
-}}
+\item \code{summary(VegX)}: Generates a summary of the Veg-X object (i.e., the number of elements of each type).
 
+}}
 \section{Slots}{
 
 \describe{
