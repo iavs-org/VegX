@@ -1128,34 +1128,71 @@
 #
 # @param x a vector of numbers
 # @param profile numerical. The desired size limits to build the profile
-# @param min.size numerical. The user-declared minimum cutoff size
+# @param min.size numerical vector. The user-declared minimum cutoff size of 'x'
+# @param ind.ids character vector. The user-declared IDs of the observations in 'x'
 # @param unit character. The measurement unit of the vectors 'x' and 'profile'
 #
-.getProfile <- function (x, profile = NULL, min.size = NULL, unit = NULL,
+#' @importFrom stats ave
+#
+.getProfile <- function (x, profile = NULL, 
+                         min.size = NULL,
+                         ind.ids = NULL,
+                         unit = NULL,
                          include.min = FALSE)
 {
 
   if (!class(x) %in% c("numeric", "double", "integer"))
     stop("The input object 'x' must be composed by numbers")
 
+  if (is.null(profile)) {
+    profile <- range(x, na.rm = TRUE)
+    rightmost <- TRUE
+    warning("No profile provided. Assuming the range of the data in 'x'")
+  } else {
+    rightmost <- FALSE
+  }
+  
   if (!is.null(min.size)) {
     if (length(x) != length(min.size))
       stop("The input object 'x' must be composed by numbers")
+    
+    minimos <- unique(min.size)
+    if (include.min) {
+      profile0 <- profile
+      
+      if (any(!minimos %in% profile))
+        profile <- unique(c(min(minimos, na.rm = TRUE), profile))
+      
+      if (min(profile0, na.rm = TRUE) < min(minimos, na.rm = TRUE)) {
+        profile.low <-  profile0[profile0 < min(minimos, na.rm = TRUE)]
+        profile <- profile[!profile %in% profile.low]
+        # profile <- c(min(minimos, na.rm = TRUE), profile[ -which.min(profile)])
+      }
+      
+      if (max(profile, na.rm = TRUE) < max(minimos, na.rm = TRUE)) {
+        minimos.high <-  minimos[minimos > max(profile, na.rm = TRUE)]
+        profile <- c(profile, minimos.high)
+      }
+    }
   }
 
-  minimos <- unique(min.size)
-  if (include.min) {
-    if (any(!minimos %in% profile))
-      profile <- unique(c(minimos, profile))
+  if (!is.null(ind.ids)) {
+    if (length(x) != length(ind.ids))
+      stop("The input object 'ind.ids' must have the same length of 'x'")
+  }  
+  
+  profile <- sort(unique(profile))
 
-    if (min(profile, na.rm = TRUE) < min(minimos))
-      profile <- c(min(minimos), profile[ -which.min(profile)])
+  interv <- as.factor(findInterval(x, profile, rightmost.closed = rightmost))
+
+  if (!is.null(ind.ids)) {
+    if (anyDuplicated(ind.ids)) {
+      dup.ids <- ind.ids[duplicated(ind.ids)]
+      df <- cbind.data.frame(interv = as.character(interv), ind.ids)
+      interv <- as.factor(ave(as.numeric(df$interv), df$ind.ids, FUN=max))
+    }
   }
-
-  profile <- sort(profile)
-
-  interv <- as.factor(findInterval(x, profile))
-
+  
   class.labels <- NULL
   for (i in seq_along(profile)) {
     label.i <- paste0(profile[i],"-", profile[i+1])
@@ -1169,17 +1206,34 @@
   if (0 %in% levels(interv))
     class.labels <- c(paste0("<", min(profile, na.rm = TRUE)), class.labels)
 
+  if (rightmost)
+    class.labels <- class.labels[-length(class.labels)]
+
+  interv0 <- interv
   levels(interv) <- class.labels
   interv <- as.character(interv)
 
-  replace_these <- x < min.size & grepl("^<", interv, perl = TRUE)
-  if (any(replace_these)) {
-    interv[replace_these] <- class.labels[2]
-  }
+  if (!is.null(min.size)) {
+    replace_these <- x < min.size & grepl("^<", interv, perl = TRUE)
+    if (any(replace_these)) {
+      interv1 <- findInterval(min.size[replace_these], profile, 
+                              rightmost.closed = rightmost)
+      rep_classes <- interv[match(interv1, as.numeric(as.character(interv0)))]
+      interv[replace_these] <- rep_classes
+      # interv[replace_these] <- class.labels[2]
+    }
+  }  
 
-  class.labels <- c(class.labels[1], paste0(">=", minimos),
-                    class.labels[-1])
-  defs <- paste(class.labels, unit)
+  if (exists("minimos"))
+    class.labels <- 
+      unique(c(class.labels[1], paste0(">=", minimos),class.labels[-1]))
+  
+  if (!is.null(unit)) {
+    defs <- paste(class.labels, unit)
+  } else {
+    defs <- class.labels
+  }
+  
   strat.def <- list(`Diameter classes` =
     defineCategoricalStrata(name = "Diameter classes",
                                  description = "User-defined diameter size classes",

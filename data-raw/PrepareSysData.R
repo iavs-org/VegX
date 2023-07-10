@@ -62,8 +62,8 @@ cols <- c("Order", "Group", "Field", "Use", available_projects)
 predefined_map <- predefined_map[, colnames(predefined_map) %in% cols]
 predefined_map[predefined_map$Field %in% "projectTitle", available_projects] <-
   colnames(predefined_map[predefined_map$Field %in% "projectTitle", available_projects])
-xlsx::write.xlsx(predefined_map, file = "./data-raw/files-raw/temp_map.xlsx",
-                 row.names = FALSE)
+# xlsx::write.xlsx(predefined_map, file = "./data-raw/files-raw/temp_map.xlsx",
+#                  row.names = FALSE)
 objects <- c("reference_map", 
              "predefined_fields", 
              "available_projects",
@@ -73,7 +73,7 @@ supporting_info <- lapply(objects, get)
 names(supporting_info) <- objects 
 
 # NETWORK INFORMATION ------------------------------------------------------
-link <- "https://docs.google.com/spreadsheets/d/1mqd2RzgQh6_6ytbVFUO3epUUtXxdcknmcue78SnF2ZU/edit#gid=1426544088"
+link <- "https://docs.google.com/spreadsheets/d/1mqd2RzgQh6_6ytbVFUO3epUUtXxdcknmcue78SnF2ZU/edit?usp=sharing"
 network_info <- as.data.frame(googlesheets4::read_sheet(link))
 
 network_info <- 

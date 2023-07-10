@@ -506,6 +506,8 @@ buildVegX <- function(input.info = NULL,
         input.info$mapping$community.data <-
           input.info$mapping$community.data[grepl(keep_cols, input.info$mapping$community.data, perl = TRUE) |
                                               grepl(keep_cols, names(input.info$mapping$community.data), perl = TRUE)]
+        #### REMOVE CODE UNTIL HERE AND UNCOMMENT CODE BELOW ####
+        
       #   map <- c(map,
       #            stratumName = input.info$mapping$community.data[["stratumName"]])
       #   strata.name <- input.info$mapping$community.data[["stratumNameMethod"]]

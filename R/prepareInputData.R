@@ -140,23 +140,23 @@ prepareInputData <- function(plot.info = NULL,
   
   # Check the input info
   if (is.null(plot.info) & (is.null(community.data) | 
-                              is.null(species.data) | 
-                                is.null(individual.data)))
+                            is.null(species.data) | 
+                            is.null(individual.data)))
     stop("Please provide the data frames containing the plot information, community, species and/or individual data")
-
+  
   if (is.null(mapping))
     stop("Please provide the mapping of the fields of your vegetation data")
-
+  
   if (!is.list(mapping))
     stop("Please provide the mapping of your vegetation data as a list")
-
+  
   if (is.list(mapping) & is.null(names(mapping)))
     stop("Please provide the mapping of your vegetation data as a named list")
-
+  
   # Check the input mapping ------------------------------------------------
   # Detect missing fields and replaced them by fields present in the data
   if (miss.fields) {
-
+    
     table.names <- names(mapping)
     tabelas <- table.names[-1]
     excep.tabs  <- c("plot.obs", "site.data", "community.data")
@@ -164,7 +164,7 @@ prepareInputData <- function(plot.info = NULL,
     for (i in seq_along(tabelas))
       if (is.null(get(tabelas[i])))
         table.names <- table.names[!table.names %in% tabelas[i]]
-
+    
     for (i in seq_along(table.names)) {
       name.i <- table.names[i]
       if (name.i %in% excep.tabs) {
@@ -185,7 +185,7 @@ prepareInputData <- function(plot.info = NULL,
           names(mapping[[name.i]])[replace_these]
     }
   }
-
+  
   # Defining the required fields -------------------------------------------
   ## Plot name, Plot ID and Subplot names
   plotName <- mapping$plot.info[["plotName"]]
@@ -199,7 +199,7 @@ prepareInputData <- function(plot.info = NULL,
       plotName <- plotID
     }
   }
-
+  
   if (!is.null(species.data)) {
     if (is.na(mapping$species.data[["plotNameSample"]])) {
       plotNameSample.sp <- plotName
@@ -207,7 +207,7 @@ prepareInputData <- function(plot.info = NULL,
       plotNameSample.sp <- mapping$species.data[["plotNameSample"]]
     }
   }  
-    
+  
   if (!is.null(individual.data)) {
     if (is.na(mapping$individual.data[["plotNameSample"]])) {
       plotNameSample.ind <- plotName
@@ -240,7 +240,7 @@ prepareInputData <- function(plot.info = NULL,
   
   if (!plotName %in% colnames(individual.data) & !is.null(individual.data)) {
     if (plotName %in% colnames(plot.info) & plotID %in% colnames(plot.info) &
-          plotName != plotID) {
+        plotName != plotID) {
       tmp.plot <- plot.info[ , c(plotName, plotID)] 
       individual.data <- 
         dplyr::left_join(individual.data, tmp.plot, by = plotID)
@@ -254,7 +254,7 @@ prepareInputData <- function(plot.info = NULL,
     }  
   }
   
-    
+  
   ## Project title/name
   # making sure that the data contains a project name
   if (is.null(project.title)) {
@@ -262,7 +262,7 @@ prepareInputData <- function(plot.info = NULL,
     project2 <- mapping$plot.obs[["projectTitle"]]
     
     if (is.na(project1) & !is.na(project2) |
-          !is.na(project1) & !is.na(project2)) {
+        !is.na(project1) & !is.na(project2)) {
       project.title <- project2
       mapping$project.info[["title"]] <- project.title
     }
@@ -333,10 +333,10 @@ prepareInputData <- function(plot.info = NULL,
           nomes.mapa <- mapping[[names(all.data)[[i]]]]
           nomes.mapa <- nomes.mapa[!is.na(nomes.mapa)]
           nomes.dados <- unique(c(plotName, plotID,
-                              nomes.dados[nomes.dados %in% nomes.mapa]))
+                                  nomes.dados[nomes.dados %in% nomes.mapa]))
           nomes.dados <- nomes.dados[!is.na(nomes.dados)]
           new.dados <- plot.info[, nomes.dados, drop = FALSE]
-      
+          
           nomes.mapa <- nomes.mapa[!nomes.mapa %in% names(new.dados)]
           check_these <- !grepl("projectTitle|Method$", names(nomes.mapa), perl = TRUE)
           if (any(check_these))
@@ -356,25 +356,24 @@ prepareInputData <- function(plot.info = NULL,
   ## Missing census date?
   census.date.start <- mapping$plot.obs[["censusDateStart"]]
   census.date.stop <- mapping$plot.obs[["censusDateStop"]]
-    
+  
   fixed.date <- anytime::anydate(fixed.date)
   if (is.na(census.date.start) & is.na(census.date.stop)) {
     all.data[["plot.obs"]]["PlotObsStartDate.tmp"] <- fixed.date
     mapping$plot.obs[["censusDateStart"]] <- 
       census.date.start <- "PlotObsStartDate.tmp"
   }
-    
+  
   ## Formatting sampling dates
   if (!is.na(census.date.start)) 
     all.data[["plot.obs"]][, census.date.start] <- 
-        anytime::anydate(as.character(
-          all.data[["plot.obs"]][, census.date.start]))
-    
+      anytime::anydate(as.character(all.data[["plot.obs"]][, census.date.start]))
+  
   # Any missing starting dates
   check_these <- is.na(all.data[["plot.obs"]][, census.date.start])
   if (any(check_these))
     all.data[["plot.obs"]][, census.date.start][check_these] <- fixed.date
-    
+  
   if (!is.na(census.date.stop)) {
     all.data[["plot.obs"]][, census.date.stop] <-
       anytime::anydate(as.character(all.data[["plot.obs"]][, census.date.stop]))
@@ -382,14 +381,14 @@ prepareInputData <- function(plot.info = NULL,
     if (any(check_these))
       all.data[["plot.obs"]][, census.date.stop][check_these] <- fixed.date
   } else {
-    all.data[["plot.obs"]]["PlotObsStopDate.tmp"] <- 
+    all.data[["plot.obs"]]$PlotObsStopDate.tmp <- 
       all.data[["plot.obs"]][,census.date.start]
     mapping$plot.obs[["censusDateStop"]] <- 
       census.date.stop <- "PlotObsStopDate.tmp"
   }
-    
+  
   # Site, community, species or individual data without date? Add start census date
-  ## CHECK HERE: what to do when there is >1 census (i.e. >1 "PlotObsStartDate")? For now just returnig a warning ##
+  ## CHECK HERE: what to do when there is >1 census (i.e. >1 "PlotObsStartDate")? For now just returning a warning ##
   
   data.vector <- c("site.data", "community.data", "species.data", 
                    "individual.data")
@@ -402,9 +401,9 @@ prepareInputData <- function(plot.info = NULL,
         tmp$ordem.tmp <- seq_len(dim(tmp)[1])
         tmp.census.date.start <- mapping$plot.obs[["censusDateStart"]]
         tmp.plot.info <- 
-          all.data[["plot.obs"]][,c(plotName, tmp.census.date.start)]
+          all.data[["plot.obs"]][,c(plotID, tmp.census.date.start)]
         tmp <- merge(tmp, tmp.plot.info, 
-                     by = plotName, all.x = TRUE, sort = FALSE)
+                     by = plotID, all.x = TRUE, sort = FALSE)
         tmp <- tmp[order(tmp$ordem.tmp), ]
         all.data[[data.vec]] <- 
           tmp[, match(c(colnames(all.data[[data.vec]]), 
@@ -414,110 +413,110 @@ prepareInputData <- function(plot.info = NULL,
       }  
     }
   }
-
+  
   if (!is.null(no.dates))
     warning(paste0("Assuming the same sampling date for measurements in: ",
                    paste0(no.dates, collapse = ", "),
                    ". If any plot has multiple measurements, please declare their dates explicitly"), 
-          domain = NA, call. = FALSE)
+            domain = NA, call. = FALSE)
   
   # Creating the combined strings with taxon/organism names -----------------
   ## Species-level plot data
   if (!is.null(species.data)) {
-      if (is.na(mapping$species.data[["organismNameOriginal"]])) {
-          orig.cols <- c("organismGenusOriginal", "organismEpitethOriginal", 
-              "organismInfraEpitethOriginal", "organismAuthorshipOriginal")
-          cols <- 
-            mapping$species.data[names(mapping$species.data) %in% orig.cols]
-          cols <- cols[!is.na(cols)]
-          if (any(grepl("organismGenus", names(cols))) & 
-                any(grepl("organismEpiteth", names(cols)))) {
-            tmp <- all.data[["species.data"]]
-            tmp$organismNameOriginal <- do.call(paste, c(tmp[, cols]))
-            tmp$organismNameOriginal <- 
-              gsub(" NA$", "", tmp$organismNameOriginal, perl = TRUE)
-            tmp$organismNameOriginal <- 
-              gsub( "^ | $", "", gsub("\\s+", " ", tmp$organismNameOriginal, 
-                         perl = TRUE), perl = TRUE)
-            all.data[["species.data"]] <- tmp
-            mapping$species.data[["organismNameOriginal"]] <- 
-              "organismNameOriginal"
-          } else {
-            all.data[["species.data"]]["organismNameOriginal"] <- NA_character_
-          }
-          
+    if (is.na(mapping$species.data[["organismNameOriginal"]])) {
+      orig.cols <- c("organismGenusOriginal", "organismEpitethOriginal", 
+                     "organismInfraEpitethOriginal", "organismAuthorshipOriginal")
+      cols <- 
+        mapping$species.data[names(mapping$species.data) %in% orig.cols]
+      cols <- cols[!is.na(cols)]
+      if (any(grepl("organismGenus", names(cols))) & 
+          any(grepl("organismEpiteth", names(cols)))) {
+        tmp <- all.data[["species.data"]]
+        tmp$organismNameOriginal <- do.call(paste, c(tmp[, cols]))
+        tmp$organismNameOriginal <- 
+          gsub(" NA$", "", tmp$organismNameOriginal, perl = TRUE)
+        tmp$organismNameOriginal <- 
+          gsub( "^ | $", "", gsub("\\s+", " ", tmp$organismNameOriginal, 
+                                  perl = TRUE), perl = TRUE)
+        all.data[["species.data"]] <- tmp
+        mapping$species.data[["organismNameOriginal"]] <- 
+          "organismNameOriginal"
       } else {
-        if (mapping$species.data[["organismNameOriginal"]] %in% 
-              colnames(all.data[["species.data"]]))
-          all.data[["species.data"]][ , mapping$species.data[["organismNameOriginal"]]] <- 
-            gsub( "^ | $", "", gsub("\\s+", " ", 
-                all.data[["species.data"]][ , mapping$species.data[["organismNameOriginal"]]], 
-                    perl = TRUE), perl = TRUE)
+        all.data[["species.data"]]["organismNameOriginal"] <- NA_character_
       }
-        
-      if (is.na(mapping$species.data[["organismNameMorpho"]])) {
-        orig.cols <- c("organismGenusMorpho", "organismEpitethMorpho", 
-              "organismInfraEpitethMorpho", "organismAuthorshipMorpho")
-        cols <- 
-          mapping$species.data[names(mapping$species.data) %in% orig.cols]
-        cols <- cols[!is.na(cols)]
-        if (any(grepl("organismGenus", names(cols))) & 
-              any(grepl("organismEpiteth", names(cols)))) {
-          tmp <- all.data[["species.data"]]
-          tmp$organismNameMorpho <- do.call(paste, c(tmp[, cols]))
-          tmp$organismNameMorpho <- 
-              gsub( " NA$", "", tmp$organismNameMorpho, perl = TRUE)
-          tmp$organismNameMorpho <- 
-              gsub( "^ | $", "", gsub("\\s+", " ", tmp$organismNameMorpho, 
-                  perl = TRUE), perl = TRUE)
-          all.data[["species.data"]] <- tmp
-          mapping$species.data[["organismNameMorpho"]] <- "organismNameMorpho"
-        } else {
-          all.data[["species.data"]]["organismNameMorpho"] <- NA_character_
-        }
-          
+      
+    } else {
+      if (mapping$species.data[["organismNameOriginal"]] %in% 
+          colnames(all.data[["species.data"]]))
+        all.data[["species.data"]][ , mapping$species.data[["organismNameOriginal"]]] <- 
+          gsub( "^ | $", "", gsub("\\s+", " ", 
+                                  all.data[["species.data"]][ , mapping$species.data[["organismNameOriginal"]]], 
+                                  perl = TRUE), perl = TRUE)
+    }
+    
+    if (is.na(mapping$species.data[["organismNameMorpho"]])) {
+      orig.cols <- c("organismGenusMorpho", "organismEpitethMorpho", 
+                     "organismInfraEpitethMorpho", "organismAuthorshipMorpho")
+      cols <- 
+        mapping$species.data[names(mapping$species.data) %in% orig.cols]
+      cols <- cols[!is.na(cols)]
+      if (any(grepl("organismGenus", names(cols))) & 
+          any(grepl("organismEpiteth", names(cols)))) {
+        tmp <- all.data[["species.data"]]
+        tmp$organismNameMorpho <- do.call(paste, c(tmp[, cols]))
+        tmp$organismNameMorpho <- 
+          gsub( " NA$", "", tmp$organismNameMorpho, perl = TRUE)
+        tmp$organismNameMorpho <- 
+          gsub( "^ | $", "", gsub("\\s+", " ", tmp$organismNameMorpho, 
+                                  perl = TRUE), perl = TRUE)
+        all.data[["species.data"]] <- tmp
+        mapping$species.data[["organismNameMorpho"]] <- "organismNameMorpho"
       } else {
-        if (mapping$species.data[["organismNameMorpho"]] %in% 
-            colnames(all.data[["species.data"]]))
-          all.data[["species.data"]][ , mapping$species.data[["organismNameMorpho"]]] <- 
-              gsub( "^ | $", "", gsub("\\s+", " ", 
-                all.data[["species.data"]][ , mapping$species.data[["organismNameMorpho"]]], 
-                  perl = TRUE), perl = TRUE)
-      }   
-        
-      if (is.na(mapping$species.data[["organismName"]])) {
-        orig.cols <-  c("organismGenus", "organismEpiteth", 
-              "organismInfraEpiteth", "organismAuthorship")
-        cols <- 
-            mapping$species.data[names(mapping$species.data) %in% orig.cols]
-        cols <- cols[!is.na(cols)]
-        if (any(grepl("organismGenus", names(cols))) & 
-              any(grepl("organismEpiteth", names(cols)))) {
-          tmp <- all.data[["species.data"]]
-          tmp$organismName <- do.call(paste, c(tmp[, cols]))
-          tmp$organismName <- gsub( " NA$", "", tmp$organismName, perl = TRUE)
-          tmp$organismName <- 
-              gsub( "^ | $", "", gsub("\\s+", " ", tmp$organismName, 
-                  perl = TRUE), perl = TRUE)
-          all.data[["species.data"]] <- tmp
-          mapping$species.data[["organismName"]] <- "organismName"
-        } else {
-          all.data[["species.data"]]["organismName"] <- NA_character_
-        }
-          
-      } else {
-        if (mapping$species.data[["organismName"]] %in% 
-              colnames(all.data[["species.data"]]))
-          all.data[["species.data"]][ , mapping$species.data[["organismName"]]] <- 
-              gsub( "^ | $", "", gsub("\\s+", " ", 
-                all.data[["species.data"]][ , mapping$species.data[["organismName"]]], 
-                    perl = TRUE), perl = TRUE)
+        all.data[["species.data"]]["organismNameMorpho"] <- NA_character_
       }
+      
+    } else {
+      if (mapping$species.data[["organismNameMorpho"]] %in% 
+          colnames(all.data[["species.data"]]))
+        all.data[["species.data"]][ , mapping$species.data[["organismNameMorpho"]]] <- 
+          gsub( "^ | $", "", gsub("\\s+", " ", 
+                                  all.data[["species.data"]][ , mapping$species.data[["organismNameMorpho"]]], 
+                                  perl = TRUE), perl = TRUE)
+    }   
+    
+    if (is.na(mapping$species.data[["organismName"]])) {
+      orig.cols <-  c("organismGenus", "organismEpiteth", 
+                      "organismInfraEpiteth", "organismAuthorship")
+      cols <- 
+        mapping$species.data[names(mapping$species.data) %in% orig.cols]
+      cols <- cols[!is.na(cols)]
+      if (any(grepl("organismGenus", names(cols))) & 
+          any(grepl("organismEpiteth", names(cols)))) {
+        tmp <- all.data[["species.data"]]
+        tmp$organismName <- do.call(paste, c(tmp[, cols]))
+        tmp$organismName <- gsub( " NA$", "", tmp$organismName, perl = TRUE)
+        tmp$organismName <- 
+          gsub( "^ | $", "", gsub("\\s+", " ", tmp$organismName, 
+                                  perl = TRUE), perl = TRUE)
+        all.data[["species.data"]] <- tmp
+        mapping$species.data[["organismName"]] <- "organismName"
+      } else {
+        all.data[["species.data"]]["organismName"] <- NA_character_
+      }
+      
+    } else {
+      if (mapping$species.data[["organismName"]] %in% 
+          colnames(all.data[["species.data"]]))
+        all.data[["species.data"]][ , mapping$species.data[["organismName"]]] <- 
+          gsub( "^ | $", "", gsub("\\s+", " ", 
+                                  all.data[["species.data"]][ , mapping$species.data[["organismName"]]], 
+                                  perl = TRUE), perl = TRUE)
+    }
     
     spp.data <- mapping$species.data[spp.names]
     organism.name.spp.data <- spp.data[!is.na(spp.data)][1]
   }
- 
+  
   ## Individual-level plot data
   if (!is.null(individual.data)) {
     if (is.na(mapping$individual.data[["organismNameOriginal"]])) {
@@ -544,11 +543,11 @@ prepareInputData <- function(plot.info = NULL,
       
     } else {
       if (mapping$individual.data[["organismNameOriginal"]] %in% 
-            colnames(all.data[["individual.data"]]))
+          colnames(all.data[["individual.data"]]))
         all.data[["individual.data"]][ , mapping$individual.data[["organismNameOriginal"]]] <- 
           gsub( "^ | $", "", gsub("\\s+", " ", 
-                                all.data[["individual.data"]][ , mapping$individual.data[["organismNameOriginal"]]], 
-                                perl = TRUE), perl = TRUE)
+                                  all.data[["individual.data"]][ , mapping$individual.data[["organismNameOriginal"]]], 
+                                  perl = TRUE), perl = TRUE)
     }
     
     if (is.na(mapping$individual.data[["organismNameMorpho"]])) {
@@ -577,8 +576,8 @@ prepareInputData <- function(plot.info = NULL,
           colnames(all.data[["individual.data"]]))
         all.data[["individual.data"]][ , mapping$individual.data[["organismNameMorpho"]]] <- 
           gsub( "^ | $", "", gsub("\\s+", " ", 
-                                all.data[["individual.data"]][ , mapping$individual.data[["organismNameMorpho"]]], 
-                                perl = TRUE), perl = TRUE)
+                                  all.data[["individual.data"]][ , mapping$individual.data[["organismNameMorpho"]]], 
+                                  perl = TRUE), perl = TRUE)
     }   
     
     if (is.na(mapping$individual.data[["organismName"]])) {
@@ -605,23 +604,23 @@ prepareInputData <- function(plot.info = NULL,
       if (mapping$individual.data[["organismName"]] %in% 
           colnames(all.data[["individual.data"]]))
         all.data[["individual.data"]][ , mapping$individual.data[["organismName"]]] <- 
-            gsub( "^ | $", "", gsub("\\s+", " ", 
-                                all.data[["individual.data"]][ , mapping$individual.data[["organismName"]]], 
-                                perl = TRUE), perl = TRUE)
+          gsub( "^ | $", "", gsub("\\s+", " ", 
+                                  all.data[["individual.data"]][ , mapping$individual.data[["organismName"]]], 
+                                  perl = TRUE), perl = TRUE)
     } 
     
     spp.data <- mapping$individual.data[spp.names]
     organism.name.ind.data <- spp.data[!is.na(spp.data)][1]
   }
-     
+  
   # Removing fields for which there is no predefined method available --------
   all_fields <- cbind.data.frame(Field = names(unlist(mapping)), 
-                                   Equiv = unlist(mapping))
+                                 Equiv = unlist(mapping))
   methods <- all_fields[grepl("Method$", all_fields$Field), ]
   fields <- all_fields[!grepl("Method$", all_fields$Field) & 
                          !is.na(all_fields$Equiv), ]
   keep_these <- !is.na(methods$Equiv) | 
-                  methods$Field %in% paste0(fields$Field, "Method")
+    methods$Field %in% paste0(fields$Field, "Method")
   methods <- methods[keep_these, ]
   methods$Group <- sapply(methods$Field, 
                           function (x) paste(
@@ -640,12 +639,12 @@ prepareInputData <- function(plot.info = NULL,
       mapping[[grupo]][[campo]] <- NA_character_
       mapping[[grupo]][[metodo]] <- NA_character_
     }
-  miss.fields <- paste0(removed_fields, " (", methods$Equiv[check_these], ")")
-  warning(gettextf("The methods for the following fields are missing or are currently not available: %s. They were removed from the map", 
+    miss.fields <- paste0(removed_fields, " (", methods$Equiv[check_these], ")")
+    warning(gettextf("The methods for the following fields are missing or are currently not available: %s. They were removed from the map", 
                      paste(dQuote(miss.fields), collapse = ", ")), 
             domain = NA, call. = FALSE)
   }
-    
+  
   # Organizing essential information --------------------------------------
   essential.info <- c(plotName = plotName)
   if (exists("plotID"))
@@ -671,12 +670,12 @@ prepareInputData <- function(plot.info = NULL,
                           as.character(organism.name.ind.data))
   # if (exists("project.title"))
   #   essential.info <- c(essential.info, projectTitle = project.title)
-
+  
   # Getting higher level summaries ---------------------------------------
   if (summarise.data) {
     # From individual to species level
     if (!is.null(all.data[['individual.data']])) {
-
+      
       metrics <- c("countsMeasurement", "basalAreaMeasurement", 
                    "biomassMeasurement", "volumeMeasurement",
                    "densityMeasurement", "dominanceMeasurement")
@@ -684,7 +683,7 @@ prepareInputData <- function(plot.info = NULL,
                                 names(mapping[['species.data']][!is.na(mapping[['species.data']])])]
       
       if (is.null(all.data[['species.data']]) | 
-            !identical(miss.metrics, character(0))) {
+          !identical(miss.metrics, character(0))) {
         
         #Defining the variables needed
         spp.by <- mapping[["individual.data"]][spp.names]
@@ -692,7 +691,7 @@ prepareInputData <- function(plot.info = NULL,
         
         plot.info1 <- c("plotNameSample", "obsStartDateSample") 
         plot.by <- mapping[["individual.data"]][plot.info1]
-
+        
         field.names <- c("diameter", "height", "fieldTag")
         fields <- mapping[["individual.data"]][field.names]
         fields <- fields[!is.na(fields)]
@@ -711,7 +710,7 @@ prepareInputData <- function(plot.info = NULL,
                                      by = coord.cols[[1]])
           coords <- coords[, -1]
         }  
-
+        
         # Standardizing measures
         if ("diameter" %in% names(fields)) {
           diameter <- fields[names(fields) %in% "diameter"]
@@ -722,27 +721,27 @@ prepareInputData <- function(plot.info = NULL,
           
           if (diameterMethod %in% "Stem diameter/mm")
             tree.diameter$diametros_m <- 
-              as.numeric(tree.diameter[[diameter]]) * 0.001 
+            as.numeric(tree.diameter[[diameter]]) * 0.001 
           
           if (diameterMethod %in% "Stem diameter/cm")
             tree.diameter$diametros_m <- 
-              as.numeric(tree.diameter[[diameter]]) * 0.01 
+            as.numeric(tree.diameter[[diameter]]) * 0.01 
           
           if (diameterMethod %in% "Stem diameter/dm")
             tree.diameter$diametros_m <- 
-              as.numeric(tree.diameter[[diameter]]) * 0.1 
+            as.numeric(tree.diameter[[diameter]]) * 0.1 
           
           if (diameterMethod %in% "Stem diameter/m")
             tree.diameter$diametros_m <- 
-              as.double(tree.diameter[[diameter]]) * 1 
+            as.double(tree.diameter[[diameter]]) * 1 
           
           tree.diameter$diametros_cm <- tree.diameter$diametros_m * 100
           tree.diameter$basalArea_m2 <- pi * (tree.diameter$diametros_m/2) ^ 2
-
+          
         }  else { 
           tree.diameter <- NULL 
         }
-
+        
         if ("height" %in% names(fields)) {
           
           height <- fields[names(fields) %in% "height"]
@@ -750,30 +749,33 @@ prepareInputData <- function(plot.info = NULL,
           
           tree.height <- 
             all.data[["individual.data"]][, c(plot.by[1], height)]
-
+          
           if (heightMethod %in% "Plant height/cm")
             tree.height$alturas_m <- 
-              as.numeric(tree.height[[height]]) * 0.01 
+            as.numeric(tree.height[[height]]) * 0.01 
           
           if (heightMethod %in% "Plant height/dm")
             tree.height$alturas_m <- 
-              as.numeric(tree.height[[height]]) * 0.1 
+            as.numeric(tree.height[[height]]) * 0.1 
           
           if (heightMethod %in% "Plant height/m")
             tree.height$alturas_m <- 
-              as.numeric(tree.height[[height]]) * 1 
+            as.numeric(tree.height[[height]]) * 1 
           
           replace_these <- is.na(tree.height$alturas_m)
           if (any(replace_these)) {
+            use_these <- tree.height$alturas_m > 1 & 
+              tree.diameter$diametros_cm > 0.1
+            
             model <- suppressWarnings(
-              BIOMASS::modelHD(D = tree.diameter$diametros_cm, 
-                               H = tree.height$alturas_m, method = "log2"))
+              BIOMASS::modelHD(D = tree.diameter$diametros_cm[use_these], 
+                               H = tree.height$alturas_m[use_these], method = "log2"))
             pred.H <- BIOMASS::retrieveH(D = tree.diameter$diametros_cm, 
                                          model = model)
             tree.height$alturas_m[replace_these] <-
               pred.H$H[replace_these]
           }
-
+          
         }  else { 
           tree.height <- NULL 
         }  
@@ -800,13 +802,19 @@ prepareInputData <- function(plot.info = NULL,
             min.sizes <- dplyr::left_join(all.data[["individual.data"]],
                                           plot.cutoffs, as.character(plot.by[1]))
             
+            if ("fieldTag" %in% names(fields)) {
+              ind.IDs <- tree.tags[,1]
+            } else {
+              ind.IDs <- NULL
+            }  
+            
             profile.list <- 
-              .getProfile(as.numeric(all.data[["individual.data"]][[diameter]]),
+              .getProfile(x = as.numeric(all.data[["individual.data"]][[diameter]]),
                           profile = profiles, min.size = min.sizes[[col.cutoff]],
-                          unit = unidade, include.min = TRUE)
+                          ind.ids = ind.IDs, unit = unidade, include.min = FALSE)
             profile <- profile.list$classes
             profile.strata <- profile.list$definitions
-
+            
           } else {
             profile <- profile.strata <- NULL
             stop("No column with diameter measurements found for the individual data. Please, double-check data or remove profiles.")
@@ -831,9 +839,9 @@ prepareInputData <- function(plot.info = NULL,
         # species-level counts of individuals 
         contagem <- aggregate(x = tree.tags, 
                               by = list(all.data[['individual.data']][, spp.by], 
-                                    group.by[, "combo"]), 
+                                        group.by[, "combo"]), 
                               function(x) length(unique(x)))
-
+        
         # species-level basal area, volume and biomass
         if (!is.null(tree.diameter)) {
           area_basal <- aggregate(x = tree.diameter$basalArea_m2, 
@@ -903,11 +911,11 @@ prepareInputData <- function(plot.info = NULL,
               
               # species AGB (Model II.4 of Chave et al. 2005)
               tree.diameter$abg_mg <- (exp( -1.589 + 
-                      2.284 * log(tree.diameter$diametros_cm) +
-                      0.129 * (log(tree.diameter$diametros_cm))^2 - 
-                      0.0197 * (log(tree.diameter$diametros_cm))^3 +
-                      log(tree.diameter$wsg)
-                      ))/1000
+                                              2.284 * log(tree.diameter$diametros_cm) +
+                                              0.129 * (log(tree.diameter$diametros_cm))^2 - 
+                                              0.0197 * (log(tree.diameter$diametros_cm))^3 +
+                                              log(tree.diameter$wsg)
+              ))/1000
             }
             
             vol_biomass <- aggregate(x = tree.diameter[, biomass.cols], 
@@ -937,7 +945,7 @@ prepareInputData <- function(plot.info = NULL,
                         strsplit(tmp$combo, "___", fixed = TRUE))
         names(tmp1) <- names(group.by[, -which(names(group.by) %in% "combo")])
         tmp2 <- cbind.data.frame(tmp1, tmp[, -which(names(tmp) %in% "combo")])
-
+        
         if (!is.na(mapping[["plot.info"]]["samplingEffort"])) {
           effort <- mapping[["plot.info"]]["samplingEffort"]
           plot.effort <- all.data[["plot.info"]][, c(plot.by[1], effort)]
@@ -950,6 +958,9 @@ prepareInputData <- function(plot.info = NULL,
             plot.effort$PlotSize <- plot.effort$PlotSize*1e-8 
           
           tmp2 <- merge(tmp2, plot.effort, all.x = TRUE, sort = FALSE)
+          
+          if (class(tmp2[, effort]) %in% "character")
+            tmp2[, effort] <- as.numeric(tmp2[, effort])
           
           if ("countsMeasurement" %in% names(tmp2))
             tmp2$densityMeasurement <- tmp2$countsMeasurement/tmp2[, effort]
@@ -984,8 +995,8 @@ prepareInputData <- function(plot.info = NULL,
         
         vol.method <- "Volume (Schumacher & Hall 1933)/m3"
         if (is.null(tree.height))
-            abg.method <- "Volume (Husch et al. 2002)/m3"
-
+          abg.method <- "Volume (Husch et al. 2002)/m3"
+        
         all.methods <- c(countsMeasurementMethod = "Plant count/individuals",
                          basalAreaMeasurementMethod = "Basal area/m2",
                          biomassMeasurementMethod = abg.method,
@@ -999,7 +1010,7 @@ prepareInputData <- function(plot.info = NULL,
         essential.info <- c(essential.info, 
                             plotName.SpeciesData = as.character(plot.by[1]),
                             organismName.SpeciesData = as.character(spp.by))
-
+        
         if (is.null(all.data[['species.data']])) {
           all.data[['species.data']] <- tmp.final
           
@@ -1022,11 +1033,11 @@ prepareInputData <- function(plot.info = NULL,
           
           if (length(prev.meths) > 0) {
             mapping[['species.data']][names(prev.meths)] <- 
-            final.methods[names(prev.meths)]
-          
+              final.methods[names(prev.meths)]
+            
             new.fields <- gsub("Method$", "", names(prev.meths))
             mapping[['species.data']][new.fields] <- new.fields 
-          
+            
             tmp.final1 <- tmp.final[ , c(names(tmp1), new.fields)]
             prev.data <- all.data[['species.data']]
             prev.data <- merge(prev.data, tmp.final1, 
@@ -1045,8 +1056,8 @@ prepareInputData <- function(plot.info = NULL,
                                 names(mapping[['community.data']][!is.na(mapping[['community.data']])])]
       
       if (is.null(all.data[['community.data']]) | 
-            !identical(miss.metrics, character(0))) {
-
+          !identical(miss.metrics, character(0))) {
+        
         spp.by <- mapping[["species.data"]][spp.names]
         spp.by <- spp.by[!is.na(spp.by)][1]
         
@@ -1060,7 +1071,7 @@ prepareInputData <- function(plot.info = NULL,
           stratum.method <- 
             as.character(mapping[["species.data"]]["stratumNameMethod"])
         }
-
+        
         if (length(dim(group.by)) > 1) {
           group.by$combo <- apply(group.by, 1, paste, collapse = "___")
         } else {
@@ -1068,10 +1079,10 @@ prepareInputData <- function(plot.info = NULL,
         }
         
         field.names <- c("countsMeasurement", "basalAreaMeasurement", 
-                       "biomassMeasurement")
+                         "biomassMeasurement")
         fields <- mapping[["species.data"]][field.names]
         fields <- fields[!is.na(fields)]
-
+        
         # stand/commnunity metrics
         tmp <- NULL
         if (any(field.names %in% names(fields))) {
@@ -1080,7 +1091,7 @@ prepareInputData <- function(plot.info = NULL,
                            sum, na.rm = TRUE)
           names(tmp) <- c("group.by", names(fields))
         }
-          
+        
         # stand/commnunity species richness
         if (any(miss.metrics %in% c("richness", "pielou"))) {
           tmp.sp <- aggregate(x = all.data[['species.data']][, spp.by], 
@@ -1088,7 +1099,7 @@ prepareInputData <- function(plot.info = NULL,
                               function(x) length(unique(x)))
           names(tmp.sp) <- c("group.by", "speciesRichness")
           if (is.null(tmp)) tmp <- tmp.sp else tmp$speciesRichness <- 
-                                                  tmp.sp$speciesRichness 
+            tmp.sp$speciesRichness 
         }
         
         # stand/commnunity species diversity/heterogenity indices
@@ -1097,19 +1108,23 @@ prepareInputData <- function(plot.info = NULL,
           if ("countsMeasurement" %in% names(fields)) {
             contagem <- 
               all.data[['species.data']][, fields[["countsMeasurement"]]]
-              
+            
             shannon <- .getSpeciesDiversity(contagem, "shannon", group.by$combo)
             simpson <- .getSpeciesDiversity(contagem, "simpson", group.by$combo)
+            simpson[simpson > 1] <- 1
+            simpson[is.nan(simpson)] <- NA
             # inv.simpson <- .getSpeciesDiversity(contagem, "inv.simpson", group.by)
             pielou <- .getSpeciesDiversity(contagem, "pielou", group.by$combo)
+            pielou[pielou > 1] <- 1
+            pielou[is.nan(pielou)] <- NA
             tmp.div <- cbind.data.frame(shannon, pielou, simpson, 
                                         inv.simpson = 1/(1 - simpson))
             if (is.null(tmp)) { 
-                tmp <- cbind.data.frame(group.by = sort(unique(group.by$combo)),
-                                        tmp.div) 
-              } else {
-                tmp <- cbind.data.frame(tmp, tmp.div) 
-              }  
+              tmp <- cbind.data.frame(group.by = sort(unique(group.by$combo)),
+                                      tmp.div) 
+            } else {
+              tmp <- cbind.data.frame(tmp, tmp.div) 
+            }  
           } else {
             warning("Counts of individuals per species not found to calculate the diversity metrics")
           }
@@ -1122,7 +1137,7 @@ prepareInputData <- function(plot.info = NULL,
           names(tmp1) <- names(group.by[, -which(names(group.by) %in% "combo")])
           tmp2 <- cbind.data.frame(group.by = tmp$group.by, tmp1)
           tmp2 <- merge(tmp2, tmp, by = "group.by", all.x = TRUE, sort = FALSE)
-
+          
           if (!is.na(mapping[["plot.info"]]["samplingEffort"])) {
             
             effort <- mapping[["plot.info"]]["samplingEffort"]
@@ -1131,23 +1146,29 @@ prepareInputData <- function(plot.info = NULL,
             
             effortMethod <- mapping[["plot.info"]]["samplingEffortMethod"]
             if (effortMethod %in% "Plot area/m2")
-              plot.effort$PlotSize <- plot.effort$PlotSize*0.0001 
+              # plot.effort$PlotSize <- plot.effort$PlotSize*0.0001 
+              plot.effort[[effort]] <- as.double(plot.effort[[effort]])*0.0001 
             
             if (effortMethod %in% "Plot area/cm2")
-              plot.effort$PlotSize <- plot.effort$PlotSize*1e-8 
+              # plot.effort$PlotSize <- plot.effort$PlotSize*1e-8 
+              plot.effort[[effort]] <- as.double(plot.effort[[effort]])*1e-8 
             
             tmp2 <- merge(tmp2, plot.effort, all.x = TRUE, sort = FALSE)
+            
+            if (class(tmp2[, effort]) %in% "character")
+              tmp2[, effort] <- as.numeric(tmp2[, effort])
+            
             if ("countsMeasurement" %in% names(tmp2))
-              tmp2$density <- tmp2$countsMeasurement/
-                                tmp2[, effort]
+              tmp2$density <- tmp2$countsMeasurement/tmp2[, effort]
+            
             if ("basalAreaMeasurement" %in% names(tmp2))
-              tmp2$basalArea <- tmp2$basalAreaMeasurement/
-                                  tmp2[, effort]
+              tmp2$basalArea <- tmp2$basalAreaMeasurement/tmp2[, effort]
+            
             if ("biomassMeasurement" %in% names(tmp2))
-              tmp2$AGB <- tmp2$biomassMeasurement/
-                                  tmp2[, effort]
+              tmp2$AGB <- tmp2$biomassMeasurement/tmp2[, effort]
+            
           } else { effortMethod <- NULL }
-
+          
           names(tmp2) <- gsub("countsMeasurement", "individuals", 
                               names(tmp2), fixed = TRUE)
           names(tmp2) <- gsub("speciesRichness", "richness", 
@@ -1156,7 +1177,7 @@ prepareInputData <- function(plot.info = NULL,
           exist.metrics <- metrics[!metrics %in% miss.metrics]
           if (length(exist.metrics) > 0)
             miss.metrics <- c(miss.metrics, exist.metrics)
-            
+          
           tmp.final <- 
             tmp2[ , c(names(tmp1), names(tmp2)[names(tmp2) %in% miss.metrics])]
           
@@ -1164,7 +1185,7 @@ prepareInputData <- function(plot.info = NULL,
           final.metrics <- final.metrics[final.metrics %in%
                                            names(mapping[['community.data']])]
           final.methods <- .setNames(rep(NA, length(final.metrics)), 
-                              paste0(final.metrics, "Method"))
+                                     paste0(final.metrics, "Method"))
           all.methods <- c(individualsMethod = "Plant count/individuals",
                            densityMethod = "Density/individuals*ha-1",
                            basalAreaMethod = "Basal area/m2*ha-1",
@@ -1179,7 +1200,7 @@ prepareInputData <- function(plot.info = NULL,
           
           # essential.info <- c(essential.info, 
           #                     plotName.CommunityData = as.character(plot.by[1]))
-
+          
           if (is.null(all.data[['community.data']])) {
             all.data[['community.data']] <- tmp.final
             mapping[['community.data']][final.metrics] <- final.metrics
@@ -1216,9 +1237,10 @@ prepareInputData <- function(plot.info = NULL,
               other.info <- 
                 names(prev.data)[!names(prev.data) %in% 
                                    c(names(tmp.final1), exist.data)]
+              plot.by1 <- plot.by[plot.by %in% colnames(prev.data)]
               tmp.final2 <- dplyr::left_join(tmp.final1, 
-                                 unique(prev.data[, c(plot.by, other.info)]),
-                                 by = as.character(plot.by))
+                                             unique(prev.data[, c(plot.by1, other.info)]),
+                                             by = as.character(plot.by1))
               ### check here: old metrics are being repeated for the profiled data
               all.data[['community.data']] <- tmp.final2
               
@@ -1284,7 +1306,7 @@ prepareInputData <- function(plot.info = NULL,
     miss.data[replace_these] <- lapply(miss.data[replace_these], 
                                        function(x) x <- NULL)
     
-  ## Organizing the output and returning -------------------------------------
+    ## Organizing the output and returning -------------------------------------
     output <- list(essential.info = essential.info,
                    mapping = mapping,
                    data = all.data,
@@ -1292,7 +1314,7 @@ prepareInputData <- function(plot.info = NULL,
                    unmapped.data = miss.data)
     output <- output[!sapply(output, function(x) length(x) == 0L)]
     return(output)
-
+    
   } else {
     output <- list(essential.info = essential.info,
                    mapping = mapping,

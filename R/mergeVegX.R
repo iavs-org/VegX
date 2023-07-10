@@ -109,7 +109,7 @@ mergeVegX<-function(x, y,
       if(nptid$new) {
         x@parties[[nptid$id]] = y@parties[[j]]
       } else {
-        x@parties[[nptid$id]] = .mergeParties(x@parties[[nlcid$id]], y@parties[[j]])
+        x@parties[[nptid$id]] = .mergeParties(x@parties[[nptid$id]], y@parties[[j]])
         nmergedparties = nmergedparties + 1
       }
       partyIDmap[names(y@parties)[j]] = nptid$id
